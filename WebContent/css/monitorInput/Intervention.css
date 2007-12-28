@@ -1,0 +1,12 @@
+@CHARSET "ISO-8859-1";
+
+#interventionTicketComplementMotif, #interventionTicketComplementAdresse
+{
+  width:100%;
+  height:50px;
+}
+
+#interventionTicketOrigine, #interventionTicketMotif
+{
+  margin-right:5px;
+}

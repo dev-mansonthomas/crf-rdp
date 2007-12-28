@@ -1,0 +1,32 @@
+@CHARSET "ISO-8859-1";
+DIV
+{
+	-moz-border-radius:5px;
+}
+
+
+#RegulationParis
+{
+	margin:0px 0px 0px 0px;
+	position:absolute;
+	top:0px;
+	right:0px;
+	width:270px;
+	height:50;
+	background-image: url("../../img/RegulationParis.png");
+	background-repeat:no-repeat;
+	background-position: 2px 2px;
+}
+#DispositifList
+{
+	position:absolute;
+	top:55px;
+	left:0px;
+	width:100%;
+}
+
+#clock
+{
+	font: 25px Georgia, "Times New Roman" Georgia Times serif;
+	color:black;
+}

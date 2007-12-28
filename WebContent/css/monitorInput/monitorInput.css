@@ -1,0 +1,40 @@
+@CHARSET "ISO-8859-1";
+DIV
+{
+	-moz-border-radius:5px;
+}
+
+#header
+{
+	background-image: url("../../img/logo-crf-small.png");
+	background-repeat:no-repeat;
+	background-position: 2px 2px;
+	height:50px;
+	width:100%;
+	margin:0px 0px 0px 0px;
+	position:absolute;
+	top:0px;
+	left:0px;
+	clear:both;
+	border-bottom:1px solid #140E5F;
+}
+
+#regulationInformation
+{
+  position:absolute;
+  top:0px;
+  right:0px;
+  border: 1px solid #140E5F;
+  border-top:none;
+}  
+#regulationInformation table tr td
+{
+  font: 11px Georgia, "Times New Roman" Georgia Times serif;
+}
+
+#regulationInformation table tr th
+{
+  font: 10px Georgia, "Times New Roman" Georgia Times serif;
+  background-color:#F5F5F5;
+  font-weight: bold;
+}

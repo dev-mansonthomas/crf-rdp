@@ -1,0 +1,9 @@
+.calendar
+{
+  z-index:999;
+}
+
+.CrfCalendarButton
+{
+  cursor: pointer; border: none;vertical-align:middle;margin-left:3px;
+}

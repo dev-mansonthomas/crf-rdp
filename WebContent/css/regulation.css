@@ -1,0 +1,14 @@
+@CHARSET "ISO-8859-1";
+
+
+.tableCenter
+{
+  width:600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.regulation-list
+{
+  width:100%;
+}

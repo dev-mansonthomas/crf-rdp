@@ -1,0 +1,20 @@
+#InterventionTicketList
+{
+  
+}
+
+.intervention_samu td, .intervention_samu th
+{
+  font-size:12px;
+  font-family: sans-serif;
+  
+}
+
+.intervention_samu th
+{
+  font-weight: bold;
+  padding-right:4px;
+  border:1px solid #DFDFDF;
+  background-color:F2F2F2;
+  text-align:right;
+}

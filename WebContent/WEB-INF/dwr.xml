@@ -1,0 +1,58 @@
+<!DOCTYPE dwr PUBLIC 
+    "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN" 
+    "http://getahead.org/dwr//dwr20.dtd">
+
+<dwr>
+  <allow>
+    <convert match="fr.croixrouge.irp.model.*" converter="bean"/>
+<!--  Output -->    
+    <create
+      creator="spring"
+      javascript="Monitor">
+        <param name="beanName" value="monitor"/>
+    </create>
+
+    <create
+      creator="spring"
+      javascript="MonitorOutputDispositif">
+        <param name="beanName" value="monitorOutputDispositif"/>
+    </create>
+
+    <create
+      creator="spring"
+      javascript="MonitorOutputIntervention">
+        <param name="beanName" value="monitorOutputIntervention"/>
+    </create>
+
+
+
+<!--  INPUT -->    
+    <create
+      creator="spring"
+      javascript="MonitorInput">
+        <param name="beanName" value="monitorInput"/>
+    </create>
+
+    <create
+      creator="spring"
+      javascript="MonitorInputDispositif">
+        <param name="beanName" value="monitorInputDispositif"/>
+    </create>
+
+    <create
+      creator="spring"
+      javascript="MonitorInputIntervention">
+        <param name="beanName" value="monitorInputIntervention"/>
+    </create>
+
+
+    
+    <create
+      creator="spring"
+      javascript="MonitorCommons">
+        <param name="beanName" value="monitorCommons"/>
+    </create>    
+    
+    
+  </allow>
+</dwr>

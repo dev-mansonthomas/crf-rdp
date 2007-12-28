@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+<!-- Cache Service -->
+	<bean name="EHCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation">
+			<value>/WEB-INF/spring/config/ehcache.xml</value>
+		</property>
+	</bean>
+	
+	<bean name="MonitorCacheHashesFB"  class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref bean="EHCacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>MonitorCacheHashes</value>
+		</property>
+	</bean>
+	
+	<bean name="MonitorCacheAmbulancesFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref bean="EHCacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>MonitorCacheAmbulances</value>
+		</property>
+	</bean>	
+
+	<bean name="MonitorCacheInterventionFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+		<property name="cacheManager">
+			<ref bean="EHCacheManager"/>
+		</property>
+		<property name="cacheName">
+			<value>MonitorCacheIntervention</value>
+		</property>
+	</bean>	
+
+<!-- END Cache Service -->
+</beans>
+

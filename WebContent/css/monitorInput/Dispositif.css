@@ -1,0 +1,185 @@
+@CHARSET "ISO-8859-1";
+
+#DispositifEquipierRoleToChoose
+{
+  margin-left:5px;
+  padding:4px 4px 0px 4px;
+  width:95%;
+  height:25px;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 12px;
+  font-variant:small-caps;
+	font-weight:bold;
+  background-color:#E8F0FF;
+  border:1px solid #003DAE;
+}
+  
+#DispositifHoraire tr td
+{
+ text-align:center;  
+}
+
+#dispositif_title
+{
+  font-size:16px;
+  color:#3D3D7E;
+}
+#dispositif_title span
+{
+  border-top:1px solid #138EA8;
+  border-bottom:1px solid #138EA8;
+}                 
+                 
+#DispositifEdit
+{
+  width:600px;
+}
+
+#DispositifEdit fieldset table
+{
+  width:100%;
+}
+
+#DispositfEquipierTable
+{
+
+}
+
+.heureLabel
+{
+
+}
+
+.heureLabel_active
+{
+  font-weight:bold;
+}
+  
+
+.heureInput,.heureInput_done, .heureInput_active
+{
+  width:37px;
+  text-align:center;
+}
+
+.heureInput_done
+{
+  background-color:#D6D6CF;
+}
+
+.heureInput_active
+{
+  background-color:#ADFF71;
+}
+
+#DispositifVolumeTotal, #DispositifAutonomieTotal
+{
+  color:#75757B;
+  text-align: center;
+}
+
+#DispositifO2Table
+{
+
+}
+#DispositifO2Table td
+{
+  border-right:1px solid #C1DAD7;
+  border-bottom:1px solid #C1DAD7;
+  background:#fffff;
+  width:20px;
+  padding:0px;
+  text-align:center;
+}
+
+.DispositifO2Input
+{
+  width:20px;
+  margin:0px;
+  text-align:center;
+  border:none;
+}
+#DispositifVolumeTotal, #DispositifAutonomieTotal,.DispositifO2Input
+{
+  font-size: 9px;
+}
+.DispositifO2TableRowTitle
+{  
+  width:20px;
+  font-size:10px;
+}
+
+#DispositifDefibrilateurTable
+{
+  width:230px;
+}
+#DispositifDefibrilateurTable th
+{
+  font-size:11px;
+}
+#DispositifDefibrilateurTable td span
+{
+  font-size:10px;  
+}
+.DispositifDefibrilateurRadio
+{
+  vertical-align:bottom;
+}
+
+.userList
+{
+
+}
+
+.userList table
+{
+  width:550px;
+}
+
+.userList thead th
+{
+  background-color:#E4E4E4;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 12px;
+  font-variant:small-caps;
+	font-weight:bold;
+	color:#100D55;
+  text-align: center;
+}
+
+.userList_tbody
+{
+}
+
+.userList_tbody tr td
+{
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 11px;
+  color:#0A072E;
+  text-align: center;
+}
+
+.userList_tbody tr.row1
+{
+  background-color:#EDECFF;
+}
+.userList_tbody tr.row2
+{
+  background-color:#ECFFFF;
+}
+
+.userList tfoot th
+{
+  text-align:center;
+  font-size: 12px;
+  font-variant:small-caps;
+	font-weight:bold;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+}
+
+.userList tfoot td
+{
+  text-align:center;
+  font-size: 11px;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+}

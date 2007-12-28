@@ -1,0 +1,59 @@
+@CHARSET "ISO-8859-1";
+#coRegulateurList
+{
+  margin:3px 3px 3px 3px;
+}
+
+#coRegulateurList table
+{
+  width:550px;
+}
+
+#coRegulateurList thead th
+{
+  background-color:#E4E4E4;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 12px;
+  font-variant:small-caps;
+	font-weight:bold;
+	color:#100D55;
+  text-align: center;
+}
+
+#coRegulateurList_tbody
+{
+}
+
+#coRegulateurList_tbody tr td
+{
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 11px;
+  color:#0A072E;
+  text-align: center;
+}
+
+#coRegulateurList_tbody tr.row1
+{
+  background-color:#EDECFF;
+}
+#coRegulateurList_tbody tr.row2
+{
+  background-color:#ECFFFF;
+}
+
+
+#coRegulateurList tfoot th
+{
+  text-align:center;
+  font-size: 12px;
+  font-variant:small-caps;
+	font-weight:bold;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+}
+
+#coRegulateurList tfoot td
+{
+  text-align:center;
+  font-size: 11px;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+}

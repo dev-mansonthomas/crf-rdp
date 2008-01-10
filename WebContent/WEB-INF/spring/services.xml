@@ -2,17 +2,6 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-    <!-- bean dwr -->
-	<bean id="monitorOutputDispositif"     class="fr.croixrouge.irp.services.dwr.monitor.MonitorOutputDispositf"                autowire="constructor" />
-    <bean id="monitor"                     class="fr.croixrouge.irp.services.dwr.monitor.MonitorImpl"                           autowire="constructor" />
-    
-    <bean id="monitorOutputIntervention"   class="fr.croixrouge.irp.services.dwr.monitor.MonitorOutputIntervention"             autowire="constructor" />
-
-    <bean id="monitorInput"                class="fr.croixrouge.irp.services.dwr.monitorInput.MonitorInputImpl"                 autowire="constructor" />
-    <bean id="monitorInputDispositif"      class="fr.croixrouge.irp.services.dwr.monitorInput.MonitorInputDispositifImpl"       autowire="constructor" />
-    <bean id="monitorInputIntervention"    class="fr.croixrouge.irp.services.dwr.monitorInput.MonitorInputInterventionImpl"     autowire="constructor" />
-                                           
-    <bean id="monitorCommons"              class="fr.croixrouge.irp.services.dwr.monitorCommons.MonitorCommonsImpl"             autowire="constructor" />
 
     <!-- Services classique -->
     <bean id="regulation"                  class="fr.croixrouge.irp.services.regulation.RegulationImpl"                         autowire="constructor" />

@@ -1,0 +1,72 @@
+img	{border: 0px;}
+form{margin: 0px;}
+tr  {vertical-align: top;}
+body
+{
+  margin:0px;
+  padding:0px;
+  font: 12px Georgia, "Times New Roman" Georgia Times serif;
+}
+
+
+#RegulationParis
+{
+  border-bottom:1px solid #530011;
+	margin:0px 0px 0px 0px;
+  height:60px;
+}
+
+#RegulationParis .imgLoginLeft
+{
+  position:absolute;
+  left:5px;
+  top:5px;
+}
+
+#RegulationParis .imgLoginRight
+{ 
+  position:absolute;
+  right:5px;
+  top:5px;
+}
+
+#loginForm
+{
+  border:1px solid black;
+  position:absolute;
+  left:35%;
+  top:35%;
+  padding:7px 7px 7px 17px;
+  width:220px;
+}
+#loginForm .label
+{
+  float:left;
+  height:22px;
+  width:70px;
+  vertical-align: middle;
+}
+
+#loginForm input
+{
+  height:22px;
+}
+  
+#footer
+{
+  font-size:11px;
+  position:absolute;
+  bottom:0px;
+  border-top:1px solid #530011;
+  height:16px;
+  text-align:center;
+  width:100%;
+  background-color:#FFF2F4;
+}
+
+.formButton
+{
+  padding-left:5px;
+  padding-right:5px;
+  
+}

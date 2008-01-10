@@ -2,7 +2,7 @@
 	request.getSession().invalidate();
 	try
   {
-  	response.sendRedirect(request.getContextPath() + "/faces/pages/private/Accueil.jsp");
+  	response.sendRedirect(request.getContextPath() + "/private/Homepage.html");
   }
   catch(Exception e)
   {

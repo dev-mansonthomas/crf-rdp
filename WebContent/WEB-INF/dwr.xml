@@ -5,7 +5,18 @@
 <dwr>
   <allow>
     <convert match="fr.croixrouge.irp.model.*" converter="bean"/>
-<!--  Output -->    
+    <!--  Homepage-->
+
+    <create
+      creator="spring"
+      javascript="Homepage">
+        <param name="beanName" value="homepage"/>
+    </create>
+
+
+
+    
+    <!--  Output -->    
     <create
       creator="spring"
       javascript="Monitor">

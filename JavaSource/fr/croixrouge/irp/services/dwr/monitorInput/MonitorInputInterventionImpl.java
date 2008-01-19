@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.directwebremoting.ScriptBuffer;
 
+import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.Intervention;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
@@ -42,7 +43,6 @@ public class MonitorInputInterventionImpl  extends DWRUtils
                         .appendScript(");");
     
     updateRegulationUser(script, outPageName);
-    
   }
   
   public InterventionTicket getInterventionTicket(int idIntervention) throws Exception

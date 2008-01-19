@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-<!-- 
+
   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     <property name="triggers">
       <list>
@@ -23,5 +23,5 @@
   </bean>
   
   <bean id="clockJobExecuter" class="fr.croixrouge.irp.scheduler.ClockJob"/>
- -->
+ 
 </beans>

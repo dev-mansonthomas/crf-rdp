@@ -14,8 +14,8 @@ import fr.croixrouge.irp.scheduler.ClockJob;
 
 public class DWRUtils
 {
-  public final static String outPageName="/crf-irp-monitor/monitor/out.jsp";
-  public final static String inPageName ="/crf-irp-monitor/monitor/in.jsp";
+  public final static String outPageName="/crf-irp/private/monitor/out.html";
+  public final static String inPageName ="/crf-irp/private/monitor/in.html";
 
   protected HttpSession validateSession() throws Exception
   {
@@ -46,7 +46,11 @@ public class DWRUtils
     Collection <ScriptSession> sessions = webContext.getScriptSessionsByPage(pageName);
     for (ScriptSession session : sessions)
       if( session.getAttribute("regulationId") != null && currentUserRegulationId == ((Integer)session.getAttribute("regulationId")))
+      {
+        System.err.println("Adding script to regulationId="+session.getAttribute("regulationId")+" with script "+script);
         session.addScript(script);
+      }
+        
   }
   
   /**

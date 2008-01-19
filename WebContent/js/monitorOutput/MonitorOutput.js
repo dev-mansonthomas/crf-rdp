@@ -28,8 +28,8 @@ var crfGoogleMap      = null;
 var acc              = null;
 
 // set blank image to local file
-Ext.BLANK_IMAGE_URL = '../js/extjs/resources/images/default/s.gif';
-var iconPath = '../img/famfamfam/';
+Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs/resources/images/default/s.gif';
+var iconPath = contextPath+'/img/famfamfam/';
 
 
 function init()

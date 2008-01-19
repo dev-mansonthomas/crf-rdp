@@ -3,12 +3,12 @@
 	* Ext.ux.InfoPanel and Ext.ux.Accordion Example Application
 	*
 	* @author  Ing. Jozef Sakalos
-	* @version $Id: accordion.js,v 1.1 2007/12/28 16:48:23 paquerette Exp $
+	* @version $Id: accordion.js,v 1.2 2008/01/19 23:56:53 paquerette Exp $
 	*
 	*/
 
 // set blank image to local file
-Ext.BLANK_IMAGE_URL = '../extjs/resources/images/default/s.gif';
+Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs/resources/images/default/s.gif';
 
 // {{{
 /**
@@ -48,8 +48,7 @@ Ext.example = function() {
 // run this function when document becomes ready
 Ext.onReady(function() {
 
-	var iconPath = '../../img/famfamfam/';
-
+	var iconPath = contextPath+'/img/famfamfam/';
 	// {{{
 	// function to remove loading mask
 	var unmask = function() {

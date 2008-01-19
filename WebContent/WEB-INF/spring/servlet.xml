@@ -9,6 +9,8 @@
        <property name="mappings">
           <props>
             <prop  key="/private/Homepage.html">HomepageController</prop>
+            <prop  key="/private/monitor/in.html">MonitorInController</prop>
+            <prop  key="/private/monitor/out.html">MonitorOutController</prop>
           </props>
        </property>
   </bean>
@@ -17,6 +19,12 @@
   <!-- Controllers -->
   <bean name="HomepageController"
        class="fr.croixrouge.irp.controller.HomepageController" autowire="constructor"/>
+
+  <bean name="MonitorInController"
+       class="fr.croixrouge.irp.controller.MonitorInController" autowire="constructor"/>
+
+  <bean name="MonitorOutController"
+       class="fr.croixrouge.irp.controller.MonitorOutController" autowire="constructor"/>
 
   <!-- View Resolvers -->
   <bean id="viewResolver"

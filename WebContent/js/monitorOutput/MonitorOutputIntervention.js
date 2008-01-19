@@ -26,7 +26,7 @@ MonitorOutputInterventionCs.prototype.deleteInterventionToAffect=function(idInte
 MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(intervention)
 {
   if( $('interventionTicket_'+intervention.idIntervention) == null)
-  {/*Si le dispositif n'existe pas sur la page on le cree*/
+  {//*Si le dispositif n'existe pas sur la page on le cree*
     this.addInterventionPanel(intervention);
   }
   var origine     = crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine);
@@ -148,9 +148,9 @@ MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template('\
     <td id="interventionTicket_ville_#{id}"></td>\
   </tr>\
 </table>\
-<img src="../img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="crfGoogleMap.showOnMap($(\'interventionTicket_googleCoordsLat_#{id}\').value,$(\'interventionTicket_googleCoordsLong_#{id}\').value)"/>\
-<img src="../img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>\
-<img src="../img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>\
+<img src="'+contextPath+'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="crfGoogleMap.showOnMap($(\'interventionTicket_googleCoordsLat_#{id}\').value,$(\'interventionTicket_googleCoordsLong_#{id}\').value)"/>\
+<img src="'+contextPath+'/img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>\
+<img src="'+contextPath+'/img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>\
 '
 );
 MonitorOutputInterventionCs.prototype.interventionTemplates[0] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;

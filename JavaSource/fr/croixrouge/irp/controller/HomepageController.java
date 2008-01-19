@@ -23,10 +23,7 @@ public class HomepageController extends AbstractController
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest arg0, HttpServletResponse arg1) throws Exception
   {
-    System.out.println("Coucou");
-   
     List<Regulation> regulations = regulationService.getRegulations(true);
-    
     return new ModelAndView("private/home", "regulations", regulations);
   }
 }

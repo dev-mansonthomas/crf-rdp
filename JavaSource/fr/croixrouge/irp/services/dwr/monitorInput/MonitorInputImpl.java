@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.directwebremoting.ScriptBuffer;
+
 import fr.croixrouge.irp.model.monitor.Delegation;
 import fr.croixrouge.irp.model.monitor.Regulation;
 import fr.croixrouge.irp.model.monitor.User;
@@ -68,4 +70,18 @@ public class MonitorInputImpl extends DWRUtils implements MonitorInputService
     this.validateSession();
     return this.regulationService.getDelegationsByZipCode(zip);
   }
+  
+  
+  public void testReverseAjax(String testString) throws Exception
+  {
+    
+    ScriptBuffer script = new ScriptBuffer();
+    script.appendScript("reverseTest(")
+                        .appendData(testString)
+                        .appendScript(");");
+    
+    updateRegulationUser(script, outPageName);
+       
+  }
+  
 }

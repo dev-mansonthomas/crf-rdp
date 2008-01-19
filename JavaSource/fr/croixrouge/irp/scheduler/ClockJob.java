@@ -39,8 +39,7 @@ public class ClockJob implements ServletContextAware
   @SuppressWarnings("unchecked")
   public void broadcastTime()
   {
-    if(false)
-      return ;
+    
     System.out.println("firstAjaxCallDone="+firstAjaxCallDone);
     if(!firstAjaxCallDone)
       return;

@@ -1,0 +1,148 @@
+BODY
+{
+	font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+table
+{
+	font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 12px;
+
+} 
+
+input, select
+{
+	border:1px solid #A7A6AA;
+	-moz-border-radius:4px;
+}
+
+fieldset
+{
+	padding:3px;
+	margin-top:5px;
+	margin-bottom:5px;
+	border:1px solid #3D3D7E;
+	-moz-border-radius:6px;
+}
+
+legend
+{ 
+  margin-left:5px;
+	font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 12px;
+  font-weight:bold;  
+	border:1px solid #BEBEE0;
+  background-image:url('../img/puce-rouge.png');
+  background-repeat:no-repeat;
+  background-position:4px 50%;
+  padding-left :12px; 
+  padding-right:10px; 
+  -moz-border-radius:4px;
+ 
+}
+
+#horaire tr td
+{
+  
+}
+
+
+#dispositif_title
+{
+  font-size:16px;
+  color:#3D3D7E;
+}
+#dispositif_title span
+{
+  border-top:1px solid #138EA8;
+  border-bottom:1px solid #138EA8;
+}                 
+                 
+#DispositifEdit
+{
+  width:600px;
+}
+
+#DispositifEdit fieldset table
+{
+  width:100%;
+}
+
+#DispositfEquipierTable
+{
+
+}
+
+.heureInput
+{
+  width:37px;
+  text-align:center;
+}
+
+.DispositifO2Input
+{
+  width:30px;
+  text-align:center;
+}
+
+
+
+.userList
+{
+
+}
+
+.userList table
+{
+  width:550px;
+}
+
+.userList thead th
+{
+  background-color:#E4E4E4;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 12px;
+  font-variant:small-caps;
+	font-weight:bold;
+	color:#100D55;
+  text-align: center;
+}
+
+.userList_tbody
+{
+}
+
+.userList_tbody tr td
+{
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+	font-size: 11px;
+  color:#0A072E;
+  text-align: center;
+}
+
+.userList_tbody tr.row1
+{
+  background-color:#EDECFF;
+}
+.userList_tbody tr.row2
+{
+  background-color:#ECFFFF;
+}
+
+
+.userList tfoot th
+{
+  text-align:center;
+  font-size: 12px;
+  font-variant:small-caps;
+	font-weight:bold;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+}
+
+.userList tfoot td
+{
+  text-align:center;
+  font-size: 11px;
+  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+}

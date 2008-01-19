@@ -3,7 +3,7 @@ Ext.BLANK_IMAGE_URL = contextPath+'/js/ext-2.0/resources/images/default/s.gif';
 
 Ext.onReady(function()
 {
- // Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+  Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
   Ext.QuickTips.init();
   
   
@@ -55,12 +55,12 @@ Ext.onReady(function()
            reader: new Ext.data.JsonReader({
                fields:
                    [
-                       {name: 'regulationId'   , type: 'int'},
-                       {name: 'label'          , type: 'string'},
-                       {name: 'startDate'      , type: 'date'},
-                       {name: 'expectedEndDate', type: 'date'},
-                       {name: 'regulateur.nom' , type: 'string'},
-                       {name: 'comment'        , type: 'string'}
+                       {name: 'regulationId'   , type: 'int'    },
+                       {name: 'label'          , type: 'string' },
+                       {name: 'startDate'      , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'expectedEndDate', type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'regulateur.nom' , type: 'string' },
+                       {name: 'comment'        , type: 'string' }
                    ]
                })
            });
@@ -73,15 +73,18 @@ Ext.onReady(function()
         )
     });
 
-
+  function renderRegulationTitle(value, p, record)
+  {
+  	return String.format('<span onclick="openCrfIrp({0});">{1}</span>', record.data.regulationId, record.data.label);
+  }
 
   var grid1 = new xg.GridPanel({
         store: dataStore,
         cm: new xg.ColumnModel([
             expander,
-            {id:'labelCol'            , header: "Intitulé"      , width: 150, sortable: true, dataIndex: 'label'},
-            {id:'startDateCol'        , header: "Date de Début" , width: 80, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i'), dataIndex: 'startDate'},
-            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 80, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i'), dataIndex: 'expectedEndDate'},
+            {id:'labelCol'            , header: "Intitulé"      , width: 150, sortable: true, renderer: renderRegulationTitle, dataIndex: 'label'},
+            {id:'startDateCol'        , header: "Date de Début" , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'},
+            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
             {id:'nomCol'              , header: "Régulateur"    , width: 150, sortable: true, dataIndex: 'regulateur.nom'}
         ]),
         viewConfig: {
@@ -110,6 +113,44 @@ Ext.onReady(function()
 
 
 
+var windowReferences = Array();
+    
+function getWindowReference(windowName)
+{
+  if(windowName == 'monitorInputWindow' || windowName == 'monitorOutpuWindow')
+  {
+    var windowRef = windowReferences[windowName];
+    if(windowRef != null)
+      return windowRef;
+     
+    if(windowName == 'monitorInputWindow')
+      return openMonitorInput();
+    else
+      return openMonitorOutput();
+  }
+}
 
 
+//http://developer.mozilla.org/en/docs/window.open
 
+function openMonitorInput()
+{
+  windowReferences['monitorInputWindow'] = window.open(contextPath+'/private/monitor/in.html' ,'monitorInputWindow' ,'resizable=yes,fullscreen=yes,scrollbars=yes,status=yes,toolbar=yes,menubar=yes,location=yes');
+  return windowReferences['monitorInputWindow'];
+}
+function openMonitorOutput()
+{
+  windowReferences['monitorOutpuWindow'] = window.open(contextPath+'/private/monitor/out.html','monitorOutpuWindow','resizable=yes,fullscreen=yes,scrollbars=yes,status=yes,toolbar=yes,menubar=yes,location=yes');    
+  return windowReferences['monitorOutpuWindow'];
+}
+
+function openCrfIrp(regulationId)
+{
+	Homepage.setRegulation(regulationId, openCrfIrpReturn);
+}
+
+function openCrfIrpReturn()
+{
+  openMonitorInput ();
+  openMonitorOutput();
+}

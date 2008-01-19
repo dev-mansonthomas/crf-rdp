@@ -38,3 +38,8 @@ DIV
   background-color:#F5F5F5;
   font-weight: bold;
 }
+.addButton
+{
+  background-image: url("../../img/famfamfam/add.png") !important;
+  background-repeat:no-repeat;
+}

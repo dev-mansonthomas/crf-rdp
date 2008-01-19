@@ -10,6 +10,11 @@
       @import "<%=contextPath%>/js/ext-2.0/resources/css/xtheme-gray.css";
       @import "<%=contextPath%>/css/home/home.css";
     </style>
+    
+    <script type="text/javascript">
+      var contextPath="<%=contextPath%>";
+    </script>
+        
     <!-- extJS -->  
     <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/ext-all.js"></script>
@@ -19,19 +24,13 @@
     <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/RowExpander.js"> </script>
     
     <!-- DWR Ajax -->
+    <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Homepage.js"> </script>
     <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>
     <script type="text/javascript" src="<%=contextPath%>/dwr/util.js"> </script>
-    <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Homepage.js"> </script>
     <!-- FIN DWR Ajax -->
 
-
-    <script type="text/javascript">
-      var contextPath="<%=contextPath%>";
-    </script>    
     <script type="text/javascript" src="<%=contextPath%>/js/home/home.js"></script>
 
-
-    
   </head>
   <body>
 

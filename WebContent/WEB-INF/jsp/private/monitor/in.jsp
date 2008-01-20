@@ -33,7 +33,7 @@ String contextPath = request.getContextPath();
   
 <!-- ExtJS 2.0 -->
     <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/ext-all.js"></script>
+    <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/ext-all-debug.js"></script>
   
       
 <!-- DWR Ajax -->
@@ -59,6 +59,10 @@ String contextPath = request.getContextPath();
 
 <!-- autocomplete (script.aculo.us & DWR) MiSt <msteiner@gazeta.pl> -->
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/autocomplete.js"> </script>
+
+<!-- google map -->  
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g" type="text/javascript"> </script>
+
 
 <!--business code -->
   <script type="text/javascript" src="<%=contextPath%>/js/googlemap/googleMap.js"> </script>
@@ -103,9 +107,11 @@ String contextPath = request.getContextPath();
   <div id="center">
 
 <!-- Intervention Editor -->
-    <div id="InterventionEditor">
+    <div id="InterventionPanel">
+      <div id="InterventionEditor">
 
-<div id="InterventionTicket">
+
+<div id="InterventionTicket" >
   <table>
     <tbody>
       <tr>
@@ -326,14 +332,17 @@ String contextPath = request.getContextPath();
     </tbody>
   </table>
 </div>   
-    
+      
+      
+      </div>
+      <div id="InterventionList"></div>
     </div>
 <!-- Fin Intervention Editor -->
 
 <!-- Dispositif Editor -->
-    <div id="DispositifEditor">
+    <div id="DispositifPanel">
 
-<div id="DispositifEdit" style="width:460px;">
+<div id="DispositifEdit" style="width:460px;display:none;">
   <input type="hidden" id="dispositif_id_field" name="dispositif_id_field" value=""/>
   <table>
     <thead>
@@ -721,7 +730,7 @@ String contextPath = request.getContextPath();
 
    
     </div><!-- Fin Dispositif Center Panel -->
-    <div id="RegulationEditor"></div>
+    <div id="RegulationPanel"></div>
   
   </div>
   <div id="south">

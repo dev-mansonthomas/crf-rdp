@@ -64,9 +64,12 @@ String contextPath = request.getContextPath();
   <script type="text/javascript" src="<%=contextPath%>/js/monitorOutput/MonitorOutput.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitorOutput/MonitorOutputIntervention.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitorOutput/MonitorOutputDispositif.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/CustomEventPublishSubscribe.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/utils.js"> </script><!-- utils.js en dernier fait un appel a la méthode init() qui doit etre définie avant -->
-  
+  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/CustomEventPublishSubscribe.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/utils.js"> </script><!-- utils.js en dernier fait un appel a la méthode init() qui doit etre définie avant -->
+ 
+<script type="text/javascript">
+  Ext.onReady(init);
+</script>
 </head>
 <body id="body" scroll="no">
 

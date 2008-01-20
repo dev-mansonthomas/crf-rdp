@@ -40,13 +40,13 @@ public class ClockJob implements ServletContextAware
   public void broadcastTime()
   {
     
-    System.out.println("firstAjaxCallDone="+firstAjaxCallDone);
+    //System.out.println("firstAjaxCallDone="+firstAjaxCallDone);
     if(!firstAjaxCallDone)
       return;
    
     String timeIs = simpleDateFormat.format(new Date());
     
-    System.out.println("timeIs="+timeIs);
+    //System.out.println("timeIs="+timeIs);
     
     ServerContext serverContext = ServerContextFactory.get(servletContext);
     ScriptBuffer scriptBuffer = new ScriptBuffer("monitorOutputCs.updateClock(");

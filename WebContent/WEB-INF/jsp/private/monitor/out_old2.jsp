@@ -12,8 +12,9 @@ String contextPath = request.getContextPath();
     @import "<%=contextPath%>/css/monitorOutput/samu.css";
     @import "<%=contextPath%>/css/monitorOutput/intervention.css";
     
-    @import "<%=contextPath%>/js/ext-2.0/resources/css/ext-all.css";
-    @import "<%=contextPath%>/js/ext-2.0/resources/css/xtheme-gray.css";
+    @import "<%=contextPath%>/js/extjs/resources/css/ext-all.css";
+    @import "<%=contextPath%>/js/extAccordion/accordion.css";
+    @import "<%=contextPath%>/js/extjs/resources/css/xtheme-default.css";
   </style>
   
   <script type="text/javascript">
@@ -22,11 +23,16 @@ String contextPath = request.getContextPath();
   
   <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/application_side_list.png" type="image/png">  
 
-<!-- ExtJS 2.0 -->
-  <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/adapter/ext/ext-base.js"></script>
-  <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/ext-all-debug.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs/adapter/yui/yui-utilities.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs/adapter/yui/ext-yui-adapter.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs/ext-all.js"></script>
   
+  <script type="text/javascript" src="<%=contextPath%>/js/extAccordion/Ext.ux.InfoPanel.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extAccordion/Ext.ux.InfoPanel.GoogleSearch.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extAccordion/Ext.ux.Accordion.js"></script>
+
 <!-- DWR Ajax --> 
+
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Monitor.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorOutputDispositif.js"> </script>
@@ -43,14 +49,21 @@ String contextPath = request.getContextPath();
 <!-- script.aculo.us effect library -->
   <script type="text/javascript" src="<%=contextPath%>/js/script.aculo.us/scriptaculous.js"> </script>
 
+<!-- prototype-window -->
+  <script type="text/javascript" src="<%=contextPath%>/js/prototype-window/window.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/prototype-window/debug.js"> </script>  
+
+<!-- Shortcut -->
+  <script type="text/javascript" src="<%=contextPath%>/js/shortcut/shortcuts.js"> </script>
+
 <!-- google map -->  
   <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g"> </script>
 
 <!--business code -->
   <script type="text/javascript" src="<%=contextPath%>/js/googlemap/googleMap.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutput.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputIntervention.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputDispositif.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/monitorOutput/MonitorOutput.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/monitorOutput/MonitorOutputIntervention.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/monitorOutput/MonitorOutputDispositif.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/CustomEventPublishSubscribe.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/utils.js"> </script><!-- utils.js en dernier fait un appel a la méthode init() qui doit etre définie avant -->
  
@@ -74,6 +87,9 @@ String contextPath = request.getContextPath();
 
 <!-- west -->
 <div id="west" class="x-layout-inactive-content">
+  <!-- global toolbar container -->
+  <div id="acc-tb-global"></div>
+
   <!-- west-body container -->
   <div id="west-body">
 
@@ -96,9 +112,28 @@ String contextPath = request.getContextPath();
   </div>
 </div>
 
+<!-- accordions -->
+<div class="x-layout-inactive-content" id="center-accordions">
+  <div class="tab-content">
+
+  </div>
+</div>
+
+<!-- panels -->
+<div class="x-layout-inactive-content" id="panels-tab">
+  <div class="tab-content">
+
+  </div>
+</div>
+
+
+
 <!-- south -->
 <div id="south" class="x-layout-inactive-content"> 
   
 </div>
+<!-- showGrid javascript variable -->
+<script type="text/javascript">var showGrid=false;</script>
+<script type="text/javascript" src="<%=contextPath%>/js/monitorOutput/accordion.js"></script> 
 </body>
 </html>

@@ -1,3 +1,6 @@
+var iconPath = '../img/famfamfam/';
+Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2.0/resources/images/default/s.gif';
+
 var MonitorInputCs = Class.create();
 
 MonitorInputCs.prototype.initialize=function()
@@ -32,8 +35,6 @@ var miInterventionCs      = null;
 var custumEventPS         = null;
 var crfGoogleMap          = null;
 
-var iconPath = '../img/famfamfam/';
-Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2.0/resources/images/default/s.gif';
 function init()
 {
 
@@ -51,7 +52,7 @@ function init()
 
 function initLayout()
 {
-  Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+  //Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
   Ext.QuickTips.init();
   
   

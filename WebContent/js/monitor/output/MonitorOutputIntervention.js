@@ -74,7 +74,7 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
   var motif     = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  );
   var shortDate = crfIrpUtils.getTime    (intervention.dhReception);
   var fullDate  = crfIrpUtils.getFullDate(intervention.dhReception);
-  
+/*  
   var iconMenu= new Ext.menu.Menu({
       id: 'panel_iconMenu_interventionTicket_'+intervention.idIntervention
       , items: [
@@ -102,7 +102,7 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
     ]});
   
   
-  panel = acc.add(new Ext.ux.InfoPanel({
+  var panel = acc.add(new Ext.ux.InfoPanel({
     title:'<span title="id:'+intervention.idIntervention+' - Date:'+fullDate+'">'+shortDate +'</span> - '+ origine +' - '+ motif
     , collapsedIcon: iconPath + 'lightbulb_off.png'
     , expandedIcon: iconPath + 'lightbulb.png'
@@ -114,6 +114,21 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
   }));
   panel.update(this.interventionTemplates[intervention.idOrigine].evaluate({id:intervention.idIntervention, idRegulation:intervention.idRegulation}));
   acc.add(panel);
+  */
+  var westPanel = Ext.getCmp('west-panel');
+  var tab = new Ext.Panel({ id: 'interventionTicket_'+intervention.idIntervention
+                , layout:'fit'
+                , title : '<span title="id:'+intervention.idIntervention+' - Date:'+fullDate+'">'+shortDate +'</span> - '+ origine +' - '+ motif
+                , closable:false
+                , autoScroll:true
+                , border:false
+                , html:this.interventionTemplates[intervention.idOrigine].evaluate({id:intervention.idIntervention, idRegulation:intervention.idRegulation})
+                });
+  
+  westPanel.add(tab);
+  westPanel.doLayout();
+  
+  
 };
 
 

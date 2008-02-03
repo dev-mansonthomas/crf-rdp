@@ -81,7 +81,7 @@ CREATE TABLE `dispositif` (
   `id_dispositif`                         int(10) unsigned NOT NULL auto_increment,
   `id_type_dispositif`                    int(10) unsigned NULL DEFAULT 0,
   `id_regulation` int(10)                 unsigned NOT NULL,
-  `indicatif_vehicule` 						varchar(16) NOT NULL,
+  `indicatif_vehicule`            varchar(16) NOT NULL,
   `O2_B1_volume` int(10) unsigned NOT NULL,
   `O2_B1_pression` float NOT NULL,
   `O2_B2_volume` int(10) unsigned NOT NULL,
@@ -112,11 +112,11 @@ CREATE TABLE `dispositif` (
   `id_etat_dispositif` int(10) unsigned NOT NULL,
   `id_current_intervention` int(10) unsigned NOT NULL,
   `display_state` int(3) unsigned NOT NULL,
-  `equipier_1_id` 	int(10) unsigned NULL DEFAULT 0,
-  `equipier_2_id` 	int(10) unsigned NULL DEFAULT 0,
-  `equipier_3_id` 	int(10) unsigned NULL DEFAULT 0,
-  `equipier_4_id` 	int(10) unsigned NULL DEFAULT 0,
-  `equipier_5_id` 	int(10) unsigned NULL DEFAULT 0,
+  `equipier_1_id`   int(10) unsigned NULL DEFAULT 0,
+  `equipier_2_id`   int(10) unsigned NULL DEFAULT 0,
+  `equipier_3_id`   int(10) unsigned NULL DEFAULT 0,
+  `equipier_4_id`   int(10) unsigned NULL DEFAULT 0,
+  `equipier_5_id`   int(10) unsigned NULL DEFAULT 0,
   `equipier_1_role` int(10) unsigned NULL DEFAULT 0,
   `equipier_2_role` int(10) unsigned NULL DEFAULT 0,
   `equipier_3_role` int(10) unsigned NULL DEFAULT 0,
@@ -139,22 +139,22 @@ CREATE TABLE `dispositif` (
   `DH_a_sa_base`                 datetime NULL,
   `DH_appel_renfort_medical`     datetime NULL,
   `DH_arrivee_renfort_medical`   datetime NULL,
-  
+
   PRIMARY KEY  (`id_dispositif`),
-  KEY 		 `FK_dispositif_type`      				(`id_type_dispositif`),
-  KEY 		 `FK_dispositif_etat`      				(`id_etat_dispositif`),
-  KEY 		 `FK_dispositif_regulation`  			(`id_regulation`	 ),
-  KEY 		 `FK_dispositif_delegation`  			(`id_delegation_responsable`),  
-  CONSTRAINT `FK_dispositif_etat`     	FOREIGN KEY (`id_etat_dispositif`) REFERENCES `dispositif_etat` 	(`id_etat`),
-  CONSTRAINT `FK_dispositif_type`     	FOREIGN KEY (`id_type_dispositif`) REFERENCES `dispositif_type` 	(`id_type`),
-  CONSTRAINT `FK_dispositif_regulation` FOREIGN KEY (`id_regulation`     ) REFERENCES `regulation`    		(`id_regulation`),
+  KEY      `FK_dispositif_type`             (`id_type_dispositif`),
+  KEY      `FK_dispositif_etat`             (`id_etat_dispositif`),
+  KEY      `FK_dispositif_regulation`       (`id_regulation`   ),
+  KEY      `FK_dispositif_delegation`       (`id_delegation_responsable`),
+  CONSTRAINT `FK_dispositif_etat`       FOREIGN KEY (`id_etat_dispositif`) REFERENCES `dispositif_etat`   (`id_etat`),
+  CONSTRAINT `FK_dispositif_type`       FOREIGN KEY (`id_type_dispositif`) REFERENCES `dispositif_type`   (`id_type`),
+  CONSTRAINT `FK_dispositif_regulation` FOREIGN KEY (`id_regulation`     ) REFERENCES `regulation`        (`id_regulation`),
   CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`   (`id_delegation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfirp`.`equipier`;
 CREATE TABLE `equipier` (
-  `id_equipier` 			int(10) unsigned NOT NULL auto_increment,
-  `id_dispositif` 			int(10) unsigned NULL DEFAULT 0,
+  `id_equipier`       int(10) unsigned NOT NULL auto_increment,
+  `id_dispositif`       int(10) unsigned NULL DEFAULT 0,
   `id_role_dans_dispositif` int(10) unsigned NULL DEFAULT 0,
   `num_nivol` varchar(16) NOT NULL,
   `equipier_is_male` boolean NOT NULL,
@@ -203,15 +203,21 @@ CREATE TABLE `intervention_seq` (
   `number`               int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
+DROP TABLE IF EXISTS `crfirp`.`intervention_etat`;
+CREATE TABLE `intervention_etat` (
+  `id_etat` int(10) unsigned NOT NULL auto_increment,
+  `label_etat` varchar(45) NOT NULL,
+  PRIMARY KEY  (`id_etat`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 DROP TABLE IF EXISTS `crfirp`.`intervention`;
--- etat_intervention -1: intervention annnulée, 0:en cours de création, 1: création terminée, 2:intervention affectée, 3:intervention terminée
 CREATE TABLE `intervention` (
   `id_intervention`             int(10) unsigned NOT NULL auto_increment,
   `id_dispositif`               int(10) unsigned NOT NULL,
   `id_regulation`               int(10) unsigned NOT NULL,
   `id_origine`                  int(10) unsigned NOT NULL,
   `id_motif`                    int(10) unsigned NOT NULL,
-  `etat_intervention`           int(3 ) NOT NULL DEFAULT 0,
+  `id_etat`                     int(10) unsigned NOT NULL DEFAULT 0,
   `complement_motif`            varchar(255) NULL,
   `num_inter`                   varchar(16) NOT NULL,
   `id_ref_num_inter`            int(10) unsigned NULL,
@@ -275,12 +281,14 @@ CREATE TABLE `intervention` (
   KEY `FK_intervention_origine`    (`id_origine`   ),
   KEY `FK_intervention_motif`      (`id_motif`     ),
   KEY `FK_intervention_regulation` (`id_regulation`),
+  KEY `FK_intervention_etat`       (`id_etat`      ),
 
-  
+
   CONSTRAINT `FK_intervention_dispositif` FOREIGN KEY (`id_dispositif`) REFERENCES `dispositif`          (`id_dispositif`),
   CONSTRAINT `FK_intervention_origine`    FOREIGN KEY (`id_origine`   ) REFERENCES `intervention_origine`(`id_origine`   ),
   CONSTRAINT `FK_intervention_motif`      FOREIGN KEY (`id_motif`     ) REFERENCES `intervention_motif`  (`id_motif`     ),
-  CONSTRAINT `FK_intervention_regulation` FOREIGN KEY (`id_regulation`) REFERENCES `regulation`    		 (`id_regulation`)
+  CONSTRAINT `FK_intervention_regulation` FOREIGN KEY (`id_regulation`) REFERENCES `regulation`          (`id_regulation`),
+  CONSTRAINT `FK_intervention_etat`       FOREIGN KEY (`id_etat`      ) REFERENCES `intervention_etat`   (`id_etat`      )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfirp`.`bilan_evolutif`;

@@ -1,12 +1,12 @@
 package fr.croixrouge.irp.services.dwr.monitorInput;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.directwebremoting.ScriptBuffer;
 
-import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.Intervention;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
@@ -32,7 +32,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   {
     this.validateSession();
 
-    this.interventionService.updateInterventionIntegerField(idIntervention, "etat_intervention", 1);
+    this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 1);
     
     InterventionTicket interventionTicket = this.interventionService.getInterventionTicket(idIntervention);
     
@@ -52,7 +52,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   
   public void deleteIntervention(int idIntervention, boolean notifyOthers) throws Exception
   {
-    this.interventionService.updateInterventionIntegerField(idIntervention, "etat_intervention", -1);
+    this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 4);
     if(notifyOthers)
     {
       ScriptBuffer script = new ScriptBuffer();
@@ -61,13 +61,20 @@ public class MonitorInputInterventionImpl  extends DWRUtils
     }
   }
   
-  
-  
   public void updateGoogleCoordinates(float latitude, float longitude, int idIntervention) throws Exception
   {
     this.validateSession();
     this.interventionService.updateGoogleCoordinates(latitude, longitude, idIntervention);
   }
+  
+
+  public List<InterventionTicket> getInterventionTicketList(int status)throws Exception
+  {
+    HttpSession session = this.validateSession();
+    int    currentUserRegulationId = this.getRegulationId(session);
+    return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, status);
+  }
+  
   
   
   /* Update methods*/

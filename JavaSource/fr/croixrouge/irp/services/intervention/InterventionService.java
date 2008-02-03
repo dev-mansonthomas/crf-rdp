@@ -11,7 +11,7 @@ public interface InterventionService
   public Intervention             createEmptyIntervention         (int idRegulation  ) throws Exception;
   public Intervention             getIntervention                 (int idIntervention) throws Exception;
   public InterventionTicket       getInterventionTicket           (int idIntervention) throws Exception;
-  public List<InterventionTicket> getUnaffectedInterventionTicket (int idRegulation  ) throws Exception;
+  public List<InterventionTicket> getInterventionTicketWithStatus (int idRegulation, int status) throws Exception; 
 
   public void updateGoogleCoordinates       (float latitude, float longitude, int idIntervention      ) throws Exception;
   

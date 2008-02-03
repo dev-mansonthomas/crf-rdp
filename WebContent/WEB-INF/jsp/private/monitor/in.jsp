@@ -22,19 +22,23 @@ String contextPath = request.getContextPath();
     @import "<%=contextPath%>/js/calendar/css/calendar-blue.css";    
     @import "<%=contextPath%>/css/calendarFix.css";
     
-    @import "<%=contextPath%>/js/ext-2.0/resources/css/ext-all.css";
-    @import "<%=contextPath%>/js/ext-2.0/resources/css/xtheme-gray.css";
+    @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
+    @import "<%=contextPath%>/js/extjs-2/resources/css/xtheme-gray.css";
   </style>
 
-  <script type="text/javascript">
-   var contextPath="<%=contextPath%>";
-  </script>
   <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/table_edit.png" type="image/png">
   
 <!-- ExtJS 2.0 -->
-    <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/ext-all-debug.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/adapter/ext/ext-base.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/ext-all-debug.js"></script>
+
+  <script type="text/javascript">
+   var contextPath="<%=contextPath%>";
+   var iconPath = '../img/famfamfam/';
+   Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+  </script>  
   
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"> </script>
       
 <!-- DWR Ajax -->
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"> </script>
@@ -50,12 +54,6 @@ String contextPath = request.getContextPath();
   <script type="text/javascript" src="<%=contextPath%>/js/prototype/prototype.js"> </script>
 <!-- script.aculo.us effect library -->
   <script type="text/javascript" src="<%=contextPath%>/js/script.aculo.us/scriptaculous.js"> </script>
-
-<!-- Dynarch Calendar -->
-  <script type="text/javascript" src="<%=contextPath%>/js/calendar/calendar.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/calendar/calendar-setup.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/calendar/lang/calendar-fr.js"> </script>
-  
 
 <!-- autocomplete (script.aculo.us & DWR) MiSt <msteiner@gazeta.pl> -->
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/autocomplete.js"> </script>
@@ -76,6 +74,8 @@ String contextPath = request.getContextPath();
     
 <script type="text/javascript">
   Ext.onReady(init);
+  
+  
 </script>
 </head>
 <body id="MonitorInputBody">
@@ -111,7 +111,7 @@ String contextPath = request.getContextPath();
       <div id="InterventionEditor">
 
 
-<div id="InterventionTicket" >
+<div id="InterventionTicket" style="display:none">
   <table>
     <tbody>
       <tr>
@@ -131,6 +131,11 @@ String contextPath = request.getContextPath();
                 </td>
                 <td>
                   Date/Heure de réception :
+
+                  <div id="interventionTicketDHReception"></div>
+                  
+
+<!--
                     <input style="width:110px;" 
                             type="text" readonly 
                               id="interventionTicketDHReception"  
@@ -139,13 +144,14 @@ String contextPath = request.getContextPath();
                          onFocus="crfIrpUtils.fieldEdit(this.id)" 
                         onChange="miInterventionCs.updateInterventionDateField(this.id, 'DH_reception')"
                     /> 
+
                     <img src="<%=contextPath%>/img/calendar.png" 
                          alt="Cliquez pour saisir un horaire de réception de l'intervention"
                           id="interventionTicketDHReception_button"
                        class="CrfCalendarButton"
                  onmouseover="this.style.background='#0080FF';"
                   onmouseout="this.style.background=''"
-                    />
+                    />-->
                 </td>
               </tr>
             </table>
@@ -335,7 +341,15 @@ String contextPath = request.getContextPath();
       
       
       </div>
-      <div id="InterventionList"></div>
+      <div id="InterventionList">
+      
+        <div id="InterventionListEncoursEdition">
+        </div>
+        <div id="InterventionListUnaffected">
+        </div>
+        <div id="InterventionListOthers">
+        </div>
+      </div>
     </div>
 <!-- Fin Intervention Editor -->
 

@@ -11,20 +11,23 @@ String contextPath = request.getContextPath();
   <style type="text/css" media="all">
     @import "<%=contextPath%>/css/monitorOutput/samu.css";
     @import "<%=contextPath%>/css/monitorOutput/intervention.css";
-    
-    @import "<%=contextPath%>/js/ext-2.0/resources/css/ext-all.css";
-    @import "<%=contextPath%>/js/ext-2.0/resources/css/xtheme-gray.css";
+    @import "<%=contextPath%>/css/monitorOutput/monitor.css";
+    @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
+    @import "<%=contextPath%>/js/extjs-2/resources/css/xtheme-gray.css";
   </style>
   
-  <script type="text/javascript">
-   var contextPath="<%=contextPath%>";
-  </script>
-  
+ 
   <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/application_side_list.png" type="image/png">  
 
 <!-- ExtJS 2.0 -->
-  <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/adapter/ext/ext-base.js"></script>
-  <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/ext-all-debug.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/adapter/ext/ext-base.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/ext-all-debug.js"></script>
+
+  <script type="text/javascript">
+   var contextPath="<%=contextPath%>";
+   var iconPath = '../img/famfamfam/';
+   Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+  </script>
   
 <!-- DWR Ajax --> 
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"> </script>

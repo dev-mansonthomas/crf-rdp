@@ -1,6 +1,3 @@
-var iconPath = '../img/famfamfam/';
-Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2.0/resources/images/default/s.gif';
-
 var MonitorInputCs = Class.create();
 
 MonitorInputCs.prototype.initialize=function()
@@ -78,7 +75,7 @@ function initLayout()
       };
   
   var interventionEditor={
-    region:'east',
+    region:'center',
     split:true,
     contentEl:'InterventionPanel',
     title:'Editeur d\'Intervention',
@@ -87,27 +84,34 @@ function initLayout()
     
   };
   var interventionList={
-    region:'center',
-          split:true,
+  	id:'InterventionListEastPanel',
+    region:'east',
+    split:true,
     contentEl:'InterventionList',
     title:'Liste des Interventions',
     xtype:'panel',
     split:true,
-    width: 200,
+    width: 800,
     collapsible: true,
     layout:'accordion',
     layoutConfig:{
         animate:true
     },
     items:[{
-            title:'Settings1',
-            html:'<p>Some settings in here.</p>',
+            title:'Liste des Interventions en cours de saisie',
+            contentEl:'InterventionListEncoursEdition',
             border:false,
             iconCls:'settings'
           },
           {
-            title:'Settings2',
-            html:'<p>Some settings in here.</p>',
+            title:'Non Affectées',
+            contentEl:'InterventionListUnaffected',
+            border:false,
+            iconCls:'settings'
+          },
+          {
+            title:'Autres ',
+            contentEl:'InterventionListOthers',
             border:false,
             iconCls:'settings'
           }]
@@ -123,7 +127,7 @@ function initLayout()
         text: 'Ajouter une Intervention',
         handler: function()
         {
-          alert('Click '+'You clicked on "Action 1".');
+          miInterventionCs.addIntervention();
         },
         iconCls: 'addButton'
       })
@@ -159,8 +163,47 @@ function initLayout()
       regulationPanel
     ]
   });
-  
-   
-  
+
   var viewport = new Ext.Viewport({layout:'border',items:[ north, south, center]});
-} 
+  
+  
+  
+  var xg = Ext.grid;
+  
+  var dataStore = new Ext.data.Store({
+           proxy: new Ext.ux.rs.data.DwrProxy({
+               call: MonitorInputIntervention.getInterventionTicketList,
+               args: [0]
+               }),
+           reader: new Ext.data.JsonReader({
+               fields:
+                   [
+                       {name: 'idIntervention', type: 'int'    },
+                       {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'nomVictime'    , type: 'string' },
+                       {name: 'ville'         , type: 'string' }
+                   ]
+               })
+           });
+           
+
+  var grid1 = new xg.GridPanel({
+        id:'InterventionListEncoursEditionGrid',
+        store: dataStore,
+        cm: new xg.ColumnModel([
+            {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
+            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
+            {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
+            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'ville'}
+        ]),
+        viewConfig: {
+            forceFit:true
+        },
+        collapsible: false,
+        animCollapse: false,
+        iconCls: 'icon-grid',
+        renderTo: 'InterventionListEncoursEdition'
+    });
+  grid1.getStore().load();
+  
+}

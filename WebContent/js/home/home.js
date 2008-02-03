@@ -1,6 +1,3 @@
-
-Ext.BLANK_IMAGE_URL = contextPath+'/js/ext-2.0/resources/images/default/s.gif';
-
 Ext.onReady(function()
 {
   Ext.state.Manager.setProvider(new Ext.state.CookieProvider());

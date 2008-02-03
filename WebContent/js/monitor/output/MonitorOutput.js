@@ -1,6 +1,3 @@
-var iconPath = '../img/famfamfam/';
-Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2.0/resources/images/default/s.gif';
-
 var MonitorOutputCs = Class.create();
 
 MonitorOutputCs.prototype.getMonitorInputRef=function()

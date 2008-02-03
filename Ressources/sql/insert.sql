@@ -129,6 +129,16 @@ values
 
 update intervention_motif set id_motif = 0 where id_motif = 6;
 
+-- etat_intervention -1: intervention annnulée, 0:en cours de création, 1: création terminée, 2:intervention affectée, 3:intervention terminée
+insert into intervention_etat (label_etat)
+values
+('Non Affecté'),
+('Affecté'),
+('Terminé'),
+('Annulé'),
+('En cours de création');
+
+update intervention_etat set id_etat = 0 where id_etat = 5;
 
 -- Insert test data
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )

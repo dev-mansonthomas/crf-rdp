@@ -4,21 +4,21 @@
 %>
 <html>
   <head>
-  
     <style type="text/css" media="all">
-      @import "<%=contextPath%>/js/ext-2.0/resources/css/ext-all.css";
-      @import "<%=contextPath%>/js/ext-2.0/resources/css/xtheme-gray.css";
+      @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
+      @import "<%=contextPath%>/js/extjs-2/resources/css/xtheme-gray.css";
       @import "<%=contextPath%>/css/home/home.css";
     </style>
-    
-    <script type="text/javascript">
-      var contextPath="<%=contextPath%>";
-    </script>
         
     <!-- extJS -->  
-    <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="<%=contextPath%>/js/ext-2.0/ext-all.js"></script>
-
+    <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/ext-all.js"></script>
+  
+    <script type="text/javascript">
+     var contextPath="<%=contextPath%>";
+     var iconPath = '../img/famfamfam/';
+     Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+    </script>
 
     <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"> </script>
     <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/RowExpander.js"> </script>

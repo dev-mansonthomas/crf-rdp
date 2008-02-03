@@ -19,7 +19,7 @@ public class MonitorOutputIntervention extends DWRUtils
   public List<InterventionTicket> loadAllIntervention() throws Exception
   {
     HttpSession session = this.validateSession();
-    int  currentUserRegulationId = this.getRegulationId(session);
-    return this.interventionService.getUnaffectedInterventionTicket(currentUserRegulationId);
+    int    currentUserRegulationId = this.getRegulationId(session);
+    return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, 1);
   }
 }

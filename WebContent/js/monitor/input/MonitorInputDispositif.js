@@ -37,8 +37,8 @@ MonitorInputDispositifCs.prototype.initialize=function()
                           }
                         );
 
-    crfIrpUtils.setupCalendar("DispositifDHDebut");
-    crfIrpUtils.setupCalendar("DispositifDHFin");
+    //crfIrpUtils.setupCalendar("DispositifDHDebut");
+    //crfIrpUtils.setupCalendar("DispositifDHFin");
     custumEventPS.subscribe("ListLoaded", this.initDispositif);
 };
 

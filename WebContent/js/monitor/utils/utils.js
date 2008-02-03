@@ -47,7 +47,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   var tmpList = Array();
   var newList = Array();
   
-  var listList = ['EtatsDispositif', 'MotifsIntervention', 'OriginesIntervention', 'RolesEquipier', 'RolesUser', 'TypesDispositif'];
+  var listList = ['EtatsDispositif', 'MotifsIntervention', 'OriginesIntervention', 'RolesEquipier', 'RolesUser', 'TypesDispositif', 'EtatsIntervention'];
   
   for(var z=0, listListCount=listList.length; z<listListCount;z++)
   {
@@ -197,6 +197,16 @@ CrfIrpUtils.prototype.checkMandatoryField=function(fieldId)
 
 CrfIrpUtils.prototype.setupCalendar=function(inputId)
 {
+ var datePicker = Ext.DatePicker({
+ 	id:inputId+'_DatePicker',
+ 	applyTo:inputId,
+ 	format:'d/m/Y H:i:s',
+ 	xfield:'datefield'
+ 	
+ 	
+ });
+	
+/*
   Calendar.setup(
     { 
       inputField:inputId,
@@ -208,7 +218,7 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId)
       cache:false,
       showsTime:true
     }
-  );
+  );*/
 };
 
 //TODO check if it's a date before doing anything

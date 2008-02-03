@@ -49,18 +49,17 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
                                                                 new InterventionTicketRowMapper());
   }
   
-  private final static String queryForGetUnaffectedInterventionTicket =
+  private final static String queryForGetInterventionTicketWithStatus =
     selectForInteventionTicket           +
-    "WHERE    id_regulation = ?    \n"+
-    "AND      id_dispositif = 0    \n"+
-    "AND      etat_intervention = 1\n";
+    "WHERE    id_regulation = ?\n"+
+    "AND      id_etat       = ?\n";
   
   @SuppressWarnings("unchecked")
-  public List<InterventionTicket> getUnaffectedInterventionTicket(int idRegulation) throws Exception
+  public List<InterventionTicket> getInterventionTicketWithStatus(int idRegulation, int status) throws Exception
   {
-    return this.jdbcTemplate.query( queryForGetUnaffectedInterventionTicket , 
-                                    new Object[]{idRegulation}              ,
-                                    new int   []{Types.INTEGER}             ,
+    return this.jdbcTemplate.query( queryForGetInterventionTicketWithStatus , 
+                                    new Object[]{idRegulation , status       },
+                                    new int   []{Types.INTEGER, Types.INTEGER},
                                     new InterventionTicketRowMapper      ());
   }
   
@@ -76,7 +75,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "        `tension_ref_haute`,  `tension_ref_basse`,  `reflexe_pupillaire`,  `temperature`,                \n"+
     "        `police_sur_place`,  `pompier_sur_place`,  `coordinateur_bspp`,  `coordinateur_samu`,            \n"+
     "        `renfort_medical`,  `transport_medicalisee`,  `laisse_sur_place`,  `laisse_sur_place_vivant`,    \n"+
-    "        `decharche`, `utilisation_dsa`, `renfort_medical_type`, `etat_intervention`, `num_inter_banlieu`,\n"+  
+    "        `decharche`, `utilisation_dsa`, `renfort_medical_type`, `id_etat`, `num_inter_banlieu`,          \n"+  
     "        `hopital`, `eval_ci`, `google_coords_lat`, `google_coords_long`                                  \n"+
     "FROM     intervention                                                                                    \n";
   
@@ -129,6 +128,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     return intervention;
   }
+  
   
   
   private final static String queryForUpdateGoogleCoordinates = 

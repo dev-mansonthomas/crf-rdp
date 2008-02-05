@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import fr.croixrouge.irp.model.monitor.Intervention;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
+import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionTicketRowMapper;
 import fr.croixrouge.irp.services.JDBCHelper;
@@ -54,14 +55,39 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "WHERE    id_regulation = ?\n"+
     "AND      id_etat       = ?\n";
   
+  
+  private final static String queryForGetInterventionTicketWithStatusCount =
+    "SELECT   count(1)         \n" +
+    "FROM     intervention     \n"+
+    "WHERE    id_regulation = ?\n"+
+    "AND      id_etat       = ?\n";
+  
   @SuppressWarnings("unchecked")
-  public List<InterventionTicket> getInterventionTicketWithStatus(int idRegulation, int status) throws Exception
+  public ListRange getInterventionTicketWithStatus(int idRegulation, int status, int index, int limit) throws Exception
+  {
+    int totalCount = this.jdbcTemplate.queryForInt(queryForGetInterventionTicketWithStatusCount,
+        new Object[]{idRegulation , status       },
+        new int   []{Types.INTEGER, Types.INTEGER});
+    
+    List<InterventionTicket> list = this.jdbcTemplate.query( queryForGetInterventionTicketWithStatus + "LIMIT    ?,?              \n", 
+        new Object[]{idRegulation , status       , index        , limit        },
+        new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER},
+        new InterventionTicketRowMapper      ()); 
+    
+    
+    return new ListRange(totalCount, list); 
+  }
+  
+  @SuppressWarnings("unchecked")
+  public List<InterventionTicket> getAllInterventionTicketWithStatus(int idRegulation, int status) throws Exception
   {
     return this.jdbcTemplate.query( queryForGetInterventionTicketWithStatus , 
-                                    new Object[]{idRegulation , status       },
-                                    new int   []{Types.INTEGER, Types.INTEGER},
-                                    new InterventionTicketRowMapper      ());
+        new Object[]{idRegulation , status       },
+        new int   []{Types.INTEGER, Types.INTEGER},
+        new InterventionTicketRowMapper      ()); 
   }
+  
+  
   
   private final static String selectForIntevention = 
     "SELECT  `id_intervention`,`id_dispositif`,`id_regulation`,`id_origine`,  `id_motif`, `complement_motif`, \n"+
@@ -81,7 +107,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
   private final static String queryForGetIntervention =
     selectForIntevention +
-    "WHERE    id_intervention = ?\n";
+    "WHERE    id_intervention = ? \n";
   
   public Intervention getIntervention(int idIntervention) throws Exception
   {

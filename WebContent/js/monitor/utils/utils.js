@@ -195,16 +195,35 @@ CrfIrpUtils.prototype.checkMandatoryField=function(fieldId)
 };
 /* ===================== Date Function ============================== */
 
-CrfIrpUtils.prototype.setupCalendar=function(inputId)
+CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler)
 {
- var datePicker = Ext.DatePicker({
- 	id:inputId+'_DatePicker',
- 	applyTo:inputId,
+	
+	var myDateSelector = new Ext.form.DateField({
+		        id:inputId,
+            width:130,
+            format:'d/m/Y H:i',
+            allowBlank:false,
+            icon: '../../../img/famfamfam/calendar.png',
+            listeners:{
+            	'focus':function(event)
+            	{
+            	 crfIrpUtils.fieldEdit(event.id+'_div');	
+            	},
+            	'change':changeHandler
+            }
+        });
+ 
+  myDateSelector.render(inputId+'_div');  
+/*	
+	
+ var dateField = Ext.form.DateField({
+ 	id:inputId+'_DateField',
  	format:'d/m/Y H:i:s',
- 	xfield:'datefield'
- 	
- 	
- });
+ 	fieldLabel: 'Date Of Birth',
+ 	name: inputId, 
+ 	width: 120,
+ 	xtype:'date'
+ });*/
 	
 /*
   Calendar.setup(

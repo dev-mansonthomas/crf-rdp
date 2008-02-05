@@ -47,10 +47,13 @@ Ext.onReady(function()
   var dataStore = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
                call: Homepage.getOpenRegulationList,
-               args: []
+               args: [],
+               paging: false
                }),
            reader: new Ext.data.JsonReader({
-               fields:
+                 	root: 'data',
+         totalProperty: 'totalCount',
+                fields:
                    [
                        {name: 'regulationId'   , type: 'int'    },
                        {name: 'label'          , type: 'string' },

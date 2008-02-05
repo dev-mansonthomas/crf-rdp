@@ -6,6 +6,7 @@ Ext.ux.rs.data.DwrProxy = function(config){
     
     this.call = config.call;
     this.args = config.args;
+    this.paging = (config.paging!=undefined ? config.paging : true);
 };
 
 Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
@@ -17,13 +18,22 @@ Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
           var callParams = new Array();
           
           if(arg.arg) {
-            //callParams = arg.arg.slice();
+            callParams = arg.arg.slice();
             //*** ds.load({params:{start:0, limit:22}, arg:['walter', true]});***
       }
       
-      if (this.args)
+      if (!arg.arg && this.args)
       {
         callParams = this.args.slice();
+      }
+      
+      //paging
+      if(params!=undefined && this.paging)
+      {
+        if(params.start==undefined) params.start=0;
+        if(params.limit==undefined) params.limit=25;
+        callParams.push(params.start);
+        callParams.push(params.limit);
       }
       
       callParams.push(delegate);
@@ -43,11 +53,11 @@ Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
                 responseText : Ext.util.JSON.encode(o),
                 responseXML : null
             };
-          
             result = reader.read(response);
         }catch(e){
             this.fireEvent("loadexception", this, o, response, e);
-            o.request.callback.call(scope, null, arg, false);
+            //o.request.callback.call(scope, null, arg, false);
+            callback.call(scope, null, arg, false);
             return;
         }
         //this.fireEvent("load", this, o, o.request.arg);
@@ -134,17 +144,71 @@ Ext.extend(Ext.ux.rs.tree.TreeLoader, Ext.tree.TreeLoader, {
     }
 });
 
-function updateContainer(container,url,params,callback)
+UI = function(){};
+
+UI.PageBus = function()
 {
-  var updateManager = container.getUpdater();
+  return {
+    subscribe: 
+      function(event,callback)  
+      {
+        window.PageBus.subscribe(event,{},callback,null);
+      },
+    publish: 
+      function(event,data)
+      {
+        window.PageBus.publish(event,data);
+      }
+  };
+}();
+
+UI.Ext = function() 
+{
+  return {
+    updateContainer : 
+      function(container,url,params,callback,scope)
+      {
+        var updateManager = container.getUpdater();
     
-  updateManager.on("failure",function(el,response){
-      Ext.MessageBox.show({buttons: Ext.MessageBox.OK, title: response.statusText, msg: response.responseText, minWidth: 600});
-      this.abort();});
+        updateManager.on("failure",function(el,response){
+          if(response.status==401){
+            Ext.MessageBox.show({
+              buttons: Ext.MessageBox.OK, 
+              title: 'Erreur', 
+              msg: 'Votre session a expiré.\nVous allez être redirigé vers la page de connexion...',
+              minWidth: 500,
+              fn: function(btn,text){window.location.reload();}
+            });
+          }
+          else {
+            Ext.MessageBox.show({buttons: Ext.MessageBox.OK, title: response.statusText, msg: response.responseText, minWidth: 600});
+          }
+          this.abort();
+        }, updateManager);
       
-  updateManager.on("update",callback);
+        updateManager.on("update",callback,scope);
       
-  var autoLoad = {url: url, params: params, scripts: true};
+        var autoLoad = {url: url, params: params, scripts: true};
       
-  updateManager.update(autoLoad);
-}
+        updateManager.update(autoLoad);
+      },
+    addTab:
+      function(config)
+      {
+        var tab = new Ext.Panel({
+              id: config.id,
+              title: config.title,
+              closable: config.closable,
+              layout: 'fit'
+              });
+            
+        var tabPanel = config.container;
+        tabPanel.add(tab);
+        tabPanel.setActiveTab(tab);
+        
+        this.updateContainer(tab,config.url,config.params,config.callback,this);
+        
+        return tab;
+      }
+  };
+}();

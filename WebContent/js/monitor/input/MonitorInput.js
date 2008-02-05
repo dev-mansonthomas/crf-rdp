@@ -165,45 +165,5 @@ function initLayout()
   });
 
   var viewport = new Ext.Viewport({layout:'border',items:[ north, south, center]});
-  
-  
-  
-  var xg = Ext.grid;
-  
-  var dataStore = new Ext.data.Store({
-           proxy: new Ext.ux.rs.data.DwrProxy({
-               call: MonitorInputIntervention.getInterventionTicketList,
-               args: [0]
-               }),
-           reader: new Ext.data.JsonReader({
-               fields:
-                   [
-                       {name: 'idIntervention', type: 'int'    },
-                       {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'nomVictime'    , type: 'string' },
-                       {name: 'ville'         , type: 'string' }
-                   ]
-               })
-           });
-           
 
-  var grid1 = new xg.GridPanel({
-        id:'InterventionListEncoursEditionGrid',
-        store: dataStore,
-        cm: new xg.ColumnModel([
-            {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
-            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
-            {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
-            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'ville'}
-        ]),
-        viewConfig: {
-            forceFit:true
-        },
-        collapsible: false,
-        animCollapse: false,
-        iconCls: 'icon-grid',
-        renderTo: 'InterventionListEncoursEdition'
-    });
-  grid1.getStore().load();
-  
 }

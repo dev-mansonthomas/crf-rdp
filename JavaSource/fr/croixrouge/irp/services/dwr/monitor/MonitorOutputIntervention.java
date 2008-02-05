@@ -20,6 +20,6 @@ public class MonitorOutputIntervention extends DWRUtils
   {
     HttpSession session = this.validateSession();
     int    currentUserRegulationId = this.getRegulationId(session);
-    return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, 1);
+    return this.interventionService.getAllInterventionTicketWithStatus(currentUserRegulationId, 1);
   }
 }

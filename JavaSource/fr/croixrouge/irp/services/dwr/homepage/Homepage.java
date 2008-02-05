@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import fr.croixrouge.irp.model.monitor.Regulation;
+import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
 import fr.croixrouge.irp.services.regulation.RegulationService;
 
@@ -16,10 +17,11 @@ public class Homepage extends DWRUtils
     this.regulationService = regulationService;
   }
   
-  public List<Regulation> getOpenRegulationList() throws Exception
+  public ListRange getOpenRegulationList() throws Exception
   {
     this.validateSession();
-    return  this.regulationService.getRegulations(true);
+    List<Regulation> list = this.regulationService.getRegulations(true);
+    return  new ListRange(list.size(), list);
   }
   
   public void setRegulation(int regulationId) throws Exception

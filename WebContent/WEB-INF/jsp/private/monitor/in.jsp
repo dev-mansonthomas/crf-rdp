@@ -132,26 +132,8 @@ String contextPath = request.getContextPath();
                 <td>
                   Date/Heure de réception :
 
-                  <div id="interventionTicketDHReception"></div>
+                  <div id="interventionTicketDHReception_div"></div>
                   
-
-<!--
-                    <input style="width:110px;" 
-                            type="text" readonly 
-                              id="interventionTicketDHReception"  
-                            name="interventionTicketDHReception" 
-                           value=""
-                         onFocus="crfIrpUtils.fieldEdit(this.id)" 
-                        onChange="miInterventionCs.updateInterventionDateField(this.id, 'DH_reception')"
-                    /> 
-
-                    <img src="<%=contextPath%>/img/calendar.png" 
-                         alt="Cliquez pour saisir un horaire de réception de l'intervention"
-                          id="interventionTicketDHReception_button"
-                       class="CrfCalendarButton"
-                 onmouseover="this.style.background='#0080FF';"
-                  onmouseout="this.style.background=''"
-                    />-->
                 </td>
               </tr>
             </table>
@@ -394,39 +376,13 @@ String contextPath = request.getContextPath();
             <tr> 
               <td style="width:50%;text-align:center;">
                 Début : 
-                <input style="width:110px;" 
-                        type="text" readonly 
-                          id="DispositifDHDebut"  
-                        name="DispositifDHDebut" 
-                       value="" 
-                     onFocus="crfIrpUtils.fieldEdit(this.id)" 
-                    onChange="miDispositifCs.updateDispositifDateField(this.id, 'DH_debut')"
-                /> 
-                <img src="<%=contextPath%>/img/calendar.png" 
-                     alt="Cliquez pour saisir un horaire du début de vacation"
-                      id="DispositifDHDebut_button"
-                   class="CrfCalendarButton"
-             onmouseover="this.style.background='#0080FF';"
-              onmouseout="this.style.background=''"
-                />
+                
+                <div id="DispositifDHDebut_div"></div>
               </td>
               <td style="width:50%;text-align:center;">
-                Fin   : 
-                <input style="width:110px;" 
-                        type="text" readonly 
-                          id="DispositifDHFin"    
-                        name="DispositifDHFin"   
-                       value="" 
-                     onFocus="crfIrpUtils.fieldEdit(this.id)" 
-                    onChange="miDispositifCs.updateDispositifDateField(this.id, 'DH_fin')"
-                /> 
-                <img src="<%=contextPath%>/img/calendar.png" 
-                     alt="Cliquez pour saisir un horaire de fin de vacation"
-                      id="DispositifDHFin_button"
-                   class="CrfCalendarButton"
-             onmouseover="this.style.background='#0080FF';"
-              onmouseout="this.style.background=''"
-                />
+                Fin   :
+                
+                <div id="DispositifDHFin_div"></div>
               </td>
             </tr>
           </table>          

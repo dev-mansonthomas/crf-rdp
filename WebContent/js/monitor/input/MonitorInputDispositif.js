@@ -37,8 +37,15 @@ MonitorInputDispositifCs.prototype.initialize=function()
                           }
                         );
 
-    //crfIrpUtils.setupCalendar("DispositifDHDebut");
-    //crfIrpUtils.setupCalendar("DispositifDHFin");
+  crfIrpUtils.setupCalendar("DispositifDHDebut", function(event){
+       miDispositifCs.updateDispositifDateField(event.id, 'DH_debut')
+    });
+
+  crfIrpUtils.setupCalendar("DispositifDHFin", function(event){
+       miDispositifCs.updateDispositifDateField(event.id, 'DH_fin')
+    });
+    
+
     custumEventPS.subscribe("ListLoaded", this.initDispositif);
 };
 

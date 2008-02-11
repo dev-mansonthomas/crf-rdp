@@ -4,7 +4,12 @@
 
 <dwr>
   <allow>
-    <convert match="fr.croixrouge.irp.model.*" converter="bean"/>
+    <convert match="fr.croixrouge.irp.model.*"    converter="bean"/>
+    <convert match="java.lang.Exception"          converter="bean"/>
+    <convert match="java.lang.StackTraceElement"  converter="bean"/>
+    
+    
+    
     <!--  Homepage-->
 
     <create

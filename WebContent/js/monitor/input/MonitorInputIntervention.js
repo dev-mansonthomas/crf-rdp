@@ -6,6 +6,9 @@ MonitorInputInterventionCs.prototype.initialize=function()
   custumEventPS.subscribe("ListLoaded", this.initOriginesIntervention       );
   custumEventPS.subscribe("ListLoaded", this.initMotifsIntervention         );
   custumEventPS.subscribe("ListLoaded", this.initUnfinishedInterventionGrid );
+  
+  custumEventPS.subscribe("InterventionTicketEndOfEditionEvent", this.reloadInterventionTicketLists );
+  
   crfIrpUtils.setupCalendar("interventionTicketDHReception", function(event){
   	   miInterventionCs.updateInterventionDateField(event.id, 'DH_reception')
   	});
@@ -23,8 +26,138 @@ MonitorInputInterventionCs.prototype.fieldList = [
  'interventionTicketPorte',
  'interventionTicketComplementAdresse',
  'interventionTicketMotif',
- 'interventionTicketComplementMotif'];
+ 'interventionTicketComplementMotif',
+ 'interventionNomVictime',
+ 'interventionNomContactSurPlace',
+ 'interventionCoordonneesContactSurPlace'];
 
+ 
+ 
+ 
+MonitorInputInterventionCs.prototype.initUnfinishedInterventionGrid=function()
+{
+
+  var xg = Ext.grid;
+  
+  var dataStore1 = new Ext.data.Store({
+           proxy: new Ext.ux.rs.data.DwrProxy({
+               call: MonitorInputIntervention.getInterventionTicketList,
+               args: [0],
+               paging: true
+               }),
+           reader: new Ext.data.JsonReader({
+                 root: 'data',
+        totalProperty: 'totalCount',
+               fields:
+                   [
+                       {name: 'idIntervention', type: 'int'    },
+                       {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'nomVictime'    , type: 'string' },
+                       {name: 'ville'         , type: 'string' }
+                   ]
+               })
+           });
+           
+
+  var grid1 = new xg.GridPanel({
+        id:'InterventionListEncoursEditionGrid',
+        store: dataStore1,
+        cm: new xg.ColumnModel([
+            {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
+            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
+            {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
+            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'ville'}
+        ]),
+        viewConfig: {
+            forceFit:true
+        },
+        collapsible: false,
+        animCollapse: false,
+        height:400,
+        iconCls: 'icon-grid',
+        renderTo: 'InterventionListEncoursEdition',
+        listeners:{
+          'rowdblclick':miInterventionCs.gridRowDoubleClickHandler
+        },
+        bbar:new Ext.PagingToolbar({
+          pageSize: 5,
+          store: dataStore1,
+          displayInfo: true,
+          displayMsg: 'Intervention(s) {0} à {1} de {2}',
+          emptyMsg: 'aucune intervention en cours d\'édition'
+        })
+    });
+  grid1.getStore().load({params: {start:0, limit:5}});
+  
+  
+  
+  
+  var dataStore2 = new Ext.data.Store({
+           proxy: new Ext.ux.rs.data.DwrProxy({
+               call: MonitorInputIntervention.getInterventionTicketList,
+               args: [1],
+               paging: true
+               }),
+           reader: new Ext.data.JsonReader({
+                 root: 'data',
+        totalProperty: 'totalCount',
+               fields:
+                   [
+                       {name: 'idIntervention', type: 'int'    },
+                       {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'nomVictime'    , type: 'string' },
+                       {name: 'ville'         , type: 'string' }
+                   ]
+               })
+           });
+           
+
+  var grid2 = new xg.GridPanel({
+        id:'InterventionListNonAffecteeEditionGrid',
+        store: dataStore2,
+        cm: new xg.ColumnModel([
+            {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
+            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
+            {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
+            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'ville'}
+        ]),
+        viewConfig: {
+            forceFit:true
+        },
+        collapsible: false,
+        animCollapse: false,
+        height:400,
+        iconCls: 'icon-grid',
+        renderTo: 'InterventionListUnaffected',
+        listeners:{
+          'rowdblclick':miInterventionCs.gridRowDoubleClickHandler
+        },
+        bbar:new Ext.PagingToolbar({
+          pageSize: 5,
+          store: dataStore2,
+          displayInfo: true,
+          displayMsg: 'Intervention(s) {0} à {1} de {2}',
+          emptyMsg: 'aucune intervention non affectée'
+        })
+    });
+  grid2.getStore().load({params: {start:0, limit:5}});
+};
+
+
+
+MonitorInputInterventionCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
+{
+  miInterventionCs.editInterventionTicket(grid.store.getAt(rowIndex).data.idIntervention);
+  Ext.getCmp('InterventionListEastPanel').collapse();
+};
+
+MonitorInputInterventionCs.prototype.reloadInterventionTicketLists=function(data)
+{
+  Ext.getCmp('InterventionListNonAffecteeEditionGrid').getStore().reload();
+  Ext.getCmp('InterventionListEncoursEditionGrid'    ).getStore().reload();
+}
+
+ 
 MonitorInputInterventionCs.prototype.addIntervention=function()
 {
   miInterventionCs.resetInterventionForm();
@@ -83,7 +216,8 @@ MonitorInputInterventionCs.prototype.endOfEditionEventReturn=function()
 {
   miInterventionCs.resetInterventionForm();
   Ext.get('InterventionTicket').slideOut();
-  Ext.getCmp('InterventionListEastPanel').collapse();
+  Ext.getCmp('InterventionListEastPanel').expand();
+  custumEventPS.publish("InterventionTicketEndOfEditionEvent",null);
 };
 MonitorInputInterventionCs.prototype.resetInterventionForm=function()
 {
@@ -100,6 +234,7 @@ MonitorInputInterventionCs.prototype.resetInterventionForm=function()
 
 MonitorInputInterventionCs.prototype.editInterventionTicket=function(idIntervention)
 {
+  this.resetInterventionForm();
   MonitorInputIntervention.getInterventionTicket(idIntervention, this.editInterventionTicketReturn);
 };
 
@@ -118,6 +253,14 @@ MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventio
   dwr.util.setValue('interventionTicketPorte'            , interventionTicket.porte            );
   dwr.util.setValue('interventionTicketRue'              , interventionTicket.rue              );
   dwr.util.setValue('interventionTicketVille'            , interventionTicket.ville            );
+  
+  dwr.util.setValue('interventionNomVictime'                ,interventionTicket.nomVictime                );
+  dwr.util.setValue('interventionNomContactSurPlace'        ,interventionTicket.nomContactSurPlace        );
+  dwr.util.setValue('interventionCoordonneesContactSurPlace',interventionTicket.coordonneesContactSurPlace);
+  if(interventionTicket.googleCoordsLat == 0)
+    Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/pix.png";
+  else
+    Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
 };
 
 MonitorInputInterventionCs.prototype.editInterventionTicketReturn=function(interventionTicket)
@@ -130,7 +273,7 @@ MonitorInputInterventionCs.prototype.editInterventionTicketReturn=function(inter
   $('interventionTicketEditButton'  ).style.display="block";
   $('interventionTicketCancelButton').style.display="none";
 
-  miInterventionCs.openInterventionTicketWindow("Edition de l'Intervention N°"+interventionTicket.idIntervention);
+  Ext.get('InterventionTicket').slideIn();
 };
 
 MonitorInputInterventionCs.prototype.cancelInterventionTicket=function(idIntervention)
@@ -143,7 +286,6 @@ MonitorInputInterventionCs.prototype.cancelInterventionTicketReturn=function(int
   miInterventionCs.initInterventionTicket(interventionTicket);
   $('interventionTicketEditButton'  ).style.display="none";
   $('interventionTicketCancelButton').style.display="block";
-  miInterventionCs.openInterventionTicketWindow("Annulation de l'Intervention N°"+interventionTicket.idIntervention);
 };
 
 
@@ -161,7 +303,8 @@ MonitorInputInterventionCs.prototype.deleteInterventionTicketReturn=function()
 
 MonitorInputInterventionCs.prototype.hideInterventionTicket=function()
 {
-  miWm.interventionWindow.setOpacity(0);
+  Ext.get('InterventionTicket').slideOut();
+  Ext.getCmp('InterventionListEastPanel').expand();
   miInterventionCs.resetInterventionForm();
 };
 
@@ -210,59 +353,6 @@ MonitorInputInterventionCs.prototype.updateAddressErrorReturn=function(place)
   alert("Sorry, we were unable to geocode that address");
 };
 
-MonitorInputInterventionCs.prototype.initUnfinishedInterventionGrid=function()
-{
-
- var xg = Ext.grid;
-  
-  var dataStore = new Ext.data.Store({
-           proxy: new Ext.ux.rs.data.DwrProxy({
-               call: MonitorInputIntervention.getInterventionTicketList,
-               args: [0],
-               paging: true
-               }),
-           reader: new Ext.data.JsonReader({
-                 root: 'data',
-        totalProperty: 'totalCount',
-               fields:
-                   [
-                       {name: 'idIntervention', type: 'int'    },
-                       {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'nomVictime'    , type: 'string' },
-                       {name: 'ville'         , type: 'string' }
-                   ]
-               })
-           });
-           
-
-  var grid1 = new xg.GridPanel({
-        id:'InterventionListEncoursEditionGrid',
-        store: dataStore,
-        cm: new xg.ColumnModel([
-            {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
-            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
-            {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
-            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'ville'}
-        ]),
-        viewConfig: {
-            forceFit:true
-        },
-        collapsible: false,
-        animCollapse: false,
-        height:400,
-        iconCls: 'icon-grid',
-        renderTo: 'InterventionListEncoursEdition',
-        bbar:new Ext.PagingToolbar({
-		      pageSize: 5,
-		      store: dataStore,
-		      displayInfo: true,
-		      displayMsg: 'Intervention(s) {0} à {1} de {2}',
-		      emptyMsg: 'aucune intervention en cours d\'édition'
-		    })
-    });
-  grid1.getStore().load({params: {start:0, limit:5}});
-
-};
 
 /************************Méthode*d'update*****************************************/
 MonitorInputInterventionCs.prototype.updateInterventionIntField=function(fieldId, fieldName)

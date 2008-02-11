@@ -104,7 +104,7 @@ function initLayout()
             iconCls:'settings'
           },
           {
-            title:'Non Affectées',
+            title:'Liste des Interventions Non Affectées',
             contentEl:'InterventionListUnaffected',
             border:false,
             iconCls:'settings'

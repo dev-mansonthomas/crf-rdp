@@ -325,7 +325,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     intFieldMatching.put("id_ref_num_inter" , "id_ref_num_inter" );
     intFieldMatching.put("pouls_chiffre"    , "pouls_chiffre"    );
     intFieldMatching.put("ventil_chiffre"   , "ventil_chiffre"   );
-    intFieldMatching.put("etat_intervention", "etat_intervention");
+    intFieldMatching.put("id_etat"          , "id_etat"          );
   }
   public void updateInterventionIntegerField(int idIntervention, String fieldName, int fieldValue) throws Exception
   {

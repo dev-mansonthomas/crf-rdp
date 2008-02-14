@@ -12,7 +12,7 @@ import fr.croixrouge.irp.model.monitor.Equipier;
 import fr.croixrouge.irp.model.monitor.rowMapper.EquipierRowMapper;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
 
-public class EquipierServiceImpl implements EquipierService
+public class EquipierServiceImpl implements EquipierService 
 {
   private JdbcTemplate jdbcTemplate;
   private DispositifService dispositifService;
@@ -48,12 +48,12 @@ public class EquipierServiceImpl implements EquipierService
     "AND    e.id_dispositif      = ?                 \n";
   
   @SuppressWarnings("unchecked")  
-  public List<Equipier> getEquipiersForDispositif(int idDispositif)
+  public List<Equipier> getEquipiersForDispositif(int regulationId, int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("Getting EquipiersForDispositif '"+idDispositif+"'");
     
-    Dispositif dispositif = this.dispositifService.getDispositif(idDispositif);
+    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
     List<Equipier> equipierList = null;
     int typeDispositif = dispositif.getIdTypeDispositif();
     

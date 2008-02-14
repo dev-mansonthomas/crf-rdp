@@ -243,6 +243,9 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler)
 //TODO check if it's a date before doing anything
 CrfIrpUtils.prototype.getFullDate=function(dateObject)
 {
+  if(dateObject == null)
+    return 'N/A';
+    
   return this.padLeft(dateObject.getDate    ()  , 2, '0')+'/'+
          this.padLeft(dateObject.getMonth   ()+1, 2, '0')+'/'+
                       dateObject.getFullYear()           +' '+
@@ -252,12 +255,18 @@ CrfIrpUtils.prototype.getFullDate=function(dateObject)
 };
 CrfIrpUtils.prototype.getDate=function(dateObject)
 {
+  if(dateObject == null)
+    return 'N/A';
+
   return this.padLeft(dateObject.getDate    ()  , 2, '0')+'/'+
          this.padLeft(dateObject.getMonth   ()+1, 2, '0')+'/'+
                       dateObject.getFullYear();
 };
 CrfIrpUtils.prototype.getTime=function(dateObject)
 {
+  if(dateObject == null)
+    return 'N/A';
+
   return this.padLeft(dateObject.getHours   (), 2, '0')+':'+
          this.padLeft(dateObject.getMinutes (), 2, '0');
 };

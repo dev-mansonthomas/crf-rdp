@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
@@ -78,11 +76,12 @@ public class MonitorInputDispositifImpl extends DWRUtils
  
   public void endOfEditionEvent(int idDispositif, int idEtatDispositif) throws Exception
   {
-    this.validateSession();
+    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    
     this.dispositifService.updateDispositifBooleanField(idDispositif, "creation_terminee", true);
     this.dispositifService.updateEtatDispositif(idDispositif, idEtatDispositif);
 
-    Dispositif dispositif = this.dispositifService.getDispositif(idDispositif);
+    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
     
     
     ScriptBuffer script = new ScriptBuffer();
@@ -94,34 +93,41 @@ public class MonitorInputDispositifImpl extends DWRUtils
     
   }
   
-  public ListRange getIDispositifTicketList(boolean creationTerminee, int index, int limit)throws Exception
+  
+  public Dispositif getDispositif(int idDispositif)throws Exception
   {
-    HttpSession session            = this.validateSession();
-    int    currentUserRegulationId = this.getRegulationId(session);
+    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    
+    return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
+  }
+  
+  public ListRange getDispositifTicketList(boolean creationTerminee, int index, int limit) throws Exception
+  {
+    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     return this.dispositifService.getDispositifTicketWithStatus(currentUserRegulationId, creationTerminee, index, limit);
   }
   
   
   public List<Equipier> addEquipierToDispositif(int idDispositif, int equipierRank, int equipierRole, int equipierId) throws Exception
   {
-    this.validateSession();
+    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     
     this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_id"  , equipierId  );
     this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_role", equipierRole);
     this.equipierService.setDispositifToEquipier        (equipierId  , idDispositif                    , equipierRole);
     
-    return this.equipierService.getEquipiersForDispositif(idDispositif);
+    return this.equipierService.getEquipiersForDispositif(currentUserRegulationId, idDispositif);
   }
   
   public List<Equipier> removeEquipierFromDispositif(int idDispositif, int equipierRank, int equipierId) throws Exception
   {
-    this.validateSession();
+    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     
     this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_id"  , 0);
     this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_role", 0);
     this.equipierService  .setDispositifToEquipier      (equipierId  , 0, 0);
     
-    return this.equipierService.getEquipiersForDispositif(idDispositif);
+    return this.equipierService.getEquipiersForDispositif(currentUserRegulationId, idDispositif);
   }
   
   public void updateGoogleCoordinates(float latitude, float longitude, int idDispositif) throws Exception

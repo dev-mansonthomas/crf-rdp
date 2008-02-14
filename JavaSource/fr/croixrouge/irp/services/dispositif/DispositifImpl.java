@@ -53,7 +53,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   "ORDER BY indicatif_vehicule ASC  \n";
 
   @SuppressWarnings("unchecked")
-  public List <Dispositif> getAllDispositif(int regulationId)
+  public List <Dispositif> getAllDispositif(int regulationId) throws Exception
   {
     return this.jdbcTemplate.query(queryForGetAllDispositif, 
                                                     new Object[]{new Integer(regulationId)},
@@ -62,15 +62,16 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
   
   private final static String queryForGetDispositif = dispositifSelectQuery + 
-  "WHERE   id_dispositif=?            \n";
+  "WHERE   id_dispositif=?\n" +
+  "AND     id_regulation=?\n";
   
   
   @SuppressWarnings("unchecked")
-  public Dispositif getDispositif(int disposifitId)
+  public Dispositif getDispositif(int idRegulation, int disposifitId) throws Exception
   {
     return (Dispositif)this.jdbcTemplate.queryForObject(queryForGetDispositif, 
-                                                    new Object[]{disposifitId},
-                                                    new int   []{Types.INTEGER},
+                                                    new Object[]{disposifitId , idRegulation},
+                                                    new int   []{Types.INTEGER, Types.INTEGER},
                                                     new DispositifRowMapper());
   }
 
@@ -82,9 +83,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "FROM    dispositif\n";  
   
   private final static String queryForGetDispositifTicketWithStatus = dispositifTicketSelectQuery + 
-  "WHERE    id_regulation     = ?\n" +
-  "AND      creation_terminee = ?\n" +
-  "ORDER BY indicatif_vehicule ASC";
+  "WHERE    id_regulation     = ? \n" +
+  "AND      creation_terminee = ? \n" +
+  "ORDER BY indicatif_vehicule ASC\n";
   
   
   private final static String queryForGetDispositifTicketWithStatusCount =
@@ -108,7 +109,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     return new ListRange(totalCount, list); 
   }
   
-  public void createDispositif(Dispositif dispositif)
+  public void createDispositif(Dispositif dispositif) throws Exception
   {
     String query =  "INSERT INTO `dispositif`\n"+
                     "  ( `id_dispositif`       , `id_regulation` , `indicatif_vehicule`, `O2_B1_volume`     ,\n"+
@@ -195,7 +196,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
   
   
-  public Dispositif createEmptyDispositif(Regulation regulation)
+  public Dispositif createEmptyDispositif(Regulation regulation) throws Exception
   {
     Dispositif dispositif  = new Dispositif();
     
@@ -250,7 +251,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "SET    id_current_intervention = ? \n" +
     "WHERE  id_dispositif           = ? \n";
   
-  public void updateDispositifSetIntervention(int idDispositif, int idIntervention)
+  public void updateDispositifSetIntervention(int idDispositif, int idIntervention) throws Exception
   {
     
     Object [] os     = new Object[]{idIntervention  , idDispositif };
@@ -268,7 +269,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "SET    id_etat_dispositif = ?\n" +
     "WHERE  id_dispositif      = ?\n";
   
-  public void updateEtatDispositif(int idDispositif, int idEtatDispositif)
+  public void updateEtatDispositif(int idDispositif, int idEtatDispositif) throws Exception
   {
 	  Object [] os     = new Object[]{idDispositif  , idEtatDispositif};
 	  int    [] types  = new int   []{Types.INTEGER , Types.INTEGER   };

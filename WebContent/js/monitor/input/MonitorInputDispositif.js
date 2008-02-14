@@ -333,12 +333,67 @@ MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
 {
   Ext.getCmp('DispositifListEastPanel').collapse();
   this.resetDispositifForm();
-
+  MonitorInputDispositif.getDispositif(idDispositif, this.editDispositifReturn);
 };
 
 MonitorInputDispositifCs.prototype.editDispositifReturn=function(Dispositif)
 {
+  miDispositifCs.initDispositifForm(Dispositif);
   Ext.get('DispositifEdit').slideIn();
+};
+
+MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
+{
+  dwr.util.setValue('dispositif_id_span'            , dispositif.idDispositif);
+  dwr.util.setValue('dispositif_id_field'           , dispositif.idDispositif);
+  
+  dwr.util.setValue('dispositif_title_indicatif'    , dispositif.indicatifVehicule);
+  dwr.util.setValue('DispositifIndicatif'           , dispositif.indicatifVehicule);
+  dwr.util.setValue('DispositifType'                , dispositif.idTypeDispositif);
+  dwr.util.setValue('DispositifDelegation'          , dispositif.idDelegation!=0?crfIrpUtils.getLabelFor('Delegations',dispositif.idDelegation):'N/A');
+  dwr.util.setValue('DispositifDelegation_id'       , dispositif.idDelegation);
+  dwr.util.setValue('DispositifDelegation_autreNom' , dispositif.autreDelegation);
+  
+  dwr.util.setValue('DispositifDHDebut'             , crfIrpUtils.getFullDate(dispositif.dhDebut));
+  dwr.util.setValue('DispositifDHFin'               , crfIrpUtils.getFullDate(dispositif.dhFin  ));
+   
+  /*TODO :récupérer les équipiers et les ajouters au tableau*/
+  
+  
+  dwr.util.setValue('DispositifB1V', dispositif.o2B1Volume     );
+  dwr.util.setValue('DispositifB2V', dispositif.o2B2Volume     );
+  dwr.util.setValue('DispositifB3V', dispositif.o2B3Volume     );
+  dwr.util.setValue('DispositifB4V', dispositif.o2B4Volume     );
+  dwr.util.setValue('DispositifB5V', dispositif.o2B5Volume     );
+  dwr.util.setValue('DispositifB1P', dispositif.o2B1Pression   );
+  dwr.util.setValue('DispositifB2P', dispositif.o2B2Pression   );
+  dwr.util.setValue('DispositifB3P', dispositif.o2B3Pression   );
+  dwr.util.setValue('DispositifB4P', dispositif.o2B4Pression   );
+  dwr.util.setValue('DispositifB5P', dispositif.o2B5Pression   );
+  
+  this.updateVolumeAndAutonomie();
+  
+  dwr.util.setValue('DispositifDefibrilateurType'   , dispositif.dsaType    );
+  dwr.util.setValue('DispositifDefibrilateurComplet', dispositif.dsaComplet?'true':'false' );
+  
+  dwr.util.setValue('horaire_dispo_value'     , crfIrpUtils.getTime(dispositif.dhDispo          ));    
+  dwr.util.setValue('horaire_parti_value'     , crfIrpUtils.getTime(dispositif.dhDepart         ));    
+  dwr.util.setValue('horaire_surPlace_value'  , crfIrpUtils.getTime(dispositif.dhSurPlace       ));    
+  dwr.util.setValue('horaire_primaire_value'  , crfIrpUtils.getTime(dispositif.dhBilanPrimaire  ));    
+  dwr.util.setValue('horaire_secondaire_value', crfIrpUtils.getTime(dispositif.dhBilanSecondaire));    
+  dwr.util.setValue('horaire_transport_value' , crfIrpUtils.getTime(dispositif.dhQuitteLesLieux ));    
+  dwr.util.setValue('horaire_hopital_value'   , crfIrpUtils.getTime(dispositif.dhArriveeHopital ));    
+  dwr.util.setValue('horaire_base_value'      , crfIrpUtils.getTime(dispositif.dhASaBase        ));    
+                                                                                                        
+
+  dwr.util.setValue('DispositifSelectifRadio'   , dispositif.contactRadio);
+  dwr.util.setValue('DispositifTel1'            , dispositif.contactTel1);
+  dwr.util.setValue('DispositifTel2'            , dispositif.contactTel2);
+  
+  dwr.util.setValue('DispositifIdentiteMedecin' , dispositif.identiteMedecin);
+  
+  dwr.util.setValue('DispositifStatus'          , dispositif.idEtatDispositif);
+  
 };
 
 
@@ -678,20 +733,31 @@ MonitorInputDispositifCs.prototype.delegationSelected=function(inputElement, sel
 {
   $('DispositifDelegation_id').value = selectedDelegationObject.idDelegation;
   $('DispositifDelegation'   ).value = selectedDelegationObject.nom+' ('+ selectedDelegationObject.departement +')';
+
   if(selectedDelegationObject.idDelegation==0)
   {
     $('DispositifAutreDelegationIdToUpdate').value='DispositifDelegation';
     alert('Todo : saisie autre delegation');
-    /*
-    if(miWm.autreDelegationWindow==null)
+  }
+  else
+  {
+    crfIrpUtils.checkField ('DispositifDelegation');
+    crfIrpUtils.fieldSaving('DispositifDelegation');
+    
+    fieldValue = $('DispositifDelegation_id').value;
+    if(fieldValue!='' && $('DispositifDelegation').value != $('DispositifDelegation').oldValue)
     {
-      miWm.autreDelegationWindow = new Window ('autreDelegation_window', {title: "Autre Délégation", className: "alphacube2", resizable:true, draggable:true});   
-      miWm.autreDelegationWindow.setContent   ('AutreDelegationEdit', true, false);
-      miWm.autreDelegationWindow.setStatusBar ("le Choix Autre ({N/A}) doit être exceptionnel");
+      MonitorInputDispositif.updateDispositifIntegerField(
+                                                $('dispositif_id_field').value, 
+                                                'id_delegation_responsable', 
+                                                fieldValue, 
+                                                function()
+                                                {
+                                                  crfIrpUtils.defaultBackgroundColorForField('DispositifDelegation');
+                                                });
     }
-    miWm.autreDelegationWindow.setSize   (390, 230);
-    miWm.autreDelegationWindow.toFront   ();
-    miWm.autreDelegationWindow.showCenter(false);*/ 
+    else
+      crfIrpUtils.defaultBackgroundColorForField('DispositifDelegation');
   }
 };
   //End of AutoComplete selection function

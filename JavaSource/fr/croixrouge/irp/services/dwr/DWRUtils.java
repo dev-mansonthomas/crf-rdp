@@ -57,8 +57,9 @@ public class DWRUtils
    * Retourne l'id de la régulation sur laquelle on est connecté via la httpSession
    * 
    * */
-  protected int getRegulationId(HttpSession session) throws Exception
+  protected int validateSessionAndGetRegulationId() throws Exception
   {
+    HttpSession session     = this.validateSession();
     Regulation  regulation  = (Regulation)session.getAttribute("regulation");
     
     if(regulation == null )

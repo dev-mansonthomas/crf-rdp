@@ -2,8 +2,6 @@ package fr.croixrouge.irp.services.dwr.monitorInput;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpSession;
-
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Intervention;
@@ -22,8 +20,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   
   public Intervention createEmptyIntervention() throws Exception
   {
-    HttpSession session = this.validateSession();
-    Intervention intervention = this.interventionService.createEmptyIntervention(getRegulationId(session));
+    Intervention intervention = this.interventionService.createEmptyIntervention(validateSessionAndGetRegulationId());
     return intervention;
   }
   
@@ -70,8 +67,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
 
   public ListRange getInterventionTicketList(int status, int index, int limit)throws Exception
   {
-    HttpSession session = this.validateSession();
-    int    currentUserRegulationId = this.getRegulationId(session);
+    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, status, index, limit);
   }
   

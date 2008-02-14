@@ -9,10 +9,10 @@ import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 
 public interface DispositifService
 {
-  public List <Dispositif>    getAllDispositif      (int regulationId     );
-  public Dispositif           getDispositif         (int disposifitId     );
-  public void                 updateEtatDispositif  (int idDispositif, int idEtatDispositif);
-  public void                 createDispositif      (Dispositif dispositif);
+  public List <Dispositif>    getAllDispositif      (int regulationId     ) throws Exception;
+  public Dispositif getDispositif(int idRegulation, int disposifitId) throws Exception;
+  public void                 updateEtatDispositif  (int idDispositif, int idEtatDispositif) throws Exception;
+  public void                 createDispositif      (Dispositif dispositif) throws Exception;
 
   public ListRange getDispositifTicketWithStatus(int idRegulation, boolean creationTerminee, int index, int limit) throws Exception;
   
@@ -23,8 +23,8 @@ public interface DispositifService
   public void updateDispositifDateField   (int idDispositif, String fieldName, Date     fieldValue) throws Exception;
   public void updateDispositifBooleanField(int idDispositif, String fieldName, boolean  fieldValue) throws Exception;
   
-  public void updateDispositifSetIntervention(int idDispositif, int idIntervention);
+  public void updateDispositifSetIntervention(int idDispositif, int idIntervention) throws Exception;
   
-  public Dispositif           createEmptyDispositif (Regulation regulation);
+  public Dispositif           createEmptyDispositif (Regulation regulation) throws Exception;
 
 }

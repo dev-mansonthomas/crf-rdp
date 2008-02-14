@@ -53,26 +53,7 @@ function initLayout()
   Ext.QuickTips.init();
   
   
-  var north = new Ext.BoxComponent(
-      { // raw
-        region:'north',
-        el: 'north',
-        height:50
-      });
-  
-  var south = {
-        region:'south',
-        contentEl: 'south',
-        split:true,
-        height: 100,
-        minSize: 100,
-        maxSize: 200,
-        collapsible: true,
-        collapsed : true,
-        title:'South',
-        titleCollapse :true,
-        margins:'0 0 0 0'
-      };
+/****************INTERVENTION*TICKET*************************/
   
   var interventionEditor={
     region:'center',
@@ -138,11 +119,65 @@ function initLayout()
       ]
     };
     
+    
+/****************DISPOSITIF*EDITOR*************************/
+    
+  var dispositifEditor={
+    region:'center',
+    split:true,
+    contentEl:'DispositifPanel',
+    title:'Editeur de Dispositif',
+    deferredRender:false,
+    xtype:'panel'
+    
+  };
+  var dispositifList={
+    id:'DispositifListEastPanel',
+    region:'east',
+    split:true,
+    contentEl:'DispositifList',
+    title:'Liste des Dispositifs',
+    xtype:'panel',
+    split:true,
+    width: 800,
+    collapsible: true,
+    layout:'accordion',
+    layoutConfig:{
+        animate:true
+    },
+    items:[{
+            title:'Liste des Dispositifs',
+            contentEl:'DispositifListCurrent',
+            border:false,
+            iconCls:'settings'
+          },
+          {
+            title:'Liste des Interventions en cours de saisie',
+            contentEl:'DispositifListEncoursEdition',
+            border:false,
+            iconCls:'settings'
+          }]
+  };  
+    
   var dispositifPanel={
       contentEl:'DispositifPanel',
       title: 'Editeur de Dispositif',
       closable:false,
-      autoScroll:true
+      autoScroll:true,
+      layout:'border',
+      tbar:[new Ext.Action({
+        text: 'Ajouter un Dispositif',
+        handler: function()
+        {
+          miDispositifCs.createNewEmptyDispositif();
+        },
+        iconCls: 'addButton'
+      })
+      ],
+      items:[
+        dispositifEditor,
+        dispositifList
+      ]
     };
   
   var regulationPanel= {
@@ -152,6 +187,31 @@ function initLayout()
       autoScroll:true
     };
   
+    
+
+    
+/****************NORTH/SOUTH/CENTER*************************/
+  var north = new Ext.BoxComponent(
+      { // raw
+        region:'north',
+        el: 'north',
+        height:50
+      });
+  
+  var south = {
+        region:'south',
+        contentEl: 'south',
+        split:true,
+        height: 100,
+        minSize: 100,
+        maxSize: 200,
+        collapsible: true,
+        collapsed : true,
+        title:'South',
+        titleCollapse :true,
+        margins:'0 0 0 0'
+      };
+    
   var center = new Ext.TabPanel(
   {
     region:'center',

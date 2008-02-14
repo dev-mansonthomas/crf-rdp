@@ -46,13 +46,155 @@ MonitorInputDispositifCs.prototype.initialize=function()
     });
     
 
-    custumEventPS.subscribe("ListLoaded", this.initDispositif);
+    custumEventPS.subscribe("ListLoaded", this.initDispositif     );
+    custumEventPS.subscribe("ListLoaded", this.initDispositifGrids);
+    
+    custumEventPS.subscribe("DispositifEndOfEditionEvent", this.reloadDispositifLists );
 };
 
-MonitorInputDispositifCs.prototype.displayAddDispositif=function()
+
+MonitorInputDispositifCs.prototype.initDispositifGrids=function()
 {
-  this.createNewEmptyDispositif();
+
+  var xg = Ext.grid;
+  
+  var dataStore1 = new Ext.data.Store({
+           proxy: new Ext.ux.rs.data.DwrProxy({
+               call: MonitorInputDispositif.getDispositifTicketList,
+               args: [true],
+               paging: true
+               }),
+           reader: new Ext.data.JsonReader({
+                 root: 'data',
+        totalProperty: 'totalCount',
+               fields:
+                   [
+                       {name: 'idDispositif'      , type: 'int'    },
+                       {name: 'idTypeDispositif'  , type: 'int'    },
+                       {name: 'idEtatDispositif'  , type: 'int'    },
+                       {name: 'idDelegation'      , type: 'int'    },
+                       {name: 'displayState'      , type: 'int'    },
+                       {name: 'creationTerminee'  , type: 'boolean'},
+                       {name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'indicatifVehicule' , type: 'string' },
+                       {name: 'autreDelegation'   , type: 'string' }
+                   ]
+               })
+           });
+           
+
+  var grid1 = new xg.GridPanel({
+        id:'DispositifListCurrentGrid',
+        store: dataStore1,
+        cm: new xg.ColumnModel([
+            {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
+            {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' },
+            {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
+            {id:'dhDebutDCurrentCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
+            {id:'dhFinDCurrentCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
+            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'    },
+            {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'}
+        ]),
+        viewConfig: {
+            forceFit:true
+        },
+        collapsible: false,
+        animCollapse: false,
+        height:400,
+        iconCls: 'icon-grid',
+        renderTo: 'DispositifListCurrent',
+        listeners:{
+          'rowdblclick':miDispositifCs.gridRowDoubleClickHandler
+        },
+        bbar:new Ext.PagingToolbar({
+          pageSize: 5,
+          store: dataStore1,
+          displayInfo: true,
+          displayMsg: 'Dispositifs(s) {0} à {1} de {2}',
+          emptyMsg: 'aucun dispositif actif'
+        })
+    });
+  grid1.getStore().load({params: {start:0, limit:5}});
+  
+  
+  
+  
+  var dataStore2 = new Ext.data.Store({
+           proxy: new Ext.ux.rs.data.DwrProxy({
+               call: MonitorInputDispositif.getDispositifTicketList,
+               args: [false],
+               paging: true
+               }),
+           reader: new Ext.data.JsonReader({
+                 root: 'data',
+        totalProperty: 'totalCount',
+               fields:
+                   [
+                       {name: 'idDispositif'      , type: 'int'    },
+                       {name: 'idTypeDispositif'  , type: 'int'    },
+                       {name: 'idDelegation'      , type: 'int'    },
+                       {name: 'displayState'      , type: 'int'    },
+                       {name: 'creationTerminee'  , type: 'boolean'},
+                       {name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'indicatifVehicule' , type: 'string' },
+                       {name: 'autreDelegation'   , type: 'string' }
+                   ]
+               })
+           });
+           
+
+  var grid2 = new xg.GridPanel({
+        id:'DispositifListEncoursEditionGrid',
+        store: dataStore2,
+        cm: new xg.ColumnModel([
+            {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
+            {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' },
+            {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
+            {id:'dhDebutDCurrentCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
+            {id:'dhFinDCurrentCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
+            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'    },
+            {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'}
+        ]),
+        viewConfig: {
+            forceFit:true
+        },
+        collapsible: false,
+        animCollapse: false,
+        height:400,
+        iconCls: 'icon-grid',
+        renderTo: 'DispositifListEncoursEdition',
+        listeners:{
+          'rowdblclick':miDispositifCs.gridRowDoubleClickHandler
+        },
+        bbar:new Ext.PagingToolbar({
+          pageSize: 5,
+          store: dataStore2,
+          displayInfo: true,
+          displayMsg: 'Dispositif(s) {0} à {1} de {2}',
+          emptyMsg: 'aucun dispositif en cours d\'édition'
+        })
+    });
+  grid2.getStore().load({params: {start:0, limit:5}});
 };
+
+
+
+MonitorInputDispositifCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
+{
+  miDispositifCs.editDispositif(grid.store.getAt(rowIndex).data.idDispositif);
+  Ext.getCmp('InterventionListEastPanel').collapse();
+};
+
+MonitorInputDispositifCs.prototype.reloadDispositifLists=function(data)
+{
+  Ext.getCmp('DispositifListCurrentGrid'       ).getStore().reload();
+  Ext.getCmp('DispositifListEncoursEditionGrid').getStore().reload();
+}
+
+
+
 
 MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 {
@@ -86,6 +228,13 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 {
   miDispositifCs.resetDispositifForm();
+  
+  Ext.get   ('DispositifEdit'         ).slideOut();
+  Ext.getCmp('DispositifListEastPanel').expand  ();
+  
+  custumEventPS.publish("DispositifEndOfEditionEvent",null);
+
+  
 };
 
 MonitorInputDispositifCs.prototype.resetDispositifForm=function()
@@ -164,6 +313,7 @@ MonitorInputDispositifCs.prototype.initDispositif=function()
 
 MonitorInputDispositifCs.prototype.createNewEmptyDispositif=function()
 {
+  Ext.getCmp('DispositifListEastPanel').collapse();
   MonitorInputDispositif.createEmptyDispositif(this.createNewEmptyDispositifReturn);
 };
 
@@ -174,7 +324,23 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispo
 
   $('DispositifDHDebut').value=dispositif.dhDebutStr;
   $('DispositifDHFin'  ).value=dispositif.dhFinStr;
+  
+   Ext.get('DispositifEdit').slideIn();
 };
+
+
+MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
+{
+  Ext.getCmp('DispositifListEastPanel').collapse();
+  this.resetDispositifForm();
+
+};
+
+MonitorInputDispositifCs.prototype.editDispositifReturn=function(Dispositif)
+{
+  Ext.get('DispositifEdit').slideIn();
+};
+
 
 MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equipierRank)
 {

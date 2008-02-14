@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.Equipier;
 import fr.croixrouge.irp.model.monitor.Regulation;
+import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
 import fr.croixrouge.irp.services.equipier.EquipierService;
@@ -90,6 +93,14 @@ public class MonitorInputDispositifImpl extends DWRUtils
     updateRegulationUser(script, outPageName);
     
   }
+  
+  public ListRange getIDispositifTicketList(boolean creationTerminee, int index, int limit)throws Exception
+  {
+    HttpSession session            = this.validateSession();
+    int    currentUserRegulationId = this.getRegulationId(session);
+    return this.dispositifService.getDispositifTicketWithStatus(currentUserRegulationId, creationTerminee, index, limit);
+  }
+  
   
   public List<Equipier> addEquipierToDispositif(int idDispositif, int equipierRank, int equipierRole, int equipierId) throws Exception
   {

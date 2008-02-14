@@ -135,7 +135,7 @@ public class ListServiceImpl implements ListService, InitializingBean
   @SuppressWarnings("unchecked")
   public void getAllListInit()
   {
-    this.allList = new Hashtable<String, List>(6)
+    this.allList = new Hashtable<String, List>(8)
     {
       private static final long serialVersionUID = 5456339591578590644L;
       {

@@ -322,9 +322,8 @@ String contextPath = request.getContextPath();
 </div>   
       
       
-      </div>
+      </div><!-- FIN InterventionEditor -->
       <div id="InterventionList">
-      
         <div id="InterventionListEncoursEdition">
         </div>
         <div id="InterventionListUnaffected">
@@ -332,11 +331,13 @@ String contextPath = request.getContextPath();
         <div id="InterventionListOthers">
         </div>
       </div>
-    </div>
+</div>
 <!-- Fin Intervention Editor -->
 
 <!-- Dispositif Editor -->
     <div id="DispositifPanel">
+      <div id="DispositifEditor">
+
 
 <div id="DispositifEdit" style="width:460px;display:none;">
   <input type="hidden" id="dispositif_id_field" name="dispositif_id_field" value=""/>
@@ -697,6 +698,16 @@ String contextPath = request.getContextPath();
   </table>
 </div>  
 <!-- Fin Dispositif Edit -->
+</div><!-- Fin DispositifEditor -->
+
+
+      <div id="DispositifList">
+        <div id="DispositifListCurrent">
+        </div>
+        <div id="DispositifListEncoursEdition">
+        </div>
+      </div>
+
 
    
     </div><!-- Fin Dispositif Center Panel -->

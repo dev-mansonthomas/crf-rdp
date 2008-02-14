@@ -3,9 +3,9 @@ var MonitorInputInterventionCs = Class.create();
 MonitorInputInterventionCs.prototype.initialize=function()
 {
   MonitorInputIntervention.initScriptSession();
-  custumEventPS.subscribe("ListLoaded", this.initOriginesIntervention       );
-  custumEventPS.subscribe("ListLoaded", this.initMotifsIntervention         );
-  custumEventPS.subscribe("ListLoaded", this.initUnfinishedInterventionGrid );
+  custumEventPS.subscribe("ListLoaded", this.initOriginesIntervention );
+  custumEventPS.subscribe("ListLoaded", this.initMotifsIntervention   );
+  custumEventPS.subscribe("ListLoaded", this.initInterventionListGrids);
   
   custumEventPS.subscribe("InterventionTicketEndOfEditionEvent", this.reloadInterventionTicketLists );
   
@@ -34,7 +34,7 @@ MonitorInputInterventionCs.prototype.fieldList = [
  
  
  
-MonitorInputInterventionCs.prototype.initUnfinishedInterventionGrid=function()
+MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
 {
 
   var xg = Ext.grid;
@@ -215,8 +215,10 @@ MonitorInputInterventionCs.prototype.endOfEditionEvent=function()
 MonitorInputInterventionCs.prototype.endOfEditionEventReturn=function()
 {
   miInterventionCs.resetInterventionForm();
-  Ext.get('InterventionTicket').slideOut();
-  Ext.getCmp('InterventionListEastPanel').expand();
+  
+  Ext.get   ('InterventionTicket'       ).slideOut();
+  Ext.getCmp('InterventionListEastPanel').expand  ();
+  
   custumEventPS.publish("InterventionTicketEndOfEditionEvent",null);
 };
 MonitorInputInterventionCs.prototype.resetInterventionForm=function()

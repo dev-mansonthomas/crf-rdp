@@ -11,12 +11,12 @@ MonitorInputCs.prototype.initRegulation=function()
 };
 MonitorInputCs.prototype.initRegulationReturn=function(Regulation)
 {
-  DWRUtil.setValue('regulationId'   , Regulation.regulationId       );
-  DWRUtil.setValue('startDate'      , Regulation.startDateStr       );
-  DWRUtil.setValue('expectedEndDate', Regulation.expectedEndDateStr );
-  DWRUtil.setValue('open'           , Regulation.open?'Ouverte':'Fermée');
-  DWRUtil.setValue('regulateur'     , Regulation.regulateur.nom + ' ' + Regulation.regulateur.prenom   );
-  DWRUtil.setValue('label'          , Regulation.label          );
+  dwr.util.setValue('regulationId'   , Regulation.regulationId       );
+  dwr.util.setValue('startDate'      , Regulation.startDateStr       );
+  dwr.util.setValue('expectedEndDate', Regulation.expectedEndDateStr );
+  dwr.util.setValue('open'           , Regulation.open?'Ouverte':'Fermée');
+  dwr.util.setValue('regulateur'     , Regulation.regulateur.nom + ' ' + Regulation.regulateur.prenom   );
+  dwr.util.setValue('label'          , Regulation.label          );
 };
 
 MonitorInputCs.prototype.testCrossWindow=function()
@@ -69,7 +69,7 @@ function initLayout()
     region:'east',
     split:true,
     contentEl:'InterventionList',
-    title:'Liste des Interventions',
+    title:'Liste des Tickets d\'Interventions',
     xtype:'panel',
     split:true,
     width: 800,
@@ -79,13 +79,13 @@ function initLayout()
         animate:true
     },
     items:[{
-            title:'Liste des Interventions en cours de saisie',
+            title:'Liste des Tickets d\'Interventions en cours de saisie',
             contentEl:'InterventionListEncoursEdition',
             border:false,
             iconCls:'settings'
           },
           {
-            title:'Liste des Interventions Non Affectées',
+            title:'Liste des Tickets d\'Interventions Non Affectées',
             contentEl:'InterventionListUnaffected',
             border:false,
             iconCls:'settings'
@@ -100,12 +100,12 @@ function initLayout()
   
   
   var interventionPanel={
-      title: 'Gestion des Interventions',
+      title: 'Gestion des Tickets d\'Interventions',
       closable:false,
       autoScroll:true,
       layout:'border',
       tbar:[new Ext.Action({
-        text: 'Ajouter une Intervention',
+        text: 'Ajouter un Ticket d\'Intervention',
         handler: function()
         {
           miInterventionCs.addIntervention();

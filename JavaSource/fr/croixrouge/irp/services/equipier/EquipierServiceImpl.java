@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.Equipier;
 import fr.croixrouge.irp.model.monitor.rowMapper.EquipierRowMapper;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
@@ -53,23 +52,21 @@ public class EquipierServiceImpl implements EquipierService
     if(logger.isDebugEnabled())
       logger.debug("Getting EquipiersForDispositif '"+idDispositif+"'");
     
-    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
-    List<Equipier> equipierList = null;
-    int typeDispositif = dispositif.getIdTypeDispositif();
+
+    List<Equipier> equipierListTmp = this.dispositifService.getEquipierIdAndRoleOfDispositif (regulationId, idDispositif);
+    int            typeDispositif  = this.dispositifService.getIdTypeDispositif              (regulationId, idDispositif);
+    List<Equipier> equiperList     = new ArrayList<Equipier>(equipierListTmp.size());
     
     if(typeDispositif == 1 || typeDispositif == 2)
     {
-      equipierList = new ArrayList<Equipier>(5);
-      ArrayList<Equipier> listEquipier = dispositif.getEquipierList();
-      
-      for (Equipier equipier : listEquipier)
+      for (Equipier equipier : equipierListTmp)
       { 
         Equipier tmpEquipier = this.getEquipier(equipier.getIdEquipier());
         
         tmpEquipier.setIdRoleDansDispositif(equipier.getIdRoleDansDispositif());
         tmpEquipier.setEquipierRank        (equipier.getEquipierRank        ());
         
-        equipierList.add(tmpEquipier);
+        equiperList.add(tmpEquipier);
       }
     }
     else if(typeDispositif != 5)//5=N/A
@@ -77,14 +74,14 @@ public class EquipierServiceImpl implements EquipierService
       Object [] os    = {idDispositif};
       int    [] types = {Types.INTEGER};
      
-      equipierList = jdbcTemplate.query( queryForGetEquipiersForDispositif , 
+      equipierListTmp = jdbcTemplate.query( queryForGetEquipiersForDispositif , 
                                          os    , 
                                          types , 
                                          new EquipierRowMapper());
     }
 
     
-    return equipierList;
+    return equiperList;
   }
   
   private final static String queryForGetEquipier = 

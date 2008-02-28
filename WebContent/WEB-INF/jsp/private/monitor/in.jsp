@@ -45,9 +45,6 @@ String contextPath = request.getContextPath();
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorInput.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorInputDispositif.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorInputIntervention.js"> </script>
-
-  <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/util.js"> </script>
 <!-- END of DWR Ajax -->
 
 <!-- prototype framework -->
@@ -74,8 +71,6 @@ String contextPath = request.getContextPath();
     
 <script type="text/javascript">
   Ext.onReady(init);
-  
-  
 </script>
 </head>
 <body id="MonitorInputBody">
@@ -718,5 +713,7 @@ String contextPath = request.getContextPath();
     <p>south - generally for informational stuff, also could be for status bar</p>
   </div>
 
+  <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/dwr/util.js"> </script>
 </body>
 </html>

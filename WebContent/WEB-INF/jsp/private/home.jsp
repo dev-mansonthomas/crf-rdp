@@ -4,6 +4,7 @@
 %>
 <html>
   <head>
+    <title>Accueil de la Régulation de la Croix Rouge de Paris</title>
     <style type="text/css" media="all">
       @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
       @import "<%=contextPath%>/js/extjs-2/resources/css/xtheme-gray.css";

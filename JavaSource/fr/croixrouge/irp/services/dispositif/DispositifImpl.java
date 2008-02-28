@@ -11,21 +11,57 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.DispositifTicket;
+import fr.croixrouge.irp.model.monitor.Equipier;
 import fr.croixrouge.irp.model.monitor.Regulation;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
+import fr.croixrouge.irp.model.monitor.rowMapper.DispositifEquipierIdAndRoleRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.DispositifRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.DispositifTicketRowMapper;
 import fr.croixrouge.irp.services.JDBCHelper;
+import fr.croixrouge.irp.services.equipier.EquipierService;
 
 public class DispositifImpl extends JDBCHelper implements DispositifService
 {
-  private Log               logger        = LogFactory.getLog(DispositifImpl.class);
-  private JdbcTemplate      jdbcTemplate  = null;
-   
+  private static Log        logger          = LogFactory.getLog(DispositifImpl.class);
+  private JdbcTemplate      jdbcTemplate    = null;
+  private EquipierService   equipierService = null;
   
   public DispositifImpl(JdbcTemplate  jdbcTemplate)
   {
     this.jdbcTemplate = jdbcTemplate;
+  }
+  public void setEquipierService(EquipierService equipierService)
+  {
+    this.equipierService = equipierService;
+  }
+  
+  private final static String queryForGetEquipierIdAndRoleOfDispositif=
+    "SELECT  `equipier_1_id`     , `equipier_2_id`     , `equipier_3_id`     , `equipier_4_id`  , `equipier_5_id`  ,\n" +
+    "        `equipier_1_role`   , `equipier_2_role`   , `equipier_3_role`   , `equipier_4_role`, `equipier_5_role` \n" +
+    "FROM    dispositif d\n"    +
+    "WHERE   id_dispositif=?\n" +
+    "AND     id_regulation=?\n";
+  
+  @SuppressWarnings("unchecked")
+  public List<Equipier> getEquipierIdAndRoleOfDispositif(int idRegulation, int idDispositif) throws Exception
+  {
+    return (List<Equipier>)this.jdbcTemplate.queryForObject(queryForGetEquipierIdAndRoleOfDispositif, 
+        new Object[]{idDispositif , idRegulation },
+        new int   []{Types.INTEGER, Types.INTEGER},
+        new DispositifEquipierIdAndRoleRowMapper());
+  }
+  
+  private final static String queryForGetIdTypeDispositif=
+    "SELECT  `id_type_dispositif`\n" +
+    "FROM    dispositif d\n"    +
+    "WHERE   id_dispositif=?\n" +
+    "AND     id_regulation=?\n";
+  
+  public int getIdTypeDispositif(int idRegulation, int idDispositif) throws Exception
+  {
+    return this.jdbcTemplate.queryForInt(queryForGetIdTypeDispositif, 
+        new Object[]{idDispositif , idRegulation},
+        new int   []{Types.INTEGER, Types.INTEGER});
   }
   
   
@@ -39,8 +75,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "        `DH_debut`          , `DH_fin`            , `id_delegation_responsable`, `autre_delegation`,                                     \n" +
     "        `contact_radio`     , `contact_tel1`      , `contact_tel2`      ,                                                                \n" +
     "        `contact_alphapage` , `identite_medecin`  , `id_etat_dispositif`, `id_current_intervention`, `display_state`,                    \n" +
-    "        `equipier_1_id`     , `equipier_2_id`     , `equipier_3_id`     , `equipier_4_id`  , `equipier_5_id`  ,                          \n" +
-    "        `equipier_1_role`   , `equipier_2_role`   , `equipier_3_role`   , `equipier_4_role`, `equipier_5_role`,                          \n" +
     "        `current_addresse_rue`, `current_addresse_code_postal`, `current_addresse_ville`,                                                \n" +
     "        `DH_reception`      , `DH_depart`, `DH_sur_place`, `DH_bilan_primaire`       , `DH_bilan_secondaire`, `DH_quitte_les_lieux`,     \n" +
     "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee` \n" +
@@ -53,12 +87,15 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   "ORDER BY indicatif_vehicule ASC  \n";
 
   @SuppressWarnings("unchecked")
-  public List <Dispositif> getAllDispositif(int regulationId) throws Exception
+  public ListRange getAllDispositif(int regulationId) throws Exception
   {
-    return this.jdbcTemplate.query(queryForGetAllDispositif, 
-                                                    new Object[]{new Integer(regulationId)},
-                                                    new int   []{Types.INTEGER},
-                                                    new DispositifRowMapper());
+    
+    List <Dispositif> dispositifs = this.jdbcTemplate.query(queryForGetAllDispositif, 
+                                                            new Object[]{new Integer(regulationId)},
+                                                            new int   []{Types.INTEGER},
+                                                            new DispositifRowMapper()); 
+    
+    return new ListRange(dispositifs.size(), dispositifs);
   }
   
   private final static String queryForGetDispositif = dispositifSelectQuery + 
@@ -69,10 +106,14 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   @SuppressWarnings("unchecked")
   public Dispositif getDispositif(int idRegulation, int disposifitId) throws Exception
   {
-    return (Dispositif)this.jdbcTemplate.queryForObject(queryForGetDispositif, 
+    Dispositif dispositif = (Dispositif)this.jdbcTemplate.queryForObject(queryForGetDispositif, 
                                                     new Object[]{disposifitId , idRegulation},
                                                     new int   []{Types.INTEGER, Types.INTEGER},
                                                     new DispositifRowMapper());
+    
+    dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(idRegulation, disposifitId));
+    
+    return dispositif;
   }
 
   
@@ -97,6 +138,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   @SuppressWarnings("unchecked")
   public ListRange getDispositifTicketWithStatus(int idRegulation, boolean creationTerminee, int index, int limit) throws Exception
   {
+    if(logger.isDebugEnabled())
+      logger.debug("getting dispositif ticket for regulation id='"+idRegulation+"' with status creationTerminee='"+creationTerminee+"' from index='"+index+"' with limit='"+limit+"'");
+    
     int totalCount = this.jdbcTemplate.queryForInt(queryForGetDispositifTicketWithStatusCount,
         new Object[]{idRegulation , creationTerminee?1:0  },
         new int   []{Types.INTEGER, Types.INTEGER});
@@ -198,6 +242,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   public Dispositif createEmptyDispositif(Regulation regulation) throws Exception
   {
+    if(logger.isDebugEnabled())
+      logger.debug("Creating new empty dispositif for regulation id='"+regulation.getRegulationId()+"'");
+    
     Dispositif dispositif  = new Dispositif();
     
     String query =  "INSERT INTO `dispositif`\n"+
@@ -216,8 +263,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     int idDispositif = this.getLastInsertedId(this.jdbcTemplate);
     
-    if(this.logger.isDebugEnabled())
-      this.logger.debug("new empty dispositif created with id='"+idDispositif+"'");
+    if(logger.isDebugEnabled())
+      logger.debug("new empty dispositif created with id='"+idDispositif+"'for regulation id='"+regulation.getRegulationId()+"'");
 
     dispositif.setIdDispositif(idDispositif                   );
     dispositif.setDhDebut     (regulation.getStartDate      ());
@@ -271,8 +318,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   public void updateEtatDispositif(int idDispositif, int idEtatDispositif) throws Exception
   {
-	  Object [] os     = new Object[]{idDispositif  , idEtatDispositif};
-	  int    [] types  = new int   []{Types.INTEGER , Types.INTEGER   };
+	  Object [] os     = new Object[]{idEtatDispositif, idDispositif };
+	  int    [] types  = new int   []{Types.INTEGER   , Types.INTEGER};
 	  
     int nbLineUpdated = jdbcTemplate.update(queryForUpdateEtatDispositif, os, types);
 	  

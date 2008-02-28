@@ -5,7 +5,11 @@
 
     <!-- Services classique -->
     <bean id="regulation"                  class="fr.croixrouge.irp.services.regulation.RegulationImpl"                         autowire="constructor" />
-    <bean id="dispositif"                  class="fr.croixrouge.irp.services.dispositif.DispositifImpl"                         autowire="constructor" />
+    <bean id="dispositif"                  class="fr.croixrouge.irp.services.dispositif.DispositifImpl"                         autowire="constructor">
+      <property name="equipierService">
+        <ref bean="equipier"/>
+      </property>
+    </bean>
     <bean id="equipier"                    class="fr.croixrouge.irp.services.equipier.EquipierServiceImpl"                      autowire="constructor" />
     <bean id="listService"                 class="fr.croixrouge.irp.services.list.ListServiceImpl"                              autowire="constructor" />
     <bean id="interventionService"         class="fr.croixrouge.irp.services.intervention.InterventionServiceImpl"              autowire="constructor" />

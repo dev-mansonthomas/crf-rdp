@@ -1,11 +1,9 @@
 package fr.croixrouge.irp.services.dwr.monitor;
 
-import java.util.List;
-
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 
-import fr.croixrouge.irp.model.monitor.Dispositif;
+import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
 
@@ -18,7 +16,7 @@ public class MonitorOutputDispositf  extends DWRUtils
     this.dispositifService = dispositifService;
   }
 
-  public List<Dispositif> getAllDispositif() throws Exception
+  public ListRange getAllDispositif() throws Exception
   {
     this.validateSession();
     WebContext        webContext = WebContextFactory.get();

@@ -33,16 +33,16 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   var motif       = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  );
   var dhReception = crfIrpUtils.getFullDate(intervention.dhReception);
 
-  DWRUtil.setValue('interventionTicket_origine_'     +intervention.idIntervention, origine);
-  DWRUtil.setValue('interventionTicket_motif_'       +intervention.idIntervention, motif);
-  DWRUtil.setValue('interventionTicket_dhReception_' +intervention.idIntervention, dhReception);
-  DWRUtil.setValue('interventionTicket_rue_'         +intervention.idIntervention, intervention.rue);
-  DWRUtil.setValue('interventionTicket_codePostal_'  +intervention.idIntervention, intervention.codePostal);
-  DWRUtil.setValue('interventionTicket_ville_'       +intervention.idIntervention, intervention.ville);
+  dwr.util.setValue('interventionTicket_origine_'     +intervention.idIntervention, origine);
+  dwr.util.setValue('interventionTicket_motif_'       +intervention.idIntervention, motif);
+  dwr.util.setValue('interventionTicket_dhReception_' +intervention.idIntervention, dhReception);
+  dwr.util.setValue('interventionTicket_rue_'         +intervention.idIntervention, intervention.rue);
+  dwr.util.setValue('interventionTicket_codePostal_'  +intervention.idIntervention, intervention.codePostal);
+  dwr.util.setValue('interventionTicket_ville_'       +intervention.idIntervention, intervention.ville);
   
   
-  DWRUtil.setValue('interventionTicket_googleCoordsLat_'+intervention.idIntervention, intervention.googleCoordsLat);
-  DWRUtil.setValue('interventionTicket_googleCoordsLong_'+intervention.idIntervention, intervention.googleCoordsLong);
+  dwr.util.setValue('interventionTicket_googleCoordsLat_'+intervention.idIntervention, intervention.googleCoordsLat);
+  dwr.util.setValue('interventionTicket_googleCoordsLong_'+intervention.idIntervention, intervention.googleCoordsLong);
 /*
   Ext.QuickTips.register({target:'interventionTicket_details_'+intervention.idIntervention,
                           showDelay: 10,

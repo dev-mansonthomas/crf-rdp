@@ -83,8 +83,8 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
           pageSize: 5,
           store: dataStore1,
           displayInfo: true,
-          displayMsg: 'Intervention(s) {0} à {1} de {2}',
-          emptyMsg: 'aucune intervention en cours d\'édition'
+          displayMsg: 'Ticket d\'Intervention(s) {0} à {1} de {2}',
+          emptyMsg: 'aucun Ticket d\'Intervention en cours d\'édition'
         })
     });
   grid1.getStore().load({params: {start:0, limit:5}});
@@ -136,8 +136,8 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
           pageSize: 5,
           store: dataStore2,
           displayInfo: true,
-          displayMsg: 'Intervention(s) {0} à {1} de {2}',
-          emptyMsg: 'aucune intervention non affectée'
+          displayMsg: 'Ticket d\'Intervention(s) {0} à {1} de {2}',
+          emptyMsg: 'aucun Ticket d\'Intervention non affectée'
         })
     });
   grid2.getStore().load({params: {start:0, limit:5}});
@@ -150,6 +150,8 @@ MonitorInputInterventionCs.prototype.gridRowDoubleClickHandler=function(grid, ro
   miInterventionCs.editInterventionTicket(grid.store.getAt(rowIndex).data.idIntervention);
   Ext.getCmp('InterventionListEastPanel').collapse();
 };
+
+
 
 MonitorInputInterventionCs.prototype.reloadInterventionTicketLists=function(data)
 {
@@ -177,16 +179,16 @@ MonitorInputInterventionCs.prototype.createNewEmptyInterventionReturn=function(i
 
 MonitorInputInterventionCs.prototype.initMotifsIntervention=function()
 {
-  DWRUtil.removeAllOptions('interventionTicketMotif');
-  DWRUtil.addOptions('interventionTicketMotif',
+  dwr.util.removeAllOptions('interventionTicketMotif');
+  dwr.util.addOptions('interventionTicketMotif',
                       crfIrpUtils.allList['MotifsIntervention'],
                       'id',
                       'label');
 };
 MonitorInputInterventionCs.prototype.initOriginesIntervention=function()
 {
-  DWRUtil.removeAllOptions('interventionTicketOrigine');
-  DWRUtil.addOptions('interventionTicketOrigine',
+  dwr.util.removeAllOptions('interventionTicketOrigine');
+  dwr.util.addOptions('interventionTicketOrigine',
                       crfIrpUtils.allList['OriginesIntervention'],
                       'id',
                       'label');

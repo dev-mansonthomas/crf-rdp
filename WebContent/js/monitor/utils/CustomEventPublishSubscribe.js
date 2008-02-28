@@ -30,7 +30,7 @@ CustumEventPublishSubscribe.prototype.publish=function(topicName,args)
     return false;
   }
 
-  for(i=0,count=subscribers.length;i<count;i++)
+  for(var i=0,count=subscribers.length;i<count;i++)
     subscribers[i](args);
 
   return true;

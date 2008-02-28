@@ -5,57 +5,56 @@ var MonitorInputDispositifCs = Class.create();
 MonitorInputDispositifCs.prototype.initialize=function()
 {
   MonitorInputDispositif.initScriptSession();
-  this.getDispositifMaps ();
   $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
-    /*Selection de la délégation*/  
-   new Autocompleter.DWR( 'DispositifDelegation', 
-                          'DispositifDelegation_SelectList', 
-                          this.updateListDelegation, 
-                          {
-                            afterUpdateElement: this.delegationSelected, 
-                            valueSelector     : this.delegationValueSelector,
-                            displayItemsThatDontMatchInput:true
-                          }
-                        );
+  this.getDispositifMaps ();
+      /*Selection de la délégation*/  
+  new Autocompleter.DWR( 'DispositifDelegation', 
+                         'DispositifDelegation_SelectList', 
+                         this.updateListDelegation, 
+                         {
+                           afterUpdateElement: this.delegationSelected, 
+                           valueSelector     : this.delegationValueSelector,
+                           displayItemsThatDontMatchInput:true
+                         }
+                       );
   /*Séléction des équipiers*/
-   new Autocompleter.DWR( 'DispositifEquipierAdd_Nivol'     , 
-                          'DispositifEquipierAdd_SelectList', 
-                          this.updateListEquipierNivol, 
-                          {
-                            afterUpdateElement: this.equipierSelected, 
-                            valueSelector     : this.equipierValueSelector
-                          }
-                        );
+  new Autocompleter.DWR( 'DispositifEquipierAdd_Nivol'     , 
+                         'DispositifEquipierAdd_SelectList', 
+                         this.updateListEquipierNivol, 
+                         {
+                           afterUpdateElement: this.equipierSelected, 
+                           valueSelector     : this.equipierValueSelector
+                         }
+                       );
   
   
-   new Autocompleter.DWR( 'DispositifEquipierAdd_Nom'       , 
-                          'DispositifEquipierAdd_SelectList', 
-                          this.updateListEquipierNom, 
-                          {
-                            afterUpdateElement: this.equipierSelected, 
-                            valueSelector     : this.equipierValueSelector
-                          }
-                        );
+  new Autocompleter.DWR( 'DispositifEquipierAdd_Nom'       , 
+                         'DispositifEquipierAdd_SelectList', 
+                         this.updateListEquipierNom, 
+                         {
+                           afterUpdateElement: this.equipierSelected, 
+                           valueSelector     : this.equipierValueSelector
+                         }
+                       );
 
   crfIrpUtils.setupCalendar("DispositifDHDebut", function(event){
-       miDispositifCs.updateDispositifDateField(event.id, 'DH_debut')
-    });
-
+      miDispositifCs.updateDispositifDateField(event.id, 'DH_debut')
+   });
+   
   crfIrpUtils.setupCalendar("DispositifDHFin", function(event){
        miDispositifCs.updateDispositifDateField(event.id, 'DH_fin')
     });
     
 
-    custumEventPS.subscribe("ListLoaded", this.initDispositif     );
-    custumEventPS.subscribe("ListLoaded", this.initDispositifGrids);
-    
-    custumEventPS.subscribe("DispositifEndOfEditionEvent", this.reloadDispositifLists );
+  custumEventPS.subscribe("ListLoaded", this.initDispositif     );
+  custumEventPS.subscribe("ListLoaded", this.initDispositifGrids);
+   
+  custumEventPS.subscribe("DispositifEndOfEditionEvent", this.reloadDispositifLists );
 };
 
 
 MonitorInputDispositifCs.prototype.initDispositifGrids=function()
 {
-
   var xg = Ext.grid;
   
   var dataStore1 = new Ext.data.Store({
@@ -89,12 +88,12 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         store: dataStore1,
         cm: new xg.ColumnModel([
             {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
-            {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' },
+            {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:miDispositifCs.typeCellRenderer},
             {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
             {id:'dhDebutDCurrentCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
             {id:'dhFinDCurrentCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
-            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'    },
-            {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'}
+            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'     , renderer:miDispositifCs.delegationCellRenderer},
+            {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif' , renderer:miDispositifCs.etatDispositifCellRenderer}
         ]),
         viewConfig: {
             forceFit:true
@@ -116,9 +115,6 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         })
     });
   grid1.getStore().load({params: {start:0, limit:5}});
-  
-  
-  
   
   var dataStore2 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
@@ -143,19 +139,18 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
                    ]
                })
            });
-           
 
   var grid2 = new xg.GridPanel({
         id:'DispositifListEncoursEditionGrid',
         store: dataStore2,
         cm: new xg.ColumnModel([
             {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
-            {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' },
+            {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:miDispositifCs.typeCellRenderer},
             {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
             {id:'dhDebutDCurrentCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
             {id:'dhFinDCurrentCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
-            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'    },
-            {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'}
+            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'     , renderer:miDispositifCs.delegationCellRenderer},
+            {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif' , renderer:miDispositifCs.etatDispositifCellRenderer}
         ]),
         viewConfig: {
             forceFit:true
@@ -179,8 +174,6 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   grid2.getStore().load({params: {start:0, limit:5}});
 };
 
-
-
 MonitorInputDispositifCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
 {
   miDispositifCs.editDispositif(grid.store.getAt(rowIndex).data.idDispositif);
@@ -193,8 +186,28 @@ MonitorInputDispositifCs.prototype.reloadDispositifLists=function(data)
   Ext.getCmp('DispositifListEncoursEditionGrid').getStore().reload();
 }
 
+MonitorInputDispositifCs.prototype.delegationCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  if(value != null)
+    return crfIrpUtils.getLabelFor('Delegations', value);
+  else
+    return "";
+};
+MonitorInputDispositifCs.prototype.etatDispositifCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  if(value != null)
+    return crfIrpUtils.getLabelFor('EtatsDispositif', value);
+  else
+    return "";
+};
+MonitorInputDispositifCs.prototype.typeCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  if(value != null)
+    return crfIrpUtils.getLabelFor('TypesDispositif', value);
+  else
+    return "";
 
-
+};
 
 MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 {
@@ -228,7 +241,7 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 {
   miDispositifCs.resetDispositifForm();
-  
+  $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
   Ext.get   ('DispositifEdit'         ).slideOut();
   Ext.getCmp('DispositifListEastPanel').expand  ();
   
@@ -239,11 +252,12 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 
 MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 {
-  DWRUtil.removeAllRows('dispositifEquipierList_tbody');
+  dwr.util.removeAllRows('dispositifEquipierList_tbody');
 
   for(i=0,count=this.fieldList.length;i<count;i++)
-    DWRUtil.setValue(this.fieldList[i], '');
+    dwr.util.setValue(this.fieldList[i], '');
 
+  dwr.util.removeAllOptions('DispositifEquipierToAddRole');
 };
 
 MonitorInputDispositifCs.prototype.fieldList = [ 
@@ -295,17 +309,16 @@ MonitorInputDispositifCs.prototype.getDispositifMapsReturn=function(dispositifMa
   MonitorInputDispositifCs.prototype.dispositifMaps = dispositifMaps;
 };
 
-
 MonitorInputDispositifCs.prototype.initDispositif=function()
 {
-  DWRUtil.removeAllOptions('DispositifType');
-  DWRUtil.removeAllOptions('DispositifStatus');
-  DWRUtil.addOptions( 'DispositifType', 
+  dwr.util.removeAllOptions('DispositifType');
+  dwr.util.removeAllOptions('DispositifStatus');
+  dwr.util.addOptions( 'DispositifType', 
                       crfIrpUtils.allList['TypesDispositif'],
                       'id',
                       'label');
 
-  DWRUtil.addOptions( 'DispositifStatus', 
+  dwr.util.addOptions( 'DispositifStatus', 
                       crfIrpUtils.allList['EtatsDispositif'],
                       'id',
                       'label');
@@ -314,20 +327,20 @@ MonitorInputDispositifCs.prototype.initDispositif=function()
 MonitorInputDispositifCs.prototype.createNewEmptyDispositif=function()
 {
   Ext.getCmp('DispositifListEastPanel').collapse();
+  this.resetDispositifForm();
   MonitorInputDispositif.createEmptyDispositif(this.createNewEmptyDispositifReturn);
 };
 
 MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispositif)
 {
   $('dispositif_id_field').value=dispositif.idDispositif;
-  DWRUtil.setValue('dispositif_id_span', dispositif.idDispositif);
+  dwr.util.setValue('dispositif_id_span', dispositif.idDispositif);
 
   $('DispositifDHDebut').value=dispositif.dhDebutStr;
   $('DispositifDHFin'  ).value=dispositif.dhFinStr;
   
    Ext.get('DispositifEdit').slideIn();
 };
-
 
 MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
 {
@@ -356,9 +369,6 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   
   dwr.util.setValue('DispositifDHDebut'             , crfIrpUtils.getFullDate(dispositif.dhDebut));
   dwr.util.setValue('DispositifDHFin'               , crfIrpUtils.getFullDate(dispositif.dhFin  ));
-   
-  /*TODO :récupérer les équipiers et les ajouters au tableau*/
-  
   
   dwr.util.setValue('DispositifB1V', dispositif.o2B1Volume     );
   dwr.util.setValue('DispositifB2V', dispositif.o2B2Volume     );
@@ -370,8 +380,6 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('DispositifB3P', dispositif.o2B3Pression   );
   dwr.util.setValue('DispositifB4P', dispositif.o2B4Pression   );
   dwr.util.setValue('DispositifB5P', dispositif.o2B5Pression   );
-  
-  this.updateVolumeAndAutonomie();
   
   dwr.util.setValue('DispositifDefibrilateurType'   , dispositif.dsaType    );
   dwr.util.setValue('DispositifDefibrilateurComplet', dispositif.dsaComplet?'true':'false' );
@@ -385,17 +393,16 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('horaire_hopital_value'   , crfIrpUtils.getTime(dispositif.dhArriveeHopital ));    
   dwr.util.setValue('horaire_base_value'      , crfIrpUtils.getTime(dispositif.dhASaBase        ));    
                                                                                                         
-
   dwr.util.setValue('DispositifSelectifRadio'   , dispositif.contactRadio);
   dwr.util.setValue('DispositifTel1'            , dispositif.contactTel1);
   dwr.util.setValue('DispositifTel2'            , dispositif.contactTel2);
   
   dwr.util.setValue('DispositifIdentiteMedecin' , dispositif.identiteMedecin);
-  
   dwr.util.setValue('DispositifStatus'          , dispositif.idEtatDispositif);
-  
-};
 
+  this.updateVolumeAndAutonomie();
+  this.updateListEquipierReturn(dispositif.equipierList);
+};
 
 MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equipierRank)
 {
@@ -404,7 +411,7 @@ MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equi
     crfIrpUtils.error('DispositifType', 'Veuillez choisir le type de dispositif avant d\'ajouter des équipiers');
     return;
   }
-  
+
   //Vérifie qu'il n'y pas de trous du a une suppression
   for(i=1;i<equipierRank;i++)
   {
@@ -415,7 +422,6 @@ MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equi
     }
   }
   
-  
   currentMap = this.dispositifMaps[$('DispositifType').value][equipierRank];
  
   if(currentMap == null)
@@ -424,16 +430,16 @@ MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equi
     return;
   }
   
-  DWRUtil.removeAllOptions('DispositifEquipierToAddRole');
+  dwr.util.removeAllOptions('DispositifEquipierToAddRole');
   for(i = 0; i< currentMap.length; i++)
-    DWRUtil.addOptions('DispositifEquipierToAddRole', [{name:crfIrpUtils.getLabelFor('RolesEquipier',currentMap[i]), id:currentMap[i]}], 'id', 'name');
+    dwr.util.addOptions('DispositifEquipierToAddRole', [{name:crfIrpUtils.getLabelFor('RolesEquipier',currentMap[i]), id:currentMap[i]}], 'id', 'name');
 };
 
 MonitorInputDispositifCs.prototype.equipageInformation=Array();
 
 MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listEquipier)
 {
-  DWRUtil.removeAllRows('dispositifEquipierList_tbody');
+  dwr.util.removeAllRows('dispositifEquipierList_tbody');
  
   MonitorInputDispositifCs.prototype.equipageInformation = Array();
   MonitorInputDispositifCs.prototype.equipageInformation['rankInfo'] = Array();
@@ -459,7 +465,7 @@ MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listEquipie
     ];
   
     var pair = true;
-    DWRUtil.addRows('dispositifEquipierList_tbody', listEquipier, cellFuncs, {
+    dwr.util.addRows('dispositifEquipierList_tbody', listEquipier, cellFuncs, {
       rowCreator:function(options)
       {
         var row = document.createElement("tr");
@@ -470,10 +476,12 @@ MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listEquipie
       },
       escapeHtml:false
     });
-    $('DispositifEquipierRoleToChoose').equipierRankToChoose++;
-    miDispositifCs.displayCurrentEquipierRoleToAdd($('DispositifEquipierRoleToChoose').equipierRankToChoose);
+    
+    $('DispositifEquipierRoleToChoose').equipierRankToChoose=listEquipier.length+1;
+    miDispositifCs.displayCurrentEquipierRoleToAdd(listEquipier.length+1);
+    
     $('DispositifEquipierAdd_Nivol').value='';
-    $('DispositifEquipierAdd_Nom').value='';
+    $('DispositifEquipierAdd_Nom'  ).value='';
     $('DispositifEquipierAdd_Nivol').focus();
   
 }
@@ -514,17 +522,16 @@ MonitorInputDispositifCs.prototype.removeEquipierFromDispositif=function(equipie
 
   if(crfIrpUtils.pleaseConfirm('Confirmez vous la suppression de '+nom+' '+prenom+' ('+numNivol+') ?'))
   {
-
     MonitorInputDispositif.removeEquipierFromDispositif( $('dispositif_id_field').value,
                                                          equipierRank                  ,
                                                          equipierId                    ,
                                                          miDispositifCs.updateListEquipierReturn
                                                        );
                                                        
-    $('DispositifEquipierAddIHM').style.display="block";
-    $('DispositifEquipierAddIHM').style.width="100%";
-    $('DispositifEquipierAddIHMHeader').style.width="100%";
-    $('DispositifEquipierAddIHMInput').style.width="100%";
+    $('DispositifEquipierAddIHM'      ).style.display="block";
+    $('DispositifEquipierAddIHM'      ).style.width  = "100%";
+    $('DispositifEquipierAddIHMHeader').style.width  = "100%";
+    $('DispositifEquipierAddIHMInput' ).style.width  = "100%";
   }
 };
 
@@ -533,10 +540,10 @@ MonitorInputDispositifCs.prototype.updateDispositifRadioField=function(fieldId)
 {
   if(fieldId == 'dsa_td')
   {
-    $('dsa_td_value').value = DWRUtil.getValue('DispositifDefibrilateurType');
+    $('dsa_td_value').value = dwr.util.getValue('DispositifDefibrilateurType');
     if($('dsa_td_value').value == 'NO')
     {
-      DWRUtil.setValue('DispositifDefibrilateurComplet', 'false');
+      dwr.util.setValue('DispositifDefibrilateurComplet', 'false');
       $('dsa_complet_td_value').value = 'false';
       $('DispositifDefibrilateurCompletOui').disabled=true;
       $('DispositifDefibrilateurCompletNon').disabled=true;
@@ -551,7 +558,7 @@ MonitorInputDispositifCs.prototype.updateDispositifRadioField=function(fieldId)
   }
   else
   {
-    $('dsa_complet_td_value').value = DWRUtil.getValue('DispositifDefibrilateurComplet');
+    $('dsa_complet_td_value').value = dwr.util.getValue('DispositifDefibrilateurComplet');
     this.updateDispositifBooleanField('dsa_complet_td_value', 'dsa_complet', 'dsa_td_value');
   }
 };

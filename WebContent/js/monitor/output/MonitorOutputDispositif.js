@@ -3,7 +3,76 @@ var MonitorOutputDispositifCs = Class.create();
 MonitorOutputDispositifCs.prototype.initialize=function()
 {
   MonitorOutputDispositif.initScriptSession();
-  custumEventPS.subscribe("ListLoaded", this.loadAllDispositif);
+  custumEventPS.subscribe("ListLoaded", this.initDispositifGrid);
+};
+
+MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
+{
+  var xg = Ext.grid;
+  
+  var dataStore1 = new Ext.data.Store({
+           proxy: new Ext.ux.rs.data.DwrProxy({
+               call: MonitorOutputDispositif.getAllDispositif,
+               args: [],
+               paging: false
+               }),
+           remoteSort:false,
+           reader: new Ext.data.JsonReader({
+                 root: 'data',
+        totalProperty: 'totalCount',
+               fields:
+                   [
+                       {name: 'idDispositif'      , type: 'int'    },
+                       {name: 'idTypeDispositif'  , type: 'int'    },
+                       {name: 'idEtatDispositif'  , type: 'int'    },
+                       {name: 'idDelegation'      , type: 'int'    },
+                       {name: 'displayState'      , type: 'int'    },
+                       {name: 'creationTerminee'  , type: 'boolean'},
+                       {name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'indicatifVehicule' , type: 'string' },
+                       {name: 'autreDelegation'   , type: 'string' }
+                   ]
+               })
+           });
+           
+
+  var grid1 = new xg.GridPanel({
+        id:'DispositifListGrid',
+        store: dataStore1,
+        cm: new xg.ColumnModel([
+            {id:'idDCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
+            {id:'indicatifVehiculeDCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
+            {id:'idTypeDispositifDCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:moDispositifCs.typeCellRenderer},
+            {id:'dhDebutDCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
+            {id:'dhFinDCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
+            {id:'idEtatDispositifDCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif' , renderer:moDispositifCs.etatDispositifCellRenderer}
+        ]),
+        viewConfig: {
+            forceFit:true
+        },
+        collapsible: false,
+        animCollapse: false,
+        height:400,
+        iconCls: 'icon-grid',
+        renderTo: 'center-dispositif-list'
+    });
+  grid1.getStore().load();
+};
+
+MonitorOutputDispositifCs.prototype.etatDispositifCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  if(value != null)
+    return crfIrpUtils.getLabelFor('EtatsDispositif', value);
+  else
+    return "";
+};
+MonitorOutputDispositifCs.prototype.typeCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  if(value != null)
+    return crfIrpUtils.getLabelFor('TypesDispositif', value);
+  else
+    return "";
 };
 
 MonitorOutputDispositifCs.prototype.loadAllDispositif=function()
@@ -40,9 +109,9 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
       $('dispositif_'+dispositif.idDispositif).style.display="block";
     }
   
-    DWRUtil.setValue('dispositif_indicatif_'+dispositif.idDispositif, dispositif.indicatifVehicule);
-    DWRUtil.setValue('dispositif_etat_'     +dispositif.idDispositif, crfIrpUtils.getLabelFor('EtatsDispositif', dispositif.idEtatDispositif));
-    DWRUtil.setValue('dispositif_etat_id_'  +dispositif.idDispositif, dispositif.idEtatDispositif);
+    dwr.util.setValue('dispositif_indicatif_'+dispositif.idDispositif, dispositif.indicatifVehicule);
+    dwr.util.setValue('dispositif_etat_'     +dispositif.idDispositif, crfIrpUtils.getLabelFor('EtatsDispositif', dispositif.idEtatDispositif));
+    dwr.util.setValue('dispositif_etat_id_'  +dispositif.idDispositif, dispositif.idEtatDispositif);
   }
 };
 

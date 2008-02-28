@@ -57,7 +57,7 @@ MonitorInputCoRegulateurListCs.prototype.createUserDelegationValueSelector=funct
 
 MonitorInputCoRegulateurListCs.prototype.updateCoRegulateurList=function(CoRegulateurList)
 {
-  DWRUtil.removeAllRows('coRegulateurList_tbody');
+  dwr.util.removeAllRows('coRegulateurList_tbody');
   
   var cellFuncs = [
     function(coregulateur) {return coregulateur.numNivol;},
@@ -67,7 +67,7 @@ MonitorInputCoRegulateurListCs.prototype.updateCoRegulateurList=function(CoRegul
   ];
 
   var pair = true;
-  DWRUtil.addRows('coRegulateurList_tbody', CoRegulateurList, cellFuncs, {
+  dwr.util.addRows('coRegulateurList_tbody', CoRegulateurList, cellFuncs, {
     rowCreator:function(options)
     {
       var row = document.createElement("tr");

@@ -78,8 +78,8 @@ public class MonitorInputDispositifImpl extends DWRUtils
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     
-    this.dispositifService.updateDispositifBooleanField(idDispositif, "creation_terminee", true);
-    this.dispositifService.updateEtatDispositif(idDispositif, idEtatDispositif);
+    this.dispositifService.updateDispositifBooleanField (idDispositif, "creation_terminee", true);
+    this.dispositifService.updateEtatDispositif         (idDispositif, idEtatDispositif);
 
     Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
     

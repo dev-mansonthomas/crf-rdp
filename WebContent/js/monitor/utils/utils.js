@@ -1,5 +1,8 @@
-/* ===================== Exception def ============================== */
+/*
+ *  @include "/crf-irp/WebContent/js/monitor/utils/CustomEventPublishSubscribe.js"
+ **/
 
+/* ===================== Exception def ============================== */
 
 function ParseDateException(input, expectedFormat, extraInformation) 
 {
@@ -10,7 +13,7 @@ function ParseDateException(input, expectedFormat, extraInformation)
   this.message = "Bad dateTime format input : '"+this.input+"', expected format : '"+this.expectedFormat+"'" +(extraInformation == null ? "": extraInformation);
   this.toString = function() 
   {
-    return this.message
+    return this.message;
   };
 }
 
@@ -41,6 +44,16 @@ CrfIrpUtils.prototype.getAllList=function()
 }
 /***
  * Initialise toutes les listes statics de la page
+ * 
+ * "EtatsDispositif"       
+ * "MotifsIntervention"    
+ * "EtatsIntervention"     
+ * "OriginesIntervention"  
+ * "RolesEquipier"         
+ * "RolesUser"             
+ * "TypesDispositif"       
+ * "Delegations"           
+ * 
  */
 CrfIrpUtils.prototype.getAllListReturn=function(allList)
 {
@@ -62,7 +75,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   tmpList = allList['Delegations'];
   newList = Array();
   for(var i=0,countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
-    newList[tmpList[i].id]={id:tmpList[i].idDelegation, label:tmpList[i].nom+' ('+tmpList[i].departement+')'};
+    newList[tmpList[i].idDelegation]={id:tmpList[i].idDelegation, label:tmpList[i].nom+' ('+tmpList[i].departement+')'};
 
   CrfIrpUtils.prototype.allList['Delegations']=newList; 
   
@@ -214,30 +227,6 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler)
         });
  
   myDateSelector.render(inputId+'_div');  
-/*	
-	
- var dateField = Ext.form.DateField({
- 	id:inputId+'_DateField',
- 	format:'d/m/Y H:i:s',
- 	fieldLabel: 'Date Of Birth',
- 	name: inputId, 
- 	width: 120,
- 	xtype:'date'
- });*/
-	
-/*
-  Calendar.setup(
-    { 
-      inputField:inputId,
-      ifFormat:"%d/%m/%Y %H:%M",
-      button:inputId+"_button",
-      singleClick:true,
-      step:1,
-      weekNumbers:true,
-      cache:false,
-      showsTime:true
-    }
-  );*/
 };
 
 //TODO check if it's a date before doing anything
@@ -364,26 +353,7 @@ CrfIrpUtils.prototype.warn=function(fieldId, errorMsg)
 
 CrfIrpUtils.prototype.info=function(fieldId, infoMsg)
 {
-  currentDate = this.getFullDate(new Date());
-  
-  $('CrfUtilsInfoWindowContent').innerHTML = this.infoTemplate.evaluate({fieldId:fieldId, myDate:currentDate, msg:infoMsg})+$('CrfUtilsInfoWindowContent').innerHTML;
-  
-  if(this.infoWindow==null)
-  {
-    infoWindowContent = '\
-<div id="CrfUtilsInfoWindowDiv" style="display:none">\
-  <input type="button" id="CrfUtilsInfoWindowClearButton" value="Clear" onClick="$(\'CrfUtilsInfoWindowContent\').innerHTML=\'\';"/>\
-  <div id="CrfUtilsInfoWindowContent">\
-  </div>\
-</div>\
-';
-    new Insertion.Bottom('MonitorInputBody', infoWindowContent);    
-    this.infoWindow = new Window ('CrfUtilsInfoWindow', {title: "Infos", className: "alphacube2", resizable:true, draggable:true});   
-    this.infoWindow.setContent   ('CrfUtilsInfoWindowDiv', true, false);
-    this.infoWindow.setLocation  (60, 5);
-    this.infoWindow.setSize      (400, 200, false);
-  }
-  this.infoWindow.show();
+  alert('info on "'+fieldId+'" : '+infoMsg);
 };
 
 CrfIrpUtils.prototype.highlighParentNode=function(fieldId, color, isMouseIn)

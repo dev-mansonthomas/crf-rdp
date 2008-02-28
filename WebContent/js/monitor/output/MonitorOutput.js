@@ -7,14 +7,14 @@ MonitorOutputCs.prototype.getMonitorInputRef=function()
 
 MonitorOutputCs.prototype.initialize=function()
 {
-  DWRUtil.useLoadingMessage("Loading...");
-  DWREngine.setActiveReverseAjax(true);
+  dwr.util.useLoadingMessage("Loading...");
+  dwr.engine.setActiveReverseAjax(true);
   Monitor.initScriptSession();  
 };
 
 MonitorOutputCs.prototype.updateClock = function (clockTime)
 {
-  DWRUtil.setValue('clock', clockTime);
+  dwr.util.setValue('clock', clockTime);
 };
 
 
@@ -24,12 +24,7 @@ var moDispositifCs    = null;
 var custumEventPS     = null;
 var crfGoogleMap      = null;
 
-var acc              = null;
-
-// set blank image to local file
-Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs/resources/images/default/s.gif';
 var iconPath = contextPath+'/img/famfamfam/';
-
 
 function init()
 {
@@ -40,7 +35,7 @@ function init()
   crfGoogleMap      = new CrfGoogleMap                ();
 
   
-  crfIrpUtils.getAllList();
+  //crfIrpUtils.getAllList();
   initLayout();
   crfGoogleMap.instancianteMap(48.85436, 2.348156);
 }
@@ -115,13 +110,16 @@ function initLayout()
                     activeTab:0,
                     tabPosition:'bottom',
                     items:[{
+                        id:'center-dispositif-panel',
                         contentEl:'center-dispositif',
                         title: 'Liste des Dispositifs',
                         closable:false,
                         autoScroll:true
                     },{
+                        id:'center-carte-paris-panel',
                         contentEl:'center-carte-paris',
                         title: 'Carte de Paris',
+                        closable:false,
                         autoScroll:true
                     }]
                 });

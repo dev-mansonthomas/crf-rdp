@@ -79,7 +79,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
 
   CrfIrpUtils.prototype.allList['Delegations']=newList; 
   
-  custumEventPS.publish("ListLoaded", null);
+  PageBus.publish("list.loaded", null);
 }
 /***
  * Pour la liste listId, retourne le label de l'objet id

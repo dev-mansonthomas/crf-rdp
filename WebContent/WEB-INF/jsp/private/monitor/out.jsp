@@ -53,7 +53,7 @@ String contextPath = request.getContextPath();
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutput.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputIntervention.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputDispositif.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/CustomEventPublishSubscribe.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/pagebus.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/utils.js"> </script><!-- utils.js en dernier fait un appel a la méthode init() qui doit etre définie avant -->
  
 <script type="text/javascript">

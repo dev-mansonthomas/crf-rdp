@@ -21,21 +21,19 @@ MonitorOutputCs.prototype.updateClock = function (clockTime)
 var monitorOutputCs   = null;
 var moInterventionCs  = null;
 var moDispositifCs    = null;
-var custumEventPS     = null;
 var crfGoogleMap      = null;
 
 var iconPath = contextPath+'/img/famfamfam/';
 
 function init()
 {
-  custumEventPS     = new CustumEventPublishSubscribe (false);
   moDispositifCs    = new MonitorOutputDispositifCs   ();
   moInterventionCs  = new MonitorOutputInterventionCs ();
   monitorOutputCs   = new MonitorOutputCs             ();
   crfGoogleMap      = new CrfGoogleMap                ();
 
   
-  //crfIrpUtils.getAllList();
+  crfIrpUtils.getAllList();
   initLayout();
   crfGoogleMap.instancianteMap(48.85436, 2.348156);
 }

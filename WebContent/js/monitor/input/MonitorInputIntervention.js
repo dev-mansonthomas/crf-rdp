@@ -3,11 +3,12 @@ var MonitorInputInterventionCs = Class.create();
 MonitorInputInterventionCs.prototype.initialize=function()
 {
   MonitorInputIntervention.initScriptSession();
-  custumEventPS.subscribe("ListLoaded", this.initOriginesIntervention );
-  custumEventPS.subscribe("ListLoaded", this.initMotifsIntervention   );
-  custumEventPS.subscribe("ListLoaded", this.initInterventionListGrids);
   
-  custumEventPS.subscribe("InterventionTicketEndOfEditionEvent", this.reloadInterventionTicketLists );
+  PageBus.subscribe("list.loaded",  this, this.initOriginesIntervention , null, null);
+  PageBus.subscribe("list.loaded",  this, this.initMotifsIntervention   , null, null);
+  PageBus.subscribe("list.loaded",  this, this.initInterventionListGrids, null, null);
+  
+  PageBus.subscribe("monitorInput.intervention.ticket.endOfEditionEvent",  this, this.reloadInterventionTicketLists, null, null);
   
   crfIrpUtils.setupCalendar("interventionTicketDHReception", function(event){
   	   miInterventionCs.updateInterventionDateField(event.id, 'DH_reception')
@@ -221,7 +222,7 @@ MonitorInputInterventionCs.prototype.endOfEditionEventReturn=function()
   Ext.get   ('InterventionTicket'       ).slideOut();
   Ext.getCmp('InterventionListEastPanel').expand  ();
   
-  custumEventPS.publish("InterventionTicketEndOfEditionEvent",null);
+  PageBus.publish("monitorInput.intervention.ticket.endOfEditionEvent", null);
 };
 MonitorInputInterventionCs.prototype.resetInterventionForm=function()
 {

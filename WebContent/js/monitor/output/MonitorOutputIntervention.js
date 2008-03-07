@@ -3,12 +3,11 @@ var MonitorOutputInterventionCs = Class.create();
 MonitorOutputInterventionCs.prototype.initialize=function()
 {
   MonitorOutputIntervention.initScriptSession();
-  custumEventPS.subscribe("ListLoaded",this.loadAllIntervention);
+  PageBus.subscribe("list.loaded",  this, this.loadAllIntervention, null, null);
 };
 
 MonitorOutputInterventionCs.prototype.loadAllIntervention=function()
 {
-
   MonitorOutputIntervention.loadAllIntervention(moInterventionCs.loadAllInterventionReturn);
 };
 

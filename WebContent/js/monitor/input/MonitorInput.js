@@ -29,13 +29,10 @@ var monitorInputCs        = null;
 var miDispositifCs        = null;
 var miCoRegulateurListCs  = null;
 var miInterventionCs      = null;
-var custumEventPS         = null;
 var crfGoogleMap          = null;
 
 function init()
 {
-
-  custumEventPS         = new CustumEventPublishSubscribe   (false);
   monitorInputCs        = new MonitorInputCs                ();
   
   miDispositifCs        = new MonitorInputDispositifCs      ();

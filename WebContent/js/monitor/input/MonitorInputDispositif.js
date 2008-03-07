@@ -45,11 +45,10 @@ MonitorInputDispositifCs.prototype.initialize=function()
        miDispositifCs.updateDispositifDateField(event.id, 'DH_fin')
     });
     
-
-  custumEventPS.subscribe("ListLoaded", this.initDispositif     );
-  custumEventPS.subscribe("ListLoaded", this.initDispositifGrids);
-   
-  custumEventPS.subscribe("DispositifEndOfEditionEvent", this.reloadDispositifLists );
+  PageBus.subscribe("list.loaded",  this, this.initDispositif     , null, null);
+  PageBus.subscribe("list.loaded",  this, this.initDispositifGrids, null, null);
+  
+  PageBus.subscribe("monitor.input.dispositif.endOfEditionEvent",  this, this.reloadDispositifLists     , null, null);
 };
 
 
@@ -245,7 +244,7 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
   Ext.get   ('DispositifEdit'         ).slideOut();
   Ext.getCmp('DispositifListEastPanel').expand  ();
   
-  custumEventPS.publish("DispositifEndOfEditionEvent",null);
+  PageBus.publish("monitor.input.dispositif.endOfEditionEvent",null);
 
   
 };

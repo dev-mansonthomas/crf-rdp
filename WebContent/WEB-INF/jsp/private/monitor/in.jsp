@@ -66,7 +66,7 @@ String contextPath = request.getContextPath();
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInput.js"> </script>
 
 
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/CustomEventPublishSubscribe.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/pagebus.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/utils.js"> </script>
     
 <script type="text/javascript">

@@ -3,7 +3,7 @@ var MonitorOutputDispositifCs = Class.create();
 MonitorOutputDispositifCs.prototype.initialize=function()
 {
   MonitorOutputDispositif.initScriptSession();
-  custumEventPS.subscribe("ListLoaded", this.initDispositifGrid);
+  PageBus.subscribe("list.loaded",  this, this.initDispositifGrid, null, null);
 };
 
 MonitorOutputDispositifCs.prototype.initDispositifGrid=function()

@@ -19,16 +19,19 @@ import fr.croixrouge.irp.model.monitor.rowMapper.DispositifRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.DispositifTicketRowMapper;
 import fr.croixrouge.irp.services.JDBCHelper;
 import fr.croixrouge.irp.services.equipier.EquipierService;
+import fr.croixrouge.irp.services.intervention.InterventionService;
 
 public class DispositifImpl extends JDBCHelper implements DispositifService
 {
-  private static Log        logger          = LogFactory.getLog(DispositifImpl.class);
-  private JdbcTemplate      jdbcTemplate    = null;
-  private EquipierService   equipierService = null;
+  private static Log          logger              = LogFactory.getLog(DispositifImpl.class);
+  private JdbcTemplate        jdbcTemplate        = null;
+  private EquipierService     equipierService     = null;
+  private InterventionService interventionService = null;
   
-  public DispositifImpl(JdbcTemplate  jdbcTemplate)
+  public DispositifImpl(JdbcTemplate  jdbcTemplate, InterventionService interventionService)
   {
-    this.jdbcTemplate = jdbcTemplate;
+    this.jdbcTemplate        = jdbcTemplate       ;
+    this.interventionService = interventionService;
   }
   public void setEquipierService(EquipierService equipierService)
   {
@@ -66,7 +69,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String dispositifSelectQuery = 
-    "SELECT  `id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`,                                                                \n" +
+    "SELECT  `id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`, `equipier_1_id` ,                                               \n" +
     "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                \n" +
     "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                \n" +
     "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`, `google_coords_lat`, `google_coords_long`,   \n" +
@@ -94,6 +97,15 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
                                                             new Object[]{new Integer(regulationId)},
                                                             new int   []{Types.INTEGER},
                                                             new DispositifRowMapper()); 
+    
+    for (Dispositif dispositif : dispositifs)
+    {
+      if(dispositif.getEquipierCi().getIdEquipier() != 0)
+        dispositif.setEquipierCi(this.equipierService.getEquipier(dispositif.getEquipierCi().getIdEquipier()));
+      
+      if(dispositif.getCurrentIntervention().getIdIntervention() != 0)
+        dispositif.setCurrentIntervention(interventionService.getInterventionTicket(dispositif.getCurrentIntervention().getIdIntervention()));
+    }
     
     return new ListRange(dispositifs.size(), dispositifs);
   }

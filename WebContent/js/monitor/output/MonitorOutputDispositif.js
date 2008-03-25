@@ -6,6 +6,17 @@ MonitorOutputDispositifCs.prototype.initialize=function()
   PageBus.subscribe("list.loaded",  this, this.initDispositifGrid, null, null);
 };
 
+/*
+
+{id:'dhDebutDCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
+{id:'dhFinDCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
+
+{name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+  
+  
+ * */
+
 MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 {
   var xg = Ext.grid;
@@ -22,34 +33,62 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
         totalProperty: 'totalCount',
                fields:
                    [
-                       {name: 'idDispositif'      , type: 'int'    },
-                       {name: 'idTypeDispositif'  , type: 'int'    },
-                       {name: 'idEtatDispositif'  , type: 'int'    },
-                       {name: 'idDelegation'      , type: 'int'    },
-                       {name: 'displayState'      , type: 'int'    },
-                       {name: 'creationTerminee'  , type: 'boolean'},
-                       {name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'indicatifVehicule' , type: 'string' },
-                       {name: 'autreDelegation'   , type: 'string' }
+                       {name: 'idDispositif'              , type: 'int'    },
+                       {name: 'idTypeDispositif'          , type: 'int'    },
+                       {name: 'idEtatDispositif'          , type: 'int'    },
+                       {name: 'idDelegation'              , type: 'int'    },
+                       {name: 'displayState'              , type: 'int'    },
+                       {name: 'dispositifBackWith3Girls'  , type: 'boolean'},
+                       {name: 'dispositifNotEnoughO2'     , type: 'boolean'},
+                       {name: 'indicatifVehicule'         , type: 'string' },
+                       {name: 'contactRadio'              , type: 'string' },
+                       {name: 'contactTel1'               , type: 'string' },
+                       {name: 'contactTel2'               , type: 'string' },
+                       {name: 'currentInterId'            , type: 'int'    },
+                       {name: 'googleCoordsLat'           , type: 'float'  },
+                       {name: 'googleCoordsLong'          , type: 'float'  },
+                       {name: 'currentAddresseRue'        , type: 'string' },
+                       {name: 'currentAddresseCodePostal' , type: 'string' },
+                       {name: 'currentAdresseVille'       , type: 'string' },
+                       {name: 'dhReception'               , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhDepart'                  , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhSurPlace'                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhBilanPrimaire'           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhBilanSecondaire'         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhQuitteLesLieux'          , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhArriveeHopital'          , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhDispo'                   , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhASaBase'                 , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhAppelRenfortMedical'     , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhArriveeRenfortMedical'   , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'}                       
+                       
                    ]
                })
            });
+
+           
+    var expander = new xg.RowExpander({
+        tpl : new Ext.Template(
+            '<p><b>id:</b> {idDispositif}<br>',
+            '<p><b>comments:</b> {displayState}</p>'
+        )
+    });
            
 
   var grid1 = new xg.GridPanel({
         id:'DispositifListGrid',
         store: dataStore1,
         cm: new xg.ColumnModel([
-            {id:'idDCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
-            {id:'indicatifVehiculeDCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
-            {id:'idTypeDispositifDCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:moDispositifCs.typeCellRenderer},
-            {id:'dhDebutDCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
-            {id:'dhFinDCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
-            {id:'idEtatDispositifDCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif' , renderer:moDispositifCs.etatDispositifCellRenderer}
+            {id:'indicatifVehiculeDCol'     , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
+            {id:'idTypeDispositifDCol'      , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif'  , renderer:moDispositifCs.typeCellRenderer},
+            {id:'contactRadioDispositifDCol', header: "Selectif Radio"  , width: 150, sortable: true, dataIndex: 'contactRadio'      },
+            {id:'contactTelsDispositifDCol' , header: "Téléphones"      , width: 150, sortable: true, dataIndex: 'contactTel1'       , renderer:moDispositifCs.contactTelsCellRenderer},
+            {id:'idEtatDispositifDCol'      , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'  , renderer:moDispositifCs.etatDispositifCellRenderer}
         ]),
         viewConfig: {
-            forceFit:true
+            forceFit:true,
+            enableRowBody:true,
+            getRowClass:moDispositifCs.buildDispositifRowBody
         },
         collapsible: false,
         animCollapse: false,
@@ -58,6 +97,14 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
         renderTo: 'center-dispositif-list'
     });
   grid1.getStore().load();
+};
+
+
+
+MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowIndex, p, ds)
+{
+  p.body='<p>coucou</p>';
+  return 'x-grid3-row-expanded';
 };
 
 MonitorOutputDispositifCs.prototype.etatDispositifCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
@@ -75,15 +122,9 @@ MonitorOutputDispositifCs.prototype.typeCellRenderer=function(value, metadata, r
     return "";
 };
 
-MonitorOutputDispositifCs.prototype.loadAllDispositif=function()
+MonitorOutputDispositifCs.prototype.contactTelsCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
-  MonitorOutputDispositif.getAllDispositif(moDispositifCs.loadAllDispositifReturn);
-};
-
-MonitorOutputDispositifCs.prototype.loadAllDispositifReturn=function(dispositifList)
-{
-  for(i=0,count=dispositifList.length; i<count; i++)
-    moDispositifCs.updateDispositif(dispositifList[i]);
+  return '<p>'+value+'</p><p>'+value+'</p>';
 };
 
 
@@ -100,94 +141,9 @@ MonitorOutputDispositifCs.prototype.addDispositif=function()
 
 MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 {
-  //TODO : authoriser les autres types une fois que les templates auront été fait.
-  if(dispositif.idTypeDispositif != null && dispositif.idTypeDispositif == 1)
-  {
-    if( $('dispositif_'+dispositif.idDispositif) == null)
-    {/*Si le dispositif n'existe pas sur la page on le créé*/
-      new Insertion.Bottom('center-dispositif-list',this.dispositifTemplates[dispositif.idTypeDispositif].evaluate({id:dispositif.idDispositif}));
-      $('dispositif_'+dispositif.idDispositif).style.display="block";
-    }
-  
-    dwr.util.setValue('dispositif_indicatif_'+dispositif.idDispositif, dispositif.indicatifVehicule);
-    dwr.util.setValue('dispositif_etat_'     +dispositif.idDispositif, crfIrpUtils.getLabelFor('EtatsDispositif', dispositif.idEtatDispositif));
-    dwr.util.setValue('dispositif_etat_id_'  +dispositif.idDispositif, dispositif.idEtatDispositif);
-  }
+  alert('ToDo');
 };
 
 MonitorOutputDispositifCs.prototype.computeNextState=function(currentState)
 {
 };
-
-
-MonitorOutputDispositifCs.prototype.dispositifTemplates = Array();
-/*Samu*/
-MonitorOutputDispositifCs.prototype.dispositifTemplates[1] = new Template('\
-<input type="hidden" id="dispositif_current_inter_id_#{id}" name="dispositif_current_inter_id_#{id}" value=""/>\
-<div        id="dispositif_#{id}"         class="samu_cadre" style="display:none;">\
-  <div      id="dispositif_cadre_entete_#{id}"  class="samu_cadre_entete">\
-    <table  id="dispositif_horaires_#{id}"      class="samu_horaires">\
-      <tr   id="dispositif_hour_list_#{id}"     class="samu_hour_list">\
-        <td id="dispositif_cadre_title_#{id}"   class="samu_cadre_title">\
-          SAMU - <span id="dispositif_indicatif_#{id}">XXXXX</span>\
-        </td>\
-        <th id="dispositif_call_title_#{id}"       class="samu_hour_title">Appel SAMU</th>\
-        <th id="dispositif_trans_title_#{id}"      class="samu_hour_title">Tr. ASM</th>\
-        <th id="dispositif_leave_title_#{id}"      class="samu_hour_title">d&eacute;part ASM</th>\
-        <th id="dispositif_present_title_#{id}"    class="samu_hour_title">ASM se pr&eacute;sente</th>\
-        <th id="dispositif_primaire_title_#{id}"   class="samu_hour_title">Primaire</th>\
-        <th id="dispositif_secondaire_title_#{id}" class="samu_hour_title">Secondaire</th>\
-        <th id="dispositif_transport_title_#{id}"  class="samu_hour_title">Transport vers H</th>\
-        <th id="dispositif_bilan_comp_title_#{id}" class="samu_hour_title">Bilan comp.</th>\
-        <th id="dispositif_hospital_title_#{id}"   class="samu_hour_title">Arriv&eacute; H.</th>\
-      </tr>\
-      <tr>\
-        <td id="dispositif_ci_#{id}" class="samu_ci">CI: Super CI\
-          <div id="dispositif_equip_#{id}" class="samu_equip">\
-            Chauffeur : Super Chauffeur<br/>\
-            CFA : Super CFA<br/>\
-            CFA : Super CFA<br/>\
-            CFA : Super CFA\
-          </div>\
-        </td> \
-        <td id="dispositif_call_#{id}"        class="samu_hour">88h88</td>\
-        <td id="dispositif_trans_#{id}"       class="samu_hour">88h88</td>\
-        <td id="dispositif_leave_#{id}"       class="samu_hour">88h88</td>\
-        <td id="dispositif_present_#{id}"     class="samu_hour">88h88</td>\
-        <td id="dispositif_primaire_#{id}"    class="samu_hour">88h88</td>\
-        <td id="dispositif_secondaire_#{id}"  class="samu_hour">88h88</td>\
-        <td id="dispositif_transport_#{id}"   class="samu_hour">88h88</td>\
-        <td id="dispositif_bilan_comp_#{id}"  class="samu_hour">88h88</td>\
-        <td id="dispositif_hospital_#{id}"    class="samu_hour">88h88</td>\
-      </tr>\
-    </table>\
-  </div>  \
-  <div   id="dispositif_buttons_#{id}" class="samu_buttons">\
-    <div class="samu_etat">\
-      <div class="label">\
-        Etat <input type="hidden" id="dispositif_etat_id_#{id}" name="dispositif_etat_id_#{id}" value=""/>\
-      </div>\
-      <div id="dispositif_etat_#{id}">--------</div>\
-    </div>\
-    <div  class="samu_action">\
-      <div class="label">\
-        Action\
-      </div>\
-        <div id="dispositif_action_#{id}">--------</div>\
-    </div>\
-    <div id="dispositif_editerFiche_#{id}" class="samu_editerFiche" onClick="monitorOutputCs.editFicheInter();">\
-      Editer fiche\
-    </div>\
-    <div class="samu_victime">\
-      <div class="label">\
-        victime\
-      </div>\
-      <div id="dispositif_victime_#{id}">no victim</div>\
-    </div>\
-    <div id="dispositif_address_#{id}" class="samu_address">\
-    -------\
-    </div>\
-  </div>\
-</div>\
-<br/>\
-');

@@ -29,12 +29,12 @@ String contextPath = request.getContextPath();
    Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
   </script>
   
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"> </script>
-  
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"   > </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/RowExpander.js"> </script>  
 <!-- DWR Ajax --> 
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Monitor.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorOutputDispositif.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"           > </script>
+  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Monitor.js"                  > </script>
+  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorOutputDispositif.js"  > </script>
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorOutputIntervention.js"> </script>  
  
 <!-- END of DWR Ajax -->  

@@ -101,8 +101,38 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 
 
 
-MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowIndex, p, ds)
+MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowIndex, p, dataStore)
 {
+/*
+ * 
+<table style="width:100%;">
+  <tr>
+    <td>
+      <div><span>CI : </span><span>Thomas Arecki&nbsp;&nbsp;&nbsp;&nbsp;</span><span>Intervention en cours :</span></div>
+    </td>
+    <td rowspan="2" style="width:130px;">
+      <input type="button" value="Action"   style="width:125px;height:50px;"/><br/>
+    </td>    
+    <td rowspan="2" style="width:130px;">
+      <input type="button" value="Editer Dispositif"   style="width:125px;"/><br/>
+      <input type="button" value="Editer Intervention" style="width:125px;"/>
+    </td>
+  </tr>
+  <tr>
+    <td style="border:solid #CA7173 1px;">
+       Pas d'intervention
+    </td>
+    </tr>
+  <tr> 
+    <td colspan="2" style="border-top:solid #9D9D9D 1px;">
+      Dernière Position : 121 rue édouard vaillant, 92100, Levallois
+    </td>  
+  </tr>
+</table>
+ * 
+ * */	
+	
+	
   p.body='<p>coucou</p>';
   return 'x-grid3-row-expanded';
 };
@@ -124,7 +154,7 @@ MonitorOutputDispositifCs.prototype.typeCellRenderer=function(value, metadata, r
 
 MonitorOutputDispositifCs.prototype.contactTelsCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
-  return '<p>'+value+'</p><p>'+value+'</p>';
+  return '<p>'+value+'</p><p>'+record.data.contactTel2+'</p>';
 };
 
 

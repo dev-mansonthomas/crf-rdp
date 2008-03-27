@@ -66,15 +66,6 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
                })
            });
 
-           
-    var expander = new xg.RowExpander({
-        tpl : new Ext.Template(
-            '<p><b>id:</b> {idDispositif}<br>',
-            '<p><b>comments:</b> {displayState}</p>'
-        )
-    });
-           
-
   var grid1 = new xg.GridPanel({
         id:'DispositifListGrid',
         store: dataStore1,
@@ -107,28 +98,31 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
  * 
 <table style="width:100%;">
   <tr>
-    <td>
-      <div><span>CI : </span><span>Thomas Arecki&nbsp;&nbsp;&nbsp;&nbsp;</span><span>Intervention en cours :</span></div>
+    <td style="height:11px;font-size:14px;">
+      <div><span>CI : </span><span>Thomas Arecki</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Intervention en cours :</span></div>
     </td>
     <td rowspan="2" style="width:130px;">
-      <input type="button" value="Action"   style="width:125px;height:50px;"/><br/>
+      <input type="button" value="Action"   style="width:130px;height:60px;"/><br/>
     </td>    
     <td rowspan="2" style="width:130px;">
-      <input type="button" value="Editer Dispositif"   style="width:125px;"/><br/>
-      <input type="button" value="Editer Intervention" style="width:125px;"/>
+      <input type="button" value="Editer Dispositif"   style="width:125px;height:27px;margin-bottom:5px;"/><br/>
+      <input type="button" value="Editer Intervention" style="width:125px;height:27px;"/>
     </td>
   </tr>
   <tr>
-    <td style="border:solid #CA7173 1px;">
+    <td style="border:solid #CA7173 1px;height:40px;vertical-align:top;">
        Pas d'intervention
     </td>
     </tr>
   <tr> 
     <td colspan="2" style="border-top:solid #9D9D9D 1px;">
-      Dernière Position : 121 rue édouard vaillant, 92100, Levallois
+      <span>Dernière Position :</span><span> 121 rue édouard vaillant, 92100, Levallois</span>
     </td>  
+    <td style="border-top:solid #9D9D9D 1px;">
+                          &nbsp;
+    </td>
   </tr>
-</table>
+</table> 
  * 
  * */	
 	

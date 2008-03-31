@@ -50,6 +50,14 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
                        {name: 'currentAddresseRue'        , type: 'string' },
                        {name: 'currentAddresseCodePostal' , type: 'string' },
                        {name: 'currentAdresseVille'       , type: 'string' },
+                       {name: 'equipierCi.idEquipier'             , type: 'string' },
+                       {name: 'equipierCi.nom'                    , type: 'string' },
+                       {name: 'equipierCi.prenom'                 , type: 'string' },
+                       {name: 'equipierCi.homme'                  , type: 'boolean' },
+                       {name: 'equipierCi.numNivol'               , type: 'string' },
+                       /*{name: 'equipierCi.delegation.idDelegation', type: 'int' },*/
+                       {name: 'currentInterId'               , type: 'int' },
+                       
                        {name: 'dhReception'               , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'dhDepart'                  , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'dhSurPlace'                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
@@ -83,7 +91,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
         },
         collapsible: false,
         animCollapse: false,
-        height:400,
+        height:1800,
         iconCls: 'icon-grid',
         renderTo: 'center-dispositif-list'
     });
@@ -94,41 +102,53 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 
 MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowIndex, p, dataStore)
 {
-/*
- * 
-<table style="width:100%;">
-  <tr>
-    <td style="height:11px;font-size:14px;">
-      <div><span>CI : </span><span>Thomas Arecki</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Intervention en cours :</span></div>
-    </td>
-    <td rowspan="2" style="width:130px;">
-      <input type="button" value="Action"   style="width:130px;height:60px;"/><br/>
-    </td>    
-    <td rowspan="2" style="width:130px;">
-      <input type="button" value="Editer Dispositif"   style="width:125px;height:27px;margin-bottom:5px;"/><br/>
-      <input type="button" value="Editer Intervention" style="width:125px;height:27px;"/>
-    </td>
-  </tr>
-  <tr>
-    <td style="border:solid #CA7173 1px;height:40px;vertical-align:top;">
-       Pas d'intervention
-    </td>
-    </tr>
-  <tr> 
-    <td colspan="2" style="border-top:solid #9D9D9D 1px;">
-      <span>Dernière Position :</span><span> 121 rue édouard vaillant, 92100, Levallois</span>
-    </td>  
-    <td style="border-top:solid #9D9D9D 1px;">
-                          &nbsp;
-    </td>
-  </tr>
-</table> 
- * 
- * */	
+  var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
+'  <tr>',
+'    <td style="height:11px;font-size:14px;">',
+'      <div><span>CI : </span><span>', record.data["equipierCi.nom"]+' '+record.data["equipierCi.prenom"] ,'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Intervention en cours :</span></div>',
+'    </td>',
+'    <td rowspan="2" style="width:130px;">',
+'      <input type="button" value="Action"   style="width:130px;height:60px;" onClick="moDispositifCs.action(',record.data.idDispositif,',',record.data.currentInterId,')"/><br/>',
+'    </td>',
+'    <td rowspan="2" style="width:130px;">',
+'      <input type="button" value="Editer Dispositif"    onClick="moDispositifCs.editDispositif(', record.data.idDispositif,')" style="width:125px;height:27px;margin-bottom:5px;"/><br/>',
+'      <input type="button" value="Editer Intervention"  onClick="moDispositifCs.editIntervention(',record.data.currentInterId,')" style="width:125px;height:27px;"/>',
+'    </td>',
+'  </tr>',
+'  <tr>',
+'    <td style="border:solid #CA7173 1px;height:40px;vertical-align:top;">',
+'coucou',
+'    </td>',
+'  </tr>',
+'  <tr>',
+'    <td colspan="2" style="border-top:solid #9D9D9D 1px;">',
+'      <span>Dernière Position : </span><span>',record.data.currentAddresseRue,', '+record.data.currentAddresseCodePostal,', '+record.data.currentAdresseVille,'</span>',
+'    </td>',
+'    <td style="border-top:solid #9D9D9D 1px;">',
+'<img src="',contextPath,'/img/famfamfam/map_magnify.png" class=""  onClick="moDispositifCs.showDispositif(',record.data.idDispositif,',',record.data.googleCoordsLat,',',record.data.googleCoordsLong,')"/>',
+'    </td>',
+'  </tr>',
+'</table>'];
 	
-	
-  p.body='<p>coucou</p>';
+  p.body=template.join('');
   return 'x-grid3-row-expanded';
+};
+
+MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif){
+  
+  this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
+  this.monitorInputWindow.miDispositifCs.editDispositif(idDispositif);
+};
+
+MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention){
+  alert(idIntervention);
+};
+MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention){
+  alert(idDispositif+ ' ' +idIntervention);
+  
+};
+MonitorOutputDispositifCs.prototype.showDispositif  =function(idDispositif, latitude, longitude){
+  alert(idDispositif+' '+latitude+' '+longitude);
 };
 
 MonitorOutputDispositifCs.prototype.etatDispositifCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
@@ -155,12 +175,6 @@ MonitorOutputDispositifCs.prototype.contactTelsCellRenderer=function(value, meta
 MonitorOutputDispositifCs.prototype.editFicheInter=function(idDispositif, idInter)
 {
   this.monitorInputWindow.monitorInputCs.testCrossWindow();
-};
-
-MonitorOutputDispositifCs.prototype.addDispositif=function()
-{
-  this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
-  this.monitorInputWindow.miDispositifCs.displayAddDispositif();
 };
 
 MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)

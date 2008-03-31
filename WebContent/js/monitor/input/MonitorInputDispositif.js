@@ -343,6 +343,12 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispo
 
 MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
 {
+  var centerRegion = Ext.getCmp('monitorInputCenterRegion');
+  var currentPanel = centerRegion.getActiveTab();
+
+  if(currentPanel.id != 'monitorInputDispositifPanel')
+    centerRegion.activate('monitorInputDispositifPanel');
+  
   Ext.getCmp('DispositifListEastPanel').collapse();
   this.resetDispositifForm();
   MonitorInputDispositif.getDispositif(idDispositif, this.editDispositifReturn);
@@ -351,7 +357,9 @@ MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
 MonitorInputDispositifCs.prototype.editDispositifReturn=function(Dispositif)
 {
   miDispositifCs.initDispositifForm(Dispositif);
-  Ext.get('DispositifEdit').slideIn();
+  var dispositifForm = Ext.get('DispositifEdit');
+  if(!dispositifForm.isVisible())
+    dispositifForm.slideIn();
 };
 
 MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)

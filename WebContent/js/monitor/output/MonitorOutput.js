@@ -68,12 +68,14 @@ function initLayout()
   
   
   var north = new Ext.BoxComponent({ // raw
+                    id:'monitorOutputNorthRegion',
                     region:'north',
                     el: 'north',
                     height:50
                 });
   
   var south = {
+                    id:'monitorOutputSouthRegion',
                     region:'south',
                     contentEl: 'south',
                     split:true,
@@ -87,6 +89,7 @@ function initLayout()
   //
   
   var west = {
+              id:'monitorOutputWestRegion',
               region:'west',
               id:'west-panel',
               title:'West',
@@ -103,6 +106,7 @@ function initLayout()
           };
   
   var center = new Ext.TabPanel({
+                    id:'monitorOutputCenterRegion',
                     region:'center',
                     deferredRender:false,
                     activeTab:0,
@@ -123,7 +127,7 @@ function initLayout()
                 });
   
   
-   var viewport = new Ext.Viewport({layout:'border', items:[north, south,west, south, center]});
+   var viewport = new Ext.Viewport({id:'monitorOutputViewPort',layout:'border', items:[north, south,west, south, center]});
   
   
   

@@ -97,6 +97,7 @@ function initLayout()
   
   
   var interventionPanel={
+      id:'monitorInputInterventionPanel',
       title: 'Gestion des Tickets d\'Interventions',
       closable:false,
       autoScroll:true,
@@ -157,6 +158,7 @@ function initLayout()
   };  
     
   var dispositifPanel={
+      id:'monitorInputDispositifPanel',
       contentEl:'DispositifPanel',
       title: 'Editeur de Dispositif',
       closable:false,
@@ -178,6 +180,7 @@ function initLayout()
     };
   
   var regulationPanel= {
+      id:'monitorInputRegulationPanel',
       contentEl:'RegulationPanel',
       title: 'Propriété de la Régulation',
       closable:false,
@@ -190,12 +193,14 @@ function initLayout()
 /****************NORTH/SOUTH/CENTER*************************/
   var north = new Ext.BoxComponent(
       { // raw
+        id:'monitorInputNorthRegion',
         region:'north',
         el: 'north',
         height:50
       });
   
   var south = {
+        id:'monitorInputSouthRegion',
         region:'south',
         contentEl: 'south',
         split:true,
@@ -211,6 +216,7 @@ function initLayout()
     
   var center = new Ext.TabPanel(
   {
+    id:'monitorInputCenterRegion',
     region:'center',
     deferredRender:false,
     activeTab:0,
@@ -221,6 +227,6 @@ function initLayout()
     ]
   });
 
-  var viewport = new Ext.Viewport({layout:'border',items:[ north, south, center]});
+  var viewport = new Ext.Viewport({id:'monitorInputViewPort',layout:'border',items:[ north, south, center]});
 
 }

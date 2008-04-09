@@ -18,3 +18,14 @@
   background-color:F2F2F2;
   text-align:right;
 }
+
+.dd-item
+{
+	z-index:999;
+	position:absolute;
+}
+.red
+{
+	width:50px;
+	height:50px;
+}

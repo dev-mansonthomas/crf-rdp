@@ -42,6 +42,7 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   
   dwr.util.setValue('interventionTicket_googleCoordsLat_'+intervention.idIntervention, intervention.googleCoordsLat);
   dwr.util.setValue('interventionTicket_googleCoordsLong_'+intervention.idIntervention, intervention.googleCoordsLong);
+  
 /*
   Ext.QuickTips.register({target:'interventionTicket_details_'+intervention.idIntervention,
                           showDelay: 10,

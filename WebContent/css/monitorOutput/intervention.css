@@ -21,11 +21,32 @@
 
 .dd-item
 {
-	z-index:999;
-	position:absolute;
+	z-index:1000;
+  border: 1px solid #a0a0a0;
+  background-color: #c4d0ff;
+  vertical-align: middle;
+  cursor: move;
+  padding: 2px;
 }
+
+.dd-ct .dd-item 
+{
+	margin: 2px;
+}
+.dd-proxy 
+{
+	opacity: 0.4;
+  -moz-opacity: 0.4;
+  filter: alpha(opacity=40);
+}
+.dd-over 
+{
+	background-color: #ffff60;
+}
+
 .red
 {
 	width:50px;
 	height:50px;
 }
+

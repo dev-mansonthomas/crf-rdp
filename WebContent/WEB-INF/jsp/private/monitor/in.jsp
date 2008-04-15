@@ -406,38 +406,40 @@ String contextPath = request.getContextPath();
               </tbody>
             </table>
             <table id="DispositifEquipierAddIHM">
-              <tr>
-                <th  id="DispositifEquipierAddIHMHeader">
-                  Ajouter Un Equipier
-                </th>
-              </tr>
-              <tr>
-                <td style="text-align:center;"  id="DispositifEquipierAddIHMInput">
-                  <div id="DispositifEquipierRoleToChoose">
-
-<select name="DispositifEquipierToAddRole" id="DispositifEquipierToAddRole"></select>&nbsp;&nbsp;&nbsp;Nivol&nbsp;:&nbsp;<input type="text" 
-                             id="DispositifEquipierAdd_Nivol" 
-                           name="DispositifEquipierAdd_Nivol" 
-                           size="38" 
-                        onFocus="miDispositifCs.displayCurrentEquipierRoleToAdd($('DispositifEquipierRoleToChoose').equipierRankToChoose);crfIrpUtils.fieldEdit(this.id);" />
-                  </div>
-                  <table>
-                    <tr>
-                      <td>
-                        &nbsp;Recherche par Nom&nbsp;:&nbsp;
-                      </td>
-                      <td>
-                        <input type="text" 
-                                id="DispositifEquipierAdd_Nom" 
-                              name="DispositifEquipierAdd_Nom" 
-                              size="35" 
-                           onFocus="miDispositifCs.displayCurrentEquipierRoleToAdd($('DispositifEquipierRoleToChoose').equipierRankToChoose);crfIrpUtils.fieldEdit(this.id)" />
-                           <div id="DispositifEquipierAdd_SelectList" class="auto_complete" style="width:250px;"></div> 
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
+              <tbody id="DispositifEquipierAddIHM_tBody">
+                <tr>
+                  <th  id="DispositifEquipierAddIHMHeader">
+                    Ajouter Un Equipier
+                  </th>
+                </tr>
+                <tr>
+                  <td style="text-align:center;"  id="DispositifEquipierAddIHMInput">
+                    <div id="DispositifEquipierRoleToChoose">
+  
+                      <select name="DispositifEquipierToAddRole" id="DispositifEquipierToAddRole"></select>&nbsp;&nbsp;&nbsp;Nivol&nbsp;:&nbsp;<input type="text" 
+                               id="DispositifEquipierAdd_Nivol" 
+                             name="DispositifEquipierAdd_Nivol" 
+                             size="38" 
+                          onFocus="miDispositifCs.displayCurrentEquipierRoleToAdd($('DispositifEquipierRoleToChoose').equipierRankToChoose);crfIrpUtils.fieldEdit(this.id);" />
+                    </div>
+                    <table>
+                      <tr>
+                        <td>
+                          &nbsp;Recherche par Nom&nbsp;:&nbsp;
+                        </td>
+                        <td>
+                          <input type="text" 
+                                  id="DispositifEquipierAdd_Nom" 
+                                name="DispositifEquipierAdd_Nom" 
+                                size="35" 
+                             onFocus="miDispositifCs.displayCurrentEquipierRoleToAdd($('DispositifEquipierRoleToChoose').equipierRankToChoose);crfIrpUtils.fieldEdit(this.id)" />
+                             <div id="DispositifEquipierAdd_SelectList" class="auto_complete" style="width:250px;"></div> 
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </fieldset>
          <!-- FIN Ajout/Suppression D'équipier-->

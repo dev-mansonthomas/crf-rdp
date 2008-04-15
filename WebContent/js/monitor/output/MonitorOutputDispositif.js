@@ -85,15 +85,25 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
             {id:'idEtatDispositifDCol'      , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'  , renderer:moDispositifCs.etatDispositifCellRenderer}
         ]),
         viewConfig: {
-            forceFit:true,
-            enableRowBody:true,
-            getRowClass:moDispositifCs.buildDispositifRowBody
+            forceFit      :true,
+            enableRowBody :true,
+            getRowClass   :moDispositifCs.buildDispositifRowBody
         },
-        collapsible: false,
+        tbar        :[{
+            text:'Init Dropzone',
+            tooltip:'Init drop zone',
+            iconCls:'downloadSelected',
+            handler: function(button,event)
+            {
+              MonitorOutputDispositifCs.prototype.initDropZone();
+            }
+       }
+        ],
+        collapsible : false,
         animCollapse: false,
-        height:1800,
-        iconCls: 'icon-grid',
-        renderTo: 'center-dispositif-list'
+        height      : 1800,
+        iconCls     : 'icon-grid',
+        renderTo    : 'center-dispositif-list'
     });
   grid1.getStore().load();
 };
@@ -102,6 +112,15 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 
 MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowIndex, p, dataStore)
 {
+  var detailIntervention = 'Aucune intervention en cours';
+  
+  if(record.data.currentInterId != 0)
+  {
+    var detailIntervention=['<span> Origine : ',crfIrpUtils.getLabelFor('OriginesIntervention',record.json.currentIntervention.idOrigine),'</span>', 
+                            '<span> Motif   : ',crfIrpUtils.getLabelFor('MotifsIntervention'  ,record.json.currentIntervention.idMotif  ),'</span>', 
+                            '<span> Adresse : ',record.json.currentIntervention.rue, ' ', record.json.currentIntervention.codePostal, ' ', record.json.currentIntervention.ville,'</span>'].join('');
+  }
+  
   var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
 '  <tr>',
 '    <td style="height:11px;font-size:14px;">',
@@ -116,8 +135,8 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
 '    </td>',
 '  </tr>',
 '  <tr>',
-'    <td style="border:solid #CA7173 1px;height:40px;vertical-align:top;">',
-'coucou',
+'    <td class="interventionDropZone" id="dispositifDz_',record.data.idTypeDispositif,'_',record.data.idDispositif,'_',rowIndex,'">',
+detailIntervention,
 '    </td>',
 '  </tr>',
 '  <tr>',
@@ -129,9 +148,17 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
 '    </td>',
 '  </tr>',
 '</table>'];
-	
   p.body=template.join('');
   return 'x-grid3-row-expanded';
+};
+
+MonitorOutputDispositifCs.prototype.initDropZone  =function(){
+
+  var store = Ext.getCmp('DispositifListGrid').getStore();
+  var rowIndex = 0;
+  store.each(function(rowData){
+    Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.json.idTypeDispositif+'_'+rowData.json.idDispositif+'_'+rowIndex,rowIndex++, rowData.json);
+  });
 };
 
 MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif){
@@ -184,4 +211,28 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 
 MonitorOutputDispositifCs.prototype.computeNextState=function(currentState)
 {
+};
+
+
+MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggableElement, dropZoneData)
+{
+  var draggedElementId = draggableElement.id;
+  var intervention     = draggableElement.intervention;
+  
+  var dropZoneId       = dropZoneData.id;
+  var dispositifData   = dropZoneData.dispositif;
+
+  var callMetaData = {
+    callback:MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn,
+    args:{draggedElementId:draggedElementId,dropZoneId:dropZoneId, idIntervention:intervention.idIntervention, dispositifId:dispositifData.idDispositif}
+  };
+  
+  MonitorOutputDispositif.setInterventionToDispositif(intervention.idIntervention, dispositifData.idDispositif, callMetaData);
+};
+
+MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(serverData, metaData)
+{
+  var westPanel = Ext.getCmp('west-panel');
+  westPanel.remove('interventionTicket_'+metaData.idIntervention);
+  
 };

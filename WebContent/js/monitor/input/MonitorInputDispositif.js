@@ -257,6 +257,7 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
     dwr.util.setValue(this.fieldList[i], '');
 
   dwr.util.removeAllOptions('DispositifEquipierToAddRole');
+  $('DispositifEquipierAddIHM').style.display='block';
 };
 
 MonitorInputDispositifCs.prototype.fieldList = [ 

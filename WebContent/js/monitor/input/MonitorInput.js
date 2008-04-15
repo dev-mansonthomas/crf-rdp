@@ -189,6 +189,9 @@ function initLayout()
   
     
 
+/********************BILAN*EDITOR*****************************/    
+    
+    
     
 /****************NORTH/SOUTH/CENTER*************************/
   var north = new Ext.BoxComponent(

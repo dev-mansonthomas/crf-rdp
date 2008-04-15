@@ -38,6 +38,30 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     this.equipierService = equipierService;
   }
   
+  private final static String queryForAffectInterventionToDispositif =
+    "UPDATE dispositif                    \n" +
+    "SET    id_current_intervention   = ?,\n" +
+    "       id_etat_dispositif        = 5,\n" +
+    "       DH_reception              = ? \n" +
+    "WHERE  id_dispositif             = ? \n";
+  
+  
+  public void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception
+  {
+
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+"");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
+        new Object[]{idIntervention , dateAffectation, idDispositif }, 
+        new int   []{Types.INTEGER  , Types.TIMESTAMP, Types.INTEGER}
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+" (line updated = '"+nbLineUpdated+"')");
+  }
+  
+  
   private final static String queryForGetEquipierIdAndRoleOfDispositif=
     "SELECT  `equipier_1_id`     , `equipier_2_id`     , `equipier_3_id`     , `equipier_4_id`  , `equipier_5_id`  ,\n" +
     "        `equipier_1_role`   , `equipier_2_role`   , `equipier_3_role`   , `equipier_4_role`, `equipier_5_role` \n" +

@@ -28,8 +28,13 @@
   cursor: move;
   padding: 2px;
 }
-
-.dd-ct .dd-item 
+.interventionDropZone {
+  border: 1px solid silver;
+  vertical-align:top;
+  height:40px;
+  background-color: #ffffc0;
+}
+.dd-item 
 {
 	margin: 2px;
 }

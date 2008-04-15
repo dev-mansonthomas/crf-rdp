@@ -51,6 +51,7 @@ String contextPath = request.getContextPath();
 <!--business code -->
   <script type="text/javascript" src="<%=contextPath%>/js/googlemap/googleMap.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutput.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputDragAndDropHandler.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputIntervention.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputDispositif.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/pagebus.js"> </script>

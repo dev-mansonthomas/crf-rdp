@@ -31,7 +31,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
   private final static String selectForInteventionTicket = 
     "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` , \n" +
-    "        `id_motif`       , `DH_reception` , `rue`          , `code_postal`, \n" +
+    "        `id_motif`       , `DH_saisie`    , `rue`          , `code_postal`, \n" +
     "        `ville`          , `batiment`     , `etage`        , `porte`      , \n" +
     "        `complement_adresse`, `complement_motif`, `google_coords_lat`, `google_coords_long`,\n" +
     "        `nom_victime`       , `nom_contact_sur_place`, `coordonnees_contact`\n" +
@@ -123,7 +123,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
 
   private final static String queryForCreateEmptyIntervention = 
     "INSERT INTO `intervention`\n"+
-    "  (`id_dispositif`, `id_origine`, `id_motif`, `id_regulation`, `DH_reception`, `num_inter`)\n"+
+    "  (`id_dispositif`, `id_origine`, `id_motif`, `id_regulation`, `DH_saisie`, `num_inter`)\n"+
     "VALUES\n"+
     "  ( 0, 0, 0, ?, ?, 0)\n";
 
@@ -159,6 +159,30 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   }
   
   
+  private final static String queryForAffectInterventionToDispositif =
+    "UPDATE intervention        \n" +
+    "SET    id_dispositif   = ?,\n" +
+    "       DH_reception    = ?,\n" +
+    "       id_etat         = 2 \n" +
+    "WHERE  id_intervention = ? \n";
+  
+  
+  public void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception
+  {
+
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+idIntervention+"' has been assigned to dispositif "+idDispositif+"");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
+        new Object[]{idDispositif , dateAffectation, idIntervention}, 
+        new int   []{Types.INTEGER, Types.TIMESTAMP, Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+idIntervention+"' has been assigned to dispositif "+idDispositif+" (line updated = '"+nbLineUpdated+"')");
+  }
+  
+  
   
   private final static String queryForUpdateGoogleCoordinates = 
     "UPDATE intervention          \n"+
@@ -167,6 +191,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "WHERE  id_intervention   = ? \n";
   public void updateGoogleCoordinates(float latitude, float longitude, int idIntervention) throws Exception
   {
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+idIntervention+"' has its coordinates (lat,long) beeing udpdated with values ('"+latitude+"','"+longitude+"')");
+
     int nbLineUpdated = this.jdbcTemplate.update( queryForUpdateGoogleCoordinates, 
         new Object[]{latitude   , longitude  , idIntervention}, 
         new int   []{Types.FLOAT, Types.FLOAT, Types.INTEGER }

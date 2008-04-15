@@ -127,20 +127,7 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
   westPanel.add(tab);
   westPanel.doLayout();
 
-Ext.override(Ext.dd.DDProxy, {
-    startDrag: function(x, y) {
-        var dragEl = Ext.get(this.getDragEl());
-        var el = Ext.get(this.getEl());
- 
-        dragEl.applyStyles({border:'','z-index':2000});
-        dragEl.update(el.dom.innerHTML);
-        dragEl.addClass(el.dom.className + ' dd-proxy');
-    }
-});
-  
-	var dd11 = Ext.get('interventionTicket_dragAndDrop_'+intervention.idIntervention);
-  dd11.dd = new Ext.dd.DDProxy('interventionTicket_dragAndDrop_'+intervention.idIntervention, 'group');
-    
+  Ext.ux.MonitorOutput.dd.addDraggable('interventionTicket_dragAndDrop_'+intervention.idIntervention, intervention);
 };
 
 
@@ -178,7 +165,7 @@ MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template('\
 <img src="'+contextPath+'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="crfGoogleMap.showOnMap($(\'interventionTicket_googleCoordsLat_#{id}\').value,$(\'interventionTicket_googleCoordsLong_#{id}\').value)"/>\
 <img src="'+contextPath+'/img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>\
 <img src="'+contextPath+'/img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>\
-<img src="'+contextPath+'/img/monitorOutput/blesse.jpg"  id="interventionTicket_dragAndDrop_#{id}" class="dd-item"/>\
+<div id="interventionTicket_dragAndDrop_#{id}"><img src="'+contextPath+'/img/monitorOutput/blesse.jpg"  class="dd-item"/></div>\
 '
 );
 MonitorOutputInterventionCs.prototype.interventionTemplates[0] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;

@@ -31,6 +31,7 @@ values
 ('Indispo - Matériel incomplet'),
 ('Indisponible'),
 ('Dispo'),
+('Intervention Affectée'),
 ('Parti'),
 ('Sur Place'),
 ('Primaire passé'),
@@ -40,7 +41,7 @@ values
 ('A sa base'),
 ('N/A');
 
-update dispositif_etat set id_etat = 0 where id_etat = 12;
+update dispositif_etat set id_etat = 0 where id_etat = 13;
 
 insert into dispositif_type (label_type)
 values
@@ -134,11 +135,17 @@ insert into intervention_etat (label_etat)
 values
 ('Non Affecté'),
 ('Affecté'),
+('Dispositif Parti'),
+('Dispositif Sur Place'),
+('Primaire passé'),
+('Secondaire passé'),
+('Transport'),
+('Arrivé à l''Hopital'),
 ('Terminé'),
 ('Annulé'),
 ('En cours de création');
 
-update intervention_etat set id_etat = 0 where id_etat = 5;
+update intervention_etat set id_etat = 0 where id_etat = 11;
 
 -- Insert test data
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
@@ -186,6 +193,9 @@ values
 (0, '224323', true , 'Legualle'   , 'Philippe'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
 (0, '224324', true , 'Legualle1'   , 'Philippe1'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
 (0, '224325', true , 'Legualle2'   , 'Philippe2'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
-(0, '224326', true , 'Legualle3'   , 'Philippe3'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 );
+(0, '224326', true , 'Legualle3'   , 'Philippe3'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
+(0, '224327', true , 'Legualle4'   , 'Philippe4'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
+(0, '224328', true , 'Legualle5'   , 'Philippe5'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
+(0, '224329', true , 'Legualle6'   , 'Philippe6'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 );
 
 commit;

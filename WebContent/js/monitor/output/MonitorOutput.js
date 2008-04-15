@@ -21,6 +21,7 @@ MonitorOutputCs.prototype.updateClock = function (clockTime)
 var monitorOutputCs   = null;
 var moInterventionCs  = null;
 var moDispositifCs    = null;
+var moDDH             = null;
 var crfGoogleMap      = null;
 
 var iconPath = contextPath+'/img/famfamfam/';
@@ -31,7 +32,7 @@ function init()
   moInterventionCs  = new MonitorOutputInterventionCs ();
   monitorOutputCs   = new MonitorOutputCs             ();
   crfGoogleMap      = new CrfGoogleMap                ();
-
+  Ext.ux.MonitorOutput.dd.init();
   
   crfIrpUtils.getAllList();
   initLayout();

@@ -60,8 +60,7 @@ Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
             callback.call(scope, null, arg, false);
             return;
         }
-        //this.fireEvent("load", this, o, o.request.arg);
-        callback.call(scope, result, arg, true);
+        callback.call (scope, result, arg, true);
     },
     
     

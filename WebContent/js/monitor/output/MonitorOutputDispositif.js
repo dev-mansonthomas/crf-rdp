@@ -22,6 +22,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
   var xg = Ext.grid;
   
   var dataStore1 = new Ext.data.Store({
+       listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone },
            proxy: new Ext.ux.rs.data.DwrProxy({
                call: MonitorOutputDispositif.getAllDispositif,
                args: [],
@@ -152,11 +153,10 @@ detailIntervention,
   return 'x-grid3-row-expanded';
 };
 
-MonitorOutputDispositifCs.prototype.initDropZone  =function(){
-
-  var store = Ext.getCmp('DispositifListGrid').getStore();
+MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, options)
+{
   var rowIndex = 0;
-  store.each(function(rowData){
+  records.each(function(rowData){
     Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.json.idTypeDispositif+'_'+rowData.json.idDispositif+'_'+rowIndex,rowIndex++, rowData.json);
   });
 };

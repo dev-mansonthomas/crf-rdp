@@ -1,7 +1,7 @@
 insert into delegation (nom, departement)
 values
 ('National'      ,'00000'),
-('Département 75','75000'),
+('DÃ©partement 75','75000'),
 ('PARIS-I'       ,'75001'),
 ('PARIS-III'     ,'75003'),
 ('PARIS-IV'      ,'75004'),
@@ -28,16 +28,16 @@ update delegation set id_delegation=0 where id_delegation = 22;
 insert into dispositif_etat (label_etat)
 values
 ('Indispo - Equipage incomplet'),
-('Indispo - Matériel incomplet'),
+('Indispo - MatÃ©riel incomplet'),
 ('Indisponible'),
 ('Dispo'),
-('Intervention Affectée'),
+('Intervention AffectÃ©e'),
 ('Parti'),
 ('Sur Place'),
-('Primaire passé'),
-('Secondaire passé'),
+('Primaire passÃ©'),
+('Secondaire passÃ©'),
 ('Transport'),
-('Arrivé à l''Hopital'),
+('ArrivÃ© Ã  l''Hopital'),
 ('A sa base'),
 ('N/A');
 
@@ -67,8 +67,8 @@ update equipier_role set id_role = 0 where id_role = 6;
 insert into user_role (label_role, code_role)
 values
 ('Administrateur', 'ADMINISTRATEUR'),
-('Régulateur'    , 'REGULATEUR'    ),
-('Co-Régulateur' , 'CO-REGULATEUR' ),
+('RÃ©gulateur'    , 'REGULATEUR'    ),
+('Co-RÃ©gulateur' , 'CO-REGULATEUR' ),
 ('Observateur'   , 'OBSERVATEUR'   ),
 ('N/A'           , 'N/A'           );
 
@@ -112,7 +112,7 @@ values
   ('BSPP'),
   ('Poste de Secours'),
   ('Point d''Alerte'),
-  ('Se présente'),
+  ('Se prÃ©sente'),
   ('Autre'),
   ('N/A');
 
@@ -122,7 +122,7 @@ insert into intervention_motif
   (label_motif)
 values
   ('Personne Malade'),
-  ('Personne Blessée'),
+  ('Personne BlessÃ©e'),
   ('AVP'),
   ('Malaise'),
   ('Autre'),
@@ -130,20 +130,20 @@ values
 
 update intervention_motif set id_motif = 0 where id_motif = 6;
 
--- etat_intervention -1: intervention annnulée, 0:en cours de création, 1: création terminée, 2:intervention affectée, 3:intervention terminée
+-- etat_intervention -1: intervention annnulÃ©e, 0:en cours de crÃ©ation, 1: crÃ©ation terminÃ©e, 2:intervention affectÃ©e, 3:intervention terminÃ©e
 insert into intervention_etat (label_etat)
 values
-('Non Affecté'),
-('Affecté'),
+('Non AffectÃ©'),
+('AffectÃ©'),
 ('Dispositif Parti'),
 ('Dispositif Sur Place'),
-('Primaire passé'),
-('Secondaire passé'),
+('Primaire passÃ©'),
+('Secondaire passÃ©'),
 ('Transport'),
-('Arrivé à l''Hopital'),
-('Terminé'),
-('Annulé'),
-('En cours de création');
+('ArrivÃ© Ã  l''Hopital'),
+('TerminÃ©'),
+('AnnulÃ©'),
+('En cours de crÃ©ation');
 
 update intervention_etat set id_etat = 0 where id_etat = 11;
 
@@ -153,11 +153,11 @@ values
 ('75233A', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson'     , 'Thomas'    , 4, '', 1, 0 ),
 ('111111', false, '033bd94b1168d7e4f0d644c3c95e35bf','Arecki'     , 'Thomas'    , 4, '', 2, 0 ),
 ('222222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Escoube'    , 'Raphaelle' , 4, '', 3, 0 ),
-('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Coutant'    , 'Séverine'  , 4, '', 3, 0 ),
+('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Coutant'    , 'SÃ©verine'  , 4, '', 3, 0 ),
 ('224333', true , '033bd94b1168d7e4f0d644c3c95e35bf','Philipakis' , 'Alexandre' , 4, '', 3, 0 ),
 ('224334', true , '033bd94b1168d7e4f0d644c3c95e35bf','Phills'     , 'Richard'   , 4, '', 3, 0 ),
 ('224344', true , '033bd94b1168d7e4f0d644c3c95e35bf','Poules'     , 'Titi'      , 4, '', 3, 0 ),
-('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Sergent'    , 'Stéphanie' , 4, '', 2, 0 ),
+('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Sergent'    , 'StÃ©phanie' , 4, '', 2, 0 ),
 ('224336', true , '033bd94b1168d7e4f0d644c3c95e35bf','Valet'      , 'Fabien'    , 4, '', 3, 0 ),
 ('224337', false, '033bd94b1168d7e4f0d644c3c95e35bf','Soulas'     , 'Marine'    , 4, '', 4, 0 ),
 ('222223', true , '033bd94b1168d7e4f0d644c3c95e35bf','Legualle'   , 'Philippe'  , 4, '', 1, 0 );
@@ -166,10 +166,10 @@ values
 
 insert into regulation (`start_date` ,`expected_end_date` ,`open`,`id_regulateur`,`label` ,`comment` )
 values
-(NOW()            , ADDDATE(NOW(),1 ), true , 2, 'Régulation Paris' , 'Régulation de Test'),
-(NOW()            , ADDDATE(NOW(),1 ), true , 3, 'Marathon de Paris', 'Régulation de Test'),
-(ADDDATE(NOW(),-2), ADDDATE(NOW(),-1), false, 2, 'Régulation Paris' , 'Régulation de Test'),
-(ADDDATE(NOW(),-3), ADDDATE(NOW(),-2), false, 2, 'Régulation Paris' , 'Régulation de Test');
+(NOW()            , ADDDATE(NOW(),1 ), true , 2, 'RÃ©gulation Paris' , 'RÃ©gulation de Test'),
+(NOW()            , ADDDATE(NOW(),1 ), true , 3, 'Marathon de Paris', 'RÃ©gulation de Test'),
+(ADDDATE(NOW(),-2), ADDDATE(NOW(),-1), false, 2, 'RÃ©gulation Paris' , 'RÃ©gulation de Test'),
+(ADDDATE(NOW(),-3), ADDDATE(NOW(),-2), false, 2, 'RÃ©gulation Paris' , 'RÃ©gulation de Test');
 
 
 
@@ -182,13 +182,13 @@ values
 (0, '75233A', true , 'Manson'     , 'Thomas'    , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 4, 0, 0 ),
 (0, '224311', true , 'Arecki'     , 'Thomas'    , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 0, 0 ),
 (0, '224321', false, 'Escoube'    , 'Raphaelle' , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 5, 0, 0 ),
-(0, '224322', false, 'Coutant'    , 'Séverine'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 4, 0, 0 ),
+(0, '224322', false, 'Coutant'    , 'SÃ©verine'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 4, 0, 0 ),
 (0, '224333', true , 'Philipakis' , 'Alexandre' , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 4, 0, 0 ),
 (0, '224334', true , 'Phills'     , 'Richard'   , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 3, 0, 0 ),
 (0, '224344', true , 'Poules'     , 'Titi'      , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 3, 0, 0 ),
-(0, '224345', true , 'Doré'       , 'Bastien'   , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 2, 0, 0 ),
-(0, '224335', false, 'Sergent'    , 'Stéphanie' , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 0, 0 ),
-(0, '224336', true , 'Valet'      , 'Sébastien' , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
+(0, '224345', true , 'DorÃ©'       , 'Bastien'   , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 2, 0, 0 ),
+(0, '224335', false, 'Sergent'    , 'StÃ©phanie' , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 0, 0 ),
+(0, '224336', true , 'Valet'      , 'SÃ©bastien' , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
 (0, '224337', false, 'Soulas'     , 'Marine'    , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 4, 0, 0 ),
 (0, '224323', true , 'Legualle'   , 'Philippe'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),
 (0, '224324', true , 'Legualle1'   , 'Philippe1'  , MAKEDATE(1970, 1), MAKEDATE(1970, 1),6,'', 1, 3, 0 ),

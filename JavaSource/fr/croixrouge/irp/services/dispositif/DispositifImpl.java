@@ -138,16 +138,28 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   "WHERE   id_dispositif=?\n" +
   "AND     id_regulation=?\n";
   
+
+  public Dispositif getDispositif(int idRegulation, int disposifitId) throws Exception
+  {
+    return this.getDispositif(idRegulation, disposifitId, true);
+  }
   
   @SuppressWarnings("unchecked")
-  public Dispositif getDispositif(int idRegulation, int disposifitId) throws Exception
+  public Dispositif getDispositif(int idRegulation, int disposifitId, boolean withEquipierList) throws Exception
   {
     Dispositif dispositif = (Dispositif)this.jdbcTemplate.queryForObject(queryForGetDispositif, 
                                                     new Object[]{disposifitId , idRegulation},
                                                     new int   []{Types.INTEGER, Types.INTEGER},
                                                     new DispositifRowMapper());
     
-    dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(idRegulation, disposifitId));
+    if(dispositif.getEquipierCi().getIdEquipier() != 0)
+      dispositif.setEquipierCi(this.equipierService.getEquipier(dispositif.getEquipierCi().getIdEquipier()));
+    
+    if(dispositif.getCurrentIntervention().getIdIntervention() != 0)
+      dispositif.setCurrentIntervention(interventionService.getInterventionTicket(dispositif.getCurrentIntervention().getIdIntervention()));
+
+    if(withEquipierList)
+      dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(idRegulation, disposifitId));
     
     return dispositif;
   }

@@ -81,7 +81,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     this.dispositifService.updateDispositifBooleanField (idDispositif, "creation_terminee", true);
     this.dispositifService.updateEtatDispositif         (idDispositif, idEtatDispositif);
 
-    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
+    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
     
     
     ScriptBuffer script = new ScriptBuffer();

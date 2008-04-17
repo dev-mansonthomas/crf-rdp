@@ -1,3 +1,48 @@
+
+
+ var DispositifRecord = Ext.data.Record.create(
+                         {name: 'idDispositif'                  , mapping: 'idDispositif'                 },
+                         {name: 'idTypeDispositif'              , mapping: 'idTypeDispositif'             },
+                         {name: 'idEtatDispositif'              , mapping: 'idEtatDispositif'             },
+                         {name: 'idDelegation'                  , mapping: 'idDelegation'                 },
+                         {name: 'displayState'                  , mapping: 'displayState'                 },
+                         {name: 'dispositifBackWith3Girls'      , mapping: 'dispositifBackWith3Girls'     },
+                         {name: 'dispositifNotEnoughO2'         , mapping: 'dispositifNotEnoughO2'        },
+                         {name: 'indicatifVehicule'             , mapping: 'indicatifVehicule'            },
+                         {name: 'contactRadio'                  , mapping: 'contactRadio'                 },
+                         {name: 'contactTel1'                   , mapping: 'contactTel1'                  },
+                         {name: 'contactTel2'                   , mapping: 'contactTel2'                  },
+                         {name: 'currentInterId'                , mapping: 'currentInterId'               },
+                         {name: 'googleCoordsLat'               , mapping: 'googleCoordsLat'              },
+                         {name: 'googleCoordsLong'              , mapping: 'googleCoordsLong'             },
+                         {name: 'currentAddresseRue'            , mapping: 'currentAddresseRue'           },
+                         {name: 'currentAddresseCodePostal'     , mapping: 'currentAddresseCodePostal'    },
+                         {name: 'currentAdresseVille'           , mapping: 'currentAdresseVille'          },
+                         {name: 'equipierCi.idEquipier'         , mapping: 'equipierCi.idEquipier'        },
+                         {name: 'equipierCi.nom'                , mapping: 'equipierCi.nom'               },
+                         {name: 'equipierCi.prenom'             , mapping: 'equipierCi.prenom'            },
+                         {name: 'equipierCi.homme'              , mapping: 'equipierCi.homme'             },
+                         {name: 'equipierCi.numNivol'           , mapping: 'equipierCi.numNivol'          },
+                         {name: 'currentInterId'                , mapping: 'currentInterId'               },
+                         {name: 'dhReception'                   , mapping: 'dhReception'                  },
+                         {name: 'dhDepart'                      , mapping: 'dhDepart'                     },
+                         {name: 'dhSurPlace'                    , mapping: 'dhSurPlace'                   },
+                         {name: 'dhBilanPrimaire'               , mapping: 'dhBilanPrimaire'              },
+                         {name: 'dhBilanSecondaire'             , mapping: 'dhBilanSecondaire'            },
+                         {name: 'dhQuitteLesLieux'              , mapping: 'dhQuitteLesLieux'             },
+                         {name: 'dhArriveeHopital'              , mapping: 'dhArriveeHopital'             },
+                         {name: 'dhDispo'                       , mapping: 'dhDispo'                      },
+                         {name: 'dhASaBase'                     , mapping: 'dhASaBase'                    },
+                         {name: 'dhAppelRenfortMedical'         , mapping: 'dhAppelRenfortMedical'        },
+                         {name: 'dhArriveeRenfortMedical'       , mapping: 'dhArriveeRenfortMedical'      },
+                         {name:'currentIntervention.idOrigine'  , mapping:'currentIntervention.idOrigine' },
+                         {name:'currentIntervention.idMotif'    , mapping:'currentIntervention.idMotif'   },
+                         {name:'currentIntervention.rue'        , mapping:'currentIntervention.rue'       },
+                         {name:'currentIntervention.codePostal' , mapping:'currentIntervention.codePostal'},
+                         {name:'currentIntervention.ville'      , mapping:'currentIntervention.ville'     }
+                       );
+
+
 var MonitorOutputDispositifCs = Class.create();
 
 MonitorOutputDispositifCs.prototype.initialize=function()
@@ -13,14 +58,14 @@ MonitorOutputDispositifCs.prototype.initialize=function()
 
 {name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
 {name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-  
-  
+
+
  * */
 
 MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 {
   var xg = Ext.grid;
-  
+
   var dataStore1 = new Ext.data.Store({
        listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone },
            proxy: new Ext.ux.rs.data.DwrProxy({
@@ -51,14 +96,14 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
                        {name: 'currentAddresseRue'        , type: 'string' },
                        {name: 'currentAddresseCodePostal' , type: 'string' },
                        {name: 'currentAdresseVille'       , type: 'string' },
-                       {name: 'equipierCi.idEquipier'             , type: 'string' },
-                       {name: 'equipierCi.nom'                    , type: 'string' },
-                       {name: 'equipierCi.prenom'                 , type: 'string' },
-                       {name: 'equipierCi.homme'                  , type: 'boolean' },
-                       {name: 'equipierCi.numNivol'               , type: 'string' },
+                       {name: 'equipierCi.idEquipier'     , type: 'string' },
+                       {name: 'equipierCi.nom'            , type: 'string' },
+                       {name: 'equipierCi.prenom'         , type: 'string' },
+                       {name: 'equipierCi.homme'          , type: 'boolean' },
+                       {name: 'equipierCi.numNivol'       , type: 'string' },
                        /*{name: 'equipierCi.delegation.idDelegation', type: 'int' },*/
-                       {name: 'currentInterId'               , type: 'int' },
-                       
+                       {name: 'currentInterId'            , type: 'int' },
+
                        {name: 'dhReception'               , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'dhDepart'                  , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'dhSurPlace'                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
@@ -69,8 +114,18 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
                        {name: 'dhDispo'                   , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'dhASaBase'                 , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'dhAppelRenfortMedical'     , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhArriveeRenfortMedical'   , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'}                       
-                       
+                       {name: 'dhArriveeRenfortMedical'   , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+
+                       {name:'currentIntervention.idOrigine' , type:'int'   },
+                       {name:'currentIntervention.idMotif'   , type:'int'   },
+                       {name:'currentIntervention.rue'       , type:'string'},
+                       {name:'currentIntervention.codePostal', type:'string'},
+                       {name:'currentIntervention.ville'     , type:'string'}
+
+
+
+
+
                    ]
                })
            });
@@ -114,14 +169,14 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowIndex, p, dataStore)
 {
   var detailIntervention = 'Aucune intervention en cours';
-  
+
   if(record.data.currentInterId != 0)
   {
-    var detailIntervention=['<span> Origine : ',crfIrpUtils.getLabelFor('OriginesIntervention',record.json.currentIntervention.idOrigine),'</span>', 
-                            '<span> Motif   : ',crfIrpUtils.getLabelFor('MotifsIntervention'  ,record.json.currentIntervention.idMotif  ),'</span>', 
+    var detailIntervention=['<span> Origine : ',crfIrpUtils.getLabelFor('OriginesIntervention',record.json.currentIntervention.idOrigine),'</span>',
+                            '<span> Motif   : ',crfIrpUtils.getLabelFor('MotifsIntervention'  ,record.json.currentIntervention.idMotif  ),'</span>',
                             '<span> Adresse : ',record.json.currentIntervention.rue, ' ', record.json.currentIntervention.codePostal, ' ', record.json.currentIntervention.ville,'</span>'].join('');
   }
-  
+
   var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
 '  <tr>',
 '    <td style="height:11px;font-size:14px;">',
@@ -162,7 +217,7 @@ MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, opti
 };
 
 MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif){
-  
+
   this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
   this.monitorInputWindow.miDispositifCs.editDispositif(idDispositif);
 };
@@ -172,7 +227,7 @@ MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention){
 };
 MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention){
   alert(idDispositif+ ' ' +idIntervention);
-  
+
 };
 MonitorOutputDispositifCs.prototype.showDispositif  =function(idDispositif, latitude, longitude){
   alert(idDispositif+' '+latitude+' '+longitude);
@@ -206,7 +261,11 @@ MonitorOutputDispositifCs.prototype.editFicheInter=function(idDispositif, idInte
 
 MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 {
-  alert('ToDo');
+  var store            = Ext.getCmp('DispositifListGrid').getStore();
+  
+  //TODO : refaire le mapping a la main, comme pour le mp3
+  var dispositifRecord = new DispositifRecord(dispositif);
+  store.add(dispositifRecord);
 };
 
 MonitorOutputDispositifCs.prototype.computeNextState=function(currentState)
@@ -218,7 +277,7 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggab
 {
   var draggedElementId = draggableElement.id;
   var intervention     = draggableElement.intervention;
-  
+
   var dropZoneId       = dropZoneData.id;
   var dispositifData   = dropZoneData.dispositif;
 
@@ -226,7 +285,7 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggab
     callback:MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn,
     args:{draggedElementId:draggedElementId,dropZoneId:dropZoneId, idIntervention:intervention.idIntervention, dispositifId:dispositifData.idDispositif}
   };
-  
+
   MonitorOutputDispositif.setInterventionToDispositif(intervention.idIntervention, dispositifData.idDispositif, callMetaData);
 };
 
@@ -234,5 +293,5 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(s
 {
   var westPanel = Ext.getCmp('west-panel');
   westPanel.remove('interventionTicket_'+metaData.idIntervention);
-  
+
 };

@@ -190,8 +190,36 @@ function initLayout()
     
 
 /********************BILAN*EDITOR*****************************/    
-    
-    
+ 
+  var bilanEditor={
+    region:'center',
+    split:true,
+    contentEl:'BilanPanel',
+    //title:'Editeur de Bilan',
+    deferredRender:false,
+    xtype:'panel'
+  };
+  
+  var bilanPanel={
+      id:'monitorInputBilanPanel',
+      title: 'Gestion des Bilans',
+      closable:false,
+      autoScroll:true,
+      layout:'border',
+      tbar:[new Ext.Action({
+        text: 'Button',
+        handler: function()
+        {
+          alert('click');
+        },
+        iconCls: 'addButton'
+      })
+      ],
+      items:[
+        bilanEditor
+      ]
+    };
+        
     
 /****************NORTH/SOUTH/CENTER*************************/
   var north = new Ext.BoxComponent(
@@ -226,6 +254,7 @@ function initLayout()
     items:[
       interventionPanel,
       dispositifPanel,
+      bilanPanel,
       regulationPanel
     ]
   });

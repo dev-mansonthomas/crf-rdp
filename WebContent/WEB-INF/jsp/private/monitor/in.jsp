@@ -693,8 +693,7 @@ String contextPath = request.getContextPath();
       </tr>
     </tbody>
   </table>
-</div>  
-<!-- Fin Dispositif Edit -->
+</div><!-- Fin Dispositif Edit -->
 </div><!-- Fin DispositifEditor -->
 
 
@@ -708,6 +707,23 @@ String contextPath = request.getContextPath();
 
    
     </div><!-- Fin Dispositif Center Panel -->
+    
+<!-- Intervention Editor -->
+<div id="BilanPanel">
+	<div id="BilanEditor">
+	
+<fieldset>
+	<legend>Bilan Primaire</legend>
+	<textarea id="BilanPrimaire"></textarea>	
+</fieldset>	
+<fieldset>
+	<legend>Bilan Secondaire</legend>
+	<textarea id="BilanSecondaire"></textarea>	
+</fieldset>	 	
+	
+  </div>
+</div>
+    
     <div id="RegulationPanel"></div>
   
   </div>

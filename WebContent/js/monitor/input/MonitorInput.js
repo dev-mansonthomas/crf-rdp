@@ -68,7 +68,6 @@ function initLayout()
     contentEl:'InterventionList',
     title:'Liste des Tickets d\'Interventions',
     xtype:'panel',
-    split:true,
     width: 800,
     collapsible: true,
     layout:'accordion',
@@ -116,7 +115,72 @@ function initLayout()
         interventionList
       ]
     };
+
     
+    
+/****************BILAN*************************/
+  
+  var bilanEditor={
+    region:'center',
+    split:true,
+    contentEl:'BilanPanel',
+    title:'Editeur de Bilan',
+    deferredRender:false,
+    xtype:'panel',
+    collapsible: true,
+    layout:'accordion',
+    layoutConfig:{
+        animate:true
+    },
+    items:[{
+            title:'Identité',
+            contentEl:'BilanIdentite',
+            border:false,
+            iconCls:'settings'
+          },
+          {
+            title:'Bilan Secouriste Initial',
+            contentEl:'BilanBilanSecouristeInitial',
+            border:false,
+            iconCls:'settings'
+          },
+          {
+            title:'Gestes Et Observations',
+            contentEl:'BilanGestEtObservation',
+            border:false,
+            iconCls:'settings'
+          },
+          {
+            title:'Evacuation',
+            contentEl:'BilanEvacuation',
+            border:false,
+            iconCls:'settings'
+          }]
+    
+  };
+  var bilanHelper={
+    id:'BilanHelperEastPanel',
+    region:'east',
+    split:true,
+    contentEl:'BilanHelper',
+    title:'Aide à la Saisie',
+    xtype:'panel',
+    width: 200
+  };
+  
+  
+  var bilanPanel={
+      id:'monitorInputBilanPanel',
+      title: 'Gestion des Bilans',
+      closable:false,
+      autoScroll:true,
+      layout:'border',
+      items:[
+        bilanEditor,
+        bilanHelper
+      ]
+    };
+        
     
 /****************DISPOSITIF*EDITOR*************************/
     
@@ -190,36 +254,8 @@ function initLayout()
     
 
 /********************BILAN*EDITOR*****************************/    
- 
-  var bilanEditor={
-    region:'center',
-    split:true,
-    contentEl:'BilanPanel',
-    //title:'Editeur de Bilan',
-    deferredRender:false,
-    xtype:'panel'
-  };
-  
-  var bilanPanel={
-      id:'monitorInputBilanPanel',
-      title: 'Gestion des Bilans',
-      closable:false,
-      autoScroll:true,
-      layout:'border',
-      tbar:[new Ext.Action({
-        text: 'Button',
-        handler: function()
-        {
-          alert('click');
-        },
-        iconCls: 'addButton'
-      })
-      ],
-      items:[
-        bilanEditor
-      ]
-    };
-        
+    
+    
     
 /****************NORTH/SOUTH/CENTER*************************/
   var north = new Ext.BoxComponent(
@@ -253,8 +289,8 @@ function initLayout()
     activeTab:0,
     items:[
       interventionPanel,
-      dispositifPanel,
       bilanPanel,
+      dispositifPanel,
       regulationPanel
     ]
   });

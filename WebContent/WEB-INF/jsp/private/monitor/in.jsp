@@ -317,17 +317,35 @@ String contextPath = request.getContextPath();
 </div>   
       
       
-      </div><!-- FIN InterventionEditor -->
-      <div id="InterventionList">
-        <div id="InterventionListEncoursEdition">
-        </div>
-        <div id="InterventionListUnaffected">
-        </div>
-        <div id="InterventionListOthers">
-        </div>
-      </div>
+  </div><!-- FIN InterventionEditor -->
+  <div id="InterventionList">
+    <div id="InterventionListEncoursEdition">
+    </div>
+    <div id="InterventionListUnaffected">
+    </div>
+    <div id="InterventionListOthers">
+    </div>
+  </div>
 </div>
 <!-- Fin Intervention Editor -->
+
+
+<!-- Bilan Editor -->
+<div id="BilanPanel">
+  <div id="BilanEditor">
+    <div id="BilanIdentite">
+    </div>
+    <div id="BilanBilanSecouristeInitial">
+    </div>
+    <div id="BilanGestEtObservation">
+    </div>
+    <div id="BilanEvacuation">
+    </div>
+  </div><!-- FIN BilanEditor -->
+  <div id="BilanHelper">
+  </div>
+</div>
+<!-- Fin Bilan Editor -->
 
 <!-- Dispositif Editor -->
     <div id="DispositifPanel">
@@ -693,7 +711,8 @@ String contextPath = request.getContextPath();
       </tr>
     </tbody>
   </table>
-</div><!-- Fin Dispositif Edit -->
+</div>  
+<!-- Fin Dispositif Edit -->
 </div><!-- Fin DispositifEditor -->
 
 
@@ -707,23 +726,6 @@ String contextPath = request.getContextPath();
 
    
     </div><!-- Fin Dispositif Center Panel -->
-    
-<!-- Intervention Editor -->
-<div id="BilanPanel">
-	<div id="BilanEditor">
-	
-<fieldset>
-	<legend>Bilan Primaire</legend>
-	<textarea id="BilanPrimaire"></textarea>	
-</fieldset>	
-<fieldset>
-	<legend>Bilan Secondaire</legend>
-	<textarea id="BilanSecondaire"></textarea>	
-</fieldset>	 	
-	
-  </div>
-</div>
-    
     <div id="RegulationPanel"></div>
   
   </div>

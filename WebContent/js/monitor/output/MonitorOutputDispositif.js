@@ -210,6 +210,7 @@ detailIntervention,
 
 MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, options)
 {
+  console.log('adding drop zone');
   var rowIndex = 0;
   records.each(function(rowData){
     Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.json.idTypeDispositif+'_'+rowData.json.idDispositif+'_'+rowIndex,rowIndex++, rowData.json);
@@ -261,11 +262,63 @@ MonitorOutputDispositifCs.prototype.editFicheInter=function(idDispositif, idInte
 
 MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 {
-  var store            = Ext.getCmp('DispositifListGrid').getStore();
+  var store      = Ext.getCmp('DispositifListGrid').getStore();
+
+  var newDispositif = DispositifRecord({'idDispositif'                   : dispositif.idDispositif,
+ 'idTypeDispositif'               : dispositif.idTypeDispositif,
+ 'idEtatDispositif'               : dispositif.idEtatDispositif,
+ 'idDelegation'                   : dispositif.idDelegation,
+ 'displayState'                   : dispositif.displayState,
+ 'dispositifBackWith3Girls'       : dispositif.dispositifBackWith3Girls,
+ 'dispositifNotEnoughO2'          : dispositif.dispositifNotEnoughO2,
+ 'indicatifVehicule'              : dispositif.indicatifVehicule,
+ 'contactRadio'                   : dispositif.contactRadio,
+ 'contactTel1'                    : dispositif.contactTel1,
+ 'contactTel2'                    : dispositif.contactTel2,
+ 'currentInterId'                 : dispositif.currentInterId,
+ 'googleCoordsLat'                : dispositif.googleCoordsLat,
+ 'googleCoordsLong'               : dispositif.googleCoordsLong,
+ 'currentAddresseRue'             : dispositif.currentAddresseRue,
+ 'currentAddresseCodePostal'      : dispositif.currentAddresseCodePostal,
+ 'currentAdresseVille'            : dispositif.currentAdresseVille,
+ 'equipierCi.idEquipier'          : dispositif.equipierCi.idEquipier,
+ 'equipierCi.nom'                 : dispositif.equipierCi.nom,
+ 'equipierCi.prenom'              : dispositif.equipierCi.prenom,
+ 'equipierCi.homme'               : dispositif.equipierCi.homme,
+ 'equipierCi.numNivol'            : dispositif.equipierCi.numNivol,
+ 'currentInterId'                 : dispositif.currentInterId,
+ 'dhReception'                    : dispositif.dhReception,
+ 'dhDepart'                       : dispositif.dhDepart,
+ 'dhSurPlace'                     : dispositif.dhSurPlace,
+ 'dhBilanPrimaire'                : dispositif.dhBilanPrimaire,
+ 'dhBilanSecondaire'              : dispositif.dhBilanSecondaire,
+ 'dhQuitteLesLieux'               : dispositif.dhQuitteLesLieux,
+ 'dhArriveeHopital'               : dispositif.dhArriveeHopital,
+ 'dhDispo'                        : dispositif.dhDispo,
+ 'dhASaBase'                      : dispositif.dhASaBase,
+ 'dhAppelRenfortMedical'          : dispositif.dhAppelRenfortMedical,
+ 'dhArriveeRenfortMedical'        : dispositif.dhArriveeRenfortMedical,
+ 'currentIntervention.idOrigine'  : dispositif.currentIntervention.idOrigine,
+ 'currentIntervention.idMotif'    : dispositif.currentIntervention.idMotif,
+ 'currentIntervention.rue'        : dispositif.currentIntervention.rue,
+ 'currentIntervention.codePostal' : dispositif.currentIntervention.codePostal,
+ 'currentIntervention.ville'      : dispositif.currentIntervention.ville});
+  store.add(newDispositif);
+  /*  
+  var construct  = {totalCount:1,data:[dispositif]};
   
-  //TODO : refaire le mapping a la main, comme pour le mp3
-  var dispositifRecord = new DispositifRecord(dispositif);
-  store.add(dispositifRecord);
+  
+//  store.add(store.reader.readRecords({totalCount:1,data:[dispositif]}));
+  
+  
+  var response = {  
+    responseText : Ext.util.JSON.encode(construct),
+    responseXML : null
+  };
+  result = store.reader.read(response);
+
+  store.add(result);
+  */
 };
 
 MonitorOutputDispositifCs.prototype.computeNextState=function(currentState)

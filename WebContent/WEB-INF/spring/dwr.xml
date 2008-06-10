@@ -13,6 +13,7 @@
     <bean id="monitorInput"                class="fr.croixrouge.irp.services.dwr.monitorInput.MonitorInputImpl"                 autowire="constructor" />
     <bean id="monitorInputDispositif"      class="fr.croixrouge.irp.services.dwr.monitorInput.MonitorInputDispositifImpl"       autowire="constructor" />
     <bean id="monitorInputIntervention"    class="fr.croixrouge.irp.services.dwr.monitorInput.MonitorInputInterventionImpl"     autowire="constructor" />
+    <bean id="monitorInputBilan"           class="fr.croixrouge.irp.services.dwr.monitorInput.MonitorInputBilanImpl"            autowire="constructor" />
                                            
     <bean id="monitorCommons"              class="fr.croixrouge.irp.services.dwr.monitorCommons.MonitorCommonsImpl"             autowire="constructor" />
     

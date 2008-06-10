@@ -1,0 +1,46 @@
+@CHARSET "ISO-8859-1";
+
+#BilanIdentiteFielset, #BilanIdentite2Fielset
+{
+  margin: 5px 3px 2px 3px;
+  padding :4px;
+}
+#BilanIdentiteFielset table, #BilanIdentite2Fielset table
+{
+  width:100%;
+}
+
+#BilanIdentiteFielset div, #BilanIdentite2Fielset div
+{
+  text-align: right;
+}
+.BilanFieldInputLabel
+{
+ 
+}
+
+.bilanTextArea
+{
+  width:100%;
+  border:none;
+}
+
+#BilanGestEtObservationTable, #BilanSecouristeInitialTable
+{
+  width:100%;
+}
+
+#BilanGestEtObservationTable th,#BilanSecouristeInitialTable th
+{
+  margin-left:5px;
+  font-family: Geneva, Vera, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight:bold;  
+  border:1px solid #BEBEE0;
+  background-image:url('../../img/puce-rouge.png');
+  background-repeat:no-repeat;
+  background-position:4px 50%;
+  padding-left :12px; 
+  padding-right:10px; 
+  -moz-border-radius:4px;
+}

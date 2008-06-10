@@ -61,6 +61,12 @@
         <param name="beanName" value="monitorInputIntervention"/>
     </create>
 
+    <create
+      creator="spring"
+      javascript="MonitorInputBilan">
+        <param name="beanName" value="monitorInputBilan"/>
+    </create>
+
 
     
     <create

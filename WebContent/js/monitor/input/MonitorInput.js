@@ -30,14 +30,17 @@ var miDispositifCs        = null;
 var miCoRegulateurListCs  = null;
 var miInterventionCs      = null;
 var crfGoogleMap          = null;
+var miBilanCs             = null;
 
 function init()
 {
   monitorInputCs        = new MonitorInputCs                ();
-  
+
   miDispositifCs        = new MonitorInputDispositifCs      ();
   miInterventionCs      = new MonitorInputInterventionCs    ();
   //miCoRegulateurListCs  = new MonitorInputCoRegulateurListCs();
+  
+  miBilanCs             = Ext.ux.MonitorInput.BilanEditor;
   crfGoogleMap          = new CrfGoogleMap                  ();
   
   initLayout();

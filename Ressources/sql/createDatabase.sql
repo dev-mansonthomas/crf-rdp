@@ -19,7 +19,7 @@ CREATE TABLE `dispositif_etat` (
   `id_etat` int(10) unsigned NOT NULL auto_increment,
   `label_etat` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfirp`.`dispositif_type`;
 CREATE TABLE `dispositif_type` (
@@ -185,7 +185,7 @@ CREATE TABLE `crfirp`.`intervention_origine`
   `label_origine` VARCHAR(45) NOT NULL,
   PRIMARY KEY(`id_origine`)
 )
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfirp`.`intervention_motif`;
 CREATE TABLE `crfirp`.`intervention_motif`
@@ -194,14 +194,39 @@ CREATE TABLE `crfirp`.`intervention_motif`
   `label_motif` VARCHAR(45) NOT NULL,
   PRIMARY KEY(`id_motif`)
 )
-ENGINE = InnoDB;
+ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 
-DROP TABLE IF EXISTS `crfirp`.`intervention_seq`;
-CREATE TABLE `intervention_seq` (
-  `year`                 varchar(4) NOT NULL,
-  `number`               int(10) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
+CREATE TABLE `crfirp`.`lieu_type`
+(
+  `id_type_lieu`    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `label_type_lieu` VARCHAR(45) NOT NULL,
+  `icon_lieu`       VARCHAR(20) NOT NULL,
+  PRIMARY KEY(`id_type_lieu`)
+)
+ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+
+DROP TABLE IF EXISTS `crfirp`.`lieu`;
+CREATE TABLE `lieu` (
+  `id_lieu`                     int(10) unsigned NOT NULL auto_increment,
+  `id_type_lieu`                int(10) unsigned NOT NULL,
+  `icon_lieu_specifique`        VARCHAR(20) NOT NULL,
+  `nom`                         varchar(45) NOT NULL,
+  `addresse1`                   varchar(45) NOT NULL,
+  `addresse2`                   varchar(45) NOT NULL,
+  `code_postal`                 varchar(5 ) NULL,
+  `ville`                       varchar(80) NULL,
+  `google_coords_lat`           float(10,6) NULL,
+  `google_coords_long`          float(10,6) NULL,
+  `info_complementaire`         varchar(1000) NULL,
+  PRIMARY KEY (`id_lieu`),
+  CONSTRAINT `FK_lieu_type_lieu` FOREIGN KEY (`id_type_lieu`) REFERENCES `lieu_type`(`id_type_lieu`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+
+
 
 DROP TABLE IF EXISTS `crfirp`.`intervention_etat`;
 CREATE TABLE `intervention_etat` (
@@ -209,6 +234,13 @@ CREATE TABLE `intervention_etat` (
   `label_etat` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `crfirp`.`intervention_seq`;
+CREATE TABLE `intervention_seq` (
+  `year`                 varchar(4) NOT NULL,
+  `number`               int(10) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
 
 DROP TABLE IF EXISTS `crfirp`.`intervention`;
 CREATE TABLE `intervention` (
@@ -234,11 +266,20 @@ CREATE TABLE `intervention` (
   `DH_a_sa_base`                datetime NULL,
   `DH_appel_renfort_medical`    datetime NULL,
   `DH_arrivee_renfort_medical`  datetime NULL,
+  `nom_contact_sur_place`       varchar(60) NULL,
+
   `nom_victime`                 varchar(60) NULL,
   `nom_jf_victime`              varchar(60) NULL,
   `prenom_victime`              varchar(60) NULL,
-  `nom_contact_sur_place`       varchar(60) NULL,
-  `date_naissance`              varchar(10) NULL,
+
+  `date_naissance`              date        NULL,
+  `lieu_naissance`              varchar(80) NULL,
+
+  `adresse_victime`             varchar(80) NULL,
+  `code_postal_victime`         varchar(20) NULL,
+  `ville_victime`               varchar(60) NULL,
+  `pays_victime`                varchar(60) NULL,
+
   `personne_a_prevenir`         varchar(60) NULL,
   `tel_personne_a_prevenir`     varchar(60) NULL,
   `effet_ou_objet_remis`        varchar(180) NULL,
@@ -261,18 +302,14 @@ CREATE TABLE `intervention` (
 -- conscience
   `cs_coma`                     boolean NULL,
   `cs_pci`                      boolean NULL,
-  `cs_pci_duree`                varchar(5 ) NULL,
+  `cs_pci_duree`                varchar(10) NULL,
   `cs_pc_secondaire`            boolean NULL,
   `cs_agitation`                boolean NULL,
   `cs_convulsions`              boolean NULL,
-  `cs_glasgow_ouverture_yeux`   float NULL,
-  `cs_glasgow_reponse_verbale`  float NULL,
-  `cs_glasgow_reponse_motrice`  float NULL,
 -- ventilation
   `ventil_absence`              boolean NULL,
   `ventil_chiffre`              int(10) unsigned NULL,
-  `ventil_regularite`           varchar(16) NULL,
-  `ventil_amplitude`            varchar(16) NULL,
+  `ventil_commentaire`          varchar(16) NULL,
   `ventil_superficielle`        boolean NULL,
   `ventil_ronflement`           boolean NULL,
   `ventil_irreguliere`          boolean NULL,
@@ -285,16 +322,17 @@ CREATE TABLE `intervention` (
 -- circulation
   `circul_pouls_non_percu`          boolean NULL,
   `circul_pouls_chiffre`            int(10) unsigned NULL,
-  `circul_pouls_regularite`         varchar(16) NULL,
-  `circul_pouls_force`              varchar(16) NULL,
+  `circul_pouls_commentaire`        varchar(16) NULL,
   `circul_pouls_irregulier`         boolean NULL,
+  `circul_pouls_faible`             boolean NULL,
   `circul_conjonctive_decolorees`   boolean NULL,
   `circul_paleur_cutanees`          boolean NULL,
   `circul_marbrure`                 boolean NULL,
-  `circul_tension_haute`            float NULL,
   `circul_tension_basse`            float NULL,
-  `circul_tension_ref_haute`        int NULL,
+  `circul_tension_haute`            float NULL,
   `circul_tension_ref_basse`        int NULL,
+  `circul_tension_ref_haute`        int NULL,
+
 -- pupille
 
   `pupille_reactive`                boolean NULL,
@@ -303,7 +341,10 @@ CREATE TABLE `intervention` (
   `pupille_myosis_droite`           boolean NULL,
   `pupille_mydriase_gauche`         boolean NULL,
   `pupille_mydriase_droite`         boolean NULL,
-  `pupille_asymétriques`            boolean NULL,
+  `pupille_asymetriques`            boolean NULL,
+-- douleur
+
+  `douleur`                         int NULL,
 
 -- gestes  
   `gestes_lva`                      boolean NULL,
@@ -328,22 +369,35 @@ CREATE TABLE `intervention` (
   `gestes_inhalation_o2_litre_min`  int NULL,
   `gestes_glycemie_gramme_litre`    float NULL,
   `gestes_temperature`              float NULL,
+-- renfort sur intervention
+  `coordinateur_bspp_contacte`      boolean NULL,
+  `coordinateur_samu_contacte`      boolean NULL,
 
-  `police_sur_place`            boolean NULL,
-  `pompier_sur_place`           boolean NULL,
-  `coordinateur_bspp`           boolean NULL,
-  `coordinateur_samu`           boolean NULL,
-  `renfort_medical`             boolean NULL,
-  `transport_medicalisee`       boolean NULL,
-  `laisse_sur_place`            boolean NULL,
-  `laisse_sur_place_vivant`     boolean NULL,
-  `decharche`                   boolean NULL,
-  `utilisation_dsa`             boolean NULL,
+  `transport_medicalisee_ar`        boolean NULL,
+  `transport_medicalisee_umh`       boolean NULL,
+  `transport_medicalisee_de`        int(10) unsigned NULL,
+  `medecin_civil_sur_place`         varchar(50),
 
-  `renfort_medical_type`        varchar(45) NULL,
-  `num_inter_banlieu`           varchar(16) NULL,
-  `hopital`                     varchar(45) NULL,
-  `eval_ci`                     text NULL,
+  `police_sur_place`                boolean NULL,
+  `pompier_sur_place`               boolean NULL,
+-- evacutation  
+  `evac_laisse_sur_place`           boolean NULL,
+  `evac_laisse_sur_place_decedee`   boolean NULL,
+  `evac_refus_de_transport`         boolean NULL,
+  `evac_decharche`                  boolean NULL,
+  `evac_num_inter_banlieu`          varchar(16) NULL,
+  `evac_hopital`                    int(10) unsigned NULL,
+  
+  `evac_aggravation`                        boolean NULL,
+  `evac_aggravation_pendant_transport`      boolean NULL,
+  `evac_aggravation_arrive_a_destination`   boolean NULL,
+  `evac_aggravation_ventilation`                    int(10) unsigned NULL,
+  `evac_aggravation_circulation`                    int(10) unsigned NULL,
+  `evac_aggravation_douleur`                        int(10) unsigned NULL,
+  `evac_aggravation_nature`                         varchar(100) NULL,
+
+  `commentaires`                    text NULL,
+  `eval_ci`                         text NULL,
   PRIMARY KEY  (`id_intervention`),
   KEY `FK_intervention_dispositif` (`id_dispositif`),
   KEY `FK_intervention_origine`    (`id_origine`   ),
@@ -352,11 +406,13 @@ CREATE TABLE `intervention` (
   KEY `FK_intervention_etat`       (`id_etat`      ),
 
 
-  CONSTRAINT `FK_intervention_dispositif` FOREIGN KEY (`id_dispositif`) REFERENCES `dispositif`          (`id_dispositif`),
-  CONSTRAINT `FK_intervention_origine`    FOREIGN KEY (`id_origine`   ) REFERENCES `intervention_origine`(`id_origine`   ),
-  CONSTRAINT `FK_intervention_motif`      FOREIGN KEY (`id_motif`     ) REFERENCES `intervention_motif`  (`id_motif`     ),
-  CONSTRAINT `FK_intervention_regulation` FOREIGN KEY (`id_regulation`) REFERENCES `regulation`          (`id_regulation`),
-  CONSTRAINT `FK_intervention_etat`       FOREIGN KEY (`id_etat`      ) REFERENCES `intervention_etat`   (`id_etat`      )
+  CONSTRAINT `FK_intervention_dispositif`   FOREIGN KEY (`id_dispositif`            ) REFERENCES `dispositif`           (`id_dispositif`),
+  CONSTRAINT `FK_intervention_origine`      FOREIGN KEY (`id_origine`               ) REFERENCES `intervention_origine` (`id_origine`   ),
+  CONSTRAINT `FK_intervention_motif`        FOREIGN KEY (`id_motif`                 ) REFERENCES `intervention_motif`   (`id_motif`     ),
+  CONSTRAINT `FK_intervention_regulation`   FOREIGN KEY (`id_regulation`            ) REFERENCES `regulation`           (`id_regulation`),
+  CONSTRAINT `FK_intervention_origine_smur` FOREIGN KEY (`transport_medicalisee_de` ) REFERENCES `lieu`                 (`id_lieu`      ),
+  CONSTRAINT `FK_intervention_hopital_evac` FOREIGN KEY (`evac_hopital`             ) REFERENCES `lieu`                 (`id_lieu`      ),
+  CONSTRAINT `FK_intervention_etat`         FOREIGN KEY (`id_etat`                  ) REFERENCES `intervention_etat`    (`id_etat`      )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfirp`.`bilan_evolutif`;

@@ -294,7 +294,7 @@ CREATE TABLE `intervention` (
   `ville`                       varchar(80) NULL,
   `google_coords_lat`           float(10,6) NULL,
   `google_coords_long`          float(10,6) NULL,
-  
+
   `bilan_circonstances`         text NULL,
   `bilan_detresses`             text NULL,
   `bilan_antecedents`           text NULL,
@@ -346,7 +346,7 @@ CREATE TABLE `intervention` (
 
   `douleur`                         int NULL,
 
--- gestes  
+-- gestes
   `gestes_lva`                      boolean NULL,
   `gestes_mce`                      boolean NULL,
   `gestes_allongee`                 boolean NULL,
@@ -364,11 +364,12 @@ CREATE TABLE `intervention` (
   `gestes_jambes_surelevees`        boolean NULL,
   `gestes_attelle`                  boolean NULL,
   `gestes_garrot`                   boolean NULL,
-  `gestes_garrot_heure_pose`        varchar(5) NULL,
+  `gestes_garrot_heure_pose`        date    NULL,
   `gestes_autres`                   varchar(200) NULL,
-  `gestes_inhalation_o2_litre_min`  int NULL,
+  `gestes_inhalation_o2_litre_min`  int   NULL,
   `gestes_glycemie_gramme_litre`    float NULL,
   `gestes_temperature`              float NULL,
+  `gestes_immobilisation_generale`  boolean NULL,
 -- renfort sur intervention
   `coordinateur_bspp_contacte`      boolean NULL,
   `coordinateur_samu_contacte`      boolean NULL,
@@ -380,21 +381,28 @@ CREATE TABLE `intervention` (
 
   `police_sur_place`                boolean NULL,
   `pompier_sur_place`               boolean NULL,
--- evacutation  
+-- evacutation
   `evac_laisse_sur_place`           boolean NULL,
   `evac_laisse_sur_place_decedee`   boolean NULL,
+  `evac_laisse_sur_place_decedee_a_dispo_de` varchar(80) NULL,
   `evac_refus_de_transport`         boolean NULL,
   `evac_decharche`                  boolean NULL,
   `evac_num_inter_banlieu`          varchar(16) NULL,
-  `evac_hopital`                    int(10) unsigned NULL,
-  
+  `evac_hopital_destination`        int(10) unsigned NULL,
+  `evac_autre_destination`          varchar(100) NULL,
+  `evac_arrivee_destination`        date NULL,
+
   `evac_aggravation`                        boolean NULL,
   `evac_aggravation_pendant_transport`      boolean NULL,
   `evac_aggravation_arrive_a_destination`   boolean NULL,
   `evac_aggravation_ventilation`                    int(10) unsigned NULL,
   `evac_aggravation_circulation`                    int(10) unsigned NULL,
   `evac_aggravation_douleur`                        int(10) unsigned NULL,
+  `evac_aggravation_contact_regulation`             date  NULL,
   `evac_aggravation_nature`                         varchar(100) NULL,
+
+  `evac_par`              int(10) NULL,
+  `evac_par_autre`        varchar(100) NULL,
 
   `commentaires`                    text NULL,
   `eval_ci`                         text NULL,

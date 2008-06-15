@@ -1,56 +1,56 @@
 
 Ext.namespace('Ext.ux.MonitorInput', 'Ext.ux.MonitorInput.BilanEditor');
- 
+
 // create application
 Ext.ux.MonitorInput.BilanEditor = function() {
     // do NOT access DOM from here; elements don't exist yet
- 
+
     // private variables
     var fieldList;
     // private functions
- 
+
     // public space
     return {
       // public properties, e.g. strings to translate
-      dropZonesIds:'', 
+      dropZonesIds:'',
       // public methods
       init: function() {
-        
+
       },
       updateStringField:function(fieldId, fieldName, objectIdForGraphicalEffect){
-			  if(!objectIdForGraphicalEffect)
-			    objectIdForGraphicalEffect = fieldId;
-			    
-			  crfIrpUtils.checkField (fieldId);
-			  crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
-			  fieldValue = $(fieldId).value;
-			  if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
-			  {
-			    MonitorInputBilan.updateStringField(
-                                              $('bilan_id_intervention').value, 
-                                              fieldName, 
-                                              fieldValue, 
+        if(!objectIdForGraphicalEffect)
+          objectIdForGraphicalEffect = fieldId;
+
+        crfIrpUtils.checkField (fieldId);
+        crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
+        fieldValue = $(fieldId).value;
+        if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
+        {
+          MonitorInputBilan.updateStringField(
+                                              $('bilan_id_intervention').value,
+                                              fieldName,
+                                              fieldValue,
                                               function()
                                               {
                                                 crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
                                               });
-			  }
-			  else
-			    crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
+        }
+        else
+          crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
       },
       updateDateField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
-          
+
         crfIrpUtils.checkField (fieldId);
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         fieldValue = $(fieldId).value;
         if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
         {
           MonitorInputBilan.updateDateField(
-                                              $('bilan_id_intervention').value, 
-                                              fieldName, 
-                                              fieldValue, 
+                                              $('bilan_id_intervention').value,
+                                              fieldName,
+                                              fieldValue,
                                               function()
                                               {
                                                 crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
@@ -62,16 +62,16 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       updateBooleanField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
-          
+
         crfIrpUtils.checkField (fieldId);
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         fieldValue = $(fieldId).value;
         if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
         {
           MonitorInputBilan.updateBooleanField(
-                                              $('bilan_id_intervention').value, 
-                                              fieldName, 
-                                              fieldValue, 
+                                              $('bilan_id_intervention').value,
+                                              fieldName,
+                                              fieldValue,
                                               function()
                                               {
                                                 crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
@@ -83,16 +83,16 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       updateIntegerField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
-          
+
         crfIrpUtils.checkField (fieldId);
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         fieldValue = $(fieldId).value;
         if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
         {
           MonitorInputBilan.updateIntegerField(
-                                              $('bilan_id_intervention').value, 
-                                              fieldName, 
-                                              fieldValue, 
+                                              $('bilan_id_intervention').value,
+                                              fieldName,
+                                              fieldValue,
                                               function()
                                               {
                                                 crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
@@ -104,16 +104,16 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       updateFloatField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
-          
+
         crfIrpUtils.checkField (fieldId);
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         fieldValue = $(fieldId).value;
         if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
         {
           MonitorInputBilan.updateFloatField(
-                                              $('bilan_id_intervention').value, 
-                                              fieldName, 
-                                              fieldValue, 
+                                              $('bilan_id_intervention').value,
+                                              fieldName,
+                                              fieldValue,
                                               function()
                                               {
                                                 crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
@@ -123,6 +123,5 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
       }
     };
-    
+
 }(); // end of app
-  

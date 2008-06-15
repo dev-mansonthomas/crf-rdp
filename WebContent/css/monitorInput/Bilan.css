@@ -25,12 +25,17 @@
   border:none;
 }
 
-#BilanGestEtObservationTable, #BilanSecouristeInitialTable
+#BilanEvacuationTable
+{
+  margin-top:5px;
+}
+
+#BilanGestEtObservationTable, #BilanSecouristeInitialTable, #BilanEvacuationTable
 {
   width:100%;
 }
 
-#BilanGestEtObservationTable th,#BilanSecouristeInitialTable th
+#BilanGestEtObservationTable th,#BilanSecouristeInitialTable th, #BilanEvacuationTable th
 {
   margin-left:5px;
   font-family: Geneva, Vera, Arial, Helvetica, sans-serif;

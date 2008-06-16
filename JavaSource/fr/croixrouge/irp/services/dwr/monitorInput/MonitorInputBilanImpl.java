@@ -74,28 +74,28 @@ public class MonitorInputBilanImpl  extends DWRUtils
   
   
   /* Update methods*/
-  public void updateInterventionIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception
+  public void updateIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception
   {
     this.validateSession();
     this.interventionService.updateInterventionIntegerField(idIntervention, fieldName, fieldValue);
   }
-  public void updateInterventionFloatField  (int idIntervention, String fieldName, float    fieldValue) throws Exception
+  public void updateFloatField  (int idIntervention, String fieldName, float    fieldValue) throws Exception
   {
     this.validateSession();
     this.interventionService.updateInterventionFloatField(idIntervention, fieldName, fieldValue);
   }
-  public void updateInterventionStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception
+  public void updateStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception
   {
     this.validateSession();
     this.interventionService.updateInterventionStringField(idIntervention, fieldName, fieldValue);
   }
   
-  public void updateInterventionDateField   (int idIntervention, String fieldName, Date     fieldValue) throws Exception
+  public void updateDateField   (int idIntervention, String fieldName, Date     fieldValue) throws Exception
   {
     this.validateSession();
     this.interventionService.updateInterventionDateField(idIntervention, fieldName, fieldValue);
   }
-  public void updateInterventionBooleanField(int idIntervention, String fieldName, boolean  fieldValue) throws Exception
+  public void updateBooleanField(int idIntervention, String fieldName, boolean  fieldValue) throws Exception
   {
     this.validateSession();
     this.interventionService.updateInterventionBooleanField(idIntervention, fieldName, fieldValue);

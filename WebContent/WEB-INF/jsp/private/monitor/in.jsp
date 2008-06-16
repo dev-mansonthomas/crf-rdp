@@ -352,10 +352,10 @@ String contextPath = request.getContextPath();
         <div class="BilanFieldInputLabel">Nom :</div>
       </td>
       <td>
-          <input style="width:120px;"
-                  type="text"
-                    id="bilanNomVictime"
-                   name="bilanNomVictime"
+          <input  style="width:120px;"
+                   type="text"
+                     id="bilan_nom_victime"
+                   name="bilan_nom_victime"
                   value=""
               maxlength="60"
                 onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -367,8 +367,8 @@ String contextPath = request.getContextPath();
       <td>
           <input style="width:120px;"
                   type="text"
-                    id="bilanPrenomVictime"
-                  name="bilanPrenomVictime"
+                    id="bilan_prenom_victime"
+                  name="bilan_prenom_victime"
                  value=""
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -383,8 +383,8 @@ String contextPath = request.getContextPath();
       <td>
           <input style="width:120px;"
                   type="text"
-                    id="bilanNomJFVictime"
-                  name="bilanNomJFVictime"
+                    id="bilan_nom_jf_victime"
+                  name="bilan_nom_jf_victime"
                  value=""
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -405,8 +405,8 @@ String contextPath = request.getContextPath();
       <td>
           <input style="width:75px;"
                   type="text"
-                    id="bilanDateNaissance"
-                  name="bilanDateNaissance"
+                    id="bilan_date_naissance"
+                  name="bilan_date_naissance"
                  value=""
              maxlength="10"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -419,8 +419,8 @@ String contextPath = request.getContextPath();
       <td>
           <input style="width:240px;"
                   type="text"
-                    id="bilanLieuNaissance"
-                  name="bilanLieuNaissance"
+                    id="bilan_lieu_naissance"
+                  name="bilan_lieu_naissance"
                  value=""
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -435,8 +435,8 @@ String contextPath = request.getContextPath();
       <td>
           <input style="width:120px;"
                   type="text"
-                    id="bilanAdresseVictime"
-                  name="bilanAdresseVictime"
+                    id="bilan_adresse_victime"
+                  name="bilan_adresse_victime"
                  value=""
              maxlength="80"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -448,8 +448,8 @@ String contextPath = request.getContextPath();
       <td>
           <input style="width:50px;"
                   type="text"
-                    id="bilanCodePostalVictime"
-                  name="bilanCodePostalVictime"
+                    id="bilan_code_postal_victime"
+                  name="bilan_code_postal_victime"
                  value=""
              maxlength="20"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -465,8 +465,8 @@ String contextPath = request.getContextPath();
       <td>
           <input style="width:90px;"
                   type="text"
-                    id="bilanVilleVictime"
-                  name="bilanVilleVictime"
+                    id="bilan_ville_victime"
+                  name="bilan_ville_victime"
                  value=""
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -478,8 +478,8 @@ String contextPath = request.getContextPath();
       <td>
         <input style="width:100px;"
                   type="text"
-                    id="bilanPaysVictime"
-                  name="bilanPaysVictime"
+                    id="bilan_pays_victime"
+                  name="bilan_pays_victime"
                  value=""
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -500,8 +500,8 @@ String contextPath = request.getContextPath();
       <td>
            <input style="width:120px;"
                   type="text"
-                    id="bilanPersonneAPrevenir"
-                  name="bilanPersonneAPrevenir"
+                    id="bilan_personne_a_prevenir"
+                  name="bilan_personne_a_prevenir"
                  value=""
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -513,8 +513,8 @@ String contextPath = request.getContextPath();
       <td>
         <input style="width:120px;"
                   type="text"
-                    id="bilanTelPersonneAPrevenir"
-                  name="bilanTelPersonneAPrevenir"
+                    id="bilan_tel_personne_a_prevenir"
+                  name="bilan_tel_personne_a_prevenir"
                  value=""
              maxlength="20"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -529,8 +529,8 @@ String contextPath = request.getContextPath();
       <td>
         <input style="width:300px;"
                   type="text"
-                    id="bilanEffetsOuObjetsRemis"
-                  name="bilanEffetsOuObjetsRemis"
+                    id="bilan_effet_ou_objet_remis"
+                  name="bilan_effet_ou_objet_remis"
                  value=""
              maxlength="180"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -542,8 +542,8 @@ String contextPath = request.getContextPath();
       <td>
         <input style="width:180px;"
                   type="text"
-                    id="bilanEffetsOuObjetsRemisA"
-                  name="bilanEffetsOuObjetsRemisA"
+                    id="bilan_effet_ou_objet_remis_a"
+                  name="bilan_effet_ou_objet_remis_a"
                  value=""
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -564,8 +564,8 @@ String contextPath = request.getContextPath();
       <fieldset id="BilanSecouristeInitialCirconstanceFielset">
         <legend>Circonstances</legend>
 
-        <textarea id="bilanCirconstances"
-                name="bilanCirconstances"
+        <textarea id="bilan_bilan_circonstances"
+                name="bilan_bilan_circonstances"
                class="bilanTextArea"
              onFocus="crfIrpUtils.fieldEdit(this.id)"
               onBlur="miBilanCs.updateStringField(this.id, 'bilan_circonstances')"/></textarea>
@@ -575,8 +575,8 @@ String contextPath = request.getContextPath();
       <fieldset id="BilanBlessureSigneDetresseFielset">
         <legend>Blessures et Signes de Détresse</legend>
 
-        <textarea id="bilanBlessureDetresse"
-                name="bilanBlessureDetresse"
+        <textarea id="bilan_bilan_detresses"
+                name="bilan_bilan_detresses"
                class="bilanTextArea"
              onFocus="crfIrpUtils.fieldEdit(this.id)"
               onBlur="miBilanCs.updateStringField(this.id, 'bilan_detresses')"/></textarea>
@@ -586,8 +586,8 @@ String contextPath = request.getContextPath();
       <fieldset id="BilanAntecedentsFielset">
         <legend>Antécédents et Traitements Suivis</legend>
 
-        <textarea id="bilanAntecedent"
-                name="bilanAntecedent"
+        <textarea id="bilan_bilan_antecedents"
+                name="bilan_bilan_antecedents"
                class="bilanTextArea"
              onFocus="crfIrpUtils.fieldEdit(this.id)"
               onBlur="miBilanCs.updateStringField(this.id, 'bilan_antecedents')"/></textarea>
@@ -611,70 +611,70 @@ String contextPath = request.getContextPath();
       <tbody>
         <tr>
           <td>
-            <p>
+            <p id="bilanCsComaP">
               <input type="checkbox"
-                       id="bilanCsComa"
-                     name="bilanCsComa"
+                       id="bilan_cs_coma"
+                     name="bilan_cs_coma"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_coma')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_coma', 'bilanCsComaP')"/>
                Coma
             </p>
-            <p>
+            <p id="bilanCsPciP">
               <input type="checkbox"
-                       id="bilanCsPci"
-                     name="bilanCsPci"
+                       id="bilan_cs_pci"
+                     name="bilan_cs_pci"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_pci')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_pci', 'bilanCsPciP')"/>
                PCI, Durée :
                <input style="width:60px;"
                   type="text"
-                    id="bilanCsPciDuree"
-                  name="bilanCsPciDuree"
+                    id="bilan_cs_pci_duree"
+                  name="bilan_cs_pci_duree"
                  value=""
              maxlength="10"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
                 onBlur="miBilanCs.updateStringField(this.id, 'cs_pci_duree')"/>
             </p>
-            <p>
+            <p id="bilanCsPcSecondaireP">
               <input type="checkbox"
-                       id="bilanCsPcSecondaire"
-                     name="bilanCsPcSecondaire"
+                       id="bilan_cs_pc_secondaire"
+                     name="bilan_cs_pc_secondaire"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_pc_secondaire')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_pc_secondaire', 'bilanCsPcSecondaireP')"/>
                PC secondaire
             </p>
-            <p>
+            <p id="bilanCsAgitationP">
               <input type="checkbox"
-                       id="bilanCsAgitation"
-                     name="bilanCsAgitation"
+                       id="bilan_cs_agitation"
+                     name="bilan_cs_agitation"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_agitation')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_agitation', 'bilanCsAgitationP')"/>
                Agitation
             </p>
-            <p>
+            <p id="bilanCsConvulsionsP">
               <input type="checkbox"
-                       id="bilanCsConvulsions"
-                     name="bilanCsConvulsions"
+                       id="bilan_cs_convulsions"
+                     name="bilan_cs_convulsions"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_convulsions')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'cs_convulsions', 'bilanCsConvulsionsP')"/>
                Convulsions
             </p>
           </td>
           <td>
-            <p>
+            <p id="bilanVentilAbscenceP">
               <input type="checkbox"
-                       id="bilanVentilAbscence"
-                     name="bilanVentilAbscence"
+                       id="bilan_ventil_absence"
+                     name="bilan_ventil_absence"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_absence')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_absence', 'bilanVentilAbscenceP')"/>
                Absence de ventilation
             </p>
             <p>
               Fréquence
               <input style="width:30px;"
                         type="text"
-                          id="bilanVentilChiffre"
-                        name="bilanVentilChiffre"
+                          id="bilan_ventil_chiffre"
+                        name="bilan_ventil_chiffre"
                        value=""
                    maxlength="3"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -682,8 +682,8 @@ String contextPath = request.getContextPath();
               Obs
               <input style="width:120px;"
                         type="text"
-                          id="bilanVentilCommentaire"
-                        name="bilanVentilCommentaire"
+                          id="bilan_ventil_commentaire"
+                        name="bilan_ventil_commentaire"
                        value=""
                    maxlength="16"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -692,70 +692,70 @@ String contextPath = request.getContextPath();
 <table style="width:100%;">
   <tr>
     <td>
-            <p>
+            <p id="bilanVentilSuperficielleP">
               <input type="checkbox"
-                       id="bilanVentilSuperficielle"
-                     name="bilanVentilSuperficielle"
+                       id="bilan_ventil_superficielle"
+                     name="bilan_ventil_superficielle"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_superficielle')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_superficielle', 'bilanVentilSuperficielleP')"/>
                Superficielle
             </p>
-            <p>
+            <p id="bilanVentilIrregulierreP">
               <input type="checkbox"
-                       id="bilanVentilIrregulierre"
-                     name="bilanVentilIrregulierre"
+                       id="bilan_ventil_irreguliere"
+                     name="bilan_ventil_irreguliere"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_irreguliere')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_irreguliere', 'bilanVentilIrregulierreP')"/>
                Irrégulière
             </p>
-            <p>
+            <p id="bilanVentilPausesP">
               <input type="checkbox"
-                       id="bilanVentilPauses"
-                     name="bilanVentilPauses"
+                       id="bilan_ventil_pauses"
+                     name="bilan_ventil_pauses"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_pauses')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_pauses', 'bilanVentilPausesP')"/>
                Pauses
             </p>
-            <p>
+            <p id="bilanVentilSifflementP">
               <input type="checkbox"
-                       id="bilanVentilSifflement"
-                     name="bilanVentilSifflement"
+                       id="bilan_ventil_sifflement"
+                     name="bilan_ventil_sifflement"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_sifflement')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_sifflement', 'bilanVentilSifflementP')"/>
                Sifflements
             </p>
     </td>
     <td>
-            <p>
+            <p id="bilanVentilRonflementP">
               <input type="checkbox"
-                       id="bilanVentilRonflement"
-                     name="bilanVentilRonflement"
+                       id="bilan_ventil_ronflement"
+                     name="bilan_ventil_ronflement"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_ronflement')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_ronflement', 'bilanVentilRonflementP')"/>
                Ronflements
             </p>
-            <p>
+            <p id="bilanVentilTirageP">
               <input type="checkbox"
-                       id="bilanVentilTirage"
-                     name="bilanVentilTirage"
+                       id="bilan_ventil_tirage"
+                     name="bilan_ventil_tirage"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_tirage')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_tirage', 'bilanVentilTirageP')"/>
                Tirage
             </p>
-            <p>
+            <p id="bilanVentilSueursP">
               <input type="checkbox"
-                       id="bilanVentilSueurs"
-                     name="bilanVentilSueurs"
+                       id="bilan_ventil_sueurs"
+                     name="bilan_ventil_sueurs"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_sueurs')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_sueurs', 'bilanVentilSueursP')"/>
                Sueurs
             </p>
-            <p>
+            <p id="bilanVentilCyanoseP">
               <input type="checkbox"
-                       id="bilanVentilCyanose"
-                     name="bilanVentilCyanose"
+                       id="bilan_ventil_cyanose"
+                     name="bilan_ventil_cyanose"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_cyanose')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'ventil_cyanose', 'bilanVentilCyanoseP')"/>
                Cyanose
             </p>
     </td>
@@ -765,8 +765,8 @@ String contextPath = request.getContextPath();
               Saturation O<sub>2</sub>
               <input style="width:120px;"
                         type="text"
-                          id="bilanVentilSat02"
-                        name="bilanVentilSat02"
+                          id="bilan_ventil_saturation_o2"
+                        name="bilan_ventil_saturation_o2"
                        value=""
                    maxlength="16"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -775,76 +775,77 @@ String contextPath = request.getContextPath();
 
           </td>
           <td>
+            <p id="bilanCirculAbscenceP">
               <input type="checkbox"
-                       id="bilanCirculAbscence"
-                     name="bilanCirculAbscence"
+                       id="bilan_circul_pouls_non_percu"
+                     name="bilan_circul_pouls_non_percu"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_pouls_non_percu')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_pouls_non_percu', 'bilanCirculAbscenceP')"/>
                Absence de ventilation
             </p>
-            <p>
+            <p id="bilanCirculChiffreP">
               Fréquence
               <input style="width:30px;"
                         type="text"
-                          id="bilanCirculChiffre"
-                        name="bilanCirculChiffre"
+                          id="bilan_circul_pouls_chiffre"
+                        name="bilan_circul_pouls_chiffre"
                        value=""
                    maxlength="3"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
-                      onBlur="miBilanCs.updateIntegerField(this.id, 'circul_pouls_chiffre')"/>
+                      onBlur="miBilanCs.updateIntegerField(this.id, 'circul_pouls_chiffre', 'bilanCirculChiffreP')"/>
               Obs
               <input style="width:120px;"
                         type="text"
-                          id="bilanCirculCommentaire"
-                        name="bilanCirculCommentaire"
+                          id="bilan_circul_pouls_commentaire"
+                        name="bilan_circul_pouls_commentaire"
                        value=""
                    maxlength="16"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
-                      onBlur="miBilanCs.updateIntegerField(this.id, 'circul_pouls_commentaire')"/>
+                      onBlur="miBilanCs.updateStringField(this.id, 'circul_pouls_commentaire')"/>
             </p>
 <table style="width:100%;">
   <tr>
     <td>
-            <p>
+            <p id="bilanCirculIrregulierP">
               <input type="checkbox"
-                       id="bilanCirculIrregulier"
-                     name="bilanCirculIrregulier"
+                       id="bilan_circul_pouls_irregulier"
+                     name="bilan_circul_pouls_irregulier"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_pouls_irregulier')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_pouls_irregulier', 'bilanCirculIrregulierP')"/>
                Irrégulier
             </p>
-            <p>
+            <p id="bilanCirculConjonctivesDecoloreesP">
               <input type="checkbox"
-                       id="bilanCirculConjonctivesDecolorees"
-                     name="bilanCirculConjonctivesDecolorees"
+                       id="bilan_circul_conjonctive_decolorees"
+                     name="bilan_circul_conjonctive_decolorees"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_conjonctive_decolorees')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_conjonctive_decolorees', 'bilanCirculConjonctivesDecoloreesP')"/>
                Conjonct. <sub>décolorées</sub>
             </p>
-            <p>
+            <p id="bilanCirculMarbrureP">
               <input type="checkbox"
-                       id="bilanCirculMarbrure"
-                     name="bilanCirculMarbrure"
+                       id="bilan_circul_marbrure"
+                     name="bilan_circul_marbrure"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_marbrure')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_marbrure', 'bilanCirculMarbrureP')"/>
                Marbrure
             </p>
     </td>
     <td>
-            <p>
+            <p id="bilanCirculFaibleP">
               <input type="checkbox"
-                       id="bilanCirculFaible"
-                     name="bilanCirculFaible"
+                       id="bilan_circul_pouls_faible"
+                     name="bilan_circul_pouls_faible"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_pouls_faible')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_pouls_faible', 'bilanCirculFaibleP')"/>
                Faible
             </p>
-            <p>
+            <p id="bilanCirculPaleurP">
               <input type="checkbox"
-                       id="bilanCirculPaleur"
-                     name="bilanCirculPaleur"
+                       id="bilan_circul_paleur_cutanees"
+                     name="bilan_circul_paleur_cutanees"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
-                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_paleur_cutanees')"/>
+                 onChange="miBilanCs.updateBooleanField(this.id, 'circul_paleur_cutanees', 'bilanCirculPaleurP')"/>
                Paleurs <sub>Cutanées</sub>
             </p>
     </td>
@@ -856,8 +857,8 @@ String contextPath = request.getContextPath();
     <td>
               <input style="width:30px;"
                         type="text"
-                          id="bilanCirculTensionBasse"
-                        name="bilanCirculTensionBasse"
+                          id="bilan_circul_tension_basse"
+                        name="bilan_circul_tension_basse"
                        value=""
                    maxlength="16"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -865,8 +866,8 @@ String contextPath = request.getContextPath();
                       /
               <input style="width:30px;"
                         type="text"
-                          id="bilanCirculTensionHaute"
-                        name="bilanCirculTensionHaute"
+                          id="bilan_circul_tension_haute"
+                        name="bilan_circul_tension_haute"
                        value=""
                    maxlength="16"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -879,8 +880,8 @@ String contextPath = request.getContextPath();
     <td>
        <input style="width:30px;"
                             type="text"
-                              id="bilanCirculTensionRefBasse"
-                            name="bilanCirculTensionRefBasse"
+                              id="bilan_circul_tension_ref_basse"
+                            name="bilan_circul_tension_ref_basse"
                            value=""
                        maxlength="16"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -888,8 +889,8 @@ String contextPath = request.getContextPath();
                           /
                   <input style="width:30px;"
                             type="text"
-                              id="bilanCirculTensionRefHaute"
-                            name="bilanCirculTensionRefHaute"
+                              id="bilan_circul_tension_ref_haute"
+                            name="bilan_circul_tension_ref_haute"
                            value=""
                        maxlength="16"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -913,112 +914,112 @@ String contextPath = request.getContextPath();
 
   <table style="width:100%;">
     <tr>
-      <td>
+      <td id="bilanPupilleReactiveP">
           <input type="checkbox"
-             id="bilanPupilleReactive"
-           name="bilanPupilleReactive"
+             id="bilan_pupille_reactive"
+           name="bilan_pupille_reactive"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_reactive')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_reactive', 'bilanPupilleReactiveP')"/>
      Réactives
       </td>
-      <td style="text-align:right;">
+      <td style="text-align:right;" id="bilanPupilleMyosisGaucheP">
      Myosis Gauche
      
      <input type="checkbox"
-             id="bilanPupilleMyosisGauche"
-           name="bilanPupilleMyosisGauche"
+             id="bilan_pupille_myosis_gauche"
+           name="bilan_pupille_myosis_gauche"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_gauche')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_gauche', 'bilanPupilleMyosisGaucheP')"/>
      
       </td>
-      <td>
+      <td id="bilanPupilleMyosisDroiteP">
           <input type="checkbox"
-             id="bilanPupilleMyosisDroite"
-           name="bilanPupilleMyosisDroite"
+             id="bilan_pupille_myosis_droite"
+           name="bilan_pupille_myosis_droite"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_droite')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_droite', 'bilanPupilleMyosisDroiteP')"/>
         Droite
       </td>
     </tr>
     <tr>
-      <td>
+      <td id="bilanPupilleNonReactiveP">
           <input type="checkbox"
-             id="bilanPupilleNonReactive"
-           name="bilanPupilleNonReactive"
+             id="bilan_pupille_non_reactive"
+           name="bilan_pupille_non_reactive"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_non_reactive')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_non_reactive', 'bilanPupilleNonReactiveP')"/>
      Non Réactives
       </td>
-      <td style="text-align:right;">
+      <td style="text-align:right;" id="bilanPupilleMydriaseGaucheP">
      Mydriase Gauche
           <input type="checkbox"
-             id="bilanPupilleMydriaseGauche"
-           name="bilanPupilleMydriaseGauche"
+             id="bilan_pupille_mydriase_gauche"
+           name="bilan_pupille_mydriase_gauche"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_gauche')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_gauche', 'bilanPupilleMydriaseGaucheP')"/>
      
       </td>
-      <td>
+      <td id="bilanPupilleMydriaseDroiteP">
           <input type="checkbox"
-             id="bilanPupilleMydriaseDroite"
-           name="bilanPupilleMydriaseDroite"
+             id="bilan_pupille_mydriase_droite"
+           name="bilan_pupille_mydriase_droite"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_droite')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_droite', 'bilanPupilleMydriaseDroiteP')"/>
        Droite
       </td>
     </tr>
     <tr>
-      <td colspan="3">
+      <td colspan="3" id="bilanPupilleAssymetriqueP">
           <input type="checkbox"
-             id="bilanPupilleAssymetrique"
-           name="bilanPupilleAssymetrique"
+             id="bilan_pupille_asymetriques"
+           name="bilan_pupille_asymetriques"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_asymetriques')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_asymetriques', 'bilanPupilleAssymetriqueP')"/>
      Assymétriques      
       </td>
     </tr>
   </table>
 
           </td>
-          <td>
+          <td id="bilanDouleurP">
 <!-- douleur -->
           <input type="radio"
-             id="bilanDouleur0"
+             id="bilan_douleur_0"
            name="bilanDouleur"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateIntegerField(this.id, 'douleur')"
+       onChange="miBilanCs.updateIntegerField(this.id, 'douleur', 'bilanDouleurP')"
           value="0"/>
      0.&nbsp;&nbsp;&nbsp;
 
           <input type="radio"
-             id="bilanDouleur1"
+             id="bilan_douleur_1"
            name="bilanDouleur"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateIntegerField(this.id, 'douleur')"
+       onChange="miBilanCs.updateIntegerField(this.id, 'douleur', 'bilanDouleurP')"
           value="1"/>
      1.&nbsp;&nbsp;&nbsp;
 
                <input type="radio"
-             id="bilanDouleur2"
+             id="bilan_douleur_2"
            name="bilanDouleur"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateIntegerField(this.id, 'douleur')"
+       onChange="miBilanCs.updateIntegerField(this.id, 'douleur', 'bilanDouleurP')"
           value="2"/>
      2.&nbsp;&nbsp;&nbsp;
 
           <input type="radio"
-             id="bilanDouleur3"
+             id="bilan_douleur_3"
            name="bilanDouleur"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateIntegerField(this.id, 'douleur')"
+       onChange="miBilanCs.updateIntegerField(this.id, 'douleur', 'bilanDouleurP')"
           value="3"/>
      3.&nbsp;&nbsp;&nbsp;
 
           <input type="radio"
-             id="bilanDouleur4"
+             id="bilan_douleur_4"
            name="bilanDouleur"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateIntegerField(this.id, 'douleur')"
+       onChange="miBilanCs.updateIntegerField(this.id, 'douleur', 'bilanDouleurP')"
           value="4"/>
      4.
           </td>
@@ -1041,54 +1042,54 @@ String contextPath = request.getContextPath();
     <tr>
       <td style="valign:top;">
 
-<p>
+<p id="bilanGesteLvaP">
   <input type="checkbox"
-           id="bilanGesteLva"
-         name="bilanGesteLva"
+           id="bilan_gestes_lva"
+         name="bilan_gestes_lva"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_lva')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_lva', 'bilanGesteLvaP')"/>
    LVA
 </p>
-<p>
+<p id="bilanGesteAspirationP">
   <input type="checkbox"
            id="bilanGesteAspiration"
          name="bilanGesteAspiration"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_aspiration')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_aspiration', 'bilanGesteAspirationP')"/>
    Aspiration
 </p>
-<p>
+<p id="bilanGesteVaP">
   <input type="checkbox"
-           id="bilanGesteVa"
-         name="bilanGesteVa"
+           id="bilan_gestes_va"
+         name="bilan_gestes_va"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_va')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_va', 'bilanGesteVaP')"/>
    VA
 </p>
       </td>
       <td style="valign:top;">
-<p>
+<p id="bilanGesteMceP">
   <input type="checkbox"
-           id="bilanGesteMce"
-         name="bilanGesteMce"
+           id="bilan_gestes_mce"
+         name="bilan_gestes_mce"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_mce')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_mce', 'bilanGesteMceP')"/>
    MCE
 </p>
-<p>
+<p id="bilanGesteDsaP">
   <input type="checkbox"
-           id="bilanGesteDsa"
-         name="bilanGesteDsa"
+           id="bilan_gestes_dsa"
+         name="bilan_gestes_dsa"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_dsa')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_dsa', 'bilanGesteDsaP')"/>
    DSA
 </p>
 <p style="padding-left:20px;">
   Nb de chocs
 <input style="width:30px;"
           type="text"
-            id="bilanGesteDsaNbChocs"
-          name="bilanGesteDsaNbChocs"
+            id="bilan_gestes_dsa_nb_chocs"
+          name="bilan_gestes_dsa_nb_chocs"
          value=""
      maxlength="3"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -1096,96 +1097,96 @@ String contextPath = request.getContextPath();
 </p>
       </td>
       <td style="valign:top;">
-<p>
+<p id="bilanGesteAllongeeP">
   <input type="checkbox"
-           id="bilanGesteAllongee"
-         name="bilanGesteAllongee"
+           id="bilan_gestes_allongee"
+         name="bilan_gestes_allongee"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_allongee')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_allongee', 'bilanGesteAllongeeP')"/>
    Allongée
 </p>
-<p>
+<p id="bilanGesteDemiAssisP">
   <input type="checkbox"
-           id="bilanGesteDemiAssis"
-         name="bilanGesteDemiAssis"
+           id="bilan_gestes_demi_assis"
+         name="bilan_gestes_demi_assis"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_demi_assis')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_demi_assis', 'bilanGesteDemiAssisP')"/>
    &#189; Assis
 </p>
-<p>
+<p id="bilanGesteJambesSureleveesP">
   <input type="checkbox"
-           id="bilanGesteJambesSurelevees"
-         name="bilanGesteJambesSurelevees"
+           id="bilan_gestes_jambes_surelevees"
+         name="bilan_gestes_jambes_surelevees"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_jambes_surelevees')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_jambes_surelevees', 'bilanGesteJambesSureleveesP')"/>
    Jambes surélevées
 </p>
       </td>
       <td style="valign:top;">
-<p>
+<p id="bilanGestePlsP">
   <input type="checkbox"
-           id="bilanGestePls"
-         name="bilanGestePls"
+           id="bilan_gestes_pls"
+         name="bilan_gestes_pls"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_pls')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_pls', 'bilanGestePlsP')"/>
    PLS
 </p>
-<p>
+<p id="bilanGesteColierCervicalP">
   <input type="checkbox"
-           id="bilanGesteColierCervical"
-         name="bilanGesteColierCervical"
+           id="bilan_gestes_colier_cervical"
+         name="bilan_gestes_colier_cervical"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_colier_cervical')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_colier_cervical', 'bilanGesteColierCervicalP')"/>
    Colier Cervical
 </p>
-<p>
+<p id="bilanGesteAttelleP">
   <input type="checkbox"
-           id="bilanGesteAttelle"
-         name="bilanGesteAttelle"
+           id="bilan_gestes_attelle"
+         name="bilan_gestes_attelle"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_attelle')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_attelle', 'bilanGesteAttelleP')"/>
    Attelle
 </p>
-<p>
+<p id="bilanGesteImmoGeneraleP">
   <input type="checkbox"
-           id="bilanGesteImmoGenerale"
-         name="bilanGesteImmoGenerale"
+           id="bilan_gestes_immobilisation_generale"
+         name="bilan_gestes_immobilisation_generale"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_immobilisation_generale')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_immobilisation_generale', 'bilanGesteImmoGeneraleP')"/>
    Immobil&deg; Générale
 </p>
       </td>
       <td style="valign:top;">
-<p>
+<p id="bilanGestePansementP">
   <input type="checkbox"
-           id="bilanGestePansement"
-         name="bilanGestePansement"
+           id="bilan_gestes_pansement"
+         name="bilan_gestes_pansement"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_pansement')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_pansement', 'bilanGestePansementP')"/>
    Pansement
 </p>
-<p>
+<p id="bilanGestePointDeCompressionP">
   <input type="checkbox"
-           id="bilanGestePointDeCompression"
-         name="bilanGestePointDeCompression"
+           id="bilan_gestes_point_de_compression"
+         name="bilan_gestes_point_de_compression"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_point_de_compression')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_point_de_compression', 'bilanGestePointDeCompressionP')"/>
    Point de compression
 </p>
-<p>
+<p id="bilanGesteGarrotP">
   <input type="checkbox"
-           id="bilanGesteGarrot"
-         name="bilanGesteGarrot"
+           id="bilan_gestes_garrot"
+         name="bilan_gestes_garrot"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_garrot')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_garrot', 'bilanGesteGarrotP')"/>
    Garrot
 </p>
 <p style="padding-left:15px;">
   Heure de pose
   <input style="width:35px;"
           type="text"
-            id="bilanGesteHeurePoseGarrot"
-          name="bilanGesteHeurePoseGarrot"
+            id="bilan_gestes_garrot_heure_pose"
+          name="bilan_gestes_garrot_heure_pose"
          value="  :  "
      maxlength="5"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -1193,20 +1194,20 @@ String contextPath = request.getContextPath();
 </p>
       </td>
       <td style="valign:top;">
-<p>
+<p id="bilanGesteRefroidissementP">
   <input type="checkbox"
-           id="bilanGesteRefroidissement"
-         name="bilanGesteRefroidissement"
+           id="bilan_gestes_refroidissement"
+         name="bilan_gestes_refroidissement"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_refroidissement')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_refroidissement', 'bilanGesteRefroidissementP')"/>
    Refroidissement
 </p>
-<p>
+<p id="bilanGesteProtectionThermiqueP">
   <input type="checkbox"
-           id="bilanGesteProtectionThermique"
-         name="bilanGesteProtectionThermique"
+           id="bilan_gestes_protection_thermique"
+         name="bilan_gestes_protection_thermique"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_protection_thermique')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_protection_thermique','bilanGesteProtectionThermiqueP')"/>
    Protection Thermique
 </p>
 
@@ -1250,8 +1251,8 @@ Glycémie <input style="width:30px;"
       <td colspan="2" style="text-align:center;">
 Température <input style="width:30px;"
           type="text"
-            id="bilanGesteTemperature"
-          name="bilanGesteTemperature"
+            id="bilan_gestes_temperature"
+          name="bilan_gestes_temperature"
          value=""
      maxlength="2"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -1266,20 +1267,20 @@ Température <input style="width:30px;"
           <th colspan="3">Contacts &amp; Renforts</th>
         </tr>
         <tr>
-          <td colspan="3" style="text-align:center;">
+          <td colspan="3" style="text-align:center;" id="bilanGesteCoordinateurBsppContacteP">
 
   <input type="checkbox"
-           id="bilanGesteCoordinateurBsppContacte"
-         name="bilanGesteCoordinateurBsppContacte"
+           id="bilan_coordinateur_bspp_contacte"
+         name="bilan_coordinateur_bspp_contacte"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'coordinateur_bspp_contacte')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'coordinateur_bspp_contacte','bilanGesteCoordinateurBsppContacteP')"/>
    Coordinateur BSPP contacté
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <input type="checkbox"
-           id="bilanGesteCoordinateurSamuContacte"
-         name="bilanGesteCoordinateurSamuContacte"
+           id="bilan_coordinateur_samu_contacte"
+         name="bilan_coordinateur_samu_contacte"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'coordinateur_samu_contacte')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'coordinateur_samu_contacte','bilanGesteCoordinateurBsppContacteP')"/>
    Coordinateur SAMU contacté
 
           </td>
@@ -1294,41 +1295,41 @@ Température <input style="width:30px;"
                   
         
         <tr>
-          <td colspan="2">
+          <td colspan="2" id="bilanRenfortMedicaliseeArP">
 Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
-           id="bilanRenfortMedicaliseeAr"
-         name="bilanRenfortMedicaliseeAr"
+           id="bilan_transport_medicalisee_ar"
+         name="bilan_transport_medicalisee_ar"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_ar')"/> AR&nbsp;&nbsp;&nbsp;&nbsp;
+     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_ar','bilanRenfortMedicaliseeArP')"/> AR&nbsp;&nbsp;&nbsp;&nbsp;
      &nbsp;&nbsp;&nbsp;
        <input type="checkbox"
-           id="bilanRenfortMedicaliseeUmh"
-         name="bilanRenfortMedicaliseeUmh"
+           id="bilan_transport_medicalisee_umh"
+         name="bilan_transport_medicalisee_umh"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_umh')"/> UMH
+     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_umh','bilanRenfortMedicaliseeArP')"/> UMH
      &nbsp;&nbsp;&nbsp;&nbsp;de
 
-   <select  id="bilanRenfortMedicaliseeDe"
-          name="bilanRenfortMedicaliseeDe"
+   <select  id="bilan_transport_medicalisee_de"
+          name="bilan_transport_medicalisee_de"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
       onChange="miBilanCs.updateIntField(this.id, 'transport_medicalisee_de')">
         <option value="0">Loading...</option>
         </select>
          </td>
           <td>
-<p>
+<p id="bilanRenfortPoliceSurPlaceP">
              <input type="checkbox"
-           id="bilanRenfortPoliceSurPlace"
-         name="bilanRenfortPoliceSurPlace"
+           id="bilan_police_sur_place"
+         name="bilan_police_sur_place"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'police_sur_place')"/> Police sur Place
+     onChange="miBilanCs.updateBooleanField(this.id, 'police_sur_place','bilanRenfortPoliceSurPlaceP')"/> Police sur Place
 </p>
-<p>
+<p id="bilanRenfortPompierSurPlaceP">
              <input type="checkbox"
-           id="bilanRenfortPompierSurPlace"
-         name="bilanRenfortPompierSurPlace"
+           id="bilan_pompier_sur_place"
+         name="bilan_pompier_sur_place"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'pompier_sur_place')"/> Pompier sur Place
+     onChange="miBilanCs.updateBooleanField(this.id, 'pompier_sur_place','bilanRenfortPompierSurPlaceP')"/> Pompier sur Place
 </p>
           </td>
         </tr>
@@ -1342,34 +1343,34 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     
     <table id="BilanEvacuationTable">
       <tr>
-        <td>
+        <td id="bilanEvacLaisseSurPlaceP">
              <input type="checkbox"
-           id="bilanEvacLaisseSurPlace"
-         name="bilanEvacLaisseSurPlace"
+           id="bilan_evac_laisse_sur_place"
+         name="bilan_evac_laisse_sur_place"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_laisse_sur_place')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_laisse_sur_place','bilanEvacLaisseSurPlaceP')"/>
              
           Laissé sur place
           
         </td>      
       
-        <td>
+        <td id="bilanEvacRefusTransportP">
              <input type="checkbox"
-           id="bilanEvacRefusTransport"
-         name="bilanEvacRefusTransport"
+           id="bilan_evac_refus_de_transport"
+         name="bilan_evac_refus_de_transport"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_refus_de_transport')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_refus_de_transport','bilanEvacRefusTransportP')"/>
              
           Refus de transport
           
         </td>
 
-        <td>
+        <td id="bilanEvacDechargeP">
              <input type="checkbox"
-           id="bilanEvacDecharge"
-         name="bilanEvacDecharge"
+           id="bilan_evac_decharche"
+         name="bilan_evac_decharche"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_decharche')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_decharche','bilanEvacDechargeP')"/>
              
           Décharge responsabilité
           
@@ -1377,18 +1378,18 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       </tr>
       <tr>
 
-        <td colspan="3">
+        <td colspan="3" id="bilanEvacLaisseeSurPlaceDcdP">
              <input type="checkbox"
-           id="bilanEvacLaisseeSurPlaceDcd"
-         name="bilanEvacLaisseeSurPlaceDcd"
+           id="bilan_evac_laisse_sur_place_decedee"
+         name="bilan_evac_laisse_sur_place_decedee"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_laisse_sur_place_decedee')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_laisse_sur_place_decedee','bilanEvacLaisseeSurPlaceDcdP')"/>
              
           Laissé sur place Décédé, à disposition de
           
              <input type="text"
-           id="bilanEvacLaisseeSurPlaceDcdADispoDe"
-         name="bilanEvacLaisseeSurPlaceDcdADispoDe"
+           id="bilan_evac_laisse_sur_place_decedee_a_dispo_de"
+         name="bilan_evac_laisse_sur_place_decedee_a_dispo_de"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="80"
         style="width:400px;"
@@ -1406,35 +1407,35 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <th>
           Aggravation
         </th>
-        <td colspan="2">
+        <td colspan="2" id="bilanEvacAggravationP">
         
 
            <input type="radio"
-           id="bilanEvacAggravationNon"
+           id="bilan_evac_aggravation_false"
          name="bilanEvacAggravation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation')"
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation','bilanEvacAggravationP')"
         value="false"/> <strong>Non</strong>
           
   <input type="radio"
-           id="bilanEvacAggravationOui"
+           id="bilan_evac_aggravation_true"
          name="bilanEvacAggravation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation')"
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation','bilanEvacAggravationP')"
         value="true"/> <strong>Oui</strong>        
         
         &nbsp;&nbsp;&nbsp;&nbsp;
                      <input type="checkbox"
-           id="bilanEvacAggravationTransport"
-         name="bilanEvacAggravationTransport"
+           id="bilan_evac_aggravation_pendant_transport"
+         name="bilan_evac_aggravation_pendant_transport"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation_pendant_transport')"/> Pendant transport&nbsp;&nbsp;
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation_pendant_transport','bilanEvacAggravationP')"/> Pendant transport&nbsp;&nbsp;
      
                   <input type="checkbox"
-           id="bilanEvacAggravationDestination"
-         name="bilanEvacAggravationDestination"
+           id="bilan_evac_aggravation_arrive_a_destination"
+         name="bilan_evac_aggravation_arrive_a_destination"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation_arrive_a_destination')"/> Arrivée à destination
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation_arrive_a_destination','bilanEvacAggravationP')"/> Arrivée à destination
         
         </td>
       </tr>
@@ -1442,8 +1443,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <td>
           Ventilation
   <input type="text"
-           id="bilanEvacVentilation"
-         name="bilanEvacVentilation"
+           id="bilan_evac_aggravation_ventilation"
+         name="bilan_evac_aggravation_ventilation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="2"
         style="width:30px;"
@@ -1455,8 +1456,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <td>
           Circulation
   <input type="text"
-           id="bilanEvacCirculation"
-         name="bilanEvacCirculation"
+           id="bilan_evac_aggravation_circulation"
+         name="bilan_evac_aggravation_circulation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="2"
         style="width:30px;"
@@ -1466,8 +1467,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <td>
           Douleur
   <input type="text"
-           id="bilanEvacDouleur"
-         name="bilanEvacDouleur"
+           id="bilan_evac_aggravation_douleur"
+         name="bilan_evac_aggravation_douleur"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="2"
         style="width:30px;"
@@ -1479,8 +1480,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <td>
           <strong>Conctact Régulation</strong>
   <input type="text"
-           id="bilanEvacContactRegulation"
-         name="bilanEvacContactRegulation"
+           id="bilan_evac_aggravation_contact_regulation"
+         name="bilan_evac_aggravation_contact_regulation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="5"
         style="width:35px;"
@@ -1490,8 +1491,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <td colspan="2">
         Nature de l'aggravation :
         <input type="text"
-           id="bilanEvacNatureAggravation"
-         name="bilanEvacNatureAggravation"
+           id="bilan_evac_aggravation_contact_regulation"
+         name="bilan_evac_aggravation_contact_regulation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="100"
         style="width:300px;"
@@ -1508,51 +1509,51 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <th>
           Transport
         </th>
-        <td colspan="2">
+        <td colspan="2" id="bilanEvacParP">
   <input type="radio"
-           id="bilanEvacParCrf"
+           id="bilan_evac_par_1"
          name="bilanEvacPar"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
         value="1"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_par')"/> Croix Rouge
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> Croix Rouge
 &nbsp;&nbsp;
   <input type="radio"
-           id="bilanEvacParSamu"
+           id="bilan_evac_par_2"
          name="bilanEvacPar"
         value="2"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_par')"/> SAMU     
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> SAMU     
      
         
   <input type="radio"
-           id="bilanEvacParBspp"
+           id="bilan_evac_par_3"
          name="bilanEvacPar"
         value="3"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_par')"/> BSPP
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> BSPP
 &nbsp;&nbsp;
   <input type="radio"
-           id="bilanEvacParPolice"
+           id="bilan_evac_par_4"
          name="bilanEvacPar"
         value="4"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_par')"/> Police   
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> Police   
         </td>
       </tr>
       <tr>
         <td>&nbsp;
         </td>
-        <td colspan="2">
+        <td colspan="2" id="bilanEvacParAutreP">
   <input type="radio"
-           id="bilanEvacParAutre"
+           id="bilan_evac_par_5"
          name="bilanEvacPar"
         value="5"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_par')"/> Autre       
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par', 'bilanEvacParAutreP')"/> Autre       
 
         <input type="text"
-           id="bilanEvacParAutreNature"
-         name="bilanEvacParAutreNature"
+           id="bilan_evac_par_autre"
+         name="bilan_evac_par_autre"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="100"
         style="width:300px;"
@@ -1563,8 +1564,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       <tr>
         <td>
           Hopital 
-     <select  id="bilanEvacHopital"
-            name="bilanEvacHopital"
+     <select  id="bilan_evac_hopital_destination"
+            name="bilan_evac_hopital_destination"
          onFocus="crfIrpUtils.fieldEdit(this.id)"
         onChange="miBilanCs.updateIntField(this.id, 'evac_hopital_destination')">
           <option value="0">Loading...</option>
@@ -1575,8 +1576,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           Autre destination
   <input style="width:120px;"
           type="text"
-            id="bilanEvacAutreDestination"
-          name="bilanEvacAutreDestination"
+            id="bilan_evac_autre_destination"
+          name="bilan_evac_autre_destination"
          value=""
      maxlength="100"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -1587,8 +1588,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           Arrivée aux Urgence
   <input style="width:35px;"
           type="text"
-            id="bilanEvacArriveeUrgence"
-          name="bilanEvacArriveeUrgence"
+            id="bilan_evac_arrivee_destination"
+          name="bilan_evac_arrivee_destination"
          value="  :  "
      maxlength="5"
        onFocus="crfIrpUtils.fieldEdit(this.id)"

@@ -1,6 +1,9 @@
 
 Ext.namespace('Ext.ux.MonitorInput', 'Ext.ux.MonitorInput.BilanEditor');
 
+//TODO : Au chargement, chercher la liste des attributs. Dans la classe Java, changer pour champBdd camelize (http://mansonthomas.com/rs2i/camelize.php)
+
+
 // create application
 Ext.ux.MonitorInput.BilanEditor = function() {
     // do NOT access DOM from here; elements don't exist yet
@@ -60,6 +63,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
       },
       updateBooleanField:function(fieldId, fieldName, objectIdForGraphicalEffect){
+
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
 
@@ -87,7 +91,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         crfIrpUtils.checkField (fieldId);
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         fieldValue = $(fieldId).value;
-        if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
+        if(fieldValue!='' && ($(fieldId).type=='radio' || fieldValue != $(fieldId).oldValue))
         {
           MonitorInputBilan.updateIntegerField(
                                               $('bilan_id_intervention').value,

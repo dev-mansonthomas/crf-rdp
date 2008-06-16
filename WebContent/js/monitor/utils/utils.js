@@ -116,7 +116,7 @@ CrfIrpUtils.prototype.fieldEdit=function(fieldId)
 {
   var currentField = $(fieldId);
 
-  currentField.oldValue=currentField.value;
+  currentField.oldValue=currentField.type =='checkbox'?currentField.checked:currentField.value;
   currentField.style.backgroundColor=this.fieldEditBackgroundColor;
   if(this.lastEditedField != null && fieldId != this.lastEditedField)
     this.defaultBackgroundColorForField(this.lastEditedField);

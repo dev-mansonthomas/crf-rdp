@@ -3,6 +3,13 @@
 
 <beans>
 
+<!--
+  <bean class="fr.rs2i.sedna.conf.PerMachinePropertyPlaceholderConfigurer">
+    <property name="prefix"     value="conf/msc"/>
+    <property name="exportPath" value="/global/data/projects/webapps/TotalMSCOperator/"/>
+    <property name="location"   value="classpath:msc.properties"/>
+  </bean>  
+-->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
 		    <value>classpath:crf-irp.properties</value>

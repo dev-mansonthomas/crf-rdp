@@ -212,9 +212,12 @@ MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, opti
 {
   console.log('adding drop zone');
   var rowIndex = 0;
-  records.each(function(rowData){
-    Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.json.idTypeDispositif+'_'+rowData.json.idDispositif+'_'+rowIndex,rowIndex++, rowData.json);
-  });
+  if(records != null)
+    records.each(function(rowData){
+      Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.json.idTypeDispositif+'_'+rowData.json.idDispositif+'_'+rowIndex,rowIndex++, rowData.json);
+    });
+  else
+    console.log('No zone added');
 };
 
 MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif){

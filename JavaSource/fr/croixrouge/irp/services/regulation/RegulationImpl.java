@@ -23,6 +23,10 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   {
     this.jdbcTemplate=jdbcTemplate;
   }
+  private int getLastInsertedId()
+  {
+    return this.getLastInsertedId(jdbcTemplate, "regulation");
+  }
   
   
   private final static String selectForRegulation = 
@@ -86,7 +90,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
    
     jdbcTemplate.update(query, objects, types);
     
-    regulation.setRegulationId(getLastInsertedId(jdbcTemplate));
+    regulation.setRegulationId(this.getLastInsertedId());
     
     if(logger.isDebugEnabled())
     logger.debug("regulation created with id="+regulation.getRegulationId());
@@ -289,7 +293,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
                    };
     jdbcTemplate.update(queryForCreateUser, os, types);
     
-    int lastInsertId = getLastInsertedId(jdbcTemplate);
+    int lastInsertId = this.getLastInsertedId();
     
     user.setIdUser(lastInsertId);
     
@@ -335,7 +339,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     
     jdbcTemplate.update(queryForCreateDelegation, os, types);
     
-    delegation.setIdDelegation(getLastInsertedId(jdbcTemplate));
+    delegation.setIdDelegation(this.getLastInsertedId());
     
     if(logger.isDebugEnabled())
       logger.debug("delegation created with id="+delegation.getIdDelegation());

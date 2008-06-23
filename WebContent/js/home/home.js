@@ -151,6 +151,6 @@ function openCrfIrp(regulationId)
 
 function openCrfIrpReturn()
 {
-  openMonitorInput ();
   openMonitorOutput();
+  openMonitorInput ();
 }

@@ -1,5 +1,8 @@
 package fr.croixrouge.irp.services.intervention;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.Date;
 import java.util.Hashtable;
@@ -28,6 +31,10 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     this.jdbcTemplate = jdbcTemplate;
   }
   
+  private int getLastInsertedId()
+  {
+    return this.getLastInsertedId(jdbcTemplate, "intervention");
+  }
   
   private final static String selectForInteventionTicket = 
     "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` , \n" +
@@ -148,8 +155,25 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
                     };
     
     jdbcTemplate.update(queryForCreateEmptyIntervention, os, types);
+/*    
+    int lastInsertedId = 0;
+    while(lastInsertedId == 0)
+    {
+      Connection connection = jdbcTemplate.getDataSource().getConnection();
+      Statement stmt = connection.createStatement();
+      
+      ResultSet rs = stmt.executeQuery("SELECT last_insert_id()");
+      
+      if(rs.next())
+      {
+        lastInsertedId =rs.getInt(1);
+        System.out.println(lastInsertedId);
+      }
+      connection.close();
+    }*/
+   
     
-    intervention.setIdIntervention  (getLastInsertedId(jdbcTemplate));
+    intervention.setIdIntervention  (this.getLastInsertedId());
     intervention.setIdRegulation    (idRegulation);
     
     if(logger.isDebugEnabled())

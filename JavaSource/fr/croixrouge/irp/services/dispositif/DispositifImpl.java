@@ -38,6 +38,11 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     this.equipierService = equipierService;
   }
   
+  private int getLastInsertedId()
+  {
+    return this.getLastInsertedId(jdbcTemplate, "dispositif");
+  }
+  
   private final static String queryForAffectInterventionToDispositif =
     "UPDATE dispositif                    \n" +
     "SET    id_current_intervention   = ?,\n" +
@@ -72,6 +77,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   @SuppressWarnings("unchecked")
   public List<Equipier> getEquipierIdAndRoleOfDispositif(int idRegulation, int idDispositif) throws Exception
   {
+    if(logger.isDebugEnabled())
+      logger.debug("getEquipierIdAndRoleOfDispositif idRegulation="+idRegulation+" idDispositif="+idDispositif);
+    
     return (List<Equipier>)this.jdbcTemplate.queryForObject(queryForGetEquipierIdAndRoleOfDispositif, 
         new Object[]{idDispositif , idRegulation },
         new int   []{Types.INTEGER, Types.INTEGER},
@@ -278,7 +286,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
                           };
     
     jdbcTemplate.update( query, objects, types);
-    int idDispositif = getLastInsertedId(jdbcTemplate);
+    int idDispositif = getLastInsertedId();
     
     if(logger.isDebugEnabled())
       logger.debug("Dispositif inserted with id="+idDispositif);
@@ -309,7 +317,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
     this.jdbcTemplate.update(query, new Object[]{regulation.getRegulationId(), regulation.getStartDate(), regulation.getExpectedEndDate()}, new int[]{Types.INTEGER, Types.TIMESTAMP, Types.TIMESTAMP});
     
-    int idDispositif = this.getLastInsertedId(this.jdbcTemplate);
+    int idDispositif = this.getLastInsertedId();
     
     if(logger.isDebugEnabled())
       logger.debug("new empty dispositif created with id='"+idDispositif+"'for regulation id='"+regulation.getRegulationId()+"'");

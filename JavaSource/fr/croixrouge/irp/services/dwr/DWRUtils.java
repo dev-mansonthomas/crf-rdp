@@ -41,15 +41,31 @@ public class DWRUtils
   protected void updateRegulationUser(ScriptBuffer script, String pageName) throws Exception
   {
     WebContext        webContext = WebContextFactory.get();
-    int currentUserRegulationId = this.getRegulationId();
+    int currentUserRegulationId = 0;
+    
+    try
+    {
+      currentUserRegulationId = this.getRegulationId();  
+    }
+    catch(Exception e)
+    {//script session resync bug
+      
+    }
+    
     
     Collection <ScriptSession> sessions = webContext.getScriptSessionsByPage(pageName);
     for (ScriptSession session : sessions)
-      if( session.getAttribute("regulationId") != null && currentUserRegulationId == ((Integer)session.getAttribute("regulationId")))
+    {
+      Integer integer = (Integer)session.getAttribute("regulationId");
+      int sessionRegulationId = integer!= null ? integer:0;
+      
+      if( currentUserRegulationId == sessionRegulationId)
       {
         System.err.println("Adding script to regulationId="+session.getAttribute("regulationId")+" with script "+script);
         session.addScript(script);
       }
+    }
+      
         
   }
   

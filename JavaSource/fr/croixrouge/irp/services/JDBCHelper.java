@@ -8,8 +8,11 @@ public class JDBCHelper
 {
   protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
   
-  protected int getLastInsertedId(JdbcTemplate jdbcTemplate)
+  protected int getLastInsertedId(JdbcTemplate jdbcTemplate, String tableName)
   {
-    return jdbcTemplate.queryForInt("SELECT last_insert_id()", null, null);
+    return jdbcTemplate.queryForInt("SELECT last_insert_id() from `" 
+        + 
+        tableName
+        +"` LIMIT 1", null, null); 
   }
 }

@@ -93,7 +93,7 @@ function initLayout()
               id:'monitorOutputWestRegion',
               region:'west',
               id:'west-panel',
-              title:'West',
+              title:'Intervention à affecter',
               split:true,
               width: 200,
               minSize: 175,

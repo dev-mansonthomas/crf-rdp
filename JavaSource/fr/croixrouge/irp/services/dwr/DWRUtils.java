@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.WebContext;
@@ -17,6 +18,8 @@ public class DWRUtils
   public final static String outPageName="/crf-irp/private/monitor/out.html";
   public final static String inPageName ="/crf-irp/private/monitor/in.html";
 
+  private static Logger logger = Logger.getLogger(DWRUtils.class);
+  
   protected HttpSession validateSession() throws Exception
   {
     WebContext  webContext  = WebContextFactory.get();
@@ -49,7 +52,7 @@ public class DWRUtils
     }
     catch(Exception e)
     {//script session resync bug
-      
+      logger.error("RegulationId Not Found",e);
     }
     
     

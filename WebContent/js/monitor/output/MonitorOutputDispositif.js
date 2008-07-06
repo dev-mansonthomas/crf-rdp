@@ -144,7 +144,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
             forceFit      :true,
             enableRowBody :true,
             getRowClass   :moDispositifCs.buildDispositifRowBody
-        },
+        },/*
         tbar        :[{
             text:'Init Dropzone',
             tooltip:'Init drop zone',
@@ -154,7 +154,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
               MonitorOutputDispositifCs.prototype.initDropZone();
             }
        }
-        ],
+        ],*/
         collapsible : false,
         animCollapse: false,
         height      : 1800,
@@ -210,14 +210,16 @@ detailIntervention,
 
 MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, options)
 {
-  console.log('adding drop zone');
+  if(console)
+    console.log('adding drop zone');
   var rowIndex = 0;
   if(records != null)
     records.each(function(rowData){
       Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.json.idTypeDispositif+'_'+rowData.json.idDispositif+'_'+rowIndex,rowIndex++, rowData.json);
     });
   else
-    console.log('No zone added');
+    if(console)
+      console.log('No zone added');
 };
 
 MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif){

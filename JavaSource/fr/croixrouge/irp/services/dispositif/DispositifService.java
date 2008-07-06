@@ -15,7 +15,6 @@ public interface DispositifService
   public Dispositif getDispositif         (int idRegulation       , int disposifitId    , boolean withEquipierList) throws Exception;
   public Dispositif createEmptyDispositif (Regulation regulation                                                  ) throws Exception;
   public void       updateEtatDispositif  (int idDispositif       , int idEtatDispositif                          ) throws Exception;
-  public void       createDispositif      (Dispositif dispositif                                                  ) throws Exception;
   
   public List<Equipier> getEquipierIdAndRoleOfDispositif(int idRegulation, int idDispositif) throws Exception;
   public int            getIdTypeDispositif             (int idRegulation, int idDispositif) throws Exception;

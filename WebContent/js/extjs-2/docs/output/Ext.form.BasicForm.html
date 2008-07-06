@@ -12,7 +12,7 @@
                 <h1>Class Ext.form.BasicForm</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext.form</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/BasicForm.js" target="_blank">BasicForm.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">BasicForm.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">BasicForm</td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.util.Observable" ext:member="" href="output/Ext.util.Observable.html">Observable</a></td></tr>
                     </table>
@@ -20,13 +20,7 @@
             Supplies the functionality to do "actions" on forms and initialize Ext.form.Field types on existing markup.
 <br><br>
 By default, Ext Forms are submitted through Ajax, using <a ext:cls="Ext.form.Action" href="output/Ext.form.Action.html">Ext.form.Action</a>.
-To enable normal browser submission of an Ext Form, override the Form's onSubmit,
-and submit methods:<br><br><pre><code>var myForm = <b>new</b> Ext.form.BasicForm(<em>"form-el-id"</em>, {
-        onSubmit: Ext.emptyFn,
-        submit: <b>function</b>() {
-            <b>this</b>.getEl().dom.submit();
-        }
-    });</code></pre><br>        </div>
+To enable normal browser submission of an Ext Form, use the <a ext:cls="Ext.form.BasicForm" ext:member="standardSubmit" href="output/Ext.form.BasicForm.html#standardSubmit">standardSubmit</a> config option.        </div>
         
         <div class="hr"></div>
                 <a id="Ext.form.BasicForm-configs"></a>
@@ -57,12 +51,15 @@ and submit methods:<br><br><pre><code>var myForm = <b>new</b> Ext.form.BasicForm
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.form.BasicForm-fileUpload"></a>
-            <b>fileUpload</b> : Boolean            <div class="mdesc">
-                            Set to true if this form is a file upload.                        </div>
+        <a id="Ext.form.BasicForm-fileUpload."></a>
+            <b>fileUpload.</b> : Boolean            <div class="mdesc">
+                        <div class="short">Set to true if this form is a file upload. File uploads are not performed using normal "Ajax" techniques, that is the...</div>
+            <div class="long">
+                Set to true if this form is a file upload. <p>File uploads are not performed using normal "Ajax" techniques, that is they are <b>not</b> performed using XMLHttpRequests. Instead the form is submitted in the standard manner with the DOM <tt>&lt;form></tt> element temporarily modified to have its {@link http://www.w3.org/TR/REC-html40/present/frames.html#adef-target target} set to refer to a dynamically generated, hidden <tt>&lt;iframe></tt> which is inserted into the document but removed after the return data has been gathered.</p> <p>The server response is parsed by the browser to create the document for the IFRAME. If the server is using JSON to send the return object, then the {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17 Content-Type} header must be set to "text/html" in order to tell the browser to insert the text unchanged into the document body.</p> <p>The response text is retrieved from the document, and a fake XMLHttpRequest object is created containing a <tt>responseText</tt> property in order to conform to the requirements of event handlers and callbacks.</p> <p>Be aware that file upload packets are sent with the content type {@link http://www.faqs.org/rfcs/rfc2388.html multipart/form} and some server technologies (notably JEE) may require some custom processing in order to retrieve parameter names and parameter values from the packet content.</p>            </div>
+                        </div>
         </td>
         <td class="msource">BasicForm</td>
     </tr>
@@ -102,13 +99,22 @@ and submit methods:<br><br><pre><code>var myForm = <b>new</b> Ext.form.BasicForm
         <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.form.BasicForm-standardSubmit"></a>
+            <b>standardSubmit</b> : Boolean            <div class="mdesc">
+                            If set to true, standard HTML form submits are used instead of XHR (Ajax) style form submissions. (defaults to false)                        </div>
+        </td>
+        <td class="msource">BasicForm</td>
+    </tr>
+        <tr class="config-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.form.BasicForm-timeout"></a>
             <b>timeout</b> : Number            <div class="mdesc">
                             Timeout for form actions in seconds (default is 30 seconds).                        </div>
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-trackResetOnLoad"></a>
@@ -117,7 +123,7 @@ and submit methods:<br><br><pre><code>var myForm = <b>new</b> Ext.form.BasicForm
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-url"></a>
@@ -139,10 +145,12 @@ and submit methods:<br><br><pre><code>var myForm = <b>new</b> Ext.form.BasicForm
         <td class="sig">
         <a id="Ext.form.BasicForm-waitMsgTarget"></a>
             <b>waitMsgTarget</b> : Mixed            <div class="mdesc">
-                        <div class="short">By default wait messages are displayed with Ext.MessageBox.wait. You can target a specific
-element by passing it or i...</div>
+                        <div class="short">
+By default wait messages are displayed with Ext.MessageBox.wait. You can target a specific
+element by passing it or ...</div>
             <div class="long">
-                By default wait messages are displayed with Ext.MessageBox.wait. You can target a specific
+                
+By default wait messages are displayed with Ext.MessageBox.wait. You can target a specific
 element by passing it or its id or mask the form itself by passing in true.            </div>
                         </div>
         </td>
@@ -231,9 +239,9 @@ properties. This may contain any of the following properties:<ul>
 <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
 <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
 <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -366,6 +374,8 @@ to the form's url.)</p></li>
 to the form's method, or POST if not defined)</p></li>
 <li><b>params</b> : String/Object<p style="margin-left:1em">The params to pass
 (defaults to the form's baseParams, or none if not defined)</p></li>
+<li><b>headers</b> : Object<p style="margin-left:1em">Request headers to set for the action
+(defaults to the form's default headers)</p></li>
 <li><b>success</b> : Function<p style="margin-left:1em">The callback that will
 be invoked after a successful response. Note that this is HTTP success
 (the transaction was sent and received correctly), but the resulting response data
@@ -641,7 +651,27 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="output/Ext.util.Observable.html#purgeListeners">Observable</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.BasicForm-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from this Observable to a different Observable</div>
+            <div class="long">
+                Relays selected events from this Observable to a different Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable to relay events to</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-remove"></a>
@@ -661,7 +691,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-removeListener"></a>
@@ -681,7 +711,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-render"></a>
@@ -703,7 +733,7 @@ and calls applyTo on the existing dom element with that id.    <div class="mdeta
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-reset"></a>
@@ -723,7 +753,7 @@ and calls applyTo on the existing dom element with that id.    <div class="mdeta
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-resumeEvents"></a>
@@ -743,7 +773,7 @@ and calls applyTo on the existing dom element with that id.    <div class="mdeta
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-setValues"></a>
@@ -770,7 +800,7 @@ or an object hash of the form:<br><br><code><pre>{
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-submit"></a>
@@ -790,7 +820,7 @@ or an object hash of the form:<br><br><code><pre>{
         </td>
         <td class="msource">BasicForm</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-suspendEvents"></a>
@@ -810,7 +840,7 @@ or an object hash of the form:<br><br><code><pre>{
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-un"></a>
@@ -830,7 +860,7 @@ or an object hash of the form:<br><br><code><pre>{
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#un" href="output/Ext.util.Observable.html#un">Observable</a></td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.BasicForm-updateRecord"></a>

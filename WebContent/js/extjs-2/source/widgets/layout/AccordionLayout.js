@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -126,10 +126,12 @@ Ext.layout.Accordion = Ext.extend(Ext.layout.FitLayout, {
         if(ai){
             if(this.sequence){
                 delete this.activeItem;
-                ai.collapse({callback:function(){
-                    p.expand(anim || true);
-                }, scope: this});
-                return false;
+                if (!ai.collapsed){
+                    ai.collapse({callback:function(){
+                        p.expand(anim || true);
+                    }, scope: this});
+                    return false;
+                }
             }else{
                 ai.collapse(this.animate);
             }

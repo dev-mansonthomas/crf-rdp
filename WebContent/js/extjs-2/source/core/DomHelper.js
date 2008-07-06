@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -11,16 +11,26 @@
  * Utility class for working with DOM and/or Templates. It transparently supports using HTML fragments or DOM.<br>
  * This is an example, where an unordered list with 5 children items is appended to an existing element with id 'my-div':<br>
  <pre><code>
+var dh = Ext.DomHelper;
 var list = dh.append('my-div', {
-    tag: 'ul', cls: 'my-list', children: [
-        {tag: 'li', id: 'item0', html: 'List Item 0'}, 
-        {tag: 'li', id: 'item1', html: 'List Item 1'}, 
-        {tag: 'li', id: 'item2', html: 'List Item 2'}, 
-        {tag: 'li', id: 'item3', html: 'List Item 3'}, 
+    id: 'my-ul', tag: 'ul', cls: 'my-list', children: [
+        {tag: 'li', id: 'item0', html: 'List Item 0'},
+        {tag: 'li', id: 'item1', html: 'List Item 1'},
+        {tag: 'li', id: 'item2', html: 'List Item 2'},
+        {tag: 'li', id: 'item3', html: 'List Item 3'},
         {tag: 'li', id: 'item4', html: 'List Item 4'}
     ]
 });
  </code></pre>
+ * <p>Element creation specification parameters in this class may also be passed as an Array of
+ * specification objects. This can be used to insert multiple sibling nodes into an existing
+ * container very efficiently. For example, to add more list items to the example above:<pre><code>
+dh.append('my-ul', [
+    {tag: 'li', id: 'item5', html: 'List Item 5'},
+    {tag: 'li', id: 'item6', html: 'List Item 6'} ]);
+</code></pre></p>
+ * <p>Element creation specification parameters may also be strings. If {@link useDom} is false, then the string is used
+ * as innerHTML. If {@link useDom} is true, a string specification results in the creation of a text node.</p>
  * For more information and examples, see <a href="http://www.jackslocum.com/blog/2006/10/06/domhelper-create-elements-using-dom-html-fragments-or-templates/">the original blog post</a>.
  * @singleton
  */
@@ -28,14 +38,19 @@ Ext.DomHelper = function(){
     var tempTableEl = null;
     var emptyTags = /^(?:br|frame|hr|img|input|link|meta|range|spacer|wbr|area|param|col)$/i;
     var tableRe = /^table|tbody|tr|td$/i;
-    
+
     // build as innerHTML where available
-    /** @ignore */
     var createHtml = function(o){
         if(typeof o == 'string'){
             return o;
         }
         var b = "";
+        if (Ext.isArray(o)) {
+            for (var i = 0, l = o.length; i < l; i++) {
+                b += createHtml(o[i]);
+            }
+            return b;
+        }
         if(!o.tag){
             o.tag = "div";
         }
@@ -74,15 +89,8 @@ Ext.DomHelper = function(){
             b += ">";
             var cn = o.children || o.cn;
             if(cn){
-                if(cn instanceof Array){
-                    for(var i = 0, len = cn.length; i < len; i++) {
-                        b += createHtml(cn[i], b);
-                    }
-                }else{
-                    b += createHtml(cn, b);
-                }
-            }
-            if(o.html){
+                b += createHtml(cn);
+            } else if(o.html){
                 b += o.html;
             }
             b += "</" + o.tag + ">";
@@ -93,30 +101,33 @@ Ext.DomHelper = function(){
     // build as dom
     /** @ignore */
     var createDom = function(o, parentNode){
-        var el = document.createElement(o.tag||'div');
-        var useSet = el.setAttribute ? true : false; // In IE some elements don't have setAttribute
-        for(var attr in o){
-            if(attr == "tag" || attr == "children" || attr == "cn" || attr == "html" || attr == "style" || typeof o[attr] == "function") continue;
-            if(attr=="cls"){
-                el.className = o["cls"];
-            }else{
-                if(useSet) el.setAttribute(attr, o[attr]);
-                else el[attr] = o[attr];
+        var el;
+        if (Ext.isArray(o)) {                       // Allow Arrays of siblings to be inserted
+            el = document.createDocumentFragment(); // in one shot using a DocumentFragment
+            for(var i = 0, l = o.length; i < l; i++) {
+                createDom(o[i], el);
             }
-        }
-        Ext.DomHelper.applyStyles(el, o.style);
-        var cn = o.children || o.cn;
-        if(cn){
-            if(cn instanceof Array){
-                for(var i = 0, len = cn.length; i < len; i++) {
-                    createDom(cn[i], el);
+        } else if (typeof o == "string") {         // Allow a string as a child spec.
+            el = document.createTextNode(o);
+        } else {
+            el = document.createElement(o.tag||'div');
+            var useSet = !!el.setAttribute; // In IE some elements don't have setAttribute
+            for(var attr in o){
+                if(attr == "tag" || attr == "children" || attr == "cn" || attr == "html" || attr == "style" || typeof o[attr] == "function") continue;
+                if(attr=="cls"){
+                    el.className = o["cls"];
+                }else{
+                    if(useSet) el.setAttribute(attr, o[attr]);
+                    else el[attr] = o[attr];
                 }
-            }else{
-                createDom(cn, el);
             }
-        }
-        if(o.html){
-            el.innerHTML = o.html;
+            Ext.DomHelper.applyStyles(el, o.style);
+            var cn = o.children || o.cn;
+            if(cn){
+                createDom(cn, el);
+            } else if(o.html){
+                el.innerHTML = o.html;
+            }
         }
         if(parentNode){
            parentNode.appendChild(el);

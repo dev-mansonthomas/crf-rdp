@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -87,7 +87,7 @@ Ext.extend(Ext.grid.PropertyStore, Ext.util.Observable, {
 
     // private
     isEditableValue: function(val){
-        if(val && val instanceof Date){
+        if(Ext.isDate(val)){
             return true;
         }else if(typeof val == 'object' || typeof val == 'function'){
             return false;
@@ -119,8 +119,8 @@ Ext.grid.PropertyColumnModel = function(grid, store){
     this.grid = grid;
     var g = Ext.grid;
     g.PropertyColumnModel.superclass.constructor.call(this, [
-        {header: this.nameText, width:50, sortable: true, dataIndex:'name', id: 'name'},
-        {header: this.valueText, width:50, resizable:false, dataIndex: 'value', id: 'value'}
+        {header: this.nameText, width:50, sortable: true, dataIndex:'name', id: 'name', menuDisabled:true},
+        {header: this.valueText, width:50, resizable:false, dataIndex: 'value', id: 'value', menuDisabled:true}
     ]);
     this.store = store;
     this.bselect = Ext.DomHelper.append(document.body, {
@@ -184,7 +184,7 @@ Ext.extend(Ext.grid.PropertyColumnModel, Ext.grid.ColumnModel, {
     // private
     renderCell : function(val){
         var rv = val;
-        if(val instanceof Date){
+        if(Ext.isDate(val)){
             rv = this.renderDate(val);
         }else if(typeof val == 'boolean'){
             rv = this.renderBool(val);
@@ -205,7 +205,7 @@ Ext.extend(Ext.grid.PropertyColumnModel, Ext.grid.ColumnModel, {
         if(this.grid.customEditors[n]){
             return this.grid.customEditors[n];
         }
-        if(val instanceof Date){
+        if(Ext.isDate(val)){
             return this.editors['date'];
         }else if(typeof val == 'number'){
             return this.editors['number'];
@@ -362,3 +362,4 @@ grid.setSource({
         return this.propStore.getSource();
     }
 });
+Ext.reg("propertygrid", Ext.grid.PropertyGrid);

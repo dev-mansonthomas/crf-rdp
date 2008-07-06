@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 2.0.1
+ * Ext JS Library 2.1
  * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -34,6 +34,7 @@ Ext.extend(Ext.grid.RowExpander, Ext.util.Observable, {
     width: 20,
     sortable: false,
     fixed:true,
+    menuDisabled:true,
     dataIndex: '',
     id: 'expander',
     lazyRender : true,

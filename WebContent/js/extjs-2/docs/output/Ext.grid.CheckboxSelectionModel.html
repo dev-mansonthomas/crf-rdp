@@ -14,7 +14,7 @@
                 <h1>Class Ext.grid.CheckboxSelectionModel</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext.grid</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/CheckboxSelectionModel.js" target="_blank">CheckboxSelectionModel.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">CheckboxSelectionModel.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">CheckboxSelectionModel</td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="" href="output/Ext.grid.RowSelectionModel.html">RowSelectionModel</a></td></tr>
                     </table>
@@ -56,13 +56,22 @@
         <tr class="config-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.grid.CheckboxSelectionModel-moveEditorOnEnter"></a>
+            <b>moveEditorOnEnter</b> : Boolean            <div class="mdesc">
+                            False to turn off moving the editor to the next cell when the enter key is pressed                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#moveEditorOnEnter" href="output/Ext.grid.RowSelectionModel.html#moveEditorOnEnter">RowSelectionModel</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-singleSelect"></a>
             <b>singleSelect</b> : Boolean            <div class="mdesc">
                             True to allow selection of only one row at a time (defaults to false)                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#singleSelect" href="output/Ext.grid.RowSelectionModel.html#singleSelect">RowSelectionModel</a></td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-sortable"></a>
@@ -71,7 +80,7 @@
         </td>
         <td class="msource">CheckboxSelectionModel</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-width"></a>
@@ -145,9 +154,9 @@ properties. This may contain any of the following properties:<ul>
 <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
 <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
 <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -563,6 +572,26 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.grid.CheckboxSelectionModel-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from this Observable to a different Observable</div>
+            <div class="long">
+                Relays selected events from this Observable to a different Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable to relay events to</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-removeListener"></a>
             <b>removeListener</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
                         <div class="short">Removes a listener</div>
@@ -580,7 +609,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-resumeEvents"></a>
@@ -600,7 +629,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectAll"></a>
@@ -620,7 +649,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectAll" href="output/Ext.grid.RowSelectionModel.html#selectAll">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectFirstRow"></a>
@@ -640,7 +669,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectFirstRow" href="output/Ext.grid.RowSelectionModel.html#selectFirstRow">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectLastRow"></a>
@@ -660,11 +689,11 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectLastRow" href="output/Ext.grid.RowSelectionModel.html#selectLastRow">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectNext"></a>
-            <b>selectNext</b>(&nbsp;<span class="optional" title="Optional">[<code>Boolean keepExisting</code>]</span>&nbsp;) : void            <div class="mdesc">
+            <b>selectNext</b>(&nbsp;<span class="optional" title="Optional">[<code>Boolean keepExisting</code>]</span>&nbsp;) : Boolean            <div class="mdesc">
                         <div class="short">Selects the row immediately following the last selected row.</div>
             <div class="long">
                 Selects the row immediately following the last selected row.    <div class="mdetail-params">
@@ -672,7 +701,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         <ul><li><code>keepExisting</code> : Boolean<div class="sub-desc">(optional) True to keep existing selections</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>void</code></li>
+            <li><code>Boolean</code><div class="sub-desc">True if there is a next row, else false</div></li>
         </ul>
     </div>
                 </div>
@@ -680,11 +709,11 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectNext" href="output/Ext.grid.RowSelectionModel.html#selectNext">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectPrevious"></a>
-            <b>selectPrevious</b>(&nbsp;<span class="optional" title="Optional">[<code>Boolean keepExisting</code>]</span>&nbsp;) : void            <div class="mdesc">
+            <b>selectPrevious</b>(&nbsp;<span class="optional" title="Optional">[<code>Boolean keepExisting</code>]</span>&nbsp;) : Boolean            <div class="mdesc">
                         <div class="short">Selects the row that precedes the last selected row.</div>
             <div class="long">
                 Selects the row that precedes the last selected row.    <div class="mdetail-params">
@@ -692,7 +721,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         <ul><li><code>keepExisting</code> : Boolean<div class="sub-desc">(optional) True to keep existing selections</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>void</code></li>
+            <li><code>Boolean</code><div class="sub-desc">True if there is a previous row, else false</div></li>
         </ul>
     </div>
                 </div>
@@ -700,7 +729,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectPrevious" href="output/Ext.grid.RowSelectionModel.html#selectPrevious">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectRange"></a>
@@ -720,7 +749,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectRange" href="output/Ext.grid.RowSelectionModel.html#selectRange">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectRecords"></a>
@@ -740,7 +769,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectRecords" href="output/Ext.grid.RowSelectionModel.html#selectRecords">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectRow"></a>
@@ -760,7 +789,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectRow" href="output/Ext.grid.RowSelectionModel.html#selectRow">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-selectRows"></a>
@@ -769,7 +798,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
             <div class="long">
                 Selects multiple rows.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>rows</code> : Array<div class="sub-desc">Array of the indexes of the row to select</div></li><li><code>keepExisting</code> : Boolean<div class="sub-desc">(optional) True to keep existing selections</div></li>        </ul>
+        <ul><li><code>rows</code> : Array<div class="sub-desc">Array of the indexes of the row to select</div></li><li><code>keepExisting</code> : Boolean<div class="sub-desc">(optional) True to keep existing selections (defaults to false)</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>void</code></li>
@@ -780,7 +809,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.grid.RowSelectionModel" ext:member="#selectRows" href="output/Ext.grid.RowSelectionModel.html#selectRows">RowSelectionModel</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-suspendEvents"></a>
@@ -800,7 +829,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-un"></a>
@@ -820,7 +849,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#un" href="output/Ext.util.Observable.html#un">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.CheckboxSelectionModel-unlock"></a>

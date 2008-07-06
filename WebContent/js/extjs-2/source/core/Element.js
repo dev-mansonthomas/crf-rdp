@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -11,16 +11,12 @@
  * Represents an Element in the DOM.<br><br>
  * Usage:<br>
 <pre><code>
+// by id
 var el = Ext.get("my-div");
 
-// or with getEl
-var el = getEl("my-div");
-
-// or with a DOM element
+// by DOM element reference
 var el = Ext.get(myDivElement);
 </code></pre>
- * Using Ext.get() or getEl() instead of calling the constructor directly ensures you get the same object
- * each call instead of constructing a new one.<br><br>
  * <b>Animations</b><br />
  * Many of the functions for manipulating an element have an optional "animate" parameter. The animate parameter
  * should either be a boolean (true) or an object literal with animation options. Note that the supported Element animation
@@ -269,7 +265,8 @@ El.prototype = {
 
     /**
      * Scrolls this element into view within the passed container.
-     * @param {Mixed} container (optional) The container element to scroll (defaults to document.body)
+     * @param {Mixed} container (optional) The container element to scroll (defaults to document.body).  Should be a 
+     * string (id), dom node, or Ext.Element.
      * @param {Boolean} hscroll (optional) False to disable horizontal scroll (defaults to true)
      * @return {Ext.Element} this
      */
@@ -549,7 +546,7 @@ El.prototype = {
      * @return {Ext.Element} this
      */
     addClass : function(className){
-        if(className instanceof Array){
+        if(Ext.isArray(className)){
             for(var i = 0, len = className.length; i < len; i++) {
             	this.addClass(className[i]);
             }
@@ -587,7 +584,7 @@ El.prototype = {
         if(!className || !this.dom.className){
             return this;
         }
-        if(className instanceof Array){
+        if(Ext.isArray(className)){
             for(var i = 0, len = className.length; i < len; i++) {
             	this.removeClass(className[i]);
             }
@@ -1128,8 +1125,15 @@ El.prototype = {
     /**
      * Appends an event handler to this element.  The shorthand version {@link #on} is equivalent.
      * @param {String} eventName The type of event to handle
-     * @param {Function} fn The handler function the event invokes
-     * @param {Object} scope (optional) The scope (this element) of the handler function
+     * @param {Function} fn The handler function the event invokes. This function is passed
+     * the following parameters:<ul>
+     * <li>evt : EventObject<div class="sub-desc">The {@link Ext.EventObject EventObject} describing the event.</div></li>
+     * <li>t : Element<div class="sub-desc">The {@link Ext.Element Element} which was the target of the event.
+     * Note that this may be filtered by using the <tt>delegate</tt> option.</div></li>
+     * <li>o : Object<div class="sub-desc">The the options object from the addListener call.</div></li>
+     * </ul>
+     * @param {Object} scope (optional) The scope (The <tt>this</tt> reference) of the handler function. Defaults
+     * to this Element.
      * @param {Object} options (optional) An object containing handler configuration properties.
      * This may contain any of the following properties:<ul>
      * <li>scope {Object} : The scope in which to execute the handler function. The handler function's "this" context.</li>
@@ -1150,20 +1154,21 @@ El.prototype = {
      * addListener.  The two are equivalent.  Using the options argument, it is possible to combine different
      * types of listeners:<br>
      * <br>
-     * A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)<div style="margin: 5px 20px 20px;">
+     * A normalized, delayed, one-time listener that auto stops the event and adds a custom argument (forumId) to the
+     * options object. The options object is available as the third parameter in the handler function.<div style="margin: 5px 20px 20px;">
      * Code:<pre><code>
 el.on('click', this.onClick, this, {
     single: true,
     delay: 100,
     stopEvent : true,
     forumId: 4
-});</code></pre>
+});</code></pre></p>
      * <p>
      * <b>Attaching multiple handlers in 1 call</b><br>
       * The method also allows for a single argument to be passed which is a config object containing properties
-     * which specify multiple handlers.
+     * which specify multiple handlers.</p>
      * <p>
-     * Code:<pre><code>
+     * Code:<pre><code></p>
 el.on({
     'click' : {
         fn: this.onClick,
@@ -1181,7 +1186,7 @@ el.on({
 });</code></pre>
      * <p>
      * Or a shorthand syntax:<br>
-     * Code:<pre><code>
+     * Code:<pre><code></p>
 el.on({
     'click' : this.onClick,
     'mouseover' : this.onMouseOver,
@@ -2208,11 +2213,9 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
     /**
      * Sets up event handlers to add and remove a css class when the mouse is over this element
      * @param {String} className
-     * @param {Boolean} preventFlicker (optional) If set to true, it prevents flickering by filtering
-     * mouseout events for children elements
      * @return {Ext.Element} this
      */
-    addClassOnOver : function(className, preventFlicker){
+    addClassOnOver : function(className){
         this.hover(
             function(){
                 Ext.fly(this, '_internal').addClass(className);
@@ -2270,7 +2273,7 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
                 e.preventDefault();
             }
         };
-        if(eventName instanceof Array){
+        if(Ext.isArray(eventName)){
             for(var i = 0, len = eventName.length; i < len; i++){
                  this.on(eventName[i], fn);
             }
@@ -2382,7 +2385,7 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
 
     /**
      * Inserts this element before the passed element in the DOM
-     * @param {Mixed} el The element to insert before
+     * @param {Mixed} el The element before which this element will be inserted
      * @return {Ext.Element} this
      */
     insertBefore: function(el){
@@ -2403,7 +2406,7 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
     },
 
     /**
-     * Inserts (or creates) an element (or DomHelper config) as the first child of the this element
+     * Inserts (or creates) an element (or DomHelper config) as the first child of this element
      * @param {Mixed/Object} el The id or element to insert or a DomHelper config to create and insert
      * @return {Ext.Element} The new child
      */
@@ -2427,7 +2430,7 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
      */
     insertSibling: function(el, where, returnDom){
         var rt;
-        if(el instanceof Array){
+        if(Ext.isArray(el)){
             for(var i = 0, len = el.length; i < len; i++){
                 rt = this.insertSibling(el[i], where, returnDom);
             }
@@ -2502,7 +2505,7 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
 
     /**
      * Inserts an html fragment into this element
-     * @param {String} where Where to insert the html in relation to the this element - beforeBegin, afterBegin, beforeEnd, afterEnd.
+     * @param {String} where Where to insert the html in relation to this element - beforeBegin, afterBegin, beforeEnd, afterEnd.
      * @param {String} html The HTML fragment
      * @param {Boolean} returnEl (optional) True to return an Ext.Element (defaults to false)
      * @return {HTMLElement/Ext.Element} The inserted node (or nearest related if more than 1 inserted)
@@ -2546,7 +2549,7 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
      */
     addKeyListener : function(key, fn, scope){
         var config;
-        if(typeof key != "object" || key instanceof Array){
+        if(typeof key != "object" || Ext.isArray(key)){
             config = {
                 key: key,
                 fn: fn,
@@ -2663,11 +2666,11 @@ el.alignTo("other-el", "c-bl", [-6, 0]);
     /**
      * Translates the passed page coordinates into left/top css values for this element
      * @param {Number/Array} x The page x or an array containing [x, y]
-     * @param {Number} y The page y
+     * @param {Number} y (optional) The page y, required if x is not an array
      * @return {Object} An object with left and top properties. e.g. {left: (value), top: (value)}
      */
     translatePoints : function(x, y){
-        if(typeof x == 'object' || x instanceof Array){
+        if(typeof x == 'object' || Ext.isArray(x)){
             y = x[1]; x = x[0];
         }
         var p = this.getStyle('position');
@@ -2871,10 +2874,14 @@ El.cache = {};
 var docEl;
 
 /**
- * Static method to retrieve Element objects. Uses simple caching to consistently return the same object.
- * Automatically fixes if an object was recreated with the same id via AJAX or DOM.
+ * Static method to retrieve Ext.Element objects.
+ * <p><b>This method does not retrieve {@link Ext.Component Component}s.</b> This method
+ * retrieves Ext.Element objects which encapsulate DOM elements. To retrieve a Component by
+ * its ID, use {@link Ext.ComponentMgr#get}.</p>
+ * <p>Uses simple caching to consistently return the same object.
+ * Automatically fixes if an object was recreated with the same id via AJAX or DOM.</p>
  * @param {Mixed} el The id of the node, a DOM Node or an existing Element.
- * @return {Element} The Element object (or null if no matching element was found)
+ * @return {Element} The {@link Ext.Element Element} object (or null if no matching element was found)
  * @static
  */
 El.get = function(el){
@@ -2909,7 +2916,7 @@ El.get = function(el){
         return el;
     }else if(el.isComposite){
         return el;
-    }else if(el instanceof Array){
+    }else if(Ext.isArray(el)){
         return El.select(el);
     }else if(el == document){
         // create a bogus element object representing the document object

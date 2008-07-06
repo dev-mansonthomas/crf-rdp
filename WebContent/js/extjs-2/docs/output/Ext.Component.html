@@ -12,7 +12,7 @@
                 <h1>Class Ext.Component</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/Component.js" target="_blank">Component.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">Component.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">Component</td></tr>
                         <tr><td class="label">Subclasses:</td><td class="hd-info"><a ext:cls="Ext.BoxComponent" href="output/Ext.BoxComponent.html">BoxComponent</a>, <a ext:cls="Ext.Button" href="output/Ext.Button.html">Button</a>, <a ext:cls="Ext.ColorPalette" href="output/Ext.ColorPalette.html">ColorPalette</a>, <a ext:cls="Ext.DatePicker" href="output/Ext.DatePicker.html">DatePicker</a>, <a ext:cls="Ext.Editor" href="output/Ext.Editor.html">Editor</a>, <a ext:cls="Ext.menu.BaseItem" href="output/Ext.menu.BaseItem.html">BaseItem</a></td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.util.Observable" ext:member="" href="output/Ext.util.Observable.html">Observable</a></td></tr>
@@ -42,10 +42,13 @@ grid             Ext.grid.GridPanel
 paging           Ext.PagingToolbar
 panel            Ext.Panel
 progress         Ext.ProgressBar
+propertygrid     Ext.grid.PropertyGrid
+slider           Ext.Slider
 splitbutton      Ext.SplitButton
+statusbar        Ext.StatusBar
 tabpanel         Ext.TabPanel
 treepanel        Ext.tree.TreePanel
-viewport         Ext.ViewPort
+viewport         Ext.Viewport
 window           Ext.Window
 
 Toolbar components
@@ -69,6 +72,7 @@ field            Ext.form.Field
 fieldset         Ext.form.FieldSet
 hidden           Ext.form.Hidden
 htmleditor       Ext.form.HtmlEditor
+label            Ext.form.Label
 numberfield      Ext.form.NumberField
 radio            Ext.form.Radio
 textarea         Ext.form.TextArea
@@ -108,6 +112,19 @@ trigger          Ext.form.TriggerField</pre>        </div>
         <tr class="config-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.Component-autoEl"></a>
+            <b>autoEl</b> : String/Object            <div class="mdesc">
+                        <div class="short">A tag name or DomHelper spec to create an element with. This is intended to create shorthand utility components inlin...</div>
+            <div class="long">
+                A tag name or DomHelper spec to create an element with. This is intended to create shorthand utility components inline via JSON. It should not be used for higher level components which already create their own elements. Example usage: <pre><code>{xtype:<em>'box'</em>, autoEl: <em>'div'</em>, cls:<em>'my-class'</em>}
+{xtype:<em>'box'</em>, autoEl: {tag:<em>'blockquote'</em>, html:<em>'autoEl is cool!'</em>}} // <b>with</b> DomHelper</code></pre>            </div>
+                        </div>
+        </td>
+        <td class="msource">Component</td>
+    </tr>
+        <tr class="config-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.Component-autoShow"></a>
             <b>autoShow</b> : Boolean            <div class="mdesc">
                         <div class="short">True if the component should check for hidden classes (e.g. 'x-hidden' or 'x-hide-display') and remove them on render...</div>
@@ -117,7 +134,7 @@ trigger          Ext.form.TriggerField</pre>        </div>
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="config-row alt expandable">
+        <tr class="config-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-cls"></a>
@@ -129,7 +146,7 @@ trigger          Ext.form.TriggerField</pre>        </div>
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="config-row expandable">
+        <tr class="config-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-ctCls"></a>
@@ -141,7 +158,7 @@ trigger          Ext.form.TriggerField</pre>        </div>
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-disabledClass"></a>
@@ -150,7 +167,7 @@ trigger          Ext.form.TriggerField</pre>        </div>
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="config-row expandable">
+        <tr class="config-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-hideMode"></a>
@@ -162,7 +179,7 @@ trigger          Ext.form.TriggerField</pre>        </div>
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="config-row alt expandable">
+        <tr class="config-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-hideParent"></a>
@@ -174,7 +191,7 @@ trigger          Ext.form.TriggerField</pre>        </div>
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-id"></a>
@@ -183,7 +200,7 @@ trigger          Ext.form.TriggerField</pre>        </div>
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-listeners"></a>
@@ -194,6 +211,18 @@ trigger          Ext.form.TriggerField</pre>        </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
+    </tr>
+        <tr class="config-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Component-overCls"></a>
+            <b>overCls</b> : String            <div class="mdesc">
+                        <div class="short">An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and...</div>
+            <div class="long">
+                An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and removed when the mouse moves out. (defaults to ''). This can be useful for adding customized "active" or "hover" styles to the component or any of its children using standard CSS rules.            </div>
+                        </div>
+        </td>
+        <td class="msource">Component</td>
     </tr>
         <tr class="config-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -423,9 +452,9 @@ properties. This may contain any of the following properties:<ul>
 <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
 <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
 <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -573,6 +602,48 @@ should usually not need to be called directly.    <div class="mdetail-params">
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Component</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Component-findParentBy"></a>
+            <b>findParentBy</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Array            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by a custom function. If the passed function returns
+true, the con...</div>
+            <div class="long">
+                Find a container above this component at any level by a custom function. If the passed function returns
+true, the container will be returned. The passed function is called with the arguments (container, this component).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fcn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code><div class="sub-desc">Array of Ext.Components</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Component</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Component-findParentByType"></a>
+            <b>findParentByType</b>(&nbsp;<code>String/Class xtype</code>&nbsp;) : Container            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by xtype or class</div>
+            <div class="long">
+                Find a container above this component at any level by xtype or class    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>xtype</code> : String/Class<div class="sub-desc">The xtype string for a component, or the class of the component directly</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Container</code><div class="sub-desc">The found container</div></li>
         </ul>
     </div>
                 </div>
@@ -858,7 +929,27 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="output/Ext.util.Observable.html#purgeListeners">Observable</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Component-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from this Observable to a different Observable</div>
+            <div class="long">
+                Relays selected events from this Observable to a different Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable to relay events to</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-removeClass"></a>
@@ -878,7 +969,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-removeListener"></a>
@@ -898,7 +989,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-render"></a>
@@ -920,7 +1011,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-resumeEvents"></a>
@@ -940,7 +1031,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-setDisabled"></a>
@@ -960,7 +1051,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-setVisible"></a>
@@ -980,7 +1071,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-show"></a>
@@ -1000,7 +1091,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource">Component</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-suspendEvents"></a>
@@ -1020,7 +1111,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Component-un"></a>

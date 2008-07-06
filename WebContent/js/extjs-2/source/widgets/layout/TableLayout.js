@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -16,7 +16,13 @@
  * <p>Note that when creating a layout via config, the layout-specific config properties must be passed in via
  * the {@link Ext.Container#layoutConfig} object which will then be applied internally to the layout.  In the
  * case of TableLayout, the only valid layout config property is {@link #columns}.  However, the items added to a
- * TableLayout can supply table-specific config properties of <b>rowspan</b> and <b>colspan</b>, as explained below.</p>
+ * TableLayout can supply the following table-specific config properties:</p>
+ * <ul>
+ * <li><b>rowspan</b> Applied to the table cell containing the item.</li>
+ * <li><b>colspan</b> Applied to the table cell containing the item.</li>
+ * <li><b>cellId</b> An id applied to the table cell containing the item.</li>
+ * <li><b>cellCls</b> A CSS class name added to the table cell containing the item.</li>
+ * </ul>
  * <p>The basic concept of building up a TableLayout is conceptually very similar to building up a standard
  * HTML table.  You simply add each panel (or "cell") that you want to include along with any span attributes
  * specified as the special config properties of rowspan and colspan which work exactly like their HTML counterparts.
@@ -51,7 +57,8 @@ var table = new Ext.Panel({
         html: '&lt;p&gt;Cell B content&lt;/p&gt;',
         colspan: 2
     },{
-        html: '&lt;p&gt;Cell C content&lt;/p&gt;'
+        html: '&lt;p&gt;Cell C content&lt;/p&gt;',
+        cellCls: 'highlight'
     },{
         html: '&lt;p&gt;Cell D content&lt;/p&gt;'
     }]
@@ -74,7 +81,7 @@ Ext.layout.TableLayout = Ext.extend(Ext.layout.ContainerLayout, {
 
         this.currentRow = 0;
         this.currentColumn = 0;
-        this.spanCells = [];
+        this.cells = [];
     },
 
     // private
@@ -103,70 +110,48 @@ Ext.layout.TableLayout = Ext.extend(Ext.layout.ContainerLayout, {
 
     // private
 	getNextCell : function(c){
-        var td = document.createElement('td'), row, colIndex;
-        if(!this.columns){
-            row = this.getRow(0);
-        }else {
-        	colIndex = this.currentColumn;
-            if(colIndex !== 0 && (colIndex % this.columns === 0)){
-                this.currentRow++;
-                colIndex = (c.colspan || 1);
-            }else{
-                colIndex += (c.colspan || 1);
-            }
-            
-            //advance to the next non-spanning row/col position
-            var cell = this.getNextNonSpan(colIndex, this.currentRow);
-            this.currentColumn = cell[0];
-            if(cell[1] != this.currentRow){
-            	//we are on a new row
-            	this.currentRow = cell[1];
-            	if(c.colspan){
-            		//since the col index is now set at the start of the 
-            		//new cell, any colspan needs to get reapplied.  This is
-            		//only necessary if the row changed since the col index
-            		//only gets reset in that case
-            		this.currentColumn += c.colspan - 1;
-            	}
-            }
-            row = this.getRow(this.currentRow);
-        }
-        if(c.colspan){
-            td.colSpan = c.colspan;
-        }
-		td.className = 'x-table-layout-cell';
-        if(c.rowspan){
-            td.rowSpan = c.rowspan;
-			var rowIndex = this.currentRow, colspan = c.colspan || 1;
-			//track rowspanned cells to add to the column index during the next call to getNextCell
-			for(var r = rowIndex+1; r < rowIndex+c.rowspan; r++){
-				for(var col=this.currentColumn-colspan+1; col <= this.currentColumn; col++){
-					if(!this.spanCells[col]){
-						this.spanCells[col] = [];
-					}
-					this.spanCells[col][r] = 1;
-				}
+		var cell = this.getNextNonSpan(this.currentColumn, this.currentRow);
+		var curCol = this.currentColumn = cell[0], curRow = this.currentRow = cell[1];
+		for(var rowIndex = curRow; rowIndex < curRow + (c.rowspan || 1); rowIndex++){
+			if(!this.cells[rowIndex]){
+				this.cells[rowIndex] = [];
 			}
-        }
-        row.appendChild(td);
-        return td;
-    },
+			for(var colIndex = curCol; colIndex < curCol + (c.colspan || 1); colIndex++){
+				this.cells[rowIndex][colIndex] = true;
+			}
+		}
+		var td = document.createElement('td');
+		if(c.cellId){
+			td.id = c.cellId;
+		}
+		var cls = 'x-table-layout-cell';
+		if(c.cellCls){
+			cls += ' ' + c.cellCls;
+		}
+		td.className = cls;
+		if(c.colspan){
+			td.colSpan = c.colspan;
+		}
+		if(c.rowspan){
+			td.rowSpan = c.rowspan;
+		}
+		this.getRow(curRow).appendChild(td);
+		return td;
+	},
     
     // private
-    getNextNonSpan: function(colIndex, rowIndex){
-    	var c = (colIndex <= this.columns ? colIndex : this.columns), r = rowIndex;
-        for(var i=c; i <= this.columns; i++){
-        	if(this.spanCells[i] && this.spanCells[i][r]){
-        		if(++c > this.columns){
-        			//exceeded column count, so reset to the start of the next row
-	                return this.getNextNonSpan(1, ++r);
-        		}
-        	}else{
-        		break;
-        	}
-        }
-        return [c,r];
-    },
+	getNextNonSpan: function(colIndex, rowIndex){
+		var cols = this.columns;
+		while((cols && colIndex >= cols) || (this.cells[rowIndex] && this.cells[rowIndex][colIndex])) {
+			if(cols && colIndex >= cols){
+				rowIndex++;
+				colIndex = 0;
+			}else{
+				colIndex++;
+			}
+		}
+		return [colIndex, rowIndex];
+	},
 
     // private
     renderItem : function(c, position, target){

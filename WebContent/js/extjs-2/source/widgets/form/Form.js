@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -81,7 +81,7 @@ Ext.FormPanel = Ext.extend(Ext.Panel, {
             /**
              * @event clientvalidation
              * If the monitorValid config option is true, this event fires repetitively to notify of valid state
-             * @param {Form} this
+             * @param {Ext.form.FormPanel} this
              * @param {Boolean} valid true if the form has passed client-side validation
              */
             'clientvalidation'

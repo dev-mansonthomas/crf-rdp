@@ -13,7 +13,7 @@
                 <h1>Class Ext.menu.ColorMenu</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext.menu</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/ColorMenu.js" target="_blank">ColorMenu.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">ColorMenu.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">ColorMenu</td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.menu.Menu" ext:member="" href="output/Ext.menu.Menu.html">Menu</a></td></tr>
                     </table>
@@ -42,9 +42,9 @@
         <td class="sig">
         <a id="Ext.menu.ColorMenu-defaultAlign"></a>
             <b>defaultAlign</b> : String            <div class="mdesc">
-                        <div class="short">The default {@link Ext.Element#alignTo) anchor position value for this menu relative to its element of origin (defaul...</div>
+                        <div class="short">The default Ext.Element.alignTo anchor position value for this menu relative to its element of origin (defaults to "t...</div>
             <div class="long">
-                The default {@link Ext.Element#alignTo) anchor position value for this menu relative to its element of origin (defaults to "tl-bl?")            </div>
+                The default <a ext:cls="Ext.Element" ext:member="alignTo" href="output/Ext.Element.html#alignTo">Ext.Element.alignTo</a> anchor position value for this menu relative to its element of origin (defaults to "tl-bl?")            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.menu.Menu" ext:member="#defaultAlign" href="output/Ext.menu.Menu.html#defaultAlign">Menu</a></td>
@@ -120,7 +120,16 @@
                 <th class="sig-header" colspan="2">Property</th>
                 <th class="msource-header">Defined By</th>
             </tr>
-                <tr class="property-row">
+                <tr class="property-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.menu.ColorMenu-items"></a>
+            <b>items</b> : Ext.util.MixedCollection            <div class="mdesc">
+                            A MixedCollection of this Menu's items                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.menu.Menu" ext:member="#items" href="output/Ext.menu.Menu.html#items">Menu</a></td>
+    </tr>
+        <tr class="property-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-palette"></a>
@@ -276,9 +285,9 @@ properties. This may contain any of the following properties:<ul>
 <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
 <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
 <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -574,6 +583,26 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.menu.ColorMenu-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from this Observable to a different Observable</div>
+            <div class="long">
+                Relays selected events from this Observable to a different Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable to relay events to</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.menu.ColorMenu-remove"></a>
             <b>remove</b>(&nbsp;<code>Ext.menu.Item item</code>&nbsp;) : void            <div class="mdesc">
                         <div class="short">Removes an <a ext:cls="Ext.menu.Item" href="output/Ext.menu.Item.html">Ext.menu.Item</a> from the menu and destroys the object</div>
@@ -591,7 +620,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.menu.Menu" ext:member="#remove" href="output/Ext.menu.Menu.html#remove">Menu</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-removeAll"></a>
@@ -611,7 +640,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.menu.Menu" ext:member="#removeAll" href="output/Ext.menu.Menu.html#removeAll">Menu</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-removeListener"></a>
@@ -631,7 +660,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-resumeEvents"></a>
@@ -651,7 +680,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-show"></a>
@@ -672,7 +701,7 @@ the element (defaults to this.defaultAlign)</div></li><li><code>parentMenu</code
         </td>
         <td class="msource"><a ext:cls="Ext.menu.Menu" ext:member="#show" href="output/Ext.menu.Menu.html#show">Menu</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-showAt"></a>
@@ -692,7 +721,7 @@ the element (defaults to this.defaultAlign)</div></li><li><code>parentMenu</code
         </td>
         <td class="msource"><a ext:cls="Ext.menu.Menu" ext:member="#showAt" href="output/Ext.menu.Menu.html#showAt">Menu</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-suspendEvents"></a>
@@ -712,7 +741,7 @@ the element (defaults to this.defaultAlign)</div></li><li><code>parentMenu</code
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.menu.ColorMenu-un"></a>

@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -199,12 +199,16 @@ Ext.lib.Ajax = {
                 }
             }
             if(options.xmlData){
-                CN.initHeader('Content-Type', 'text/xml', false);
-                method = 'POST';
+                if (!hs || !hs['Content-Type']){
+                    CN.initHeader('Content-Type', 'text/xml', false);
+                }
+                method = (method ? method : (options.method ? options.method : 'POST'));
                 data = options.xmlData;
             }else if(options.jsonData){
-                CN.initHeader('Content-Type', 'text/javascript', false);
-                method = 'POST';
+                if (!hs || !hs['Content-Type']){
+                    CN.initHeader('Content-Type', 'application/json', false);
+                }
+                method = (method ? method : (options.method ? options.method : 'POST'));
                 data = typeof options.jsonData == 'object' ? Ext.encode(options.jsonData) : options.jsonData;
             }
         }

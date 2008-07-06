@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -43,6 +43,10 @@ Ext.grid.EditorGridPanel = Ext.extend(Ext.grid.GridPanel, {
         Ext.grid.EditorGridPanel.superclass.initComponent.call(this);
 
         if(!this.selModel){
+            /**
+             * @cfg {Object} selModel Any subclass of AbstractSelectionModel that will provide the selection model for
+             * the grid (defaults to {@link Ext.grid.CellSelectionModel} if not specified).
+             */
             this.selModel = new Ext.grid.CellSelectionModel();
         }
 
@@ -103,7 +107,7 @@ Ext.grid.EditorGridPanel = Ext.extend(Ext.grid.GridPanel, {
     initEvents : function(){
         Ext.grid.EditorGridPanel.superclass.initEvents.call(this);
         
-        this.on("bodyscroll", this.stopEditing, this);
+        this.on("bodyscroll", this.stopEditing, this, [true]);
 
         if(this.clicksToEdit == 1){
             this.on("cellclick", this.onCellDblClick, this);
@@ -123,19 +127,23 @@ Ext.grid.EditorGridPanel = Ext.extend(Ext.grid.GridPanel, {
 
     // private
     onAutoEditClick : function(e, t){
+        if(e.button !== 0){
+            return;
+        }
         var row = this.view.findRowIndex(t);
         var col = this.view.findCellIndex(t);
         if(row !== false && col !== false){
-        if(this.selModel.getSelectedCell){ // cell sm
-            var sc = this.selModel.getSelectedCell();
-            if(sc && sc.cell[0] === row && sc.cell[1] === col){
-                this.startEditing(row, col);
+            this.stopEditing();
+            if(this.selModel.getSelectedCell){ // cell sm
+                var sc = this.selModel.getSelectedCell();
+                if(sc && sc.cell[0] === row && sc.cell[1] === col){
+                    this.startEditing(row, col);
+                }
+            }else{
+                if(this.selModel.isSelected(row)){
+                    this.startEditing(row, col);
+                }
             }
-        }else{
-            if(this.selModel.isSelected(row)){
-                this.startEditing(row, col);
-            }
-        }
         }
     },
 
@@ -208,19 +216,20 @@ Ext.grid.EditorGridPanel = Ext.extend(Ext.grid.GridPanel, {
     },
     
 	preEditValue : function(r, field){
-		return this.autoEncode ? Ext.util.Format.htmlDecode(r.data[field]) : r.data[field];
+		return this.autoEncode && typeof value == 'string' ? Ext.util.Format.htmlDecode(r.data[field]) : r.data[field];
 	},
 	
 	postEditValue : function(value, originalValue, r, field){
-		return this.autoEncode ? Ext.util.Format.htmlEncode(value) : value;
+		return this.autoEncode && typeof value == 'string' ? Ext.util.Format.htmlEncode(value) : value;
 	},
 	    
     /**
      * Stops any active editing
+     * @param {Boolean} cancel (optional) True to cancel any changes
      */
-    stopEditing : function(){
+    stopEditing : function(cancel){
         if(this.activeEditor){
-            this.activeEditor.completeEdit();
+            this.activeEditor[cancel === true ? 'cancelEdit' : 'completeEdit']();
         }
         this.activeEditor = null;
     }

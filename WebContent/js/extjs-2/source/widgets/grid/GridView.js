@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -105,6 +105,10 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
     /**
      * @cfg {String} emptyText Default text to display in the grid body when no rows are available (defaults to '').
      */
+    /**
+     * @cfg {Boolean} deferEmptyText True to defer emptyText being applied until the store's first load
+     */
+    deferEmptyText: true,
     /**
      * The amount of space to reserve for the scrollbar (defaults to 19 pixels)
      * @type Number
@@ -239,6 +243,11 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
 
         this.mainWrap = new E(cs[0]);
         this.mainHd = new E(this.mainWrap.dom.firstChild);
+
+        if(this.grid.hideHeaders){
+            this.mainHd.setDisplayed(false);
+        }
+
         this.innerHd = this.mainHd.dom.firstChild;
         this.scroller = new E(this.mainWrap.dom.childNodes[1]);
         if(this.forceFit){
@@ -579,6 +588,9 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
         this.mainBody.dom.innerHTML = this.renderRows();
         this.processRows(0, true);
 
+        if(this.deferEmptyText !== true){
+            this.applyEmptyText();
+        }
 
         // get mousedowns early
         Ext.fly(this.innerHd).on("click", this.handleHdDown, this);
@@ -618,7 +630,7 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
         }
 
         if(g.enableDragDrop || g.enableDrag){
-            var dd = new Ext.grid.GridDragZone(g, {
+            this.dragZone = new Ext.grid.GridDragZone(g, {
                 ddGroup : g.ddGroup || 'GridDD'
             });
         }
@@ -633,10 +645,7 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
             return; // not rendered
         }
         var g = this.grid;
-        var c = g.getGridEl(), cm = this.cm,
-                expandCol = g.autoExpandColumn,
-                gv = this;
-
+        var c = g.getGridEl();
         var csize = c.getSize(true);
         var vw = csize.width;
 
@@ -747,7 +756,7 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
 
     // private
     beforeUpdate : function(){
-        this.grid.stopEditing();
+        this.grid.stopEditing(true);
     },
 
     // private
@@ -841,7 +850,7 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
 
     // private
     insertRows : function(dm, firstRow, lastRow, isUpdate){
-        if(firstRow === 0 && lastRow == dm.getCount()-1){
+        if(!isUpdate && firstRow === 0 && lastRow == dm.getCount()-1){
             this.refresh();
         }else{
             if(!isUpdate){
@@ -1044,7 +1053,7 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
      */
     refresh : function(headersToo){
         this.fireEvent("beforerefresh", this);
-        this.grid.stopEditing();
+        this.grid.stopEditing(true);
 
         var result = this.renderBody();
         this.mainBody.update(result);
@@ -1120,6 +1129,10 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
 
         Ext.destroy(this.resizeMarker, this.resizeProxy);
 
+        if(this.dragZone){
+            this.dragZone.unreg();
+        }
+
         this.initData(null, null);
         Ext.EventManager.removeResizeListener(this.onWindowResize, this);
     },
@@ -1135,10 +1148,6 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
         var cm = this.cm;
         var colCount = cm.getColumnCount();
 
-        if(this.grid.monitorWindowResize === true){
-            Ext.EventManager.onWindowResize(this.onWindowResize, this, true);
-        }
-
         if(this.autoFill){
             this.fitColumns(true, true);
         }else if(this.forceFit){
@@ -1148,16 +1157,6 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
         }
 
         this.renderUI();
-
-        //this.refresh();
-    },
-
-    // private
-    onWindowResize : function(){
-        if(!this.grid.monitorWindowResize || this.grid.autoHeight){
-            return;
-        }
-        this.layout();
     },
 
     /* --------------------------------- Model Events and Handlers --------------------------------*/
@@ -1291,7 +1290,7 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
         if(this.headersDisabled || !this.cm.isSortable(index)){
             return;
         }
-      g.stopEditing();
+        g.stopEditing(true);
         g.store.sort(this.cm.getDataIndex(index));
     },
 
@@ -1430,7 +1429,7 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
             this.activeHdIndex = this.getCellIndex(hd);
             var fly = this.fly(hd);
             this.activeHdRegion = fly.getRegion();
-            if(this.cm.isSortable(this.activeHdIndex) && !this.cm.isFixed(this.activeHdIndex)){
+            if(!this.cm.isMenuDisabled(this.activeHdIndex)){
                 fly.addClass("x-grid3-hd-over");
                 this.activeHdBtn = fly.child('.x-grid3-hd-btn');
                 if(this.activeHdBtn){
@@ -1448,17 +1447,9 @@ Ext.extend(Ext.grid.GridView, Ext.util.Observable, {
             var x = e.getPageX();
             var ss = this.activeHd.style;
             if(x - r.left <= hw && this.cm.isResizable(this.activeHdIndex-1)){
-                if(Ext.isSafari){
-                    ss.cursor = 'e-resize';// col-resize not always supported
-                }else{
-                    ss.cursor = 'col-resize';
-                }
+                ss.cursor = Ext.isAir ? 'move' : Ext.isSafari ? 'e-resize' : 'col-resize'; // col-resize not always supported
             }else if(r.right - x <= (!this.activeHdBtn ? hw : 2) && this.cm.isResizable(this.activeHdIndex)){
-                if(Ext.isSafari){
-                    ss.cursor = 'w-resize'; // col-resize not always supported
-                }else{
-                    ss.cursor = 'col-resize';
-                }
+                ss.cursor = Ext.isAir ? 'move' : Ext.isSafari ? 'w-resize' : 'col-resize';
             }else{
                 ss.cursor = '';
             }

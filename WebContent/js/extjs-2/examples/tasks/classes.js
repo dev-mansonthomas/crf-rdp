@@ -1,5 +1,5 @@
 /*
- * Ext JS Library 2.0.1
+ * Ext JS Library 2.1
  * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
@@ -145,6 +145,7 @@ CompleteColumn = function(){
     Ext.apply(this, {
         width: 22,
         header: '<div class="task-col-hd"></div>',
+        menuDisabled:true,
         fixed: true,
         id: 'task-col',
         renderer: function(){

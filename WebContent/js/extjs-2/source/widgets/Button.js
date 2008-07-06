@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -45,9 +45,20 @@ Ext.Button = Ext.extend(Ext.Component, {
      * @type Boolean
      */
     pressed : false,
+    /**
+     * The Button's owner {@link Ext.Panel} (defaults to undefined, and is set automatically when
+     * the Button is added to a container).  Read-only.
+     * @type Ext.Panel
+     * @property ownerCt
+     */
 
     /**
      * @cfg {Number} tabIndex Set a DOM tabIndex for this button (defaults to undefined)
+     */
+
+    /**
+     * @cfg {Boolean} allowDepress
+     * True to allow a pressed Button to be depressed (defaults to false). Only valid when {@link #enableToggle} is true.
      */
 
     /**
@@ -55,6 +66,13 @@ Ext.Button = Ext.extend(Ext.Component, {
      * True to enable pressed/not pressed toggling (defaults to false)
      */
     enableToggle: false,
+    /**
+     * @cfg {Function} toggleHandler
+     * Function called when a Button with {@link #enableToggle} set to true is clicked. Two arguments are passed:<ul class="mdetail-params">
+     * <li><b>button</b> : Ext.Button<div class="sub-desc">this Button object</div></li>
+     * <li><b>state</b> : Boolean<div class="sub-desc">The next state if the Button, true means pressed.</div></li>
+     * </ul>
+     */
     /**
      * @cfg {Mixed} menu
      * Standard menu attribute consisting of a reference to a menu object, a menu id or a menu config blob (defaults to undefined).
@@ -99,16 +117,16 @@ Ext.Button = Ext.extend(Ext.Component, {
     buttonSelector : "button:first",
 
     /**
-     * @cfg {String} cls
-     * A CSS class string to apply to the button's main element.
-     */
-    
-    /**
      * @cfg {Ext.Template} template (Optional)
      * An {@link Ext.Template} with which to create the Button's main element. This Template must
      * contain numeric substitution parameter 0 if it is to display the text property. Changing the template could
      * require code modifications if required elements (e.g. a button) aren't present.
      */
+    /**
+     * @cfg {String} cls
+     * A CSS class string to apply to the button's main element.
+     */
+
     initComponent : function(){
         Ext.Button.superclass.initComponent.call(this);
 
@@ -290,7 +308,7 @@ Ext.Button = Ext.extend(Ext.Component, {
         }
         this.iconCls = cls;
     },
-    
+
     // private
     beforeDestroy: function(){
     	if(this.rendered){
@@ -337,9 +355,9 @@ Ext.Button = Ext.extend(Ext.Component, {
      */
     setHandler : function(handler, scope){
         this.handler = handler;
-        this.scope = scope;  
+        this.scope = scope;
     },
-    
+
     /**
      * Sets this button's text
      * @param {String} text The button text
@@ -351,15 +369,15 @@ Ext.Button = Ext.extend(Ext.Component, {
         }
         this.autoWidth();
     },
-    
+
     /**
      * Gets the text for this button
      * @return {String} The button text
      */
     getText : function(){
-        return this.text;  
+        return this.text;
     },
-    
+
     /**
      * If a state it passed, it becomes the pressed state otherwise the current state is toggled.
      * @param {Boolean} state (optional) Force a particular state
@@ -381,14 +399,14 @@ Ext.Button = Ext.extend(Ext.Component, {
             }
         }
     },
-    
+
     /**
      * Focus the button
      */
     focus : function(){
         this.el.child(this.buttonSelector).focus();
     },
-    
+
     // private
     onDisable : function(){
         if(this.el){
@@ -551,13 +569,19 @@ Ext.Button = Ext.extend(Ext.Component, {
     restoreClick : function(){
         this.ignoreNextClick = 0;
     }
+
+
+
+    /**
+     * @cfg {String} autoEl @hide
+     */
 });
 Ext.reg('button', Ext.Button);
 
 // Private utility class used by Button
 Ext.ButtonToggleMgr = function(){
    var groups = {};
-   
+
    function toggleGroup(btn, state){
        if(state){
            var g = groups[btn.toggleGroup];
@@ -568,7 +592,7 @@ Ext.ButtonToggleMgr = function(){
            }
        }
    }
-   
+
    return {
        register : function(btn){
            if(!btn.toggleGroup){
@@ -581,7 +605,7 @@ Ext.ButtonToggleMgr = function(){
            g.push(btn);
            btn.on("toggle", toggleGroup);
        },
-       
+
        unregister : function(btn){
            if(!btn.toggleGroup){
                return;

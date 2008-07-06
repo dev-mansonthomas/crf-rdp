@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -182,7 +182,7 @@ Ext.layout.FormLayout = Ext.extend(Ext.layout.AnchorLayout, {
 
     // private
     adjustWidthAnchor : function(value, comp){
-        return value - (comp.hideLabel ? 0 : this.labelAdjust);
+        return value - (comp.isFormField  ? (comp.hideLabel ? 0 : this.labelAdjust) : 0);
     },
 
     // private

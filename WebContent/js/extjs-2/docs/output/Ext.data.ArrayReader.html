@@ -8,13 +8,14 @@
         </div>
                 <div class="inheritance res-block">
 <pre class="res-block-inner"><a ext:cls="Ext.data.DataReader" ext:member="" href="output/Ext.data.DataReader.html">DataReader</a>
-  <img src="resources/elbow-end.gif"/>ArrayReader</pre></div>
+  <img src="resources/elbow-end.gif"/><a ext:cls="Ext.data.JsonReader" ext:member="" href="output/Ext.data.JsonReader.html">JsonReader</a>
+    <img src="resources/elbow-end.gif"/>ArrayReader</pre></div>
                 <h1>Class Ext.data.ArrayReader</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext.data</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/ArrayReader.js" target="_blank">ArrayReader.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">ArrayReader.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">ArrayReader</td></tr>
-                                    <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.data.DataReader" ext:member="" href="output/Ext.data.DataReader.html">DataReader</a></td></tr>
+                                    <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.data.JsonReader" ext:member="" href="output/Ext.data.JsonReader.html">JsonReader</a></td></tr>
                     </table>
         <div class="description">
             Data reader class to create an Array of Ext.data.Record objects from an Array.
@@ -51,6 +52,36 @@ This would consume an Array like this:
         </td>
         <td class="msource">ArrayReader</td>
     </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.ArrayReader-root"></a>
+            <b>root</b> : String            <div class="mdesc">
+                            name of the property which contains the Array of row objects.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.JsonReader" ext:member="#root" href="output/Ext.data.JsonReader.html#root">JsonReader</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.ArrayReader-successProperty"></a>
+            <b>successProperty</b> : String            <div class="mdesc">
+                            Name of the property from which to retrieve the success attribute used by forms.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.JsonReader" ext:member="#successProperty" href="output/Ext.data.JsonReader.html#successProperty">JsonReader</a></td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.ArrayReader-totalProperty"></a>
+            <b>totalProperty</b> : String            <div class="mdesc">
+                        <div class="short">Name of the property from which to retrieve the total number of records in the dataset. This is only needed if the wh...</div>
+            <div class="long">
+                Name of the property from which to retrieve the total number of records in the dataset. This is only needed if the whole dataset is not passed in one go, but is being paged from the remote server.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.JsonReader" ext:member="#totalProperty" href="output/Ext.data.JsonReader.html#totalProperty">JsonReader</a></td>
+    </tr>
             </table>
                 <a id="Ext.data.ArrayReader-props"></a>
         <h2>Public Properties</h2>
@@ -59,7 +90,21 @@ This would consume an Array like this:
                 <th class="sig-header" colspan="2">Property</th>
                 <th class="msource-header">Defined By</th>
             </tr>
-                <tr class="property-row inherited">
+                <tr class="property-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.ArrayReader-jsonData"></a>
+            <b>jsonData</b> : Object            <div class="mdesc">
+                        <div class="short">After any data loads, the raw JSON data is available for further custom processing.  If no data is
+loaded or there is...</div>
+            <div class="long">
+                After any data loads, the raw JSON data is available for further custom processing.  If no data is
+loaded or there is a load exception this property will be undefined.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.JsonReader" ext:member="#jsonData" href="output/Ext.data.JsonReader.html#jsonData">JsonReader</a></td>
+    </tr>
+        <tr class="property-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.ArrayReader-meta"></a>
@@ -99,7 +144,29 @@ created using <a ext:cls="Ext.data.Record" ext:member="create" href="output/Ext.
         </td>
         <td class="msource">ArrayReader</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.ArrayReader-read"></a>
+            <b>read</b>(&nbsp;<code>Object response</code>&nbsp;) : Object            <div class="mdesc">
+                        <div class="short">
+This method is only used by a DataProxy which has retrieved data from a remote server.</div>
+            <div class="long">
+                
+This method is only used by a DataProxy which has retrieved data from a remote server.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>response</code> : Object<div class="sub-desc">The XHR object which contains the JSON data in its responseText.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Object</code><div class="sub-desc">data A data block which is used by an Ext.data.Store object as a cache of Ext.data.Records.</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.JsonReader" ext:member="#read" href="output/Ext.data.JsonReader.html#read">JsonReader</a></td>
+    </tr>
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.ArrayReader-readRecords"></a>

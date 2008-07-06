@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -9,16 +9,18 @@
 /**
  * @class Ext.tree.TreeEditor
  * @extends Ext.Editor
- * Provides editor functionality for inline tree node editing.  Any valid {@link Ext.form.Field} can be used
+ * Provides editor functionality for inline tree node editing.  Any valid {@link Ext.form.Field} subclass can be used
  * as the editor field.
  * @constructor
  * @param {TreePanel} tree
- * @param {Object} config Either a prebuilt {@link Ext.form.Field} instance or a Field config object
+ * @param {Object} fieldConfig (optional) Either a prebuilt {@link Ext.form.Field} instance or a Field config object
+ * that will be applied to the default field instance (defaults to a {@link Ext.form.TextField}).
+ * @param {Object} config (optional) A TreeEditor config object
  */
-Ext.tree.TreeEditor = function(tree, config){
-    config = config || {};
-    var field = config.events ? config : new Ext.form.TextField(config);
-    Ext.tree.TreeEditor.superclass.constructor.call(this, field);
+Ext.tree.TreeEditor = function(tree, fc, config){
+    fc = fc || {};
+    var field = fc.events ? fc : new Ext.form.TextField(fc);
+    Ext.tree.TreeEditor.superclass.constructor.call(this, field, config);
 
     this.tree = tree;
 
@@ -70,6 +72,7 @@ Ext.extend(Ext.tree.TreeEditor, Ext.Editor, {
 
     initEditor : function(tree){
         tree.on('beforeclick', this.beforeNodeClick, this);
+        tree.on('dblclick', this.onNodeDblClick, this);
         this.on('complete', this.updateNode, this);
         this.on('beforestartedit', this.fitToTree, this);
         this.on('startedit', this.bindScroll, this, {delay:10});
@@ -89,10 +92,13 @@ Ext.extend(Ext.tree.TreeEditor, Ext.Editor, {
     },
 
     // private
-    triggerEdit : function(node){
+    triggerEdit : function(node, defer){
         this.completeEdit();
-        this.editNode = node;
-        this.startEdit(node.ui.textNode, node.text);
+		if(node.attributes.editable !== false){
+			this.editNode = node;
+            this.autoEditTimer = this.startEdit.defer(this.editDelay, this, [node.ui.textNode, node.text]);
+            return false;
+        }
     },
 
     // private
@@ -102,13 +108,15 @@ Ext.extend(Ext.tree.TreeEditor, Ext.Editor, {
 
     // private
     beforeNodeClick : function(node, e){
-        var sinceLast = (this.lastClick ? this.lastClick.getElapsed() : 0);
-        this.lastClick = new Date();
-        if(sinceLast > this.editDelay && this.tree.getSelectionModel().isSelected(node)){
+        clearTimeout(this.autoEditTimer);
+        if(this.tree.getSelectionModel().isSelected(node)){
             e.stopEvent();
-            this.triggerEdit(node);
-            return false;
+            return this.triggerEdit(node);
         }
+    },
+
+    onNodeDblClick : function(node, e){
+        clearTimeout(this.autoEditTimer);
     },
 
     // private
@@ -121,7 +129,7 @@ Ext.extend(Ext.tree.TreeEditor, Ext.Editor, {
     onHide : function(){
         Ext.tree.TreeEditor.superclass.onHide.call(this);
         if(this.editNode){
-            this.editNode.ui.focus();
+            this.editNode.ui.focus.defer(50, this.editNode.ui);
         }
     },
 

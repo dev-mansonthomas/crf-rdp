@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -33,10 +33,14 @@
     title:'Framed with Checkbox Selection and Horizontal Scrolling',
     iconCls:'icon-grid'
 });</code></pre>
- * <b>Note:</b> Although this class inherits many configuration options from base classes, some of them
+ * <b>Notes:</b> <br/>
+ * - Although this class inherits many configuration options from base classes, some of them
  * (such as autoScroll, layout, items, etc) won't function as they do with the base Panel class.<br>
  * <br>
- * To access the data in a Grid, it is necessary to use the data model encapsulated
+ * - A grid <b>requires</b> a width of some kind in order to calculate columns. That width can either be a normal width
+ * set via the width: X config option or a width automatically set by using the grid in an Ext Layout.<br>
+ * <br>
+ * - To access the data in a Grid, it is necessary to use the data model encapsulated
  * by the {@link #store Store}. See the {@link #cellclick} event.
  * @constructor
  * @param {Object} config The config object
@@ -65,7 +69,7 @@ Ext.grid.GridPanel = Ext.extend(Ext.Panel, {
     * @cfg {Number} maxHeight Sets the maximum height of the grid - ignored if autoHeight is not on.
     */
     /**
-     * @cfg {Boolean} disableSelection True to disable selections in the grid (defaults to false). - ignored a SelectionModel is specified 
+     * @cfg {Boolean} disableSelection True to disable selections in the grid (defaults to false). - ignored if a SelectionModel is specified 
      */
     /**
      * @cfg {Boolean} enableColumnMove False to turn off column reordering via drag drop (defaults to true).
@@ -76,6 +80,9 @@ Ext.grid.GridPanel = Ext.extend(Ext.Panel, {
     /**
      * @cfg {Object} viewConfig A config object that will be applied to the grid's UI view.  Any of
      * the config options available for {@link Ext.grid.GridView} can be specified here.
+     */
+    /**
+     * @cfg {Boolean} hideHeaders True to hide the grid's header (defaults to false).
      */
 
     /**
@@ -88,12 +95,6 @@ Ext.grid.GridPanel = Ext.extend(Ext.Panel, {
      * @cfg {Number} minColumnWidth The minimum width a column can be resized to. Defaults to 25.
      */
     minColumnWidth : 25,
-    /**
-     * @cfg {Boolean} monitorWindowResize True to autoSize the grid when the window resizes. Defaults to true.
-     */
-    monitorWindowResize : true,
-    //deprecated
-    maxRowsToMeasure : 0,
     /**
      * @cfg {Boolean} trackMouseOver True to highlight rows when the mouse is over. Default is true.
      */
@@ -154,8 +155,9 @@ Ext.grid.GridPanel = Ext.extend(Ext.Panel, {
         // override any provided value since it isn't valid
         // and is causing too many bug reports ;)
         this.autoScroll = false;
+        this.autoWidth = false;
 
-        if(this.columns && (this.columns instanceof Array)){
+        if(Ext.isArray(this.columns)){
             this.colModel = new Ext.grid.ColumnModel(this.columns);
             delete this.columns;
         }
@@ -778,6 +780,59 @@ Ext.grid.GridPanel = Ext.extend(Ext.Panel, {
     /** 
      * @event remove 
      * @hide 
+     */
+
+
+
+    /**
+     * @cfg {String} allowDomMove  @hide
+     */
+    /**
+     * @cfg {String} autoEl @hide
+     */
+    /**
+     * @cfg {String} applyTo  @hide
+     */
+    /**
+     * @cfg {String} autoScroll  @hide
+     */
+    /**
+     * @cfg {String} bodyBorder  @hide
+     */
+    /**
+     * @cfg {String} bodyStyle  @hide
+     */
+    /**
+     * @cfg {String} contentEl  @hide
+     */
+    /**
+     * @cfg {String} disabledClass  @hide
+     */
+    /**
+     * @cfg {String} elements  @hide
+     */
+    /**
+     * @cfg {String} html  @hide
+     */
+    /**
+     * @property disabled
+     * @hide
+     */
+    /**
+     * @method applyToMarkup
+     * @hide
+     */
+    /**
+     * @method enable
+     * @hide
+     */
+    /**
+     * @method disable
+     * @hide
+     */
+    /**
+     * @method setDisabled
+     * @hide
      */
 });
 Ext.reg('grid', Ext.grid.GridPanel);

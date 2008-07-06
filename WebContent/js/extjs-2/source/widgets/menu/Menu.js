@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -16,7 +16,7 @@
  * @param {Object} config Configuration options
  */
 Ext.menu.Menu = function(config){
-    if(config instanceof Array){
+    if(Ext.isArray(config)){
         config = {items:config};
     }
     Ext.apply(this, config);
@@ -81,6 +81,12 @@ Ext.menu.Menu = function(config){
     Ext.menu.MenuMgr.register(this);
     Ext.menu.Menu.superclass.constructor.call(this);
     var mis = this.items;
+    /**
+     * A MixedCollection of this Menu's items
+     * @property items
+     * @type Ext.util.MixedCollection
+     */
+
     this.items = new Ext.util.MixedCollection();
     if(mis){
         this.add.apply(this, mis);
@@ -114,7 +120,7 @@ Ext.extend(Ext.menu.Menu, Ext.util.Observable, {
      */
     subMenuAlign : "tl-tr?",
     /**
-     * @cfg {String} defaultAlign The default {@link Ext.Element#alignTo) anchor position value for this menu
+     * @cfg {String} defaultAlign The default {@link Ext.Element#alignTo} anchor position value for this menu
      * relative to its element of origin (defaults to "tl-bl?")
      */
     defaultAlign : "tl-bl?",
@@ -142,8 +148,9 @@ Ext.extend(Ext.menu.Menu, Ext.util.Observable, {
         }
         var el = this.el = this.createEl();
 
-        this.keyNav = new Ext.menu.MenuNav(this);
-
+        if(!this.keyNav){
+            this.keyNav = new Ext.menu.MenuNav(this);
+        }
         if(this.plain){
             el.addClass("x-menu-plain");
         }
@@ -492,10 +499,12 @@ var item = menu.add(
      * Removes and destroys all items in the menu
      */
     removeAll : function(){
-        var f;
-        while(f = this.items.first()){
-            this.remove(f);
-        }
+    	if(this.items){
+	        var f;
+	        while(f = this.items.first()){
+	            this.remove(f);
+	        }
+    	}
     },
 
     /**

@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -16,7 +16,7 @@
  * @param {Object/Array} config A config object or an array of buttons to add
  */ 
  Ext.Toolbar = function(config){
-    if(config instanceof Array){
+    if(Ext.isArray(config)){
         config = {buttons:config};
     }
     Ext.Toolbar.superclass.constructor.call(this, config);
@@ -37,6 +37,11 @@ Ext.extend(T, Ext.BoxComponent, {
         if(this.items){
             this.buttons = this.items;
         }
+        /**
+         * A MixedCollection of this Toolbar's items
+         * @property items
+         * @type Ext.util.MixedCollection
+         */
         this.items = new Ext.util.MixedCollection(false, function(o){
             return o.itemId || o.id || Ext.id();
         });
@@ -163,7 +168,7 @@ Ext.extend(T, Ext.BoxComponent, {
      * @return {Ext.Toolbar.Button/Array}
      */
     addButton : function(config){
-        if(config instanceof Array){
+        if(Ext.isArray(config)){
             var buttons = [];
             for(var i = 0, len = config.length; i < len; i++) {
                 buttons.push(this.addButton(config[i]));
@@ -212,7 +217,7 @@ Ext.extend(T, Ext.BoxComponent, {
      * @return {Ext.Toolbar.Button/Item}
      */
     insertButton : function(index, item){
-        if(item instanceof Array){
+        if(Ext.isArray(item)){
             var buttons = [];
             for(var i = 0, len = item.length; i < len; i++) {
                buttons.push(this.insertButton(index + i, item[i]));
@@ -313,6 +318,10 @@ Ext.extend(T, Ext.BoxComponent, {
     onButtonMenuHide : function(btn){
         delete this.activeMenuBtn;
     }
+
+    /**
+     * @cfg {String} autoEl @hide
+     */
 });
 Ext.reg('toolbar', Ext.Toolbar);
 

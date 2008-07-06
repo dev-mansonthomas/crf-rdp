@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -34,10 +34,13 @@ grid             Ext.grid.GridPanel
 paging           Ext.PagingToolbar
 panel            Ext.Panel
 progress         Ext.ProgressBar
+propertygrid     Ext.grid.PropertyGrid
+slider           Ext.Slider
 splitbutton      Ext.SplitButton
+statusbar        Ext.StatusBar
 tabpanel         Ext.TabPanel
 treepanel        Ext.tree.TreePanel
-viewport         Ext.ViewPort
+viewport         Ext.Viewport
 window           Ext.Window
 
 Toolbar components
@@ -61,6 +64,7 @@ field            Ext.form.Field
 fieldset         Ext.form.FieldSet
 hidden           Ext.form.Hidden
 htmleditor       Ext.form.HtmlEditor
+label            Ext.form.Label
 numberfield      Ext.form.NumberField
 radio            Ext.form.Radio
 textarea         Ext.form.TextArea
@@ -193,7 +197,7 @@ Ext.Component = function(config){
     this.initComponent();
 
     if(this.plugins){
-        if(this.plugins instanceof Array){
+        if(Ext.isArray(this.plugins)){
             for(var i = 0, len = this.plugins.length; i < len; i++){
                 this.plugins[i].init(this);
             }
@@ -224,6 +228,16 @@ Ext.extend(Ext.Component, Ext.util.Observable, {
      * The unique id of this component (defaults to an auto-assigned id).
      */
     /**
+     * @cfg {String/Object} autoEl
+     * A tag name or DomHelper spec to create an element with. This is intended to create shorthand
+     * utility components inline via JSON. It should not be used for higher level components which already create
+     * their own elements. Example usage:
+     * <pre><code>
+{xtype:'box', autoEl: 'div', cls:'my-class'}
+{xtype:'box', autoEl: {tag:'blockquote', html:'autoEl is cool!'}} // with DomHelper
+</code></pre>
+     */
+    /**
      * @cfg {String} xtype
      * The registered xtype to create. This config option is not used when passing
      * a config object into a constructor. This config option is used only when
@@ -241,6 +255,12 @@ Ext.extend(Ext.Component, Ext.util.Observable, {
      * @cfg {String} cls
      * An optional extra CSS class that will be added to this component's Element (defaults to '').  This can be
      * useful for adding customized styles to the component or any of its children using standard CSS rules.
+     */
+    /**
+     * @cfg {String} overCls
+     * An optional extra CSS class that will be added to this component's Element when the mouse moves
+     * over the Element, and removed when the mouse moves out. (defaults to '').  This can be
+     * useful for adding customized "active" or "hover" styles to the component or any of its children using standard CSS rules.
      */
     /**
      * @cfg {String} style
@@ -292,7 +312,7 @@ Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
      * <p>You can perform extra processing on state save and restore by attaching handlers to the
      * {@link #beforestaterestore}, {@link staterestore}, {@link beforestatesave} and {@link statesave} events</p>
      */
-    /* //internal - to be set by subclasses
+    /**
      * @cfg {String} stateId
      * The unique id for this component to use for state management purposes (defaults to the component id).
      * <p>See {@link #stateful} for an explanation of saving and restoring Component state.</p>
@@ -544,12 +564,18 @@ Ext.Foo = Ext.extend(Ext.Bar, {
                 Ext.DomHelper.overwrite(div, this.autoEl);
                 this.el = div.firstChild;
             }
+            if (!this.el.id) {
+            	this.el.id = this.getId();
+            }
         }
         if(this.el){
             this.el = Ext.get(this.el);
             if(this.allowDomMove !== false){
                 ct.dom.insertBefore(this.el.dom, position);
             }
+            if(this.overCls) {
+                this.el.addClassOnOver(this.overCls);
+            }   
         }
     },
 
@@ -834,6 +860,50 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'
             tc.xtypes = c.join('/');
         }
         return tc.xtypes;
+    },
+
+    /**
+     * Find a container above this component at any level by a custom function. If the passed function returns
+     * true, the container will be returned. The passed function is called with the arguments (container, this component).
+     * @param {Function} fcn
+     * @param {Object} scope (optional)
+     * @return {Array} Array of Ext.Components
+     */
+    findParentBy: function(fn) {
+        for (var p = this.ownerCt; (p != null) && !fn(p, this); p = p.ownerCt);
+        return p || null;
+    },
+
+    /**
+     * Find a container above this component at any level by xtype or class
+     * @param {String/Class} xtype The xtype string for a component, or the class of the component directly
+     * @return {Container} The found container
+     */
+    findParentByType: function(xtype) {
+        return typeof xtype == 'function' ?
+            this.findParentBy(function(p){
+                return p.constructor === xtype;
+            }) :
+            this.findParentBy(function(p){
+                return p.constructor.xtype === xtype;
+            });
+    },
+
+    // internal function for auto removal of assigned event handlers on destruction
+    mon : function(item, ename, fn, scope, opt){
+        if(!this.mons){
+            this.mons = [];
+            this.on('beforedestroy', function(){
+                for(var i= 0, len = this.mons.length; i < len; i++){
+                    var m = this.mons[i];
+                    m.item.un(m.ename, m.fn, m.scope);
+                }
+            }, this);
+        }
+        this.mons.push({
+            item: item, ename: ename, fn: fn, scope: scope
+        });
+        item.on(ename, fn, scope, opt);
     }
 });
 

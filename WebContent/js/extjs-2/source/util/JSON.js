@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -9,20 +9,20 @@
 /**
  * @class Ext.util.JSON
  * Modified version of Douglas Crockford"s json.js that doesn"t
- * mess with the Object prototype 
+ * mess with the Object prototype
  * http://www.json.org/js.html
  * @singleton
  */
 Ext.util.JSON = new (function(){
-    var useHasOwn = {}.hasOwnProperty ? true : false;
-    
+    var useHasOwn = !!{}.hasOwnProperty;
+
     // crashes Safari in some instances
     //var validRE = /^("(\\.|[^"\\\n\r])*?"|[,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t])+?$/;
-    
+
     var pad = function(n) {
         return n < 10 ? "0" + n : n;
     };
-    
+
     var m = {
         "\b": '\\b',
         "\t": '\\t',
@@ -48,7 +48,7 @@ Ext.util.JSON = new (function(){
         }
         return '"' + s + '"';
     };
-    
+
     var encodeArray = function(o){
         var a = ["["], b, i, l = o.length, v;
             for (i = 0; i < l; i += 1) {
@@ -69,8 +69,8 @@ Ext.util.JSON = new (function(){
             a.push("]");
             return a.join("");
     };
-    
-    var encodeDate = function(o){
+
+    this.encodeDate = function(o){
         return '"' + o.getFullYear() + "-" +
                 pad(o.getMonth() + 1) + "-" +
                 pad(o.getDate()) + "T" +
@@ -78,7 +78,7 @@ Ext.util.JSON = new (function(){
                 pad(o.getMinutes()) + ":" +
                 pad(o.getSeconds()) + '"';
     };
-    
+
     /**
      * Encodes an Object, Array or other value
      * @param {Mixed} o The variable to encode
@@ -87,10 +87,10 @@ Ext.util.JSON = new (function(){
     this.encode = function(o){
         if(typeof o == "undefined" || o === null){
             return "null";
-        }else if(o instanceof Array){
+        }else if(Ext.isArray(o)){
             return encodeArray(o);
-        }else if(o instanceof Date){
-            return encodeDate(o);
+        }else if(Ext.isDate(o)){
+            return Ext.util.JSON.encodeDate(o);
         }else if(typeof o == "string"){
             return encodeString(o);
         }else if(typeof o == "number"){
@@ -121,7 +121,7 @@ Ext.util.JSON = new (function(){
             return a.join("");
         }
     };
-    
+
     /**
      * Decodes (parses) a JSON string to an object. If the JSON is invalid, this function throws a SyntaxError.
      * @param {String} json The JSON string
@@ -131,13 +131,19 @@ Ext.util.JSON = new (function(){
         return eval("(" + json + ')');
     };
 })();
-/** 
+/**
  * Shorthand for {@link Ext.util.JSON#encode}
- * @member Ext encode 
- * @method */
+ * @param {Mixed} o The variable to encode
+ * @return {String} The JSON string
+ * @member Ext
+ * @method encode
+ */
 Ext.encode = Ext.util.JSON.encode;
-/** 
+/**
  * Shorthand for {@link Ext.util.JSON#decode}
- * @member Ext decode 
- * @method */
+ * @param {String} json The JSON string
+ * @return {Object} The resulting object
+ * @member Ext
+ * @method decode
+ */
 Ext.decode = Ext.util.JSON.decode;

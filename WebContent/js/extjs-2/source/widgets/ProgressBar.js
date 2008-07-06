@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -90,14 +90,18 @@ Ext.ProgressBar = Ext.extend(Ext.BoxComponent, {
             this.textEl = new Ext.CompositeElement([this.textTopEl.dom.firstChild, textBackEl.dom.firstChild]);
             this.textEl.setWidth(inner.offsetWidth);
         }
-        if(this.value){
-            this.updateProgress(this.value, this.text);
-        }else{
-            this.updateText(this.text);
-        }
-        this.setSize(this.width || 'auto', 'auto');
         this.progressBar.setHeight(inner.offsetHeight);
     },
+    
+    // private
+	afterRender : function(){
+		Ext.ProgressBar.superclass.afterRender.call(this);
+		if(this.value){
+			this.updateProgress(this.value, this.text);
+		}else{
+			this.updateText(this.text);
+		}
+	},
 
     /**
      * Updates the progress bar value, and optionally its text.  If the text argument is not specified,

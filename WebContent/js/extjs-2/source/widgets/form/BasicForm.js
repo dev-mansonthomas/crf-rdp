@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -12,14 +12,7 @@
  * Supplies the functionality to do "actions" on forms and initialize Ext.form.Field types on existing markup.
  * <br><br>
  * By default, Ext Forms are submitted through Ajax, using {@link Ext.form.Action}.
- * To enable normal browser submission of an Ext Form, override the Form's onSubmit,
- * and submit methods:<br><br><pre><code>
-    var myForm = new Ext.form.BasicForm("form-el-id", {
-        onSubmit: Ext.emptyFn,
-        submit: function() {
-            this.getEl().dom.submit();
-        }
-    });</code></pre><br>
+ * To enable normal browser submission of an Ext Form, use the {@link #standardSubmit} config option.
  * @constructor
  * @param {Mixed} el The form element or its id
  * @param {Object} config Configuration options
@@ -83,8 +76,24 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
      * The URL to use for form actions if one isn't supplied in the action options.
      */
     /**
-     * @cfg {Boolean} fileUpload
+     * @cfg {Boolean} fileUpload.
      * Set to true if this form is a file upload.
+     * <p>File uploads are not performed using normal "Ajax" techniques, that is they are <b>not</b>
+     * performed using XMLHttpRequests. Instead the form is submitted in the standard manner with the
+     * DOM <tt>&lt;form></tt> element temporarily modified to have its
+     * {@link http://www.w3.org/TR/REC-html40/present/frames.html#adef-target target} set to refer
+     * to a dynamically generated, hidden <tt>&lt;iframe></tt> which is inserted into the document
+     * but removed after the return data has been gathered.</p>
+     * <p>The server response is parsed by the browser to create the document for the IFRAME. If the
+     * server is using JSON to send the return object, then the
+     * {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17 Content-Type} header
+     * must be set to "text/html" in order to tell the browser to insert the text unchanged into the document body.</p>
+     * <p>The response text is retrieved from the document, and a fake XMLHttpRequest object
+     * is created containing a <tt>responseText</tt> property in order to conform to the
+     * requirements of event handlers and callbacks.</p>
+     * <p>Be aware that file upload packets are sent with the content type {@link http://www.faqs.org/rfcs/rfc2388.html multipart/form}
+     * and some server technologies (notably JEE) may require some custom processing in order to
+     * retrieve parameter names and parameter values from the packet content.</p>
      */
     /**
      * @cfg {Object} baseParams
@@ -105,6 +114,10 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
     trackResetOnLoad : false,
 
     /**
+     * @cfg {Boolean} standardSubmit If set to true, standard HTML form submits are used instead of XHR (Ajax) style
+     * form submissions. (defaults to false)
+     */
+    /**
      * By default wait messages are displayed with Ext.MessageBox.wait. You can target a specific
      * element by passing it or its id or mask the form itself by passing in true.
      * @type Mixed
@@ -115,7 +128,9 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
     initEl : function(el){
         this.el = Ext.get(el);
         this.id = this.el.id || Ext.id();
-        this.el.on('submit', this.onSubmit, this);
+        if(!this.standardSubmit){
+            this.el.on('submit', this.onSubmit, this);
+        }
         this.el.addClass('x-form');
     },
 
@@ -189,6 +204,8 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
      * to the form's method, or POST if not defined)</p></li>
      * <li><b>params</b> : String/Object<p style="margin-left:1em">The params to pass
      * (defaults to the form's baseParams, or none if not defined)</p></li>
+     * <li><b>headers</b> : Object<p style="margin-left:1em">Request headers to set for the action
+     * (defaults to the form's default headers)</p></li>
      * <li><b>success</b> : Function<p style="margin-left:1em">The callback that will
      * be invoked after a successful response.  Note that this is HTTP success
      * (the transaction was sent and received correctly), but the resulting response data
@@ -231,6 +248,13 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
      * @return {BasicForm} this
      */
     submit : function(options){
+        if(this.standardSubmit){
+            var v = this.isValid();
+            if(v){
+                this.el.dom.submit();
+            }
+            return v;
+        }
         this.doAction('submit', options);
         return this;
     },
@@ -339,7 +363,7 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
      * @return {BasicForm} this
      */
     markInvalid : function(errors){
-        if(errors instanceof Array){
+        if(Ext.isArray(errors)){
             for(var i = 0, len = errors.length; i < len; i++){
                 var fieldError = errors[i];
                 var f = this.findField(fieldError.id);
@@ -373,7 +397,7 @@ Ext.extend(Ext.form.BasicForm, Ext.util.Observable, {
      * @return {BasicForm} this
      */
     setValues : function(values){
-        if(values instanceof Array){ // array of objects
+        if(Ext.isArray(values)){ // array of objects
             for(var i = 0, len = values.length; i < len; i++){
                 var v = values[i];
                 var f = this.findField(v.id);

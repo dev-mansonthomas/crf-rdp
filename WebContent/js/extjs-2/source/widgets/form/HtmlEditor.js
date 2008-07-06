@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -9,11 +9,43 @@
 /**
  * @class Ext.form.HtmlEditor
  * @extends Ext.form.Field
- * Provides a lightweight HTML Editor component.
+ * Provides a lightweight HTML Editor component. Some toolbar features are not supported by Safari and will be 
+ * automatically hidden when needed.  These are noted in the config options where appropriate.
+ * <br><br>The editor's toolbar buttons have tooltips defined in the {@link #buttonTips} property, but they are not 
+ * enabled by default unless the global {@link Ext.QuickTips} singleton is {@link Ext.QuickTips#init initialized}.
  * <br><br><b>Note: The focus/blur and validation marking functionality inherited from Ext.form.Field is NOT
- * supported by this editor.</b><br/><br/>
- * An Editor is a sensitive component that can't be used in all spots standard fields can be used. Putting an Editor within
+ * supported by this editor.</b>
+ * <br><br>An Editor is a sensitive component that can't be used in all spots standard fields can be used. Putting an Editor within
  * any element that has display set to 'none' can cause problems in Safari and Firefox due to their default iframe reloading bugs.
+ * <br><br>Example usage:
+ * <pre><code>
+// Simple example rendered with default options:
+Ext.QuickTips.init();  // enable tooltips
+new Ext.form.HtmlEditor({
+    renderTo: Ext.getBody(),
+    width: 800,
+    height: 300
+});
+
+// Passed via xtype into a container and with custom options:
+Ext.QuickTips.init();  // enable tooltips
+new Ext.Panel({
+    title: 'HTML Editor',
+    renderTo: Ext.getBody(),
+    width: 600,
+    height: 300,
+    frame: true,
+    layout: 'fit',
+    items: {
+        xtype: 'htmleditor',
+        enableColors: false,
+        enableAlignments: false
+    }
+});
+</code></pre>
+ * @constructor
+ * Create a new HtmlEditor
+ * @param {Object} config
  */
 
 Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
@@ -140,6 +172,7 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
         )
     },
 
+    // private
     createFontOptions : function(){
         var buf = [], fs = this.fontFamilies, ff, lc;
         for(var i = 0, len = fs.length; i< len; i++){
@@ -154,14 +187,17 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
         }
         return buf.join('');
     },
-    /**
+    
+    /*
      * Protected method that will not generally be called directly. It
      * is called when the editor creates its toolbar. Override this method if you need to
      * add custom toolbar buttons.
      * @param {HtmlEditor} editor
      */
     createToolbar : function(editor){
-
+        
+        var tipsEnabled = Ext.QuickTips && Ext.QuickTips.isEnabled();
+        
         function btn(id, toggle, handler){
             return {
                 itemId : id,
@@ -170,7 +206,7 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
                 scope: editor,
                 handler:handler||editor.relayBtnCmd,
                 clickEvent:'mousedown',
-                tooltip: editor.buttonTips[id] || undefined,
+                tooltip: tipsEnabled ? editor.buttonTips[id] || undefined : undefined,
                 tabIndex:-1
             };
         }
@@ -224,7 +260,7 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
                     itemId:'forecolor',
                     cls:'x-btn-icon x-edit-forecolor',
                     clickEvent:'mousedown',
-                    tooltip: editor.buttonTips['forecolor'] || undefined,
+                    tooltip: tipsEnabled ? editor.buttonTips['forecolor'] || undefined : undefined,
                     tabIndex:-1,
                     menu : new Ext.menu.ColorMenu({
                         allowReselect: true,
@@ -242,7 +278,7 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
                     itemId:'backcolor',
                     cls:'x-btn-icon x-edit-backcolor',
                     clickEvent:'mousedown',
-                    tooltip: editor.buttonTips['backcolor'] || undefined,
+                    tooltip: tipsEnabled ? editor.buttonTips['backcolor'] || undefined : undefined,
                     tabIndex:-1,
                     menu : new Ext.menu.ColorMenu({
                         focus: Ext.emptyFn,
@@ -313,6 +349,7 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
         return '<html><head><style type="text/css">body{border:0;margin:0;padding:3px;height:98%;cursor:text;}</style></head><body></body></html>';
     },
 
+    // private
     getEditorBody : function(){
         return this.doc.body || this.doc.documentElement;
     },
@@ -476,12 +513,14 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
      * @method
      */
     markInvalid : Ext.emptyFn,
+    
     /**
      * Overridden and disabled. The editor element does not support standard valid/invalid marking. @hide
      * @method
      */
     clearInvalid : Ext.emptyFn,
 
+    // docs inherit from Field
     setValue : function(v){
         Ext.form.HtmlEditor.superclass.setValue.call(this, v);
         this.pushValue();
@@ -551,7 +590,7 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
         this.focus.defer(10, this);
     },
 
-    // doc'ed in Field
+    // docs inherit from Field
     focus : function(){
         if(this.win && !this.sourceEditMode){
             this.win.focus();
@@ -630,14 +669,35 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
     // private
     adjustFont: function(btn){
         var adjust = btn.itemId == 'increasefontsize' ? 1 : -1;
-        if(Ext.isSafari){ // safari
-            adjust *= 2;
+
+        var v = parseInt(this.doc.queryCommandValue('FontSize') || 2, 10);
+        if(Ext.isSafari3 || Ext.isAir){
+            // Safari 3 values
+            // 1 = 10px, 2 = 13px, 3 = 16px, 4 = 18px, 5 = 24px, 6 = 32px
+            if(v <= 10){
+                v = 1 + adjust;
+            }else if(v <= 13){
+                v = 2 + adjust;
+            }else if(v <= 16){
+                v = 3 + adjust;
+            }else if(v <= 18){
+                v = 4 + adjust;
+            }else if(v <= 24){
+                v = 5 + adjust;
+            }else {
+                v = 6 + adjust;
+            }
+            v = v.constrain(1, 6);
+        }else{
+            if(Ext.isSafari){ // safari
+                adjust *= 2;
+            }
+            v = Math.max(1, v+adjust) + (Ext.isSafari ? 'px' : 0);
         }
-        var v = parseInt(this.doc.queryCommandValue('FontSize')|| 3, 10);
-        v = Math.max(1, v+adjust);
-        this.execCmd('FontSize', v + (Ext.isSafari ? 'px' : 0));
+        this.execCmd('FontSize', v);
     },
 
+    // private
     onEditorEvent : function(e){
         this.updateToolbar();
     },
@@ -956,6 +1016,77 @@ Ext.form.HtmlEditor = Ext.extend(Ext.form.Field, {
      */
     /**
      * @cfg {String} validateOnBlur @hide
+     */
+    /**
+     * @cfg {Boolean} allowDomMove  @hide
+     */
+    /**
+     * @cfg {String} applyTo @hide
+     */
+    /**
+     * @cfg {String} autoHeight  @hide
+     */
+    /**
+     * @cfg {String} autoWidth  @hide
+     */
+    /**
+     * @cfg {String} cls  @hide
+     */
+    /**
+     * @cfg {String} disabled  @hide
+     */
+    /**
+     * @cfg {String} disabledClass  @hide
+     */
+    /**
+     * @cfg {String} msgTarget  @hide
+     */
+    /**
+     * @cfg {String} readOnly  @hide
+     */
+    /**
+     * @cfg {String} style  @hide
+     */
+    /**
+     * @cfg {String} validationDelay  @hide
+     */
+    /**
+     * @cfg {String} validationEvent  @hide
+     */
+    /**
+     * @cfg {String} tabIndex  @hide
+     */
+    /**
+     * @property disabled
+     * @hide
+     */
+    /**
+     * @method applyToMarkup
+     * @hide
+     */
+    /**
+     * @method disable
+     * @hide
+     */
+    /**
+     * @method enable
+     * @hide
+     */
+    /**
+     * @method validate
+     * @hide
+     */
+    /**
+     * @event valid
+     * @hide
+     */
+    /**
+     * @method setDisabled
+     * @hide
+     */
+    /**
+     * @cfg keys
+     * @hide
      */
 });
 Ext.reg('htmleditor', Ext.form.HtmlEditor);

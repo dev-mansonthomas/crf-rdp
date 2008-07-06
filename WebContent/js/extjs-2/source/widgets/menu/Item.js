@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -23,6 +23,10 @@ Ext.menu.Item = function(config){
     }
 };
 Ext.extend(Ext.menu.Item, Ext.menu.BaseItem, {
+    /**
+     * @cfg {Mixed} menu Either an instance of {@link Ext.menu.Menu} or the config object for an
+     * {@link Ext.menu.Menu} which acts as the submenu when this item is activated.
+     */
     /**
      * @cfg {String} icon The path to an icon to display in this item (defaults to Ext.BLANK_IMAGE_URL).  If
      * icon is specified {@link #iconCls} should not be.

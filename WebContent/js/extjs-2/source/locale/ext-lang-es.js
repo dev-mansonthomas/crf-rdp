@@ -1,4 +1,12 @@
 /*
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+/*
  * Spanish/Latin American Translation by genius551v 04-08-2007
  * Revised by efege, 2007-04-15.
  * Revised by Rafaga2k 10-01-2007 (mm/dd/yyyy)
@@ -172,7 +180,7 @@ if(Ext.form.ComboBox){
 
 if(Ext.form.HtmlEditor){
    Ext.apply(Ext.form.HtmlEditor.prototype, {
-      createLinkText : "Por favor proporcione el URL para el enlace:",
+      createLinkText : "Por favor proporcione la URL para el enlace:",
           buttonTips : {
               insertimage:{
                   title:'Imagen',
@@ -185,8 +193,8 @@ if(Ext.form.HtmlEditor){
                   cls: 'x-html-editor-tip'
               },
               italic : {
-                  title: 'Italica (Ctrl+I)',
-                  text: 'Transforma el texto seleccionado en Italicas.',
+                  title: 'It&#225;lica (Ctrl+I)',
+                  text: 'Transforma el texto seleccionado en It&#225;licas.',
                   cls: 'x-html-editor-tip'
               },
               underline : {
@@ -245,8 +253,8 @@ if(Ext.form.HtmlEditor){
                   cls: 'x-html-editor-tip'
               },
               sourceedit : {
-                  title: 'Codigo Fuente',
-                  text: 'Pasar al modo de edicion de codigo fuente.',
+                  title: 'C&#243;digo Fuente',
+                  text: 'Pasar al modo de edici&#243;n de c&#243;digo fuente.',
                   cls: 'x-html-editor-tip'
               }
         }
@@ -258,8 +266,8 @@ if(Ext.form.VTypes){
    Ext.apply(Ext.form.VTypes, {
       emailText    : 'Este campo debe ser una direcci&#243;n de correo electr&#243;nico con el formato "usuario@dominio.com"',
       urlText      : 'Este campo debe ser una URL con el formato "http:/'+'/www.dominio.com"',
-      alphaText    : 'Este campo solo debe contener letras y _',
-      alphanumText : 'Este campo solo debe contener letras, n&#250;meros y _'
+      alphaText    : 'Este campo s&#243;lo debe contener letras y _',
+      alphanumText : 'Este campo s&#243;lo debe contener letras, n&#250;meros y _'
    });
 }
 

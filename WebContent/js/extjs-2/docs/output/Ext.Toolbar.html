@@ -14,9 +14,9 @@
                 <h1>Class Ext.Toolbar</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/Toolbar.js" target="_blank">Toolbar.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">Toolbar.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">Toolbar</td></tr>
-                        <tr><td class="label">Subclasses:</td><td class="hd-info"><a ext:cls="Ext.PagingToolbar" href="output/Ext.PagingToolbar.html">PagingToolbar</a></td></tr>
+                        <tr><td class="label">Subclasses:</td><td class="hd-info"><a ext:cls="Ext.PagingToolbar" href="output/Ext.PagingToolbar.html">PagingToolbar</a>, <a ext:cls="Ext.StatusBar" href="output/Ext.StatusBar.html">StatusBar</a></td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.BoxComponent" ext:member="" href="output/Ext.BoxComponent.html">BoxComponent</a></td></tr>
                     </table>
         <div class="description">
@@ -52,12 +52,15 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyTo" href="output/Ext.Component.html#applyTo">Component</a></td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-autoHeight"></a>
             <b>autoHeight</b> : Boolean            <div class="mdesc">
-                            True to use height:'auto', false to use fixed height (defaults to false).                        </div>
+                        <div class="short">True to use height:'auto', false to use fixed height. Note: although many components inherit this config option, not ...</div>
+            <div class="long">
+                True to use height:'auto', false to use fixed height. Note: although many components inherit this config option, not all will function as expected with a height of 'auto'. (defaults to false).            </div>
+                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#autoHeight" href="output/Ext.BoxComponent.html#autoHeight">BoxComponent</a></td>
     </tr>
@@ -73,12 +76,15 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#autoShow" href="output/Ext.Component.html#autoShow">Component</a></td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-autoWidth"></a>
             <b>autoWidth</b> : Boolean            <div class="mdesc">
-                            True to use width:'auto', false to use fixed width (defaults to false).                        </div>
+                        <div class="short">True to use width:'auto', false to use fixed width. Note: although many components inherit this config option, not al...</div>
+            <div class="long">
+                True to use width:'auto', false to use fixed width. Note: although many components inherit this config option, not all will function as expected with a width of 'auto'. (defaults to false).            </div>
+                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#autoWidth" href="output/Ext.BoxComponent.html#autoWidth">BoxComponent</a></td>
     </tr>
@@ -172,6 +178,36 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.Toolbar-overCls"></a>
+            <b>overCls</b> : String            <div class="mdesc">
+                        <div class="short">An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and...</div>
+            <div class="long">
+                An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and removed when the mouse moves out. (defaults to ''). This can be useful for adding customized "active" or "hover" styles to the component or any of its children using standard CSS rules.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#overCls" href="output/Ext.Component.html#overCls">Component</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-pageX"></a>
+            <b>pageX</b> : Number            <div class="mdesc">
+                            The page level x coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#pageX" href="output/Ext.BoxComponent.html#pageX">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-pageY"></a>
+            <b>pageY</b> : Number            <div class="mdesc">
+                            The page level y coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#pageY" href="output/Ext.BoxComponent.html#pageY">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.Toolbar-plugins"></a>
             <b>plugins</b> : Object/Array            <div class="mdesc">
                         <div class="short">An object or array of objects that will provide custom functionality for this component. The only requirement for a v...</div>
@@ -181,7 +217,7 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#plugins" href="output/Ext.Component.html#plugins">Component</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-renderTo"></a>
@@ -193,7 +229,7 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#renderTo" href="output/Ext.Component.html#renderTo">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-stateEvents"></a>
@@ -205,7 +241,7 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateEvents" href="output/Ext.Component.html#stateEvents">Component</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-stateId"></a>
@@ -217,7 +253,7 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateId" href="output/Ext.Component.html#stateId">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-stateful"></a>
@@ -229,7 +265,7 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateful" href="output/Ext.Component.html#stateful">Component</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-style"></a>
@@ -241,7 +277,7 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#style" href="output/Ext.Component.html#style">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-width"></a>
@@ -249,6 +285,15 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
                             The width of this component in pixels (defaults to auto).                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#width" href="output/Ext.BoxComponent.html#width">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-x"></a>
+            <b>x</b> : Number            <div class="mdesc">
+                            The local x (left) coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#x" href="output/Ext.BoxComponent.html#x">BoxComponent</a></td>
     </tr>
         <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -261,6 +306,15 @@ via their xtypes.  Some items also have shortcut strings for creation.        </
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#xtype" href="output/Ext.Component.html#xtype">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-y"></a>
+            <b>y</b> : Number            <div class="mdesc">
+                            The local y (top) coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#y" href="output/Ext.BoxComponent.html#y">BoxComponent</a></td>
     </tr>
             </table>
                 <a id="Ext.Toolbar-props"></a>
@@ -298,7 +352,16 @@ True if this component is hidden. Read-only.                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#initialConfig" href="output/Ext.Component.html#initialConfig">Component</a></td>
     </tr>
-        <tr class="property-row inherited alt expandable">
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-items"></a>
+            <b>items</b> : Ext.util.MixedCollection            <div class="mdesc">
+                            A MixedCollection of this Toolbar's items                        </div>
+        </td>
+        <td class="msource">Toolbar</td>
+    </tr>
+        <tr class="property-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-ownerCt"></a>
@@ -312,7 +375,7 @@ the component is added to a container).  Read-only.            </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#ownerCt" href="output/Ext.Component.html#ownerCt">Component</a></td>
     </tr>
-        <tr class="property-row inherited">
+        <tr class="property-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-rendered"></a>
@@ -559,9 +622,9 @@ properties. This may contain any of the following properties:<ul>
 <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
 <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
 <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -775,6 +838,48 @@ should usually not need to be called directly.    <div class="mdetail-params">
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#enable" href="output/Ext.Component.html#enable">Component</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-findParentBy"></a>
+            <b>findParentBy</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Array            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by a custom function. If the passed function returns
+true, the con...</div>
+            <div class="long">
+                Find a container above this component at any level by a custom function. If the passed function returns
+true, the container will be returned. The passed function is called with the arguments (container, this component).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fcn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code><div class="sub-desc">Array of Ext.Components</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentBy" href="output/Ext.Component.html#findParentBy">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-findParentByType"></a>
+            <b>findParentByType</b>(&nbsp;<code>String/Class xtype</code>&nbsp;) : Container            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by xtype or class</div>
+            <div class="long">
+                Find a container above this component at any level by xtype or class    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>xtype</code> : String/Class<div class="sub-desc">The xtype string for a component, or the class of the component directly</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Container</code><div class="sub-desc">The found container</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentByType" href="output/Ext.Component.html#findParentByType">Component</a></td>
     </tr>
         <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -1025,27 +1130,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hide" href="output/Ext.Component.html#hide">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.Toolbar-initComponent"></a>
-            <b>initComponent</b>() : void            <div class="mdesc">
-                        <div class="short"></div>
-            <div class="long">
-                    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#initComponent" href="output/Ext.BoxComponent.html#initComponent">BoxComponent</a></td>
-    </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-insertButton"></a>
@@ -1066,7 +1151,7 @@ inserted, or an array of buttons/configs.</div></li>        </ul>
         </td>
         <td class="msource">Toolbar</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-isVisible"></a>
@@ -1086,7 +1171,7 @@ inserted, or an array of buttons/configs.</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#isVisible" href="output/Ext.Component.html#isVisible">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-isXType"></a>
@@ -1114,7 +1199,7 @@ the default), or true to check whether this component is directly of the specifi
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#isXType" href="output/Ext.Component.html#isXType">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-on"></a>
@@ -1135,7 +1220,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#on" href="output/Ext.util.Observable.html#on">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Toolbar-purgeListeners"></a>
@@ -1154,6 +1239,26 @@ function. The handler function's "this" context.</div></li><li><code>options</co
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="output/Ext.util.Observable.html#purgeListeners">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Toolbar-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from this Observable to a different Observable</div>
+            <div class="long">
+                Relays selected events from this Observable to a different Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable to relay events to</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
     </tr>
         <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>

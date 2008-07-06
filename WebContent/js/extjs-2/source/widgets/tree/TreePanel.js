@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -32,8 +32,10 @@
  * @cfg {Boolean} animate true to enable animated expand/collapse (defaults to the value of Ext.enableFx)
  * @cfg {Boolean} singleExpand true if only 1 node per branch may be expanded
  * @cfg {Boolean} selModel A tree selection model to use with this TreePanel (defaults to a {@link Ext.tree.DefaultSelectionModel})
+ * @cfg {Boolean} trackMouseOver False to disable mouse over highlighting 
  * @cfg {Ext.tree.TreeLoader} loader A {@link Ext.tree.TreeLoader} for use with this TreePanel
  * @cfg {String} pathSeparator The token used to separate sub-paths in path strings (defaults to '/')
+ * @cfg {Boolean} useArrows True to use Vista-style arrows in the tree (defaults to false)
  *
  * @constructor
  * @param {Object} config
@@ -273,6 +275,8 @@ Ext.tree.TreePanel = Ext.extend(Ext.Panel, {
              * <li>dropNode - Drop node(s) provided by the source <b>OR</b> you can supply node(s)
              * to be inserted by setting them on this object.</li>
              * <li>cancel - Set this to true to cancel the drop.</li>
+             * <li>dropStatus - If the default drop action is cancelled but the drop is valid, setting this to true
+             * will prevent the animated "repair" from appearing.</li>
              * </ul>
              * @param {Object} dropEvent
              */
@@ -535,7 +539,7 @@ Ext.tree.TreePanel = Ext.extend(Ext.Panel, {
         this.el.addClass('x-tree');
         this.innerCt = this.body.createChild({tag:"ul",
                cls:"x-tree-root-ct " +
-               (this.lines ? "x-tree-lines" : "x-tree-no-lines")});
+               (this.useArrows ? 'x-tree-arrows' : this.lines ? "x-tree-lines" : "x-tree-no-lines")});
     },
 
     // private
@@ -715,6 +719,50 @@ Ext.tree.TreePanel = Ext.extend(Ext.Panel, {
     /** 
      * @event remove 
      * @hide 
+     */
+
+
+
+    /**
+     * @cfg {String} allowDomMove  @hide
+     */
+    /**
+     * @cfg {String} autoEl @hide
+     */
+    /**
+     * @cfg {String} applyTo  @hide
+     */
+    /**
+     * @cfg {String} contentEl  @hide
+     */
+    /**
+     * @cfg {String} disabledClass  @hide
+     */
+    /**
+     * @cfg {String} elements  @hide
+     */
+    /**
+     * @cfg {String} html  @hide
+     */
+    /**
+     * @property disabled
+     * @hide
+     */
+    /**
+     * @method applyToMarkup
+     * @hide
+     */
+    /**
+     * @method enable
+     * @hide
+     */
+    /**
+     * @method disable
+     * @hide
+     */
+    /**
+     * @method setDisabled
+     * @hide
      */
 });
 Ext.reg('treepanel', Ext.tree.TreePanel);

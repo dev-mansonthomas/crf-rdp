@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -43,7 +43,9 @@ Ext.form.FieldSet = Ext.extend(Ext.Panel, {
         if(!this.el){
             this.el = document.createElement('fieldset');
             this.el.id = this.id;
-            this.el.appendChild(document.createElement('legend')).className = 'x-fieldset-header';
+            if (this.title || this.header || this.checkboxToggle) {
+                this.el.appendChild(document.createElement('legend')).className = 'x-fieldset-header';
+            }
         }
 
         Ext.form.FieldSet.superclass.onRender.call(this, ct, position);

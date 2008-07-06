@@ -16,7 +16,7 @@
                 <h1>Class Ext.grid.GridPanel</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext.grid</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/GridPanel.js" target="_blank">GridPanel.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">GridPanel.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">GridPanel</td></tr>
                         <tr><td class="label">Subclasses:</td><td class="hd-info"><a ext:cls="Ext.grid.EditorGridPanel" href="output/Ext.grid.EditorGridPanel.html">EditorGridPanel</a></td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.Panel" ext:member="" href="output/Ext.Panel.html">Panel</a></td></tr>
@@ -46,10 +46,14 @@
     title:<em>'Framed <b>with</b> Checkbox Selection and Horizontal Scrolling'</em>,
     iconCls:<em>'icon-grid'</em>
 });</code></pre>
-<b>Note:</b> Although this class inherits many configuration options from base classes, some of them
+<b>Notes:</b> <br/>
+- Although this class inherits many configuration options from base classes, some of them
 (such as autoScroll, layout, items, etc) won't function as they do with the base Panel class.<br>
 <br>
-To access the data in a Grid, it is necessary to use the data model encapsulated
+- A grid <b>requires</b> a width of some kind in order to calculate columns. That width can either be a normal width
+set via the width: X config option or a width automatically set by using the grid in an Ext Layout.<br>
+<br>
+- To access the data in a Grid, it is necessary to use the data model encapsulated
 by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.GridPanel.html#store">Store</a>. See the <a ext:cls="Ext.grid.GridPanel" ext:member="cellclick" href="output/Ext.grid.GridPanel.html#cellclick">cellclick</a> event.        </div>
         
         <div class="hr"></div>
@@ -60,16 +64,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
                 <th class="sig-header" colspan="2">Config Options</th>
                 <th class="msource-header">Defined By</th>
             </tr>
-                <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-allowDomMove"></a>
-            <b>allowDomMove</b> : Boolean            <div class="mdesc">
-                            Whether the component can move the Dom node when rendering (defaults to true).                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#allowDomMove" href="output/Ext.Component.html#allowDomMove">Component</a></td>
-    </tr>
-        <tr class="config-row inherited alt expandable">
+                <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-animCollapse"></a>
@@ -80,18 +75,6 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#animCollapse" href="output/Ext.Panel.html#animCollapse">Panel</a></td>
-    </tr>
-        <tr class="config-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-applyTo"></a>
-            <b>applyTo</b> : Mixed            <div class="mdesc">
-                        <div class="short">The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document ...</div>
-            <div class="long">
-                The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document that specifies some structural markup for this component. When applyTo is used, constituent parts of the component can also be specified by id or CSS class name within the main element, and the component being created may attempt to create its subcomponents from that markup if applicable. Using this config, a call to render() is not required. If applyTo is specified, any value passed for <a ext:cls="Ext.Component" ext:member="renderTo" href="output/Ext.Component.html#renderTo">renderTo</a> will be ignored and the target element's parent node will automatically be used as the component's container.            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyTo" href="output/Ext.Component.html#applyTo">Component</a></td>
     </tr>
         <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -120,28 +103,19 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-autoHeight"></a>
             <b>autoHeight</b> : Boolean            <div class="mdesc">
-                            True to use height:'auto', false to use fixed height (defaults to false).                        </div>
+                        <div class="short">True to use height:'auto', false to use fixed height. Note: although many components inherit this config option, not ...</div>
+            <div class="long">
+                True to use height:'auto', false to use fixed height. Note: although many components inherit this config option, not all will function as expected with a height of 'auto'. (defaults to false).            </div>
+                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#autoHeight" href="output/Ext.BoxComponent.html#autoHeight">BoxComponent</a></td>
     </tr>
         <tr class="config-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-autoScroll"></a>
-            <b>autoScroll</b> : Boolean            <div class="mdesc">
-                        <div class="short">True to use overflow:'auto' on the panel's body element and show scroll bars automatically when necessary, false to c...</div>
-            <div class="long">
-                True to use overflow:'auto' on the panel's body element and show scroll bars automatically when necessary, false to clip any overflowing content (defaults to false).            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Panel" ext:member="#autoScroll" href="output/Ext.Panel.html#autoScroll">Panel</a></td>
-    </tr>
-        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-autoShow"></a>
@@ -153,7 +127,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#autoShow" href="output/Ext.Component.html#autoShow">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-baseCls"></a>
@@ -162,7 +136,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#baseCls" href="output/Ext.Panel.html#baseCls">Panel</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-bbar"></a>
@@ -174,31 +148,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#bbar" href="output/Ext.Panel.html#bbar">Panel</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-bodyBorder"></a>
-            <b>bodyBorder</b> : Boolean            <div class="mdesc">
-                        <div class="short">True to display an interior border on the body element of the panel, false to hide it (defaults to true). This only a...</div>
-            <div class="long">
-                True to display an interior border on the body element of the panel, false to hide it (defaults to true). This only applies when <a ext:cls="Ext.Panel" ext:member="border" href="output/Ext.Panel.html#border">border</a> == true. If border == true and bodyBorder == false, the border will display as a 1px wide inset border, giving the entire body element an inset appearance.            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Panel" ext:member="#bodyBorder" href="output/Ext.Panel.html#bodyBorder">Panel</a></td>
-    </tr>
         <tr class="config-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-bodyStyle"></a>
-            <b>bodyStyle</b> : String/Object/Function            <div class="mdesc">
-                        <div class="short">Custom CSS styles to be applied to the body element in the format expected by Ext.Element.applyStyles (defaults to nu...</div>
-            <div class="long">
-                Custom CSS styles to be applied to the body element in the format expected by <a ext:cls="Ext.Element" ext:member="applyStyles" href="output/Ext.Element.html#applyStyles">Ext.Element.applyStyles</a> (defaults to null).            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Panel" ext:member="#bodyStyle" href="output/Ext.Panel.html#bodyStyle">Panel</a></td>
-    </tr>
-        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-border"></a>
@@ -210,7 +160,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#border" href="output/Ext.Panel.html#border">Panel</a></td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-buttonAlign"></a>
@@ -219,7 +169,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#buttonAlign" href="output/Ext.Panel.html#buttonAlign">Panel</a></td>
     </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-buttons"></a>
@@ -228,7 +178,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#buttons" href="output/Ext.Panel.html#buttons">Panel</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-cls"></a>
@@ -240,7 +190,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#cls" href="output/Ext.Component.html#cls">Component</a></td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-cm"></a>
@@ -249,7 +199,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-colModel"></a>
@@ -258,7 +208,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-collapseFirst"></a>
@@ -270,7 +220,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#collapseFirst" href="output/Ext.Panel.html#collapseFirst">Panel</a></td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-collapsed"></a>
@@ -279,7 +229,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#collapsed" href="output/Ext.Panel.html#collapsed">Panel</a></td>
     </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-collapsedCls"></a>
@@ -288,7 +238,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#collapsedCls" href="output/Ext.Panel.html#collapsedCls">Panel</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-collapsible"></a>
@@ -300,7 +250,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#collapsible" href="output/Ext.Panel.html#collapsible">Panel</a></td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-columns"></a>
@@ -308,15 +258,6 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
                             An array of columns to auto create a ColumnModel                        </div>
         </td>
         <td class="msource">GridPanel</td>
-    </tr>
-        <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-contentEl"></a>
-            <b>contentEl</b> : String            <div class="mdesc">
-                            The id of an existing HTML node to use as the panel's body content (defaults to '').                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Panel" ext:member="#contentEl" href="output/Ext.Panel.html#contentEl">Panel</a></td>
     </tr>
         <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -335,42 +276,55 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         <td class="sig">
         <a id="Ext.grid.GridPanel-disableSelection"></a>
             <b>disableSelection</b> : Boolean            <div class="mdesc">
-                            True to disable selections in the grid (defaults to false). - ignored a SelectionModel is specified                        </div>
+                            True to disable selections in the grid (defaults to false). - ignored if a SelectionModel is specified                        </div>
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="config-row inherited alt">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-disabledClass"></a>
-            <b>disabledClass</b> : String            <div class="mdesc">
-                            CSS class added to the component when it is disabled (defaults to "x-item-disabled").                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disabledClass" href="output/Ext.Component.html#disabledClass">Component</a></td>
-    </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-draggable"></a>
             <b>draggable</b> : Boolean            <div class="mdesc">
                         <div class="short">True to enable dragging of this Panel (defaults to false). For custom drag/drop implementations, an Ext.Panel.DD conf...</div>
             <div class="long">
-                True to enable dragging of this Panel (defaults to false). For custom drag/drop implementations, an Ext.Panel.DD config could also be passed in this config instead of true, although Ext.Panel.DD is an internal, undocumented class.            </div>
+                <p>True to enable dragging of this Panel (defaults to false).</p> <p>For custom drag/drop implementations, an Ext.Panel.DD config could also be passed in this config instead of true. Ext.Panel.DD is an internal, undocumented class which moves a proxy Element around in place of the Panel's element, but provides no other behaviour during dragging or on drop. It is a subclass of <a ext:cls="Ext.dd.DragSource" href="output/Ext.dd.DragSource.html">Ext.dd.DragSource</a>, so behaviour may be added by implementing the interface methods of <a ext:cls="Ext.dd.DragDrop" href="output/Ext.dd.DragDrop.html">Ext.dd.DragDrop</a> eg: <pre><code>new Ext.Panel({
+    title: <em>'Drag me'</em>,
+    x: 100,
+    y: 100,
+    renderTo: Ext.getBody(),
+    floating: true,
+    frame: true,
+    width: 400,
+    height: 200,
+    draggable: {
+<i>//      Config option of Ext.Panel.DD class.</i>
+<i>//      It's a floating Panel, so <b>do</b> not show a placeholder proxy <b>in</b> the original position.</i>
+        insertProxy: false,
+
+<i>//      Called <b>for</b> each mousemove event <b>while</b> dragging the DD object.</i>
+        onDrag : <b>function</b>(e){
+<i>//          Record the x,y position of the drag proxy so that we can</i>
+<i>//          position the Panel at end of drag.</i>
+            <b>var</b> pel = <b>this</b>.proxy.getEl();
+            <b>this</b>.x = pel.getLeft(true);
+            <b>this</b>.y = pel.getTop(true);
+
+<i>//          Keep the Shadow aligned <b>if</b> there is one.</i>
+            <b>var</b> s = <b>this</b>.panel.getEl().shadow;
+            <b>if</b> (s) {
+                s.realign(<b>this</b>.x, <b>this</b>.y, pel.getWidth(), pel.getHeight());
+            }
+        },
+
+<i>//      Called on the mouseup event.</i>
+        endDrag : <b>function</b>(e){
+            <b>this</b>.panel.setPosition(<b>this</b>.x, <b>this</b>.y);
+        }
+    }
+}).show();</code></pre>            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#draggable" href="output/Ext.Panel.html#draggable">Panel</a></td>
-    </tr>
-        <tr class="config-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-elements"></a>
-            <b>elements</b> : String            <div class="mdesc">
-                        <div class="short">A comma-delimited list of panel elements to initialize when the panel is rendered. Normally, this list will be genera...</div>
-            <div class="long">
-                A comma-delimited list of panel elements to initialize when the panel is rendered. Normally, this list will be generated automatically based on the items added to the panel at config time, but sometimes it might be useful to make sure a structural element is rendered even if not specified at config time (for example, you may want to add a button or toolbar dynamically after the panel has been rendered). Adding those elements to this list will allocate the required placeholders in the panel when it is rendered. Valid values are<ul> <li><b>header</b></li> <li><b>tbar</b> (top bar)</li> <li><b>body</b></li> <li><b>bbar</b> (bottom bar)</li> <li><b>footer</b><li> </ul> Defaults to 'body'.            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Panel" ext:member="#elements" href="output/Ext.Panel.html#elements">Panel</a></td>
     </tr>
         <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -489,7 +443,16 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#hideCollapseTool" href="output/Ext.Panel.html#hideCollapseTool">Panel</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-hideHeaders"></a>
+            <b>hideHeaders</b> : Boolean            <div class="mdesc">
+                            True to hide the grid's header (defaults to false).                        </div>
+        </td>
+        <td class="msource">GridPanel</td>
+    </tr>
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-hideMode"></a>
@@ -501,7 +464,7 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideMode" href="output/Ext.Component.html#hideMode">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-hideParent"></a>
@@ -513,21 +476,15 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideParent" href="output/Ext.Component.html#hideParent">Component</a></td>
     </tr>
-        <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-html"></a>
-            <b>html</b> : String/Object            <div class="mdesc">
-                            An HTML fragment, or a <a ext:cls="Ext.DomHelper" href="output/Ext.DomHelper.html">DomHelper</a> specification to use as the panel's body content (defaults to '').                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Panel" ext:member="#html" href="output/Ext.Panel.html#html">Panel</a></td>
-    </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-iconCls"></a>
             <b>iconCls</b> : String            <div class="mdesc">
-                            A CSS class that will provide a background image to be used as the panel header icon (defaults to '').                        </div>
+                        <div class="short">A CSS class that will provide a background image to be used as the header icon (defaults to ''). An example custom ic...</div>
+            <div class="long">
+                A CSS class that will provide a background image to be used as the header icon (defaults to ''). An example custom icon class would be something like: .my-icon { background: url(../images/my-icon.gif) 0 6px no-repeat !important;}            </div>
+                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#iconCls" href="output/Ext.Panel.html#iconCls">Panel</a></td>
     </tr>
@@ -612,14 +569,35 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.grid.GridPanel-monitorWindowResize"></a>
-            <b>monitorWindowResize</b> : Boolean            <div class="mdesc">
-                            True to autoSize the grid when the window resizes. Defaults to true.                        </div>
+        <a id="Ext.grid.GridPanel-overCls"></a>
+            <b>overCls</b> : String            <div class="mdesc">
+                        <div class="short">An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and...</div>
+            <div class="long">
+                An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and removed when the mouse moves out. (defaults to ''). This can be useful for adding customized "active" or "hover" styles to the component or any of its children using standard CSS rules.            </div>
+                        </div>
         </td>
-        <td class="msource">GridPanel</td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#overCls" href="output/Ext.Component.html#overCls">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-pageX"></a>
+            <b>pageX</b> : Number            <div class="mdesc">
+                            The page level x coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#pageX" href="output/Ext.BoxComponent.html#pageX">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-pageY"></a>
+            <b>pageY</b> : Number            <div class="mdesc">
+                            The page level y coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#pageY" href="output/Ext.BoxComponent.html#pageY">BoxComponent</a></td>
     </tr>
         <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -821,10 +799,11 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         <td class="sig">
         <a id="Ext.grid.GridPanel-tools"></a>
             <b>tools</b> : Array            <div class="mdesc">
-                        <div class="short">An array of tool button configs to be added to the header tool area. Each tool config may contain the following prope...</div>
+                        <div class="short">An array of tool button configs to be added to the header tool area. When rendered, each tool is stored as an Element...</div>
             <div class="long">
-                An array of tool button configs to be added to the header tool area. Each tool config may contain the following properties: <div class="mdetail-params"><ul> <li><b>id</b> : String<p class="sub-desc"><b>Required.</b> The type of tool to create. Values may be<ul> <li><tt>toggle</tt> (Created by default when <a ext:cls="Ext.Panel" ext:member="collapsible" href="output/Ext.Panel.html#collapsible">collapsible</a> is <tt>true</tt>)</li> <li><tt>close</tt></li> <li><tt>minimize</tt></li> <li><tt>maximize</tt></li> <li><tt>restore</tt></li> <li><tt>gear</tt></li> <li><tt>pin</tt></li> <li><tt>unpin</tt></li> <li><tt>right</tt></li> <li><tt>left</tt></li> <li><tt>up</tt></li> <li><tt>down</tt></li> <li><tt>refresh</tt></li> <li><tt>minus</tt></li> <li><tt>plus</tt></li> <li><tt>help</tt></li> <li><tt>search</tt></li> <li><tt>save</tt></li> </ul></div></p></li> <li><b>handler</b> : Function<p class="sub-desc"><b>Required.</b> The function to call when clicked. Arguments passed are:<ul> <li><b>event</b> : Ext.EventObject<p class="sub-desc">The click event.</p></li> <li><b>toolEl</b> : Ext.Element<p class="sub-desc">The tool Element.</p></li> <li><b>Panel</b> : Ext.Panel<p class="sub-desc">The host Panel</p></li> </ul></p></li> <li><b>scope</b> : Object<p class="sub-desc">The scope in which to call the handler.</p></li> <li><b>qtip</b> : String/Object<p class="sub-desc">A tip string, or a config argument to <a ext:cls="Ext.QuickTip" ext:member="register" href="output/Ext.QuickTip.html#register">Ext.QuickTip.register</a></p></li> <li><b>hidden</b> : Boolean<p class="sub-desc">True to initially render hidden.</p></li> <li><b>on</b> : Object<p class="sub-desc">A listener config object specifiying event listeners in the format of an argument to <a ext:cls="Ext.Panel" ext:member="addListener" href="output/Ext.Panel.html#addListener">addListener</a></p></li> </ul> Example usage: <pre><code>tools:[{
+                An array of tool button configs to be added to the header tool area. When rendered, each tool is stored as an <a ext:cls="Ext.Element" href="output/Ext.Element.html">Element</a> referenced by a public property called <tt><b></b>tools.<i>&lt;tool-type&gt;</i></tt> <p>Each tool config may contain the following properties: <div class="mdetail-params"><ul> <li><b>id</b> : String<div class="sub-desc"><b>Required.</b> The type of tool to create. Values may be<ul> <li><tt>toggle</tt> (Created by default when <a ext:cls="Ext.Panel" ext:member="collapsible" href="output/Ext.Panel.html#collapsible">collapsible</a> is <tt>true</tt>)</li> <li><tt>close</tt></li> <li><tt>minimize</tt></li> <li><tt>maximize</tt></li> <li><tt>restore</tt></li> <li><tt>gear</tt></li> <li><tt>pin</tt></li> <li><tt>unpin</tt></li> <li><tt>right</tt></li> <li><tt>left</tt></li> <li><tt>up</tt></li> <li><tt>down</tt></li> <li><tt>refresh</tt></li> <li><tt>minus</tt></li> <li><tt>plus</tt></li> <li><tt>help</tt></li> <li><tt>search</tt></li> <li><tt>save</tt></li> <li><tt>print</tt></li> </ul></div></li> <li><b>handler</b> : Function<div class="sub-desc"><b>Required.</b> The function to call when clicked. Arguments passed are:<ul> <li><b>event</b> : Ext.EventObject<div class="sub-desc">The click event.</div></li> <li><b>toolEl</b> : Ext.Element<div class="sub-desc">The tool Element.</div></li> <li><b>Panel</b> : Ext.Panel<div class="sub-desc">The host Panel</div></li> </ul></div></li> <li><b>scope</b> : Object<div class="sub-desc">The scope in which to call the handler.</div></li> <li><b>qtip</b> : String/Object<div class="sub-desc">A tip string, or a config argument to <a ext:cls="Ext.QuickTip" ext:member="register" href="output/Ext.QuickTip.html#register">Ext.QuickTip.register</a></div></li> <li><b>hidden</b> : Boolean<div class="sub-desc">True to initially render hidden.</div></li> <li><b>on</b> : Object<div class="sub-desc">A listener config object specifiying event listeners in the format of an argument to <a ext:cls="Ext.Panel" ext:member="addListener" href="output/Ext.Panel.html#addListener">addListener</a></div></li> </ul></div> Example usage: <pre><code>tools:[{
     id:<em>'refresh'</em>,
+    qtip: <em>'Refresh form Data'</em>,
     <i>// hidden:true,</i>
     handler: <b>function</b>(event, toolEl, panel){
         <i>// refresh logic</i>
@@ -873,7 +852,16 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#width" href="output/Ext.BoxComponent.html#width">BoxComponent</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-x"></a>
+            <b>x</b> : Number            <div class="mdesc">
+                            The local x (left) coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#x" href="output/Ext.BoxComponent.html#x">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-xtype"></a>
@@ -884,6 +872,15 @@ by the <a ext:cls="Ext.grid.GridPanel" ext:member="store" href="output/Ext.grid.
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#xtype" href="output/Ext.Component.html#xtype">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-y"></a>
+            <b>y</b> : Number            <div class="mdesc">
+                            The local y (top) coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#y" href="output/Ext.BoxComponent.html#y">BoxComponent</a></td>
     </tr>
             </table>
                 <a id="Ext.grid.GridPanel-props"></a>
@@ -925,7 +922,23 @@ config property. Read only.                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#buttons" href="output/Ext.Panel.html#buttons">Panel</a></td>
     </tr>
-        <tr class="property-row expandable">
+        <tr class="property-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-dd"></a>
+            <b>dd</b> : Ext.dd.DragSource.            <div class="mdesc">
+                        <div class="short">If this Panel is configured draggable, this property will contain
+an instance of Ext.dd.DragSource which handles drag...</div>
+            <div class="long">
+                <p>If this Panel is configured <a ext:cls="Ext.Panel" ext:member="draggable" href="output/Ext.Panel.html#draggable">draggable</a>, this property will contain
+an instance of <a ext:cls="Ext.dd.DragSource" href="output/Ext.dd.DragSource.html">Ext.dd.DragSource</a> which handles dragging the Panel.</p>
+The developer must provide implementations of the abstract methods of <a ext:cls="Ext.dd.DragSource" href="output/Ext.dd.DragSource.html">Ext.dd.DragSource</a>
+in order to supply behaviour for each stage of the drag/drop process. See <a ext:cls="Ext.Panel" ext:member="draggable" href="output/Ext.Panel.html#draggable">draggable</a>.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Panel" ext:member="#dd" href="output/Ext.Panel.html#dd">Panel</a></td>
+    </tr>
+        <tr class="property-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-ddText"></a>
@@ -940,15 +953,6 @@ Configures the text in the drag proxy (defaults to "{0} selected row(s)").
                         </div>
         </td>
         <td class="msource">GridPanel</td>
-    </tr>
-        <tr class="property-row inherited alt">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-disabled"></a>
-            <b>disabled</b> : Boolean            <div class="mdesc">
-                            True if this component is disabled. Read-only.                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disabled" href="output/Ext.Component.html#disabled">Component</a></td>
     </tr>
         <tr class="property-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -1119,9 +1123,9 @@ properties. This may contain any of the following properties:<ul>
 <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
 <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
 <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -1174,26 +1178,6 @@ Or a shorthand syntax:<br>
         <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.grid.GridPanel-applyToMarkup"></a>
-            <b>applyToMarkup</b>(&nbsp;<code>String/HTMLElement el</code>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Apply this component to existing markup that is valid. With this function, no call to render() is required.</div>
-            <div class="long">
-                Apply this component to existing markup that is valid. With this function, no call to render() is required.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc"></div></li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyToMarkup" href="output/Ext.Component.html#applyToMarkup">Component</a></td>
-    </tr>
-        <tr class="method-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
         <a id="Ext.grid.GridPanel-bubble"></a>
             <b>bubble</b>(&nbsp;<code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>, <span class="optional" title="Optional">[<code>Array args</code>]</span>&nbsp;) : void            <div class="mdesc">
                         <div class="short">Bubbles up the component/container heirarchy, calling the specified function with each component. The scope (this) of...</div>
@@ -1214,7 +1198,7 @@ the bubble is stopped.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Container" ext:member="#bubble" href="output/Ext.Container.html#bubble">Container</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-cloneConfig"></a>
@@ -1235,7 +1219,7 @@ An id property can be passed on this object, otherwise one will be generated to 
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#cloneConfig" href="output/Ext.Component.html#cloneConfig">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-collapse"></a>
@@ -1258,7 +1242,7 @@ cancel the collapse action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#collapse" href="output/Ext.Panel.html#collapse">Panel</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-destroy"></a>
@@ -1282,47 +1266,7 @@ should usually not need to be called directly.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#destroy" href="output/Ext.Component.html#destroy">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-disable"></a>
-            <b>disable</b>() : Ext.Component            <div class="mdesc">
-                        <div class="short">Disable this component.</div>
-            <div class="long">
-                Disable this component.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disable" href="output/Ext.Component.html#disable">Component</a></td>
-    </tr>
         <tr class="method-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-enable"></a>
-            <b>enable</b>() : Ext.Component            <div class="mdesc">
-                        <div class="short">Enable this component.</div>
-            <div class="long">
-                Enable this component.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#enable" href="output/Ext.Component.html#enable">Component</a></td>
-    </tr>
-        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-expand"></a>
@@ -1345,7 +1289,49 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#expand" href="output/Ext.Panel.html#expand">Panel</a></td>
     </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-findParentBy"></a>
+            <b>findParentBy</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Array            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by a custom function. If the passed function returns
+true, the con...</div>
+            <div class="long">
+                Find a container above this component at any level by a custom function. If the passed function returns
+true, the container will be returned. The passed function is called with the arguments (container, this component).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fcn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code><div class="sub-desc">Array of Ext.Components</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentBy" href="output/Ext.Component.html#findParentBy">Component</a></td>
+    </tr>
         <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.GridPanel-findParentByType"></a>
+            <b>findParentByType</b>(&nbsp;<code>String/Class xtype</code>&nbsp;) : Container            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by xtype or class</div>
+            <div class="long">
+                Find a container above this component at any level by xtype or class    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>xtype</code> : String/Class<div class="sub-desc">The xtype string for a component, or the class of the component directly</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Container</code><div class="sub-desc">The found container</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentByType" href="output/Ext.Component.html#findParentByType">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-fireEvent"></a>
@@ -1365,7 +1351,7 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="output/Ext.util.Observable.html#fireEvent">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-focus"></a>
@@ -1385,7 +1371,7 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#focus" href="output/Ext.Component.html#focus">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getBottomToolbar"></a>
@@ -1405,7 +1391,7 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#getBottomToolbar" href="output/Ext.Panel.html#getBottomToolbar">Panel</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getBox"></a>
@@ -1425,7 +1411,7 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#getBox" href="output/Ext.BoxComponent.html#getBox">BoxComponent</a></td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getColumnModel"></a>
@@ -1445,7 +1431,7 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getDragDropText"></a>
@@ -1465,7 +1451,7 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getEl"></a>
@@ -1485,7 +1471,7 @@ cancel the expand action if it returns false.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getEl" href="output/Ext.Component.html#getEl">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getFrameHeight"></a>
@@ -1507,7 +1493,7 @@ header and footer elements, but not including the body height).  To retrieve the
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#getFrameHeight" href="output/Ext.Panel.html#getFrameHeight">Panel</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getFrameWidth"></a>
@@ -1529,7 +1515,7 @@ retrieve the body width see <a ext:cls="Ext.Panel" ext:member="getInnerWidth" hr
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#getFrameWidth" href="output/Ext.Panel.html#getFrameWidth">Panel</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getGridEl"></a>
@@ -1549,7 +1535,7 @@ retrieve the body width see <a ext:cls="Ext.Panel" ext:member="getInnerWidth" hr
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getId"></a>
@@ -1569,7 +1555,7 @@ retrieve the body width see <a ext:cls="Ext.Panel" ext:member="getInnerWidth" hr
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getId" href="output/Ext.Component.html#getId">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getInnerHeight"></a>
@@ -1591,7 +1577,7 @@ For the frame height see <a ext:cls="Ext.Panel" ext:member="getFrameHeight" href
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#getInnerHeight" href="output/Ext.Panel.html#getInnerHeight">Panel</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getInnerWidth"></a>
@@ -1613,7 +1599,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#getInnerWidth" href="output/Ext.Panel.html#getInnerWidth">Panel</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getItemId"></a>
@@ -1633,7 +1619,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getItemId" href="output/Ext.Component.html#getItemId">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getPosition"></a>
@@ -1653,7 +1639,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#getPosition" href="output/Ext.BoxComponent.html#getPosition">BoxComponent</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getSelectionModel"></a>
@@ -1673,7 +1659,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getSize"></a>
@@ -1693,7 +1679,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#getSize" href="output/Ext.BoxComponent.html#getSize">BoxComponent</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getStore"></a>
@@ -1713,7 +1699,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getTopToolbar"></a>
@@ -1733,7 +1719,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource"><a ext:cls="Ext.Panel" ext:member="#getTopToolbar" href="output/Ext.Panel.html#getTopToolbar">Panel</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getView"></a>
@@ -1753,7 +1739,7 @@ For the frame width see <a ext:cls="Ext.Panel" ext:member="getFrameWidth" href="
         </td>
         <td class="msource">GridPanel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getXType"></a>
@@ -1777,7 +1763,7 @@ alert(t.getXType());  // alerts <em>'textfield'</em></code></pre>    <div class=
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getXType" href="output/Ext.Component.html#getXType">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-getXTypes"></a>
@@ -1802,7 +1788,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getXTypes" href="output/Ext.Component.html#getXTypes">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-hasListener"></a>
@@ -1822,7 +1808,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="output/Ext.util.Observable.html#hasListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-hide"></a>
@@ -1841,26 +1827,6 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hide" href="output/Ext.Component.html#hide">Component</a></td>
-    </tr>
-        <tr class="method-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-initComponent"></a>
-            <b>initComponent</b>() : void            <div class="mdesc">
-                        <div class="short"></div>
-            <div class="long">
-                    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#initComponent" href="output/Ext.BoxComponent.html#initComponent">BoxComponent</a></td>
     </tr>
         <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -1976,6 +1942,26 @@ The View will be bound to the new objects and refreshed.    <div class="mdetail-
         <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.grid.GridPanel-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from this Observable to a different Observable</div>
+            <div class="long">
+                Relays selected events from this Observable to a different Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable to relay events to</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.grid.GridPanel-removeClass"></a>
             <b>removeClass</b>(&nbsp;<code>string cls</code>&nbsp;) : void            <div class="mdesc">
                         <div class="short">Removes a CSS class from the component's underlying element.</div>
@@ -1993,7 +1979,7 @@ The View will be bound to the new objects and refreshed.    <div class="mdetail-
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#removeClass" href="output/Ext.Component.html#removeClass">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-removeListener"></a>
@@ -2013,7 +1999,7 @@ The View will be bound to the new objects and refreshed.    <div class="mdetail-
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-render"></a>
@@ -2035,7 +2021,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#render" href="output/Ext.Component.html#render">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.GridPanel-resumeEvents"></a>
@@ -2054,26 +2040,6 @@ which this component will be inserted (defaults to appending to the end of the c
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
-    </tr>
-        <tr class="method-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.grid.GridPanel-setDisabled"></a>
-            <b>setDisabled</b>(&nbsp;<code>Boolean disabled</code>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Convenience function for setting disabled/enabled by boolean.</div>
-            <div class="long">
-                Convenience function for setting disabled/enabled by boolean.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li><code>disabled</code> : Boolean<div class="sub-desc"></div></li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#setDisabled" href="output/Ext.Component.html#setDisabled">Component</a></td>
     </tr>
         <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>

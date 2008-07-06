@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -64,9 +64,9 @@ Ext.util.Observable.prototype = {
      * <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
      * <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
      * <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-     * <li>buffer {Number} Causes the handler to be scheduled to run in an {@link Ext.util.DelayedTask} delayed
+     * <li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an {@link Ext.util.DelayedTask} delayed
      * by the specified number of milliseconds. If the event fires again within that time, the original
-     * handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+     * handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
      * </ul><br>
      * <p>
      * <b>Combining Options</b><br>
@@ -161,6 +161,11 @@ foo.on({
         }
     },
 
+    /**
+     * Relays selected events from this Observable to a different Observable
+     * @param {Object} o The Observable to relay events to
+     * @param {Array} events Array of event names to relay
+     */
     relayEvents : function(o, events){
         var createHandler = function(ename){
             return function(){
@@ -185,7 +190,7 @@ foo.on({
         if(typeof o == 'string'){
             for(var i = 0, a = arguments, v; v = a[i]; i++){
                 if(!this.events[a[i]]){
-                    o[a[i]] = true;
+                    this.events[a[i]] = true;
                 }
             }
         }else{

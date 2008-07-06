@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -286,20 +286,24 @@ Ext.lib.Ajax = function(){
             };
 
             if(options){
+                var hs = options.headers;
                 if(options.xmlData){
                     o.data = options.xmlData;
                     o.processData = false;
-                    o.type = 'POST';
-                    o.contentType = 'text/xml';
+                    o.type = (method ? method : (options.method ? options.method : 'POST'));
+                    if (!hs || !hs['Content-Type']){
+                        o.contentType = 'text/xml';
+                    }
                 }else if(options.jsonData){
                     o.data = typeof options.jsonData == 'object' ? Ext.encode(options.jsonData) : options.jsonData;
                     o.processData = false;
-                    o.type = 'POST';
-                    o.contentType = 'text/javascript';
+                    o.type = (method ? method : (options.method ? options.method : 'POST'));
+                    if (!hs || !hs['Content-Type']){
+                        o.contentType = 'application/json';
+                    }
                 }
-                if(options.headers){
+                if(hs){
                     o.beforeSend = function(xhr){
-                        var hs = options.headers;
                         for(var h in hs){
                             if(hs.hasOwnProperty(h)){
                                 xhr.setRequestHeader(h, hs[h]);
@@ -315,7 +319,7 @@ Ext.lib.Ajax = function(){
             jQuery.ajax({
                 type: Ext.getDom(form).method ||'POST',
                 url: uri,
-                data: jQuery(form).formSerialize()+(data?'&'+data:''),
+                data: jQuery(form).serialize()+(data?'&'+data:''),
                 timeout: cb.timeout,
                 complete: createComplete(cb)
             });
@@ -330,7 +334,7 @@ Ext.lib.Ajax = function(){
         },
 
         serializeForm : function(form){
-            return jQuery(form.dom||form).formSerialize();
+            return jQuery(form.dom||form).serialize();
         }
     };
 }();
@@ -510,7 +514,7 @@ Ext.lib.Region.getRegion = function(el) {
 };
 
 Ext.lib.Point = function(x, y) {
-   if (x instanceof Array) {
+   if (Ext.isArray(x)) {
       y = x[1];
       x = x[0];
    }

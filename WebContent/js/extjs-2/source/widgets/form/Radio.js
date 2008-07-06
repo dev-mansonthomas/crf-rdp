@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.0.1
- * Copyright(c) 2006-2007, Ext JS, LLC.
+ * Ext JS Library 2.1
+ * Copyright(c) 2006-2008, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -35,7 +35,8 @@ Ext.form.Radio = Ext.extend(Ext.form.Checkbox, {
      */
     getGroupValue : function(){
     	var p = this.el.up('form') || Ext.getBody();
-        return p.child('input[name='+this.el.dom.name+']:checked', true).value;
+        var c = p.child('input[name='+this.el.dom.name+']:checked', true);
+        return c ? c.value : null;
     },
     
     // private
@@ -51,6 +52,22 @@ Ext.form.Radio = Ext.extend(Ext.form.Checkbox, {
 				}
 			}, this);
 		}
+    },
+
+    /**
+     * Sets either the checked/unchecked status of this Radio, or, if a string value
+     * is passed, checks a sibling Radio of the same name whose value is the value specified.
+     * @param value {String/Boolean} Checked value, or the value of the sibling radio button to check.
+     */
+    setValue : function(v){
+    	if (typeof v == 'boolean') {
+            Ext.form.Radio.superclass.setValue.call(this, v);
+        } else {
+            var r = this.el.up('form').child('input[name='+this.el.dom.name+'][value='+v+']', true);
+            if (r){
+                r.checked = true;
+            };
+        }
     }
 });
 Ext.reg('radio', Ext.form.Radio);

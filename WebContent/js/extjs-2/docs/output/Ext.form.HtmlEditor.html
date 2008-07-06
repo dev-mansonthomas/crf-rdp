@@ -15,16 +15,43 @@
                 <h1>Class Ext.form.HtmlEditor</h1>
         <table cellspacing="0">
             <tr><td class="label">Package:</td><td class="hd-info">Ext.form</td></tr>
-            <tr><td class="label">Defined In:</td><td class="hd-info"><a href="../src/HtmlEditor.js" target="_blank">HtmlEditor.js</a></td></tr>
+            <tr><td class="label">Defined In:</td><td class="hd-info">HtmlEditor.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">HtmlEditor</td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info"><a ext:cls="Ext.form.Field" ext:member="" href="output/Ext.form.Field.html">Field</a></td></tr>
                     </table>
         <div class="description">
-            Provides a lightweight HTML Editor component.
+            Provides a lightweight HTML Editor component. Some toolbar features are not supported by Safari and will be 
+automatically hidden when needed.  These are noted in the config options where appropriate.
+<br><br>The editor's toolbar buttons have tooltips defined in the <a ext:cls="Ext.form.HtmlEditor" ext:member="buttonTips" href="output/Ext.form.HtmlEditor.html#buttonTips">buttonTips</a> property, but they are not 
+enabled by default unless the global <a ext:cls="Ext.QuickTips" href="output/Ext.QuickTips.html">Ext.QuickTips</a> singleton is <a ext:cls="Ext.QuickTips" ext:member="init" href="output/Ext.QuickTips.html#init">initialized</a>.
 <br><br><b>Note: The focus/blur and validation marking functionality inherited from Ext.form.Field is NOT
-supported by this editor.</b><br/><br/>
-An Editor is a sensitive component that can't be used in all spots standard fields can be used. Putting an Editor within
-any element that has display set to 'none' can cause problems in Safari and Firefox due to their default iframe reloading bugs.        </div>
+supported by this editor.</b>
+<br><br>An Editor is a sensitive component that can't be used in all spots standard fields can be used. Putting an Editor within
+any element that has display set to 'none' can cause problems in Safari and Firefox due to their default iframe reloading bugs.
+<br><br>Example usage:
+<pre><code><i>// Simple example rendered <b>with</b> default options:</i>
+Ext.QuickTips.init();  <i>// enable tooltips</i>
+<b>new</b> Ext.form.HtmlEditor({
+    renderTo: Ext.getBody(),
+    width: 800,
+    height: 300
+});
+
+<i>// Passed via xtype into a container and <b>with</b> custom options:</i>
+Ext.QuickTips.init();  <i>// enable tooltips</i>
+<b>new</b> Ext.Panel({
+    title: <em>'HTML Editor'</em>,
+    renderTo: Ext.getBody(),
+    width: 600,
+    height: 300,
+    frame: true,
+    layout: <em>'fit'</em>,
+    items: {
+        xtype: <em>'htmleditor'</em>,
+        enableColors: false,
+        enableAlignments: false
+    }
+});</code></pre>        </div>
         
         <div class="hr"></div>
                 <a id="Ext.form.HtmlEditor-configs"></a>
@@ -34,37 +61,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
                 <th class="sig-header" colspan="2">Config Options</th>
                 <th class="msource-header">Defined By</th>
             </tr>
-                <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-allowDomMove"></a>
-            <b>allowDomMove</b> : Boolean            <div class="mdesc">
-                            Whether the component can move the Dom node when rendering (defaults to true).                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#allowDomMove" href="output/Ext.Component.html#allowDomMove">Component</a></td>
-    </tr>
-        <tr class="config-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-applyTo"></a>
-            <b>applyTo</b> : Mixed            <div class="mdesc">
-                        <div class="short">The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document ...</div>
-            <div class="long">
-                The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document that specifies some structural markup for this component. When applyTo is used, constituent parts of the component can also be specified by id or CSS class name within the main element, and the component being created may attempt to create its subcomponents from that markup if applicable. Using this config, a call to render() is not required. If applyTo is specified, any value passed for <a ext:cls="Ext.Component" ext:member="renderTo" href="output/Ext.Component.html#renderTo">renderTo</a> will be ignored and the target element's parent node will automatically be used as the component's container.            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyTo" href="output/Ext.Component.html#applyTo">Component</a></td>
-    </tr>
-        <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-autoHeight"></a>
-            <b>autoHeight</b> : Boolean            <div class="mdesc">
-                            True to use height:'auto', false to use fixed height (defaults to false).                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#autoHeight" href="output/Ext.BoxComponent.html#autoHeight">BoxComponent</a></td>
-    </tr>
-        <tr class="config-row inherited alt expandable">
+                <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-autoShow"></a>
@@ -76,15 +73,6 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#autoShow" href="output/Ext.Component.html#autoShow">Component</a></td>
     </tr>
-        <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-autoWidth"></a>
-            <b>autoWidth</b> : Boolean            <div class="mdesc">
-                            True to use width:'auto', false to use fixed width (defaults to false).                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#autoWidth" href="output/Ext.BoxComponent.html#autoWidth">BoxComponent</a></td>
-    </tr>
         <tr class="config-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
@@ -94,19 +82,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#clearCls" href="output/Ext.form.Field.html#clearCls">Field</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-cls"></a>
-            <b>cls</b> : String            <div class="mdesc">
-                        <div class="short">An optional extra CSS class that will be added to this component's Element (defaults to ''). This can be useful for a...</div>
-            <div class="long">
-                An optional extra CSS class that will be added to this component's Element (defaults to ''). This can be useful for adding customized styles to the component or any of its children using standard CSS rules.            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#cls" href="output/Ext.Component.html#cls">Component</a></td>
-    </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-createLinkText"></a>
@@ -115,7 +91,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-ctCls"></a>
@@ -127,7 +103,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#ctCls" href="output/Ext.Component.html#ctCls">Component</a></td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-defaultLinkValue"></a>
@@ -136,25 +112,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-disabled"></a>
-            <b>disabled</b> : Boolean            <div class="mdesc">
-                            True to disable the field (defaults to false).                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#disabled" href="output/Ext.form.Field.html#disabled">Field</a></td>
-    </tr>
-        <tr class="config-row inherited alt">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-disabledClass"></a>
-            <b>disabledClass</b> : String            <div class="mdesc">
-                            CSS class added to the component when it is disabled (defaults to "x-item-disabled").                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disabledClass" href="output/Ext.Component.html#disabledClass">Component</a></td>
-    </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableAlignments"></a>
@@ -163,7 +121,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableColors"></a>
@@ -172,7 +130,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableFont"></a>
@@ -181,7 +139,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableFontSize"></a>
@@ -190,7 +148,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableFormat"></a>
@@ -199,7 +157,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableLinks"></a>
@@ -208,7 +166,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableLists"></a>
@@ -217,7 +175,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-enableSourceEdit"></a>
@@ -226,7 +184,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-fieldLabel"></a>
@@ -235,7 +193,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#fieldLabel" href="output/Ext.form.Field.html#fieldLabel">Field</a></td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-fontFamilies"></a>
@@ -244,7 +202,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-height"></a>
@@ -253,7 +211,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#height" href="output/Ext.BoxComponent.html#height">BoxComponent</a></td>
     </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-hideLabel"></a>
@@ -262,7 +220,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#hideLabel" href="output/Ext.form.Field.html#hideLabel">Field</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-hideMode"></a>
@@ -274,7 +232,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideMode" href="output/Ext.Component.html#hideMode">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-hideParent"></a>
@@ -286,7 +244,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideParent" href="output/Ext.Component.html#hideParent">Component</a></td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-id"></a>
@@ -295,14 +253,14 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#id" href="output/Ext.Component.html#id">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-itemCls"></a>
             <b>itemCls</b> : String            <div class="mdesc">
-                        <div class="short">An additional CSS class to apply to the wrapper element of this field (defaults to the container's itemCls value if s...</div>
+                        <div class="short">An additional CSS class to apply to the wrapper's form item element of this field (defaults to the container's itemCl...</div>
             <div class="long">
-                An additional CSS class to apply to the wrapper element of this field (defaults to the container's itemCls value if set, or ''). Since it is applied to the wrapper, it allows you to write standard CSS rules that can apply to the field, the label (if specified) or any other element within the markup for the field. Example use: <pre><code><i>// Apply a style to the field's label:</i>
+                An additional CSS class to apply to the wrapper's form item element of this field (defaults to the container's itemCls value if set, or ''). Since it is applied to the item wrapper, it allows you to write standard CSS rules that can apply to the field, the label (if specified) or any other element within the markup for the field. NOTE: this will not have any effect on fields that are not part of a form. Example use: <pre><code><i>// Apply a style to the field's label:</i>
 &lt;style>
     .required .x-form-item-label {font-weight:bold;color:red;}
 &lt;/style>
@@ -323,7 +281,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#itemCls" href="output/Ext.form.Field.html#itemCls">Field</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-labelSeparator"></a>
@@ -335,7 +293,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#labelSeparator" href="output/Ext.form.Field.html#labelSeparator">Field</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-labelStyle"></a>
@@ -347,7 +305,7 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#labelStyle" href="output/Ext.form.Field.html#labelStyle">Field</a></td>
     </tr>
-        <tr class="config-row inherited expandable">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-listeners"></a>
@@ -359,34 +317,46 @@ any element that has display set to 'none' can cause problems in Safari and Fire
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-msgTarget"></a>
-            <b>msgTarget</b> : String            <div class="mdesc">
-                        <div class="short">The location where error text should display. Should be one of the following values (defaults to 'qtip'): Value      ...</div>
-            <div class="long">
-                The location where error text should display. Should be one of the following values (defaults to 'qtip'): <pre>Value         Description
------------   ----------------------------------------------------------------------
-qtip          Display a quick tip when the user hovers over the field
-title         Display a default browser title attribute popup
-under         Add a block div beneath the field containing the error text
-side          Add an error icon to the right of the field with a popup on hover
-[element id]  Add the error text directly to the innerHTML of the specified element</pre>            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#msgTarget" href="output/Ext.form.Field.html#msgTarget">Field</a></td>
-    </tr>
         <tr class="config-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-name"></a>
             <b>name</b> : String            <div class="mdesc">
-                            The field's HTML name attribute.                        </div>
+                            The field's HTML name attribute (defaults to "").                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#name" href="output/Ext.form.Field.html#name">Field</a></td>
     </tr>
         <tr class="config-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-overCls"></a>
+            <b>overCls</b> : String            <div class="mdesc">
+                        <div class="short">An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and...</div>
+            <div class="long">
+                An optional extra CSS class that will be added to this component's Element when the mouse moves over the Element, and removed when the mouse moves out. (defaults to ''). This can be useful for adding customized "active" or "hover" styles to the component or any of its children using standard CSS rules.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#overCls" href="output/Ext.Component.html#overCls">Component</a></td>
+    </tr>
+        <tr class="config-row inherited">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-pageX"></a>
+            <b>pageX</b> : Number            <div class="mdesc">
+                            The page level x coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#pageX" href="output/Ext.BoxComponent.html#pageX">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-pageY"></a>
+            <b>pageY</b> : Number            <div class="mdesc">
+                            The page level y coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#pageY" href="output/Ext.BoxComponent.html#pageY">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-plugins"></a>
@@ -397,18 +367,6 @@ side          Add an error icon to the right of the field with a popup on hover
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#plugins" href="output/Ext.Component.html#plugins">Component</a></td>
-    </tr>
-        <tr class="config-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-readOnly"></a>
-            <b>readOnly</b> : Boolean            <div class="mdesc">
-                        <div class="short">True to mark the field as readOnly in HTML (defaults to false) -- Note: this only sets the element's readOnly DOM att...</div>
-            <div class="long">
-                True to mark the field as readOnly in HTML (defaults to false) -- Note: this only sets the element's readOnly DOM attribute.            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#readOnly" href="output/Ext.form.Field.html#readOnly">Field</a></td>
     </tr>
         <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -458,54 +416,12 @@ side          Add an error icon to the right of the field with a popup on hover
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateful" href="output/Ext.Component.html#stateful">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-style"></a>
-            <b>style</b> : String            <div class="mdesc">
-                        <div class="short">A custom style specification to be applied to this component's Element. Should be a valid argument to Ext.Element.app...</div>
-            <div class="long">
-                A custom style specification to be applied to this component's Element. Should be a valid argument to <a ext:cls="Ext.Element" ext:member="applyStyles" href="output/Ext.Element.html#applyStyles">Ext.Element.applyStyles</a>.            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#style" href="output/Ext.Component.html#style">Component</a></td>
-    </tr>
-        <tr class="config-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-tabIndex"></a>
-            <b>tabIndex</b> : Number            <div class="mdesc">
-                        <div class="short">The tabIndex for this field. Note this only applies to fields that are rendered, not those which are built via applyT...</div>
-            <div class="long">
-                The tabIndex for this field. Note this only applies to fields that are rendered, not those which are built via applyTo (defaults to undefined).            </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#tabIndex" href="output/Ext.form.Field.html#tabIndex">Field</a></td>
-    </tr>
-        <tr class="config-row inherited alt">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-validationDelay"></a>
-            <b>validationDelay</b> : Number            <div class="mdesc">
-                            The length of time in milliseconds after user input begins until validation is initiated (defaults to 250)                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#validationDelay" href="output/Ext.form.Field.html#validationDelay">Field</a></td>
-    </tr>
-        <tr class="config-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-validationEvent"></a>
-            <b>validationEvent</b> : String/Boolean            <div class="mdesc">
-                            The event that should initiate field validation. Set to false to disable automatic validation (defaults to "keyup").                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#validationEvent" href="output/Ext.form.Field.html#validationEvent">Field</a></td>
-    </tr>
         <tr class="config-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-value"></a>
             <b>value</b> : Mixed            <div class="mdesc">
-                            A value to initialize this field with.                        </div>
+                            A value to initialize this field with (defaults to undefined).                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#value" href="output/Ext.form.Field.html#value">Field</a></td>
     </tr>
@@ -518,7 +434,16 @@ side          Add an error icon to the right of the field with a popup on hover
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#width" href="output/Ext.BoxComponent.html#width">BoxComponent</a></td>
     </tr>
-        <tr class="config-row inherited alt expandable">
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-x"></a>
+            <b>x</b> : Number            <div class="mdesc">
+                            The local x (left) coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#x" href="output/Ext.BoxComponent.html#x">BoxComponent</a></td>
+    </tr>
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-xtype"></a>
@@ -529,6 +454,15 @@ side          Add an error icon to the right of the field with a popup on hover
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#xtype" href="output/Ext.Component.html#xtype">Component</a></td>
+    </tr>
+        <tr class="config-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-y"></a>
+            <b>y</b> : Number            <div class="mdesc">
+                            The local y (top) coordinate for this component if contained within a positioning container.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#y" href="output/Ext.BoxComponent.html#y">BoxComponent</a></td>
     </tr>
             </table>
                 <a id="Ext.form.HtmlEditor-props"></a>
@@ -568,15 +502,6 @@ For example:
         <tr class="property-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.form.HtmlEditor-disabled"></a>
-            <b>disabled</b> : Boolean            <div class="mdesc">
-                            True if this component is disabled. Read-only.                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disabled" href="output/Ext.Component.html#disabled">Component</a></td>
-    </tr>
-        <tr class="property-row inherited">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
         <a id="Ext.form.HtmlEditor-hidden"></a>
             <b>hidden</b> : Boolean            <div class="mdesc">
                             
@@ -584,7 +509,7 @@ True if this component is hidden. Read-only.                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hidden" href="output/Ext.Component.html#hidden">Component</a></td>
     </tr>
-        <tr class="property-row inherited alt">
+        <tr class="property-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-initialConfig"></a>
@@ -593,7 +518,7 @@ True if this component is hidden. Read-only.                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#initialConfig" href="output/Ext.Component.html#initialConfig">Component</a></td>
     </tr>
-        <tr class="property-row inherited expandable">
+        <tr class="property-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-ownerCt"></a>
@@ -607,7 +532,7 @@ the component is added to a container).  Read-only.            </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#ownerCt" href="output/Ext.Component.html#ownerCt">Component</a></td>
     </tr>
-        <tr class="property-row inherited alt">
+        <tr class="property-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-rendered"></a>
@@ -624,7 +549,27 @@ the component is added to a container).  Read-only.            </div>
                 <th class="sig-header" colspan="2">Method</th>
                 <th class="msource-header">Defined By</th>
             </tr>
-                <tr class="method-row inherited expandable">
+                <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-HtmlEditor"></a>
+            <b>HtmlEditor</b>(&nbsp;<code>Object config</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Create a new HtmlEditor</div>
+            <div class="long">
+                Create a new HtmlEditor    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>config</code> : Object<div class="sub-desc"></div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code></code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">HtmlEditor</td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-addClass"></a>
@@ -644,7 +589,7 @@ the component is added to a container).  Read-only.            </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#addClass" href="output/Ext.Component.html#addClass">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-addEvents"></a>
@@ -664,7 +609,7 @@ the component is added to a container).  Read-only.            </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#addEvents" href="output/Ext.util.Observable.html#addEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-addListener"></a>
@@ -679,9 +624,9 @@ properties. This may contain any of the following properties:<ul>
 <li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
 <li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
 <li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li>buffer {Number} Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -731,26 +676,6 @@ Or a shorthand syntax:<br>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="output/Ext.util.Observable.html#addListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-applyToMarkup"></a>
-            <b>applyToMarkup</b>(&nbsp;<code>String/HTMLElement el</code>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Apply this component to existing markup that is valid. With this function, no call to render() is required.</div>
-            <div class="long">
-                Apply this component to existing markup that is valid. With this function, no call to render() is required.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc"></div></li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyToMarkup" href="output/Ext.Component.html#applyToMarkup">Component</a></td>
-    </tr>
         <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
@@ -795,30 +720,7 @@ An id property can be passed on this object, otherwise one will be generated to 
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#cloneConfig" href="output/Ext.Component.html#cloneConfig">Component</a></td>
     </tr>
-        <tr class="method-row expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-createToolbar"></a>
-            <b>createToolbar</b>(&nbsp;<code>HtmlEditor editor</code>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Protected method that will not generally be called directly. It
-is called when the editor creates its toolbar. Overri...</div>
-            <div class="long">
-                Protected method that will not generally be called directly. It
-is called when the editor creates its toolbar. Override this method if you need to
-add custom toolbar buttons.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li><code>editor</code> : HtmlEditor<div class="sub-desc"></div></li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource">HtmlEditor</td>
-    </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-destroy"></a>
@@ -842,47 +744,7 @@ should usually not need to be called directly.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#destroy" href="output/Ext.Component.html#destroy">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-disable"></a>
-            <b>disable</b>() : Ext.Component            <div class="mdesc">
-                        <div class="short">Disable this component.</div>
-            <div class="long">
-                Disable this component.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#disable" href="output/Ext.Component.html#disable">Component</a></td>
-    </tr>
-        <tr class="method-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-enable"></a>
-            <b>enable</b>() : Ext.Component            <div class="mdesc">
-                        <div class="short">Enable this component.</div>
-            <div class="long">
-                Enable this component.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>Ext.Component</code><div class="sub-desc">this</div></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#enable" href="output/Ext.Component.html#enable">Component</a></td>
-    </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-execCmd"></a>
@@ -905,7 +767,49 @@ For visual commands, you should use <a ext:cls="Ext.form.HtmlEditor" ext:member=
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-findParentBy"></a>
+            <b>findParentBy</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Array            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by a custom function. If the passed function returns
+true, the con...</div>
+            <div class="long">
+                Find a container above this component at any level by a custom function. If the passed function returns
+true, the container will be returned. The passed function is called with the arguments (container, this component).    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>fcn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Array</code><div class="sub-desc">Array of Ext.Components</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentBy" href="output/Ext.Component.html#findParentBy">Component</a></td>
+    </tr>
         <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.form.HtmlEditor-findParentByType"></a>
+            <b>findParentByType</b>(&nbsp;<code>String/Class xtype</code>&nbsp;) : Container            <div class="mdesc">
+                        <div class="short">Find a container above this component at any level by xtype or class</div>
+            <div class="long">
+                Find a container above this component at any level by xtype or class    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>xtype</code> : String/Class<div class="sub-desc">The xtype string for a component, or the class of the component directly</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Container</code><div class="sub-desc">The found container</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Component" ext:member="#findParentByType" href="output/Ext.Component.html#findParentByType">Component</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-fireEvent"></a>
@@ -925,7 +829,7 @@ For visual commands, you should use <a ext:cls="Ext.form.HtmlEditor" ext:member=
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="output/Ext.util.Observable.html#fireEvent">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-focus"></a>
@@ -945,7 +849,7 @@ For visual commands, you should use <a ext:cls="Ext.form.HtmlEditor" ext:member=
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#focus" href="output/Ext.Component.html#focus">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getBox"></a>
@@ -965,7 +869,7 @@ For visual commands, you should use <a ext:cls="Ext.form.HtmlEditor" ext:member=
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#getBox" href="output/Ext.BoxComponent.html#getBox">BoxComponent</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getDocMarkup"></a>
@@ -988,7 +892,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getEl"></a>
@@ -1008,7 +912,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getEl" href="output/Ext.Component.html#getEl">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getId"></a>
@@ -1028,7 +932,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getId" href="output/Ext.Component.html#getId">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getItemId"></a>
@@ -1048,7 +952,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getItemId" href="output/Ext.Component.html#getItemId">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getName"></a>
@@ -1068,7 +972,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#getName" href="output/Ext.form.Field.html#getName">Field</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getPosition"></a>
@@ -1088,7 +992,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#getPosition" href="output/Ext.BoxComponent.html#getPosition">BoxComponent</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getRawValue"></a>
@@ -1108,7 +1012,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#getRawValue" href="output/Ext.form.Field.html#getRawValue">Field</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getSize"></a>
@@ -1128,7 +1032,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#getSize" href="output/Ext.BoxComponent.html#getSize">BoxComponent</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getToolbar"></a>
@@ -1148,7 +1052,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource">HtmlEditor</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getValue"></a>
@@ -1168,7 +1072,7 @@ want to change the initialization markup of the iframe (e.g. to add stylesheets)
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#getValue" href="output/Ext.form.Field.html#getValue">Field</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getXType"></a>
@@ -1192,7 +1096,7 @@ alert(t.getXType());  // alerts <em>'textfield'</em></code></pre>    <div class=
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getXType" href="output/Ext.Component.html#getXType">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-getXTypes"></a>
@@ -1217,7 +1121,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#getXTypes" href="output/Ext.Component.html#getXTypes">Component</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-hasListener"></a>
@@ -1237,7 +1141,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="output/Ext.util.Observable.html#hasListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-hide"></a>
@@ -1256,26 +1160,6 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hide" href="output/Ext.Component.html#hide">Component</a></td>
-    </tr>
-        <tr class="method-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-initComponent"></a>
-            <b>initComponent</b>() : void            <div class="mdesc">
-                        <div class="short"></div>
-            <div class="long">
-                    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.BoxComponent" ext:member="#initComponent" href="output/Ext.BoxComponent.html#initComponent">BoxComponent</a></td>
     </tr>
         <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -1475,6 +1359,26 @@ toolbar updates. <b>This should only be called after the editor is initialized.<
         <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.form.HtmlEditor-relayEvents"></a>
+            <b>relayEvents</b>(&nbsp;<code>Object o</code>, <code>Array events</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Relays selected events from this Observable to a different Observable</div>
+            <div class="long">
+                Relays selected events from this Observable to a different Observable    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>o</code> : Object<div class="sub-desc">The Observable to relay events to</div></li><li><code>events</code> : Array<div class="sub-desc">Array of event names to relay</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.form.HtmlEditor-removeClass"></a>
             <b>removeClass</b>(&nbsp;<code>string cls</code>&nbsp;) : void            <div class="mdesc">
                         <div class="short">Removes a CSS class from the component's underlying element.</div>
@@ -1492,7 +1396,7 @@ toolbar updates. <b>This should only be called after the editor is initialized.<
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#removeClass" href="output/Ext.Component.html#removeClass">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-removeListener"></a>
@@ -1512,7 +1416,7 @@ toolbar updates. <b>This should only be called after the editor is initialized.<
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-render"></a>
@@ -1534,7 +1438,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#render" href="output/Ext.Component.html#render">Component</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-reset"></a>
@@ -1554,7 +1458,7 @@ which this component will be inserted (defaults to appending to the end of the c
         </td>
         <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#reset" href="output/Ext.form.Field.html#reset">Field</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.HtmlEditor-resumeEvents"></a>
@@ -1573,26 +1477,6 @@ which this component will be inserted (defaults to appending to the end of the c
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
-    </tr>
-        <tr class="method-row inherited alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-setDisabled"></a>
-            <b>setDisabled</b>(&nbsp;<code>Boolean disabled</code>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Convenience function for setting disabled/enabled by boolean.</div>
-            <div class="long">
-                Convenience function for setting disabled/enabled by boolean.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li><code>disabled</code> : Boolean<div class="sub-desc"></div></li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>void</code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.Component" ext:member="#setDisabled" href="output/Ext.Component.html#setDisabled">Component</a></td>
     </tr>
         <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
@@ -1923,26 +1807,6 @@ a toolbar update by reading the markup state of the current selection in the edi
                         </div>
         </td>
         <td class="msource">HtmlEditor</td>
-    </tr>
-        <tr class="method-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-validate"></a>
-            <b>validate</b>() : Boolean            <div class="mdesc">
-                        <div class="short">Validates the field value</div>
-            <div class="long">
-                Validates the field value    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>Boolean</code><div class="sub-desc">True if the value is valid, else false</div></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#validate" href="output/Ext.form.Field.html#validate">Field</a></td>
     </tr>
             </table>
                 <a id="Ext.form.HtmlEditor-events"></a>
@@ -2341,22 +2205,6 @@ to cancel the sync.    <div class="mdetail-params">
                         </div>
         </td>
         <td class="msource">HtmlEditor</td>
-    </tr>
-        <tr class="event-row inherited expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.form.HtmlEditor-valid"></a>
-            <b>valid</b> : (&nbsp;<code>Ext.form.Field this</code>&nbsp;)            <div class="mdesc">
-                        <div class="short">Fires after the field has been validated with no errors.</div>
-            <div class="long">
-                Fires after the field has been validated with no errors.    <div class="mdetail-params">
-        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
-        <ul><li><code>this</code> : Ext.form.Field<div class="sub-desc"></div></li>        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource"><a ext:cls="Ext.form.Field" ext:member="#event-valid" href="output/Ext.form.Field.html#event-valid">Field</a></td>
     </tr>
             </table>
         

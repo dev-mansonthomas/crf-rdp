@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-
-<beans>
+<beans          xmlns    = "http://www.springframework.org/schema/beans"
+                xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+        
+       xsi:schemaLocation= "http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 <!-- Cache Service -->
-	<bean name="EHCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+	<bean id="EHCacheManager" name="EHCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
 		<property name="configLocation">
 			<value>/WEB-INF/spring/config/ehcache.xml</value>
 		</property>
 	</bean>
 	
-	<bean name="MonitorCacheHashesFB"  class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	<bean id="MonitorCacheHashesFB" name="MonitorCacheHashesFB"  class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheManager">
 			<ref bean="EHCacheManager"/>
 		</property>
@@ -19,7 +21,7 @@
 		</property>
 	</bean>
 	
-	<bean name="MonitorCacheAmbulancesFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	<bean id="MonitorCacheAmbulancesFB" name="MonitorCacheAmbulancesFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheManager">
 			<ref bean="EHCacheManager"/>
 		</property>
@@ -28,7 +30,7 @@
 		</property>
 	</bean>	
 
-	<bean name="MonitorCacheInterventionFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	<bean id="MonitorCacheInterventionFB" name="MonitorCacheInterventionFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheManager">
 			<ref bean="EHCacheManager"/>
 		</property>

@@ -217,7 +217,7 @@ function initLayout()
             iconCls:'settings'
           },
           {
-            title:'Liste des Interventions en cours de saisie',
+            title:'Liste des Dispositifs en cours de saisie',
             contentEl:'DispositifListEncoursEdition',
             border:false,
             iconCls:'settings'

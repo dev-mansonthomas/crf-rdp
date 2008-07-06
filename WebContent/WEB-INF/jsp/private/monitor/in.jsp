@@ -1845,7 +1845,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
 </table>
 
 
-          <table id="DispositifDefibrilateurTable">
+          <table id="DispositifDefibrilateurTable" style="width:49%;">
             <tr>
               <th>Défibrillateur</th>
               <td id="dsa_td">

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.irp.model.monitor.Delegation;
 import fr.croixrouge.irp.model.monitor.Regulation;
@@ -54,7 +56,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
                                 new RegulationRowMapper() );
   }
 
-
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public void createRegulation(Regulation regulation)
   {
     /* 

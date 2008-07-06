@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.DispositifTicket;
@@ -208,94 +210,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     return new ListRange(totalCount, list); 
   }
-  
-  public void createDispositif(Dispositif dispositif) throws Exception
-  {
-    String query =  "INSERT INTO `dispositif`\n"+
-                    "  ( `id_dispositif`       , `id_regulation` , `indicatif_vehicule`, `O2_B1_volume`     ,\n"+
-                    "    `O2_B1_pression`      , `O2_B2_volume`      , `O2_B2_pression`, `O2_B3_volume`      , `O2_B3_pression`   ,\n"+
-                    "    `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`,\n" +
-                    "    `dispositif_comment`, `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,\n" +
-                    "    `dsa_type`            , `dsa_complet`       , `observation`   , `DH_debut`          , `DH_fin`           ,\n"+
-                    "    `section_responsable` , `contact_radio`     , `contact_tel1`  , `contact_tel2`      , `contact_alphapage`,\n"+
-                    "    `identite_medecin`    , `id_etat_dispositif`, `id_current_intervention`, `display_state`\n"+
-                    "  )\n"+
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0)\n";
-                    
-    Object [] objects = new Object[]
-                        {
-                          dispositif.getIdDispositif      (),
-                          dispositif.getIndicatifVehicule (),
-                          dispositif.getO2B1Volume        (),
-                          dispositif.getO2B1Pression      (),
-                          dispositif.getO2B2Volume        (),
-                          dispositif.getO2B2Pression      (),
-                          dispositif.getO2B3Volume        (),
-                          dispositif.getO2B3Pression      (),
-                          dispositif.getO2B4Volume        (),
-                          dispositif.getO2B4Pression      (),
-                          dispositif.getO2B5Volume        (),
-                          dispositif.getO2B5Pression      (),
-                          dispositif.getDispositifComment (),
-                          dispositif.isDispositifBackWith3Girls         (),
-                          dispositif.isDispositifNotEnoughO2            (),
-                          dispositif.isDispositifSetAvailableWithWarning(),
-                          dispositif.getDsaType           (),
-                          dispositif.isDsaComplet         (),
-                          dispositif.getObservation       (),
-                          dispositif.getDhDebut           (),
-                          dispositif.getDhFin             (),
-                          dispositif.getIdDelegation      (),
-                          dispositif.getContactRadio      (),
-                          dispositif.getContactTel1       (),
-                          dispositif.getContactTel2       (),
-                          dispositif.getContactAlphapage  (),
-                          dispositif.getIdentiteMedecin   (),
-                          dispositif.getIdEtatDispositif  ()
-                        };
-    int []types = new int[]
-                          {
-                            Types.INTEGER,
-                            Types.VARCHAR,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.DECIMAL,
-                            Types.VARCHAR,
-                            Types.BIT,
-                            Types.BIT,
-                            Types.BIT,
-                            Types.VARCHAR,
-                            Types.BIT,
-                            Types.VARCHAR,
-                            Types.TIMESTAMP,
-                            Types.TIMESTAMP,
-                            Types.INTEGER,
-                            Types.VARCHAR,
-                            Types.VARCHAR,
-                            Types.VARCHAR,
-                            Types.VARCHAR,
-                            Types.VARCHAR,
-                            Types.INTEGER
-                          };
-    
-    jdbcTemplate.update( query, objects, types);
-    int idDispositif = getLastInsertedId();
-    
-    if(logger.isDebugEnabled())
-      logger.debug("Dispositif inserted with id="+idDispositif);
-    
-    dispositif.setIdDispositif(idDispositif);
-    dispositif.setIdTypeDispositif(0);
-  }
-  
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public Dispositif createEmptyDispositif(Regulation regulation) throws Exception
   {
     if(logger.isDebugEnabled())

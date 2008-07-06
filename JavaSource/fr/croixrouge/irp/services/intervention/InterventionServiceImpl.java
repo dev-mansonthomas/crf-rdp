@@ -1,8 +1,5 @@
 package fr.croixrouge.irp.services.intervention;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.Date;
 import java.util.Hashtable;
@@ -11,6 +8,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.irp.model.monitor.Intervention;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
@@ -134,47 +133,20 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "VALUES\n"+
     "  ( 0, 0, 0, ?, ?, 0)\n";
 
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public Intervention createEmptyIntervention(int idRegulation) throws Exception
   {
     Intervention intervention = new Intervention();
-    intervention.setDhReception(new Date());
-
-    Object [] os    = new Object[]
-                    {
-                      idRegulation,
-                      intervention.getDhReception()
-                      
-                    };
     
-    int    [] types = new int[]
-                    {
-                      Types.INTEGER,              
-                      Types.TIMESTAMP
-                      
-                    };
+    intervention.setIdRegulation(idRegulation);
+    intervention.setDhReception (new Date()  );
+
+    Object [] os    = new Object[]{ intervention.getIdRegulation(), intervention.getDhReception()};
+    int    [] types = new int   []{ Types.INTEGER                 , Types.TIMESTAMP              };
     
     jdbcTemplate.update(queryForCreateEmptyIntervention, os, types);
-/*    
-    int lastInsertedId = 0;
-    while(lastInsertedId == 0)
-    {
-      Connection connection = jdbcTemplate.getDataSource().getConnection();
-      Statement stmt = connection.createStatement();
-      
-      ResultSet rs = stmt.executeQuery("SELECT last_insert_id()");
-      
-      if(rs.next())
-      {
-        lastInsertedId =rs.getInt(1);
-        System.out.println(lastInsertedId);
-      }
-      connection.close();
-    }*/
-   
-    
+
     intervention.setIdIntervention  (this.getLastInsertedId());
-    intervention.setIdRegulation    (idRegulation);
     
     if(logger.isDebugEnabled())
       logger.debug("Intervention inserted with id="+intervention.getIdIntervention());

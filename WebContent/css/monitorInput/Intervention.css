@@ -10,3 +10,12 @@
 {
   margin-right:5px;
 }
+#AddIntervention, #AddInterventionDeleteConfirm
+{
+  float:left;
+  margin-right:5px;
+}
+#interventionTicketEditButton, #interventionTicketCancelButton
+{
+  padding:5px;
+}

@@ -1,4 +1,4 @@
-insert into delegation (nom, departement)
+﻿insert into delegation (nom, departement)
 values
 ('National'      ,'00000'),
 ('Département 75','75000'),
@@ -27,9 +27,6 @@ update delegation set id_delegation=0 where id_delegation = 22;
 
 insert into dispositif_etat (label_etat)
 values
-('Indispo - Equipage incomplet'),
-('Indispo - Matériel incomplet'),
-('Indisponible'),
 ('Dispo'),
 ('Intervention Affectée'),
 ('Parti'),
@@ -39,9 +36,16 @@ values
 ('Transport'),
 ('Arrivé à l''Hopital'),
 ('A sa base'),
+('Indispo - Equipage incomplet'),
+('Indispo - Matériel incomplet'),
+('Indisponible'),
 ('N/A');
 
-update dispositif_etat set id_etat = 0 where id_etat = 13;
+update dispositif_etat set id_etat = 0  where id_etat = 13;
+update dispositif_etat set id_etat = -1 where id_etat = 12;
+update dispositif_etat set id_etat = -2 where id_etat = 11;
+update dispositif_etat set id_etat = -3 where id_etat = 10;
+
 
 insert into dispositif_type (label_type)
 values
@@ -141,11 +145,10 @@ values
 ('Secondaire passé'),
 ('Transport'),
 ('Arrivé à l''Hopital'),
-('Terminé'),
 ('Annulé'),
 ('En cours de création');
 
-update intervention_etat set id_etat = 0 where id_etat = 11;
+update intervention_etat set id_etat = 0 where id_etat = 10;
 
 -- Insert test data
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )

@@ -20,7 +20,6 @@ String contextPath = request.getContextPath();
     @import "<%=contextPath%>/css/monitorInput/Intervention.css";
     @import "<%=contextPath%>/css/monitorInput/Bilan.css";
 
-    @import "<%=contextPath%>/js/calendar/css/calendar-blue.css";
     @import "<%=contextPath%>/css/calendarFix.css";
 
     @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
@@ -126,11 +125,12 @@ String contextPath = request.getContextPath();
                   <select id="interventionTicketOrigine"
                         name="interventionTicketOrigine"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
-                    onChange="miInterventionCs.updateInterventionIntField(this.id, 'id_origine')"><option value=" "> </option></select>
+                    onChange="miInterventionCs.updateInterventionIntegerField(this.id, 'id_origine')"><option value=" "> </option></select>
                 </td>
                 <td>
                   Date/Heure de réception :
-
+</td>
+<td>
                   <div id="interventionTicketDHReception_div"></div>
 
                 </td>
@@ -148,7 +148,7 @@ String contextPath = request.getContextPath();
             <select id="interventionTicketMotif"
                   name="interventionTicketMotif"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
-              onChange="miInterventionCs.updateInterventionIntField(this.id, 'id_motif')"><option value=" "> </option></select>
+              onChange="miInterventionCs.updateInterventionIntegerField(this.id, 'id_motif')"><option value=" "> </option></select>
 
             Complément d'information : <br/>
                   <textarea   id="interventionTicketComplementMotif"
@@ -167,15 +167,53 @@ String contextPath = request.getContextPath();
             <table>
             <tr>
               <td>
-                  Nom Prénom de la victime :
-                <input style="width:53%;"
+                  Victime <br/>
+                  
+ Nom :
+                <input style="width:33%;"
                         type="text"
                           id="interventionNomVictime"
                         name="interventionNomVictime"
                        value=""
-                   maxlength="60"
+                   maxlength="30"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
                       onBlur="miInterventionCs.updateInterventionStringField(this.id, 'nom_victime')"/>
+                      
+ Prénom :
+                <input style="width:33%;"
+                        type="text"
+                          id="interventionPrenomVictime"
+                        name="interventionPrenomVictime"
+                       value=""
+                   maxlength="30"
+                     onFocus="crfIrpUtils.fieldEdit(this.id)"
+                      onBlur="miInterventionCs.updateInterventionStringField(this.id, 'prenom_victime')"/>                      
+<br/>
+
+Sexe :           <input type="radio"
+                          id="interventionSexeVictimeFemme"
+                        name="interventionSexeVictime"
+                       value="false"
+                    onChange="miInterventionCs.updateInterventionBooleanField(this.id, 'homme_victime')"/>
+                  Femme.
+                 <input type="radio"
+                          id="interventionSexeVictimeHomme"
+                        name="interventionSexeVictime"
+                       value="true"
+                    onChange="miInterventionCs.updateInterventionBooleanField(this.id, 'homme_victime')"/>
+                 Homme.
+&nbsp;&nbsp;&nbsp;&nbsp;                  
+Age Approximatif : 
+
+                <input style="width:35px;"
+                        type="text"
+                          id="interventionAgeVictime"
+                        name="interventionAgeVictime"
+                       value=""
+                   maxlength="3"
+                     onFocus="crfIrpUtils.fieldEdit(this.id)"
+                      onBlur="miInterventionCs.updateInterventionIntegerField(this.id, 'age_approx_victime')"/>                      
+
               </td>
             </tr>
             <tr>
@@ -243,7 +281,7 @@ String contextPath = request.getContextPath();
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
                           onBlur="miInterventionCs.updateAddress(this.id, 'ville')"
                     />
-                    <img id="googleAdressCheckStatus" src="<%=contextPath%>/img/pix.png" alt="pix" style="height:16px;width:16px;">
+                    <img id="googleAdressCheckStatus" src="<%=contextPath%>/img/pix.png" alt="pix" style="height:16px;width:16px;"/>
                     <input type="hidden" id="interventionTicketCoordinateLat"  name="interventionTicketCoordinateLat" />
                     <input type="hidden" id="interventionTicketCoordinateLong" name="interventionTicketCoordinateLong"/>
 
@@ -311,8 +349,8 @@ String contextPath = request.getContextPath();
             </fieldset>
             <fieldset id="interventionTicketCancelButton" style="display:none;">
               <legend>Annulation de l'intervention</legend>
-              <input type="button" id="AddIntervention"       value="Annuler l'Intervention"  onclick="miInterventionCs.deleteInterventionTicket(true);"/>
-              <input type="button" id="AddInterventionCancel" value="Non, je me suis trompé"  onclick="miInterventionCs.hideInterventionTicket();"/>
+              <input type="button" id="AddInterventionDeleteConfirm" value="Annuler l'Intervention"  onclick="miInterventionCs.deleteInterventionTicket(true);"/>
+              <input type="button" id="AddInterventionCancel"        value="Non, je me suis trompé"  onclick="miInterventionCs.hideInterventionTicket();"/>
             </fieldset>
         </td>
       </tr>
@@ -1648,13 +1686,11 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           <table>
             <tr>
               <td style="width:50%;text-align:center;">
-                Début :
-
+                <div id="DispositifDHDebut_divLabel">Début : </div>
                 <div id="DispositifDHDebut_div"></div>
               </td>
               <td style="width:50%;text-align:center;">
-                Fin   :
-
+                <div id="DispositifDHFin_divLabel">Fin   : </div>
                 <div id="DispositifDHFin_div"></div>
               </td>
             </tr>
@@ -1933,8 +1969,79 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           </table>
 
         </fieldset>
-
-
+        <fieldset>
+          <legend>Localisation</legend>
+<span class="fieldsetSubtitle">Adresse Actuelle</span><br/>
+                  Rue :
+                <input style="width:93%;"
+                        type="text"
+                          id="dispositifCurrentAddressRue"
+                        name="dispositifCurrentAddressRue"
+                       value=""
+                   maxlength="80"
+                     onFocus="crfIrpUtils.fieldEdit(this.id)"
+                      onBlur="miDispositifCs.updateAddress(this.id, 'current_addresse_rue', true)"/>
+<br/>
+                  Code Postal :
+                    <input style="width:50px;"
+                            type="text"
+                              id="dispositifCurrentAddressCodePostal"
+                            name="dispositifCurrentAddressCodePostal"
+                       maxlength="5"
+                           value=""
+                         onFocus="crfIrpUtils.fieldEdit(this.id)"
+                          onBlur="miDispositifCs.updateAddress(this.id, 'current_addresse_code_postal', true)"
+                    />
+                  Ville :
+                    <input style="width:61.7%;"
+                            type="text"
+                              id="dispositifCurrentAddressVille"
+                            name="dispositifCurrentAddressVille"
+                           value=""
+                       maxlength="80"
+                         onFocus="crfIrpUtils.fieldEdit(this.id)"
+                          onBlur="miDispositifCs.updateAddress(this.id, 'current_addresse_ville', true)"
+                    />
+                    <img id="dispositifCurrentGoogleAdressCheckStatus" src="<%=contextPath%>/img/pix.png" alt="pix" style="height:16px;width:16px;"/>
+                    <input type="hidden" id="dispositifCurrentAddressCoordinateLat"  name="dispositifCurrentAddressCoordinateLat" />
+                    <input type="hidden" id="dispositifCurrentAddressCoordinateLong" name="dispositifCurrentAddressCoordinateLong"/>
+<br/>       
+<span class="fieldsetSubtitle">Adresse Précédente</span><br/>
+                  Rue :
+                <input style="width:93%;"
+                        type="text"
+                          id="dispositifPreviousAddressRue"
+                        name="dispositifPreviousAddressRue"
+                       value=""
+                   maxlength="80"
+                     onFocus="crfIrpUtils.fieldEdit(this.id)"
+                      onBlur="miDispositifCs.updateAddress(this.id, 'previous_addresse_rue', false)"/>
+<br/>
+                  Code Postal :
+                    <input style="width:50px;"
+                            type="text"
+                              id="dispositifPreviousAddressCodePostal"
+                            name="dispositifPreviousAddressPostal"
+                       maxlength="5"
+                           value=""
+                         onFocus="crfIrpUtils.fieldEdit(this.id)"
+                          onBlur="miDispositifCs.updateAddress(this.id, 'previous_addresse_code_postal', false)"
+                    />
+                  Ville :
+                    <input style="width:61.7%;"
+                            type="text"
+                              id="dispositifPreviousAddressVille"
+                            name="dispositifPreviousAddressVille"
+                           value=""
+                       maxlength="80"
+                         onFocus="crfIrpUtils.fieldEdit(this.id)"
+                          onBlur="miDispositifCs.updateAddress(this.id, 'previous_addresse_ville', false)"
+                    />
+                    <img id="dispositifPreviousGoogleAdressCheckStatus" src="<%=contextPath%>/img/pix.png" alt="pix" style="height:16px;width:16px;"/>
+                    <input type="hidden" id="dispositifPreviousAddressCoordinateLat"  name="dispositifPreviousAddressCoordinateLat" />
+                    <input type="hidden" id="dispositifPreviousAddressCoordinateLong" name="dispositifPreviousAddressCoordinateLong"/>
+         
+        </fieldset>
       <table style="width:100%;">
         <tr>
           <td style="width:50%;vertical-align:top;">

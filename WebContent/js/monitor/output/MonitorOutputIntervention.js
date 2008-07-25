@@ -30,11 +30,11 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   }
   var origine     = crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine);
   var motif       = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  );
-  var dhReception = crfIrpUtils.getFullDate(intervention.dhReception);
+  var dhSaisie    = crfIrpUtils.getFullDate(intervention.dhSaisie);
 
   dwr.util.setValue('interventionTicket_origine_'     +intervention.idIntervention, origine);
   dwr.util.setValue('interventionTicket_motif_'       +intervention.idIntervention, motif);
-  dwr.util.setValue('interventionTicket_dhReception_' +intervention.idIntervention, dhReception);
+  dwr.util.setValue('interventionTicket_dhReception_' +intervention.idIntervention, dhSaisie);
   dwr.util.setValue('interventionTicket_rue_'         +intervention.idIntervention, intervention.rue);
   dwr.util.setValue('interventionTicket_codePostal_'  +intervention.idIntervention, intervention.codePostal);
   dwr.util.setValue('interventionTicket_ville_'       +intervention.idIntervention, intervention.ville);
@@ -63,7 +63,7 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   */
   
   var tabsInfo = [["Adresse", intervention.rue+",<br/>"+intervention.codePostal+", "+intervention.ville],
-                  ["Motif",origine+" - "+dhReception+"<br/>"+motif]];
+                  ["Motif",origine+" - "+dhSaisie+"<br/>"+motif]];
   
   crfGoogleMap.displayInfo(intervention.googleCoordsLat, intervention.googleCoordsLong,0,7,false,tabsInfo); 
 };
@@ -72,8 +72,8 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
 {
   var origine   = crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine);
   var motif     = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  );
-  var shortDate = crfIrpUtils.getTime    (intervention.dhReception);
-  var fullDate  = crfIrpUtils.getFullDate(intervention.dhReception);
+  var shortDate = crfIrpUtils.getTime    (intervention.dhSaisie);
+  var fullDate  = crfIrpUtils.getFullDate(intervention.dhSaisie);
 /*  
   var iconMenu= new Ext.menu.Menu({
       id: 'panel_iconMenu_interventionTicket_'+intervention.idIntervention

@@ -39,8 +39,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` , \n" +
     "        `id_motif`       , `DH_saisie`    , `rue`          , `code_postal`, \n" +
     "        `ville`          , `batiment`     , `etage`        , `porte`      , \n" +
-    "        `complement_adresse`, `complement_motif`, `google_coords_lat`, `google_coords_long`,\n" +
-    "        `nom_victime`       , `nom_contact_sur_place`, `coordonnees_contact`\n" +
+    "        `complement_adresse`, `complement_motif`, `google_coords_lat`    , `google_coords_long` ,\n" +
+    "        `nom_victime`       , `homme_victime`   , `nom_contact_sur_place`, `coordonnees_contact`\n" +
     "FROM     intervention                                                       \n";
   
   private final static String queryForGetInterventionTicket =
@@ -257,7 +257,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "evac_decharche"                      ,
     "evac_aggravation"                    ,
     "evac_aggravation_pendant_transport"  ,
-    "evac_aggravation_arrive_a_destination"        };
+    "evac_aggravation_arrive_a_destination",
+    "homme_victime"};
   private static Hashtable<String, String> booleanFieldMatching = new Hashtable<String, String>(booleanField.length);
   {
     booleanFieldMatching.put("cs_coma"                              ,"cs_coma"                              );
@@ -317,6 +318,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     booleanFieldMatching.put("evac_aggravation"                     ,"evac_aggravation"                     );
     booleanFieldMatching.put("evac_aggravation_pendant_transport"   ,"evac_aggravation_pendant_transport"   );
     booleanFieldMatching.put("evac_aggravation_arrive_a_destination","evac_aggravation_arrive_a_destination");
+    booleanFieldMatching.put("homme_victime"                        ,"homme_victime");
   }
   public void updateInterventionBooleanField(int idIntervention, String fieldName, boolean fieldValue) throws Exception
   {
@@ -455,7 +457,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "evac_hopital_destination"      ,
     "evac_aggravation_ventilation"  ,
     "evac_aggravation_circulation"  ,
-    "evac_aggravation_douleur"       
+    "evac_aggravation_douleur"      ,
+    "age_approx_victime"
   };
   private static Hashtable<String, String> intFieldMatching = new Hashtable<String, String>(intField.length);
   {
@@ -480,6 +483,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     intFieldMatching.put("evac_aggravation_ventilation"  , "evac_aggravation_ventilation"   );       
     intFieldMatching.put("evac_aggravation_circulation"  , "evac_aggravation_circulation"   );       
     intFieldMatching.put("evac_aggravation_douleur"      , "evac_aggravation_douleur"       );
+    intFieldMatching.put("age_approx_victime"            , "age_approx_victime"             );
+    
+    
   }
   public void updateInterventionIntegerField(int idIntervention, String fieldName, int fieldValue) throws Exception
   {

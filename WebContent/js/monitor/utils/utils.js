@@ -66,7 +66,8 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   {
     tmpList = allList[listList[z]];
     newList = Array();
-    for(var i=0,countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
+    
+    for(var i=0, countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
       newList[tmpList[i].id]={id:tmpList[i].id, label:tmpList[i].label};
 
     CrfIrpUtils.prototype.allList[listList[z]]=newList;

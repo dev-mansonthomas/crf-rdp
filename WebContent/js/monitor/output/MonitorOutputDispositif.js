@@ -67,7 +67,8 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
   var xg = Ext.grid;
 
   var dataStore1 = new Ext.data.Store({
-       listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone },
+       listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone,
+                     add : MonitorOutputDispositifCs.prototype.initDropZoneAdd},
            proxy: new Ext.ux.rs.data.DwrProxy({
                call: MonitorOutputDispositif.getAllDispositif,
                args: [],
@@ -172,9 +173,7 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
 
   if(record.data.currentInterId != 0)
   {
-    var detailIntervention=['<span> Origine : ',crfIrpUtils.getLabelFor('OriginesIntervention',record.json.currentIntervention.idOrigine),'</span>',
-                            '<span> Motif   : ',crfIrpUtils.getLabelFor('MotifsIntervention'  ,record.json.currentIntervention.idMotif  ),'</span>',
-                            '<span> Adresse : ',record.json.currentIntervention.rue, ' ', record.json.currentIntervention.codePostal, ' ', record.json.currentIntervention.ville,'</span>'].join('');
+    detailIntervention = MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(record.json.currentIntervention, record.json);
   }
 
   var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
@@ -208,6 +207,11 @@ detailIntervention,
   return 'x-grid3-row-expanded';
 };
 
+MonitorOutputDispositifCs.prototype.initDropZoneAdd  =function(store, records, options)
+{
+  window.setTimeout(function(){MonitorOutputDispositifCs.prototype.initDropZone(store, records, options);}, 200)
+};
+
 MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, options)
 {
   if(console)
@@ -215,7 +219,7 @@ MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, opti
   var rowIndex = 0;
   if(records != null)
     records.each(function(rowData){
-      Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.json.idTypeDispositif+'_'+rowData.json.idDispositif+'_'+rowIndex,rowIndex++, rowData.json);
+      Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.data.idTypeDispositif+'_'+rowData.data.idDispositif+'_'+rowIndex,rowIndex++, rowData.data);
     });
   else
     if(console)
@@ -232,7 +236,7 @@ MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention){
   alert(idIntervention);
 };
 MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention){
-  alert(idDispositif+ ' ' +idIntervention);
+  
 
 };
 MonitorOutputDispositifCs.prototype.showDispositif  =function(idDispositif, latitude, longitude){
@@ -269,7 +273,7 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 {
   var store      = Ext.getCmp('DispositifListGrid').getStore();
 
-  var newDispositif = DispositifRecord({'idDispositif'                   : dispositif.idDispositif,
+  var newDispositif = new DispositifRecord({'idDispositif'                   : dispositif.idDispositif,
  'idTypeDispositif'               : dispositif.idTypeDispositif,
  'idEtatDispositif'               : dispositif.idEtatDispositif,
  'idDelegation'                   : dispositif.idDelegation,
@@ -307,41 +311,29 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
  'currentIntervention.idMotif'    : dispositif.currentIntervention.idMotif,
  'currentIntervention.rue'        : dispositif.currentIntervention.rue,
  'currentIntervention.codePostal' : dispositif.currentIntervention.codePostal,
- 'currentIntervention.ville'      : dispositif.currentIntervention.ville});
+ 'currentIntervention.ville'      : dispositif.currentIntervention.ville,
+ 'dispositif':dispositif
+ });
   store.add(newDispositif);
-  /*  
-  var construct  = {totalCount:1,data:[dispositif]};
-  
-  
-//  store.add(store.reader.readRecords({totalCount:1,data:[dispositif]}));
-  
-  
-  var response = {  
-    responseText : Ext.util.JSON.encode(construct),
-    responseXML : null
-  };
-  result = store.reader.read(response);
-
-  store.add(result);
-  */
-};
-
-MonitorOutputDispositifCs.prototype.computeNextState=function(currentState)
-{
 };
 
 
 MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggableElement, dropZoneData)
 {
-  var draggedElementId = draggableElement.id;
+  var draggedElementId = draggableElement.id          ;
   var intervention     = draggableElement.intervention;
 
-  var dropZoneId       = dropZoneData.id;
+  var dropZoneId       = dropZoneData.id        ;
   var dispositifData   = dropZoneData.dispositif;
 
   var callMetaData = {
     callback:MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn,
-    args:{draggedElementId:draggedElementId,dropZoneId:dropZoneId, idIntervention:intervention.idIntervention, dispositifId:dispositifData.idDispositif}
+    args:{draggedElementId: draggedElementId              ,
+          dropZoneId      : dropZoneId                    , 
+          idIntervention  : intervention.idIntervention   ,
+          dispositifId    : dispositifData.idDispositif   ,
+          dispositif      : dropZoneData.dispositif       ,
+          intervention    : draggableElement.intervention }
   };
 
   MonitorOutputDispositif.setInterventionToDispositif(intervention.idIntervention, dispositifData.idDispositif, callMetaData);
@@ -351,5 +343,32 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(s
 {
   var westPanel = Ext.getCmp('west-panel');
   westPanel.remove('interventionTicket_'+metaData.idIntervention);
+  var el = Ext.get(metaData.dropZoneId);
+  el.update(MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(metaData.intervention, metaData.dispositif));
+  
+};
 
+MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(intervention, dispositif)
+{
+  var info = [
+              '<div class="DispositifInterOrigineMotif"><span class="DispositifInterNomVictimeOrigine">',
+              crfIrpUtils.getLabelFor('OriginesIntervention',intervention.idOrigine),
+              '</span> - <span class="DispositifInterMotif">',
+              crfIrpUtils.getLabelFor('MotifsIntervention'  ,intervention.idMotif  ),
+              '</span> </div><div class="DispositifInterVictime"><span class="DispositifInterNomVictime">',
+              (intervention.victimeHomme?'Mr ':'Mme '),
+              intervention.nomVictime, 
+              '</span> - <span class="DispositifInterRue">',
+              intervention.rue,
+              '</span>, <span class="DispositifInterCodePostal">',
+              intervention.codePostal,
+              '</span>, <span class="DispositifInterVille">',
+              intervention.ville,
+              '</span></div><div class="DispositifInterContact"><span class="DispositifInterNomContact">',
+              intervention.nomContactSurPlace,
+              '</span> - <span class="DispositifInterCoordonneesContact">',
+              intervention.coordonneesContactSurPlace,
+              '</span></div>'
+              ];
+  return info.join('');
 };

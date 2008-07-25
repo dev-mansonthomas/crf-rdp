@@ -313,10 +313,10 @@ MonitorInputInterventionCs.prototype.hideInterventionTicket=function()
   miInterventionCs.resetInterventionForm();
 };
 
+/************************Gestion*de*l'adresse*****************************************/
+
 MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
 {
-  this.updateInterventionStringField(fieldId, fieldName);
-
   var rue       =$('interventionTicketRue'       );
   var codePostal=$('interventionTicketCodePostal');
   var ville     =$('interventionTicketVille'     );
@@ -325,6 +325,8 @@ MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
   codePostal.value=codePostal.value.strip();
   ville     .value=ville     .value.strip();
 
+  this.updateInterventionStringField(fieldId, fieldName);
+  
   if( rue       .value != '' && rue       .oldValue != rue       .value &&
       codePostal.value != '' && codePostal.oldValue != codePostal.value &&
       ville     .value != '' && ville     .oldValue != ville     .value   )
@@ -336,6 +338,7 @@ MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
                                             this.updateAddressErrorReturn);
   }
 };
+
 MonitorInputInterventionCs.prototype.updateAddressReturn=function(place)
 {
   var coordinates = place.Point.coordinates;
@@ -345,22 +348,22 @@ MonitorInputInterventionCs.prototype.updateAddressReturn=function(place)
 
   MonitorInputIntervention.updateGoogleCoordinates(coordinates[1], coordinates[0], $('interventionTicketId').value, miInterventionCs.updateAddressSaveReturn);
 
-  $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/accept.png";
+  $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/cog.png";
 };
 MonitorInputInterventionCs.prototype.updateAddressSaveReturn=function()
 {
   $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/accept.png";
 };
 
-MonitorInputInterventionCs.prototype.updateAddressErrorReturn=function(place)
+MonitorInputInterventionCs.prototype.updateAddressErrorReturn=function(response)
 {
-  $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/exclamation.png";
-  alert("Sorry, we were unable to geocode that address");
+  var icon = response.Status.code=='GoogleMapsUnavailable'?'disconnect':'exclamation';
+  $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/"+icon+".png";
 };
 
 
 /************************Méthode*d'update*****************************************/
-MonitorInputInterventionCs.prototype.updateInterventionIntField=function(fieldId, fieldName)
+MonitorInputInterventionCs.prototype.updateInterventionIntegerField=function(fieldId, fieldName)
 {
   crfIrpUtils.checkField (fieldId);
   crfIrpUtils.fieldSaving(fieldId);

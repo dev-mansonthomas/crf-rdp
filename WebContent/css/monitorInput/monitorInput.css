@@ -43,3 +43,9 @@ DIV
   background-image: url("../../img/famfamfam/add.png") !important;
   background-repeat:no-repeat;
 }
+
+.fieldsetSubtitle
+{
+  font-weight: bold;
+  margin:5px;
+}

@@ -36,7 +36,7 @@ public class ClockJob implements ServletContextAware
     if(logger.isDebugEnabled())
       logger.debug("ServletContext set, isNull="+(servletContext==null));
   }
-  @SuppressWarnings("unchecked")
+
   public void broadcastTime()
   {
     

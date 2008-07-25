@@ -19,7 +19,7 @@ public interface DispositifService
   public List<Equipier> getEquipierIdAndRoleOfDispositif(int idRegulation, int idDispositif) throws Exception;
   public int            getIdTypeDispositif             (int idRegulation, int idDispositif) throws Exception;
   
-  public void updateGoogleCoordinates     (float latitude  , float  longitude, int      idDispositif) throws Exception;
+  public void updateGoogleCoordinates     (float latitude  , float  longitude, int      idDispositif, boolean current) throws Exception;
   public void updateDispositifIntegerField(int idDispositif, String fieldName, int      fieldValue  ) throws Exception;
   public void updateDispositifFloatField  (int idDispositif, String fieldName, float    fieldValue  ) throws Exception;
   public void updateDispositifStringField (int idDispositif, String fieldName, String   fieldValue  ) throws Exception;

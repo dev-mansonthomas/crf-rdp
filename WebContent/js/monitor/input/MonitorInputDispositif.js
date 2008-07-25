@@ -317,11 +317,17 @@ MonitorInputDispositifCs.prototype.initDispositif=function()
                       crfIrpUtils.allList['TypesDispositif'],
                       'id',
                       'label');
-
+  var dispositifStatusOriginal = crfIrpUtils.allList['EtatsDispositif'];
+  var dispositifStatusNew      = Array();
+  var i = 0;
+  for(var j=-3,count=dispositifStatusOriginal.length;j<count;j++)
+    dispositifStatusNew[i++]=dispositifStatusOriginal[j];
+  
+  
   dwr.util.addOptions( 'DispositifStatus', 
-                      crfIrpUtils.allList['EtatsDispositif'],
-                      'id',
-                      'label');
+                       dispositifStatusNew,
+                       'id',
+                       'label');
 };
 
 MonitorInputDispositifCs.prototype.createNewEmptyDispositif=function()
@@ -570,6 +576,84 @@ MonitorInputDispositifCs.prototype.updateDispositifRadioField=function(fieldId)
     this.updateDispositifBooleanField('dsa_complet_td_value', 'dsa_complet', 'dsa_td_value');
   }
 };
+
+
+/************************Gestion*des*adresses*****************************************/
+
+MonitorInputDispositifCs.prototype.updateAddress=function(fieldId, fieldName, current)
+{
+  var which     = current ? 'Current':'Previous';
+  
+  var rue       =$('dispositif'+which+'AddressRue'       );
+  var codePostal=$('dispositif'+which+'AddressCodePostal');
+  var ville     =$('dispositif'+which+'AddressVille'     );
+
+  rue       .value=rue       .value.strip();
+  codePostal.value=codePostal.value.strip();
+  ville     .value=ville     .value.strip();
+
+  this.updateDispositifStringField(fieldId, fieldName);
+  
+  if( rue       .value != '' && rue       .oldValue != rue       .value &&
+      codePostal.value != '' && codePostal.oldValue != codePostal.value &&
+      ville     .value != '' && ville     .oldValue != ville     .value   )
+  {// valeur non vide et non différente de la précédente valeur
+    crfGoogleMap.findCoordinatesForAddress( rue       .value +', '+
+                                            codePostal.value +', '+
+                                            ville     .value,
+                                            this.updateAddressReturn,
+                                            current ? this.updateCurrentAddressErrorReturn : this.updatePreviousAddressErrorReturn);
+  }
+};
+
+MonitorInputDispositifCs.prototype.updateCurrentAddressReturn=function(place)
+{
+  MonitorInputDispositifCs.prototype.updateAddressReturn(place, true);
+};
+MonitorInputDispositifCs.prototype.updatePreviousAddressReturn=function(place)
+{
+  MonitorInputDispositifCs.prototype.updateAddressReturn(place, false);
+};
+
+MonitorInputDispositifCs.prototype.updateAddressReturn=function(place, current)
+{
+  var coordinates = place.Point.coordinates;
+  //ATTENTION, visiblement, les coordonnées google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisé partout ailleurs dans l'ordre (Latitude,Longitude)
+  
+  var which = current ? 'Current' : 'Previous';
+  $('dispositif'+which+'AddressCoordinateLat' ).value=coordinates[1];
+  $('dispositif'+which+'AddressCoordinateLong').value=coordinates[0];
+
+  var callMetaData = {
+    callback:MonitorInputDispositifCs.prototype.updateAddressSaveReturn,
+    args:{current : current}
+  };
+  
+  $('dispositif'+which+'GoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/cog.png";
+  MonitorInputDispositif.updateGoogleCoordinates(coordinates[1], coordinates[0], $('dispositif_id_field').value, current, miDispositifCs.updateAddressSaveReturn);
+};
+
+MonitorInputDispositifCs.prototype.updateAddressSaveReturn=function(metaData)
+{
+  var which = metaData.current ? 'Current' : 'Previous';
+  $('dispositif'+which+'GoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/accept.png";
+};
+
+MonitorInputDispositifCs.prototype.updateCurrentAddressErrorReturn=function(response)
+{
+  MonitorInputDispositifCs.prototype.updateAddressErrorReturn(response, true);
+};
+MonitorInputDispositifCs.prototype.updatePreviousAddressErrorReturn=function(response)
+{
+  MonitorInputDispositifCs.prototype.updateAddressErrorReturn(response, false);
+};
+MonitorInputDispositifCs.prototype.updateAddressErrorReturn=function(response, current)
+{
+  var icon  = response.Status.code=='GoogleMapsUnavailable'?'disconnect':'exclamation';
+  var which = current ? 'Current' : 'Previous';
+  $('dispositif'+which+'GoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/"+icon+".png";
+};
+
 
 /************************Méthode*d'update*****************************************/
 MonitorInputDispositifCs.prototype.updateDispositifIntField=function(fieldId, fieldName)

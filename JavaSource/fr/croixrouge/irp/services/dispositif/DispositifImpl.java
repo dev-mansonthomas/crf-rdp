@@ -103,18 +103,19 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String dispositifSelectQuery = 
-    "SELECT  `id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`, `equipier_1_id` ,                                               \n" +
-    "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                \n" +
-    "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                \n" +
-    "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`, `google_coords_lat`, `google_coords_long`,   \n" +
-    "        `dispositif_comment`, `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,             \n" +
-    "        `dsa_type`          , `dsa_complet`       , `observation`       ,                                                                \n" +
-    "        `DH_debut`          , `DH_fin`            , `id_delegation_responsable`, `autre_delegation`,                                     \n" +
-    "        `contact_radio`     , `contact_tel1`      , `contact_tel2`      ,                                                                \n" +
-    "        `contact_alphapage` , `identite_medecin`  , `id_etat_dispositif`, `id_current_intervention`, `display_state`,                    \n" +
-    "        `current_addresse_rue`, `current_addresse_code_postal`, `current_addresse_ville`,                                                \n" +
-    "        `DH_reception`      , `DH_depart`, `DH_sur_place`, `DH_bilan_primaire`       , `DH_bilan_secondaire`, `DH_quitte_les_lieux`,     \n" +
-    "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee` \n" +
+    "SELECT  `id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`, `equipier_1_id` ,                                                               \n" +
+    "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                                 \n" +
+    "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                                 \n" +
+    "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`,                                                               \n" +
+    "        `dispositif_comment`, `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,                              \n" +
+    "        `dsa_type`          , `dsa_complet`       , `observation`       ,                                                                                 \n" +
+    "        `DH_debut`          , `DH_fin`            , `id_delegation_responsable`, `autre_delegation`,                                                      \n" +
+    "        `contact_radio`     , `contact_tel1`      , `contact_tel2`      ,                                                                                 \n" +
+    "        `contact_alphapage` , `identite_medecin`  , `id_etat_dispositif`, `id_current_intervention`, `display_state`,                                     \n" +
+    "        `current_addresse_rue` , `current_addresse_code_postal` , `current_addresse_ville` , `current_google_coords_lat` , `current_google_coords_long` , \n" +
+    "        `previous_addresse_rue`, `previous_addresse_code_postal`, `previous_addresse_ville`, `previous_google_coords_lat`, `previous_google_coords_long`, \n" +
+    "        `DH_reception`      , `DH_depart`, `DH_sur_place`, `DH_bilan_primaire`       , `DH_bilan_secondaire`, `DH_quitte_les_lieux`,                      \n" +
+    "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee`                  \n" +
     "FROM    dispositif d             \n";  
   
   
@@ -154,7 +155,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     return this.getDispositif(idRegulation, disposifitId, true);
   }
   
-  @SuppressWarnings("unchecked")
+
   public Dispositif getDispositif(int idRegulation, int disposifitId, boolean withEquipierList) throws Exception
   {
     Dispositif dispositif = (Dispositif)this.jdbcTemplate.queryForObject(queryForGetDispositif, 
@@ -248,14 +249,20 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
 
   
-  private final static String queryForUpdateGoogleCoordinates = 
-    "UPDATE dispositif             \n"+
-    "SET    google_coords_lat  = ?,\n"+
-    "       google_coords_long = ? \n"+
-    "WHERE  id_dispositif      = ? \n";
-  public void updateGoogleCoordinates(float latitude, float longitude, int idDispositif) throws Exception
+  private final static String queryForUpdateGoogleCoordinates_current = 
+    "UPDATE dispositif                      \n"+
+    "SET    current_google_coords_lat  = ?, \n"+
+    "       current_google_coords_long = ?  \n"+
+    "WHERE  id_dispositif      = ?          \n";
+  
+  private final static String queryForUpdateGoogleCoordinates_previous = 
+    "UPDATE dispositif                      \n"+
+    "SET    previous_google_coords_lat  = ?, \n"+
+    "       previous_google_coords_long = ?  \n"+
+    "WHERE  id_dispositif      = ?          \n";
+  public void updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception
   {
-    int nbLineUpdated = this.jdbcTemplate.update( queryForUpdateGoogleCoordinates, 
+    int nbLineUpdated = this.jdbcTemplate.update( current?queryForUpdateGoogleCoordinates_current:queryForUpdateGoogleCoordinates_previous, 
         new Object[]{latitude   , longitude  , idDispositif}, 
         new int   []{Types.FLOAT, Types.FLOAT, Types.INTEGER }
       );
@@ -392,17 +399,21 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "O2_B3_pression", 
     "O2_B4_pression", 
     "O2_B5_pression", 
-    "google_coords_lat", 
-    "google_coords_long"};
+    "current_google_coords_lat", 
+    "current_google_coords_long", 
+    "previous_google_coords_lat", 
+    "previous_google_coords_long"};
   private static Hashtable<String, String> floatFieldMatching = new Hashtable<String, String>(floatField.length);
   {
-    floatFieldMatching.put("O2_B1_pression"     , "O2_B1_pression"     );
-    floatFieldMatching.put("O2_B2_pression"     , "O2_B2_pression"     );
-    floatFieldMatching.put("O2_B3_pression"     , "O2_B3_pression"     );
-    floatFieldMatching.put("O2_B4_pression"     , "O2_B4_pression"     );
-    floatFieldMatching.put("O2_B5_pression"     , "O2_B5_pression"     );
-    floatFieldMatching.put("google_coords_lat"  , "google_coords_lat"  );
-    floatFieldMatching.put("google_coords_long" , "google_coords_long" );
+    floatFieldMatching.put("O2_B1_pression"              , "O2_B1_pression"              );
+    floatFieldMatching.put("O2_B2_pression"              , "O2_B2_pression"              );
+    floatFieldMatching.put("O2_B3_pression"              , "O2_B3_pression"              );
+    floatFieldMatching.put("O2_B4_pression"              , "O2_B4_pression"              );
+    floatFieldMatching.put("O2_B5_pression"              , "O2_B5_pression"              );
+    floatFieldMatching.put("current_google_coords_lat"   , "current_google_coords_lat"   );
+    floatFieldMatching.put("current_google_coords_long"  , "current_google_coords_long"  );
+    floatFieldMatching.put("previous_google_coords_lat"  , "previous_google_coords_lat"  );
+    floatFieldMatching.put("previous_google_coords_long" , "previous_google_coords_long" );
   }
   public void updateDispositifFloatField  (int idDispositif, String fieldName, float fieldValue) throws Exception
   {
@@ -492,33 +503,39 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
 
   }
 
-  public static String[]stringField = { "indicatif_vehicule"          ,
-                                        "dispositif_comment"          ,
-                                        "dsa_type"                    ,
-                                        "autre_delegation"            ,
-                                        "contact_radio"               ,
-                                        "contact_tel1"                ,
-                                        "contact_tel2"                ,
-                                        "contact_alphapage"           ,
-                                        "identite_medecin"            ,
-                                        "current_addresse_rue"        ,
-                                        "current_addresse_code_postal",
-                                        "current_addresse_ville"      
+  public static String[]stringField = { "indicatif_vehicule"           ,
+                                        "dispositif_comment"           ,
+                                        "dsa_type"                     ,
+                                        "autre_delegation"             ,
+                                        "contact_radio"                ,
+                                        "contact_tel1"                 ,
+                                        "contact_tel2"                 ,
+                                        "contact_alphapage"            ,
+                                        "identite_medecin"             ,
+                                        "current_addresse_rue"         ,
+                                        "current_addresse_code_postal" ,
+                                        "current_addresse_ville"       ,
+                                        "previous_addresse_rue"        ,
+                                        "previous_addresse_code_postal",
+                                        "previous_addresse_ville"      
                                       };
   private static Hashtable<String, String> stringFieldMatching = new Hashtable<String, String>(stringField.length);
   {
-    stringFieldMatching.put("indicatif_vehicule"          , "indicatif_vehicule"          );
-    stringFieldMatching.put("dispositif_comment"          , "dispositif_comment"          );
-    stringFieldMatching.put("dsa_type"                    , "dsa_type"                    );
-    stringFieldMatching.put("autre_delegation"            , "autre_delegation"            );
-    stringFieldMatching.put("contact_radio"               , "contact_radio"               );
-    stringFieldMatching.put("contact_tel1"                , "contact_tel1"                );
-    stringFieldMatching.put("contact_tel2"                , "contact_tel2"                );
-    stringFieldMatching.put("contact_alphapage"           , "contact_alphapage"           );
-    stringFieldMatching.put("identite_medecin"            , "identite_medecin"            );
-    stringFieldMatching.put("current_addresse_rue"        , "current_addresse_rue"        );
-    stringFieldMatching.put("current_addresse_code_postal", "current_addresse_code_postal");
-    stringFieldMatching.put("current_addresse_ville"      , "current_addresse_ville"      );
+    stringFieldMatching.put("indicatif_vehicule"           , "indicatif_vehicule"           );
+    stringFieldMatching.put("dispositif_comment"           , "dispositif_comment"           );
+    stringFieldMatching.put("dsa_type"                     , "dsa_type"                     );
+    stringFieldMatching.put("autre_delegation"             , "autre_delegation"             );
+    stringFieldMatching.put("contact_radio"                , "contact_radio"                );
+    stringFieldMatching.put("contact_tel1"                 , "contact_tel1"                 );
+    stringFieldMatching.put("contact_tel2"                 , "contact_tel2"                 );
+    stringFieldMatching.put("contact_alphapage"            , "contact_alphapage"            );
+    stringFieldMatching.put("identite_medecin"             , "identite_medecin"             );
+    stringFieldMatching.put("current_addresse_rue"         , "current_addresse_rue"         );
+    stringFieldMatching.put("current_addresse_code_postal" , "current_addresse_code_postal" );
+    stringFieldMatching.put("current_addresse_ville"       , "current_addresse_ville"       );
+    stringFieldMatching.put("previous_addresse_rue"        , "previous_addresse_rue"        );
+    stringFieldMatching.put("previous_addresse_code_postal", "previous_addresse_code_postal");
+    stringFieldMatching.put("previous_addresse_ville"      , "previous_addresse_ville"      );
   }
   public void updateDispositifStringField (int idDispositif, String fieldName, String fieldValue) throws Exception
   {

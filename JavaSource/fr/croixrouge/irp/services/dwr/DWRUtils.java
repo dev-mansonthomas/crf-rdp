@@ -40,7 +40,6 @@ public class DWRUtils
    * de tout le client sur la meme régulation que l'utilisateur courant.
    * 
    * */
-  @SuppressWarnings("unchecked")
   protected void updateRegulationUser(ScriptBuffer script, String pageName) throws Exception
   {
     WebContext        webContext = WebContextFactory.get();

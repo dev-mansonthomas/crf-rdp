@@ -130,10 +130,10 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return this.equipierService.getEquipiersForDispositif(currentUserRegulationId, idDispositif);
   }
   
-  public void updateGoogleCoordinates(float latitude, float longitude, int idDispositif) throws Exception
+  public void updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception
   {
     this.validateSession();
-    this.dispositifService.updateGoogleCoordinates(latitude, longitude, idDispositif);
+    this.dispositifService.updateGoogleCoordinates(latitude, longitude, idDispositif, current);
   }
   
   public void updateDispositifIntegerField(int idDispositif, String fieldName, int      fieldValue) throws Exception

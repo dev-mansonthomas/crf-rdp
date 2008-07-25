@@ -4,6 +4,7 @@
 %>
 <html>
 	<head>
+	  <title>Croix Rouge Française - Régulation de Paris - Login</title>
     <style type="text/css" media="all">
       @import "<%=contextPath%>/css/login.css";
     </style>

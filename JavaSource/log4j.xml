@@ -9,7 +9,7 @@
   </appender>
   
   <appender name="FILE"  class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="/temp/logs/TotalMSCUser" />
+    <param name="File" value="/temp/logs/crf-irp" />
     <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d %p %c : %m%n" />
@@ -17,7 +17,7 @@
   </appender>
 
   <logger name="org.springframework" additivity="false">
-    <level value="error" />
+    <level value="info" />
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE" />
   </logger>
@@ -29,7 +29,7 @@
   </logger>
 
   <logger name="org.directwebremoting" additivity="false">
-    <level value="debug" />
+    <level value="info" />
     <appender-ref ref="STDOUT" />
     <appender-ref ref="FILE" />
   </logger>

@@ -16,7 +16,7 @@ CREATE TABLE `delegation` (
 
 DROP TABLE IF EXISTS `crfirp`.`dispositif_etat`;
 CREATE TABLE `dispositif_etat` (
-  `id_etat` int(10) unsigned NOT NULL auto_increment,
+  `id_etat` int(10) NOT NULL auto_increment,
   `label_etat` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -109,7 +109,7 @@ CREATE TABLE `dispositif` (
   `contact_tel2` varchar(16) NOT NULL,
   `contact_alphapage` varchar(16) NOT NULL,
   `identite_medecin` varchar(45) NOT NULL,
-  `id_etat_dispositif` int(10) unsigned NOT NULL,
+  `id_etat_dispositif` int(10) NOT NULL,
   `id_current_intervention` int(10) unsigned NOT NULL,
   `display_state` int(3) unsigned NOT NULL,
   `equipier_1_id`   int(10) unsigned NULL DEFAULT 0,
@@ -126,8 +126,15 @@ CREATE TABLE `dispositif` (
   `current_addresse_rue`         varchar(60) NULL,
   `current_addresse_code_postal` varchar(5 ) NULL,
   `current_addresse_ville`       varchar(60) NULL,
-  `google_coords_lat`            float(10,6) NULL,
-  `google_coords_long`           float(10,6) NULL,
+  `current_google_coords_lat`    float(10,6) NULL,
+  `current_google_coords_long`   float(10,6) NULL,
+
+  `previous_addresse_rue`         varchar(60) NULL,
+  `previous_addresse_code_postal` varchar(5 ) NULL,
+  `previous_addresse_ville`       varchar(60) NULL,
+  `previous_google_coords_lat`    float(10,6) NULL,
+  `previous_google_coords_long`   float(10,6) NULL,
+
   `DH_reception`                 datetime NULL,
   `DH_depart`                    datetime NULL,
   `DH_sur_place`                 datetime NULL,
@@ -230,7 +237,7 @@ CREATE TABLE `lieu` (
 
 DROP TABLE IF EXISTS `crfirp`.`intervention_etat`;
 CREATE TABLE `intervention_etat` (
-  `id_etat` int(10) unsigned NOT NULL auto_increment,
+  `id_etat` int(10) NOT NULL auto_increment,
   `label_etat` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -249,7 +256,7 @@ CREATE TABLE `intervention` (
   `id_regulation`                                       int(10) unsigned NOT NULL,
   `id_origine`                                          int(10) unsigned NOT NULL,
   `id_motif`                                            int(10) unsigned NOT NULL,
-  `id_etat`                                             int(10) unsigned NOT NULL DEFAULT 0,
+  `id_etat`                                             int(10) NOT NULL DEFAULT 0,
   `complement_motif`                                    varchar(255) NULL,
   `num_inter`                                           varchar(16) NOT NULL,
   `id_ref_num_inter`                                    int(10) unsigned NULL,
@@ -266,12 +273,13 @@ CREATE TABLE `intervention` (
   `DH_a_sa_base`                                        datetime NULL,
   `DH_appel_renfort_medical`                            datetime NULL,
   `DH_arrivee_renfort_medical`                          datetime NULL,
-  `nom_contact_sur_place`                               varchar(60) NULL,
+  
 
+  `homme_victime`                                       boolean NULL,
   `nom_victime`                                         varchar(60) NULL,
   `nom_jf_victime`                                      varchar(60) NULL,
   `prenom_victime`                                      varchar(60) NULL,
-
+  `age_approx_victime`                                  int         NULL,
   `date_naissance`                                      date        NULL,
   `lieu_naissance`                                      varchar(80) NULL,
 
@@ -284,6 +292,7 @@ CREATE TABLE `intervention` (
   `tel_personne_a_prevenir`                             varchar(60) NULL,
   `effet_ou_objet_remis`                                varchar(180) NULL,
   `effet_ou_objet_remis_a`                              varchar(60) NULL,
+  `nom_contact_sur_place`                               varchar(60) NULL,
   `coordonnees_contact`                                 varchar(60) NULL,
   `batiment`                                            varchar(30) NULL,
   `etage`                                               varchar(30) NULL,

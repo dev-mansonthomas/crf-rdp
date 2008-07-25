@@ -87,7 +87,7 @@ CrfGoogleMap.prototype.findCoordinatesForAddress=function(address, callBackFunct
         {
           if (!response || response.Status.code != 200)
           {
-            errorHandlerCallBackFunction(response);
+            errorHandlerCallBackFunction(!response?{Status:{code:'Null Response'}}:response);
           } 
           else 
           {
@@ -102,6 +102,7 @@ CrfGoogleMap.prototype.findCoordinatesForAddress=function(address, callBackFunct
       );    
   }
   else
+    errorHandlerCallBackFunction({Status:{code:'GoogleMapsUnavailable'}});
   //TODO : créer un status 'GOOGLE_MAP_UNAVAILABLE'
   ;
 };
@@ -133,7 +134,7 @@ CrfGoogleMap.prototype.initIconClasses=function()
   this.iconClassesBase[0][1]=iconUrl;  
 
 /** icon de type véhicule*/
-//TODO
+//TODO icon de type véhicule
 
 };
 

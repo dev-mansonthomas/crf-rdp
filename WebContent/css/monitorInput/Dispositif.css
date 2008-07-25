@@ -183,3 +183,12 @@
   font-size: 11px;
   font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
 }
+
+#DispositifDHDebut_divLabel, #DispositifDHFin_divLabel
+{
+  float:left;
+  height:18px;
+  line-height:18px;
+  vertical-align:sub;
+  margin-right:3px;
+}

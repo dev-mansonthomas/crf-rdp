@@ -167,7 +167,7 @@ String contextPath = request.getContextPath();
             <table>
             <tr>
               <td>
-                  Victime <br/>
+                  <span class="fieldsetSubtitle">Victime</span> <br/>
                   
  Nom :
                 <input style="width:33%;"
@@ -222,7 +222,7 @@ Age Approximatif :
             </tr>
             <tr>
                 <td>
-                  Contact Sur Place <br/> Nom :
+                  <span class="fieldsetSubtitle">Contact Sur Place</span> <br/> Nom :
                 <input style="width:30%;"
                         type="text"
                           id="interventionNomContactSurPlace"
@@ -248,6 +248,7 @@ Age Approximatif :
               </tr>
               <tr>
                 <td>
+                  <span class="fieldsetSubtitle">Adresse</span><br/>
                   Rue :
                 <input style="width:93%;"
                         type="text"
@@ -327,7 +328,7 @@ Age Approximatif :
               </tr>
               <tr>
                 <td>
-                  Complément d'adresse : (Codes portes, interphone, etc...)
+                  <span class="fieldsetSubtitle">Complément d'adresse :</span> (Codes portes, interphone, etc...)
                   <textarea   id="interventionTicketComplementAdresse"
                             name="interventionTicketComplementAdresse"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -1650,7 +1651,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
 
 
 <div id="DispositifEdit" style="width:460px;display:none;">
-  <input type="hidden" id="dispositif_id_field" name="dispositif_id_field" value=""/>
+  <input type="hidden" id="dispositif_id_field"         name="dispositif_id_field"         value=""/>
+  <input type="hidden" id="dispositif_isCreation_field" name="dispositif_isCreation_field" value=""/>
   <table>
     <thead>
       <tr>

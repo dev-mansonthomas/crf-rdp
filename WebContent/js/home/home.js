@@ -73,16 +73,14 @@ Ext.onReady(function()
         )
     });
 
-  function renderRegulationTitle(value, p, record)
-  {
-  	return String.format('<span onclick="openCrfIrp({0});">{1}</span>', record.data.regulationId, record.data.label);
-  }
-
   var grid1 = new xg.GridPanel({
         store: dataStore,
+        listeners :{ rowdblclick : function(theGrid, rowIndex, e ){
+            openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId);
+        }},
         cm: new xg.ColumnModel([
             expander,
-            {id:'labelCol'            , header: "Intitulé"      , width: 150, sortable: true, renderer: renderRegulationTitle, dataIndex: 'label'},
+            {id:'labelCol'            , header: "Intitulé"      , width: 150, sortable: true, dataIndex: 'label'},
             {id:'startDateCol'        , header: "Date de Début" , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'},
             {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
             {id:'nomCol'              , header: "Régulateur"    , width: 150, sortable: true, dataIndex: 'regulateur.nom'}

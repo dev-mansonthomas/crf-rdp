@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.DispositifTicket;
 import fr.croixrouge.irp.model.monitor.Equipier;
+import fr.croixrouge.irp.model.monitor.Position;
 import fr.croixrouge.irp.model.monitor.Regulation;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.model.monitor.rowMapper.DispositifEquipierIdAndRoleRowMapper;
@@ -25,6 +26,8 @@ import fr.croixrouge.irp.services.intervention.InterventionService;
 
 public class DispositifImpl extends JDBCHelper implements DispositifService
 {
+  private final static int STATUS_INTERVENTION_AFFECTEE=2;
+  
   private static Log          logger              = LogFactory.getLog(DispositifImpl.class);
   private JdbcTemplate        jdbcTemplate        = null;
   private EquipierService     equipierService     = null;
@@ -34,7 +37,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   {
     this.jdbcTemplate        = jdbcTemplate       ;
     this.interventionService = interventionService;
-  }
+  }/*Injection faite par setter pour résoudre une dépendence cyclique entre les services equipier et dispositif*/
   public void setEquipierService(EquipierService equipierService)
   {
     this.equipierService = equipierService;
@@ -48,7 +51,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private final static String queryForAffectInterventionToDispositif =
     "UPDATE dispositif                    \n" +
     "SET    id_current_intervention   = ?,\n" +
-    "       id_etat_dispositif        = 5,\n" +
+    "       id_etat_dispositif        = "+STATUS_INTERVENTION_AFFECTEE+",\n" +
     "       DH_reception              = ? \n" +
     "WHERE  id_dispositif             = ? \n";
   
@@ -66,6 +69,114 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+" (line updated = '"+nbLineUpdated+"')");
+  }
+  
+  private final static Hashtable <Integer,String> idEtatDateFieldMapping = new Hashtable<Integer,String>();
+  {
+    /*
+  `DH_reception`                 datetime NULL,
+  `DH_depart`                    datetime NULL,
+  `DH_sur_place`                 datetime NULL,
+  `DH_bilan_primaire`            datetime NULL,
+  `DH_bilan_secondaire`          datetime NULL,
+  `DH_quitte_les_lieux`          datetime NULL,
+  `DH_arrivee_hopital`           datetime NULL,
+  `DH_dispo`                     datetime NULL,
+  `DH_a_sa_base`                 datetime NULL,
+  `DH_appel_renfort_medical`     datetime NULL,
+  `DH_arrivee_renfort_medical`   datetime NULL, 
+     * */
+    
+    idEtatDateFieldMapping.put(3, "DH_depart");
+    idEtatDateFieldMapping.put(4, "DH_sur_place");
+    idEtatDateFieldMapping.put(5, "DH_bilan_primaire");
+    idEtatDateFieldMapping.put(6, "DH_bilan_secondaire");
+    idEtatDateFieldMapping.put(7, "DH_quitte_les_lieux");
+    idEtatDateFieldMapping.put(8, "DH_arrivee_hopital");
+  }
+  private final static String queryForActionOnDispositif = 
+    "UPDATE dispositif                    \n" +
+    "SET    id_etat_dispositif        = ?,\n" +
+    "       <<DateField>>             = ? \n" +
+    "WHERE  id_dispositif             = ? \n";
+  
+  public void actionOnDispositif(int idDispositif, int newIdEtat, Date actionDate) throws Exception
+  {
+    if(newIdEtat<3  || newIdEtat>8)
+      throw new Exception("Cette action n'est pas géré par cette méthode. idDispositif="+idDispositif+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+    String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
+    String query         = queryForActionOnDispositif.replaceAll("<<DateField>>", etatDateField);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate);
+
+    int nbLineUpdated = this.jdbcTemplate.update( query, 
+        new Object[]{newIdEtat      , actionDate     , idDispositif }, 
+        new int   []{Types.INTEGER  , Types.TIMESTAMP, Types.INTEGER}
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
+  }
+  
+  
+  private final static String queryForUpdateDispositifCurrentPosition=
+    "UPDATE dispositif                        \n" +
+    "SET    current_addresse_rue          = ?,\n" +
+    "       current_addresse_code_postal  = ?,\n" +
+    "       current_addresse_ville        = ?,\n" +
+    "       current_google_coords_lat     = ?,\n" +
+    "       current_google_coords_long    = ? \n" +
+    "WHERE  id_dispositif                 = ? \n";
+
+  private final static String queryForUpdateDispositifPreviousPosition=
+    "UPDATE dispositif                         \n" +
+    "SET    previous_addresse_rue          = ?,\n" +
+    "       previous_addresse_code_postal  = ?,\n" +
+    "       previous_addresse_ville        = ?,\n" +
+    "       previous_google_coords_lat     = ?,\n" +
+    "       previous_google_coords_long    = ? \n" +
+    "WHERE  id_dispositif                  = ? \n";
+  
+  public void updateDispositifPosition(int idDispositif, Position currentPosition, Position previousPosition) throws Exception
+  {
+    if(currentPosition == null && previousPosition == null)
+      throw new Exception("currentPosition and previousPosition are null for dispositif id="+idDispositif);
+    
+    int nbLineUpdated = 0;
+    if(currentPosition != null)
+    {
+      if(logger.isDebugEnabled())
+        logger.debug("updateDispositifPosition, dispositif with id="+idDispositif+" current position is beeing updated with position : "+currentPosition.toString());
+
+      nbLineUpdated = this.jdbcTemplate.update( queryForUpdateDispositifCurrentPosition, 
+          new Object[]{currentPosition.getRue(), currentPosition.getCodePostal(), currentPosition.getVille(), currentPosition.getGoogleCoordsLong(), currentPosition.getGoogleCoordsLong(), idDispositif }, 
+          new int   []{Types.VARCHAR           , Types.VARCHAR                  , Types.VARCHAR             , Types.FLOAT                          , Types.FLOAT                          , Types.INTEGER}
+        );
+      
+      if(logger.isDebugEnabled())
+        logger.debug("updateDispositifPosition, dispositif with id="+idDispositif+" current position has been updated with position : "+currentPosition.toString()+" (nbLineUpdated="+nbLineUpdated+")");
+    }
+    else if(logger.isDebugEnabled())
+      logger.debug("updateDispositifPosition, skipping current Position Update");
+    
+    
+    if(previousPosition != null)
+    {
+      if(logger.isDebugEnabled())
+        logger.debug("updateDispositifPosition, dispositif with id="+idDispositif+" previous position is beeing updated with position : "+previousPosition.toString());
+
+      nbLineUpdated = this.jdbcTemplate.update( queryForUpdateDispositifPreviousPosition, 
+          new Object[]{previousPosition.getRue(), previousPosition.getCodePostal(), previousPosition.getVille(), previousPosition.getGoogleCoordsLong(), previousPosition.getGoogleCoordsLong(), idDispositif }, 
+          new int   []{Types.VARCHAR            , Types.VARCHAR                   , Types.VARCHAR              , Types.FLOAT                           , Types.FLOAT                           , Types.INTEGER}
+        );
+      
+      if(logger.isDebugEnabled())
+        logger.debug("updateDispositifPosition, dispositif with id="+idDispositif+" previous position has been updated with position : "+previousPosition.toString()+" (nbLineUpdated="+nbLineUpdated+")");
+    }
+    else if(logger.isDebugEnabled())
+      logger.debug("updateDispositifPosition, skipping previous Position Update");
+    
   }
   
   

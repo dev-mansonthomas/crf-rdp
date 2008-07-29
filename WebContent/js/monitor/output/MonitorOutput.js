@@ -46,7 +46,8 @@ function initLayout()
 	 // function to remove loading mask
   var unmask = function() {
     var mask = Ext.get('loading-mask');
-    var msg = Ext.get('loading-msg');
+    var msg  = Ext.get('loading-msg');
+    
     if(mask && msg) {
       mask.shift({
         xy:msg.getXY()

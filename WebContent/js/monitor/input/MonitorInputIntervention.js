@@ -16,7 +16,7 @@ MonitorInputInterventionCs.prototype.initialize=function()
 };
 
 MonitorInputInterventionCs.prototype.fieldList = [
-'interventionTicketId',
+ 'interventionTicketId',
  'interventionTicketOrigine',
  'interventionTicketDHReception',
  'interventionTicketRue',
@@ -54,7 +54,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
                        {name: 'idIntervention', type: 'int'    },
                        {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'nomVictime'    , type: 'string' },
-                       {name: 'ville'         , type: 'string' }
+                       {name: 'position.ville', type: 'string' }
                    ]
                })
            });
@@ -67,7 +67,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
             {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
             {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
             {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
-            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'ville'}
+            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'position.ville'}
         ]),
         viewConfig: {
             forceFit:true
@@ -107,7 +107,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
                        {name: 'idIntervention', type: 'int'    },
                        {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
                        {name: 'nomVictime'    , type: 'string' },
-                       {name: 'ville'         , type: 'string' }
+                       {name: 'position.ville', type: 'string' }
                    ]
                })
            });
@@ -120,7 +120,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
             {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
             {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
             {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
-            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'ville'}
+            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'position.ville'}
         ]),
         viewConfig: {
             forceFit:true

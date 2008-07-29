@@ -36,7 +36,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   }
   
   private final static String selectForInteventionTicket = 
-    "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` , \n" +
+    "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` ,`id_etat`\n" +
     "        `id_motif`       , `DH_saisie`    , `rue`          , `code_postal`, \n" +
     "        `ville`          , `batiment`     , `etage`        , `porte`      , \n" +
     "        `complement_adresse`, `complement_motif`, `google_coords_lat`    , `google_coords_long` ,\n" +
@@ -99,8 +99,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
   
   private final static String selectForIntevention = 
-    "SELECT  `id_intervention`,`id_dispositif`,`id_regulation`,`id_origine`,  `id_motif`, `complement_motif`, \n"+
-    "        `num_inter`,  `id_ref_num_inter`,  `ref_num_inter`,  `DH_reception`,  `DH_depart`,               \n"+
+    "SELECT  `id_intervention`,`id_dispositif`,`id_regulation`,`id_origine`,  `id_motif`, `id_etat`,          \n"+
+    "        `complement_motif`,`num_inter`, `id_ref_num_inter`, `ref_num_inter`, `DH_reception`, `DH_depart`,\n"+
     "        `DH_sur_place`,  `DH_bilan_primaire`,  `DH_bilan_secondaire`,  `DH_quitte_les_lieux`,            \n"+
     "        `DH_arrivee_hopital`,  `DH_dispo`,  `DH_a_sa_base`,  `DH_appel_renfort_medical`,                 \n"+
     "        `DH_arrivee_renfort_medical`,  `nom_victime`,  `nom_contact_sur_place`,  `coordonnees_contact`,  \n"+
@@ -110,7 +110,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "        `tension_ref_haute`,  `tension_ref_basse`,  `reflexe_pupillaire`,  `temperature`,                \n"+
     "        `police_sur_place`,  `pompier_sur_place`,  `coordinateur_bspp`,  `coordinateur_samu`,            \n"+
     "        `renfort_medical`,  `transport_medicalisee`,  `laisse_sur_place`,  `laisse_sur_place_vivant`,    \n"+
-    "        `decharche`, `utilisation_dsa`, `renfort_medical_type`, `id_etat`, `num_inter_banlieu`,          \n"+  
+    "        `decharche`, `utilisation_dsa`, `renfort_medical_type`, `num_inter_banlieu`,                     \n"+  
     "        `hopital`, `eval_ci`, `google_coords_lat`, `google_coords_long`                                  \n"+
     "FROM     intervention                                                                                    \n";
   
@@ -178,7 +178,48 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
       logger.debug("Intervention with id='"+idIntervention+"' has been assigned to dispositif "+idDispositif+" (line updated = '"+nbLineUpdated+"')");
   }
   
+  private final static Hashtable <Integer,String> idEtatDateFieldMapping = new Hashtable<Integer,String>();
+  {
+    /*
+  `DH_depart`                                           datetime NULL,
+  `DH_sur_place`                                        datetime NULL,
+  `DH_bilan_primaire`                                   datetime NULL,
+  `DH_bilan_secondaire`                                 datetime NULL,
+  `DH_quitte_les_lieux`                                 datetime NULL,
+  `DH_arrivee_hopital`                                  datetime NULL,
+     * */
+    
+    idEtatDateFieldMapping.put(3, "DH_depart");
+    idEtatDateFieldMapping.put(4, "DH_sur_place");
+    idEtatDateFieldMapping.put(5, "DH_bilan_primaire");
+    idEtatDateFieldMapping.put(6, "DH_bilan_secondaire");
+    idEtatDateFieldMapping.put(7, "DH_quitte_les_lieux");
+    idEtatDateFieldMapping.put(8, "DH_arrivee_hopital");
+  }
+  private final static String queryForActionOnIntervention = 
+    "UPDATE intervention        \n" +
+    "SET    id_etat         = ?,\n" +
+    "       <<DateField>>   = ? \n" +
+    "WHERE  id_intervention = ? \n";
   
+  public void actionOnIntervention(int idIntervention, int newIdEtat, Date actionDate) throws Exception
+  {
+    if(newIdEtat<3  || newIdEtat>8)
+      throw new Exception("Cette action n'est pas géré par cette méthode. idIntervention="+idIntervention+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+    String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
+    String query         = queryForActionOnIntervention.replaceAll("<<DateField>>", etatDateField);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+idIntervention+"' is beeing updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate);
+
+    int nbLineUpdated = this.jdbcTemplate.update( query, 
+        new Object[]{newIdEtat      , actionDate     , idIntervention }, 
+        new int   []{Types.INTEGER  , Types.TIMESTAMP, Types.INTEGER}
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Interviention with id='"+idIntervention+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
+  }
   
   private final static String queryForUpdateGoogleCoordinates = 
     "UPDATE intervention          \n"+

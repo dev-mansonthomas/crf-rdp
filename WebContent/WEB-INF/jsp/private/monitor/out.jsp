@@ -9,7 +9,6 @@ String contextPath = request.getContextPath();
   <title>Monitor - CRF - Informatisation de la Régulation de Paris</title>
   
   <style type="text/css" media="all">
-    @import "<%=contextPath%>/css/monitorOutput/samu.css";
     @import "<%=contextPath%>/css/monitorOutput/intervention.css";
     @import "<%=contextPath%>/css/monitorOutput/monitor.css";
     @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
@@ -72,7 +71,7 @@ String contextPath = request.getContextPath();
 <!-- north -->
 <div id="north" class="x-layout-inactive-content">
   <div id="clock" style="float:left"></div>
-  <div style="float:right;margin-right:5px"><img src="<%=contextPath%>/img/RegulationParis.png" alt="Régulation de la Croix Rouge de Paris"/></div>
+  <div style="float:right;margin-right:5px"><img src="<%=contextPath%>/img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
 </div>
 
 <!-- west -->

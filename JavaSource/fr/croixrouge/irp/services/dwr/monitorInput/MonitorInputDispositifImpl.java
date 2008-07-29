@@ -74,11 +74,13 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return dispositifService.createEmptyDispositif(regulation); 
   }
  
-  public void endOfEditionEvent(int idDispositif, int idEtatDispositif) throws Exception
+  public void endOfEditionEvent(int idDispositif, int idEtatDispositif, boolean isCreation) throws Exception
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     
-    this.dispositifService.updateDispositifBooleanField (idDispositif, "creation_terminee", true);
+    if(isCreation)
+      this.dispositifService.updateDispositifBooleanField (idDispositif, "creation_terminee", true);
+    
     this.dispositifService.updateEtatDispositif         (idDispositif, idEtatDispositif);
 
     Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);

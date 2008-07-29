@@ -1,45 +1,61 @@
-
-
  var DispositifRecord = Ext.data.Record.create(
-                         {name: 'idDispositif'                  , mapping: 'idDispositif'                 },
-                         {name: 'idTypeDispositif'              , mapping: 'idTypeDispositif'             },
-                         {name: 'idEtatDispositif'              , mapping: 'idEtatDispositif'             },
-                         {name: 'idDelegation'                  , mapping: 'idDelegation'                 },
-                         {name: 'displayState'                  , mapping: 'displayState'                 },
-                         {name: 'dispositifBackWith3Girls'      , mapping: 'dispositifBackWith3Girls'     },
-                         {name: 'dispositifNotEnoughO2'         , mapping: 'dispositifNotEnoughO2'        },
-                         {name: 'indicatifVehicule'             , mapping: 'indicatifVehicule'            },
-                         {name: 'contactRadio'                  , mapping: 'contactRadio'                 },
-                         {name: 'contactTel1'                   , mapping: 'contactTel1'                  },
-                         {name: 'contactTel2'                   , mapping: 'contactTel2'                  },
-                         {name: 'currentInterId'                , mapping: 'currentInterId'               },
-                         {name: 'googleCoordsLat'               , mapping: 'googleCoordsLat'              },
-                         {name: 'googleCoordsLong'              , mapping: 'googleCoordsLong'             },
-                         {name: 'currentAddresseRue'            , mapping: 'currentAddresseRue'           },
-                         {name: 'currentAddresseCodePostal'     , mapping: 'currentAddresseCodePostal'    },
-                         {name: 'currentAdresseVille'           , mapping: 'currentAdresseVille'          },
-                         {name: 'equipierCi.idEquipier'         , mapping: 'equipierCi.idEquipier'        },
-                         {name: 'equipierCi.nom'                , mapping: 'equipierCi.nom'               },
-                         {name: 'equipierCi.prenom'             , mapping: 'equipierCi.prenom'            },
-                         {name: 'equipierCi.homme'              , mapping: 'equipierCi.homme'             },
-                         {name: 'equipierCi.numNivol'           , mapping: 'equipierCi.numNivol'          },
-                         {name: 'currentInterId'                , mapping: 'currentInterId'               },
-                         {name: 'dhReception'                   , mapping: 'dhReception'                  },
-                         {name: 'dhDepart'                      , mapping: 'dhDepart'                     },
-                         {name: 'dhSurPlace'                    , mapping: 'dhSurPlace'                   },
-                         {name: 'dhBilanPrimaire'               , mapping: 'dhBilanPrimaire'              },
-                         {name: 'dhBilanSecondaire'             , mapping: 'dhBilanSecondaire'            },
-                         {name: 'dhQuitteLesLieux'              , mapping: 'dhQuitteLesLieux'             },
-                         {name: 'dhArriveeHopital'              , mapping: 'dhArriveeHopital'             },
-                         {name: 'dhDispo'                       , mapping: 'dhDispo'                      },
-                         {name: 'dhASaBase'                     , mapping: 'dhASaBase'                    },
-                         {name: 'dhAppelRenfortMedical'         , mapping: 'dhAppelRenfortMedical'        },
-                         {name: 'dhArriveeRenfortMedical'       , mapping: 'dhArriveeRenfortMedical'      },
-                         {name:'currentIntervention.idOrigine'  , mapping:'currentIntervention.idOrigine' },
-                         {name:'currentIntervention.idMotif'    , mapping:'currentIntervention.idMotif'   },
-                         {name:'currentIntervention.rue'        , mapping:'currentIntervention.rue'       },
-                         {name:'currentIntervention.codePostal' , mapping:'currentIntervention.codePostal'},
-                         {name:'currentIntervention.ville'      , mapping:'currentIntervention.ville'     }
+                         {name: 'idDispositif'                                  , mapping: 'idDispositif'                                  },
+                         {name: 'idTypeDispositif'                              , mapping: 'idTypeDispositif'                              },
+                         {name: 'idEtatDispositif'                              , mapping: 'idEtatDispositif'                              },
+                         {name: 'idDelegation'                                  , mapping: 'idDelegation'                                  },
+                         {name: 'displayState'                                  , mapping: 'displayState'                                  },
+                         {name: 'dispositifBackWith3Girls'                      , mapping: 'dispositifBackWith3Girls'                      },
+                         {name: 'dispositifNotEnoughO2'                         , mapping: 'dispositifNotEnoughO2'                         },
+                         {name: 'indicatifVehicule'                             , mapping: 'indicatifVehicule'                             },
+                         {name: 'contactRadio'                                  , mapping: 'contactRadio'                                  },
+                         {name: 'contactTel1'                                   , mapping: 'contactTel1'                                   },
+                         {name: 'contactTel2'                                   , mapping: 'contactTel2'                                   },
+                         {name: 'currentInterId'                                , mapping: 'currentInterId'                                },
+                         {name: 'equipierCi.idEquipier'                         , mapping: 'equipierCi.idEquipier'                         },
+                         {name: 'equipierCi.nom'                                , mapping: 'equipierCi.nom'                                },
+                         {name: 'equipierCi.prenom'                             , mapping: 'equipierCi.prenom'                             },
+                         {name: 'equipierCi.homme'                              , mapping: 'equipierCi.homme'                              },
+                         {name: 'equipierCi.numNivol'                           , mapping: 'equipierCi.numNivol'                           },
+                         {name: 'currentInterId'                                , mapping: 'currentInterId'                                },
+                         {name: 'dhReception'                                   , mapping: 'dhReception'                                   },
+                         {name: 'dhDepart'                                      , mapping: 'dhDepart'                                      },
+                         {name: 'dhSurPlace'                                    , mapping: 'dhSurPlace'                                    },
+                         {name: 'dhBilanPrimaire'                               , mapping: 'dhBilanPrimaire'                               },
+                         {name: 'dhBilanSecondaire'                             , mapping: 'dhBilanSecondaire'                             },
+                         {name: 'dhQuitteLesLieux'                              , mapping: 'dhQuitteLesLieux'                              },
+                         {name: 'dhArriveeHopital'                              , mapping: 'dhArriveeHopital'                              },
+                         {name: 'dhDispo'                                       , mapping: 'dhDispo'                                       },
+                         {name: 'dhASaBase'                                     , mapping: 'dhASaBase'                                     },
+                         {name: 'dhAppelRenfortMedical'                         , mapping: 'dhAppelRenfortMedical'                         },
+                         {name: 'dhArriveeRenfortMedical'                       , mapping: 'dhArriveeRenfortMedical'                       },
+
+                         {name: 'currentIntervention.googleCoordsLat'           , mapping: 'currentIntervention.googleCoordsLat'           },
+                         {name: 'currentIntervention.googleCoordsLong'          , mapping: 'currentIntervention.googleCoordsLong'          },
+                         {name: 'currentIntervention.idOrigine'                 , mapping: 'currentIntervention.idOrigine'                 },
+                         {name: 'currentIntervention.idMotif'                   , mapping: 'currentIntervention.idMotif'                   },
+                         {name: 'currentIntervention.idEtat'                    , mapping: 'currentIntervention.idEtat'                   },
+                         {name: 'currentIntervention.rue'                       , mapping: 'currentIntervention.rue'                       },
+                         {name: 'currentIntervention.codePostal'                , mapping: 'currentIntervention.codePostal'                },
+                         {name: 'currentIntervention.ville'                     , mapping: 'currentIntervention.ville'                     },
+                         {name: 'currentIntervention.victimeHomme'              , mapping: 'currentIntervention.victimeHomme'              },
+                         {name: 'currentIntervention.nomVictime'                , mapping: 'currentIntervention.nomVictime'                },
+                         {name: 'currentIntervention.nomContactSurPlace'        , mapping: 'currentIntervention.nomContactSurPlace'        },
+                         {name: 'currentIntervention.coordonneesContactSurPlace', mapping: 'currentIntervention.coordonneesContactSurPlace'},
+
+                         {name: 'currentPosition.empty'                         , mapping: 'currentPosition.empty'                         },
+                         {name: 'currentPosition.rue'                           , mapping: 'currentPosition.rue'                           },
+                         {name: 'currentPosition.codePostal'                    , mapping: 'currentPosition.codePostal'                    },
+                         {name: 'currentPosition.ville'                         , mapping: 'currentPosition.ville'                         },
+                         {name: 'currentPosition.googleCoordsLat'               , mapping: 'currentPosition.googleCoordsLat'               },
+                         {name: 'currentPosition.googleCoordsLong'              , mapping: 'currentPosition.googleCoordsLong'              },
+
+                         {name: 'previousPosition.empty'                        , mapping: 'previousPosition.empty'                        },
+                         {name: 'previousPosition.rue'                          , mapping: 'previousPosition.rue'                          },
+                         {name: 'previousPosition.codePostal'                   , mapping: 'previousPosition.codePostal'                   },
+                         {name: 'previousPosition.ville'                        , mapping: 'previousPosition.ville'                        },
+                         {name: 'previousPosition.googleCoordsLat'              , mapping: 'previousPosition.googleCoordsLat'              },
+                         {name: 'previousPosition.googleCoordsLong'             , mapping: 'previousPosition.googleCoordsLong'             }                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
                        );
 
 
@@ -80,53 +96,64 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
         totalProperty: 'totalCount',
                fields:
                    [
-                       {name: 'idDispositif'              , type: 'int'    },
-                       {name: 'idTypeDispositif'          , type: 'int'    },
-                       {name: 'idEtatDispositif'          , type: 'int'    },
-                       {name: 'idDelegation'              , type: 'int'    },
-                       {name: 'displayState'              , type: 'int'    },
-                       {name: 'dispositifBackWith3Girls'  , type: 'boolean'},
-                       {name: 'dispositifNotEnoughO2'     , type: 'boolean'},
-                       {name: 'indicatifVehicule'         , type: 'string' },
-                       {name: 'contactRadio'              , type: 'string' },
-                       {name: 'contactTel1'               , type: 'string' },
-                       {name: 'contactTel2'               , type: 'string' },
-                       {name: 'currentInterId'            , type: 'int'    },
-                       {name: 'googleCoordsLat'           , type: 'float'  },
-                       {name: 'googleCoordsLong'          , type: 'float'  },
-                       {name: 'currentAddresseRue'        , type: 'string' },
-                       {name: 'currentAddresseCodePostal' , type: 'string' },
-                       {name: 'currentAdresseVille'       , type: 'string' },
-                       {name: 'equipierCi.idEquipier'     , type: 'string' },
-                       {name: 'equipierCi.nom'            , type: 'string' },
-                       {name: 'equipierCi.prenom'         , type: 'string' },
-                       {name: 'equipierCi.homme'          , type: 'boolean' },
-                       {name: 'equipierCi.numNivol'       , type: 'string' },
-                       /*{name: 'equipierCi.delegation.idDelegation', type: 'int' },*/
-                       {name: 'currentInterId'            , type: 'int' },
+{name: 'idDispositif'                                    , type: 'int'    },
+{name: 'idTypeDispositif'                                , type: 'int'    },
+{name: 'idEtatDispositif'                                , type: 'int'    },
+{name: 'idDelegation'                                    , type: 'int'    },
+{name: 'displayState'                                    , type: 'int'    },
+{name: 'dispositifBackWith3Girls'                        , type: 'boolean'},
+{name: 'dispositifNotEnoughO2'                           , type: 'boolean'},
+{name: 'indicatifVehicule'                               , type: 'string' },
+{name: 'contactRadio'                                    , type: 'string' },
+{name: 'contactTel1'                                     , type: 'string' },
+{name: 'contactTel2'                                     , type: 'string' },
+{name: 'equipierCi.idEquipier'                           , type: 'string' },
+{name: 'equipierCi.nom'                                  , type: 'string' },
+{name: 'equipierCi.prenom'                               , type: 'string' },
+{name: 'equipierCi.homme'                                , type: 'boolean'},
+{name: 'equipierCi.numNivol'                             , type: 'string' },
+{name: 'currentInterId'                                  , type: 'int'    },
 
-                       {name: 'dhReception'               , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhDepart'                  , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhSurPlace'                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhBilanPrimaire'           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhBilanSecondaire'         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhQuitteLesLieux'          , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhArriveeHopital'          , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhDispo'                   , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhASaBase'                 , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhAppelRenfortMedical'     , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhArriveeRenfortMedical'   , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhReception'                                     , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhDepart'                                        , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhSurPlace'                                      , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhBilanPrimaire'                                 , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhBilanSecondaire'                               , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhQuitteLesLieux'                                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhArriveeHopital'                                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhDispo'                                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhASaBase'                                       , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhAppelRenfortMedical'                           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name: 'dhArriveeRenfortMedical'                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 
-                       {name:'currentIntervention.idOrigine' , type:'int'   },
-                       {name:'currentIntervention.idMotif'   , type:'int'   },
-                       {name:'currentIntervention.rue'       , type:'string'},
-                       {name:'currentIntervention.codePostal', type:'string'},
-                       {name:'currentIntervention.ville'     , type:'string'}
+{name:'currentIntervention.idOrigine'                    , type:'int'     },
+{name:'currentIntervention.idMotif'                      , type:'int'     },
+{name:'currentIntervention.idEtat'                       , type:'int'     },
+{name:'currentIntervention.rue'                          , type:'string'  },
+{name:'currentIntervention.codePostal'                   , type:'string'  },
+{name:'currentIntervention.ville'                        , type:'string'  },
+{name:'currentIntervention.googleCoordsLat'              , type:'float'   },
+{name:'currentIntervention.googleCoordsLong'             , type:'float'   },
 
-
-
+{name: 'currentIntervention.victimeHomme'               , type: 'boolean'},
+{name: 'currentIntervention.nomVictime'                 , type: 'string' },
+{name: 'currentIntervention.nomContactSurPlace'         , type: 'string' },
+{name: 'currentIntervention.coordonneesContactSurPlace' , type: 'string' },
 
 
+{name:'currentPosition.empty'                            , type:'boolean' },
+{name:'currentPosition.rue'                              , type:'string'  },
+{name:'currentPosition.codePostal'                       , type:'string'  },
+{name:'currentPosition.ville'                            , type:'string'  },
+{name:'currentPosition.googleCoordsLat'                  , type:'float'   },
+{name:'currentPosition.googleCoordsLong'                 , type:'float'   },
+
+{name:'previousPosition.empty'                           , type:'boolean' },
+{name:'previousPosition.rue'                             , type:'string'  },
+{name:'previousPosition.codePostal'                      , type:'string'  },
+{name:'previousPosition.ville'                           , type:'string'  },
+{name:'previousPosition.googleCoordsLat'                 , type:'float'   },
+{name:'previousPosition.googleCoordsLong'                , type:'float'   }
                    ]
                })
            });
@@ -172,9 +199,8 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
   var detailIntervention = 'Aucune intervention en cours';
 
   if(record.data.currentInterId != 0)
-  {
-    detailIntervention = MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(record.json.currentIntervention, record.json);
-  }
+    detailIntervention = MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(record.data);
+
 
   var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
 '  <tr>',
@@ -196,10 +222,29 @@ detailIntervention,
 '  </tr>',
 '  <tr>',
 '    <td colspan="2" style="border-top:solid #9D9D9D 1px;">',
-'      <span>Dernière Position : </span><span>',record.data.currentAddresseRue,', '+record.data.currentAddresseCodePostal,', '+record.data.currentAdresseVille,'</span>',
+'      <table style="width:100%;">',
+'        <tr>',
+'          <td style="width:60%;">',
+
+(!record.data["currentPosition.empty"]?
+  ['            <span><b>Adresse Courante/Destination :</b> </span><span>',record.data["currentPosition.rue"] ,', '+record.data["currentPosition.codePostal"] ,', '+record.data["currentPosition.ville"] ,'</span>',
+   '            <img src="',contextPath,'/img/famfamfam/map_magnify.png" class="crfIcon" onClick="moDispositifCs.showDispositif(',record.data.idDispositif,',',record.data["currentPosition.googleCoordsLat"] ,',',record.data["currentPosition.googleCoordsLong"] ,')"/>'].join('')
+  :''),
+
+'          </td>',
+'          <td>',
+
+(!record.data["previousPosition.empty"]?
+ ['            <span><b>Adresse Précédente  :</b> </span><span>',record.data["previousPosition.rue"],', '+record.data["previousPosition.codePostal"],', '+record.data["previousPosition.ville"],'</span>',
+  '            <img src="',contextPath,'/img/famfamfam/map_magnify.png" class="crfIcon" onClick="moDispositifCs.showDispositif(',record.data.idDispositif,',',record.data["previousPosition.googleCoordsLat"],',',record.data["previousPosition.googleCoordsLong"],')"/>'].join('')
+  :''),
+
+'          </td>',
+'        </tr>',
+'      </table>',
 '    </td>',
 '    <td style="border-top:solid #9D9D9D 1px;">',
-'<img src="',contextPath,'/img/famfamfam/map_magnify.png" class=""  onClick="moDispositifCs.showDispositif(',record.data.idDispositif,',',record.data.googleCoordsLat,',',record.data.googleCoordsLong,')"/>',
+'      <b>Itinéraire Google :</b> <img src="',contextPath,'/img/famfamfam/map_go.png" class="crfIcon"  onClick="moDispositifCs.showItinary(',record.data.idDispositif,',',record.data["previousPosition.googleCoordsLat"],',',record.data["previousPosition.googleCoordsLong"],',',record.data["currentPosition.googleCoordsLat"] ,',',record.data["currentPosition.googleCoordsLong"],')"/>',
 '    </td>',
 '  </tr>',
 '</table>'];
@@ -226,22 +271,28 @@ MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, opti
       console.log('No zone added');
 };
 
-MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif){
-
+MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif)
+{
   this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
   this.monitorInputWindow.miDispositifCs.editDispositif(idDispositif);
 };
 
-MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention){
-  alert(idIntervention);
+MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention)
+{
+  this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
+  this.monitorInputWindow.miBilanCs.editBilan(idIntervention);
 };
 MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention){
-  
-
+    alert(idDispositif+' '+idIntervention);
 };
 MonitorOutputDispositifCs.prototype.showDispositif  =function(idDispositif, latitude, longitude){
   alert(idDispositif+' '+latitude+' '+longitude);
 };
+
+MonitorOutputDispositifCs.prototype.showItinary  =function(idDispositif, latitudeStart, longitudeStart, latitudeEnd, longitudeEnd){
+  alert(idDispositif+' '+latitudeStart+' '+longitudeStart+' '+latitudeEnd+' '+longitudeEnd);
+};
+
 
 MonitorOutputDispositifCs.prototype.etatDispositifCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
@@ -264,11 +315,6 @@ MonitorOutputDispositifCs.prototype.contactTelsCellRenderer=function(value, meta
 };
 
 
-MonitorOutputDispositifCs.prototype.editFicheInter=function(idDispositif, idInter)
-{
-  this.monitorInputWindow.monitorInputCs.testCrossWindow();
-};
-
 MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 {
   var store      = Ext.getCmp('DispositifListGrid').getStore();
@@ -285,11 +331,6 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
  'contactTel1'                    : dispositif.contactTel1,
  'contactTel2'                    : dispositif.contactTel2,
  'currentInterId'                 : dispositif.currentInterId,
- 'googleCoordsLat'                : dispositif.googleCoordsLat,
- 'googleCoordsLong'               : dispositif.googleCoordsLong,
- 'currentAddresseRue'             : dispositif.currentAddresseRue,
- 'currentAddresseCodePostal'      : dispositif.currentAddresseCodePostal,
- 'currentAdresseVille'            : dispositif.currentAdresseVille,
  'equipierCi.idEquipier'          : dispositif.equipierCi.idEquipier,
  'equipierCi.nom'                 : dispositif.equipierCi.nom,
  'equipierCi.prenom'              : dispositif.equipierCi.prenom,
@@ -307,14 +348,40 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
  'dhASaBase'                      : dispositif.dhASaBase,
  'dhAppelRenfortMedical'          : dispositif.dhAppelRenfortMedical,
  'dhArriveeRenfortMedical'        : dispositif.dhArriveeRenfortMedical,
+ 
  'currentIntervention.idOrigine'  : dispositif.currentIntervention.idOrigine,
  'currentIntervention.idMotif'    : dispositif.currentIntervention.idMotif,
+ 'currentIntervention.idEtat'     : dispositif.currentIntervention.idEtat,
  'currentIntervention.rue'        : dispositif.currentIntervention.rue,
  'currentIntervention.codePostal' : dispositif.currentIntervention.codePostal,
  'currentIntervention.ville'      : dispositif.currentIntervention.ville,
- 'dispositif':dispositif
+ 
+ 'currentIntervention.victimeHomme'               : dispositif.currentIntervention.victimeHomme,
+ 'currentIntervention.nomVictime'                 : dispositif.currentIntervention.nomVictime,
+ 'currentIntervention.nomContactSurPlace'         : dispositif.currentIntervention.nomContactSurPlace,
+ 'currentIntervention.coordonneesContactSurPlace' : dispositif.currentIntervention.coordonneesContactSurPlace,
+
+ 'currentPosition.empty'                 : dispositif.currentPosition.empty                 ,
+ 'currentPosition.rue'                   : dispositif.currentPosition.rue                   ,
+ 'currentPosition.codePostal'            : dispositif.currentPosition.codePostal            ,
+ 'currentPosition.ville'                 : dispositif.currentPosition.ville                 ,
+ 'currentPosition.googleCoordsLat'       : dispositif.currentPosition.googleCoordsLat       ,
+ 'currentPosition.googleCoordsLong'      : dispositif.currentPosition.googleCoordsLong      ,
+
+ 'previousPosition.empty'                : dispositif.previousPosition.empty                ,
+ 'previousPosition.rue'                  : dispositif.previousPosition.rue                  ,
+ 'previousPosition.codePostal'           : dispositif.previousPosition.codePostal           ,
+ 'previousPosition.ville'                : dispositif.previousPosition.ville                ,
+ 'previousPosition.googleCoordsLat'      : dispositif.previousPosition.googleCoordsLat      ,
+ 'previousPosition.googleCoordsLong'     : dispositif.previousPosition.googleCoordsLong     
  });
-  store.add(newDispositif);
+ 
+  var queryResult = store.query('idDispositif',dispositif.idDispositif);
+ 
+  if(queryResult!= null && queryResult.length > 0 && queryResult.get(0).data.idDispositif == dispositif.idDispositif)
+    store.remove(queryResult.get(0));
+  
+  store.addSorted(newDispositif);
 };
 
 
@@ -336,7 +403,7 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggab
           intervention    : draggableElement.intervention }
   };
 
-  MonitorOutputDispositif.setInterventionToDispositif(intervention.idIntervention, dispositifData.idDispositif, callMetaData);
+  MonitorOutputDispositif.actionOnDispositif(intervention.idIntervention, dispositifData.idDispositif, callMetaData);
 };
 
 MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(serverData, metaData)
@@ -344,30 +411,47 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(s
   var westPanel = Ext.getCmp('west-panel');
   westPanel.remove('interventionTicket_'+metaData.idIntervention);
   var el = Ext.get(metaData.dropZoneId);
-  el.update(MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(metaData.intervention, metaData.dispositif));
+  
+  //on fait en sort que l'objet DWR ressemble a un Record Ext
+  
+  metaData.dispositif['currentIntervention.googleCoordsLat'           ]=metaData.intervention.googleCoordsLat           ;
+  metaData.dispositif['currentIntervention.googleCoordsLong'          ]=metaData.intervention.googleCoordsLong          ;
+  metaData.dispositif['currentIntervention.idOrigine'                 ]=metaData.intervention.idOrigine                 ;
+  metaData.dispositif['currentIntervention.idMotif'                   ]=metaData.intervention.idMotif                   ;
+  metaData.dispositif['currentIntervention.idEtat'                    ]=metaData.intervention.idEtat                    ;
+  metaData.dispositif['currentIntervention.rue'                       ]=metaData.intervention.rue                       ;
+  metaData.dispositif['currentIntervention.codePostal'                ]=metaData.intervention.codePostal                ;
+  metaData.dispositif['currentIntervention.ville'                     ]=metaData.intervention.ville                     ;
+  metaData.dispositif['currentIntervention.victimeHomme'              ]=metaData.intervention.victimeHomme              ;
+  metaData.dispositif['currentIntervention.nomVictime'                ]=metaData.intervention.nomVictime                ;
+  metaData.dispositif['currentIntervention.nomContactSurPlace'        ]=metaData.intervention.nomContactSurPlace        ;
+  metaData.dispositif['currentIntervention.coordonneesContactSurPlace']=metaData.intervention.coordonneesContactSurPlace;
+
+  
+  el.update(MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(metaData.dispositif));
   
 };
 
-MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(intervention, dispositif)
+MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(dispositif)
 {
   var info = [
               '<div class="DispositifInterOrigineMotif"><span class="DispositifInterNomVictimeOrigine">',
-              crfIrpUtils.getLabelFor('OriginesIntervention',intervention.idOrigine),
+              crfIrpUtils.getLabelFor('OriginesIntervention',dispositif['currentIntervention.idOrigine'        ]),
               '</span> - <span class="DispositifInterMotif">',
-              crfIrpUtils.getLabelFor('MotifsIntervention'  ,intervention.idMotif  ),
+              crfIrpUtils.getLabelFor('MotifsIntervention'  ,dispositif['currentIntervention.idMotif'          ]),
               '</span> </div><div class="DispositifInterVictime"><span class="DispositifInterNomVictime">',
-              (intervention.victimeHomme?'Mr ':'Mme '),
-              intervention.nomVictime, 
+              (dispositif['currentIntervention.victimeHomme'              ]?'Mr ':'Mme '),
+               dispositif['currentIntervention.nomVictime'                ], 
               '</span> - <span class="DispositifInterRue">',
-              intervention.rue,
+              dispositif['currentIntervention.rue'              ],
               '</span>, <span class="DispositifInterCodePostal">',
-              intervention.codePostal,
+              dispositif['currentIntervention.codePostal'       ],
               '</span>, <span class="DispositifInterVille">',
-              intervention.ville,
+              dispositif['currentIntervention.ville'            ],
               '</span></div><div class="DispositifInterContact"><span class="DispositifInterNomContact">',
-              intervention.nomContactSurPlace,
+              dispositif['currentIntervention.nomContactSurPlace'        ],
               '</span> - <span class="DispositifInterCoordonneesContact">',
-              intervention.coordonneesContactSurPlace,
+              dispositif['currentIntervention.coordonneesContactSurPlace'],
               '</span></div>'
               ];
   return info.join('');

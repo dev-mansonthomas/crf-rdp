@@ -233,8 +233,8 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 //    else
     
   }
-
-  MonitorInputDispositif.endOfEditionEvent($('dispositif_id_field').value, $('DispositifStatus').value, this.endOfEditionEventReturn);
+  var isCreation = Ext.get('dispositif_isCreation_field').getValue();
+  MonitorInputDispositif.endOfEditionEvent($('dispositif_id_field').value, $('DispositifStatus').value, isCreation, this.endOfEditionEventReturn);
 };
 
 MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
@@ -255,7 +255,13 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 
   for(i=0,count=this.fieldList.length;i<count;i++)
     dwr.util.setValue(this.fieldList[i], '');
-
+  
+  Ext.get('DispositifVolumeTotal'   ).update('');
+  Ext.get('DispositifAutonomieTotal').update('');
+  
+  this.updateVolumeAndAutonomie();
+  
+  dwr.util.setValue('DispositifStatus',-1);
   dwr.util.removeAllOptions('DispositifEquipierToAddRole');
   $('DispositifEquipierAddIHM').style.display='block';
 };
@@ -334,6 +340,7 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositif=function()
 {
   Ext.getCmp('DispositifListEastPanel').collapse();
   this.resetDispositifForm();
+  Ext.get('dispositif_isCreation_field').dom.setValue(true);
   MonitorInputDispositif.createEmptyDispositif(this.createNewEmptyDispositifReturn);
 };
 
@@ -358,6 +365,7 @@ MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
   
   Ext.getCmp('DispositifListEastPanel').collapse();
   this.resetDispositifForm();
+  Ext.get('dispositif_isCreation_field').dom.setValue(true);
   MonitorInputDispositif.getDispositif(idDispositif, this.editDispositifReturn);
 };
 
@@ -527,6 +535,8 @@ MonitorInputDispositifCs.prototype.updateVolumeAndAutonomie=function()
     else
       $('DispositifVolumeTotal'   ).style.backgroundColor='#FFFFFF';
   }
+  else 
+    $('DispositifVolumeTotal'   ).style.backgroundColor='#FFFFFF';
   return volumeTotal;
 };
 

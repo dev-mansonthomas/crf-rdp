@@ -20,6 +20,15 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       init: function() {
 
       },
+      editBilan:function(idIntervention){
+        alert(idIntervention);
+      },
+      editBilanReturn:function(intervention, dispositif){
+      
+      },
+      resetBilanForm:function(){
+      
+      },
       updateStringField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;

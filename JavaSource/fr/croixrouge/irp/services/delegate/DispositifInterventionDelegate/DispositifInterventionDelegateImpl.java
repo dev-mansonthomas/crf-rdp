@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
-import fr.croixrouge.irp.model.monitor.Intervention;
+import fr.croixrouge.irp.model.monitor.InterventionTicket;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
 import fr.croixrouge.irp.services.intervention.InterventionService;
 
@@ -86,14 +86,23 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
   public void action(int idRegulation, int idIntervention, int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
-      logger.debug("Action done on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
-    Dispositif   dispositif   = this.dispositifService  .getDispositif  (idRegulation, idDispositif);
-    Intervention intervention = this.interventionService.getIntervention(idIntervention);
+      logger.debug("\"Action Button\" pushed pushed for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+
+    Dispositif          dispositif         = this.dispositifService.getDispositif(idRegulation, idDispositif);
+    InterventionTicket  interventionTicket = null;
     
-    int idEtatDispositif   = dispositif  .getIdEtatDispositif();
-    int idEtatIntervention = intervention.getIdEtat          ();
+    if(dispositif.getIdEtatDispositif() == 1)//A l'état 1 pour le dispositif, l'intervention n'est pas encore affecté (c'est justement ce qu'on fait... l'affectation)
+      interventionTicket = this.interventionService.getInterventionTicket(idIntervention);
+    else
+      interventionTicket = dispositif.getCurrentIntervention();
     
-    if(idEtatDispositif < 1 || idEtatDispositif > 7)
+    if(interventionTicket == null || interventionTicket.getIdEtat() == 0)
+      throw new Exception("Le dispositif n'as pas d'intervention affectée");
+    
+    int idEtatDispositif   = dispositif        .getIdEtatDispositif();
+    int idEtatIntervention = interventionTicket.getIdEtat          ();
+    
+    if(idEtatDispositif < 1 || idEtatDispositif > 8)
       throw new Exception("L'état du dispositif ne permet pas d'effectuer cette opération idEtatDispositif="+idEtatDispositif);
     
     if(idEtatDispositif != idEtatIntervention)
@@ -118,9 +127,9 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Dispositif Parti' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
-      this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.affectInterventionToDispositif(idIntervention, idEtatDispositif+1, actionDate);
-      this.dispositifService  .updateDispositifPosition      (idDispositif  , intervention.getPosition(), dispositif.getPreviousPosition());
+      this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1              , actionDate);
+      this.interventionService.actionOnIntervention          (idIntervention, idEtatDispositif+1              , actionDate);
+      this.dispositifService  .updateDispositifPosition      (idDispositif  , interventionTicket.getPosition(), dispositif.getCurrentPosition());
       
       if(logger.isDebugEnabled())
         logger.debug("Action is DONE : 'Dispositif Parti' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -132,8 +141,8 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
         logger.debug("Action is 'Dispositif se présente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
       this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.affectInterventionToDispositif(idIntervention, idEtatDispositif+1, actionDate);
-      this.dispositifService  .updateDispositifPosition      (idDispositif  , null, intervention.getPosition());
+      this.interventionService.actionOnIntervention          (idIntervention, idEtatDispositif+1, actionDate);
+      this.dispositifService  .updateDispositifPosition      (idDispositif  , null              , interventionTicket.getPosition());
       
       if(logger.isDebugEnabled())
         logger.debug("Action is DONE : 'Dispositif se présente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -144,8 +153,8 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Dispositif passe son primaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
-      this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.affectInterventionToDispositif(idIntervention, idEtatDispositif+1, actionDate);
+      this.dispositifService  .actionOnDispositif   (idDispositif  , idEtatDispositif+1, actionDate);
+      this.interventionService.actionOnIntervention (idIntervention, idEtatDispositif+1, actionDate);
       
       if(logger.isDebugEnabled())
         logger.debug("Action is DONE : 'Dispositif passe son primaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -156,8 +165,8 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Dispositif passe son secondaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
-      this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.affectInterventionToDispositif(idIntervention, idEtatDispositif+1, actionDate);
+      this.dispositifService  .actionOnDispositif   (idDispositif  , idEtatDispositif+1, actionDate);
+      this.interventionService.actionOnIntervention (idIntervention, idEtatDispositif+1, actionDate);
       
       if(logger.isDebugEnabled())
         logger.debug("Action is DONE : 'Dispositif passe son secondaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -168,11 +177,12 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Dispositif quitte les lieux' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
-      this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.affectInterventionToDispositif(idIntervention, idEtatDispositif+1, actionDate);
+      this.dispositifService  .actionOnDispositif       (idDispositif  , idEtatDispositif+1, actionDate);
+      this.interventionService.actionOnIntervention     (idIntervention, idEtatDispositif+1, actionDate);
       //a ce moment, dispositif.getCurrentPosition contiendra la position de l'hopital.
+      //          et dispositif.getPreviousPosition contiendra la position de l'intervention
       //Lorsque l'utilisateur clic sur Action, on affiche la listes des hopitaux de paris(ou adresse en saisie libre, dans ce cas, on met -1 pour evac_hopital_destination), il choisi, update ajax, sur le retour, on appel la méthode actionOnDispositif
-      this.dispositifService  .updateDispositifPosition      (idDispositif  , dispositif.getCurrentPosition(), null);
+      this.dispositifService  .updateDispositifPosition (idDispositif  , dispositif.getCurrentPosition(), null);
       
       if(logger.isDebugEnabled())
         logger.debug("Action is DONE : 'Dispositif quitte les lieux' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -183,15 +193,31 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Dispositif arrive a l'hopital' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
-      this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.affectInterventionToDispositif(idIntervention, idEtatDispositif+1, actionDate);
+      this.dispositifService  .actionOnDispositif       (idDispositif  , idEtatDispositif+1, actionDate);
+      this.interventionService.actionOnIntervention     (idIntervention, idEtatDispositif+1, actionDate);
       //a ce moment, dispositif.getCurrentPosition contiendra la position de l'hopital.
-      //Lorsque l'utilisateur clic sur Action, on affiche la listes des hopitaux de paris(ou adresse en saisie libre, dans ce cas, on met -1 pour evac_hopital_destination), il choisi, update ajax, sur le retour, on appel la méthode actionOnDispositif
-      this.dispositifService  .updateDispositifPosition      (idDispositif  , dispositif.getCurrentPosition(), null);
+      //         On change previousPosition a l'addresse de l'hopital pour signifier que le dispositif n'est plus en mouvement.
+      this.dispositifService  .updateDispositifPosition (idDispositif  , null, dispositif.getCurrentPosition());
       
       if(logger.isDebugEnabled())
         logger.debug("Action is DONE : 'Dispositif arrive a l'hopital' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
+    else if(idEtatDispositif == 8)
+    {//Inter terminée
+      if(logger.isDebugEnabled())
+        logger.debug("Action is 'Intervention Terminée' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+
+      this.dispositifService  .actionOnDispositif       (idDispositif  , idEtatDispositif+1, actionDate);
+      this.interventionService.actionOnIntervention     (idIntervention, idEtatDispositif+1, actionDate);
+
+      //currentInter Id est ré initialisé a vide.
+      
+      if(logger.isDebugEnabled())
+        logger.debug("Action is DONE : 'Intervention Terminée' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+    }
     
+    if(logger.isDebugEnabled())
+      logger.debug("\"Action Button\" pushed DONE : for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+
   }
 }

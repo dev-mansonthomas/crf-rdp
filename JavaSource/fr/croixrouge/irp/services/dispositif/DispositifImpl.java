@@ -279,7 +279,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     if(dispositif.getCurrentIntervention().getIdIntervention() != 0)
       dispositif.setCurrentIntervention(interventionService.getInterventionTicket(dispositif.getCurrentIntervention().getIdIntervention()));
-
+      
     if(withEquipierList)
       dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(idRegulation, disposifitId));
     

@@ -36,12 +36,12 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   }
   
   private final static String selectForInteventionTicket = 
-    "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` ,`id_etat`\n" +
-    "        `id_motif`       , `DH_saisie`    , `rue`          , `code_postal`, \n" +
-    "        `ville`          , `batiment`     , `etage`        , `porte`      , \n" +
+    "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` ,`id_etat`,            \n" +
+    "        `id_motif`       , `DH_saisie`    , `rue`          , `code_postal`,                      \n" +
+    "        `ville`          , `batiment`     , `etage`        , `porte`      ,                      \n" +
     "        `complement_adresse`, `complement_motif`, `google_coords_lat`    , `google_coords_long` ,\n" +
-    "        `nom_victime`       , `homme_victime`   , `nom_contact_sur_place`, `coordonnees_contact`\n" +
-    "FROM     intervention                                                       \n";
+    "        `nom_victime`       , `homme_victime`   , `nom_contact_sur_place`, `coordonnees_contact` \n" +
+    "FROM     intervention                                                                            \n";
   
   private final static String queryForGetInterventionTicket =
     selectForInteventionTicket +

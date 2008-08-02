@@ -246,22 +246,25 @@ MonitorInputInterventionCs.prototype.editInterventionTicket=function(idIntervent
 
 MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventionTicket)
 {
-  dwr.util.setValue('interventionTicketBatiment'         , interventionTicket.batiment         );
-  dwr.util.setValue('interventionTicketCodePostal'       , interventionTicket.codePostal       );
-  dwr.util.setValue('interventionTicketComplementAdresse', interventionTicket.complementAdresse);
-  dwr.util.setValue('interventionTicketComplementMotif'  , interventionTicket.complementMotif  );
-  dwr.util.setValue('interventionTicketDHReception'      , crfIrpUtils.getFullDate(interventionTicket.dhReception));
-  dwr.util.setValue('interventionTicketEtage'            , interventionTicket.etage            );
-  dwr.util.setValue('interventionTicketId'               , interventionTicket.idIntervention   );
-  dwr.util.setValue('interventionTicketMotif'            , interventionTicket.idMotif          );
-  dwr.util.setValue('interventionTicketOrigine'          , interventionTicket.idOrigine        );
-  dwr.util.setValue('interventionTicketPorte'            , interventionTicket.porte            );
-  dwr.util.setValue('interventionTicketRue'              , interventionTicket.rue              );
-  dwr.util.setValue('interventionTicketVille'            , interventionTicket.ville            );
-  
-  dwr.util.setValue('interventionNomVictime'                ,interventionTicket.nomVictime                );
-  dwr.util.setValue('interventionNomContactSurPlace'        ,interventionTicket.nomContactSurPlace        );
-  dwr.util.setValue('interventionCoordonneesContactSurPlace',interventionTicket.coordonneesContactSurPlace);
+  dwr.util.setValue('interventionTicketBatiment'            , interventionTicket.batiment                            );
+  dwr.util.setValue('interventionTicketCodePostal'          , interventionTicket.position.codePostal                 );
+  dwr.util.setValue('interventionTicketComplementAdresse'   , interventionTicket.complementAdresse                   );
+  dwr.util.setValue('interventionTicketComplementMotif'     , interventionTicket.complementMotif                     );
+  dwr.util.setValue('interventionTicketDHReception'         , crfIrpUtils.getFullDate(interventionTicket.dhReception));
+  dwr.util.setValue('interventionTicketEtage'               , interventionTicket.etage                               );
+  dwr.util.setValue('interventionTicketId'                  , interventionTicket.idIntervention                      );
+  dwr.util.setValue('interventionTicketMotif'               , interventionTicket.idMotif                             );
+  dwr.util.setValue('interventionTicketOrigine'             , interventionTicket.idOrigine                           );
+  dwr.util.setValue('interventionTicketPorte'               , interventionTicket.porte                               );
+  dwr.util.setValue('interventionTicketRue'                 , interventionTicket.position.rue                        );
+  dwr.util.setValue('interventionTicketVille'               , interventionTicket.position.ville                      );
+  dwr.util.setValue('interventionTicketGoogleCoordsLat'     , interventionTicket.position.googleCoordsLat            );
+  dwr.util.setValue('interventionTicketGoogleCoordsLong'    , interventionTicket.position.googleCoordsLong           );
+
+
+  dwr.util.setValue('interventionNomVictime'                ,interventionTicket.nomVictime                           );
+  dwr.util.setValue('interventionNomContactSurPlace'        ,interventionTicket.nomContactSurPlace                   );
+  dwr.util.setValue('interventionCoordonneesContactSurPlace',interventionTicket.coordonneesContactSurPlace           );
   if(interventionTicket.googleCoordsLat == 0)
     Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/pix.png";
   else

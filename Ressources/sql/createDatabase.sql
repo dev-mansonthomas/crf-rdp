@@ -268,8 +268,7 @@ CREATE TABLE `intervention` (
   `DH_bilan_secondaire`                                 datetime NULL,
   `DH_quitte_les_lieux`                                 datetime NULL,
   `DH_arrivee_hopital`                                  datetime NULL,
-  `DH_dispo`                                            datetime NULL,
-  `DH_a_sa_base`                                        datetime NULL,
+  `DH_fin_intervention`                                 datetime NULL,
   `DH_appel_renfort_medical`                            datetime NULL,
   `DH_arrivee_renfort_medical`                          datetime NULL,
   
@@ -307,6 +306,7 @@ CREATE TABLE `intervention` (
   `bilan_detresses`                                     text NULL,
   `bilan_antecedents`                                   text NULL,
   `bilan_commentaires`                                  text NULL,
+  `bilan_evaluation_ci`                                 text NULL,
 -- conscience
   `cs_coma`                                             boolean NULL,
   `cs_pci`                                              boolean NULL,

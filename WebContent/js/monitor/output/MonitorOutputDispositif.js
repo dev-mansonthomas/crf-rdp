@@ -126,34 +126,33 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 {name: 'dhAppelRenfortMedical'                           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 {name: 'dhArriveeRenfortMedical'                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 
-{name:'currentIntervention.idOrigine'                    , type:'int'     },
-{name:'currentIntervention.idMotif'                      , type:'int'     },
-{name:'currentIntervention.idEtat'                       , type:'int'     },
-{name:'currentIntervention.rue'                          , type:'string'  },
-{name:'currentIntervention.codePostal'                   , type:'string'  },
-{name:'currentIntervention.ville'                        , type:'string'  },
-{name:'currentIntervention.googleCoordsLat'              , type:'float'   },
-{name:'currentIntervention.googleCoordsLong'             , type:'float'   },
+{name:'currentIntervention.idOrigine'                    , type: 'int'     },
+{name:'currentIntervention.idMotif'                      , type: 'int'     },
+{name:'currentIntervention.idEtat'                       , type: 'int'     },
+{name:'currentIntervention.position.rue'                 , type: 'string'  },
+{name:'currentIntervention.position.codePostal'          , type: 'string'  },
+{name:'currentIntervention.position.ville'               , type: 'string'  },
+{name:'currentIntervention.position.googleCoordsLat'     , type: 'float'   },
+{name:'currentIntervention.position.googleCoordsLong'    , type: 'float'   },
 
-{name: 'currentIntervention.victimeHomme'               , type: 'boolean'},
-{name: 'currentIntervention.nomVictime'                 , type: 'string' },
-{name: 'currentIntervention.nomContactSurPlace'         , type: 'string' },
-{name: 'currentIntervention.coordonneesContactSurPlace' , type: 'string' },
+{name: 'currentIntervention.victimeHomme'                , type: 'boolean'},
+{name: 'currentIntervention.nomVictime'                  , type: 'string' },
+{name: 'currentIntervention.nomContactSurPlace'          , type: 'string' },
+{name: 'currentIntervention.coordonneesContactSurPlace'  , type: 'string' },
 
+{name:'currentPosition.empty'                            , type: 'boolean' },
+{name:'currentPosition.rue'                              , type: 'string'  },
+{name:'currentPosition.codePostal'                       , type: 'string'  },
+{name:'currentPosition.ville'                            , type: 'string'  },
+{name:'currentPosition.googleCoordsLat'                  , type: 'float'   },
+{name:'currentPosition.googleCoordsLong'                 , type: 'float'   },
 
-{name:'currentPosition.empty'                            , type:'boolean' },
-{name:'currentPosition.rue'                              , type:'string'  },
-{name:'currentPosition.codePostal'                       , type:'string'  },
-{name:'currentPosition.ville'                            , type:'string'  },
-{name:'currentPosition.googleCoordsLat'                  , type:'float'   },
-{name:'currentPosition.googleCoordsLong'                 , type:'float'   },
-
-{name:'previousPosition.empty'                           , type:'boolean' },
-{name:'previousPosition.rue'                             , type:'string'  },
-{name:'previousPosition.codePostal'                      , type:'string'  },
-{name:'previousPosition.ville'                           , type:'string'  },
-{name:'previousPosition.googleCoordsLat'                 , type:'float'   },
-{name:'previousPosition.googleCoordsLong'                , type:'float'   }
+{name:'previousPosition.empty'                           , type: 'boolean' },
+{name:'previousPosition.rue'                             , type: 'string'  },
+{name:'previousPosition.codePostal'                      , type: 'string'  },
+{name:'previousPosition.ville'                           , type: 'string'  },
+{name:'previousPosition.googleCoordsLat'                 , type: 'float'   },
+{name:'previousPosition.googleCoordsLong'                , type: 'float'   }
                    ]
                })
            });
@@ -282,9 +281,23 @@ MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention)
   this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
   this.monitorInputWindow.miBilanCs.editBilan(idIntervention);
 };
-MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention){
-    alert(idDispositif+' '+idIntervention);
+MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention)
+{
+  var callMetaData = {
+    callback:MonitorOutputDispositifCs.prototype.actionReturn,
+    args:{idIntervention  : idIntervention,
+          idDispositif    : idDispositif   
+         }
+  };
+  MonitorOutputDispositif.actionOnDispositif(idIntervention, idDispositif, callMetaData);
 };
+
+MonitorOutputDispositifCs.prototype.actionReturn     =function(newIdEtatDispositif, metaData)
+{
+  alert('New Etat ' + newIdEtatDispositif + ' for dispositif : '+metaData.idDispositif+' intervention : '+metaData.idIntervention);
+};
+
+
 MonitorOutputDispositifCs.prototype.showDispositif  =function(idDispositif, latitude, longitude){
   alert(idDispositif+' '+latitude+' '+longitude);
 };
@@ -319,61 +332,64 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 {
   var store      = Ext.getCmp('DispositifListGrid').getStore();
 
-  var newDispositif = new DispositifRecord({'idDispositif'                   : dispositif.idDispositif,
- 'idTypeDispositif'               : dispositif.idTypeDispositif,
- 'idEtatDispositif'               : dispositif.idEtatDispositif,
- 'idDelegation'                   : dispositif.idDelegation,
- 'displayState'                   : dispositif.displayState,
- 'dispositifBackWith3Girls'       : dispositif.dispositifBackWith3Girls,
- 'dispositifNotEnoughO2'          : dispositif.dispositifNotEnoughO2,
- 'indicatifVehicule'              : dispositif.indicatifVehicule,
- 'contactRadio'                   : dispositif.contactRadio,
- 'contactTel1'                    : dispositif.contactTel1,
- 'contactTel2'                    : dispositif.contactTel2,
- 'currentInterId'                 : dispositif.currentInterId,
- 'equipierCi.idEquipier'          : dispositif.equipierCi.idEquipier,
- 'equipierCi.nom'                 : dispositif.equipierCi.nom,
- 'equipierCi.prenom'              : dispositif.equipierCi.prenom,
- 'equipierCi.homme'               : dispositif.equipierCi.homme,
- 'equipierCi.numNivol'            : dispositif.equipierCi.numNivol,
- 'currentInterId'                 : dispositif.currentInterId,
- 'dhReception'                    : dispositif.dhReception,
- 'dhDepart'                       : dispositif.dhDepart,
- 'dhSurPlace'                     : dispositif.dhSurPlace,
- 'dhBilanPrimaire'                : dispositif.dhBilanPrimaire,
- 'dhBilanSecondaire'              : dispositif.dhBilanSecondaire,
- 'dhQuitteLesLieux'               : dispositif.dhQuitteLesLieux,
- 'dhArriveeHopital'               : dispositif.dhArriveeHopital,
- 'dhDispo'                        : dispositif.dhDispo,
- 'dhASaBase'                      : dispositif.dhASaBase,
- 'dhAppelRenfortMedical'          : dispositif.dhAppelRenfortMedical,
- 'dhArriveeRenfortMedical'        : dispositif.dhArriveeRenfortMedical,
+  var newDispositif = new DispositifRecord({
+ 'idDispositif'                                        : dispositif.idDispositif,
+ 'idTypeDispositif'                                    : dispositif.idTypeDispositif,
+ 'idEtatDispositif'                                    : dispositif.idEtatDispositif,
+ 'idDelegation'                                        : dispositif.idDelegation,
+ 'displayState'                                        : dispositif.displayState,
+ 'dispositifBackWith3Girls'                            : dispositif.dispositifBackWith3Girls,
+ 'dispositifNotEnoughO2'                               : dispositif.dispositifNotEnoughO2,
+ 'indicatifVehicule'                                   : dispositif.indicatifVehicule,
+ 'contactRadio'                                        : dispositif.contactRadio,
+ 'contactTel1'                                         : dispositif.contactTel1,
+ 'contactTel2'                                         : dispositif.contactTel2,
+ 'currentInterId'                                      : dispositif.currentInterId,
+ 'equipierCi.idEquipier'                               : dispositif.equipierCi.idEquipier,
+ 'equipierCi.nom'                                      : dispositif.equipierCi.nom,
+ 'equipierCi.prenom'                                   : dispositif.equipierCi.prenom,
+ 'equipierCi.homme'                                    : dispositif.equipierCi.homme,
+ 'equipierCi.numNivol'                                 : dispositif.equipierCi.numNivol,
+ 'currentInterId'                                      : dispositif.currentInterId,
+ 'dhReception'                                         : dispositif.dhReception,
+ 'dhDepart'                                            : dispositif.dhDepart,
+ 'dhSurPlace'                                          : dispositif.dhSurPlace,
+ 'dhBilanPrimaire'                                     : dispositif.dhBilanPrimaire,
+ 'dhBilanSecondaire'                                   : dispositif.dhBilanSecondaire,
+ 'dhQuitteLesLieux'                                    : dispositif.dhQuitteLesLieux,
+ 'dhArriveeHopital'                                    : dispositif.dhArriveeHopital,
+ 'dhDispo'                                             : dispositif.dhDispo,
+ 'dhASaBase'                                           : dispositif.dhASaBase,
+ 'dhAppelRenfortMedical'                               : dispositif.dhAppelRenfortMedical,
+ 'dhArriveeRenfortMedical'                             : dispositif.dhArriveeRenfortMedical,
  
- 'currentIntervention.idOrigine'  : dispositif.currentIntervention.idOrigine,
- 'currentIntervention.idMotif'    : dispositif.currentIntervention.idMotif,
- 'currentIntervention.idEtat'     : dispositif.currentIntervention.idEtat,
- 'currentIntervention.rue'        : dispositif.currentIntervention.rue,
- 'currentIntervention.codePostal' : dispositif.currentIntervention.codePostal,
- 'currentIntervention.ville'      : dispositif.currentIntervention.ville,
+ 'currentIntervention.idOrigine'                       : dispositif.currentIntervention.idOrigine,
+ 'currentIntervention.idMotif'                         : dispositif.currentIntervention.idMotif,
+ 'currentIntervention.idEtat'                          : dispositif.currentIntervention.idEtat,
+ 'currentIntervention.position.rue'                    : dispositif.currentIntervention.position.rue,
+ 'currentIntervention.position.codePostal'             : dispositif.currentIntervention.position.codePostal,
+ 'currentIntervention.position.ville'                  : dispositif.currentIntervention.position.ville,
+ 'currentIntervention.position.googleCoordsLat'        : dispositif.currentIntervention.position.googleCoordsLat,
+ 'currentIntervention.position.googleCoordsLong'       : dispositif.currentIntervention.position.googleCoordsLong, 
  
- 'currentIntervention.victimeHomme'               : dispositif.currentIntervention.victimeHomme,
- 'currentIntervention.nomVictime'                 : dispositif.currentIntervention.nomVictime,
- 'currentIntervention.nomContactSurPlace'         : dispositif.currentIntervention.nomContactSurPlace,
- 'currentIntervention.coordonneesContactSurPlace' : dispositif.currentIntervention.coordonneesContactSurPlace,
+ 'currentIntervention.victimeHomme'                    : dispositif.currentIntervention.victimeHomme,
+ 'currentIntervention.nomVictime'                      : dispositif.currentIntervention.nomVictime,
+ 'currentIntervention.nomContactSurPlace'              : dispositif.currentIntervention.nomContactSurPlace,
+ 'currentIntervention.coordonneesContactSurPlace'      : dispositif.currentIntervention.coordonneesContactSurPlace,
 
- 'currentPosition.empty'                 : dispositif.currentPosition.empty                 ,
- 'currentPosition.rue'                   : dispositif.currentPosition.rue                   ,
- 'currentPosition.codePostal'            : dispositif.currentPosition.codePostal            ,
- 'currentPosition.ville'                 : dispositif.currentPosition.ville                 ,
- 'currentPosition.googleCoordsLat'       : dispositif.currentPosition.googleCoordsLat       ,
- 'currentPosition.googleCoordsLong'      : dispositif.currentPosition.googleCoordsLong      ,
+ 'currentPosition.empty'                               : dispositif.currentPosition.empty                 ,
+ 'currentPosition.rue'                                 : dispositif.currentPosition.rue                   ,
+ 'currentPosition.codePostal'                          : dispositif.currentPosition.codePostal            ,
+ 'currentPosition.ville'                               : dispositif.currentPosition.ville                 ,
+ 'currentPosition.googleCoordsLat'                     : dispositif.currentPosition.googleCoordsLat       ,
+ 'currentPosition.googleCoordsLong'                    : dispositif.currentPosition.googleCoordsLong      ,
 
- 'previousPosition.empty'                : dispositif.previousPosition.empty                ,
- 'previousPosition.rue'                  : dispositif.previousPosition.rue                  ,
- 'previousPosition.codePostal'           : dispositif.previousPosition.codePostal           ,
- 'previousPosition.ville'                : dispositif.previousPosition.ville                ,
- 'previousPosition.googleCoordsLat'      : dispositif.previousPosition.googleCoordsLat      ,
- 'previousPosition.googleCoordsLong'     : dispositif.previousPosition.googleCoordsLong     
+ 'previousPosition.empty'                              : dispositif.previousPosition.empty                ,
+ 'previousPosition.rue'                                : dispositif.previousPosition.rue                  ,
+ 'previousPosition.codePostal'                         : dispositif.previousPosition.codePostal           ,
+ 'previousPosition.ville'                              : dispositif.previousPosition.ville                ,
+ 'previousPosition.googleCoordsLat'                    : dispositif.previousPosition.googleCoordsLat      ,
+ 'previousPosition.googleCoordsLong'                   : dispositif.previousPosition.googleCoordsLong     
  });
  
   var queryResult = store.query('idDispositif',dispositif.idDispositif);
@@ -414,14 +430,14 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(s
   
   //on fait en sort que l'objet DWR ressemble a un Record Ext
   
-  metaData.dispositif['currentIntervention.googleCoordsLat'           ]=metaData.intervention.googleCoordsLat           ;
-  metaData.dispositif['currentIntervention.googleCoordsLong'          ]=metaData.intervention.googleCoordsLong          ;
+  metaData.dispositif['currentIntervention.position.googleCoordsLat'  ]=metaData.intervention.position.googleCoordsLat  ;
+  metaData.dispositif['currentIntervention.position.googleCoordsLong' ]=metaData.intervention.position.googleCoordsLong ;
   metaData.dispositif['currentIntervention.idOrigine'                 ]=metaData.intervention.idOrigine                 ;
   metaData.dispositif['currentIntervention.idMotif'                   ]=metaData.intervention.idMotif                   ;
   metaData.dispositif['currentIntervention.idEtat'                    ]=metaData.intervention.idEtat                    ;
-  metaData.dispositif['currentIntervention.rue'                       ]=metaData.intervention.rue                       ;
-  metaData.dispositif['currentIntervention.codePostal'                ]=metaData.intervention.codePostal                ;
-  metaData.dispositif['currentIntervention.ville'                     ]=metaData.intervention.ville                     ;
+  metaData.dispositif['currentIntervention.position.rue'              ]=metaData.intervention.position.rue              ;
+  metaData.dispositif['currentIntervention.position.codePostal'       ]=metaData.intervention.position.codePostal       ;
+  metaData.dispositif['currentIntervention.position.ville'            ]=metaData.intervention.position.ville            ;
   metaData.dispositif['currentIntervention.victimeHomme'              ]=metaData.intervention.victimeHomme              ;
   metaData.dispositif['currentIntervention.nomVictime'                ]=metaData.intervention.nomVictime                ;
   metaData.dispositif['currentIntervention.nomContactSurPlace'        ]=metaData.intervention.nomContactSurPlace        ;
@@ -443,11 +459,11 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
               (dispositif['currentIntervention.victimeHomme'              ]?'Mr ':'Mme '),
                dispositif['currentIntervention.nomVictime'                ], 
               '</span> - <span class="DispositifInterRue">',
-              dispositif['currentIntervention.rue'              ],
+              dispositif['currentIntervention.position.rue'              ],
               '</span>, <span class="DispositifInterCodePostal">',
-              dispositif['currentIntervention.codePostal'       ],
+              dispositif['currentIntervention.position.codePostal'       ],
               '</span>, <span class="DispositifInterVille">',
-              dispositif['currentIntervention.ville'            ],
+              dispositif['currentIntervention.position.ville'            ],
               '</span></div><div class="DispositifInterContact"><span class="DispositifInterNomContact">',
               dispositif['currentIntervention.nomContactSurPlace'        ],
               '</span> - <span class="DispositifInterCoordonneesContact">',

@@ -25,7 +25,7 @@ public class MonitorOutputDispositf  extends DWRUtils
     return this.dispositifService.getAllDispositif(currentUserRegulationId);
   }
   
-  public void actionOnDispositif(int idIntervention, int idDispositif) throws Exception
+  public int actionOnDispositif(int idIntervention, int idDispositif) throws Exception
   {
     int currentUserRegulationId = this.validateSessionAndGetRegulationId();
     
@@ -42,6 +42,8 @@ public class MonitorOutputDispositf  extends DWRUtils
                         .appendScript(");");
     
     updateRegulationUser(script, outPageName);
+    
+    return dispositif.getIdEtatDispositif();
   }
   
   

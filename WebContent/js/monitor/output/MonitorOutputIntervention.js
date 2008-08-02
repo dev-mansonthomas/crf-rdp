@@ -32,16 +32,15 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   var motif       = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  );
   var dhSaisie    = crfIrpUtils.getFullDate(intervention.dhSaisie);
 
-  dwr.util.setValue('interventionTicket_origine_'     +intervention.idIntervention, origine);
-  dwr.util.setValue('interventionTicket_motif_'       +intervention.idIntervention, motif);
-  dwr.util.setValue('interventionTicket_dhReception_' +intervention.idIntervention, dhSaisie);
-  dwr.util.setValue('interventionTicket_rue_'         +intervention.idIntervention, intervention.rue);
-  dwr.util.setValue('interventionTicket_codePostal_'  +intervention.idIntervention, intervention.codePostal);
-  dwr.util.setValue('interventionTicket_ville_'       +intervention.idIntervention, intervention.ville);
+  dwr.util.setValue('interventionTicket_origine_'         +intervention.idIntervention, origine );
+  dwr.util.setValue('interventionTicket_motif_'           +intervention.idIntervention, motif   );
+  dwr.util.setValue('interventionTicket_dhReception_'     +intervention.idIntervention, dhSaisie);
   
-  
-  dwr.util.setValue('interventionTicket_googleCoordsLat_'+intervention.idIntervention, intervention.googleCoordsLat);
-  dwr.util.setValue('interventionTicket_googleCoordsLong_'+intervention.idIntervention, intervention.googleCoordsLong);
+  dwr.util.setValue('interventionTicket_rue_'             +intervention.idIntervention, intervention.position.rue             );
+  dwr.util.setValue('interventionTicket_codePostal_'      +intervention.idIntervention, intervention.position.codePostal      );
+  dwr.util.setValue('interventionTicket_ville_'           +intervention.idIntervention, intervention.position.ville           );
+  dwr.util.setValue('interventionTicket_googleCoordsLat_' +intervention.idIntervention, intervention.position.googleCoordsLat );
+  dwr.util.setValue('interventionTicket_googleCoordsLong_'+intervention.idIntervention, intervention.position.googleCoordsLong);
   
 /*
   Ext.QuickTips.register({target:'interventionTicket_details_'+intervention.idIntervention,

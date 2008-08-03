@@ -42,8 +42,8 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
   
   var dataStore1 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call: MonitorInputIntervention.getInterventionTicketList,
-               args: [0],
+               call  : MonitorInputIntervention.getInterventionTicketList,
+               args  : [0],
                paging: true
                }),
            reader: new Ext.data.JsonReader({
@@ -72,20 +72,20 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
         viewConfig: {
             forceFit:true
         },
-        collapsible: false,
+        collapsible : false,
         animCollapse: false,
-        height:400,
-        iconCls: 'icon-grid',
-        renderTo: 'InterventionListEncoursEdition',
-        listeners:{
+        height      : 400,
+        iconCls     : 'icon-grid',
+        renderTo    : 'InterventionListEncoursEdition',
+        listeners   : {
           'rowdblclick':miInterventionCs.gridRowDoubleClickHandler
         },
-        bbar:new Ext.PagingToolbar({
-          pageSize: 5,
-          store: dataStore1,
+        bbar        : new Ext.PagingToolbar({
+          pageSize   : 5,
+          store      : dataStore1,
           displayInfo: true,
-          displayMsg: 'Ticket d\'Intervention(s) {0} à {1} de {2}',
-          emptyMsg: 'aucun Ticket d\'Intervention en cours d\'édition'
+          displayMsg : 'Ticket d\'Intervention(s) {0} à {1} de {2}',
+          emptyMsg   : 'aucun Ticket d\'Intervention en cours d\'édition'
         })
     });
   grid1.getStore().load({params: {start:0, limit:5}});
@@ -95,8 +95,8 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
   
   var dataStore2 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call: MonitorInputIntervention.getInterventionTicketList,
-               args: [1],
+               call  : MonitorInputIntervention.getInterventionTicketList,
+               args  : [1],
                paging: true
                }),
            reader: new Ext.data.JsonReader({
@@ -114,9 +114,9 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
            
 
   var grid2 = new xg.GridPanel({
-        id:'InterventionListNonAffecteeEditionGrid',
+        id   :'InterventionListNonAffecteeEditionGrid',
         store: dataStore2,
-        cm: new xg.ColumnModel([
+        cm   : new xg.ColumnModel([
             {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
             {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
             {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
@@ -125,20 +125,20 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
         viewConfig: {
             forceFit:true
         },
-        collapsible: false,
+        collapsible : false,
         animCollapse: false,
-        height:400,
-        iconCls: 'icon-grid',
-        renderTo: 'InterventionListUnaffected',
-        listeners:{
+        height      : 400,
+        iconCls     : 'icon-grid',
+        renderTo    : 'InterventionListUnaffected',
+        listeners   : {
           'rowdblclick':miInterventionCs.gridRowDoubleClickHandler
         },
-        bbar:new Ext.PagingToolbar({
-          pageSize: 5,
-          store: dataStore2,
+        bbar         : new Ext.PagingToolbar({
+          pageSize   : 5,
+          store      : dataStore2,
           displayInfo: true,
-          displayMsg: 'Ticket d\'Intervention(s) {0} à {1} de {2}',
-          emptyMsg: 'aucun Ticket d\'Intervention non affectée'
+          displayMsg : 'Ticket d\'Intervention(s) {0} à {1} de {2}',
+          emptyMsg   : 'aucun Ticket d\'Intervention non affectée'
         })
     });
   grid2.getStore().load({params: {start:0, limit:5}});
@@ -149,7 +149,6 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
 MonitorInputInterventionCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
 {
   miInterventionCs.editInterventionTicket(grid.store.getAt(rowIndex).data.idIntervention);
-  Ext.getCmp('InterventionListEastPanel').collapse();
 };
 
 
@@ -269,6 +268,14 @@ MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventio
     Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/pix.png";
   else
     Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
+  
+  var centerRegion = Ext.getCmp('monitorInputCenterRegion');
+  var currentPanel = centerRegion.getActiveTab();
+
+  if(currentPanel.id != 'monitorInputInterventionPanel')
+    centerRegion.activate('monitorInputInterventionPanel');
+    
+  Ext.getCmp('InterventionListEastPanel').collapse();
 };
 
 MonitorInputInterventionCs.prototype.editInterventionTicketReturn=function(interventionTicket)

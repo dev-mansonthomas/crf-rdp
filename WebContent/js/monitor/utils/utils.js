@@ -213,15 +213,15 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler)
 {
 	
 	var myDateSelector = new Ext.form.DateField({
-		        id:inputId,
-            width:130,
-            format:'d/m/Y H:i',
-            allowBlank:false,
-            icon: '../../../img/famfamfam/calendar.png',
-            listeners:{
+		        id        : inputId,
+            width     : 130,
+            format    : 'd/m/Y H:i',
+            allowBlank: true,
+            icon      : '../../../img/famfamfam/calendar.png',
+            listeners : {
             	'focus':function(event)
             	{
-            	 crfIrpUtils.fieldEdit(event.id+'_div');	
+            	  crfIrpUtils.fieldEdit(event.id+'_div');	
             	},
             	'change':changeHandler
             }
@@ -255,7 +255,7 @@ CrfIrpUtils.prototype.getDate=function(dateObject)
 CrfIrpUtils.prototype.getTime=function(dateObject)
 {
   if(dateObject == null)
-    return 'N/A';
+    return '';
 
   return this.padLeft(dateObject.getHours   (), 2, '0')+':'+
          this.padLeft(dateObject.getMinutes (), 2, '0');

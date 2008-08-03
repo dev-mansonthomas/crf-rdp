@@ -206,9 +206,10 @@ ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
 CREATE TABLE `crfirp`.`lieu_type`
 (
-  `id_type_lieu`    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `label_type_lieu` VARCHAR(45) NOT NULL,
-  `icon_lieu`       VARCHAR(20) NOT NULL,
+  `id_type_lieu`     INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `label_type_lieu`  VARCHAR(45) NOT NULL,
+  `icon_lieu`        VARCHAR(20) NOT NULL,
+  `icon_lieu_shadow` VARCHAR(20) NOT NULL,
   PRIMARY KEY(`id_type_lieu`)
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -398,7 +399,6 @@ CREATE TABLE `intervention` (
   `evac_num_inter_banlieu`                              varchar(16) NULL,
   `evac_hopital_destination`                            int(10) unsigned NULL,
   `evac_autre_destination`                              varchar(100) NULL,
-  `evac_arrivee_destination`                            datetime NULL,
 
   `evac_aggravation`                                    boolean NULL,
   `evac_aggravation_pendant_transport`                  boolean NULL,
@@ -412,8 +412,7 @@ CREATE TABLE `intervention` (
   `evac_par`                                            int(10) NULL,
   `evac_par_autre`                                      varchar(100) NULL,
 
-  `commentaires`                                        text NULL,
-  `eval_ci`                                             text NULL,
+
   PRIMARY KEY  (`id_intervention`),
   KEY `FK_intervention_dispositif` (`id_dispositif`),
   KEY `FK_intervention_origine`    (`id_origine`   ),

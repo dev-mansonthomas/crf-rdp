@@ -41,6 +41,7 @@ function init()
   //miCoRegulateurListCs  = new MonitorInputCoRegulateurListCs();
   
   miBilanCs             = Ext.ux.MonitorInput.BilanEditor;
+  miBilanCs.init();
   crfGoogleMap          = new CrfGoogleMap                  ();
   
   initLayout();
@@ -56,56 +57,56 @@ function initLayout()
 /****************INTERVENTION*TICKET*************************/
   
   var interventionEditor={
-    region:'center',
-    split:true,
-    contentEl:'InterventionPanel',
-    title:'Editeur d\'Intervention',
-    deferredRender:false,
-    xtype:'panel'
+    region        : 'center',
+    split         : true,
+    contentEl     : 'InterventionPanel',
+    title         : 'Editeur d\'Intervention',
+    deferredRender: false,
+    xtype         : 'panel'
     
   };
   var interventionList={
-  	id:'InterventionListEastPanel',
-    region:'east',
-    split:true,
-    contentEl:'InterventionList',
-    title:'Liste des Tickets d\'Interventions',
-    xtype:'panel',
-    width: 800,
-    collapsible: true,
-    layout:'accordion',
-    layoutConfig:{
+  	id          : 'InterventionListEastPanel',
+    region      : 'east',
+    split       : true,
+    contentEl   : 'InterventionList',
+    title       : 'Liste des Tickets d\'Interventions',
+    xtype       : 'panel',
+    width       : 800,
+    collapsible : true,
+    layout      : 'accordion',
+    layoutConfig: {
         animate:true
     },
     items:[{
-            title:'Liste des Tickets d\'Interventions en cours de saisie',
+            title    :'Liste des Tickets d\'Interventions en cours de saisie',
             contentEl:'InterventionListEncoursEdition',
-            border:false,
-            iconCls:'settings'
+            border   :false,
+            iconCls  :'settings'
           },
           {
-            title:'Liste des Tickets d\'Interventions Non Affectées',
-            contentEl:'InterventionListUnaffected',
-            border:false,
-            iconCls:'settings'
+            title    : 'Liste des Tickets d\'Interventions Non Affectées',
+            contentEl: 'InterventionListUnaffected',
+            border   : false,
+            iconCls  : 'settings'
           },
           {
-            title:'Autres ',
-            contentEl:'InterventionListOthers',
-            border:false,
-            iconCls:'settings'
+            title    : 'Autres ',
+            contentEl: 'InterventionListOthers',
+            border   : false,
+            iconCls  : 'settings'
           }]
   };
   
   
   var interventionPanel={
-      id:'monitorInputInterventionPanel',
-      title: 'Gestion des Tickets d\'Interventions',
-      closable:false,
-      autoScroll:true,
-      layout:'border',
-      tbar:[new Ext.Action({
-        text: 'Ajouter un Ticket d\'Intervention',
+      id        : 'monitorInputInterventionPanel',
+      title     : 'Gestion des Tickets d\'Interventions',
+      closable  : false,
+      autoScroll: true,
+      layout    : 'border',
+      tbar      : [new Ext.Action({
+        text   : 'Ajouter un Ticket d\'Intervention',
         handler: function()
         {
           miInterventionCs.addIntervention();
@@ -124,60 +125,65 @@ function initLayout()
 /****************BILAN*************************/
   
   var bilanEditor={
-    region:'center',
-    split:true,
-    contentEl:'BilanPanel',
-    title:'Editeur de Bilan',
-    deferredRender:false,
-    xtype:'panel',
-    collapsible: true,
-    layout:'accordion',
-    layoutConfig:{
+    id            : 'monitorInputBilanEditorCenterPanel',
+    region        : 'center',
+    split         : true,
+    contentEl     : 'BilanPanel',
+    title         : 'Editeur de Bilan',
+    deferredRender: false,
+    xtype         : 'panel',
+    collapsible   : true,
+    layout        :'accordion',
+    layoutConfig  :{
         animate:true
     },
     items:[{
-            title:'Identité',
-            contentEl:'BilanIdentite',
-            border:false,
-            iconCls:'settings'
+            id       : 'monitorInputBilanEditorCenterPanelIdentite',
+            title    : 'Identité',
+            contentEl: 'BilanIdentite',
+            border   : false,
+            iconCls  : 'settings'
           },
           {
-            title:'Bilan Secouriste Initial',
-            contentEl:'BilanBilanSecouristeInitial',
-            border:false,
-            iconCls:'settings'
+            id       : 'monitorInputBilanEditorCenterPanelBilanSecouristeInitial',
+            title    : 'Bilan Secouriste Initial',
+            contentEl: 'BilanBilanSecouristeInitial',
+            border   : false,
+            iconCls  : 'settings'
           },
           {
-            title:'Gestes Et Observations',
-            contentEl:'BilanGestEtObservation',
-            border:false,
-            iconCls:'settings'
+            id       : 'monitorInputBilanEditorCenterPanelGesteEtObservation',
+            title    : 'Gestes Et Observations',
+            contentEl: 'BilanGestEtObservation',
+            border   : false,
+            iconCls  : 'settings'
           },
           {
-            title:'Evacuation',
-            contentEl:'BilanEvacuation',
-            border:false,
-            iconCls:'settings'
+            id       : 'monitorInputBilanEditorCenterPanelEvacuation',
+            title    : 'Evacuation',
+            contentEl: 'BilanEvacuation',
+            border   : false,
+            iconCls  : 'settings'
           }]
     
   };
   var bilanHelper={
-    id:'BilanHelperEastPanel',
-    region:'east',
-    split:true,
-    contentEl:'BilanHelper',
-    title:'Aide à la Saisie',
-    xtype:'panel',
-    width: 200
+    id       : 'monitorInputBilanHelperEastPanel',
+    region   : 'east',
+    split    : true,
+    contentEl: 'BilanHelper',
+    title    : 'Aide à la Saisie',
+    xtype    : 'panel',
+    width    : 200
   };
   
   
   var bilanPanel={
-      id:'monitorInputBilanPanel',
-      title: 'Gestion des Bilans',
-      closable:false,
-      autoScroll:true,
-      layout:'border',
+      id        : 'monitorInputBilanPanel',
+      title     : 'Gestion des Bilans',
+      closable  : false,
+      autoScroll: true,
+      layout    : 'border',
       items:[
         bilanEditor,
         bilanHelper
@@ -188,51 +194,51 @@ function initLayout()
 /****************DISPOSITIF*EDITOR*************************/
     
   var dispositifEditor={
-    region:'center',
-    split:true,
-    contentEl:'DispositifPanel',
-    title:'Editeur de Dispositif',
-    deferredRender:false,
-    xtype:'panel'
+    region        : 'center',
+    split         : true,
+    contentEl     : 'DispositifPanel',
+    title         : 'Editeur de Dispositif',
+    deferredRender: false,
+    xtype         :'panel'
     
   };
   var dispositifList={
-    id:'DispositifListEastPanel',
-    region:'east',
-    split:true,
-    contentEl:'DispositifList',
-    title:'Liste des Dispositifs',
-    xtype:'panel',
-    split:true,
-    width: 800,
-    collapsible: true,
-    layout:'accordion',
+    id          : 'DispositifListEastPanel',
+    region      : 'east',
+    split       : true,
+    contentEl   : 'DispositifList',
+    title       : 'Liste des Dispositifs',
+    xtype       : 'panel',
+    split       : true,
+    width       : 800,
+    collapsible : true,
+    layout      : 'accordion',
     layoutConfig:{
         animate:true
     },
     items:[{
-            title:'Liste des Dispositifs',
-            contentEl:'DispositifListCurrent',
-            border:false,
-            iconCls:'settings'
+            title    : 'Liste des Dispositifs',
+            contentEl: 'DispositifListCurrent',
+            border   : false,
+            iconCls  : 'settings'
           },
           {
-            title:'Liste des Dispositifs en cours de saisie',
-            contentEl:'DispositifListEncoursEdition',
-            border:false,
-            iconCls:'settings'
+            title    : 'Liste des Dispositifs en cours de saisie',
+            contentEl: 'DispositifListEncoursEdition',
+            border   : false,
+            iconCls  : 'settings'
           }]
   };  
     
   var dispositifPanel={
-      id:'monitorInputDispositifPanel',
-      contentEl:'DispositifPanel',
-      title: 'Editeur de Dispositif',
-      closable:false,
-      autoScroll:true,
-      layout:'border',
+      id        : 'monitorInputDispositifPanel',
+      contentEl : 'DispositifPanel',
+      title     : 'Editeur de Dispositif',
+      closable  : false,
+      autoScroll: true,
+      layout    : 'border',
       tbar:[new Ext.Action({
-        text: 'Ajouter un Dispositif',
+        text   : 'Ajouter un Dispositif',
         handler: function()
         {
           miDispositifCs.createNewEmptyDispositif();
@@ -247,11 +253,11 @@ function initLayout()
     };
   
   var regulationPanel= {
-      id:'monitorInputRegulationPanel',
-      contentEl:'RegulationPanel',
-      title: 'Propriété de la Régulation',
-      closable:false,
-      autoScroll:true
+      id        : 'monitorInputRegulationPanel',
+      contentEl : 'RegulationPanel',
+      title     : 'Propriété de la Régulation',
+      closable  : false,
+      autoScroll: true
     };
   
     
@@ -263,34 +269,34 @@ function initLayout()
 /****************NORTH/SOUTH/CENTER*************************/
   var north = new Ext.BoxComponent(
       { // raw
-        id:'monitorInputNorthRegion',
+        id    :'monitorInputNorthRegion',
         region:'north',
-        el: 'north',
+        el    : 'north',
         height:50
       });
   
   var south = {
-        id:'monitorInputSouthRegion',
-        region:'south',
-        contentEl: 'south',
-        split:true,
-        height: 100,
-        minSize: 100,
-        maxSize: 200,
-        collapsible: true,
-        collapsed : true,
-        title:'South',
-        titleCollapse :true,
-        margins:'0 0 0 0'
+        id            : 'monitorInputSouthRegion',
+        region        : 'south',
+        contentEl     : 'south',
+        split         : true,
+        height        : 100,
+        minSize       : 100,
+        maxSize       : 200,
+        collapsible   : true,
+        collapsed     : true,
+        title         : 'South',
+        titleCollapse : true,
+        margins       : '0 0 0 0'
       };
     
   var center = new Ext.TabPanel(
   {
-    id:'monitorInputCenterRegion',
-    region:'center',
-    deferredRender:false,
-    activeTab:0,
-    items:[
+    id            : 'monitorInputCenterRegion',
+    region        : 'center',
+    deferredRender: false,
+    activeTab     : 0,
+    items         : [
       interventionPanel,
       bilanPanel,
       dispositifPanel,
@@ -298,6 +304,8 @@ function initLayout()
     ]
   });
 
-  var viewport = new Ext.Viewport({id:'monitorInputViewPort',layout:'border',items:[ north, south, center]});
+  var viewport = new Ext.Viewport({ id    :'monitorInputViewPort',
+                                    layout:'border',
+                                    items :[ north, south, center]});
 
 }

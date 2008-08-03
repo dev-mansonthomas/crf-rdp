@@ -17,17 +17,19 @@ import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionTicketRowMapper;
 import fr.croixrouge.irp.services.JDBCHelper;
+import fr.croixrouge.irp.services.dispositif.DispositifService;
 
 public class InterventionServiceImpl extends JDBCHelper implements InterventionService
 {
-  private         JdbcTemplate  jdbcTemplate  = null;
-  private static  Log           logger        = LogFactory.getLog(InterventionServiceImpl.class);
-
+  private         JdbcTemplate  jdbcTemplate      = null;
+  private static  Log           logger            = LogFactory.getLog(InterventionServiceImpl.class);
+  private DispositifService     dispositifService = null;
 
   
-  public InterventionServiceImpl(JdbcTemplate jdbcTemplate)
+  public InterventionServiceImpl(JdbcTemplate jdbcTemplate, DispositifService     dispositifService)
   {
-    this.jdbcTemplate = jdbcTemplate;
+    this.jdbcTemplate       = jdbcTemplate;
+    this.dispositifService  = dispositifService;
   }
   
   private int getLastInsertedId()
@@ -99,20 +101,147 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
   
   private final static String selectForIntevention = 
-    "SELECT  `id_intervention`,`id_dispositif`,`id_regulation`,`id_origine`,  `id_motif`, `id_etat`,          \n"+
-    "        `complement_motif`,`num_inter`, `id_ref_num_inter`, `ref_num_inter`, `DH_reception`, `DH_depart`,\n"+
-    "        `DH_sur_place`,  `DH_bilan_primaire`,  `DH_bilan_secondaire`,  `DH_quitte_les_lieux`,            \n"+
-    "        `DH_arrivee_hopital`,  `DH_dispo`,  `DH_a_sa_base`,  `DH_appel_renfort_medical`,                 \n"+
-    "        `DH_arrivee_renfort_medical`,  `nom_victime`,  `nom_contact_sur_place`,  `coordonnees_contact`,  \n"+
-    "        `batiment`,  `etage`,  `porte`,  `complement_adresse`,  `rue`,  `code_postal`,  `ville`,         \n"+
-    "        `bilan_primaire`,  `bilan_secondaire`,  `pouls_chiffre`,  `pouls_regularite`,  `pouls_force`,    \n"+
-    "        `ventil_chiffre`,  `ventil_regularite`,  `ventil_amplitude`,  `tension_haute`,  `tension_basse`, \n"+
-    "        `tension_ref_haute`,  `tension_ref_basse`,  `reflexe_pupillaire`,  `temperature`,                \n"+
-    "        `police_sur_place`,  `pompier_sur_place`,  `coordinateur_bspp`,  `coordinateur_samu`,            \n"+
-    "        `renfort_medical`,  `transport_medicalisee`,  `laisse_sur_place`,  `laisse_sur_place_vivant`,    \n"+
-    "        `decharche`, `utilisation_dsa`, `renfort_medical_type`, `num_inter_banlieu`,                     \n"+  
-    "        `hopital`, `eval_ci`, `google_coords_lat`, `google_coords_long`                                  \n"+
-    "FROM     intervention                                                                                    \n";
+    "SELECT                                       \n"+
+    "  `id_intervention`                         ,\n"+
+    "  `id_dispositif`                           ,\n"+
+    "  `id_regulation`                           ,\n"+
+    "  `id_origine`                              ,\n"+
+    "  `id_motif`                                ,\n"+
+    "  `id_etat`                                 ,\n"+
+    "  `complement_motif`                        ,\n"+
+    "  `num_inter`                               ,\n"+
+    "  `id_ref_num_inter`                        ,\n"+
+    "  `ref_num_inter`                           ,\n"+
+    "  `DH_saisie`                               ,\n"+
+    "  `DH_reception`                            ,\n"+
+    "  `DH_depart`                               ,\n"+
+    "  `DH_sur_place`                            ,\n"+
+    "  `DH_bilan_primaire`                       ,\n"+
+    "  `DH_bilan_secondaire`                     ,\n"+
+    "  `DH_quitte_les_lieux`                     ,\n"+
+    "  `DH_arrivee_hopital`                      ,\n"+
+    "  `DH_fin_intervention`                     ,\n"+
+    "  `DH_appel_renfort_medical`                ,\n"+
+    "  `DH_arrivee_renfort_medical`              ,\n"+
+    "  `homme_victime`                           ,\n"+
+    "  `nom_victime`                             ,\n"+
+    "  `nom_jf_victime`                          ,\n"+
+    "  `prenom_victime`                          ,\n"+
+    "  `age_approx_victime`                      ,\n"+
+    "  `date_naissance`                          ,\n"+
+    "  `lieu_naissance`                          ,\n"+
+    "  `adresse_victime`                         ,\n"+
+    "  `code_postal_victime`                     ,\n"+
+    "  `ville_victime`                           ,\n"+
+    "  `pays_victime`                            ,\n"+
+    "  `personne_a_prevenir`                     ,\n"+
+    "  `tel_personne_a_prevenir`                 ,\n"+
+    "  `effet_ou_objet_remis`                    ,\n"+
+    "  `effet_ou_objet_remis_a`                  ,\n"+
+    "  `nom_contact_sur_place`                   ,\n"+
+    "  `coordonnees_contact`                     ,\n"+
+    "  `batiment`                                ,\n"+
+    "  `etage`                                   ,\n"+
+    "  `porte`                                   ,\n"+
+    "  `complement_adresse`                      ,\n"+
+    "  `rue`                                     ,\n"+
+    "  `code_postal`                             ,\n"+
+    "  `ville`                                   ,\n"+
+    "  `google_coords_lat`                       ,\n"+
+    "  `google_coords_long`                      ,\n"+
+    "  `bilan_circonstances`                     ,\n"+
+    "  `bilan_detresses`                         ,\n"+
+    "  `bilan_antecedents`                       ,\n"+
+    "  `bilan_commentaires`                      ,\n"+
+    "  `bilan_evaluation_ci`                     ,\n"+
+    "  `cs_coma`                                 ,\n"+
+    "  `cs_pci`                                  ,\n"+
+    "  `cs_pci_duree`                            ,\n"+
+    "  `cs_pc_secondaire`                        ,\n"+
+    "  `cs_agitation`                            ,\n"+
+    "  `cs_convulsions`                          ,\n"+
+    "  `ventil_absence`                          ,\n"+
+    "  `ventil_chiffre`                          ,\n"+
+    "  `ventil_commentaire`                      ,\n"+
+    "  `ventil_superficielle`                    ,\n"+
+    "  `ventil_ronflement`                       ,\n"+
+    "  `ventil_irreguliere`                      ,\n"+
+    "  `ventil_tirage`                           ,\n"+
+    "  `ventil_pauses`                           ,\n"+
+    "  `ventil_sueurs`                           ,\n"+
+    "  `ventil_sifflement`                       ,\n"+
+    "  `ventil_cyanose`                          ,\n"+
+    "  `ventil_saturation_o2`                    ,\n"+
+    "  `circul_pouls_non_percu`                  ,\n"+
+    "  `circul_pouls_chiffre`                    ,\n"+
+    "  `circul_pouls_commentaire`                ,\n"+
+    "  `circul_pouls_irregulier`                 ,\n"+
+    "  `circul_pouls_faible`                     ,\n"+
+    "  `circul_conjonctive_decolorees`           ,\n"+
+    "  `circul_paleur_cutanees`                  ,\n"+
+    "  `circul_marbrure`                         ,\n"+
+    "  `circul_tension_basse`                    ,\n"+
+    "  `circul_tension_haute`                    ,\n"+
+    "  `circul_tension_ref_basse`                ,\n"+
+    "  `circul_tension_ref_haute`                ,\n"+
+    "  `pupille_reactive`                        ,\n"+
+    "  `pupille_non_reactive`                    ,\n"+
+    "  `pupille_myosis_gauche`                   ,\n"+
+    "  `pupille_myosis_droite`                   ,\n"+
+    "  `pupille_mydriase_gauche`                 ,\n"+
+    "  `pupille_mydriase_droite`                 ,\n"+
+    "  `pupille_asymetriques`                    ,\n"+
+    "  `douleur`                                 ,\n"+
+    "  `gestes_lva`                              ,\n"+
+    "  `gestes_mce`                              ,\n"+
+    "  `gestes_allongee`                         ,\n"+
+    "  `gestes_pls`                              ,\n"+
+    "  `gestes_pansement`                        ,\n"+
+    "  `gestes_refroidissement`                  ,\n"+
+    "  `gestes_aspiration`                       ,\n"+
+    "  `gestes_dsa`                              ,\n"+
+    "  `gestes_dsa_nb_chocs`                     ,\n"+
+    "  `gestes_demi_assis`                       ,\n"+
+    "  `gestes_collier_cervical`                 ,\n"+
+    "  `gestes_point_de_compression`             ,\n"+
+    "  `gestes_protection_thermique`             ,\n"+
+    "  `gestes_va`                               ,\n"+
+    "  `gestes_jambes_surelevees`                ,\n"+
+    "  `gestes_attelle`                          ,\n"+
+    "  `gestes_garrot`                           ,\n"+
+    "  `gestes_garrot_heure_pose`                ,\n"+
+    "  `gestes_autres`                           ,\n"+
+    "  `gestes_inhalation_o2_litre_min`          ,\n"+
+    "  `gestes_glycemie_gramme_litre`            ,\n"+
+    "  `gestes_temperature`                      ,\n"+
+    "  `gestes_immobilisation_generale`          ,\n"+
+    "  `coordinateur_bspp_contacte`              ,\n"+
+    "  `coordinateur_samu_contacte`              ,\n"+
+    "  `transport_medicalisee_ar`                ,\n"+
+    "  `transport_medicalisee_umh`               ,\n"+
+    "  `transport_medicalisee_de`                ,\n"+
+    "  `medecin_civil_sur_place`                 ,\n"+
+    "  `police_sur_place`                        ,\n"+
+    "  `pompier_sur_place`                       ,\n"+
+    "  `evac_laisse_sur_place`                   ,\n"+
+    "  `evac_laisse_sur_place_decedee`           ,\n"+
+    "  `evac_laisse_sur_place_decedee_a_dispo_de`,\n"+
+    "  `evac_refus_de_transport`                 ,\n"+
+    "  `evac_decharche`                          ,\n"+
+    "  `evac_num_inter_banlieu`                  ,\n"+
+    "  `evac_hopital_destination`                ,\n"+
+    "  `evac_autre_destination`                  ,\n"+
+    "  `evac_aggravation`                        ,\n"+
+    "  `evac_aggravation_pendant_transport`      ,\n"+
+    "  `evac_aggravation_arrive_a_destination`   ,\n"+
+    "  `evac_aggravation_ventilation`            ,\n"+
+    "  `evac_aggravation_circulation`            ,\n"+
+    "  `evac_aggravation_douleur`                ,\n"+
+    "  `evac_aggravation_contact_regulation`     ,\n"+
+    "  `evac_aggravation_nature`                 ,\n"+
+    "  `evac_par`                                ,\n"+
+    "  `evac_par_autre`                           \n"+
+    "FROM INTERVENTION                            \n";
   
   private final static String queryForGetIntervention =
     selectForIntevention +
@@ -120,10 +249,16 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
   public Intervention getIntervention(int idIntervention) throws Exception
   {
-    return (Intervention)this.jdbcTemplate.queryForObject(queryForGetIntervention, 
+    Intervention intervention =  (Intervention)this.jdbcTemplate.queryForObject(queryForGetIntervention, 
                                                           new Object[]{idIntervention},
                                                           new int   []{Types.INTEGER},
                                                           new InterventionRowMapper());
+    
+    if(intervention.getIdDispositif()>0)
+      this.dispositifService.getDispositifTicket(intervention.getIdDispositif());  
+    
+    
+    return intervention;
   }
   
 
@@ -396,8 +531,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "DH_dispo"                           ,    
     "DH_a_sa_base"                       ,    
     "DH_appel_renfort_medical"           ,    
-    "DH_arrivee_renfort_medical"         ,    
-    "evac_arrivee_destination"               
+    "DH_arrivee_renfort_medical"             
 };
   private static Hashtable<String, String> dateFieldMatching = new Hashtable<String, String>(dateField.length);
   {
@@ -412,10 +546,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     dateFieldMatching.put("DH_quitte_les_lieux"                , "DH_quitte_les_lieux"                   );
     dateFieldMatching.put("DH_arrivee_hopital"                 , "DH_arrivee_hopital"                    );
     dateFieldMatching.put("DH_dispo"                           , "DH_dispo"                              );
-    dateFieldMatching.put("DH_a_sa_base"                       , "DH_a_sa_base"                          );
     dateFieldMatching.put("DH_appel_renfort_medical"           , "DH_appel_renfort_medical"              );
     dateFieldMatching.put("DH_arrivee_renfort_medical"         , "DH_arrivee_renfort_medical"            );
-    dateFieldMatching.put("evac_arrivee_destination"           , "evac_arrivee_destination"              );
   }
   public void updateInterventionDateField   (int idIntervention, String fieldName, Date fieldValue) throws Exception
   {
@@ -555,8 +687,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "bilan_detresses"                         ,
     "bilan_antecedents"                       ,
     "bilan_commentaires"                      ,
-    "commentaires"                            ,
-    "eval_ci"                                 ,
+    "bilan_evaluation_ci"                     ,
     "cs_pci_duree"                            ,
     "evac_autre_destination"                  ,
     "evac_aggravation_nature"                 ,
@@ -598,8 +729,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     stringFieldMatching.put("bilan_detresses"                         ,"bilan_detresses"                         );
     stringFieldMatching.put("bilan_antecedents"                       ,"bilan_antecedents"                       );
     stringFieldMatching.put("bilan_commentaires"                      ,"bilan_commentaires"                      );
-    stringFieldMatching.put("commentaires"                            ,"commentaires"                            );
-    stringFieldMatching.put("eval_ci"                                 ,"eval_ci"                                 );
+    stringFieldMatching.put("bilan_evaluation_ci"                     ,"bilan_evaluation_ci"                     );
+    
     stringFieldMatching.put("cs_pci_duree"                            ,"cs_pci_duree"                            );
     stringFieldMatching.put("evac_autre_destination"                  ,"evac_autre_destination"                  );
     stringFieldMatching.put("evac_aggravation_nature"                 ,"evac_aggravation_nature"                 );

@@ -20,6 +20,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
   
   public Intervention createEmptyIntervention() throws Exception
   {
+    this.validateSession();
     Intervention intervention = this.interventionService.createEmptyIntervention(validateSessionAndGetRegulationId());
     return intervention;
   }
@@ -41,14 +42,20 @@ public class MonitorInputBilanImpl  extends DWRUtils
     
     updateRegulationUser(script, outPageName);
   }
-  
+  public Intervention       getIntervention(int idIntervention) throws Exception
+  {
+    this.validateSession();
+    return this.interventionService.getIntervention(idIntervention);
+  }
   public InterventionTicket getInterventionTicket(int idIntervention) throws Exception
   {
+    this.validateSession();
     return this.interventionService.getInterventionTicket(idIntervention);
   }
   
   public void deleteIntervention(int idIntervention, boolean notifyOthers) throws Exception
   {
+    this.validateSession();
     this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 4);
     if(notifyOthers)
     {
@@ -67,6 +74,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
 
   public ListRange getInterventionTicketList(int status, int index, int limit)throws Exception
   {
+    this.validateSession();
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, status, index, limit);
   }

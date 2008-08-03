@@ -417,9 +417,16 @@ Age Approximatif :
 
     <tr>
       <td>
+        
+      </td>
+      <td>
+
+      </td>
+      <td>
         <div class="BilanFieldInputLabel">Nom JF :</div>
       </td>
       <td>
+
           <input style="width:120px;"
                   type="text"
                     id="bilan_nom_jf_victime"
@@ -428,12 +435,42 @@ Age Approximatif :
              maxlength="60"
                onFocus="crfIrpUtils.fieldEdit(this.id)"
                 onBlur="miBilanCs.updateStringField(this.id, 'nom_jf_victime')"/>
+        
+      </td>
+    </tr>
+    <tr>
+      <td><div class="BilanFieldInputLabel">Age approximatif :</div></td>
+      <td>
+          
+          <input style="width:120px;"
+                  type="text"
+                    id="bilan_age_approx_victime"
+                  name="bilan_age_approx_victime"
+                 value=""
+             maxlength="60"
+               onFocus="crfIrpUtils.fieldEdit(this.id)"
+                onBlur="miBilanCs.updateIntegerField(this.id, 'age_approx_victime')"/>
 
       </td>
-      <td>
+      <td><div class="BilanFieldInputLabel">Sexe :</div></td>
+      <td id="BilanVictimeSexe">
+        
+          <input type="radio"
+             id="bilan_homme_victime_false"
+           name="bilan_homme_victime"
+        onFocus="crfIrpUtils.fieldEdit(this.id)"
+       onChange="miBilanCs.updateBooleanField(this.id, 'homme_victime', 'BilanVictimeSexe')"
+          value="false"/>
+     Femme.&nbsp;&nbsp;&nbsp;
 
-      </td>
-      <td>
+          <input type="radio"
+             id="bilan_homme_victime_true"
+           name="bilan_homme_victime"
+        onFocus="crfIrpUtils.fieldEdit(this.id)"
+       onChange="miBilanCs.updateBooleanField(this.id, 'homme_victime', 'BilanVictimeSexe')"
+          value="true"/>
+     Homme.
+        
       </td>
     </tr>
 
@@ -607,7 +644,7 @@ Age Approximatif :
                 name="bilan_bilan_circonstances"
                class="bilanTextArea"
              onFocus="crfIrpUtils.fieldEdit(this.id)"
-              onBlur="miBilanCs.updateStringField(this.id, 'bilan_circonstances')"/></textarea>
+              onBlur="miBilanCs.updateStringField(this.id, 'bilan_circonstances')"></textarea>
 
       </fieldset>
 
@@ -618,7 +655,7 @@ Age Approximatif :
                 name="bilan_bilan_detresses"
                class="bilanTextArea"
              onFocus="crfIrpUtils.fieldEdit(this.id)"
-              onBlur="miBilanCs.updateStringField(this.id, 'bilan_detresses')"/></textarea>
+              onBlur="miBilanCs.updateStringField(this.id, 'bilan_detresses')"></textarea>
 
       </fieldset>
 
@@ -629,7 +666,7 @@ Age Approximatif :
                 name="bilan_bilan_antecedents"
                class="bilanTextArea"
              onFocus="crfIrpUtils.fieldEdit(this.id)"
-              onBlur="miBilanCs.updateStringField(this.id, 'bilan_antecedents')"/></textarea>
+              onBlur="miBilanCs.updateStringField(this.id, 'bilan_antecedents')"></textarea>
       </fieldset>
 
 
@@ -958,7 +995,7 @@ Age Approximatif :
              id="bilan_pupille_reactive"
            name="bilan_pupille_reactive"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_reactive', 'bilanPupilleReactiveP')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_reactive', 'bilanPupilleReactiveP');miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
      Réactives
       </td>
       <td style="text-align:right;" id="bilanPupilleMyosisGaucheP">
@@ -968,7 +1005,7 @@ Age Approximatif :
              id="bilan_pupille_myosis_gauche"
            name="bilan_pupille_myosis_gauche"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_gauche', 'bilanPupilleMyosisGaucheP')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_gauche', 'bilanPupilleMyosisGaucheP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
      
       </td>
       <td id="bilanPupilleMyosisDroiteP">
@@ -976,7 +1013,7 @@ Age Approximatif :
              id="bilan_pupille_myosis_droite"
            name="bilan_pupille_myosis_droite"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_droite', 'bilanPupilleMyosisDroiteP')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_droite', 'bilanPupilleMyosisDroiteP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
         Droite
       </td>
     </tr>
@@ -986,7 +1023,7 @@ Age Approximatif :
              id="bilan_pupille_non_reactive"
            name="bilan_pupille_non_reactive"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_non_reactive', 'bilanPupilleNonReactiveP')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_non_reactive', 'bilanPupilleNonReactiveP');miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
      Non Réactives
       </td>
       <td style="text-align:right;" id="bilanPupilleMydriaseGaucheP">
@@ -995,7 +1032,7 @@ Age Approximatif :
              id="bilan_pupille_mydriase_gauche"
            name="bilan_pupille_mydriase_gauche"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_gauche', 'bilanPupilleMydriaseGaucheP')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_gauche', 'bilanPupilleMydriaseGaucheP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
      
       </td>
       <td id="bilanPupilleMydriaseDroiteP">
@@ -1003,7 +1040,7 @@ Age Approximatif :
              id="bilan_pupille_mydriase_droite"
            name="bilan_pupille_mydriase_droite"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_droite', 'bilanPupilleMydriaseDroiteP')"/>
+       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_droite', 'bilanPupilleMydriaseDroiteP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
        Droite
       </td>
     </tr>
@@ -1091,8 +1128,8 @@ Age Approximatif :
 </p>
 <p id="bilanGesteAspirationP">
   <input type="checkbox"
-           id="bilanGesteAspiration"
-         name="bilanGesteAspiration"
+           id="bilan_gestes_aspiration"
+         name="bilan_gestes_aspiration"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
      onChange="miBilanCs.updateBooleanField(this.id, 'gestes_aspiration', 'bilanGesteAspirationP')"/>
    Aspiration
@@ -1170,12 +1207,12 @@ Age Approximatif :
      onChange="miBilanCs.updateBooleanField(this.id, 'gestes_pls', 'bilanGestePlsP')"/>
    PLS
 </p>
-<p id="bilanGesteColierCervicalP">
+<p id="bilanGesteCollierCervicalP">
   <input type="checkbox"
-           id="bilan_gestes_colier_cervical"
-         name="bilan_gestes_colier_cervical"
+           id="bilan_gestes_collier_cervical"
+         name="bilan_gestes_collier_cervical"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_colier_cervical', 'bilanGesteColierCervicalP')"/>
+     onChange="miBilanCs.updateBooleanField(this.id, 'gestes_collier_cervical', 'bilanGesteCollierCervicalP')"/>
    Colier Cervical
 </p>
 <p id="bilanGesteAttelleP">
@@ -1226,7 +1263,7 @@ Age Approximatif :
           type="text"
             id="bilan_gestes_garrot_heure_pose"
           name="bilan_gestes_garrot_heure_pose"
-         value="  :  "
+         value=""
      maxlength="5"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="miBilanCs.updateDateField(this.id, 'gestes_garrot_heure_pose')"/>
@@ -1257,8 +1294,8 @@ Age Approximatif :
 Autres gestes
   <input style="width:500px;"
           type="text"
-            id="bilanGesteAutres"
-          name="bilanGesteAutres"
+            id="bilan_gestes_autres"
+          name="bilan_gestes_autres"
          value=""
      maxlength="200"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -1270,18 +1307,18 @@ Autres gestes
 Inhalation O<sub>2</sub>
   <input style="width:30px;"
           type="text"
-            id="bilanGesteInhalation02"
-          name="bilanGesteInhalation02"
+            id="bilan_gestes_inhalation_o2_litre_min"
+          name="bilan_gestes_inhalation_o2_litre_min"
          value=""
      maxlength="2"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
-        onBlur="miBilanCs.updateIntField(this.id, 'gestes_inhalation_o2_litre_min')"/> l<sub>/min</sub>
+        onBlur="miBilanCs.updateIntegerField(this.id, 'gestes_inhalation_o2_litre_min')"/> l<sub>/min</sub>
       </td>
       <td colspan="2" style="text-align:center;">
 Glycémie <input style="width:30px;"
           type="text"
-            id="bilanGesteGlycemie"
-          name="bilanGesteGlycemie"
+            id="bilan_gestes_glycemie_gramme_litre"
+          name="bilan_gestes_glycemie_gramme_litre"
          value=""
      maxlength="2"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
@@ -1334,27 +1371,39 @@ Température <input style="width:30px;"
                   
         
         <tr>
-          <td colspan="2" id="bilanRenfortMedicaliseeArP">
+          <td colspan="1" id="bilanRenfortMedicaliseeArP">
 Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
            id="bilan_transport_medicalisee_ar"
          name="bilan_transport_medicalisee_ar"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_ar','bilanRenfortMedicaliseeArP')"/> AR&nbsp;&nbsp;&nbsp;&nbsp;
+     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_ar','bilanRenfortMedicaliseeArP');miBilanCs.mecialiseParCheck(this.id);"/> AR&nbsp;&nbsp;&nbsp;&nbsp;
      &nbsp;&nbsp;&nbsp;
        <input type="checkbox"
            id="bilan_transport_medicalisee_umh"
          name="bilan_transport_medicalisee_umh"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_umh','bilanRenfortMedicaliseeArP')"/> UMH
+     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_umh','bilanRenfortMedicaliseeArP');miBilanCs.mecialiseParCheck(this.id);"/> UMH
      &nbsp;&nbsp;&nbsp;&nbsp;de
 
    <select  id="bilan_transport_medicalisee_de"
           name="bilan_transport_medicalisee_de"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
-      onChange="miBilanCs.updateIntField(this.id, 'transport_medicalisee_de')">
+      onChange="miBilanCs.updateIntegerField(this.id, 'transport_medicalisee_de')">
         <option value="0">Loading...</option>
         </select>
          </td>
+         <td>
+           <p id="bilanRenfortMedecinCivilSurPlaceP">
+            Médecin civil sur place : 
+             <input type="text"
+                      id="bilan_medecin_civil_sur_place"
+                    name="bilan_medecin_civil_sur_place"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+               maxlenght="50"
+                   style="width:300px;"
+                onChange="miBilanCs.updateStringField(this.id, 'medecin_civil_sur_place')"/>
+            </p>
+          </td>         
           <td>
 <p id="bilanRenfortPoliceSurPlaceP">
              <input type="checkbox"
@@ -1487,7 +1536,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="2"
         style="width:30px;"
-     onChange="miBilanCs.updateIntField(this.id, 'evac_aggravation_ventilation')"/>
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_aggravation_ventilation')"/>
      / <sub>mm</sub>
      
      
@@ -1500,7 +1549,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="2"
         style="width:30px;"
-     onChange="miBilanCs.updateIntField(this.id, 'evac_aggravation_circulation')"/>
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_aggravation_circulation')"/>
      / <sub>mm</sub>          
         </td>
         <td>
@@ -1511,7 +1560,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="2"
         style="width:30px;"
-     onChange="miBilanCs.updateIntField(this.id, 'evac_aggravation_douleur')"/>
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_aggravation_douleur')"/>
      / <sub>mm</sub>
         </td>
       </tr>
@@ -1530,12 +1579,12 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         <td colspan="2">
         Nature de l'aggravation :
         <input type="text"
-           id="bilan_evac_aggravation_contact_regulation"
-         name="bilan_evac_aggravation_contact_regulation"
+           id="bilan_evac_aggravation_nature"
+         name="bilan_evac_aggravation_nature"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
     maxlength="100"
         style="width:300px;"
-     onChange="miBilanCs.updateStringField(this.id, 'evac_aggravation_contact_regulation')"/>
+     onChange="miBilanCs.updateStringField(this.id, 'evac_aggravation_nature')"/>
          
         </td>
       </tr>
@@ -1606,7 +1655,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
      <select  id="bilan_evac_hopital_destination"
             name="bilan_evac_hopital_destination"
          onFocus="crfIrpUtils.fieldEdit(this.id)"
-        onChange="miBilanCs.updateIntField(this.id, 'evac_hopital_destination')">
+        onChange="miBilanCs.updateIntegerField(this.id, 'evac_hopital_destination')">
           <option value="0">Loading...</option>
           </select>
         </td>
@@ -1624,15 +1673,8 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         
         </td>
         <td>
-          Arrivée aux Urgence
-  <input style="width:35px;"
-          type="text"
-            id="bilan_evac_arrivee_destination"
-          name="bilan_evac_arrivee_destination"
-         value="  :  "
-     maxlength="5"
-       onFocus="crfIrpUtils.fieldEdit(this.id)"
-        onBlur="miBilanCs.updateDateField(this.id, 'evac_arrivee_destination')"/>
+          
+
         </td>
       </tr>      
     </table>    
@@ -1641,8 +1683,273 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     </div>
   </div><!-- FIN BilanEditor -->
   <div id="BilanHelper">
+    <fieldset>
+      <legend>Identification</legend>
+      <table class="BilanHelperFieldsetTable">
+        <tr>
+          <th>Id Inter. :</th>
+          <td><span id="BilanHelper_id_intervention"      ></span></td>
+        </tr>
+        <tr>
+          <th>Victime     :</th>
+          <td><span id="BilanHelper_nom_victime"          ></span></td>
+        </tr>
+        <tr>
+          <th>Dispositif      :</th>
+          <td><span id="BilanHelper_indicatif_dispositif"></span></td>
+        </tr>
+        <tr>
+          <th>Etat Inter.     :</th>
+          <td><span id="BilanHelper_id_etat"              ></span></td>
+        </tr>
+        <tr>
+          <th>Ref. Inter. Ori.:</th>
+          <td><span id="BilanHelper_ref_inter_ori"        ></span></td>
+        </tr>
+        <tr>
+          <th>Ref. Inter. Ext.:</th>
+          <td><input type="text" 
+                    style="width:100%;"
+                       id="BilanHelper_evac_num_inter_banlieu"
+                     name="BilanHelper_evac_num_inter_banlieu"
+                maxlength="16"
+                  onFocus="crfIrpUtils.fieldEdit(this.id)"
+                   onBlur="miBilanCs.updateStringField(this.id, 'evac_num_inter_banlieu')"/></td>
+        </tr>
+       </table>
+       <input id="BilanHelper_openDispositif" type="button" value="Voir le Dispositif" onClick="miBilanCs.openDispositif();"/>
+    </fieldset>
+    <fieldset>
+      <legend>Ticket</legend>
+      <table class="BilanHelperFieldsetTable">
+        <tr>
+          <th>Origine :</th>
+          <td><span id="BilanHelper_id_origine"  ></span></td>
+        </tr>
+        <tr>
+          <th>Motif   :</th>
+          <td><span id="BilanHelper_id_motif"    ></span></td>
+        </tr>
+        <tr>
+          <th>Date    :</th>
+          <td><span id="BilanHelper_DH_reception"></span></td>
+        </tr>
+        <tr>
+          <th>Rue    :</th>
+          <td><span id="BilanHelper_rue"></span></td>
+        </tr>
+        <tr>
+          <th>CP    :</th>
+          <td><span id="BilanHelper_code_postal"></span></td>
+        </tr>
+        <tr>
+          <th>Ville    :</th>
+          <td><span id="BilanHelper_ville"></span></td>
+        </tr>
+      </table>
+      <input type="hidden" id="BilanHelper_google_coords_lat"  value=""/>
+      <input type="hidden" id="BilanHelper_google_coords_long" value=""/>
+           
+      <input id="BilanHelper_openTicket"  type="button" value="Voir le Ticket" onClick="miBilanCs.openTicket();"/> 
+      <input id="BilanHelper_openAddress" type="button" value="Voir l'adresse" onClick="miBilanCs.openInterAddress();"/>
+    </fieldset>
+    <fieldset>
+      <legend>Timing</legend>
+      
+      Date Inter <div id="bilanDateHeureBase_div"></div> 
+      <input type="hidden" id="bilanDateHeureBase_input" name="bilanDateHeureBase_input"/>
+      
+      <table id="BilanHelperTimingFieldsetTable" class="BilanHelperFieldsetTable">
+        <tr>
+          <th>Saisie :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_saisie"
+                    name="bilan_DH_saisie"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_saisie')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Réception :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_reception"
+                    name="bilan_DH_reception"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_reception')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Départ :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_depart"
+                    name="bilan_DH_depart"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_depart')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Sur Place :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_sur_place"
+                    name="bilan_DH_sur_place"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_sur_place')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Primaire :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_bilan_primaire"
+                    name="bilan_DH_bilan_primaire"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_bilan_primaire')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Secondaire :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_bilan_secondaire"
+                    name="bilan_DH_bilan_secondaire"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_bilan_secondaire')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Quitte les lieux :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_quitte_les_lieux"
+                    name="bilan_DH_quitte_les_lieux"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_quitte_les_lieux')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Hopital :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_arrivee_hopital"
+                    name="bilan_DH_arrivee_hopital"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_arrivee_hopital')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Fin :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_fin_intervention"
+                    name="bilan_DH_fin_intervention"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_fin_intervention')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Appel Renfort Med. :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_appel_renfort_medical"
+                    name="bilan_DH_appel_renfort_medical"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_appel_renfort_medical')"/>
+            
+          </td>
+        </tr>
+        <tr>
+          <th>Arrivée Renfort Med. :</th>
+          <td>
+            <input style="width:35px;"
+                    type="text"
+                      id="bilan_DH_arrivee_renfort_medical"
+                    name="bilan_DH_arrivee_renfort_medical"
+                   value=""
+               maxlength="5"
+                 onFocus="crfIrpUtils.fieldEdit(this.id)"
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_arrivee_renfort_medical')"/>
+            
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+    <fieldset>
+      <legend>Commentaires &amp; Evalution CI</legend>
+      <input id="BilanHelper_openCommentsAndEvalCi" type="button" value="Edition" onClick="miBilanCs.openCommentsAndEvalCi();"/>
+    </fieldset>
   </div>
 </div>
+
+<div id="bilan-commentsAndEval" class="x-hidden">
+    <div class="x-window-header">Bilan - Commentaires & Evaluations</div>
+    <div id="bilan-commentsAndEval-tabs">
+        <!-- Auto create tab 1 -->
+        <div class="x-tab" title="Commentaires">
+          
+        <textarea id="bilan_bilan_commentaires"
+                name="bilan_bilan_commentaires"
+               class="bilanTextArea"
+             onFocus="crfIrpUtils.fieldEdit(this.id)"
+              onBlur="miBilanCs.updateStringField(this.id, 'bilan_commentaires')"></textarea>
+
+        </div>
+        <!-- Auto create tab 2 -->
+
+        <div class="x-tab" title="Evalution CI">
+
+        <textarea id="bilan_bilan_evaluation_ci"
+                name="bilan_bilan_evaluation_ci"
+               class="bilanTextArea"
+             onFocus="crfIrpUtils.fieldEdit(this.id)"
+              onBlur="miBilanCs.updateStringField(this.id, 'bilan_evaluation_ci')"></textarea>
+
+        </div>
+    </div>
+</div>
+
 <!-- Fin Bilan Editor -->
 
 <!-- Dispositif Editor -->

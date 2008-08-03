@@ -33,16 +33,20 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private EquipierService     equipierService     = null;
   private InterventionService interventionService = null;
   
-  public DispositifImpl(JdbcTemplate  jdbcTemplate, InterventionService interventionService)
+  public DispositifImpl(JdbcTemplate  jdbcTemplate)
   {
     this.jdbcTemplate        = jdbcTemplate       ;
-    this.interventionService = interventionService;
-  }/*Injection faite par setter pour résoudre une dépendence cyclique entre les services equipier et dispositif*/
+  }
+  /*Injection faite par setter pour résoudre une dépendence cyclique entre les services equipier et dispositif*/
   public void setEquipierService(EquipierService equipierService)
   {
     this.equipierService = equipierService;
   }
-  
+  /*Injection faite par setter pour résoudre une dépendence cyclique entre les services equipier et intervention*/
+  public void setInterventionService(InterventionService interventionService)
+  {
+    this.interventionService = interventionService;
+  }
   private int getLastInsertedId()
   {
     return this.getLastInsertedId(jdbcTemplate, "dispositif");
@@ -322,6 +326,22 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     return new ListRange(totalCount, list); 
   }
+  
+  private final static String queryForGetDispositifTicket = dispositifTicketSelectQuery+
+  "WHERE id_dispositif = ?\n";
+  
+  public DispositifTicket getDispositifTicket(int idDispositif) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("getting dispositifTicket for dispositif id='"+idDispositif+"'");
+
+    return (DispositifTicket)this.jdbcTemplate.queryForObject(queryForGetDispositifTicket, 
+        new Object[]{idDispositif },
+        new int   []{Types.INTEGER},
+        new DispositifTicketRowMapper());
+  }
+  
+  
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public Dispositif createEmptyDispositif(Regulation regulation) throws Exception
   {

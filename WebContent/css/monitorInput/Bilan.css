@@ -49,3 +49,22 @@
   padding-right:10px; 
   -moz-border-radius:4px;
 }
+
+.BilanHelperFieldsetTable
+{
+  width:100%;
+}
+
+.BilanHelperFieldsetTable th
+{
+  width:42%;
+  text-align:right;
+}
+#BilanHelperTimingFieldsetTable th
+{
+  width:62%;
+}
+#BilanHelper_openTicket, #BilanHelper_openDispositif, #BilanHelper_openAddress, #BilanHelper_openCommentsAndEvalCi
+{
+  margin-left:30%;
+}

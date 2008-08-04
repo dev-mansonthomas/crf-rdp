@@ -152,6 +152,33 @@ values
 
 update intervention_etat set id_etat = 0 where id_etat = 11;
 
+-- type de lieux
+INSERT INTO `lieu_type` (`id_type_lieu`,`label_type_lieu`,`icon_lieu`,`icon_lieu_shadow`) VALUES 
+ (1,'Hopital','hopital.png','hopital_shadow.png'),
+ (2,'Centre de Secours des Pompiers','cs_pompier.png','cs_pompier_shadow.png'),
+ (3,'CRF - Base locale','crf_base.png','crf_base_shadow.png'),
+ (4,'Station Service H24','station_service_h24.png','station_service_h24_shadow.png'),
+ (5,'Boulangerie/Fast Food/Resto H24','bouffe_h24.png','bouffe_h24_shadow.png'),
+ (6,'Pharmacie H24','pharmacie_h24.png','pharmacie_h24_shadow.png');
+-- lieux
+INSERT INTO `lieu` (`id_lieu`,`id_type_lieu`,`icon_lieu_specifique`,`nom`,`addresse`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`info_complementaire`) VALUES 
+ (1,1,NULL,'BICHAT - CLAUDE-BERNARD','46, rue Henri-Huchard','75018','Paris',48.899136,2.334483,NULL),
+ (2,1,NULL,'HOTEL-DIEU ','1, place du Parvis Notre-Dame','75004','Paris',48.853264,2.348034,NULL),
+ (3,1,NULL,'LARIBOISIERE','9, rue Ambroise Paré','75010','Paris',48.881939,2.352589,NULL),
+ (4,2,NULL,'Rousseau','21, rue du Jour','75001','Paris',48.863880,2.344957,NULL),
+ (5,2,NULL,'Sévigné','7, rue Sévigné','75004','Paris',48.855671,2.362153,NULL),
+ (6,2,NULL,'Dauphine','2, rue François Millet','75016','Paris',48.850437,2.273220,NULL),
+ (7,2,NULL,'Montmartre','12, rue Carpeaux','75018','Paris',48.891346,2.332324,NULL),
+ (8,3,NULL,'CRF - Base IV',"36, rue Geoffroy l'Asnier",'75004','Paris',48.855434,2.357217,NULL),
+ (9,3,NULL,'CRF - Base XVI','68, rue de Passy','75016','Paris',48.857967,2.277349,NULL),
+ (10,3,NULL,'CRF - Base XIV','72, rue Halle','75014','Paris',48.829185,2.331103,NULL),
+ (11,4,NULL,'Station Total Victor Hugo','183, avenue Victor Hugo','75016','Paris',48.865891,2.276386,NULL),
+ (12,5,NULL,'Le Pied de Cochon','6, rue Coquillière','75001','Paris',48.863377,2.343667,NULL),
+ (13,6,NULL,'Pharmacie Les Champs','84, avenue des Champs-Elysées','75008','Paris',48.871059,2.303572,NULL),
+ (14,6,NULL,'Pharmacie Européenne','6, place Clichy','75009','Paris',48.883270,2.327567,NULL),
+ (15,6,NULL,'Grande Pharmacie Daumesnil','6, place Félix Eboué','75012','Paris',48.839417,2.395632,NULL);
+
+
 -- Insert test data
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values

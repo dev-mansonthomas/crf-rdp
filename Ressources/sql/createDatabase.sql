@@ -207,9 +207,9 @@ DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
 CREATE TABLE `crfirp`.`lieu_type`
 (
   `id_type_lieu`     INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `label_type_lieu`  VARCHAR(45) NOT NULL,
-  `icon_lieu`        VARCHAR(20) NOT NULL,
-  `icon_lieu_shadow` VARCHAR(20) NOT NULL,
+  `label_type_lieu`  VARCHAR(100) NOT NULL,
+  `icon_lieu`        VARCHAR(40) NOT NULL,
+  `icon_lieu_shadow` VARCHAR(40) NOT NULL,
   PRIMARY KEY(`id_type_lieu`)
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -219,14 +219,13 @@ DROP TABLE IF EXISTS `crfirp`.`lieu`;
 CREATE TABLE `lieu` (
   `id_lieu`                     int(10) unsigned NOT NULL auto_increment,
   `id_type_lieu`                int(10) unsigned NOT NULL,
-  `icon_lieu_specifique`        VARCHAR(20) NOT NULL,
+  `icon_lieu_specifique`        VARCHAR(20) NULL,
   `nom`                         varchar(45) NOT NULL,
-  `addresse1`                   varchar(45) NOT NULL,
-  `addresse2`                   varchar(45) NOT NULL,
-  `code_postal`                 varchar(5 ) NULL,
-  `ville`                       varchar(80) NULL,
-  `google_coords_lat`           float(10,6) NULL,
-  `google_coords_long`          float(10,6) NULL,
+  `addresse`                    varchar(45) NOT NULL,
+  `code_postal`                 varchar(5 ) NOT NULL,
+  `ville`                       varchar(80) NOT NULL,
+  `google_coords_lat`           float(10,6) NOT NULL,
+  `google_coords_long`          float(10,6) NOT NULL,
   `info_complementaire`         varchar(1000) NULL,
   PRIMARY KEY (`id_lieu`),
   CONSTRAINT `FK_lieu_type_lieu` FOREIGN KEY (`id_type_lieu`) REFERENCES `lieu_type`(`id_type_lieu`)

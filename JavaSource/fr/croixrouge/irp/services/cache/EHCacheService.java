@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author A15205 - Thomas Manson - RS2i
- * @version $Revision: 1.1 $ $date$
+ * @version $Revision: 1.2 $ $date$
  */
 
 public class EHCacheService implements CacheService
@@ -32,6 +32,7 @@ public class EHCacheService implements CacheService
   
   /**
    * récupere un objet dans dans la région region du cache
+   * Si objet non trouvé, lance un exception
    * <P>
    * 
    * @param   name    nom de l'objet a récuperer   
@@ -42,6 +43,22 @@ public class EHCacheService implements CacheService
    */
   public Object getObject(String name) throws Exception
   {
+    return this.getObject(name, false);
+  }
+  
+  /**
+   * récupere un objet dans dans la région region du cache
+   * Si objet non trouvé, lance un exception si silentCacheMiss == false, sinon retourne null
+   * <P>
+   * 
+   * @param   name    nom de l'objet a récuperer   
+   *                  
+   * @return                  Objet de cache demandé
+   * @since   1.0
+   *
+   */
+  public Object getObject(String name, boolean silentCacheMiss) throws Exception
+  {
 
     if(logger.isDebugEnabled())
       logger.debug("Retrieving '"+name+"' object from cache");
@@ -50,8 +67,10 @@ public class EHCacheService implements CacheService
     {
       Element e = cache.get(name);
       
-      if(e == null)
-        throw new Exception("Objet '"+name+"' non trouvé."); 
+      if(e == null && !silentCacheMiss)
+        throw new Exception("Objet '"+name+"' non trouvé.");
+      else if( e == null)
+        return null;
 
       if(logger.isDebugEnabled())
         logger.debug("Object '"+name+"' found in cache");

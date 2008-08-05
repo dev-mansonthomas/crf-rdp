@@ -207,6 +207,7 @@ DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
 CREATE TABLE `crfirp`.`lieu_type`
 (
   `id_type_lieu`     INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `num_ordre`        INTEGER UNSIGNED NOT NULL, 
   `label_type_lieu`  VARCHAR(100) NOT NULL,
   `icon_lieu`        VARCHAR(40) NOT NULL,
   `icon_lieu_shadow` VARCHAR(40) NOT NULL,

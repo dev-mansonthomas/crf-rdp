@@ -153,13 +153,13 @@ values
 update intervention_etat set id_etat = 0 where id_etat = 11;
 
 -- type de lieux
-INSERT INTO `lieu_type` (`id_type_lieu`,`label_type_lieu`,`icon_lieu`,`icon_lieu_shadow`) VALUES 
- (1,'Hopital','hopital.png','hopital_shadow.png'),
- (2,'Centre de Secours des Pompiers','cs_pompier.png','cs_pompier_shadow.png'),
- (3,'CRF - Base locale','crf_base.png','crf_base_shadow.png'),
- (4,'Station Service H24','station_service_h24.png','station_service_h24_shadow.png'),
- (5,'Boulangerie/Fast Food/Resto H24','bouffe_h24.png','bouffe_h24_shadow.png'),
- (6,'Pharmacie H24','pharmacie_h24.png','pharmacie_h24_shadow.png');
+INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lieu`,`icon_lieu_shadow`) VALUES 
+ (1,1, 'Hopital','hopital.png','hopital_shadow.png'),
+ (2,2, 'Centre de Secours des Pompiers','cs_pompier.png','cs_pompier_shadow.png'),
+ (3,3, 'CRF - Base locale','crf_base.png','crf_base_shadow.png'),
+ (4,4, 'Station Service H24','station_service_h24.png','station_service_h24_shadow.png'),
+ (5,5, 'Boulangerie/Fast Food/Resto H24','bouffe_h24.png','bouffe_h24_shadow.png'),
+ (6,6, 'Pharmacie H24','pharmacie_h24.png','pharmacie_h24_shadow.png');
 -- lieux
 INSERT INTO `lieu` (`id_lieu`,`id_type_lieu`,`icon_lieu_specifique`,`nom`,`addresse`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`info_complementaire`) VALUES 
  (1,1,NULL,'BICHAT - CLAUDE-BERNARD','46, rue Henri-Huchard','75018','Paris',48.899136,2.334483,NULL),

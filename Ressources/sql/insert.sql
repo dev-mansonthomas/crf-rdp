@@ -163,7 +163,7 @@ INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lie
 -- lieux
 INSERT INTO `lieu` (`id_lieu`,`id_type_lieu`,`icon_lieu_specifique`,`nom`,`addresse`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`info_complementaire`) VALUES 
  (1,1,NULL,'BICHAT - CLAUDE-BERNARD','46, rue Henri-Huchard','75018','Paris',48.899136,2.334483,NULL),
- (2,1,NULL,'HOTEL-DIEU ','1, place du Parvis Notre-Dame','75004','Paris',48.853264,2.348034,NULL),
+ (2,1,NULL,'HOTEL-DIEU ','1, place du Parvis Notre-Dame','75004','Paris',48.853264,2.348034,'<b>Attention : </b> Entrée des urgence a changé'),
  (3,1,NULL,'LARIBOISIERE','9, rue Ambroise Paré','75010','Paris',48.881939,2.352589,NULL),
  (4,2,NULL,'Rousseau','21, rue du Jour','75001','Paris',48.863880,2.344957,NULL),
  (5,2,NULL,'Sévigné','7, rue Sévigné','75004','Paris',48.855671,2.362153,NULL),

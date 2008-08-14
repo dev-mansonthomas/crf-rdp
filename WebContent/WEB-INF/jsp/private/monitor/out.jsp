@@ -19,8 +19,8 @@ String contextPath = request.getContextPath();
   <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/application_side_list.png" type="image/png">  
 
 <!-- ExtJS 2.0 -->
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/adapter/ext/ext-base.js"></script>
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/ext-all-debug.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2.1/adapter/ext/ext-base.js"></script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2.1/ext-all-debug.js"></script>
 
   <script type="text/javascript">
    var contextPath="<%=contextPath%>";
@@ -29,7 +29,9 @@ String contextPath = request.getContextPath();
   </script>
   
   <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"   > </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/RowExpander.js"> </script>  
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/RowExpander.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/Ext.ux.GMapPanel.js"> </script>
+      
 <!-- DWR Ajax --> 
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"           > </script>
   <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Monitor.js"                  > </script>
@@ -45,7 +47,7 @@ String contextPath = request.getContextPath();
   <script type="text/javascript" src="<%=contextPath%>/js/script.aculo.us/scriptaculous.js"> </script>
 
 <!-- google map -->  
-  <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g"> </script>
+  <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g"> </script>
 
 <!--business code -->
   <script type="text/javascript" src="<%=contextPath%>/js/googlemap/googleMap.js"> </script>
@@ -101,6 +103,12 @@ String contextPath = request.getContextPath();
 <!-- south -->
 <div id="south" class="x-layout-inactive-content"> 
   
+</div>
+
+<div id="list-lieu-window" style="display:none;">
+  <div class="x-window-header">Liste des Lieux</div>
+  <div id="list-lieu-window-tabs">
+  </div>
 </div>
 
   <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>

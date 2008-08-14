@@ -19,7 +19,13 @@
     <bean id="listService"                 class="fr.croixrouge.irp.services.list.ListServiceImpl"                              autowire="constructor" />
     
     <bean id="interventionService"         class="fr.croixrouge.irp.services.intervention.InterventionServiceImpl"              autowire="constructor" />
-    <bean id="lieuService"                 class="fr.croixrouge.irp.services.lieu.LieuServiceImpl"                              autowire="constructor" />
+    <bean id="lieuService"                 class="fr.croixrouge.irp.services.lieu.LieuServiceImpl"                              autowire="constructor" >
+      <constructor-arg index="1">
+        <bean class="fr.croixrouge.irp.services.cache.EHCacheService" autowire="constructor">
+          <constructor-arg index="0" ref="UtilCacheHashesFB"/>
+        </bean>
+      </constructor-arg>
+    </bean>
     
     
 

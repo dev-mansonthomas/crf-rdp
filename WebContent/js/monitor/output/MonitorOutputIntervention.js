@@ -61,10 +61,30 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
 
   */
   
-  var tabsInfo = [["Adresse", intervention.rue+",<br/>"+intervention.codePostal+", "+intervention.ville],
-                  ["Motif",origine+" - "+dhSaisie+"<br/>"+motif]];
   
-  crfGoogleMap.displayInfo(intervention.googleCoordsLat, intervention.googleCoordsLong,0,7,false,tabsInfo); 
+  var category = 'intervention_'+origine;
+  var title    = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
+  var html     = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif+'<br/>'+
+                 intervention.rue+', '+intervention.codePostal+", "+intervention.ville;
+
+  Ext.getCmp('center-carte-paris-panel').addMarker( intervention.position.googleCoordsLat, 
+                                                  intervention.position.googleCoordsLong, 
+                                                  null, 
+                                                  category, 
+                                                  false, 
+                                                  title, 
+                                                  html,
+                                                  intervention.idIntervention);
+};
+
+MonitorOutputInterventionCs.prototype.showInterventionOnGlobalMap=function(idIntervention)
+{
+  var map = Ext.getCmp('center-carte-paris-panel');
+  
+  var latitude  = Ext.get('interventionTicket_googleCoordsLat_' +idIntervention).getValue();
+  var longitude = Ext.get('interventionTicket_googleCoordsLong_'+idIntervention).getValue();
+  //TODO : remplacer par focusMarker
+  map.goTo(latitude, longitude);
 };
 
 MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention)
@@ -161,7 +181,7 @@ MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template('\
     <td id="interventionTicket_ville_#{id}"></td>\
   </tr>\
 </table>\
-<img src="'+contextPath+'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="crfGoogleMap.showOnMap($(\'interventionTicket_googleCoordsLat_#{id}\').value,$(\'interventionTicket_googleCoordsLong_#{id}\').value)"/>\
+<img src="'+contextPath+'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="moInterventionCs.showInterventionOnGlobalMap(#{id})"/>\
 <img src="'+contextPath+'/img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>\
 <img src="'+contextPath+'/img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>\
 <div id="interventionTicket_dragAndDrop_#{id}"><img src="'+contextPath+'/img/monitorOutput/blesse.jpg"  class="dd-item"/></div>\

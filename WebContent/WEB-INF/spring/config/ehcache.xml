@@ -2,7 +2,7 @@
 <ehcache>
 	<diskStore path="java.io.tmpdir"/>
 	
-	<cache 	name="MonitorCacheHashes"
+	<cache 	name="UtilCacheHashes"
 					maxElementsInMemory="100"
 					eternal="false"
 					timeToIdleSeconds="86400"

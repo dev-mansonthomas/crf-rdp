@@ -636,7 +636,7 @@ MonitorInputDispositifCs.prototype.updateAddressReturn=function(place, current)
   var which = current ? 'Current' : 'Previous';
   $('dispositif'+which+'AddressCoordinateLat' ).value=coordinates[1];
   $('dispositif'+which+'AddressCoordinateLong').value=coordinates[0];
-
+//TODO bizaarreee
   var callMetaData = {
     callback:MonitorInputDispositifCs.prototype.updateAddressSaveReturn,
     args:{current : current}

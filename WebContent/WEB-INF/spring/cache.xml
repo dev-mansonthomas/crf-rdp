@@ -12,32 +12,16 @@
 		</property>
 	</bean>
 	
-	<bean id="MonitorCacheHashesFB" name="MonitorCacheHashesFB"  class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+	<bean id="UtilCacheHashesFB" name="MonitorCacheHashesFB"  class="org.springframework.cache.ehcache.EhCacheFactoryBean">
 		<property name="cacheManager">
 			<ref bean="EHCacheManager"/>
 		</property>
 		<property name="cacheName">
-			<value>MonitorCacheHashes</value>
+			<value>UtilCacheHashes</value>
 		</property>
 	</bean>
 	
-	<bean id="MonitorCacheAmbulancesFB" name="MonitorCacheAmbulancesFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-		<property name="cacheManager">
-			<ref bean="EHCacheManager"/>
-		</property>
-		<property name="cacheName">
-			<value>MonitorCacheAmbulances</value>
-		</property>
-	</bean>	
 
-	<bean id="MonitorCacheInterventionFB" name="MonitorCacheInterventionFB" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-		<property name="cacheManager">
-			<ref bean="EHCacheManager"/>
-		</property>
-		<property name="cacheName">
-			<value>MonitorCacheIntervention</value>
-		</property>
-	</bean>	
 
 <!-- END Cache Service -->
 </beans>

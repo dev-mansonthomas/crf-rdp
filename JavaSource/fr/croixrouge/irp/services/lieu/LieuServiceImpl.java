@@ -29,7 +29,7 @@ public class LieuServiceImpl implements LieuService
   
   private final static String selectForGetLieuType = 
     "SELECT `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lieu`,`icon_lieu_shadow`\n" +
-    "FROM   type_lieu\n" +
+    "FROM   lieu_type\n" +
     "ORDER BY `num_ordre` ASC";
   
   @SuppressWarnings("unchecked")
@@ -44,9 +44,10 @@ public class LieuServiceImpl implements LieuService
   }
   
   private final static String selectForGetLieu = 
-    "SELECT `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lieu`,`icon_lieu_shadow`\n" +
-    "FROM   type_lieu\n" +
-    "ORDER BY `num_ordre` ASC";
+    "SELECT    `id_lieu`,`id_type_lieu`, `icon_lieu_specifique`,`nom`,`addresse`, \n" +
+    "          `code_postal`, `ville`, `google_coords_lat`, `google_coords_long`, `info_complementaire`\n" +
+    "FROM      lieu\n" +
+    "ORDER BY `id_type_lieu` ASC";
   
   @SuppressWarnings("unchecked")
   public List<Lieu> getLieu() throws Exception
@@ -61,29 +62,29 @@ public class LieuServiceImpl implements LieuService
   }
   
   @SuppressWarnings("unchecked")
-  public Hashtable<Integer, List<Lieu>> getLieuSorted() throws Exception
+  public Hashtable<String, List<Lieu>> getLieuSorted() throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("getLieuSorted - retrieving from cache");
     
-    Hashtable<Integer, List<Lieu>> lieuSorted = (Hashtable<Integer, List<Lieu>>)this.cacheService.getObject("LieuSorted", true);
+    Hashtable<String, List<Lieu>> lieuSorted = (Hashtable<String, List<Lieu>>)this.cacheService.getObject("LieuSorted", true);
     if(lieuSorted != null)
       return lieuSorted;
 
     if(logger.isDebugEnabled())
       logger.debug("getLieuSorted - retrieving from cache : Cache MISS");
 
-    lieuSorted = new Hashtable<Integer, List<Lieu>>(10);
+    lieuSorted = new Hashtable<String, List<Lieu>>(10);
     
     List<Lieu> allLieu = this.getLieu();
     
     for (Lieu lieu : allLieu)
     {
-      List<Lieu> oneList = lieuSorted.get(lieu.getIdTypeLieu());
+      List<Lieu> oneList = lieuSorted.get(lieu.getIdTypeLieu()+"");
       if(oneList == null)
       {
         oneList = new ArrayList<Lieu> ();
-        lieuSorted.put(lieu.getIdTypeLieu(), oneList);
+        lieuSorted.put(lieu.getIdTypeLieu()+"", oneList);
       }
       
       oneList.add(lieu);

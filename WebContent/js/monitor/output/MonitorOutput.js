@@ -36,7 +36,7 @@ function init()
   
   crfIrpUtils.getAllList();
   initLayout();
-  crfGoogleMap.instancianteMap(48.85436, 2.348156);
+  //crfGoogleMap.instancianteMap(48.85436, 2.348156);
 }
 
 
@@ -111,7 +111,7 @@ function initLayout()
                     id:'monitorOutputCenterRegion',
                     region:'center',
                     deferredRender:false,
-                    activeTab:0,
+                    activeTab:1,
                     tabPosition:'bottom',
                     items:[{
                         id:'center-dispositif-panel',
@@ -121,17 +121,29 @@ function initLayout()
                         autoScroll:true
                     },{
                         id:'center-carte-paris-panel',
+                        xtype: 'gmappanel',
+                        gmapType: 'map',
+                        zoomLevel: 14,
+                        mapConfOpts: ['enableScrollWheelZoom','enableDoubleClickZoom','enableDragging'],
+                        mapControls: ['GLargeMapControl','GMapTypeControl', 'GOverviewMapControl', 'NonExistantControl' ],
                         contentEl:'center-carte-paris',
                         title: 'Carte de Paris',
                         closable:false,
-                        autoScroll:true
+                        //autoScroll:true,
+                        setCenter: {
+                            lat: 48.85436, 
+                            lng: 2.348156
+                        }                        
                     }]
                 });
   
   
    var viewport = new Ext.Viewport({id:'monitorOutputViewPort',layout:'border', items:[north, south,west, south, center]});
   
+   window.setTimeout(function(){
+    var map = Ext.getCmp('center-carte-paris-panel');
+    map.goTo(48.85436, 2.348156);
+   }, 3000);
   
-  
-  unmask.defer(100);
+   unmask.defer(100);
 }

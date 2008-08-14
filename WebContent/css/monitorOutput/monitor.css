@@ -21,3 +21,47 @@ DIV
 {
   vertical-align:middle;
 }
+
+#south-lieu-selector td
+{
+  padding:2px;
+  font-size: 11px;
+}
+
+#south-lieu-selector img
+{
+  cursor:pointer;
+}
+.type-lieu-unselected
+{
+  background-color: #E6E6E6;
+  color: #9A9A9A;
+  cursor:pointer;
+}
+
+.type-lieu-selected
+{
+  background-color: #CCFFCD;
+  color: #180059;
+  cursor:pointer;
+}
+
+.ListLieuItem
+{
+  border-bottom: 1px solid #DFDCED;
+  margin:1px 0px 6px 3px; 
+}
+
+.ListLieuListName
+{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ListLieuListAddress
+{
+  font-size: 11px;
+}
+.ListLieuListHtml
+{
+}

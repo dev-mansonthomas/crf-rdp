@@ -34,13 +34,17 @@ CrfIrpUtils.prototype.initialize=function()
 
 /* ===================== List Handling ============================== */
 
-CrfIrpUtils.prototype.allList=Array();
+CrfIrpUtils.prototype.allList=[];
+CrfIrpUtils.prototype.allLieu=[];
+CrfIrpUtils.prototype.allTypeLieuOrdered=[];//Type lieu dans l'ordre spécifié par numOrdre
+CrfIrpUtils.prototype.allTypeLieu=[];//Type lieu indexé par idTypeLieu
 /***
  * Demande toute les listes statiques au serveur
  */
 CrfIrpUtils.prototype.getAllList=function()
 {
-  MonitorCommons.getAllList(crfIrpUtils.getAllListReturn);
+  MonitorCommons.getAllList  ( crfIrpUtils.getAllListReturn     );
+  MonitorCommons.getLieuType ( crfIrpUtils.getAllTypeLieuReturn );
 }
 /***
  * Initialise toutes les listes statics de la page
@@ -82,6 +86,36 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   
   PageBus.publish("list.loaded", null);
 }
+CrfIrpUtils.prototype.getAllLieuReturn=function(allLieu)
+{
+  CrfIrpUtils.prototype.allLieu = allLieu;
+  PageBus.publish("listLieu.loaded", allLieu);
+};
+CrfIrpUtils.prototype.getAllTypeLieuReturn=function(allTypeLieu)
+{
+  var allTypeLieuIndexed = [];
+  for(var i=0,count=allTypeLieu.size();i<count;i++)//de sorte que l'index soit l'idTypeLieu
+    allTypeLieuIndexed[allTypeLieu[i].idTypeLieu]=allTypeLieu[i];
+    
+  CrfIrpUtils.prototype.allTypeLieu        = allTypeLieuIndexed;
+  CrfIrpUtils.prototype.allTypeLieuOrdered = allTypeLieu;
+  
+  PageBus.publish("listTypeLieu.loaded", allTypeLieu);
+  
+  MonitorCommons.getAllLieu  ( crfIrpUtils.getAllLieuReturn     );
+};
+CrfIrpUtils.prototype.getTypeLieu=function(idTypeLieu)
+{
+  if(CrfIrpUtils.prototype.allTypeLieu == null)
+    throw {message:'allTypeLieu not initialized'};
+  
+  var typeLieu = CrfIrpUtils.prototype.allTypeLieu[idTypeLieu];
+  
+  if(typeLieu == null)
+    throw {message:'typeLieu with id '+idTypeLieu+' not found'};
+    
+  return typeLieu;
+};
 /***
  * Pour la liste listId, retourne le label de l'objet id
  */

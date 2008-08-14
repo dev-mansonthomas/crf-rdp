@@ -64,7 +64,8 @@ var MonitorOutputDispositifCs = Class.create();
 MonitorOutputDispositifCs.prototype.initialize=function()
 {
   MonitorOutputDispositif.initScriptSession();
-  PageBus.subscribe("list.loaded",  this, this.initDispositifGrid, null, null);
+  PageBus.subscribe("list.loaded"         ,  this, this.initDispositifGrid, null, null);
+  PageBus.subscribe("listLieu.loaded"     ,  this, this.initLieuOnMap     , null, null);
 };
 
 /*
@@ -78,6 +79,170 @@ MonitorOutputDispositifCs.prototype.initialize=function()
 
  * */
 
+MonitorOutputDispositifCs.prototype.initListLieuWindow=function()
+{
+  var win = new Ext.Window({
+      id          : 'list-lieu-windowCmp',
+      applyTo     : 'list-lieu-window',
+      layout      : 'fit'             ,
+      width       : 300               ,
+      height      : 500               ,
+      x           : 0                 ,
+      y           : 35                ,
+      closeAction : 'hide'            ,
+      plain       : true              ,
+      items       : new Ext.TabPanel({
+          id             : 'list-lieu-window-tabsCmp' ,
+          applyTo        : 'list-lieu-window-tabs'    ,
+          activeTab      : 0                          ,
+          enableTabScroll: true                       ,
+          defaults       : {autoScroll:true}          ,
+          deferredRender : false                      ,
+          border         : false
+      })
+    });
+          
+  MonitorOutputDispositifCs.prototype.listLieuWindow = win;
+};
+
+
+MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
+{
+  this.initListLieuWindow();
+  var allLieu      = CrfIrpUtils.prototype.allLieu;
+  var map          = Ext.getCmp('center-carte-paris-panel');
+  var i            = 1;
+  var listLieuTabs = Ext.getCmp('list-lieu-window-tabsCmp');
+  
+  do
+  {//Boucle sur les catégories
+    var catLieu       = allLieu[i];
+    var typeLieu      = crfIrpUtils.getTypeLieu(i);
+    var catLieuName   = typeLieu.labelTypeLieu;
+    var listLieuTabId = 'list-lieu-window-tabs_'+i;
+    
+
+    
+    var tabHtml = [];
+    
+    var listLieuTabList   = Ext.get(listLieuTabId+'_list');
+        
+    for(var j=0, countj = catLieu.size();j<countj;j++)
+    {
+      var lieu     = catLieu[j];
+      var title    = catLieuName+' - '+lieu.nom;
+      var category = 'lieu_cat_'+lieu.idTypeLieu;
+    
+      var markerHtml = '<b>'+title+'</b><br/><br/>'+
+                        lieu.addresse+',<br/>'+
+                        lieu.codePostal+', '+
+                        lieu.ville+'<br/>';
+      
+      if(lieu.infoComplementaire != null)
+        markerHtml +='<div style="overflow:auto;">'+lieu.infoComplementaire+'</div>'
+      
+      map.addMarker(lieu.googleCoordsLat    , 
+                    lieu.googleCoordsLong   , 
+                    lieu.iconLieuSpecifique , 
+                    category                , 
+                    false                   , 
+                    title                   ,
+                    markerHtml              ,
+                    lieu.idLieu             );
+      
+      var htmlListLieu = ['<div class="ListLieuItem" onclick="moDispositifCs.displayLieu(',lieu.idTypeLieu,', ',lieu.idLieu,');">',
+        '<span class="ListLieuListName">',lieu.nom,'</span><br/>',
+        '<span class="ListLieuListAddress">',lieu.addresse,', ',lieu.codePostal,', ',lieu.ville,'</span><br/>',
+        '<p class="ListLieuListHtml">',lieu.infoComplementaire,'</p>',
+      '</div>'].join('');
+
+      tabHtml.push(htmlListLieu);
+    }
+
+    listLieuTabs.add({
+        id      : listLieuTabId ,
+        title   : catLieuName   ,
+        iconCls : 'tabs'        , //TODO : mettre l'icone de la catégorie
+        html    : tabHtml       ,
+        closable: false
+      });
+    
+    i++;
+    
+  }while(allLieu[i]!=null);
+  
+  var allTypeLieu   = CrfIrpUtils.prototype.allTypeLieuOrdered;
+  var htmlGenerated = ['<table id="south-lieu-selector">'];
+  for(var i=0, counti=allTypeLieu.size();i<counti;i++)
+  {//Générer un tableau avec un case ou on click pour afficher, avec le background qui change de couleur quand c'est affiché ou caché.
+   //+ dans une autre cellule du tableau, une icon pour lister les lieu de cette catégorie. Lorsqu'on clic sur un lieu, ca affiche, centre et affiche le détail
+    var typeLieu = allTypeLieu[i];
+    var fragmentHtml = [];
+    
+    if(i%2==0)
+      fragmentHtml.push('<tr>');
+    
+    fragmentHtml.push('<td id="south-lieu-selector-cell-cat-');
+    fragmentHtml.push(typeLieu.idTypeLieu);
+    fragmentHtml.push('" class="type-lieu-unselected" onClick="moDispositifCs.toggleCategory(this.id, ');
+    fragmentHtml.push(typeLieu.idTypeLieu);
+    fragmentHtml.push(');">');
+    fragmentHtml.push(typeLieu.labelTypeLieu);
+    fragmentHtml.push('</td><td><img src="');
+    fragmentHtml.push(contextPath);
+    fragmentHtml.push('/img/famfamfam/text_list_bullets.png" alt="Lister les lieux de cette catégorie" onClick="moDispositifCs.listLieuFromCategory(');
+    fragmentHtml.push(typeLieu.idTypeLieu);
+    fragmentHtml.push(');"/></td>');
+    
+      
+    if(i%2!=0)
+      fragmentHtml.push('</tr>');
+    
+    htmlGenerated.push(fragmentHtml.join(''));
+    var cat = 'lieu_cat_'+typeLieu.idTypeLieu;
+    map.hideACategoryOfMarker(cat);
+  }
+  htmlGenerated.push('</table>');
+  
+  Ext.get('south').update(htmlGenerated.join(''));
+};
+MonitorOutputDispositifCs.prototype.toggleCategory=function(htmlId, idCategory)
+{
+  var cat = 'lieu_cat_'+idCategory;
+  var td  = Ext.get(htmlId);
+  var map = Ext.getCmp('center-carte-paris-panel');
+  
+  if(td.hasClass('type-lieu-unselected'))
+  {
+    td.toggleClass('type-lieu-unselected');//remove
+    td.toggleClass('type-lieu-selected');//add
+    map.showACategoryOfMarker(cat);
+  }
+  else
+  {
+    td.toggleClass('type-lieu-selected');//remove
+    td.toggleClass('type-lieu-unselected');//add
+    map.hideACategoryOfMarker(cat);
+  }
+  
+};
+MonitorOutputDispositifCs.prototype.listLieuFromCategory=function(idCategory)
+{
+  var cat = 'list-lieu-window-tabs_'+idCategory;
+  var win = MonitorOutputDispositifCs.prototype.listLieuWindow;
+  
+  var tabs = Ext.getCmp('list-lieu-window-tabsCmp');
+  tabs.activate(cat);
+
+  win.show();
+};
+
+MonitorOutputDispositifCs.prototype.displayLieu=function(idTypeLieu, lieuId)
+{
+  var map      = Ext.getCmp('center-carte-paris-panel');
+  var category = 'lieu_cat_'+idTypeLieu;
+  map.focusMarker(category, lieuId);
+};
 MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 {
   var xg = Ext.grid;

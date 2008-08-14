@@ -8,7 +8,7 @@ import fr.croixrouge.irp.model.monitor.LieuType;
 
 public interface LieuService
 {
-  public List     <LieuType           > getLieuType   () throws Exception;
-  public List     <Lieu               > getLieu       () throws Exception;
-  public Hashtable<Integer, List<Lieu>> getLieuSorted () throws Exception;
+  public List     <LieuType          > getLieuType   () throws Exception;
+  public List     <Lieu              > getLieu       () throws Exception;
+  public Hashtable<String, List<Lieu>> getLieuSorted () throws Exception;
 }

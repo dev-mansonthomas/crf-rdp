@@ -1,9 +1,6 @@
 
 Ext.namespace('Ext.ux.MonitorInput', 'Ext.ux.MonitorInput.BilanEditor');
 
-//TODO : Au chargement, chercher la liste des attributs. Dans la classe Java, changer pour champBdd camelize (http://mansonthomas.com/rs2i/camelize.php)
-
-
 // create application
 Ext.ux.MonitorInput.BilanEditor = function() {
     // do NOT access DOM from here; elements don't exist yet

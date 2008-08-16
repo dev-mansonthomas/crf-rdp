@@ -11,10 +11,5 @@
 		</property>
 	</bean>
 
-	<import resource="spring/cache.xml"			/>
-	<import resource="spring/dao.xml"				/>	
- 	<import resource="spring/scheduler.xml"	/>
-  <import resource="spring/dwr.xml"       />
-	<import resource="spring/services.xml"	/>		
-  <bean id="SecurityService" class="fr.croixrouge.irp.services.authentification.SecurityServiceImpl" autowire="constructor"/>
+  <import resource="spring/servlet.xml"   />
 </beans>

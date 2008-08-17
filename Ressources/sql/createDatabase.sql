@@ -210,7 +210,7 @@ CREATE TABLE `crfirp`.`lieu_type`
   `num_ordre`        INTEGER UNSIGNED NOT NULL, 
   `label_type_lieu`  VARCHAR(100) NOT NULL,
   `icon_lieu`        VARCHAR(40) NOT NULL,
-  `icon_lieu_shadow` VARCHAR(40) NOT NULL,
+  `icon_gmap_init`   VARCHAR(500) NOT NULL,
   PRIMARY KEY(`id_type_lieu`)
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -220,7 +220,8 @@ DROP TABLE IF EXISTS `crfirp`.`lieu`;
 CREATE TABLE `lieu` (
   `id_lieu`                     int(10) unsigned NOT NULL auto_increment,
   `id_type_lieu`                int(10) unsigned NOT NULL,
-  `icon_lieu_specifique`        VARCHAR(20) NULL,
+  `icon`                        VARCHAR(20) NULL,
+  `icon_gmap_init`              VARCHAR(500) NULL,
   `nom`                         varchar(45) NOT NULL,
   `addresse`                    varchar(45) NOT NULL,
   `code_postal`                 varchar(5 ) NOT NULL,

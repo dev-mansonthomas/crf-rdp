@@ -24,6 +24,8 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   public RegulationImpl(JdbcTemplate jdbcTemplate)
   {
     this.jdbcTemplate=jdbcTemplate;
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   private int getLastInsertedId()
   {

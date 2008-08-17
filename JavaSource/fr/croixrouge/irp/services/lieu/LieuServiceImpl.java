@@ -24,12 +24,15 @@ public class LieuServiceImpl implements LieuService
   {
     this.jdbcTemplate = jdbcTemplate;
     this.cacheService = cacheService;
+    
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   
   
   private final static String selectForGetLieuType = 
-    "SELECT `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lieu`,`icon_lieu_shadow`\n" +
-    "FROM   lieu_type\n" +
+    "SELECT   `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lieu`,`icon_gmap_init`\n" +
+    "FROM     `lieu_type`\n" +
     "ORDER BY `num_ordre` ASC";
   
   @SuppressWarnings("unchecked")
@@ -44,9 +47,9 @@ public class LieuServiceImpl implements LieuService
   }
   
   private final static String selectForGetLieu = 
-    "SELECT    `id_lieu`,`id_type_lieu`, `icon_lieu_specifique`,`nom`,`addresse`, \n" +
+    "SELECT    `id_lieu`,`id_type_lieu`, `icon`, `icon_gmap_init`, `nom`,`addresse`, \n" +
     "          `code_postal`, `ville`, `google_coords_lat`, `google_coords_long`, `info_complementaire`\n" +
-    "FROM      lieu\n" +
+    "FROM      `lieu`\n" +
     "ORDER BY `id_type_lieu` ASC";
   
   @SuppressWarnings("unchecked")
@@ -74,23 +77,18 @@ public class LieuServiceImpl implements LieuService
     if(logger.isDebugEnabled())
       logger.debug("getLieuSorted - retrieving from cache : Cache MISS");
 
+    List<LieuType> typeLieu = this.getLieuType();
+
     lieuSorted = new Hashtable<String, List<Lieu>>(10);
+    
+    for (LieuType lieuType : typeLieu)//initialise de cette facon, pour que les catégories vides (intevention/ambulance) soit quand meme initialisé, sinon ca a des effets de bords.
+      lieuSorted.put(lieuType.getIdTypeLieu()+"", new ArrayList<Lieu> ());
     
     List<Lieu> allLieu = this.getLieu();
     
     for (Lieu lieu : allLieu)
-    {
-      List<Lieu> oneList = lieuSorted.get(lieu.getIdTypeLieu()+"");
-      if(oneList == null)
-      {
-        oneList = new ArrayList<Lieu> ();
-        lieuSorted.put(lieu.getIdTypeLieu()+"", oneList);
-      }
+      lieuSorted.get(lieu.getIdTypeLieu()+"").add(lieu);
       
-      oneList.add(lieu);
-    }
-    
-   
     this.cacheService.setObject("LieuSorted", lieuSorted);
  
     if(logger.isDebugEnabled())

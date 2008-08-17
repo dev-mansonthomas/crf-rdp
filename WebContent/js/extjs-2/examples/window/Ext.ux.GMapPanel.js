@@ -45,15 +45,14 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
         if (this.gmapType === 'map'){
             this.gmap = new GMap2(this.body.dom);
         }
-        
-        if (this.gmapType === 'panorama'){
+        else if (this.gmapType === 'panorama'){
             this.gmap = new GStreetviewPanorama(this.body.dom);
         }
         
         if (typeof this.addControl == 'object' && this.gmapType === 'map') {
             this.gmap.addControl(this.addControl);
         }
-        
+
         if (typeof this.setCenter === 'object') {
             if (typeof this.setCenter.geoCodeAddr === 'string'){
                 this.geoCodeLookup(this.setCenter.geoCodeAddr);

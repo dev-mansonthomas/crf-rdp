@@ -13,13 +13,17 @@ import fr.croixrouge.irp.services.dispositif.DispositifService;
 
 public class EquipierServiceImpl implements EquipierService 
 {
-  private JdbcTemplate jdbcTemplate;
+  private JdbcTemplate      jdbcTemplate;
   private DispositifService dispositifService;
-  private static Logger logger = Logger.getLogger(EquipierServiceImpl.class);
+  private static Logger     logger = Logger.getLogger(EquipierServiceImpl.class);
+  
   public EquipierServiceImpl(JdbcTemplate jdbcTemplate, DispositifService dispositifService)
   {
     this.jdbcTemplate      = jdbcTemplate;
     this.dispositifService = dispositifService;
+
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   
   private final static String selectForEquipier = 

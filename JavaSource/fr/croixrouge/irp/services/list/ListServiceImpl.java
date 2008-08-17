@@ -3,6 +3,8 @@ package fr.croixrouge.irp.services.list;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -28,10 +30,14 @@ public class ListServiceImpl implements ListService, InitializingBean
   private Hashtable<String, List> allList = null;
   private JdbcTemplate jdbcTemplate;
   
+  private static  Log           logger            = LogFactory.getLog(ListServiceImpl.class);
   
   public ListServiceImpl(JdbcTemplate jdbcTemplate)
   {
-    this.jdbcTemplate = jdbcTemplate;  
+    this.jdbcTemplate = jdbcTemplate;
+    
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
 
   public void afterPropertiesSet() throws Exception

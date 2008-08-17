@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Delegation;
@@ -12,14 +14,17 @@ import fr.croixrouge.irp.model.monitor.User;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
 import fr.croixrouge.irp.services.regulation.RegulationService;
 
-public class MonitorInputImpl extends DWRUtils implements MonitorInputService
+public class MonitorInputImpl extends DWRUtils
 {
+  private static Log logger           = LogFactory.getLog(MonitorInputImpl.class);
   private RegulationService   regulationService   = null;
     
   public MonitorInputImpl(RegulationService   regulationService)
   {
-    System.err.println("New MonitorInput");
     this.regulationService = regulationService ;
+    
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   
   

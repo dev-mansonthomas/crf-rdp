@@ -36,6 +36,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   public DispositifImpl(JdbcTemplate  jdbcTemplate)
   {
     this.jdbcTemplate        = jdbcTemplate       ;
+
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   /*Injection faite par setter pour résoudre une dépendence cyclique entre les services equipier et dispositif*/
   public void setEquipierService(EquipierService equipierService)

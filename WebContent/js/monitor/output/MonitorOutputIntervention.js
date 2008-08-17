@@ -3,12 +3,23 @@ var MonitorOutputInterventionCs = Class.create();
 MonitorOutputInterventionCs.prototype.initialize=function()
 {
   MonitorOutputIntervention.initScriptSession();
-  PageBus.subscribe("list.loaded",  this, this.loadAllIntervention, null, null);
+  
+  this.listLoaded     = false;
+  this.listLieuLoaded = false;
+
+  PageBus.subscribe("list.loaded"     ,  this, this.loadAllIntervention, null, null);
+  PageBus.subscribe("listLieu.loaded" ,  this, this.loadAllIntervention, null, null);
 };
 
-MonitorOutputInterventionCs.prototype.loadAllIntervention=function()
+MonitorOutputInterventionCs.prototype.loadAllIntervention=function(eventName, data)
 {
-  MonitorOutputIntervention.loadAllIntervention(moInterventionCs.loadAllInterventionReturn);
+  if(eventName == "list.loaded")
+    this.listLoaded     = true;
+  if(eventName == "listLieu.loaded")
+    this.listLieuLoaded = true;
+  
+  if(this.listLoaded == true &&  this.listLieuLoaded == true)//on attends que les 2 listes soient initialisées
+    MonitorOutputIntervention.loadAllIntervention(moInterventionCs.loadAllInterventionReturn);
 };
 
 MonitorOutputInterventionCs.prototype.loadAllInterventionReturn=function(interventionList)
@@ -62,7 +73,7 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   */
   
   
-  var category = 'intervention_'+origine;
+  var category = 'lieu_cat_'+8;
   var title    = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
   var html     = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif+'<br/>'+
                  intervention.rue+', '+intervention.codePostal+", "+intervention.ville;

@@ -153,30 +153,33 @@ values
 update intervention_etat set id_etat = 0 where id_etat = 11;
 
 -- type de lieux
-INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lieu`,`icon_lieu_shadow`) VALUES 
- (1,1, 'Hopital','hopital.png','hopital_shadow.png'),
- (2,2, 'Centre de Secours des Pompiers','cs_pompier.png','cs_pompier_shadow.png'),
- (3,3, 'CRF - Base locale','crf_base.png','crf_base_shadow.png'),
- (4,4, 'Station Service H24','station_service_h24.png','station_service_h24_shadow.png'),
- (5,5, 'Boulangerie/Fast Food/Resto H24','bouffe_h24.png','bouffe_h24_shadow.png'),
- (6,6, 'Pharmacie H24','pharmacie_h24.png','pharmacie_h24_shadow.png');
+INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`,`label_type_lieu`,`icon_lieu`,`icon_gmap_init`) VALUES 
+ (1,1,'Hopital'                        ,'gmap/hopital.png'          ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/hopital.png\";\r\nicon.shadow=contextPath+\"/img/gmap/hopital-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);'),
+ (2,2,'Centre de Secours des Pompiers' ,'gmap/pompier.png'          ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/pompier.png\";\r\nicon.shadow=contextPath+\"/img/gmap/pompier-s.png\";\r\nicon.iconSize=new GSize(28.0, 30.0);\r\nicon.shadowSize=new GSize(44.0, 30.0);\r\nicon.iconAnchor=new GPoint(14.0, 15.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 15.0);'),
+ (3,3,'CRF - Base locale'              ,'gmap/local-croix-rouge.png','icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/local-croix-rouge.png\";\r\nicon.shadow=contextPath+\"/img/gmap/local-croix-rouge-s.png\";\r\nicon.iconSize=new GSize(28.0, 28.0);\r\nicon.shadowSize=new GSize(43.0, 28.0);\r\nicon.iconAnchor=new GPoint(14.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 14.0);'),
+ (4,4,'Station Service H24'            ,'gmap/stationservice.png'   ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/stationservice.png\";\r\nicon.shadow=contextPath+\"/img/gmap/stationservice-s.png\";\r\nicon.iconSize=new GSize(25.0, 28.0);\r\nicon.shadowSize=new GSize(40.0, 28.0);\r\nicon.iconAnchor=new GPoint(12.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 14.0);'),
+ (5,5,'Boulangerie/Fast Food/Resto H24','gmap/resto.png'            ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/resto.png\";\r\nicon.shadow=contextPath+\"/img/gmap/resto-s.png\";\r\nicon.iconSize=new GSize(28.0, 28.0);\r\nicon.shadowSize=new GSize(43.0, 28.0);\r\nicon.iconAnchor=new GPoint(14.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 14.0);'),
+ (6,6,'Pharmacie H24'                  ,'gmap/pharmacie.png'        ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/pharmacie.png\";\r\nicon.shadow=contextPath+\"/img/gmap/pharmacie-s.png\";\r\nicon.iconSize=new GSize(28.0, 28.0);\r\nicon.shadowSize=new GSize(43.0, 28.0);\r\nicon.iconAnchor=new GPoint(14.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 14.0);'),
+ (7,7,'Police'                         ,'gmap/police.png'           ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/police.png\";\r\nicon.shadow=contextPath+\"/img/gmap/police-s.png\";\r\nicon.iconSize=new GSize(26.0, 26.0);\r\nicon.shadowSize=new GSize(40.0, 26.0);\r\nicon.iconAnchor=new GPoint(13.0, 13.0);\r\nicon.infoWindowAnchor=new GPoint(13.0, 13.0);'),
+ (8,8,'Intervention'                   ,'gmap/intervention.png'     ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/intervention.png\";\r\nicon.shadow=contextPath+\"/img/gmap/intervention-s.png\";\r\nicon.iconSize=new GSize(16.0, 16.0);\r\nicon.shadowSize=new GSize(25.0, 16.0);\r\nicon.iconAnchor=new GPoint(8.0, 8.0);\r\nicon.infoWindowAnchor=new GPoint(8.0, 8.0);'),
+ (9,9,'Ambulance'                      ,'gmap/ambulance.png'        ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/ambulance.png\";\r\nicon.shadow=contextPath+\"/img/gmap/ambulance-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);');
 -- lieux
-INSERT INTO `lieu` (`id_lieu`,`id_type_lieu`,`icon_lieu_specifique`,`nom`,`addresse`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`info_complementaire`) VALUES 
- (1,1,NULL,'BICHAT - CLAUDE-BERNARD','46, rue Henri-Huchard','75018','Paris',48.899136,2.334483,NULL),
- (2,1,NULL,'HOTEL-DIEU ','1, place du Parvis Notre-Dame','75004','Paris',48.853264,2.348034,'<b>Attention : </b> Entrée des urgence a changé'),
- (3,1,NULL,'LARIBOISIERE','9, rue Ambroise Paré','75010','Paris',48.881939,2.352589,NULL),
- (4,2,NULL,'Rousseau','21, rue du Jour','75001','Paris',48.863880,2.344957,NULL),
- (5,2,NULL,'Sévigné','7, rue Sévigné','75004','Paris',48.855671,2.362153,NULL),
- (6,2,NULL,'Dauphine','2, rue François Millet','75016','Paris',48.850437,2.273220,NULL),
- (7,2,NULL,'Montmartre','12, rue Carpeaux','75018','Paris',48.891346,2.332324,NULL),
- (8,3,NULL,'CRF - Base IV',"36, rue Geoffroy l'Asnier",'75004','Paris',48.855434,2.357217,NULL),
- (9,3,NULL,'CRF - Base XVI','68, rue de Passy','75016','Paris',48.857967,2.277349,NULL),
- (10,3,NULL,'CRF - Base XIV','72, rue Halle','75014','Paris',48.829185,2.331103,NULL),
- (11,4,NULL,'Station Total Victor Hugo','183, avenue Victor Hugo','75016','Paris',48.865891,2.276386,NULL),
- (12,5,NULL,'Le Pied de Cochon','6, rue Coquillière','75001','Paris',48.863377,2.343667,NULL),
- (13,6,NULL,'Pharmacie Les Champs','84, avenue des Champs-Elysées','75008','Paris',48.871059,2.303572,NULL),
- (14,6,NULL,'Pharmacie Européenne','6, place Clichy','75009','Paris',48.883270,2.327567,NULL),
- (15,6,NULL,'Grande Pharmacie Daumesnil','6, place Félix Eboué','75012','Paris',48.839417,2.395632,NULL);
+INSERT INTO `lieu` (`id_lieu`,`id_type_lieu`,`icon`,`icon_gmap_init`,`nom`,`addresse`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`info_complementaire`) VALUES 
+ (1 ,1,NULL,NULL,'BICHAT - CLAUDE-BERNARD'   ,'46, rue Henri-Huchard','75018','Paris',48.899136,2.334483,NULL),
+ (2 ,1,NULL,NULL,'HOTEL-DIEU'                ,'1, place du Parvis Notre-Dame','75004','Paris',48.853264,2.348034,'<b>Attention : </b> Entrée des urgence a changé'),
+ (3 ,1,NULL,NULL,'LARIBOISIERE'              ,'9, rue Ambroise Paré','75010','Paris',48.881939,2.352589,NULL),
+ (4 ,2,NULL,NULL,'Rousseau'                  ,'21, rue du Jour','75001','Paris',48.863880,2.344957,NULL),
+ (5 ,2,NULL,NULL,'Sévigné'                   ,'7, rue Sévigné','75004','Paris',48.855671,2.362153,NULL),
+ (6 ,2,NULL,NULL,'Dauphine'                  ,'2, rue François Millet','75016','Paris',48.850437,2.273220,NULL),
+ (7 ,2,NULL,NULL,'Montmartre'                ,'12, rue Carpeaux','75018','Paris',48.891346,2.332324,NULL),
+ (8 ,3,NULL,NULL,'CRF - Base IV'             ,"36, rue Geoffroy l'Asnier",'75004','Paris',48.855434,2.357217,NULL),
+ (9 ,3,NULL,NULL,'CRF - Base XVI'            ,'68, rue de Passy','75016','Paris',48.857967,2.277349,NULL),
+ (10,3,NULL,NULL,'CRF - Base XIV'            ,'72, rue Halle','75014','Paris',48.829185,2.331103,NULL),
+ (11,4,NULL,NULL,'Station Total Victor Hugo' ,'183, avenue Victor Hugo','75016','Paris',48.865891,2.276386,NULL),
+ (12,5,NULL,NULL,'Le Pied de Cochon'         ,'6, rue Coquillière','75001','Paris',48.863377,2.343667,NULL),
+ (13,6,NULL,NULL,'Pharmacie Les Champs'      ,'84, avenue des Champs-Elysées','75008','Paris',48.871059,2.303572,NULL),
+ (14,6,NULL,NULL,'Pharmacie Européenne'      ,'6, place Clichy','75009','Paris',48.883270,2.327567,NULL),
+ (15,6,NULL,NULL,'Grande Pharmacie Daumesnil','6, place Félix Eboué','75012','Paris',48.839417,2.395632,NULL);
 
 
 -- Insert test data

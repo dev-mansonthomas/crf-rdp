@@ -2,6 +2,8 @@ package fr.croixrouge.irp.services.dwr.monitorInput;
 
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Intervention;
@@ -12,10 +14,14 @@ import fr.croixrouge.irp.services.intervention.InterventionService;
 
 public class MonitorInputBilanImpl  extends DWRUtils
 {
+  private static Log logger           = LogFactory.getLog(MonitorInputBilanImpl.class);
   private InterventionService interventionService = null;
   public MonitorInputBilanImpl(InterventionService interventionService)
   {
     this.interventionService = interventionService;
+    
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   
   public Intervention createEmptyIntervention() throws Exception

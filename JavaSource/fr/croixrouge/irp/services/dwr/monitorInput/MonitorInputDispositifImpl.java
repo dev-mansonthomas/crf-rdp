@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
@@ -16,6 +18,7 @@ import fr.croixrouge.irp.services.equipier.EquipierService;
 
 public class MonitorInputDispositifImpl extends DWRUtils
 {
+  private static Log logger           = LogFactory.getLog(MonitorInputDispositifImpl.class);
   private DispositifService        dispositifService  = null;
   private EquipierService          equipierService    = null;
   private MonitorInputImpl         monitorInputImpl   = null;
@@ -26,8 +29,6 @@ public class MonitorInputDispositifImpl extends DWRUtils
                                     EquipierService   equipierService  ,
                                     MonitorInputImpl  monitorInputImpl)
   {
-    System.err.println("New MonitorInputDispositif");
-    
     this.monitorInputImpl  = monitorInputImpl;
     this.dispositifService = dispositifService;
     this.equipierService   = equipierService;
@@ -37,6 +38,9 @@ public class MonitorInputDispositifImpl extends DWRUtils
     bsppSamuEquiperMap.put("3", new int[] { 4, 2 });
     bsppSamuEquiperMap.put("4", new int[] { 4 });
     bsppSamuEquiperMap.put("5", new int[] { 4, 5 });
+    
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   
   

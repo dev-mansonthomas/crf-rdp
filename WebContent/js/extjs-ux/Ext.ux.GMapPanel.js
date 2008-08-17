@@ -28,7 +28,8 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
             zoom: 0,
             gmapType: 'map',
             border: false,
-            markerCategories: []
+            markerCategories:[],
+            iconsForCategory:[]
         };
         
         Ext.applyIf(this,defConfig);
@@ -116,22 +117,26 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
         return {lat: ll.lat(), lng: ll.lng()};
         
     },
-    getIcon:function()
+    setIconForCategory:function(category, iconScript)
     {
-      var baseIcon = new GIcon(G_DEFAULT_ICON,contextPath+"/img/famfamfam/user_red.png");
-      baseIcon.shadow            = contextPath+"/img/gmap/user-shadow.png";
-      baseIcon.iconSize          = new GSize(16, 16);
-      baseIcon.shadowSize        = new GSize(27, 26);
-      baseIcon.iconAnchor        = new GPoint(8, 16);
-      baseIcon.infoWindowAnchor  = new GPoint(9, 2);
-      baseIcon.infoShadowAnchor  = new GPoint(18, 25);
-      return baseIcon;
+      var icon=null;
+      eval(iconScript);
+      this.iconsForCategory[category]=icon;
     },
-    addMarker: function(latitude, longitude, icon, category, center, title, html, businessId)
+    getIcon:function(category)
     {
-      var point  = new GLatLng(latitude,longitude);
-      var icon   = this.getIcon();
-      var marker = new GMarker(point, {icon:icon,title:title});
+      var icon = this.iconsForCategory[category];
+      
+      if(icon != null)
+        return icon;
+      
+      return new GIcon(G_DEFAULT_ICON);
+    },
+    addMarker: function(latitude, longitude, specificIconScript, category, center, title, html, businessId)
+    {
+      var point  = new GLatLng (latitude,longitude);
+      var icon   = this.getIcon(category);
+      var marker = new GMarker (point, {icon:icon,title:title});
       
       GEvent.addListener(marker, "click", function() {
           marker.openInfoWindowHtml(html);
@@ -158,8 +163,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     {
       var markers = this.markerCategories[category];
       if(markers == null)
-      {
-        alert('Unknow category '+category);
+      {//catégorie vide ou inconnue
         return;
       }
       
@@ -171,7 +175,6 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       var markers = this.markerCategories[category];
       if(markers == null)
       {
-        alert('Unknow category '+category);
         return;
       }
       
@@ -183,7 +186,6 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       var markers = this.markerCategories[category];
       if(markers == null)
       {
-        alert('Unknow category '+category);
         return;
       }
       

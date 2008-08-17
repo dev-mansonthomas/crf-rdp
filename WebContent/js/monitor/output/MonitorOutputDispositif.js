@@ -120,18 +120,17 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
     var typeLieu      = crfIrpUtils.getTypeLieu(i);
     var catLieuName   = typeLieu.labelTypeLieu;
     var listLieuTabId = 'list-lieu-window-tabs_'+i;
+    var category      = 'lieu_cat_'+typeLieu.idTypeLieu;    
     
-
+    map.setIconForCategory(category, typeLieu.iconGmapInit);
     
     var tabHtml = [];
-    
     var listLieuTabList   = Ext.get(listLieuTabId+'_list');
         
     for(var j=0, countj = catLieu.size();j<countj;j++)
     {
       var lieu     = catLieu[j];
       var title    = catLieuName+' - '+lieu.nom;
-      var category = 'lieu_cat_'+lieu.idTypeLieu;
     
       var markerHtml = '<b>'+title+'</b><br/><br/>'+
                         lieu.addresse+',<br/>'+
@@ -179,7 +178,7 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
     var typeLieu = allTypeLieu[i];
     var fragmentHtml = [];
     
-    if(i%2==0)
+    if(i%3==0)
       fragmentHtml.push('<tr>');
     
     fragmentHtml.push('<td id="south-lieu-selector-cell-cat-');
@@ -195,12 +194,13 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
     fragmentHtml.push(');"/></td>');
     
       
-    if(i%2!=0)
+    if(i+1%3==0)
       fragmentHtml.push('</tr>');
     
     htmlGenerated.push(fragmentHtml.join(''));
     var cat = 'lieu_cat_'+typeLieu.idTypeLieu;
-    map.hideACategoryOfMarker(cat);
+    if(typeLieu.idTypeLieu!=8 && typeLieu.idTypeLieu!=9)
+      map.hideACategoryOfMarker(cat);
   }
   htmlGenerated.push('</table>');
   
@@ -413,6 +413,10 @@ detailIntervention,
 '  </tr>',
 '</table>'];
   p.body=template.join('');
+  
+  
+  var map      = Ext.getCmp('center-carte-paris-panel');
+
   return 'x-grid3-row-expanded';
 };
 

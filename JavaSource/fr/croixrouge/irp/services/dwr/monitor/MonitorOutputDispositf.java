@@ -1,5 +1,7 @@
 package fr.croixrouge.irp.services.dwr.monitor;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
@@ -10,6 +12,7 @@ import fr.croixrouge.irp.services.dwr.DWRUtils;
 
 public class MonitorOutputDispositf  extends DWRUtils
 {
+  private static Log logger           = LogFactory.getLog(MonitorOutputDispositf.class);
   private DispositifService              dispositifService              = null;
   private DispositifInterventionDelegate dispositifInterventionDelegate = null;
   
@@ -17,6 +20,10 @@ public class MonitorOutputDispositf  extends DWRUtils
   {
     this.dispositifService              = dispositifService             ;
     this.dispositifInterventionDelegate = dispositifInterventionDelegate;
+    
+
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
 
   public ListRange getAllDispositif() throws Exception

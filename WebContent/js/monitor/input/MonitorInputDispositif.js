@@ -636,14 +636,14 @@ MonitorInputDispositifCs.prototype.updateAddressReturn=function(place, current)
   var which = current ? 'Current' : 'Previous';
   $('dispositif'+which+'AddressCoordinateLat' ).value=coordinates[1];
   $('dispositif'+which+'AddressCoordinateLong').value=coordinates[0];
-//TODO bizaarreee
+
   var callMetaData = {
     callback:MonitorInputDispositifCs.prototype.updateAddressSaveReturn,
     args:{current : current}
   };
   
   $('dispositif'+which+'GoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/cog.png";
-  MonitorInputDispositif.updateGoogleCoordinates(coordinates[1], coordinates[0], $('dispositif_id_field').value, current, miDispositifCs.updateAddressSaveReturn);
+  MonitorInputDispositif.updateGoogleCoordinates(coordinates[1], coordinates[0], $('dispositif_id_field').value, current, callMetaData);
 };
 
 MonitorInputDispositifCs.prototype.updateAddressSaveReturn=function(metaData)

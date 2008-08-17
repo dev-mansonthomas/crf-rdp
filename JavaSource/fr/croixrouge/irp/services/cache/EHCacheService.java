@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * @author A15205 - Thomas Manson - RS2i
- * @version $Revision: 1.2 $ $date$
+ * @version $Revision: 1.3 $ $date$
  */
 
 public class EHCacheService implements CacheService
@@ -27,7 +27,7 @@ public class EHCacheService implements CacheService
     this.cache = cache;
     
     if(logger.isDebugEnabled())
-      logger.debug("CacheService Constructor() called");
+      logger.debug("constructor called");
   }
   
   /**

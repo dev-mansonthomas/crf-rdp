@@ -21,6 +21,9 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
   {
     this.dispositifService  = dispositifService;
     this.interventionService= interventionService;
+
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   
   /**

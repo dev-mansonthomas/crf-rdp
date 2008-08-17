@@ -30,6 +30,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   {
     this.jdbcTemplate       = jdbcTemplate;
     this.dispositifService  = dispositifService;
+    
+    if(logger.isDebugEnabled())
+      logger.debug("constructor called");
   }
   
   private int getLastInsertedId()

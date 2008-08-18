@@ -45,6 +45,20 @@ MonitorInputDispositifCs.prototype.initialize=function()
        miDispositifCs.updateDispositifDateField(event.id, 'DH_fin')
     });
     
+  //initialisation des controles javascripts
+  crfIrpUtils.setFieldValidation('DispositifB1V', "/3|5|15/.test(#{value})"      , "5"  );
+  crfIrpUtils.setFieldValidation('DispositifB2V', "/3|5|15/.test(#{value})"      , "5"  );
+  crfIrpUtils.setFieldValidation('DispositifB3V', "/3|5|15/.test(#{value})"      , "5"  );
+  crfIrpUtils.setFieldValidation('DispositifB4V', "/3|5|15/.test(#{value})"      , "5"  );
+  crfIrpUtils.setFieldValidation('DispositifB5V', "/3|5|15/.test(#{value})"      , "5"  );
+  crfIrpUtils.setFieldValidation('DispositifB1P', "#{value}>=20 && #{value}<=200", "200");
+  crfIrpUtils.setFieldValidation('DispositifB2P', "#{value}>=20 && #{value}<=200", "200");
+  crfIrpUtils.setFieldValidation('DispositifB3P', "#{value}>=20 && #{value}<=200", "200"); 
+  crfIrpUtils.setFieldValidation('DispositifB4P', "#{value}>=20 && #{value}<=200", "200");
+  crfIrpUtils.setFieldValidation('DispositifB5P', "#{value}>=20 && #{value}<=200", "200");
+  
+  
+  
   PageBus.subscribe("list.loaded",  this, this.initDispositif     , null, null);
   PageBus.subscribe("list.loaded",  this, this.initDispositifGrids, null, null);
   

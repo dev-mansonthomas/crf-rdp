@@ -2084,8 +2084,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B1_volume');miDispositifCs.updateVolumeAndAutonomie();"
 />
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB1V', "/3|5|15/.test(#{value})", "5");</script>
-
     </td>
     <td><!-- B2 -->
 <input type="text"
@@ -2095,7 +2093,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B2_volume');miDispositifCs.updateVolumeAndAutonomie();"
 />
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB2V', "/3|5|15/.test(#{value})", "5");</script>
     </td>
     <td><!-- B3 -->
 <input type="text"
@@ -2105,7 +2102,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B3_volume');miDispositifCs.updateVolumeAndAutonomie();"
 />
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB3V', "/3|5|15/.test(#{value})", "5");</script>
     </td>
     <td><!-- B4 -->
 <input type="text"
@@ -2115,7 +2111,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B4_volume');miDispositifCs.updateVolumeAndAutonomie();"
 />
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB4V', "/3|5|15/.test(#{value})", "5");</script>
     </td>
     <td><!-- B5 -->
 <input type="text"
@@ -2125,7 +2120,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B5_volume');miDispositifCs.updateVolumeAndAutonomie();"
 />
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB5V', "/3|5|15/.test(#{value})", "5");</script>
     </td>
     <td id="DispositifVolumeTotal" style="width:30px;"><!-- Volume Total -->
     </td>
@@ -2140,8 +2134,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifFloatField(this.id, 'O2_B1_pression');miDispositifCs.updateVolumeAndAutonomie();"/>
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB1P', "#{value}>=20 && #{value}<=200", "200");</script>
-
     </td>
     <td><!-- B2 -->
 <input type="text"
@@ -2150,8 +2142,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifFloatField(this.id, 'O2_B2_pression');miDispositifCs.updateVolumeAndAutonomie();"/>
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB2P', "#{value}>=20 && #{value}<=200", "200");</script>
-
     </td>
     <td><!-- B3 -->
 <input type="text"
@@ -2160,8 +2150,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifFloatField(this.id, 'O2_B3_pression');miDispositifCs.updateVolumeAndAutonomie();"/>
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB3P', "#{value}>=20 && #{value}<=200", "200");</script>
-
     </td>
     <td><!-- B4 -->
 <input type="text"
@@ -2170,8 +2158,6 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifFloatField(this.id, 'O2_B4_pression');miDispositifCs.updateVolumeAndAutonomie();"/>
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB4P', "#{value}>=20 && #{value}<=200", "200");</script>
-
     </td>
     <td><!-- B5 -->
 <input type="text"
@@ -2180,12 +2166,9 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifFloatField(this.id, 'O2_B5_pression');miDispositifCs.updateVolumeAndAutonomie();"/>
-<script type="text/javascript">crfIrpUtils.setFieldValidation('DispositifB5P', "#{value}>=20 && #{value}<=200", "200");</script>
-
     </td>
     <td id="DispositifAutonomieTotal" style="width:30px;"><!-- Autonomie Total -->
     </td>
-
   </tr>
 </table>
 

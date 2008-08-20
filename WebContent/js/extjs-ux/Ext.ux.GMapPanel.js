@@ -7,7 +7,8 @@
  */
 
 /**
- * @author Shea Frederick
+ * @author Manson Thomas for the French Red Cross
+ * @originalAuthor Shea Frederick from www.extjs.com
  */
 
 Ext.namespace('Ext.ux');
@@ -28,6 +29,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
             zoom: 0,
             gmapType: 'map',
             border: false,
+            directionCategories:[],
             markerCategories:[],
             iconsForCategory:[]
         };
@@ -132,10 +134,16 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       
       return new GIcon(G_DEFAULT_ICON);
     },
-    addMarker: function(latitude, longitude, specificIconScript, category, center, title, html, businessId)
+    removeMarker:function(marker)
     {
+      this.gmap.removeOverlay(marker);
+    },
+    addMarker: function(latitude, longitude, specificIconScript, category, center, title, html, businessId, iconCategory)
+    {
+      if(!iconCategory)
+        iconCategory = category;
       var point  = new GLatLng (latitude,longitude);
-      var icon   = this.getIcon(category);
+      var icon   = this.getIcon(iconCategory);
       var marker = new GMarker (point, {icon:icon,title:title});
       
       GEvent.addListener(marker, "click", function() {
@@ -168,7 +176,8 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       }
       
       for(var i=0, count=markers.size();i<count;i++)
-        markers[i].show();
+        if(markers[i]!= null)
+          markers[i].show();
     },
     hideACategoryOfMarker:function(category)
     {
@@ -179,7 +188,8 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       }
       
       for(var i=0, count=markers.size();i<count;i++)
-        markers[i].hide();
+        if(markers[i]!= null)
+          markers[i].hide();
     },
     focusMarker:function(category, businessId)
     {
@@ -191,7 +201,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       
       for(var i=0, count=markers.size();i<count;i++)
       {
-        if(markers[i].customId==category+'_'+businessId)
+        if(markers[i] != null && markers[i].customId==category+'_'+businessId)
         {
           var marker = markers[i];
           if(marker.isHidden())
@@ -202,6 +212,237 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
           return;
         }
       }
+    },
+    /**
+     * directionInfo.fromAddress
+     * directionInfo.toAddress
+     * directionInfo.category
+     * directionInfo.businessId
+     * */
+    displayRoute:function(directionInfo)
+    {
+      //create cat if not exist
+      if(!this.directionCategories[directionInfo.category])
+        this.directionCategories[directionInfo.category]=[];
+      
+      var directionCat = this.directionCategories[directionInfo.category];
+      
+      var directionSet  = null; 
+      var gDirection    = null;
+      var dirSetCatIndex=-1;
+      //find if a Direction exists pour this cat/businessId
+      for(var i=0,count=directionCat.length;i<count;i++)
+      {
+        if(directionCat[i] != null && 
+           directionCat[i].directionInfo.category   == directionInfo.category && 
+           directionCat[i].directionInfo.businessId == directionInfo.businessId
+          )
+        {
+          directionSet   = directionCat[i]
+          dirSetCatIndex = i;
+        }
+      }
+      
+      if(directionSet == null)
+      {
+        var directionDivId = "GoogleMapsDirection_"+directionInfo.businessId;
+        var directionDiv   = Ext.get(directionDivId);
+        
+        if(!directionDiv)
+          Ext.get("GoogleMapsDirection").insertHtml('beforeEnd', '<div id="'+directionDivId+'"></div>')
+        
+        gDirection = new GDirections(this.gmap, $(directionDivId));
+        
+        gDirection.category  = directionInfo.category  ;
+        gDirection.businessId= directionInfo.businessId;
+        
+        GEvent.addListener(gDirection, "load"       , function(){
+         //alert('loaded');
+        });
+        GEvent.addListener(gDirection, "error"      , function(){
+         alert('gDirection error '+this.getStatus().code );
+        });
+        GEvent.addListener(gDirection, "addoverlay" , function(){
+          //this.getMarker(0).setImage('');
+        }); // added to trigger marker swap
+        
+        directionSet = {directionInfo:directionInfo, gDirection: gDirection};
+        directionCat.push(directionSet);
+      }
+      else
+      {//update the direction Info, keep the instance of gDirection
+        directionSet.directionInfo=directionInfo;
+      }
+      //compute direction
+      directionSet.gDirection.load("from: " + directionSet.directionInfo.fromAddress+', france' + " to: " + directionSet.directionInfo.toAddress+', france',
+                { "locale": 'fr' , "getSteps":true});
+      
+    }
+    ,
+    /**
+     * directionInfo.fromAddress
+     * directionInfo.toAddress
+     * directionInfo.category
+     * directionInfo.businessId
+     * directionInfo.title, 
+     * directionInfo.html
+     * */
+    displayRouteForDispositif:function(directionInfo)
+    {
+      //create cat if not exist
+      if(!this.directionCategories[directionInfo.category])
+        this.directionCategories[directionInfo.category]=[];
+      
+      var directionCat = this.directionCategories[directionInfo.category];
+      
+      var directionSet  = null; 
+      var gDirection    = null;
+      var dirSetCatIndex=-1;
+      //find if a Direction exists pour this cat/businessId
+      for(var i=0,count=directionCat.length;i<count;i++)
+      {
+        if(directionCat[i] != null && 
+           directionCat[i].directionInfo.category   == directionInfo.category && 
+           directionCat[i].directionInfo.businessId == directionInfo.businessId
+          )
+        {
+          directionSet   = directionCat[i]
+          dirSetCatIndex = i;
+        }
+      }
+      
+      if(directionSet == null)
+      {
+        var directionDivId = "GoogleMapsDirection_"+directionInfo.businessId;
+        var directionDiv   = Ext.get(directionDivId);
+        
+        if(!directionDiv)
+          Ext.get("GoogleMapsDirection").insertHtml('beforeEnd', '<div id="'+directionDivId+'"></div>')
+        
+        $(directionDivId).title = directionInfo.title;
+        
+        gDirection = new GDirections(this.gmap, $(directionDivId));
+        
+        gDirection.category  = directionInfo.category  ;
+        gDirection.businessId= directionInfo.businessId;
+        gDirection.customId  = directionInfo.category+'_'+directionInfo.businessId;
+        GEvent.addListener(gDirection, "load"       , function(){
+         //alert('loaded');
+        });
+        GEvent.addListener(gDirection, "error"      , function(){
+         alert('gDirection error '+this.getStatus().code );
+        });
+        GEvent.addListener(gDirection, "addoverlay" , function(){
+          var originalFromMarker = this.getMarker(0);
+          var originalFromLatLng = originalFromMarker.getLatLng();
+          var originalToMarker   = this.getMarker(1);
+          var originalToLatLng   = originalToMarker.getLatLng();
+          
+           var map      = Ext.getCmp('center-carte-paris-panel');
+           var extraHtml = ['<br/>En mouvement : ',
+                            '<b>distance :</b> ', 
+                            this.getDistance().html,
+                            ', <b>durée :</b> ', 
+                            this.getDuration().html,           
+                            '<br/> depuis :<br/>',
+                            directionInfo.fromAddress,
+                            '<br/>à destination de : <br/>',
+                            directionInfo.toAddress,
+                            '<br/> <input type="button" value="Voir les indications pour le trajet" onClick="Ext.getCmp(\'center-carte-paris-panel\').showDirectionPath(\''+directionDivId+'\')"/>'];
+           
+           var html     = String.format(directionInfo.html, extraHtml.join(''));
+           
+           map.addMarker(originalFromLatLng.lat (),
+                         originalFromLatLng.lng (),
+                         null                     ,
+                         directionInfo.category   ,
+                         false                    ,
+                         directionInfo.title      ,
+                         html                     ,
+                         directionInfo.businessId ,
+                         directionInfo.category+'_from');
+
+           map.addMarker(originalToLatLng.lat   (),
+                         originalToLatLng.lng   (),
+                         null                     ,
+                         directionInfo.category   ,
+                         false                    ,
+                         directionInfo.title      ,
+                         html                     ,
+                         directionInfo.businessId ,
+                         directionInfo.category+'_to');
+          
+          map.removeMarker(originalFromMarker);
+          map.removeMarker(originalToMarker  );
+        }); // added to trigger marker swap
+        
+        directionSet = {directionInfo:directionInfo, gDirection: gDirection};
+        directionCat.push(directionSet);
+      }
+      else
+      {//update the direction Info, keep the instance of gDirection
+        directionSet.directionInfo=directionInfo;
+      }
+      //compute direction
+      directionSet.gDirection.load("from: " + directionSet.directionInfo.fromAddress+', france' + " to: " + directionSet.directionInfo.toAddress+', france',
+                { "locale": 'fr' , "getSteps":true});
+      
+    },
+    showDirection:function(category)
+    {
+      var directions = this.directionCategories[category];
+      if(directions == null)
+        return;
+        
+      for(var i=0, count=directions.size();i<count;i++)
+        this.displayRouteForDispositif(directions[i].directionInfo);
+      
+    },
+    hideDirection:function(category)
+    {
+      var directions = this.directionCategories[category];
+      if(directions == null)
+        return;
+      
+      var markers = this.markerCategories[category];
+      
+      for(var i=0, counti=directions.size();i<counti;i++)
+      {
+        if(markers != null)
+        {
+          //supprime les markers associé a la route, car dans showDirection, on recrée tout (route et 2 markers).
+          for(var j=0, countj=markers.size();j<countj;j++)
+          {
+            if(markers[j] != null && markers[j].customId == directions[i].gDirection.customId)
+            {
+              this.removeMarker(markers[j]);
+              markers[j]=null;
+            }
+          }
+        }
+        directions[i].gDirection.clear();
+            
+      }
+        
+    },
+    showDirectionPath:function(directionDivId)
+    {
+      //clone the div (window.close => div used for content destroyed
+      Ext.get("GoogleMapsDirection").insertHtml('beforeEnd', '<div id="'+directionDivId+'_win" class="GoogleMapsDirection"></div>')
+      Ext.get(directionDivId+'_win').update(Ext.get(directionDivId).dom.innerHTML);
+      
+      var win = new Ext.Window({
+                layout      : 'fit' ,
+                width       : 450   ,
+                height      : 550   ,
+                x           : 32    ,
+                y           : 49    ,
+                closeAction :'close',
+                plain       : true  ,
+                autoScroll  : true  ,
+                contentEl   : directionDivId+'_win'            
+                });
+      win.show();
     },
     /*
     addMarkers : function(markers) {

@@ -29,14 +29,18 @@
                          {name: 'dhAppelRenfortMedical'                         , mapping: 'dhAppelRenfortMedical'                         },
                          {name: 'dhArriveeRenfortMedical'                       , mapping: 'dhArriveeRenfortMedical'                       },
 
-                         {name: 'currentIntervention.googleCoordsLat'           , mapping: 'currentIntervention.googleCoordsLat'           },
-                         {name: 'currentIntervention.googleCoordsLong'          , mapping: 'currentIntervention.googleCoordsLong'          },
+
                          {name: 'currentIntervention.idOrigine'                 , mapping: 'currentIntervention.idOrigine'                 },
                          {name: 'currentIntervention.idMotif'                   , mapping: 'currentIntervention.idMotif'                   },
-                         {name: 'currentIntervention.idEtat'                    , mapping: 'currentIntervention.idEtat'                   },
-                         {name: 'currentIntervention.rue'                       , mapping: 'currentIntervention.rue'                       },
-                         {name: 'currentIntervention.codePostal'                , mapping: 'currentIntervention.codePostal'                },
-                         {name: 'currentIntervention.ville'                     , mapping: 'currentIntervention.ville'                     },
+                         {name: 'currentIntervention.idEtat'                    , mapping: 'currentIntervention.idEtat'                    },
+
+                         {name: 'currentIntervention.position.googleCoordsLat'  , mapping: 'currentIntervention.position.googleCoordsLat'  },
+                         {name: 'currentIntervention.position.googleCoordsLong' , mapping: 'currentIntervention.position.googleCoordsLong' },
+                         {name: 'currentIntervention.position.rue'              , mapping: 'currentIntervention.position.rue'              },
+                         {name: 'currentIntervention.position.codePostal'       , mapping: 'currentIntervention.position.codePostal'       },
+                         {name: 'currentIntervention.position.ville'            , mapping: 'currentIntervention.position.ville'            },
+                         {name: 'currentIntervention.dhSaisie'                  , mapping: 'currentIntervention.dhSaisie'                  },
+                        
                          {name: 'currentIntervention.victimeHomme'              , mapping: 'currentIntervention.victimeHomme'              },
                          {name: 'currentIntervention.nomVictime'                , mapping: 'currentIntervention.nomVictime'                },
                          {name: 'currentIntervention.nomContactSurPlace'        , mapping: 'currentIntervention.nomContactSurPlace'        },
@@ -64,8 +68,14 @@ var MonitorOutputDispositifCs = Class.create();
 MonitorOutputDispositifCs.prototype.initialize=function()
 {
   MonitorOutputDispositif.initScriptSession();
+
+  this.listLoaded     = false;
+  this.listLieuLoaded = false;
+
+  
   PageBus.subscribe("list.loaded"         ,  this, this.initDispositifGrid, null, null);
   PageBus.subscribe("listLieu.loaded"     ,  this, this.initLieuOnMap     , null, null);
+  PageBus.subscribe("listLieu.loaded"     ,  this, this.initDispositifGrid, null, null);
 };
 
 /*
@@ -123,6 +133,11 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
     var category      = 'lieu_cat_'+typeLieu.idTypeLieu;    
     
     map.setIconForCategory(category, typeLieu.iconGmapInit);
+    if(typeLieu.idTypeLieu == 9)//ambulance
+    {
+      map.setIconForCategory(category+'_from', typeLieu.iconGmapInit.replace(new RegExp('ambulance.png', 'g'), 'ambulance-from.png'));
+      map.setIconForCategory(category+'_to'  , typeLieu.iconGmapInit.replace(new RegExp('ambulance.png', 'g'), 'ambulance-to.png'));
+    }
     
     var tabHtml = [];
     var listLieuTabList   = Ext.get(listLieuTabId+'_list');
@@ -175,17 +190,30 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
   for(var i=0, counti=allTypeLieu.size();i<counti;i++)
   {//Générer un tableau avec un case ou on click pour afficher, avec le background qui change de couleur quand c'est affiché ou caché.
    //+ dans une autre cellule du tableau, une icon pour lister les lieu de cette catégorie. Lorsqu'on clic sur un lieu, ca affiche, centre et affiche le détail
-    var typeLieu = allTypeLieu[i];
+    var typeLieu     = allTypeLieu[i];
     var fragmentHtml = [];
+    var shouldHide   = true;
     
+    if(typeLieu.idTypeLieu==8 || typeLieu.idTypeLieu==9)
+      shouldHide = false;
+      
     if(i%3==0)
       fragmentHtml.push('<tr>');
     
     fragmentHtml.push('<td id="south-lieu-selector-cell-cat-');
     fragmentHtml.push(typeLieu.idTypeLieu);
-    fragmentHtml.push('" class="type-lieu-unselected" onClick="moDispositifCs.toggleCategory(this.id, ');
+    fragmentHtml.push('" class="type-lieu-')
+    
+    if(shouldHide==true)
+      fragmentHtml.push('un');
+      
+    fragmentHtml.push('selected" onClick="moDispositifCs.toggleCategory(this.id, ');
     fragmentHtml.push(typeLieu.idTypeLieu);
-    fragmentHtml.push(');">');
+    fragmentHtml.push(');"><img height="16" src="');
+    fragmentHtml.push(contextPath);
+    fragmentHtml.push('/img/');
+    fragmentHtml.push(typeLieu.iconLieu);
+    fragmentHtml.push('" alt="Icone"/>');
     fragmentHtml.push(typeLieu.labelTypeLieu);
     fragmentHtml.push('</td><td><img src="');
     fragmentHtml.push(contextPath);
@@ -199,7 +227,8 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
     
     htmlGenerated.push(fragmentHtml.join(''));
     var cat = 'lieu_cat_'+typeLieu.idTypeLieu;
-    if(typeLieu.idTypeLieu!=8 && typeLieu.idTypeLieu!=9)
+    
+    if(shouldHide==true)
       map.hideACategoryOfMarker(cat);
   }
   htmlGenerated.push('</table>');
@@ -217,12 +246,17 @@ MonitorOutputDispositifCs.prototype.toggleCategory=function(htmlId, idCategory)
     td.toggleClass('type-lieu-unselected');//remove
     td.toggleClass('type-lieu-selected');//add
     map.showACategoryOfMarker(cat);
+    if(cat == 'lieu_cat_9')//ambulance
+      map.showDirection(cat);
   }
   else
   {
     td.toggleClass('type-lieu-selected');//remove
     td.toggleClass('type-lieu-unselected');//add
     map.hideACategoryOfMarker(cat);
+    if(cat == 'lieu_cat_9')//ambulance
+      map.hideDirection(cat);
+
   }
   
 };
@@ -243,23 +277,31 @@ MonitorOutputDispositifCs.prototype.displayLieu=function(idTypeLieu, lieuId)
   var category = 'lieu_cat_'+idTypeLieu;
   map.focusMarker(category, lieuId);
 };
-MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
+MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
 {
+  if(eventName == "list.loaded")
+    this.listLoaded     = true;
+  if(eventName == "listLieu.loaded")
+    this.listLieuLoaded = true;
+  
+  if(!(this.listLoaded == true &&  this.listLieuLoaded == true))//on attends que les 2 listes soient initialisées
+   return;
+  
   var xg = Ext.grid;
 
   var dataStore1 = new Ext.data.Store({
-       listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone,
-                     add : MonitorOutputDispositifCs.prototype.initDropZoneAdd},
-           proxy: new Ext.ux.rs.data.DwrProxy({
-               call: MonitorOutputDispositif.getAllDispositif,
-               args: [],
-               paging: false
+           listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone,
+                         add : MonitorOutputDispositifCs.prototype.initDropZoneAdd},
+               proxy: new Ext.ux.rs.data.DwrProxy({
+                call: MonitorOutputDispositif.getAllDispositif,
+                args: [],
+              paging: false
                }),
-           remoteSort:false,
-           reader: new Ext.data.JsonReader({
-                 root: 'data',
-        totalProperty: 'totalCount',
-               fields:
+          remoteSort:false,
+              reader: new Ext.data.JsonReader({
+                root: 'data',
+       totalProperty: 'totalCount',
+              fields:
                    [
 {name: 'idDispositif'                                    , type: 'int'    },
 {name: 'idTypeDispositif'                                , type: 'int'    },
@@ -300,6 +342,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function()
 {name:'currentIntervention.position.googleCoordsLat'     , type: 'float'   },
 {name:'currentIntervention.position.googleCoordsLong'    , type: 'float'   },
 
+{name: 'currentIntervention.dhSaisie'                    , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 {name: 'currentIntervention.victimeHomme'                , type: 'boolean'},
 {name: 'currentIntervention.nomVictime'                  , type: 'string' },
 {name: 'currentIntervention.nomContactSurPlace'          , type: 'string' },
@@ -414,11 +457,101 @@ detailIntervention,
 '</table>'];
   p.body=template.join('');
   
-  
-  var map      = Ext.getCmp('center-carte-paris-panel');
+  moDispositifCs.displayDispositifOnMap(record.data);
 
   return 'x-grid3-row-expanded';
 };
+
+MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif)
+{
+  if(dispositif["currentPosition.empty"]==false)
+  {
+    var map      = Ext.getCmp('center-carte-paris-panel');
+    
+    var currentInterHtml = '';
+    if(dispositif.currentInterId != 0)
+    {
+      var origine   = crfIrpUtils.getLabelFor('OriginesIntervention', dispositif['currentIntervention.idOrigine']);
+      var motif     = crfIrpUtils.getLabelFor('MotifsIntervention'  , dispositif['currentIntervention.idMotif'  ]);
+
+      currentInterHtml = ['<br/><br/>Intervention en cours : ',dispositif.currentInterId,'<br/> Origine : ',origine,'<br/>',
+             'Motif : ',motif,'<br/>',
+             'Adresse : ',dispositif['currentIntervention.position.rue'         ],', ',
+                          dispositif['currentIntervention.position.codePostal'  ],', ',
+                          dispositif['currentIntervention.position.ville'       ],'<br/>',
+             'Victime : ',dispositif['currentIntervention.nomVictime'                       ],'<br/>',
+             'Contact : ',dispositif['currentIntervention.nomContactSurPlace'               ],'<br/>',
+             'Coordonnées : ',dispositif['currentIntervention.coordonneesContactSurPlace'   ],'<br/>'].join(''); 
+             
+      var category = 'lieu_cat_'+8;
+      var dhSaisie = crfIrpUtils.getFullDate(dispositif['currentIntervention.dhSaisie']);
+      var title    = 'N°'+dispositif.currentInterId+' - '+dhSaisie+' - '+origine+' - '+motif;
+      var html     = title +'<br/>'+
+                     dispositif['currentIntervention.position.rue'         ]+', '+
+                     dispositif['currentIntervention.position.codePostal'  ]+", "+
+                     dispositif['currentIntervention.position.ville'       ];
+    
+      map.addMarker(dispositif['currentIntervention.position.googleCoordsLat' ], 
+                    dispositif['currentIntervention.position.googleCoordsLong'], 
+                    null, 
+                    category, 
+                    false, 
+                    title, 
+                    html,
+                    dispositif.currentInterId);
+             
+    }
+    else
+      currentInterHtml ='<br/><br/>Aucune intervention en cours'; 
+    
+    var category = 'lieu_cat_'+9;
+    
+    if( dispositif["previousPosition.empty"]==false || 
+        !(dispositif["currentPosition.googleCoordsLat" ]==dispositif["previousPosition.googleCoordsLat" ] &&
+          dispositif["currentPosition.googleCoordsLong"]==dispositif["previousPosition.googleCoordsLong"]) )
+    {
+      var title    = 'N°'+dispositif.idDispositif+' - '+dispositif.indicatifVehicule;
+      var html     = title +'<br/> {0} ' +currentInterHtml;
+
+    /**
+     * directionInfo.fromAddress
+     * directionInfo.toAddress
+     * directionInfo.category
+     * directionInfo.businessId
+     * directionInfo.title 
+     * directionInfo.html
+     * */
+      
+      
+      //Trajet a calculer
+      map.displayRouteForDispositif({
+        fromAddress    : dispositif["previousPosition.rue"]+', '+ dispositif["previousPosition.codePostal"]+', '+dispositif["previousPosition.ville"],
+        toAddress      : dispositif["currentPosition.rue" ]+', '+ dispositif["currentPosition.codePostal" ]+', '+dispositif["currentPosition.ville" ],
+        category       : category,
+        businessId     : dispositif.idDispositif,
+        title          : title,
+        html           : html
+      });
+    }
+    else
+    {
+      //Affiche le dispositif      
+      var title    = 'N°'+dispositif.idDispositif+' - '+dispositif.indicatifVehicule;
+      var html     = title + currentInterHtml;
+  
+      map.addMarker(dispositif["currentPosition.googleCoordsLat"  ], 
+                    dispositif["currentPosition.googleCoordsLong" ], 
+                    null    , 
+                    category, 
+                    false   , 
+                    title   , 
+                    html    ,
+                    dispositif.idDispositif);
+      
+    }
+  }
+};
+
 
 MonitorOutputDispositifCs.prototype.initDropZoneAdd  =function(store, records, options)
 {
@@ -540,8 +673,8 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
  'currentIntervention.position.ville'                  : dispositif.currentIntervention.position.ville,
  'currentIntervention.position.googleCoordsLat'        : dispositif.currentIntervention.position.googleCoordsLat,
  'currentIntervention.position.googleCoordsLong'       : dispositif.currentIntervention.position.googleCoordsLong, 
- 
- 'currentIntervention.victimeHomme'                    : dispositif.currentIntervention.victimeHomme,
+ 'currentIntervention.dhSaisie'                        : dispositif.currentIntervention.dhSaisie,
+ 'currentIntervention.victimeHomme'                    : dispositif.currentIntervention.victimeHomme, 
  'currentIntervention.nomVictime'                      : dispositif.currentIntervention.nomVictime,
  'currentIntervention.nomContactSurPlace'              : dispositif.currentIntervention.nomContactSurPlace,
  'currentIntervention.coordonneesContactSurPlace'      : dispositif.currentIntervention.coordonneesContactSurPlace,

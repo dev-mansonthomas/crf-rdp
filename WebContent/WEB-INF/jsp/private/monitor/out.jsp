@@ -111,6 +111,10 @@ String contextPath = request.getContextPath();
   </div>
 </div>
 
+
+<div id="GoogleMapsDirection" style="display:none;">
+  
+</div>
   <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/dwr/util.js"> </script>
 </body>

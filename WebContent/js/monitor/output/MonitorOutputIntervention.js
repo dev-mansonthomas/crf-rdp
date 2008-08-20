@@ -75,7 +75,7 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   
   var category = 'lieu_cat_'+8;
   var title    = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
-  var html     = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif+'<br/>'+
+  var html     = title + '<br/>'+
                  intervention.rue+', '+intervention.codePostal+", "+intervention.ville;
 
   Ext.getCmp('center-carte-paris-panel').addMarker( intervention.position.googleCoordsLat, 

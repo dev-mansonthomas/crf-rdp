@@ -12,8 +12,7 @@ DIV
 	width:100%;
 }
 
-#clock
-{
+#clock{
 	font: 25px Georgia, "Times New Roman" Georgia Times serif;
 	color:black;
 }
@@ -32,6 +31,13 @@ DIV
 {
   cursor:pointer;
 }
+.type-lieu-unselected img, .type-lieu-selected img
+{
+  margin-left:2px;
+  margin-right:4px;
+  vertical-align: sub;
+}
+
 .type-lieu-unselected
 {
   background-color: #E6E6E6;
@@ -64,4 +70,9 @@ DIV
 }
 .ListLieuListHtml
 {
+}
+/*fix pour la taille des indications routiere de google map*/
+.GoogleMapsDirection td
+{
+  font-size: 11px;
 }

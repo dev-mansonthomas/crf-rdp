@@ -2,7 +2,7 @@ var MonitorInputInterventionCs = Class.create();
 
 MonitorInputInterventionCs.prototype.initialize=function()
 {
-  MonitorInputIntervention.initScriptSession();
+  //MonitorInputIntervention.initScriptSession();
   
   PageBus.subscribe("list.loaded",  this, this.initOriginesIntervention , null, null);
   PageBus.subscribe("list.loaded",  this, this.initMotifsIntervention   , null, null);

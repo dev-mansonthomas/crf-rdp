@@ -4,7 +4,7 @@ var MonitorInputDispositifCs = Class.create();
 
 MonitorInputDispositifCs.prototype.initialize=function()
 {
-  MonitorInputDispositif.initScriptSession();
+//  MonitorInputDispositif.initScriptSession();
   $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
   this.getDispositifMaps ();
       /*Selection de la délégation*/  

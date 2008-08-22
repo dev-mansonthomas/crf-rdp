@@ -47,10 +47,10 @@ public class DWRUtils
     
     try
     {
-      currentUserRegulationId = this.getRegulationId();  
+      currentUserRegulationId = this.validateSessionAndGetRegulationId();  
     }
     catch(Exception e)
-    {//script session resync bug
+    {
       logger.error("RegulationId Not Found",e);
     }
     

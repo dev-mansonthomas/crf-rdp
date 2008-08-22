@@ -2,7 +2,7 @@ var MonitorInputCs = Class.create();
 
 MonitorInputCs.prototype.initialize=function()
 {
-  MonitorInput.initScriptSession();
+  //MonitorInput.initScriptSession();
 };
 MonitorInputCs.prototype.initRegulation=function()
 {

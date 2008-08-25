@@ -273,12 +273,17 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   Ext.get('DispositifVolumeTotal'   ).update('');
   Ext.get('DispositifAutonomieTotal').update('');
   
+  Ext.get('dispositifCurrentGoogleAdressCheckStatus' ).dom.src=contextPath+"/img/pix.png";
+  Ext.get('dispositifPreviousGoogleAdressCheckStatus').dom.src=contextPath+"/img/pix.png"
+  
   this.updateVolumeAndAutonomie();
   
   dwr.util.setValue('DispositifStatus',-1);
   dwr.util.removeAllOptions('DispositifEquipierToAddRole');
   $('DispositifEquipierAddIHM').style.display='block';
 };
+
+
 
 MonitorInputDispositifCs.prototype.fieldList = [ 
     'dispositif_id_field',
@@ -317,7 +322,17 @@ MonitorInputDispositifCs.prototype.fieldList = [
     'DispositifSelectifRadio',
     'DispositifTel1',
     'DispositifTel2',
-    'DispositifIdentiteMedecin'];
+    'DispositifIdentiteMedecin',
+    'dispositifCurrentAddressRue'            ,
+    'dispositifCurrentAddressCodePostal'     ,
+    'dispositifCurrentAddressVille'          ,
+    'dispositifCurrentAddressCoordinateLat'  ,
+    'dispositifCurrentAddressCoordinateLong' ,
+    'dispositifPreviousAddressRue'           ,
+    'dispositifPreviousAddressCodePostal'    ,
+    'dispositifPreviousAddressVille'         ,
+    'dispositifPreviousAddressCoordinateLat' ,
+    'dispositifPreviousAddressCoordinateLong'];
 
 MonitorInputDispositifCs.prototype.getDispositifMaps=function()
 {
@@ -439,8 +454,37 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('DispositifIdentiteMedecin' , dispositif.identiteMedecin);
   dwr.util.setValue('DispositifStatus'          , dispositif.idEtatDispositif);
 
+  
+  dwr.util.setValue('dispositifCurrentAddressRue'           , dispositif.currentPosition.rue              );
+  dwr.util.setValue('dispositifCurrentAddressCodePostal'    , dispositif.currentPosition.codePostal       );
+  dwr.util.setValue('dispositifCurrentAddressVille'         , dispositif.currentPosition.ville            );
+  dwr.util.setValue('dispositifCurrentAddressCoordinateLat' , dispositif.currentPosition.googleCoordsLat  );
+  dwr.util.setValue('dispositifCurrentAddressCoordinateLong', dispositif.currentPosition.googleCoordsLong );
+
+  
+  
+  if(dispositif.currentPosition.googleCoordsLat != 0)
+    Ext.get('dispositifCurrentGoogleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
+  else
+    Ext.get('dispositifCurrentGoogleAdressCheckStatus').dom.src=contextPath+"/img/pix.png"
+  
+  
+  dwr.util.setValue('dispositifPreviousAddressRue'           , dispositif.previousPosition.rue             );
+  dwr.util.setValue('dispositifPreviousAddressCodePostal'    , dispositif.previousPosition.codePostal      );
+  dwr.util.setValue('dispositifPreviousAddressVille'         , dispositif.previousPosition.ville           );
+  dwr.util.setValue('dispositifPreviousAddressCoordinateLat' , dispositif.previousPosition.googleCoordsLat );
+  dwr.util.setValue('dispositifPreviousAddressCoordinateLong', dispositif.previousPosition.googleCoordsLong);
+
+  if( dispositif.previousPosition.googleCoordsLat != 0)
+    Ext.get('dispositifPreviousGoogleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
+  else
+    Ext.get('dispositifPreviousGoogleAdressCheckStatus').dom.src=contextPath+"/img/pix.png"
+
+  
+  
   this.updateVolumeAndAutonomie();
-  this.updateListEquipierReturn(dispositif.equipierList);
+  if(dispositif.idTypeDispositif!=0)// si pas de type de dispositif, aucun équipier ne  peut etre saisie.
+    this.updateListEquipierReturn(dispositif.equipierList);
 };
 
 MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equipierRank)
@@ -625,11 +669,11 @@ MonitorInputDispositifCs.prototype.updateAddress=function(fieldId, fieldName, cu
       codePostal.value != '' && codePostal.oldValue != codePostal.value &&
       ville     .value != '' && ville     .oldValue != ville     .value   )
   {// valeur non vide et non différente de la précédente valeur
-    crfGoogleMap.findCoordinatesForAddress( rue       .value +', '+
-                                            codePostal.value +', '+
-                                            ville     .value,
-                                            this.updateAddressReturn,
-                                            current ? this.updateCurrentAddressErrorReturn : this.updatePreviousAddressErrorReturn);
+    googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
+                                                        codePostal.value +', '+
+                                                        ville     .value,
+                                                        current ? this.updateCurrentAddressReturn      : this.updatePreviousAddressReturn,
+                                                        current ? this.updateCurrentAddressErrorReturn : this.updatePreviousAddressErrorReturn);
   }
 };
 
@@ -651,18 +695,13 @@ MonitorInputDispositifCs.prototype.updateAddressReturn=function(place, current)
   $('dispositif'+which+'AddressCoordinateLat' ).value=coordinates[1];
   $('dispositif'+which+'AddressCoordinateLong').value=coordinates[0];
 
-  var callMetaData = {
-    callback:MonitorInputDispositifCs.prototype.updateAddressSaveReturn,
-    args:{current : current}
-  };
-  
   $('dispositif'+which+'GoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/cog.png";
-  MonitorInputDispositif.updateGoogleCoordinates(coordinates[1], coordinates[0], $('dispositif_id_field').value, current, callMetaData);
+  MonitorInputDispositif.updateGoogleCoordinates(coordinates[1], coordinates[0], $('dispositif_id_field').value, current, MonitorInputDispositifCs.prototype.updateAddressSaveReturn);
 };
 
-MonitorInputDispositifCs.prototype.updateAddressSaveReturn=function(metaData)
+MonitorInputDispositifCs.prototype.updateAddressSaveReturn=function(current, a, b,c)
 {
-  var which = metaData.current ? 'Current' : 'Previous';
+  var which = current ? 'Current' : 'Previous';
   $('dispositif'+which+'GoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/accept.png";
 };
 

@@ -31,7 +31,7 @@ public class LieuServiceImpl implements LieuService
   
   
   private final static String selectForGetLieuType = 
-    "SELECT   `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_lieu`,`icon_gmap_init`\n" +
+    "SELECT   `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_class_lieu`,`icon_lieu`,`icon_gmap_init`\n" +
     "FROM     `lieu_type`\n" +
     "ORDER BY `num_ordre` ASC";
   

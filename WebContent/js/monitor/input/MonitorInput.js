@@ -1,3 +1,11 @@
+var monitorInputCs          = null;
+
+var miDispositifCs          = null;
+var miCoRegulateurListCs    = null;
+var miInterventionCs        = null;
+var googleMapAdressResolver = null;
+var miBilanCs               = null;
+
 var MonitorInputCs = Class.create();
 
 MonitorInputCs.prototype.initialize=function()
@@ -24,29 +32,8 @@ MonitorInputCs.prototype.testCrossWindow=function()
   alert('CrossWindowsCallSuccess');
 };
 
-var monitorInputCs        = null;
 
-var miDispositifCs        = null;
-var miCoRegulateurListCs  = null;
-var miInterventionCs      = null;
-var crfGoogleMap          = null;
-var miBilanCs             = null;
 
-function init()
-{
-  monitorInputCs        = new MonitorInputCs                ();
-
-  miDispositifCs        = new MonitorInputDispositifCs      ();
-  miInterventionCs      = new MonitorInputInterventionCs    ();
-  //miCoRegulateurListCs  = new MonitorInputCoRegulateurListCs();
-  
-  miBilanCs             = Ext.ux.MonitorInput.BilanEditor;
-  miBilanCs.init();
-  crfGoogleMap          = new CrfGoogleMap                  ();
-  
-  initLayout();
-  monitorInputCs.initRegulation();
-}
 
 function initLayout()
 {
@@ -308,4 +295,21 @@ function initLayout()
                                     layout:'border',
                                     items :[ north, south, center]});
 
+}
+
+function init()
+{
+  monitorInputCs          = new MonitorInputCs                ();
+
+  miDispositifCs          = new MonitorInputDispositifCs      ();
+  miInterventionCs        = new MonitorInputInterventionCs    ();
+  //miCoRegulateurListCs  = new MonitorInputCoRegulateurListCs();
+  
+  miBilanCs               = Ext.ux.MonitorInput.BilanEditor;
+  miBilanCs.init();
+  googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
+  googleMapAdressResolver.init();
+ 
+  initLayout();
+  monitorInputCs.initRegulation();
 }

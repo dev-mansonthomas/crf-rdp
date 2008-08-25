@@ -22,7 +22,7 @@ var monitorOutputCs   = null;
 var moInterventionCs  = null;
 var moDispositifCs    = null;
 var moDDH             = null;
-var crfGoogleMap      = null;
+var googleMapAdressResolver = null;
 
 var iconPath = contextPath+'/img/famfamfam/';
 
@@ -31,12 +31,13 @@ function init()
   moDispositifCs    = new MonitorOutputDispositifCs   ();
   moInterventionCs  = new MonitorOutputInterventionCs ();
   monitorOutputCs   = new MonitorOutputCs             ();
-  crfGoogleMap      = new CrfGoogleMap                ();
   Ext.ux.MonitorOutput.dd.init();
+  
+  googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
+  googleMapAdressResolver.init();
   
   crfIrpUtils.getAllList();
   initLayout();
-  //crfGoogleMap.instancianteMap(48.85436, 2.348156);
 }
 
 

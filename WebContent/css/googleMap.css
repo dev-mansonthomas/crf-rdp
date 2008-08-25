@@ -1,0 +1,40 @@
+.hopitalIcon, .pompierIcon, .localCroixRougeIcon, .stationserviceIcon, .restoIcon, .pharmacieIcon, .policeIcon, .interventionIcon, .ambulanceIcon
+{
+  background-repeat:no-repeat;
+}
+.hopitalIcon
+{
+  background-image: url("../img/gmap/hopital-16.png") !important;
+}
+.pompierIcon
+{
+  background-image: url("../img/gmap/pompier-16.png") !important;
+}
+.localCroixRougeIcon
+{
+  background-image: url("../img/gmap/local-croix-rouge-16.png") !important;
+}
+.stationserviceIcon
+{
+  background-image: url("../img/gmap/stationservice-16.png") !important;
+}
+.restoIcon
+{
+  background-image: url("../img/gmap/resto-16.png") !important;
+}
+.pharmacieIcon
+{
+  background-image: url("../img/gmap/pharmacie-16.png") !important;
+}
+.policeIcon
+{
+  background-image: url("../img/gmap/police-16.png") !important;
+}
+.interventionIcon
+{
+  background-image: url("../img/gmap/intervention.png") !important;
+}
+.ambulanceIcon
+{
+  background-image: url("../img/gmap/ambulance-16.png") !important;
+}

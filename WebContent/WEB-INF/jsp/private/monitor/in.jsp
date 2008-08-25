@@ -12,6 +12,7 @@ String contextPath = request.getContextPath();
     @import "<%=contextPath%>/css/style.css";
     @import "<%=contextPath%>/css/autocomplete.css";
     @import "<%=contextPath%>/css/CrfUtils.css";
+    @import "<%=contextPath%>/css/googleMap.css";
 
     @import "<%=contextPath%>/css/monitorInput/monitorInput.css";
     @import "<%=contextPath%>/css/monitorInput/toolbar.css";
@@ -62,7 +63,7 @@ String contextPath = request.getContextPath();
 
 
 <!--business code -->
-  <script type="text/javascript" src="<%=contextPath%>/js/googlemap/googleMap.js"> </script>
+  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/Ext.ux.GMapPanel.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInputBilan.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInputDispositif.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInputIntervention.js"> </script>
@@ -2263,7 +2264,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         </fieldset>
         <fieldset>
           <legend>Localisation</legend>
-<span class="fieldsetSubtitle">Adresse Actuelle</span><br/>
+<span class="fieldsetSubtitle">Adresse Actuelle/Cible</span><br/>
                   Rue :
                 <input style="width:93%;"
                         type="text"
@@ -2285,7 +2286,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
                           onBlur="miDispositifCs.updateAddress(this.id, 'current_addresse_code_postal', true)"
                     />
                   Ville :
-                    <input style="width:61.7%;"
+                    <input style="width:60.0%;"
                             type="text"
                               id="dispositifCurrentAddressVille"
                             name="dispositifCurrentAddressVille"
@@ -2320,7 +2321,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
                           onBlur="miDispositifCs.updateAddress(this.id, 'previous_addresse_code_postal', false)"
                     />
                   Ville :
-                    <input style="width:61.7%;"
+                    <input style="width:60.0%;"
                             type="text"
                               id="dispositifPreviousAddressVille"
                             name="dispositifPreviousAddressVille"

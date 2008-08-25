@@ -9,6 +9,7 @@ String contextPath = request.getContextPath();
   <title>Monitor - CRF - Informatisation de la Régulation de Paris</title>
   
   <style type="text/css" media="all">
+    @import "<%=contextPath%>/css/googleMap.css";
     @import "<%=contextPath%>/css/monitorOutput/intervention.css";
     @import "<%=contextPath%>/css/monitorOutput/monitor.css";
     @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
@@ -50,7 +51,6 @@ String contextPath = request.getContextPath();
   <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g"> </script>
 
 <!--business code -->
-  <script type="text/javascript" src="<%=contextPath%>/js/googlemap/googleMap.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutput.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputDragAndDropHandler.js"> </script>
   <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputIntervention.js"> </script>

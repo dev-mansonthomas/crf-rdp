@@ -163,9 +163,9 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
                     title                   ,
                     markerHtml              ,
                     lieu.idLieu             );
-      
+                    
       var htmlListLieu = ['<div class="ListLieuItem" onclick="moDispositifCs.displayLieu(',lieu.idTypeLieu,', ',lieu.idLieu,');">',
-        '<span class="ListLieuListName">',lieu.nom,'</span><br/>',
+        '<span class="ListLieuListName"><img height="16" src="',contextPath,'/img/',typeLieu.iconLieu,'" alt="Icone"/>',lieu.nom,'</span><br/>',
         '<span class="ListLieuListAddress">',lieu.addresse,', ',lieu.codePostal,', ',lieu.ville,'</span><br/>',
         '<p class="ListLieuListHtml">',lieu.infoComplementaire,'</p>',
       '</div>'].join('');
@@ -174,10 +174,10 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
     }
 
     listLieuTabs.add({
-        id      : listLieuTabId ,
-        title   : catLieuName   ,
-        iconCls : 'tabs'        , //TODO : mettre l'icone de la catégorie
-        html    : tabHtml       ,
+        id      : listLieuTabId         ,
+        title   : catLieuName           ,
+        iconCls : typeLieu.iconClassLieu,
+        html    : tabHtml               ,
         closable: false
       });
     

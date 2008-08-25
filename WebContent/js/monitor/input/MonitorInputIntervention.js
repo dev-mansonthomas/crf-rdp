@@ -29,6 +29,10 @@ MonitorInputInterventionCs.prototype.fieldList = [
  'interventionTicketMotif',
  'interventionTicketComplementMotif',
  'interventionNomVictime',
+ 'interventionPrenomVictime',
+ 'interventionSexeVictimeFemme',
+ 'interventionSexeVictimeHomme',
+ 'interventionAgeVictime',
  'interventionNomContactSurPlace',
  'interventionCoordonneesContactSurPlace'];
 
@@ -229,11 +233,14 @@ MonitorInputInterventionCs.prototype.resetInterventionForm=function()
   for(var i=0,count=fieldList.length;i<count;i++)
   {
     var fieldId = fieldList[i];
-    if($(fieldId).tagName !='SELECT')
-      $(fieldList[i]).value='';
+    if($(fieldId).tagName =='SELECT')
+      $(fieldId).value=0;
+    else if($(fieldId).type =='radio')
+      $(fieldId).checked = false;
     else
-      $(fieldList[i]).value=0;
+      $(fieldId).value='';
   }
+  $('googleAdressCheckStatus').src=contextPath+'/img/pix.png';
 };
 
 MonitorInputInterventionCs.prototype.editInterventionTicket=function(idIntervention)
@@ -257,17 +264,18 @@ MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventio
   dwr.util.setValue('interventionTicketPorte'               , interventionTicket.porte                               );
   dwr.util.setValue('interventionTicketRue'                 , interventionTicket.position.rue                        );
   dwr.util.setValue('interventionTicketVille'               , interventionTicket.position.ville                      );
-  dwr.util.setValue('interventionTicketGoogleCoordsLat'     , interventionTicket.position.googleCoordsLat            );
-  dwr.util.setValue('interventionTicketGoogleCoordsLong'    , interventionTicket.position.googleCoordsLong           );
+  dwr.util.setValue('interventionTicketCoordinateLat'       , interventionTicket.position.googleCoordsLat            );
+  dwr.util.setValue('interventionTicketCoordinateLong'      , interventionTicket.position.googleCoordsLong           );
 
 
   dwr.util.setValue('interventionNomVictime'                ,interventionTicket.nomVictime                           );
   dwr.util.setValue('interventionNomContactSurPlace'        ,interventionTicket.nomContactSurPlace                   );
   dwr.util.setValue('interventionCoordonneesContactSurPlace',interventionTicket.coordonneesContactSurPlace           );
-  if(interventionTicket.googleCoordsLat == 0)
-    Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/pix.png";
-  else
+  if(interventionTicket.position.googleCoordsLat != 0)
     Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
+  else
+    Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/pix.png";
+    
   
   var centerRegion = Ext.getCmp('monitorInputCenterRegion');
   var currentPanel = centerRegion.getActiveTab();
@@ -341,11 +349,11 @@ MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
       codePostal.value != '' && codePostal.oldValue != codePostal.value &&
       ville     .value != '' && ville     .oldValue != ville     .value   )
   {// valeur non vide et non différente de la précédente valeur
-    crfGoogleMap.findCoordinatesForAddress( rue       .value +', '+
-                                            codePostal.value +', '+
-                                            ville     .value,
-                                            this.updateAddressReturn,
-                                            this.updateAddressErrorReturn);
+    googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
+                                                        codePostal.value +', '+
+                                                        ville     .value,
+                                                        this.updateAddressReturn,
+                                                        this.updateAddressErrorReturn);
   }
 };
 

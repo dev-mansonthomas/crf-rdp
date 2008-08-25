@@ -76,3 +76,14 @@ DIV
 {
   font-size: 11px;
 }
+
+.ListLieuListName img
+{
+  margin-left:3px;
+  margin-right:3px;
+ vertical-align: sub; 
+}
+.ListLieuItem
+{
+  cursor:pointer;
+}

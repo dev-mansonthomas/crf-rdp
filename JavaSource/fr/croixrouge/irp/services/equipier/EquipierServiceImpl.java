@@ -155,8 +155,8 @@ public class EquipierServiceImpl implements EquipierService
   private final static String queryForGetEquipiersByNom = 
     selectForEquipier+
     "WHERE  id_dispositif = 0                        \n"+
-    "AND    (     e.id_role_equipier1 = ?            \n"+
-    "         OR  e.id_role_equipier2 = ?            \n"+
+    "AND    (     e.id_role_equipier1 <= ?            \n"+
+    "         OR  e.id_role_equipier2 <= ?            \n"+
     "       )                                        \n"+
     "AND    e.id_delegation      = d.id_delegation   \n"+
     "AND    e.nom                LIKE ?              \n";
@@ -165,7 +165,7 @@ public class EquipierServiceImpl implements EquipierService
   public List<Equipier> getEquipiersByNom(String nom, int equipierType)
   {
     if(logger.isDebugEnabled())
-      logger.debug("Getting EquipiersByNom '"+nom+"%'");
+      logger.debug("Getting EquipiersByNom '"+nom+"%', equipierType='"+equipierType+"'");
 
     
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
+%><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
 %><%
 String contextPath = request.getContextPath();
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -8,59 +9,10 @@ String contextPath = request.getContextPath();
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
   <title>Monitor - CRF - Informatisation de la Régulation de Paris</title>
   
-  <style type="text/css" media="all">
-    @import "<%=contextPath%>/css/googleMap.css";
-    @import "<%=contextPath%>/css/monitorOutput/intervention.css";
-    @import "<%=contextPath%>/css/monitorOutput/monitor.css";
-    @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
-    @import "<%=contextPath%>/js/extjs-2/resources/css/xtheme-gray.css";
-  </style>
+  <jwr:style src="/cssBundle/monitorOutput.css"/>
   
  
-  <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/application_side_list.png" type="image/png">  
-
-<!-- ExtJS 2.0 -->
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2.1/adapter/ext/ext-base.js"></script>
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2.1/ext-all-debug.js"></script>
-
-  <script type="text/javascript">
-   var contextPath="<%=contextPath%>";
-   var iconPath = '../img/famfamfam/';
-   Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
-  </script>
-  
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"   > </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/RowExpander.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/Ext.ux.GMapPanel.js"> </script>
-      
-<!-- DWR Ajax --> 
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"           > </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Monitor.js"                  > </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorOutputDispositif.js"  > </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorOutputIntervention.js"> </script>  
- 
-<!-- END of DWR Ajax -->  
-
-<!-- prototype framework -->
-  <script type="text/javascript" src="<%=contextPath%>/js/prototype/prototype.js"> </script>
-
-<!-- script.aculo.us effect library -->
-  <script type="text/javascript" src="<%=contextPath%>/js/script.aculo.us/scriptaculous.js"> </script>
-
-<!-- google map -->  
-  <script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g"> </script>
-
-<!--business code -->
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutput.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputDragAndDropHandler.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputIntervention.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/output/MonitorOutputDispositif.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/pagebus.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/utils.js"> </script><!-- utils.js en dernier fait un appel a la méthode init() qui doit etre définie avant -->
- 
-<script type="text/javascript">
-  Ext.onReady(init);
-</script>
+  <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/application_side_list.png" type="image/png">
 </head>
 <body id="body" scroll="no">
 
@@ -111,11 +63,91 @@ String contextPath = request.getContextPath();
   </div>
 </div>
 
+<div id="choose-hopital-window" style="display:none;">
+  <div class="x-window-header">Choisissez un Hopital d'évacuation</div>
+  <input id="choose-hopital-window-current-dispositif"   name="choose-hopital-window-current-dispositif"   type="hidden"/>
+  <input id="choose-hopital-window-current-intervention" name="choose-hopital-window-current-intervention" type="hidden"/>
+  <div id="choose-hopital-window-content">
+    <div class="x-tab" id="choose-hopital-window-content-list"  title="Hopitaux">
+    </div>
+    <div class="x-tab" id="choose-hopital-window-content-input" title="Autre Destination"/>
+<fieldset class="fieldset">
+<legend class="legend">Evacuation vers une destination qui n'est pas un Hopital référencé</legend>
+
+Description :
+  <input style="width:60%;"
+         class="input"
+          type="text"
+            id="dispositifEvacAddressLabel"
+          name="dispositifEvacAddressLabel"
+         value=""
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+     maxlength="80"/>
+<br/>
+Rue :
+  <input style="width:60%;"
+         class="input"
+          type="text"
+            id="dispositifEvacAddressRue"
+          name="dispositifEvacAddressRue"
+         value=""
+     maxlength="80"
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+        onBlur="moDispositifCs.updateAddress(this.id)"/>
+<br/>
+Code Postal :
+  <input style="width:50px;"
+         class="input"
+          type="text"
+            id="dispositifEvacAddressCodePostal"
+          name="dispositifEvacAddressCodePostal"
+     maxlength="5"
+         value=""
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+        onBlur="moDispositifCs.updateAddress(this.id)"
+  />
+Ville :
+  <input style="width:60.0%;"
+         class="input"
+          type="text"
+            id="dispositifEvacAddressVille"
+          name="dispositifEvacAddressVille"
+         value=""
+     maxlength="80"
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+        onBlur="moDispositifCs.updateAddress(this.id)"
+  />
+  <img id="dispositifEvacGoogleAdressCheckStatus" alt="pix" style="height:16px;width:16px;" src="<%=contextPath%>/img/pix.png" />
+  <input type="hidden" id="dispositifEvacAddressCoordinateLat"  name="dispositifEvacAddressCoordinateLat" />
+  <input type="hidden" id="dispositifEvacAddressCoordinateLong" name="dispositifEvacAddressCoordinateLong"/>
+  <input type="button" 
+           id="dispositifEvacAutreAddresseButton"   
+         name="dispositifEvacAutreAddresseButton" 
+        value="Evacuation vers une destination qui n'est pas un Hopital référencé" 
+      onClick="moDispositifCs.chooseEvacDestinationButton()">
+</fieldset>
+    </div>    
+  </div>
+</div>
 
 <div id="GoogleMapsDirection" style="display:none;">
   
 </div>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/util.js"> </script>
+
+  <!-- google map -->
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g" type="text/javascript"> </script>
+
+  <jwr:script src="/jsBundle/extJs.js"/>
+  <script type="text/javascript">
+    var contextPath="<%=contextPath%>";
+    var iconPath = '../img/famfamfam/';
+    Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+  </script>
+  <jwr:script src="/jsBundle/baseApp.js"/>
+  <jwr:script src="/jsBundle/monitorOutput.js"/>
+ 
+  <script type="text/javascript">
+    Ext.onReady(init);
+  </script>  
 </body>
 </html>

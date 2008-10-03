@@ -32,7 +32,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         
         var callMetaData = {
           callback:miBilanCs.editBilanReturn,
-          args:{
+          arg:{
                 ongletToOpen  : ongletToOpen
           }
         };
@@ -41,24 +41,10 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       },
       editBilanReturn:function(intervention, callMetatData)
       {
-        // CODE A METTRE A LA FIN DE LA METHODE
-        var centerRegion = Ext.getCmp('monitorInputCenterRegion');
-        var currentPanel = centerRegion.getActiveTab();
-
-        if(currentPanel.id != 'monitorInputBilanPanel')
-          centerRegion.activate('monitorInputBilanPanel');
-        
-        var ongletToOpen = callMetatData.ongletToOpen;
-        if(ongletToOpen == "BilanSecouristInitial")
-          Ext.getCmp('monitorInputBilanEditorCenterPanelBilanSecouristeInitial').expand();
-        else
-          Ext.getCmp('monitorInputBilanEditorCenterPanelIdentite').expand();
-
-          // CODE A METTRE A LA FIN DE LA METHODE
 
   Ext.get("bilan_id_intervention"                          ).dom.setValue(intervention.idIntervention                   );
   Ext.get("BilanHelper_id_intervention"                    ).update      (intervention.idIntervention                   );
-  
+  Ext.get("BilanHelper_nom_victime"                        ).update      (intervention.nomVictime  +" "+intervention.prenomVictime);
   Ext.get("bilan_id_dispositif"                            ).dom.setValue(intervention.idDispositif                     );
   Ext.get("bilan_id_regulation"                            ).dom.setValue(intervention.idRegulation                     );
   Ext.get("BilanHelper_id_origine"                         ).update      (crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine));
@@ -238,7 +224,18 @@ Ext.ux.MonitorInput.BilanEditor = function() {
   Ext.get("bilan_evac_aggravation_"+intervention.evacAggravation).dom.checked=true;
   Ext.get("bilan_evac_aggravation_pendant_transport"       ).dom.checked=intervention.evacAggravationPendantTransport  ;
   Ext.get("bilan_evac_aggravation_arrive_a_destination"    ).dom.checked=intervention.evacAggravationArriveADestination;
+  
+        var centerRegion = Ext.getCmp('monitorInputCenterRegion');
+        var currentPanel = centerRegion.getActiveTab();
 
+        if(currentPanel.id != 'monitorInputBilanPanel')
+          centerRegion.activate('monitorInputBilanPanel');
+        
+        var ongletToOpen = callMetatData.ongletToOpen;
+        if(ongletToOpen == "BilanSecouristInitial")
+          Ext.getCmp('monitorInputBilanEditorCenterPanelBilanSecouristeInitial').expand();
+        else
+          Ext.getCmp('monitorInputBilanEditorCenterPanelIdentite').expand();
       },
       resetBilanForm:function()
       {

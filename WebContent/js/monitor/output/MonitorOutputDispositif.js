@@ -65,6 +65,19 @@
 
 var MonitorOutputDispositifCs = Class.create();
 
+MonitorOutputDispositifCs.prototype.boutonActionLabel=[];
+MonitorOutputDispositifCs.prototype.boutonActionLabel[1]="Changer de statut";
+MonitorOutputDispositifCs.prototype.boutonActionLabel[2]="Départ";
+MonitorOutputDispositifCs.prototype.boutonActionLabel[3]="Arrivé sur place";
+MonitorOutputDispositifCs.prototype.boutonActionLabel[4]="Primaire";
+MonitorOutputDispositifCs.prototype.boutonActionLabel[5]="Secondaire";
+MonitorOutputDispositifCs.prototype.boutonActionLabel[6]="Transport H.";
+MonitorOutputDispositifCs.prototype.boutonActionLabel[7]="Arrivé H.";
+MonitorOutputDispositifCs.prototype.boutonActionLabel[8]="Inter. Terminée";
+
+/**
+ * Initialisation des composants lié aux dispositifs
+ * */
 MonitorOutputDispositifCs.prototype.initialize=function()
 {
   MonitorOutputDispositif.initScriptSession();
@@ -78,17 +91,134 @@ MonitorOutputDispositifCs.prototype.initialize=function()
   PageBus.subscribe("listLieu.loaded"     ,  this, this.initDispositifGrid, null, null);
 };
 
-/*
-
-{id:'dhDebutDCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
-{id:'dhFinDCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
-
-{name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-
-
+/**
+ * initialise la grid contenant les dispositifs.
+ * 
  * */
+MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
+{
+  if(eventName == "list.loaded")
+    this.listLoaded     = true;
+  if(eventName == "listLieu.loaded")
+    this.listLieuLoaded = true;
+  
+  if(!(this.listLoaded == true &&  this.listLieuLoaded == true))//on attends que les 2 listes soient initialisées
+   return;
+  
+  var xg = Ext.grid;
 
+  var dataStore1 = new Ext.data.Store({
+           listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone,
+                         add : MonitorOutputDispositifCs.prototype.initDropZoneAdd},
+               proxy: new Ext.ux.rs.data.DwrProxy({
+                call: MonitorOutputDispositif.getAllDispositif,
+                args: [],
+              paging: false
+               }),
+          remoteSort: false,
+              reader: new Ext.data.JsonReader({
+                root: 'data',
+       totalProperty: 'totalCount',
+              fields:
+                   [
+{name:'idDispositif'                                    , type: 'int'    },
+{name:'idTypeDispositif'                                , type: 'int'    },
+{name:'idEtatDispositif'                                , type: 'int'    },
+{name:'idDelegation'                                    , type: 'int'    },
+{name:'displayState'                                    , type: 'int'    },
+{name:'dispositifBackWith3Girls'                        , type: 'boolean'},
+{name:'dispositifNotEnoughO2'                           , type: 'boolean'},
+{name:'indicatifVehicule'                               , type: 'string' },
+{name:'contactRadio'                                    , type: 'string' },
+{name:'contactTel1'                                     , type: 'string' },
+{name:'contactTel2'                                     , type: 'string' },
+{name:'equipierCi.idEquipier'                           , type: 'string' },
+{name:'equipierCi.nom'                                  , type: 'string' },
+{name:'equipierCi.prenom'                               , type: 'string' },
+{name:'equipierCi.homme'                                , type: 'boolean'},
+{name:'equipierCi.numNivol'                             , type: 'string' },
+{name:'currentInterId'                                  , type: 'int'    },
+{name:'dhReception'                                     , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhDepart'                                        , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhSurPlace'                                      , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhBilanPrimaire'                                 , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhBilanSecondaire'                               , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhQuitteLesLieux'                                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhArriveeHopital'                                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhDispo'                                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhASaBase'                                       , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhAppelRenfortMedical'                           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'dhArriveeRenfortMedical'                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+
+{name:'currentIntervention.idOrigine'                   , type: 'int'     },
+{name:'currentIntervention.idMotif'                     , type: 'int'     },
+{name:'currentIntervention.idEtat'                      , type: 'int'     },
+{name:'currentIntervention.position.rue'                , type: 'string'  },
+{name:'currentIntervention.position.codePostal'         , type: 'string'  },
+{name:'currentIntervention.position.ville'              , type: 'string'  },
+{name:'currentIntervention.position.googleCoordsLat'    , type: 'float'   },
+{name:'currentIntervention.position.googleCoordsLong'   , type: 'float'   },
+
+{name:'currentIntervention.dhSaisie'                    , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
+{name:'currentIntervention.victimeHomme'                , type: 'boolean'},
+{name:'currentIntervention.nomVictime'                  , type: 'string' },
+{name:'currentIntervention.nomContactSurPlace'          , type: 'string' },
+{name:'currentIntervention.coordonneesContactSurPlace'  , type: 'string' },
+
+{name:'currentPosition.empty'                           , type: 'boolean' },
+{name:'currentPosition.rue'                             , type: 'string'  },
+{name:'currentPosition.codePostal'                      , type: 'string'  },
+{name:'currentPosition.ville'                           , type: 'string'  },
+{name:'currentPosition.googleCoordsLat'                 , type: 'float'   },
+{name:'currentPosition.googleCoordsLong'                , type: 'float'   },
+
+{name:'previousPosition.empty'                          , type: 'boolean' },
+{name:'previousPosition.rue'                            , type: 'string'  },
+{name:'previousPosition.codePostal'                     , type: 'string'  },
+{name:'previousPosition.ville'                          , type: 'string'  },
+{name:'previousPosition.googleCoordsLat'                , type: 'float'   },
+{name:'previousPosition.googleCoordsLong'               , type: 'float'   }
+                   ]
+               })
+           });
+
+  var grid1 = new xg.GridPanel({
+        id:'DispositifListGrid',
+        store: dataStore1,
+        cm: new xg.ColumnModel([
+            {id:'indicatifVehiculeDCol'     , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
+            {id:'idTypeDispositifDCol'      , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif'  , renderer:moDispositifCs.typeCellRenderer},
+            {id:'contactRadioDispositifDCol', header: "Selectif Radio"  , width: 150, sortable: true, dataIndex: 'contactRadio'      },
+            {id:'contactTelsDispositifDCol' , header: "Téléphones"      , width: 150, sortable: true, dataIndex: 'contactTel1'       , renderer:moDispositifCs.contactTelsCellRenderer},
+            {id:'idEtatDispositifDCol'      , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'  , renderer:moDispositifCs.etatDispositifCellRenderer}
+        ]),
+        viewConfig: {
+            forceFit      :true,
+            enableRowBody :true,
+            getRowClass   :moDispositifCs.buildDispositifRowBody
+        },/*
+        tbar        :[{
+            text:'Init Dropzone',
+            tooltip:'Init drop zone',
+            iconCls:'downloadSelected',
+            handler: function(button,event)
+            {
+              MonitorOutputDispositifCs.prototype.initDropZone();
+            }
+       }
+        ],*/
+        collapsible : false,
+        animCollapse: false,
+        height      : 1800,
+        iconCls     : 'icon-grid',
+        renderTo    : 'center-dispositif-list'
+    });
+  grid1.getStore().load();
+};
+
+/**
+ * initalise la fenetre permettant de voir les lieux par catégorie
+ * */
 MonitorOutputDispositifCs.prototype.initListLieuWindow=function()
 {
   var win = new Ext.Window({
@@ -114,11 +244,45 @@ MonitorOutputDispositifCs.prototype.initListLieuWindow=function()
           
   MonitorOutputDispositifCs.prototype.listLieuWindow = win;
 };
-
-
+/**
+ * initialise la fenetre permettant de choisir un hopital pour destination
+ * */
+MonitorOutputDispositifCs.prototype.initChooseHopitalWindow=function()
+{
+  var win = new Ext.Window({
+      id          : 'choose-hopital-windowCmp',
+      applyTo     : 'choose-hopital-window',
+      layout      : 'fit'             ,
+      width       : 500               ,
+      height      : 500               ,
+      x           : 0                 ,
+      y           : 35                ,
+      closeAction : 'hide'            ,
+      plain       : true              ,
+      items       : new Ext.TabPanel({
+        id             : 'choose-hopital-window-contentCmp' ,
+        applyTo        : 'choose-hopital-window-content'    ,
+        autoTabs       : true,
+        activeTab      : 0                          ,
+        enableTabScroll: true                       ,
+        defaults       : {autoScroll:true}          ,
+        deferredRender : false                      ,
+        border         : false
+      })
+    });
+          
+  MonitorOutputDispositifCs.prototype.chooseHopitalWindow = win;
+};
+/**
+ * Affiche la liste des catégories sous la map
+ * Remplie la fenetre qui permet d'afficher les lieux par catégorie
+ * Remplie la fenetre qui permet de choisir un hoptial (ou de saisir un lieux)
+ * **/
 MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
 {
-  this.initListLieuWindow();
+  this.initListLieuWindow     ();
+  this.initChooseHopitalWindow();
+  
   var allLieu      = CrfIrpUtils.prototype.allLieu;
   var map          = Ext.getCmp('center-carte-paris-panel');
   var i            = 1;
@@ -138,8 +302,8 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
       map.setIconForCategory(category+'_from', typeLieu.iconGmapInit.replace(new RegExp('ambulance.png', 'g'), 'ambulance-from.png'));
       map.setIconForCategory(category+'_to'  , typeLieu.iconGmapInit.replace(new RegExp('ambulance.png', 'g'), 'ambulance-to.png'));
     }
-    
-    var tabHtml = [];
+    var chooseHopitalHtml = [];
+    var tabHtml           = [];
     var listLieuTabList   = Ext.get(listLieuTabId+'_list');
         
     for(var j=0, countj = catLieu.size();j<countj;j++)
@@ -171,13 +335,29 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
       '</div>'].join('');
 
       tabHtml.push(htmlListLieu);
+      if(typeLieu.idTypeLieu == 1)//hopitaux
+      {//idLieu, label, rue, codePostal, ville, googleCoordsLat,googleCoordsLong
+        var htmlListLieu = ['<div class="ListLieuItem" onclick="moDispositifCs.chooseEvacDestination(',lieu.idLieu,', \'',lieu.nom, '\', \'',lieu.addresse,'\', \'',lieu.codePostal,'\', \'',lieu.ville,'\', ',lieu.googleCoordsLat,', ',lieu.googleCoordsLong,');">',
+        '<span class="ListLieuListName"><img height="16" src="',contextPath,'/img/',typeLieu.iconLieu,'" alt="Icone"/>',lieu.nom,'</span><br/>',
+        '<span class="ListLieuListAddress">',lieu.addresse,', ',lieu.codePostal,', ',lieu.ville,'</span><br/>',
+        '<p class="ListLieuListHtml">',lieu.infoComplementaire,'</p>',
+      '</div>'].join('');
+        chooseHopitalHtml.push(htmlListLieu);
+      }
+        
     }
 
+    if(typeLieu.idTypeLieu == 1)//hopitaux
+    {
+      Ext.get('choose-hopital-window-content-list').update(chooseHopitalHtml.join(''));
+    }
+      
+    
     listLieuTabs.add({
         id      : listLieuTabId         ,
         title   : catLieuName           ,
         iconCls : typeLieu.iconClassLieu,
-        html    : tabHtml               ,
+        html    : tabHtml.join('')      ,
         closable: false
       });
     
@@ -235,6 +415,10 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
   
   Ext.get('south').update(htmlGenerated.join(''));
 };
+
+/**
+ * Affiche ou cache les marker/direction d'une catégorie
+ * */
 MonitorOutputDispositifCs.prototype.toggleCategory=function(htmlId, idCategory)
 {
   var cat = 'lieu_cat_'+idCategory;
@@ -247,7 +431,7 @@ MonitorOutputDispositifCs.prototype.toggleCategory=function(htmlId, idCategory)
     td.toggleClass('type-lieu-selected');//add
     map.showACategoryOfMarker(cat);
     if(cat == 'lieu_cat_9')//ambulance
-      map.showDirection(cat);
+      map.showDirectionCategory(cat);
   }
   else
   {
@@ -255,11 +439,15 @@ MonitorOutputDispositifCs.prototype.toggleCategory=function(htmlId, idCategory)
     td.toggleClass('type-lieu-unselected');//add
     map.hideACategoryOfMarker(cat);
     if(cat == 'lieu_cat_9')//ambulance
-      map.hideDirection(cat);
+      map.hideDirectionCategory(cat);
 
   }
   
 };
+
+/**
+ * Affiche les lieux par catégorie
+ * */
 MonitorOutputDispositifCs.prototype.listLieuFromCategory=function(idCategory)
 {
   var cat = 'list-lieu-window-tabs_'+idCategory;
@@ -270,141 +458,37 @@ MonitorOutputDispositifCs.prototype.listLieuFromCategory=function(idCategory)
 
   win.show();
 };
-
+/**
+ * Affiche un lieu sur la carte google maps
+ * */
 MonitorOutputDispositifCs.prototype.displayLieu=function(idTypeLieu, lieuId)
 {
   var map      = Ext.getCmp('center-carte-paris-panel');
   var category = 'lieu_cat_'+idTypeLieu;
   map.focusMarker(category, lieuId);
 };
-MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
+
+/**
+ * retourne le label du bouton action en fonction de l'idEtat courant
+ * */
+MonitorOutputDispositifCs.prototype.getLabelForActionButton=function(idEtatDispositif)
 {
-  if(eventName == "list.loaded")
-    this.listLoaded     = true;
-  if(eventName == "listLieu.loaded")
-    this.listLieuLoaded = true;
+  var label = MonitorOutputDispositifCs.prototype.boutonActionLabel[idEtatDispositif];
   
-  if(!(this.listLoaded == true &&  this.listLieuLoaded == true))//on attends que les 2 listes soient initialisées
-   return;
+  if(label === null)
+    return "Action";
   
-  var xg = Ext.grid;
-
-  var dataStore1 = new Ext.data.Store({
-           listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone,
-                         add : MonitorOutputDispositifCs.prototype.initDropZoneAdd},
-               proxy: new Ext.ux.rs.data.DwrProxy({
-                call: MonitorOutputDispositif.getAllDispositif,
-                args: [],
-              paging: false
-               }),
-          remoteSort:false,
-              reader: new Ext.data.JsonReader({
-                root: 'data',
-       totalProperty: 'totalCount',
-              fields:
-                   [
-{name: 'idDispositif'                                    , type: 'int'    },
-{name: 'idTypeDispositif'                                , type: 'int'    },
-{name: 'idEtatDispositif'                                , type: 'int'    },
-{name: 'idDelegation'                                    , type: 'int'    },
-{name: 'displayState'                                    , type: 'int'    },
-{name: 'dispositifBackWith3Girls'                        , type: 'boolean'},
-{name: 'dispositifNotEnoughO2'                           , type: 'boolean'},
-{name: 'indicatifVehicule'                               , type: 'string' },
-{name: 'contactRadio'                                    , type: 'string' },
-{name: 'contactTel1'                                     , type: 'string' },
-{name: 'contactTel2'                                     , type: 'string' },
-{name: 'equipierCi.idEquipier'                           , type: 'string' },
-{name: 'equipierCi.nom'                                  , type: 'string' },
-{name: 'equipierCi.prenom'                               , type: 'string' },
-{name: 'equipierCi.homme'                                , type: 'boolean'},
-{name: 'equipierCi.numNivol'                             , type: 'string' },
-{name: 'currentInterId'                                  , type: 'int'    },
-
-{name: 'dhReception'                                     , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhDepart'                                        , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhSurPlace'                                      , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhBilanPrimaire'                                 , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhBilanSecondaire'                               , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhQuitteLesLieux'                                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhArriveeHopital'                                , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhDispo'                                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhASaBase'                                       , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhAppelRenfortMedical'                           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'dhArriveeRenfortMedical'                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-
-{name:'currentIntervention.idOrigine'                    , type: 'int'     },
-{name:'currentIntervention.idMotif'                      , type: 'int'     },
-{name:'currentIntervention.idEtat'                       , type: 'int'     },
-{name:'currentIntervention.position.rue'                 , type: 'string'  },
-{name:'currentIntervention.position.codePostal'          , type: 'string'  },
-{name:'currentIntervention.position.ville'               , type: 'string'  },
-{name:'currentIntervention.position.googleCoordsLat'     , type: 'float'   },
-{name:'currentIntervention.position.googleCoordsLong'    , type: 'float'   },
-
-{name: 'currentIntervention.dhSaisie'                    , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-{name: 'currentIntervention.victimeHomme'                , type: 'boolean'},
-{name: 'currentIntervention.nomVictime'                  , type: 'string' },
-{name: 'currentIntervention.nomContactSurPlace'          , type: 'string' },
-{name: 'currentIntervention.coordonneesContactSurPlace'  , type: 'string' },
-
-{name:'currentPosition.empty'                            , type: 'boolean' },
-{name:'currentPosition.rue'                              , type: 'string'  },
-{name:'currentPosition.codePostal'                       , type: 'string'  },
-{name:'currentPosition.ville'                            , type: 'string'  },
-{name:'currentPosition.googleCoordsLat'                  , type: 'float'   },
-{name:'currentPosition.googleCoordsLong'                 , type: 'float'   },
-
-{name:'previousPosition.empty'                           , type: 'boolean' },
-{name:'previousPosition.rue'                             , type: 'string'  },
-{name:'previousPosition.codePostal'                      , type: 'string'  },
-{name:'previousPosition.ville'                           , type: 'string'  },
-{name:'previousPosition.googleCoordsLat'                 , type: 'float'   },
-{name:'previousPosition.googleCoordsLong'                , type: 'float'   }
-                   ]
-               })
-           });
-
-  var grid1 = new xg.GridPanel({
-        id:'DispositifListGrid',
-        store: dataStore1,
-        cm: new xg.ColumnModel([
-            {id:'indicatifVehiculeDCol'     , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
-            {id:'idTypeDispositifDCol'      , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif'  , renderer:moDispositifCs.typeCellRenderer},
-            {id:'contactRadioDispositifDCol', header: "Selectif Radio"  , width: 150, sortable: true, dataIndex: 'contactRadio'      },
-            {id:'contactTelsDispositifDCol' , header: "Téléphones"      , width: 150, sortable: true, dataIndex: 'contactTel1'       , renderer:moDispositifCs.contactTelsCellRenderer},
-            {id:'idEtatDispositifDCol'      , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'  , renderer:moDispositifCs.etatDispositifCellRenderer}
-        ]),
-        viewConfig: {
-            forceFit      :true,
-            enableRowBody :true,
-            getRowClass   :moDispositifCs.buildDispositifRowBody
-        },/*
-        tbar        :[{
-            text:'Init Dropzone',
-            tooltip:'Init drop zone',
-            iconCls:'downloadSelected',
-            handler: function(button,event)
-            {
-              MonitorOutputDispositifCs.prototype.initDropZone();
-            }
-       }
-        ],*/
-        collapsible : false,
-        animCollapse: false,
-        height      : 1800,
-        iconCls     : 'icon-grid',
-        renderTo    : 'center-dispositif-list'
-    });
-  grid1.getStore().load();
+  return label;
 };
 
-
-
+/**
+ * Affiche une ligne de  la liste des dispositif
+ * */
 MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowIndex, p, dataStore)
 {
-  var detailIntervention = 'Aucune intervention en cours';
-
+  var detailIntervention  = 'Aucune intervention en cours';
+  var dropZoneId          = 'dispositifDz_'+record.data.idTypeDispositif+'_'+record.data.idDispositif+'_'+record.id;
+  
   if(record.data.currentInterId != 0)
     detailIntervention = MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(record.data);
 
@@ -415,7 +499,9 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
 '      <div><span>CI : </span><span>', record.data["equipierCi.nom"]+' '+record.data["equipierCi.prenom"] ,'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Intervention en cours :</span></div>',
 '    </td>',
 '    <td rowspan="2" style="width:130px;">',
-'      <input type="button" value="Action"   style="width:130px;height:60px;" onClick="moDispositifCs.action(',record.data.idDispositif,',',record.data.currentInterId,')"/><br/>',
+'      <input id="DispositifActionButton_',record.data.idDispositif,'" type="button" ' +
+'            value="',MonitorOutputDispositifCs.prototype.getLabelForActionButton(record.data["idEtatDispositif"]),
+'"   style="width:130px;height:60px;" onClick="moDispositifCs.action(',record.data.idDispositif,',',record.data.currentInterId,',',record.data.idEtatDispositif,')"/><br/>',
 '    </td>',
 '    <td rowspan="2" style="width:130px;">',
 '      <input type="button" value="Editer Dispositif"    onClick="moDispositifCs.editDispositif(', record.data.idDispositif,')" style="width:125px;height:27px;margin-bottom:5px;"/><br/>',
@@ -423,7 +509,7 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
 '    </td>',
 '  </tr>',
 '  <tr>',
-'    <td class="interventionDropZone" id="dispositifDz_',record.data.idTypeDispositif,'_',record.data.idDispositif,'_',rowIndex,'">',
+'    <td class="interventionDropZone" id="',dropZoneId,'">',
 detailIntervention,
 '    </td>',
 '  </tr>',
@@ -458,10 +544,14 @@ detailIntervention,
   p.body=template.join('');
   
   moDispositifCs.displayDispositifOnMap(record.data);
-
+  
+  Ext.ux.MonitorOutput.dd.removeTagFromDropZoneList(dropZoneId);
   return 'x-grid3-row-expanded';
 };
-
+/**
+ * Affiche un dispostif sur la carte google map avec son intervention.
+ * Dispositif soit sous forme d'un marker ou une direction et 2 markers
+ * */
 MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif)
 {
   if(dispositif["currentPosition.empty"]==false)
@@ -490,7 +580,7 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
                      dispositif['currentIntervention.position.rue'         ]+', '+
                      dispositif['currentIntervention.position.codePostal'  ]+", "+
                      dispositif['currentIntervention.position.ville'       ];
-    
+    //Ajout du marker représentant la victime
       map.addMarker(dispositif['currentIntervention.position.googleCoordsLat' ], 
                     dispositif['currentIntervention.position.googleCoordsLong'], 
                     null, 
@@ -505,8 +595,8 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
       currentInterHtml ='<br/><br/>Aucune intervention en cours'; 
     
     var category = 'lieu_cat_'+9;
-    
-    if( dispositif["previousPosition.empty"]==false || 
+    //position précédente non vide et différente de la courante
+    if( dispositif["previousPosition.empty"]===false && 
         !(dispositif["currentPosition.googleCoordsLat" ]==dispositif["previousPosition.googleCoordsLat" ] &&
           dispositif["currentPosition.googleCoordsLong"]==dispositif["previousPosition.googleCoordsLong"]) )
     {
@@ -525,8 +615,8 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
       
       //Trajet a calculer
       map.displayRouteForDispositif({
-        fromAddress    : dispositif["previousPosition.rue"]+', '+ dispositif["previousPosition.codePostal"]+', '+dispositif["previousPosition.ville"],
-        toAddress      : dispositif["currentPosition.rue" ]+', '+ dispositif["currentPosition.codePostal" ]+', '+dispositif["currentPosition.ville" ],
+        fromAddress    : [dispositif["previousPosition.rue"],', ', dispositif["previousPosition.codePostal"],', ',dispositif["previousPosition.ville"]].join(''),
+        toAddress      : [dispositif["currentPosition.rue" ],', ', dispositif["currentPosition.codePostal" ],', ',dispositif["currentPosition.ville" ]].join(''),
         category       : category,
         businessId     : dispositif.idDispositif,
         title          : title,
@@ -535,6 +625,8 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
     }
     else
     {
+      //détruit l'eventuel direction affiché sur la carte.
+      map.destroyDirection(category, dispositif.idDispositif);
       //Affiche le dispositif      
       var title    = 'N°'+dispositif.idDispositif+' - '+dispositif.indicatifVehicule;
       var html     = title + currentInterHtml;
@@ -552,53 +644,144 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
   }
 };
 
-
-MonitorOutputDispositifCs.prototype.initDropZoneAdd  =function(store, records, options)
+/**
+ * Lance l'initialisation des dropzone après un certain temps (temps de chargemnent du store)
+ * Disparaitra lorsque j'aurais changer l'implémentation des dropzone pour etre plus dans l'esprit Ext
+ * */
+MonitorOutputDispositifCs.prototype.initDropZoneAdd  =function()
 {
-  window.setTimeout(function(){MonitorOutputDispositifCs.prototype.initDropZone(store, records, options);}, 200)
+  window.setTimeout(function(){MonitorOutputDispositifCs.prototype.initDropZone();}, 200)
 };
-
-MonitorOutputDispositifCs.prototype.initDropZone  =function(store, records, options)
+/**
+ * initialise la dropzone des dispositifs
+ * 
+ * */
+MonitorOutputDispositifCs.prototype.initDropZone  =function()
 {
   if(console)
     console.log('adding drop zone');
-  var rowIndex = 0;
-  if(records != null)
-    records.each(function(rowData){
-      Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+rowData.data.idTypeDispositif+'_'+rowData.data.idDispositif+'_'+rowIndex,rowIndex++, rowData.data);
-    });
-  else
-    if(console)
-      console.log('No zone added');
+    
+  var store = Ext.getCmp('DispositifListGrid').getStore();
+  
+  store.each(function(record){
+    Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+record.data.idTypeDispositif+'_'+record.data.idDispositif+'_'+record.id, record.id, record.data);
+  });
 };
-
+/**
+ * Ouvre le dispositif dans in.jsp
+ * */
 MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif)
 {
   this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
   this.monitorInputWindow.miDispositifCs.editDispositif(idDispositif);
 };
-
-MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention)
+/**
+ * Ouvre l'intervention (BILAN) dans in.jsp
+ * */
+MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention, onglet)
 {
   this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
-  this.monitorInputWindow.miBilanCs.editBilan(idIntervention);
+  this.monitorInputWindow.miBilanCs.editBilan(idIntervention, onglet);
 };
-MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention)
+
+/**
+ * 
+ * Gere le clique sur le bouton Action
+ * Le libellé du bouton n'est pas changé par cette méthode, mais lors de la mise a jours du dispositif par reverse Ajax
+ * */
+MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention, currentState)
 {
-  var callMetaData = {
-    callback:MonitorOutputDispositifCs.prototype.actionReturn,
-    args:{idIntervention  : idIntervention,
-          idDispositif    : idDispositif   
-         }
-  };
-  MonitorOutputDispositif.actionOnDispositif(idIntervention, idDispositif, callMetaData);
+  var sendActionToServerNow = true;
+  if(currentState == 4)//Etat : Sur Place, doit afficher le formulaire de primaire
+  {
+    MonitorOutputDispositifCs.prototype.editIntervention(idIntervention); 
+  }
+  else if(currentState == 5)//Etat : Primaire, doit afficher le formulaire de primaire
+  {
+    MonitorOutputDispositifCs.prototype.editIntervention(idIntervention, 'BilanSecouristInitial');
+  }
+  else if(currentState == 6)//Etat : Secondaire Passé, quand on appuie sur le bouton action, on doit choisir l'hopital destination
+  {
+    $('choose-hopital-window-current-dispositif'  ).value=idDispositif;
+    $('choose-hopital-window-current-intervention').value=idIntervention;
+    /* affiche juste la liste des hopitaux
+     * Sur la séléciton d'un hopital, on met a jour inter et dispositif avec l'hopital choisi et l'adresse destination, puis on passe l'action
+     */
+    $('dispositifEvacAddressLabel'          ).value='';
+    $('dispositifEvacAddressRue'            ).value='';
+    $('dispositifEvacAddressCodePostal'     ).value='';
+    $('dispositifEvacAddressVille'          ).value='';
+    $('dispositifEvacAddressCoordinateLat'  ).value='';
+    $('dispositifEvacAddressCoordinateLong' ).value='';
+    $('dispositifEvacGoogleAdressCheckStatus').src  =contextPath+"/img/pix.png";
+    MonitorOutputDispositifCs.prototype.chooseHopitalWindow.show('DispositifActionButton_'+idDispositif);//
+    sendActionToServerNow = false;
+  }
+  
+  
+  if(sendActionToServerNow == true)
+  {
+    var callMetaData = {
+      callback:MonitorOutputDispositifCs.prototype.actionReturn,
+      arg :{idIntervention  : idIntervention,
+            idDispositif    : idDispositif   
+           }
+    };
+    MonitorOutputDispositif.actionOnDispositif(idIntervention, idDispositif, callMetaData);
+  }
 };
 
 MonitorOutputDispositifCs.prototype.actionReturn     =function(newIdEtatDispositif, metaData)
 {
-  alert('New Etat ' + newIdEtatDispositif + ' for dispositif : '+metaData.idDispositif+' intervention : '+metaData.idIntervention);
+  //alert('New Etat ' + newIdEtatDispositif + ' for dispositif : '+metaData.idDispositif+' intervention : '+metaData.idIntervention);
 };
 
+MonitorOutputDispositifCs.prototype.chooseEvacDestinationButton=function()
+{
+  var missingField = false;
+  
+  missingField = missingField || !crfIrpUtils.checkMandatoryField('dispositifEvacAddressLabel'     );
+  missingField = missingField || !crfIrpUtils.checkMandatoryField('dispositifEvacAddressRue'       );
+  missingField = missingField || !crfIrpUtils.checkMandatoryField('dispositifEvacAddressCodePostal');
+  missingField = missingField || !crfIrpUtils.checkMandatoryField('dispositifEvacAddressVille'     );
+  if(missingField == true)
+    return;
+  
+  this.chooseEvacDestination(0,
+    $('dispositifEvacAddressLabel'          ).value,
+    $('dispositifEvacAddressRue'            ).value,
+    $('dispositifEvacAddressCodePostal'     ).value,
+    $('dispositifEvacAddressVille'          ).value,
+    $('dispositifEvacAddressCoordinateLat'  ).value,
+    $('dispositifEvacAddressCoordinateLong' ).value
+  );
+},
+
+
+/*
+ * Lancé lorsqu'on choisi un hopital
+ * Met a jour inter, dispositif, appel coté serveur ActionOnDispsoitif (qui met a jours le status et les clients sur la page out.jsp)
+ * */
+MonitorOutputDispositifCs.prototype.chooseEvacDestination=function(idLieu, label, rue, codePostal, ville, googleCoordsLat,googleCoordsLong)
+{
+  var position = {  rue             :rue             ,
+                    codePostal      :codePostal      ,
+                    ville           :ville           ,
+                    googleCoordsLat :googleCoordsLat ,
+                    googleCoordsLong:googleCoordsLong};
+  
+  var idDispositif   = $('choose-hopital-window-current-dispositif'  ).value;                    
+  var idIntervention = $('choose-hopital-window-current-intervention').value;
+  
+  var callMetaData = {
+      callback:MonitorOutputDispositifCs.prototype.actionReturn,
+      arg :{idIntervention  : idIntervention,
+            idDispositif    : idDispositif   
+           }
+    };
+  MonitorOutputDispositif.chooseEvacDestination(idDispositif, idIntervention, idLieu, label, position, callMetaData);
+  MonitorOutputDispositifCs.prototype.chooseHopitalWindow.hide('DispositifActionButton_'+idDispositif);
+};
 
 MonitorOutputDispositifCs.prototype.showDispositif  =function(idDispositif, latitude, longitude){
   alert(idDispositif+' '+latitude+' '+longitude);
@@ -695,11 +878,14 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
  });
  
   var queryResult = store.query('idDispositif',dispositif.idDispositif);
- 
+  var recordIndex = 0;
   if(queryResult!= null && queryResult.length > 0 && queryResult.get(0).data.idDispositif == dispositif.idDispositif)
-    store.remove(queryResult.get(0));
-  
-  store.addSorted(newDispositif);
+  {
+    var record = queryResult.get(0);
+    recordIndex = store.indexOfId(record.id);
+    store.remove(record);
+  }
+  store.insert(recordIndex, newDispositif);
 };
 
 
@@ -713,7 +899,7 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggab
 
   var callMetaData = {
     callback:MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn,
-    args:{draggedElementId: draggedElementId              ,
+    arg:{draggedElementId: draggedElementId              ,
           dropZoneId      : dropZoneId                    , 
           idIntervention  : intervention.idIntervention   ,
           dispositifId    : dispositifData.idDispositif   ,
@@ -773,4 +959,43 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
               '</span></div>'
               ];
   return info.join('');
+};
+
+
+MonitorOutputDispositifCs.prototype.updateAddress=function()
+{
+  var rue       =$('dispositifEvacAddressRue'       );
+  var codePostal=$('dispositifEvacAddressCodePostal');
+  var ville     =$('dispositifEvacAddressVille'     );
+
+  rue       .value=rue       .value.strip();
+  codePostal.value=codePostal.value.strip();
+  ville     .value=ville     .value.strip();
+  
+  if( rue       .value != '' && rue       .oldValue != rue       .value &&
+      codePostal.value != '' && codePostal.oldValue != codePostal.value &&
+      ville     .value != '' && ville     .oldValue != ville     .value   )
+  {// valeur non vide et non différente de la précédente valeur
+    googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
+                                                        codePostal.value +', '+
+                                                        ville     .value,
+                                                        this.updateAddressReturn,
+                                                        this.updateAddressErrorReturn);
+  }
+};
+
+MonitorOutputDispositifCs.prototype.updateAddressReturn=function(place)
+{
+  var coordinates = place.Point.coordinates;
+  $('dispositifEvacAddressCoordinateLat'   ).value=coordinates[1];
+  $('dispositifEvacAddressCoordinateLong'  ).value=coordinates[0];
+  $('dispositifEvacGoogleAdressCheckStatus').src  =contextPath+"/img/famfamfam/accept.png";
+};
+
+MonitorOutputDispositifCs.prototype.updateAddressErrorReturn=function(response)
+{
+  var icon = response.Status.code=='GoogleMapsUnavailable'?'disconnect':'exclamation';
+  $('dispositifEvacGoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/"+icon+".png";
+  $('dispositifEvacAddressCoordinateLat'   ).value='0';//on met qqch de non vide pour s'avoir qu'on est passé par la
+  $('dispositifEvacAddressCoordinateLong'  ).value='0';
 };

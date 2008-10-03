@@ -162,42 +162,40 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
 
 
 MonitorOutputInterventionCs.prototype.interventionTemplates = Array();
-MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template('\
-<input type="hidden" id="interventionTicket_regulation_id_#{id}"    name="interventionTicket_regulation_id_#{id}" value="#{idRegulation}"/>\
-<input type="hidden" id="interventionTicket_googleCoordsLat_#{id}"  name="interventionTicket_googleCoordsLat_#{id}"/>\
-<input type="hidden" id="interventionTicket_googleCoordsLong_#{id}" name="interventionTicket_googleCoordsLong_#{id}"/>\
-<table id="interventionTicket_#{id}" class="intervention_samu">\
-  <tr>\
-    <th>Date</th>\
-    <td id="interventionTicket_dhReception_#{id}"></td>\
-  </tr>\
-  <tr>\
-    <th>Origine</th>\
-    <td id="interventionTicket_origine_#{id}"></td>\
-  </tr>\
-  <tr>\
-    <th>Motif</th>\
-    <td id="interventionTicket_motif_#{id}"></td>\
-  </tr>\
-  <tr>\
-    <th>Rue</th>\
-    <td id="interventionTicket_rue_#{id}"></td>\
-  </tr>\
-  <tr>\
-    <th>Code Postal</th>\
-    <td id="interventionTicket_codePostal_#{id}"></td>\
-  </tr>\
-  <tr>\
-    <th>Ville</th>\
-    <td id="interventionTicket_ville_#{id}"></td>\
-  </tr>\
-</table>\
-<img src="'+contextPath+'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="moInterventionCs.showInterventionOnGlobalMap(#{id})"/>\
-<img src="'+contextPath+'/img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>\
-<img src="'+contextPath+'/img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>\
-<div id="interventionTicket_dragAndDrop_#{id}"><img src="'+contextPath+'/img/monitorOutput/blesse.jpg"  class="dd-item"/></div>\
-'
-);
+MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template(['<input type="hidden" id="interventionTicket_regulation_id_#{id}"    name="interventionTicket_regulation_id_#{id}" value="#{idRegulation}"/>',
+'<input type="hidden" id="interventionTicket_googleCoordsLat_#{id}"  name="interventionTicket_googleCoordsLat_#{id}"/>',
+'<input type="hidden" id="interventionTicket_googleCoordsLong_#{id}" name="interventionTicket_googleCoordsLong_#{id}"/>',
+'<table id="interventionTicket_#{id}" class="intervention_samu">',
+'  <tr>',
+'    <th>Date</th>',
+'    <td id="interventionTicket_dhReception_#{id}"></td>',
+'  </tr>',
+'  <tr>',
+'    <th>Origine</th>',
+'    <td id="interventionTicket_origine_#{id}"></td>',
+'  </tr>',
+'  <tr>',
+'    <th>Motif</th>',
+'    <td id="interventionTicket_motif_#{id}"></td>',
+'  </tr>',
+'  <tr>',
+'    <th>Rue</th>',
+'    <td id="interventionTicket_rue_#{id}"></td>',
+'  </tr>',
+'  <tr>',
+'    <th>Code Postal</th>',
+'    <td id="interventionTicket_codePostal_#{id}"></td>',
+'  </tr>',
+'  <tr>',
+'    <th>Ville</th>',
+'    <td id="interventionTicket_ville_#{id}"></td>',
+'  </tr>',
+'</table>',
+'<img src="',contextPath,'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="moInterventionCs.showInterventionOnGlobalMap(#{id})"/>',
+'<img src="',contextPath,'/img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>',
+'<img src="',contextPath,'/img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>',
+'<div id="interventionTicket_dragAndDrop_#{id}"><img src="',contextPath,'/img/monitorOutput/blesse.jpg"  class="dd-item"/></div>'].join(''));
+
 MonitorOutputInterventionCs.prototype.interventionTemplates[0] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;
 MonitorOutputInterventionCs.prototype.interventionTemplates[2] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;
 MonitorOutputInterventionCs.prototype.interventionTemplates[3] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;

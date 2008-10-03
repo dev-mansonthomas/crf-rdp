@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>crf-irp-model</project>
+		<project>crf-utilities</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

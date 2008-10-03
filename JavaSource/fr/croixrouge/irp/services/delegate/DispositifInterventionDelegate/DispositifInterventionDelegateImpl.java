@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
+import fr.croixrouge.irp.model.monitor.Position;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
 import fr.croixrouge.irp.services.intervention.InterventionService;
 
@@ -176,7 +177,18 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
 
     }
     else if(idEtatDispositif == 6)
-    {//Quitte les lieux 
+    {//Quitte les lieux => choisi hoptial destination
+      
+      /*Séquencement : 
+       * 
+       * Lorsque l'utilisateur clic sur Action, 
+       * on affiche la listes des hopitaux de paris(ou adresse en saisie libre, dans ce cas, on met 0 pour evac_hopital_destination),
+       * il choisi ou saisie, 
+       * update ajax met a jour l'inter, le dispositif et appel cette méthode. 
+       * 
+       * currentPosition et previousPosition sont déja correct
+       */
+      
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Dispositif quitte les lieux' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
@@ -184,12 +196,8 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       this.interventionService.actionOnIntervention     (idIntervention, idEtatDispositif+1, actionDate);
       //a ce moment, dispositif.getCurrentPosition contiendra la position de l'hopital.
       //          et dispositif.getPreviousPosition contiendra la position de l'intervention
-      //Lorsque l'utilisateur clic sur Action, on affiche la listes des hopitaux de paris(ou adresse en saisie libre, dans ce cas, on met -1 pour evac_hopital_destination), il choisi, update ajax, sur le retour, on appel la méthode actionOnDispositif
-      this.dispositifService  .updateDispositifPosition (idDispositif  , dispositif.getCurrentPosition(), null);
-      
       if(logger.isDebugEnabled())
         logger.debug("Action is DONE : 'Dispositif quitte les lieux' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
-
     }
     else if(idEtatDispositif == 7)
     {//Arrive à l'hopital
@@ -222,5 +230,18 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     if(logger.isDebugEnabled())
       logger.debug("\"Action Button\" pushed DONE : for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
+  }
+
+  
+  /**
+   * Met a jour l'intervention avec l'hoptial choisi ou l'addresse spécifique
+   * Met a jour la previous position du dispositif avec sa current Position
+   * Met a jour la current position avec l'adresse destination
+   * */
+  public void chooseEvacDestination(int idRegulation, int idIntervention, int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception
+  {
+    this.interventionService.chooseEvacDestination(idIntervention, idLieu, destinationLabel, position);
+    Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
+    this.dispositifService.updateDispositifPosition(idDispositif, position, dispositif.getCurrentPosition());
   }
 }

@@ -157,7 +157,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
         logger.debug("updateDispositifPosition, dispositif with id="+idDispositif+" current position is beeing updated with position : "+currentPosition.toString());
 
       nbLineUpdated = this.jdbcTemplate.update( queryForUpdateDispositifCurrentPosition, 
-          new Object[]{currentPosition.getRue(), currentPosition.getCodePostal(), currentPosition.getVille(), currentPosition.getGoogleCoordsLong(), currentPosition.getGoogleCoordsLong(), idDispositif }, 
+          new Object[]{currentPosition.getRue(), currentPosition.getCodePostal(), currentPosition.getVille(), currentPosition.getGoogleCoordsLat(), currentPosition.getGoogleCoordsLong(), idDispositif }, 
           new int   []{Types.VARCHAR           , Types.VARCHAR                  , Types.VARCHAR             , Types.FLOAT                          , Types.FLOAT                          , Types.INTEGER}
         );
       
@@ -174,7 +174,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
         logger.debug("updateDispositifPosition, dispositif with id="+idDispositif+" previous position is beeing updated with position : "+previousPosition.toString());
 
       nbLineUpdated = this.jdbcTemplate.update( queryForUpdateDispositifPreviousPosition, 
-          new Object[]{previousPosition.getRue(), previousPosition.getCodePostal(), previousPosition.getVille(), previousPosition.getGoogleCoordsLong(), previousPosition.getGoogleCoordsLong(), idDispositif }, 
+          new Object[]{previousPosition.getRue(), previousPosition.getCodePostal(), previousPosition.getVille(), previousPosition.getGoogleCoordsLat(), previousPosition.getGoogleCoordsLong(), idDispositif }, 
           new int   []{Types.VARCHAR            , Types.VARCHAR                   , Types.VARCHAR              , Types.FLOAT                           , Types.FLOAT                           , Types.INTEGER}
         );
       

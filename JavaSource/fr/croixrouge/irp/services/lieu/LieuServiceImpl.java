@@ -32,8 +32,9 @@ public class LieuServiceImpl implements LieuService
   
   private final static String selectForGetLieuType = 
     "SELECT   `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_class_lieu`,`icon_lieu`,`icon_gmap_init`\n" +
-    "FROM     `lieu_type`\n" +
-    "ORDER BY `num_ordre` ASC";
+    "FROM     `lieu_type`       \n" +
+    "WHERE    `id_type_lieu` > 0\n" +
+    "ORDER BY `num_ordre` ASC   \n";
   
   @SuppressWarnings("unchecked")
   public List<LieuType> getLieuType() throws Exception
@@ -49,8 +50,9 @@ public class LieuServiceImpl implements LieuService
   private final static String selectForGetLieu = 
     "SELECT    `id_lieu`,`id_type_lieu`, `icon`, `icon_gmap_init`, `nom`,`addresse`, \n" +
     "          `code_postal`, `ville`, `google_coords_lat`, `google_coords_long`, `info_complementaire`\n" +
-    "FROM      `lieu`\n" +
-    "ORDER BY `id_type_lieu` ASC";
+    "FROM      `lieu`           \n" +
+    "WHERE     `id_lieu` > 0    \n" +
+    "ORDER BY `id_type_lieu` ASC\n";
   
   @SuppressWarnings("unchecked")
   public List<Lieu> getLieu() throws Exception

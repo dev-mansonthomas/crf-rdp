@@ -11,11 +11,13 @@ Ext.onReady(function()
     [
       new Ext.BoxComponent(
       { // raw
+        id:'home_north',
         region:'north',
         el: 'north',
         height:62
       }),
       {
+        id:'home_south',
         region:'south',
         contentEl: 'south',
         split:true,
@@ -28,11 +30,13 @@ Ext.onReady(function()
       },
       new Ext.TabPanel(
       {
+        id:'home_center',
         region:'center',
         deferredRender:false,
         activeTab:0,
         items:[
         {
+            id:'home_center_list_regulation_tab',
             contentEl:'center',
             title: 'Liste des régulations ouvertes',
             closable:false,
@@ -74,6 +78,7 @@ Ext.onReady(function()
     });
 
   var grid1 = new xg.GridPanel({
+        id:'home-list-regulation-grid',
         store: dataStore,
         listeners :{ rowdblclick : function(theGrid, rowIndex, e ){
             openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId);

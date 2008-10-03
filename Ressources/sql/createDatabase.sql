@@ -400,7 +400,15 @@ CREATE TABLE `intervention` (
   `evac_decharche`                                      boolean NULL,
   `evac_num_inter_banlieu`                              varchar(16) NULL,
   `evac_hopital_destination`                            int(10) unsigned NULL,
-  `evac_autre_destination`                              varchar(100) NULL,
+  `evac_autre_dest_label`                               varchar(100) NULL,
+  `evac_autre_dest_rue`                                 varchar(60) NULL,
+  `evac_autre_dest_code_postal`                         varchar(5 ) NULL,
+  `evac_autre_dest_ville`                               varchar(60) NULL,
+  `evac_autre_dest_google_coords_lat`                   float(10,6) NULL,
+  `evac_autre_dest_google_coords_long`                  float(10,6) NULL,
+
+
+
 
   `evac_aggravation`                                    boolean NULL,
   `evac_aggravation_pendant_transport`                  boolean NULL,

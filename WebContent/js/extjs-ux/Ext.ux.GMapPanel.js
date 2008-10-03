@@ -335,7 +335,9 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
    * directionInfo.category
    * directionInfo.businessId
    * directionInfo.title,
-   * directionInfo.html
+   * directionInfo.html,
+   * directionInfo.routeInstruction,
+   * directionInfo.displayed
    * */
   displayRouteForDispositif:function(directionInfo)
   {
@@ -350,7 +352,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     var directionSet  = null;
     var gDirection    = null;
     var dirSetCatIndex=-1;
-    //find if a Direction exists pour this cat/businessId
+    //find if a Direction exists for this cat/businessId
     for(var i=0,count=directionCat.length;i<count;i++)
     {
       if(directionCat[i] != null &&
@@ -435,12 +437,15 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     {//update the direction Info, keep the instance of gDirection
       directionSet.directionInfo=directionInfo;
     }
-    //compute direction
-    directionSet.gDirection.load("from: " + directionSet.directionInfo.fromAddress+', france' + " to: " + directionSet.directionInfo.toAddress+', france',
-              { "locale": 'fr' , "getSteps":true});
-
+    directionSet.directionInfo.routeInstruction =["from: " , directionSet.directionInfo.fromAddress,', france' , " to: " , directionSet.directionInfo.toAddress,', france'].join('');
+    directionSet.gDirection.load(  directionSet.directionInfo.routeInstruction ,{ "locale": 'fr' , "getSteps":true});
+    
   },
-  showDirection:function(category)
+  getDirectionsCat:function(category)
+  {
+    return this.directionCategories[category];
+  },
+  showDirectionCategory:function(category)
   {
     if(this.googleMapAvailable!= true)
       return;
@@ -449,10 +454,52 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       return;
 
     for(var i=0, count=directions.size();i<count;i++)
-      this.displayRouteForDispositif(directions[i].directionInfo);
+      if(directions[i]!=null)
+        this.displayRouteForDispositif(directions[i].directionInfo);
 
   },
-  hideDirection:function(category)
+  destroyDirection:function(category, businessId)
+  {
+    if(this.googleMapAvailable!= true)
+      return;
+    var directions = this.directionCategories[category];
+    if(directions == null)
+      return;
+
+    var markers = this.markerCategories[category];
+    //retrieve the direction inside the category
+    for(var i=0, counti=directions.size();i<counti;i++)
+    {
+      if(directions[i]!=null)
+      {
+        var directionSet  = directions[i];
+        var directionInfo = directionSet.directionInfo;
+        var gDirection    = directionSet.gDirection;
+        
+        if(directionInfo.businessId == businessId)
+        {//once it's found, hide the marker at the begining and the end of the direction
+          if(markers != null)
+          {
+            //supprime les markers associé a la route, car dans showDirection, on recrée tout (route et 2 markers).
+            for(var j=0, countj=markers.size();j<countj;j++)
+            {
+              if(markers[j] != null && markers[j].customId == gDirection.customId)
+              {
+                this.removeMarker(markers[j]);
+                markers[j]=null;
+              }
+            }
+          }//end if markers != null
+          
+          gDirection.clear();
+          directions[i]=null;//supprimer la direction, pour ne pas la réafficher si on cache/affiche la catégorie
+          break;//Stop here, only one direction to hide.
+        }
+        
+      }
+    }
+  },
+  hideDirectionCategory:function(category)
   {
     if(this.googleMapAvailable!= true)
       return;
@@ -464,22 +511,24 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
 
     for(var i=0, counti=directions.size();i<counti;i++)
     {
-      if(markers != null)
+      if(directions[i]!=null)
       {
-        //supprime les markers associé a la route, car dans showDirection, on recrée tout (route et 2 markers).
-        for(var j=0, countj=markers.size();j<countj;j++)
+        var gDirection = directions[i].gDirection;
+        if(markers != null)
         {
-          if(markers[j] != null && markers[j].customId == directions[i].gDirection.customId)
+          //supprime les markers associé a la route, car dans showDirection, on recrée tout (route et 2 markers).
+          for(var j=0, countj=markers.size();j<countj;j++)
           {
-            this.removeMarker(markers[j]);
-            markers[j]=null;
+            if(markers[j] != null && markers[j].customId == gDirection.customId)
+            {
+              this.removeMarker(markers[j]);
+              markers[j]=null;
+            }
           }
         }
+        gDirection.clear();
       }
-      directions[i].gDirection.clear();
-
     }
-
   },
   showDirectionPath:function(directionDivId)
   {

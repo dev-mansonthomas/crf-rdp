@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
+import fr.croixrouge.irp.model.monitor.Position;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
@@ -32,6 +33,7 @@ public class MonitorOutputDispositf  extends DWRUtils
     return this.dispositifService.getAllDispositif(currentUserRegulationId);
   }
   
+  
   public int actionOnDispositif(int idIntervention, int idDispositif) throws Exception
   {
     int currentUserRegulationId = this.validateSessionAndGetRegulationId();
@@ -41,17 +43,20 @@ public class MonitorOutputDispositf  extends DWRUtils
     
     //Met a jour tous les navigateurs avec le nouvel état du dispositif
     Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
-
-    ScriptBuffer script = new ScriptBuffer();
     
-    script.appendScript("moDispositifCs.updateDispositif(")
-                        .appendData(dispositif)
-                        .appendScript(");");
-    
-    updateRegulationUser(script, outPageName);
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
+        outPageName);
     
     return dispositif.getIdEtatDispositif();
   }
-  
-  
+  /**
+   * Met a jour inter et dispositif
+   * puis appel ActionOnDispositif
+   * */
+  public int chooseEvacDestination(int idDispositif, int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception
+  {
+    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    this.dispositifInterventionDelegate.chooseEvacDestination(currentUserRegulationId, idIntervention, idDispositif, idLieu, destinationLabel, position);
+    return this.actionOnDispositif(idIntervention, idDispositif);
+  }
 }

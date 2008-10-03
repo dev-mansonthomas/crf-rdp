@@ -1,37 +1,13 @@
-<%@ page contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"
+%><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
 %><%
   String contextPath = request.getContextPath();
 %>
 <html>
   <head>
     <title>Accueil de la Régulation de la Croix Rouge de Paris</title>
-    <style type="text/css" media="all">
-      @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
-      @import "<%=contextPath%>/js/extjs-2/resources/css/xtheme-gray.css";
-      @import "<%=contextPath%>/css/home/home.css";
-    </style>
-        
-    <!-- extJS -->  
-    <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/ext-all.js"></script>
-  
-    <script type="text/javascript">
-     var contextPath="<%=contextPath%>";
-     var iconPath = '../img/famfamfam/';
-     Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
-    </script>
-
-    <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"> </script>
-    <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/RowExpander.js"> </script>
-    
-    <!-- DWR Ajax -->
-    <script type="text/javascript" src="<%=contextPath%>/dwr/interface/Homepage.js"> </script>
-    <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>
-    <script type="text/javascript" src="<%=contextPath%>/dwr/util.js"> </script>
-    <!-- FIN DWR Ajax -->
-
-    <script type="text/javascript" src="<%=contextPath%>/js/home/home.js"></script>
-
+    <jwr:style src="/cssBundle/home.css"/>
   </head>
   <body>
 
@@ -48,6 +24,16 @@
   <div id="south">
     <p>south - generally for informational stuff, also could be for status bar</p>
   </div>
-    
+
+
+  <jwr:script src="/jsBundle/extJs.js"/>
+  <script type="text/javascript">
+    var contextPath="<%=contextPath%>";
+    var iconPath = '../img/famfamfam/';
+    Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+  </script>
+  <jwr:script src="/jsBundle/baseApp.js"/>
+  <jwr:script src="/jsBundle/home.js"/>
+
   </body>
 </html>

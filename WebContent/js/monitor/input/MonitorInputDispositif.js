@@ -269,10 +269,9 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 
   for(i=0,count=this.fieldList.length;i<count;i++)
     dwr.util.setValue(this.fieldList[i], '');
-  
+
   Ext.get('DispositifVolumeTotal'   ).update('');
   Ext.get('DispositifAutonomieTotal').update('');
-  
   Ext.get('dispositifCurrentGoogleAdressCheckStatus' ).dom.src=contextPath+"/img/pix.png";
   Ext.get('dispositifPreviousGoogleAdressCheckStatus').dom.src=contextPath+"/img/pix.png"
   
@@ -287,6 +286,7 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 
 MonitorInputDispositifCs.prototype.fieldList = [ 
     'dispositif_id_field',
+    'dispositif_isCreation_field',
     'DispositifType',
     'DispositifIndicatif',
     'DispositifDelegation',
@@ -377,7 +377,7 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispo
 {
   $('dispositif_id_field').value=dispositif.idDispositif;
   dwr.util.setValue('dispositif_id_span', dispositif.idDispositif);
-
+  Ext.get('dispositif_title_indicatif').update('Nouveau Dispositif');
   $('DispositifDHDebut').value=dispositif.dhDebutStr;
   $('DispositifDHFin'  ).value=dispositif.dhFinStr;
   
@@ -402,7 +402,7 @@ MonitorInputDispositifCs.prototype.editDispositifReturn=function(Dispositif)
   
   Ext.getCmp('DispositifListEastPanel').collapse();
   
-  Ext.get('dispositif_isCreation_field').dom.setValue(false);
+  Ext.get('dispositif_isCreation_field').dom.setValue(!Dispositif.creationTerminee);
   
   var dispositifForm = Ext.get('DispositifEdit');
   if(!dispositifForm.isVisible())

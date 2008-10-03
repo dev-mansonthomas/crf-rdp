@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.croixrouge.irp.model.monitor.Intervention;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
+import fr.croixrouge.irp.model.monitor.Position;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 
 public interface InterventionService
@@ -26,4 +27,6 @@ public interface InterventionService
   public void updateInterventionStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception;
   public void updateInterventionDateField   (int idIntervention, String fieldName, Date     fieldValue) throws Exception;
   public void updateInterventionBooleanField(int idIntervention, String fieldName, boolean  fieldValue) throws Exception;
+  
+  public void chooseEvacDestination         (int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception;
 }

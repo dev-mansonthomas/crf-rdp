@@ -104,18 +104,37 @@ Ext.ux.MonitorOutput.dd = function() {
       getDraggableGroup:function(){
         return draggableGroup;
       },
-      addDropZone:function(id, rowIndex, data){
+      removeTagFromDropZoneList:function(dropZoneId){
         if(console)
-          console.log('addDropZone on '+id+' row '+rowIndex);
+          console.log('removeTagFromDropZoneList on '+dropZoneId+' state before : '+this.dropZonesIds);
+
+        var index = this.dropZonesIds.indexOf(dropZoneId+'|');
+        if(index>-1)
+        {
+          var splitted = this.dropZonesIds.split('|');
+          this.dropZonesIds='';
+          for(var i=0, count=splitted.length;i<count;i++)
+          {
+            var oneItem = splitted[i];
+            if(oneItem != dropZoneId)
+              this.dropZonesIds+=oneItem+'|';
+          }
+        }
+        if(console)
+          console.log('removeTagFromDropZoneList on '+dropZoneId+' state after : '+this.dropZonesIds);
+      },
+      addDropZone:function(id, recordId, data){
+        if(console)
+          console.log('addDropZone on '+id+' row '+recordId);
         if(this.dropZonesIds.indexOf(id+'|')>-1)
         {
           if(console)
-            console.log('dropZone id='+id+' row='+rowIndex+' already added, ignoring');
+            console.log('dropZone id='+id+' row='+recordId+' already added, ignoring');
         }
         else
         {
           var dz = new Ext.dd.DropZone(id, {ddGroup:draggableGroup});
-          dropZones[id]={id:id, rowIndex:rowIndex, dropZone:dz, dispositif:data};
+          dropZones[id]={id:id, recordId:recordId, dropZone:dz, dispositif:data};
           this.dropZonesIds+=id+'|';
         }
       },

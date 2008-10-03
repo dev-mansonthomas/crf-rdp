@@ -1,19 +1,14 @@
-<%
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"
+%><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
+%><%
 	boolean error = (request.getParameter("error") != null);
   String contextPath = request.getContextPath();
 %>
 <html>
 	<head>
 	  <title>Croix Rouge Française - Régulation de Paris - Login</title>
-    <style type="text/css" media="all">
-      @import "<%=contextPath%>/css/login.css";
-    </style>
-    
-    <!-- prototype framework -->
-    <script type="text/javascript" src="<%=contextPath%>/js/prototype/prototype.js"> </script>
-
-    <!-- script.aculo.us effect library -->
-    <script type="text/javascript" src="<%=contextPath%>/js/script.aculo.us/scriptaculous.js"> </script>
+    <jwr:style src="/cssBundle/login.css"/>
 	</head>
 	<body>
     <div id="RegulationParis">
@@ -42,5 +37,6 @@ if(error)
     <div id="footer">
        Copyright © 2006 Croix Rouge Française
     </div>
+    <jwr:script src="/jsBundle/baseLogin.js"/> 
 	</body>
 </html>

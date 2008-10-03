@@ -40,13 +40,8 @@ public class MonitorInputBilanImpl  extends DWRUtils
     
     InterventionTicket interventionTicket = this.interventionService.getInterventionTicket(idIntervention);
     
-    
-    ScriptBuffer script = new ScriptBuffer();
-    script.appendScript("moInterventionCs.updateInterventionToAffect(")
-                        .appendData(interventionTicket)
-                        .appendScript(");");
-    
-    updateRegulationUser(script, outPageName);
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.updateInterventionToAffect",interventionTicket), 
+        outPageName);
   }
   public Intervention       getIntervention(int idIntervention) throws Exception
   {
@@ -65,9 +60,8 @@ public class MonitorInputBilanImpl  extends DWRUtils
     this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 4);
     if(notifyOthers)
     {
-      ScriptBuffer script = new ScriptBuffer();
-      script.appendScript("moInterventionCs.deleteInterventionToAffect("+idIntervention+");");      
-      updateRegulationUser(script, outPageName);
+      updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.deleteInterventionToAffect",idIntervention), 
+          outPageName);
     }
   }
   

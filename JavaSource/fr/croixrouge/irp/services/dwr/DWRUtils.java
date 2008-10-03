@@ -1,17 +1,17 @@
 package fr.croixrouge.irp.services.dwr;
 
-import java.util.Collection;
-
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.directwebremoting.Browser;
 import org.directwebremoting.ScriptBuffer;
-import org.directwebremoting.ScriptSession;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 
 import fr.croixrouge.irp.model.monitor.Regulation;
 import fr.croixrouge.irp.scheduler.ClockJob;
+import fr.croixrouge.irp.services.dwr.reverseAjax.AddScript;
+import fr.croixrouge.irp.services.dwr.reverseAjax.RegulationFilter;
 
 public class DWRUtils
 {
@@ -42,33 +42,21 @@ public class DWRUtils
    * */
   protected void updateRegulationUser(ScriptBuffer script, String pageName) throws Exception
   {
-    WebContext        webContext = WebContextFactory.get();
     int currentUserRegulationId = 0;
-    
+
     try
     {
       currentUserRegulationId = this.validateSessionAndGetRegulationId();  
     }
     catch(Exception e)
     {
-      logger.error("RegulationId Not Found",e);
+      logger.error("RegulationId Not Found", e);
     }
     
-    
-    Collection <ScriptSession> sessions = webContext.getScriptSessionsByPage(pageName);
-    for (ScriptSession session : sessions)
-    {
-      Integer integer = (Integer)session.getAttribute("regulationId");
-      int sessionRegulationId = integer!= null ? integer:0;
-      
-      if( currentUserRegulationId == sessionRegulationId)
-      {
-        System.err.println("Adding script to regulationId="+session.getAttribute("regulationId")+" with script "+script);
-        session.addScript(script);
-      }
-    }
-      
-        
+    Browser.withPageFiltered( pageName, 
+                              new RegulationFilter( currentUserRegulationId, 
+                                                    this.getClass()),
+                              new AddScript(script, this.getClass()));
   }
   
   /**
@@ -85,29 +73,10 @@ public class DWRUtils
     
     return regulation.getRegulationId();
   }
-  /**
-   * Retourne l'id de la régulation sur laquelle on est connecté via la ScriptSession (pour reverseAjax)
-   * 
-   * */
-  protected int getRegulationId() throws Exception
-  {
-  	WebContext webContext =  WebContextFactory.get();
-  	if( webContext != null)
-  	{
-  		ScriptSession scriptSession = webContext.getScriptSession();
-      if(scriptSession != null)
-      {
-        Object o = scriptSession.getAttribute("regulationId");
-        if(o != null)
-          return (Integer)o;
-        throw new Exception("regulationId not found in ScriptSession");
-      }
-      throw new Exception("ScriptSession is null, please reconnect");
-  	}
-    throw new Exception("WebContext is null, please reconnect");
-  }
+ 
   /**
    * Met l'id de la régulation sur laquelle on est connecté dans la scriptSession
+   * A n'employer que sur les pages utilisant du reverse Ajax
    * */
   public void initScriptSession() throws Exception
   {
@@ -125,6 +94,5 @@ public class DWRUtils
       ClockJob.firstAjaxCallDone = true;
       System.out.println("Setting 'ClockJob.firstAjaxCallDone = true;' "+ ClockJob.firstAjaxCallDone);
     }
-      
   }
 }

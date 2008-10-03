@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
+%><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
 %><%
 String contextPath = request.getContextPath();
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -8,74 +9,10 @@ String contextPath = request.getContextPath();
   <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"/>
   <title>Saisie - CRF - Informatisation de la Régulation de Paris</title>
 
-  <style type="text/css" media="all">
-    @import "<%=contextPath%>/css/style.css";
-    @import "<%=contextPath%>/css/autocomplete.css";
-    @import "<%=contextPath%>/css/CrfUtils.css";
-    @import "<%=contextPath%>/css/googleMap.css";
+  <jwr:style src="/cssBundle/monitorInput.css"/>
 
-    @import "<%=contextPath%>/css/monitorInput/monitorInput.css";
-    @import "<%=contextPath%>/css/monitorInput/toolbar.css";
-    @import "<%=contextPath%>/css/monitorInput/CoRegulateurList.css";
-    @import "<%=contextPath%>/css/monitorInput/Dispositif.css";
-    @import "<%=contextPath%>/css/monitorInput/Intervention.css";
-    @import "<%=contextPath%>/css/monitorInput/Bilan.css";
-
-    @import "<%=contextPath%>/css/calendarFix.css";
-
-    @import "<%=contextPath%>/js/extjs-2/resources/css/ext-all.css";
-    @import "<%=contextPath%>/js/extjs-2/resources/css/xtheme-gray.css";
-  </style>
 
   <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/table_edit.png" type="image/png">
-
-<!-- ExtJS 2.0 -->
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/adapter/ext/ext-base.js"></script>
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-2/ext-all-debug.js"></script>
-
-  <script type="text/javascript">
-   var contextPath="<%=contextPath%>";
-   var iconPath = '../img/famfamfam/';
-   Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
-  </script>
-
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/DwrProxy.js"> </script>
-
-<!-- DWR Ajax -->
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorCommons.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorInput.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorInputDispositif.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorInputIntervention.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/interface/MonitorInputBilan.js"> </script>
-
-<!-- END of DWR Ajax -->
-
-<!-- prototype framework -->
-  <script type="text/javascript" src="<%=contextPath%>/js/prototype/prototype.js"> </script>
-<!-- script.aculo.us effect library -->
-  <script type="text/javascript" src="<%=contextPath%>/js/script.aculo.us/scriptaculous.js"> </script>
-
-<!-- autocomplete (script.aculo.us & DWR) MiSt <msteiner@gazeta.pl> -->
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/autocomplete.js"> </script>
-
-<!-- google map -->
-  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g" type="text/javascript"> </script>
-
-
-<!--business code -->
-  <script type="text/javascript" src="<%=contextPath%>/js/extjs-ux/Ext.ux.GMapPanel.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInputBilan.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInputDispositif.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInputIntervention.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/input/MonitorInput.js"> </script>
-
-
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/pagebus.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/js/monitor/utils/utils.js"> </script>
-
-<script type="text/javascript">
-  Ext.onReady(init);
-</script>
 </head>
 <body id="MonitorInputBody">
 
@@ -375,8 +312,8 @@ Age Approximatif :
 
 
 <!-- Bilan Editor -->
-<div id="BilanPanel">
-  <div id="BilanEditor">
+<div id="BilanPanel" style="display:none">
+  <div id="BilanEditor"  style="display:none">
     <div id="BilanIdentite">
     <input type="hidden" id="bilan_id_intervention" name="bilan_id_intervention"/>
     <input type="hidden" id="bilan_id_dispositif"   name="bilan_id_dispositif"  />
@@ -764,7 +701,7 @@ Age Approximatif :
                        value=""
                    maxlength="16"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
-                      onBlur="miBilanCs.updateIntegerField(this.id, 'ventil_commentaire')"/>
+                      onBlur="miBilanCs.updateStringField(this.id, 'ventil_commentaire')"/>
             </p>
 <table style="width:100%;">
   <tr>
@@ -858,7 +795,7 @@ Age Approximatif :
                      name="bilan_circul_pouls_non_percu"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
                  onChange="miBilanCs.updateBooleanField(this.id, 'circul_pouls_non_percu', 'bilanCirculAbscenceP')"/>
-               Absence de ventilation
+               Absence de circulation
             </p>
             <p id="bilanCirculChiffreP">
               Fréquence
@@ -962,7 +899,7 @@ Age Approximatif :
                            value=""
                        maxlength="16"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
-                          onBlur="miBilanCs.updateFloatField(this.id, 'circul_tension_ref_basse')"/>
+                          onBlur="miBilanCs.updateIntegerField(this.id, 'circul_tension_ref_basse')"/>
                           /
                   <input style="width:30px;"
                             type="text"
@@ -971,7 +908,7 @@ Age Approximatif :
                            value=""
                        maxlength="16"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
-                          onBlur="miBilanCs.updateFloatField(this.id, 'circul_tension_ref_haute')"/>
+                          onBlur="miBilanCs.updateIntegerField(this.id, 'circul_tension_ref_haute')"/>
     </td>
   </tr>
 </table>
@@ -1400,7 +1337,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
                       id="bilan_medecin_civil_sur_place"
                     name="bilan_medecin_civil_sur_place"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-               maxlenght="50"
+               maxlength="50"
                    style="width:300px;"
                 onChange="miBilanCs.updateStringField(this.id, 'medecin_civil_sur_place')"/>
             </p>
@@ -1925,7 +1862,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
 </div>
 
 <div id="bilan-commentsAndEval" class="x-hidden">
-    <div class="x-window-header">Bilan - Commentaires & Evaluations</div>
+    <div class="x-window-header">Bilan - Commentaires &amp; Evaluations</div>
     <div id="bilan-commentsAndEval-tabs">
         <!-- Auto create tab 1 -->
         <div class="x-tab" title="Commentaires">
@@ -2389,10 +2326,23 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
 
   </div>
   <div id="south">
-    <p>south - generally for informational stuff, also could be for status bar</p>
+    <p></p>
   </div>
 
-  <script type="text/javascript" src="<%=contextPath%>/dwr/engine.js"> </script>
-  <script type="text/javascript" src="<%=contextPath%>/dwr/util.js"> </script>
+  <!-- google map -->
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g" type="text/javascript"> </script>
+
+  <jwr:script src="/jsBundle/extJs.js"/>
+  <script type="text/javascript">
+    var contextPath="<%=contextPath%>";
+    var iconPath = '../img/famfamfam/';
+    Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+  </script>
+  <jwr:script src="/jsBundle/baseApp.js"/>
+  <jwr:script src="/jsBundle/monitorInput.js"/>
+
+  <script type="text/javascript">
+    Ext.onReady(init);
+  </script>
 </body>
 </html>

@@ -120,6 +120,7 @@ function initLayout()
     deferredRender: false,
     xtype         : 'panel',
     collapsible   : true,
+    collapsed     : true,
     layout        :'accordion',
     layoutConfig  :{
         animate:true
@@ -155,13 +156,15 @@ function initLayout()
     
   };
   var bilanHelper={
-    id       : 'monitorInputBilanHelperEastPanel',
-    region   : 'east',
-    split    : true,
-    contentEl: 'BilanHelper',
-    title    : 'Aide à la Saisie',
-    xtype    : 'panel',
-    width    : 200
+    id          : 'monitorInputBilanHelperEastPanel',
+    region      : 'east',
+    split       : true,
+    collapsible : true,
+    collapsed   : true,
+    contentEl   : 'BilanHelper',
+    title       : 'Aide à la Saisie',
+    xtype       : 'panel',
+    width       : 200
   };
   
   

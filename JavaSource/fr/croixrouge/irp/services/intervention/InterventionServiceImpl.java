@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.irp.model.monitor.Intervention;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
+import fr.croixrouge.irp.model.monitor.Position;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionTicketRowMapper;
@@ -233,7 +234,12 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `evac_decharche`                          ,\n"+
     "  `evac_num_inter_banlieu`                  ,\n"+
     "  `evac_hopital_destination`                ,\n"+
-    "  `evac_autre_destination`                  ,\n"+
+    "  `evac_autre_dest_label`                   ,\n"+
+    "  `evac_autre_dest_rue`                     ,\n"+
+    "  `evac_autre_dest_code_postal`             ,\n"+
+    "  `evac_autre_dest_ville`                   ,\n"+
+    "  `evac_autre_dest_google_coords_lat`       ,\n"+
+    "  `evac_autre_dest_google_coords_long`      ,\n"+
     "  `evac_aggravation`                        ,\n"+
     "  `evac_aggravation_pendant_transport`      ,\n"+
     "  `evac_aggravation_arrive_a_destination`   ,\n"+
@@ -258,7 +264,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
                                                           new InterventionRowMapper());
     
     if(intervention.getIdDispositif()>0)
-      this.dispositifService.getDispositifTicket(intervention.getIdDispositif());  
+      intervention.setDispositifTicket(this.dispositifService.getDispositifTicket(intervention.getIdDispositif()));  
     
     
     return intervention;
@@ -357,6 +363,46 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     if(logger.isDebugEnabled())
       logger.debug("Interviention with id='"+idIntervention+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
+  }
+  
+  private final static String queryForChooseEvacDestination = 
+    "UPDATE `intervention`                          \n"+
+    "SET    `evac_hopital_destination`          = ?,\n"+
+    "       `evac_autre_dest_label`             = ?,\n"+
+    "       `evac_autre_dest_rue`               = ?,\n"+
+    "       `evac_autre_dest_code_postal`       = ?,\n"+
+    "       `evac_autre_dest_ville`             = ?,\n"+
+    "       `evac_autre_dest_google_coords_lat` = ?,\n"+
+    "       `evac_autre_dest_google_coords_long`= ? \n"+
+    "WHERE  `id_intervention`                   = ? \n";
+  
+  public void chooseEvacDestination(int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception
+  {
+    int nbLineUpdated = this.jdbcTemplate.update( queryForChooseEvacDestination, 
+        new Object[]{idLieu                         , 
+                     destinationLabel               ,
+                     position.getRue              (),
+                     position.getCodePostal       (),
+                     position.getVille            (),
+                     position.getGoogleCoordsLat  (),
+                     position.getGoogleCoordsLong (),
+                     idIntervention 
+                    }, 
+        new int   []{Types.INTEGER, Types.VARCHAR  , Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.FLOAT, Types.FLOAT, Types.INTEGER}
+      );
+ 
+    if(logger.isDebugEnabled())
+      logger.debug("Interviention with id='"+idIntervention+
+          "' has been updated with evac Destination : idLieu="+idLieu+
+          ",  destinationLabel="+destinationLabel               +
+          ", rue="              +position.getRue              ()+
+          ", codePostal="       +position.getCodePostal       ()+
+          ", ville="            +position.getVille            ()+
+          ", googleCoordLat="   +position.getGoogleCoordsLat  ()+
+          ", googleCoordLong="  +position.getGoogleCoordsLong ()+
+          " (line updated = '"  +nbLineUpdated                  +"')");
+ 
+    
   }
   
   private final static String queryForUpdateGoogleCoordinates = 
@@ -692,7 +738,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "bilan_commentaires"                      ,
     "bilan_evaluation_ci"                     ,
     "cs_pci_duree"                            ,
-    "evac_autre_destination"                  ,
+    "evac_autre_dest_label"                   ,
     "evac_aggravation_nature"                 ,
     "evac_par_autre"                          ,
     "num_inter"                               ,

@@ -1,20 +1,18 @@
 package fr.croixrouge.irp.scheduler;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.directwebremoting.Browser;
 import org.directwebremoting.ScriptBuffer;
-import org.directwebremoting.ScriptSession;
-import org.directwebremoting.ServerContext;
-import org.directwebremoting.ServerContextFactory;
 import org.springframework.web.context.ServletContextAware;
 
 import fr.croixrouge.irp.services.dwr.DWRUtils;
+import fr.croixrouge.irp.services.dwr.reverseAjax.AddScript;
 
 public class ClockJob implements ServletContextAware
 {
@@ -35,26 +33,20 @@ public class ClockJob implements ServletContextAware
     this.servletContext=servletContext;
     if(logger.isDebugEnabled())
       logger.debug("ServletContext set, isNull="+(servletContext==null));
+    
+    this.servletContext.getClass();
   }
 
   public void broadcastTime()
   {
-    
-    //System.out.println("firstAjaxCallDone="+firstAjaxCallDone);
     if(!firstAjaxCallDone)
       return;
    
     String timeIs = simpleDateFormat.format(new Date());
     
-    //System.out.println("timeIs="+timeIs);
     
-    ServerContext serverContext = ServerContextFactory.get(servletContext);
-    ScriptBuffer scriptBuffer = new ScriptBuffer("monitorOutputCs.updateClock(");
-    scriptBuffer.appendData(timeIs);
-    scriptBuffer.appendScript(");");
-    
-    Collection<ScriptSession> sessions = serverContext.getScriptSessionsByPage ( DWRUtils.outPageName );
-    for (ScriptSession session : sessions)
-        session.addScript(scriptBuffer);
+    Browser.withPage(DWRUtils.outPageName, 
+        new AddScript(new ScriptBuffer().appendCall("monitorOutputCs.updateClock", timeIs), 
+                      this.getClass()));
   }
 }

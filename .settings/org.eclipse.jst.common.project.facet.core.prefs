@@ -1,4 +1,4 @@
-#Thu Dec 27 23:06:26 CET 2007
-classpath.helper/org.eclipse.jdt.launching.JRE_CONTAINER/owners=jst.java\:5.0
+#Sat Sep 20 14:53:18 CEST 2008
+classpath.helper/org.eclipse.jdt.launching.JRE_CONTAINER\:\:org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType\:\:jdk1.6.0_07/owners=jst.java\:6.0
 classpath.helper/org.eclipse.jst.server.core.container\:\:org.eclipse.jst.server.tomcat.runtimeTarget\:\:Apache\ Tomcat\ v5.5/owners=jst.web\:2.4
 eclipse.preferences.version=1

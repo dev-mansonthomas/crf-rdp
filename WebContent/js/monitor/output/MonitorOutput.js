@@ -18,11 +18,12 @@ MonitorOutputCs.prototype.updateClock = function (clockTime)
 };
 
 
-var monitorOutputCs   = null;
-var moInterventionCs  = null;
-var moDispositifCs    = null;
-var moDDH             = null;
+var monitorOutputCs         = null;
+var moInterventionCs        = null;
+var moDispositifCs          = null;
+var moDDH                   = null;
 var googleMapAdressResolver = null;
+var taskRunner              = null;
 
 var iconPath = contextPath+'/img/famfamfam/';
 
@@ -36,8 +37,25 @@ function init()
   googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
   googleMapAdressResolver.init();
   
+  taskRunner = new Ext.util.TaskRunner();
+  
   crfIrpUtils.getAllList();
   initLayout();
+  initCirculationVue2Refresh();
+}
+
+function initCirculationVue2Refresh()
+{
+    // Start a simple clock task that updates a div once per second
+  var task = {
+      run: function(){
+          var src = Ext.get('center-circulation2-img').dom.src;
+          Ext.get('center-circulation2-img').dom.src=src.substring(0,src.indexOf(".gif")+4)+'?time='+(new Date()).format('c');
+      },
+      interval: 4*60*1000 //toutes les 4 muinutes
+  }
+   
+  taskRunner.start(task);
 }
 
 
@@ -135,6 +153,18 @@ function initLayout()
                             lat: 48.85436, 
                             lng: 2.348156
                         }                        
+                    },{
+                        id:'center-circulation1-panel',
+                        contentEl:'center-circulation1',
+                        title: 'Circulation vue 1',
+                        closable:false,
+                        autoScroll:true
+                    },{
+                        id:'center-circulation2-panel',
+                        contentEl:'center-circulation2',
+                        title: 'Circulation vue 2',
+                        closable:false,
+                        autoScroll:true
                     }]
                 });
   

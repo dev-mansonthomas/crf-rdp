@@ -231,6 +231,9 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         if(currentPanel.id != 'monitorInputBilanPanel')
           centerRegion.activate('monitorInputBilanPanel');
         
+        Ext.getCmp('monitorInputBilanEditorCenterPanel').expand(true);
+        Ext.getCmp('monitorInputBilanHelperEastPanel'  ).expand(true);
+          
         var ongletToOpen = callMetatData.ongletToOpen;
         if(ongletToOpen == "BilanSecouristInitial")
           Ext.getCmp('monitorInputBilanEditorCenterPanelBilanSecouristeInitial').expand();

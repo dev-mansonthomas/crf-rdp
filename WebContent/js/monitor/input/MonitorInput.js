@@ -162,7 +162,7 @@ function initLayout()
     collapsible : true,
     collapsed   : true,
     contentEl   : 'BilanHelper',
-    title       : 'Aide à la Saisie',
+    title       : 'Résumé',
     xtype       : 'panel',
     width       : 200
   };

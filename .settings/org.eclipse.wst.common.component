@@ -6,7 +6,7 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/crf-irp-model/crf-irp-model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/crf-utilities/crf-utilities">
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/crf-irp-utilities/crf-irp-utilities">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="crf-irp"/>

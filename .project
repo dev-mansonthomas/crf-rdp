@@ -5,6 +5,7 @@
 	<projects>
 		<project>crf-irp-model</project>
 		<project>crf-utilities</project>
+		<project>crf-irp-utilities</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

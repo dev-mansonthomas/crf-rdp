@@ -34,7 +34,8 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       iconsForCategory   : [],
       googleMapAvailable : true,
       geocoder           : null,
-      defaultCountry     : "France"
+      defaultCountry     : "France",
+      streetViewOverlay  : true
     };
     Ext.applyIf(this,defConfig);
     Ext.ux.GMapPanel.superclass.initComponent.call(this);
@@ -70,6 +71,11 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       this.gmap = new GStreetviewPanorama(this.body.dom);
     }
 
+    if(this.streetViewOverlay == true){
+      this.gmap.addOverlay(new GStreetviewOverlay());
+    }
+    	
+    	
     if (typeof this.addControl == 'object' && this.gmapType === 'map') {
       this.gmap.addControl(this.addControl);
     }

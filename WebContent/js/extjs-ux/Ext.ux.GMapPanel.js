@@ -70,11 +70,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     if (this.gmapType === 'panorama'){
       this.gmap = new GStreetviewPanorama(this.body.dom);
     }
-
-    if(this.streetViewOverlay == true){
-      this.gmap.addOverlay(new GStreetviewOverlay());
-    }
-    	
+   	
     	
     if (typeof this.addControl == 'object' && this.gmapType === 'map') {
       this.gmap.addControl(this.addControl);

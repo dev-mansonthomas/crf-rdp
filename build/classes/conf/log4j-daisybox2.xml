@@ -19,36 +19,30 @@
   <logger name="org.springframework" additivity="false">
     <level value="info" />
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
   </logger>
 
   <logger name="net.jawr" additivity="false">
-    <level value="debug" />
+    <level value="info" />
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
   </logger>
   
   <logger name="fr.rs2i" additivity="false">
     <level value="error" />
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
   </logger>
 
   <logger name="org.directwebremoting" additivity="false">
-    <level value="debug" />
+    <level value="info" />
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
   </logger>
 
   <logger name="fr.croixrouge" additivity="false">
     <level value="debug" />
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
   </logger>
   
   <root>
     <priority value="error" />
     <appender-ref ref="STDOUT" />
-    <appender-ref ref="FILE" />
   </root>
 </log4j:configuration>

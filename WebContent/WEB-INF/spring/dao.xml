@@ -10,12 +10,19 @@
 
 
 
+	<bean id="crfIrpDataSource" class="org.springframework.jndi.JndiObjectFactoryBean" destroy-method="close">
+		<property name="jndiName" value="${jdbc.dataSourceJndiName}" />
+	</bean>
+
+<!--
 	<bean id="crfIrpDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" ><value>${jdbc.driver}</value></property>
-	    <property name="url" 			     ><value>${jdbc.url}</value></property>
+	    <property name="url" 			 ><value>${jdbc.url}</value></property>
 	    <property name="username" 		 ><value>${jdbc.username}</value></property>
 	    <property name="password" 		 ><value>${jdbc.password}</value></property>
 	</bean>
+-->
+
 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">	
 		<property name="dataSource" ref="crfIrpDataSource"/>	

@@ -1,0 +1,13 @@
+<Context path="crf-irp" docBase="crf-irp" debug="0">
+
+  <Resource name="jdbc/crfirpDS"
+            auth="Container"
+            type="javax.sql.DataSource"
+        username="crfirp"
+        password="CRFCRF"
+ driverClassName="com.mysql.jdbc.Driver"
+             url="jdbc:mysql://localhost/crfirp?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
+ validationQuery="Select 1"
+  />
+
+</Context>

@@ -65,15 +65,19 @@
 
 var MonitorOutputDispositifCs = Class.create();
 
-MonitorOutputDispositifCs.prototype.boutonActionLabel=[];
-MonitorOutputDispositifCs.prototype.boutonActionLabel[1]="Changer de statut";
-MonitorOutputDispositifCs.prototype.boutonActionLabel[2]="Départ";
-MonitorOutputDispositifCs.prototype.boutonActionLabel[3]="Arrivé sur place";
-MonitorOutputDispositifCs.prototype.boutonActionLabel[4]="Primaire";
-MonitorOutputDispositifCs.prototype.boutonActionLabel[5]="Secondaire";
-MonitorOutputDispositifCs.prototype.boutonActionLabel[6]="Transport H.";
-MonitorOutputDispositifCs.prototype.boutonActionLabel[7]="Arrivé H.";
-MonitorOutputDispositifCs.prototype.boutonActionLabel[8]="Inter. Terminée";
+MonitorOutputDispositifCs.prototype.boutonActionLabel=[];//next state             current state         
+MonitorOutputDispositifCs.prototype.boutonActionLabel[-3]="Disponible"        ; //indispo equipage incomplet
+MonitorOutputDispositifCs.prototype.boutonActionLabel[-2]="Disponible"        ; //indispo materiel incomplet
+MonitorOutputDispositifCs.prototype.boutonActionLabel[-1]="Disponible"        ; //indispo
+MonitorOutputDispositifCs.prototype.boutonActionLabel[0 ]="Disponible"        ; //N/A
+MonitorOutputDispositifCs.prototype.boutonActionLabel[1 ]="Changer de statut" ; //dispo
+MonitorOutputDispositifCs.prototype.boutonActionLabel[2 ]="Départ"            ; //intervention affecté
+MonitorOutputDispositifCs.prototype.boutonActionLabel[3 ]="Arrivé sur place"  ; //Parti
+MonitorOutputDispositifCs.prototype.boutonActionLabel[4 ]="Primaire"          ; //Sur place
+MonitorOutputDispositifCs.prototype.boutonActionLabel[5 ]="Secondaire"        ; //Primaire
+MonitorOutputDispositifCs.prototype.boutonActionLabel[6 ]="Transport H."      ; //Secondaire
+MonitorOutputDispositifCs.prototype.boutonActionLabel[7 ]="Arrivé H."         ; //transport
+MonitorOutputDispositifCs.prototype.boutonActionLabel[8 ]="Inter. Terminée"   ; //Arrivé hopital
 
 /**
  * Initialisation des composants lié aux dispositifs
@@ -86,9 +90,10 @@ MonitorOutputDispositifCs.prototype.initialize=function()
   this.listLieuLoaded = false;
 
   
-  PageBus.subscribe("list.loaded"         ,  this, this.initDispositifGrid, null, null);
-  PageBus.subscribe("listLieu.loaded"     ,  this, this.initLieuOnMap     , null, null);
-  PageBus.subscribe("listLieu.loaded"     ,  this, this.initDispositifGrid, null, null);
+  PageBus.subscribe("list.loaded"         ,  this, this.initDispositifGrid		  , null, null);
+  PageBus.subscribe("listLieu.loaded"     ,  this, this.initLieuOnMap			      , null, null);
+  PageBus.subscribe("listLieu.loaded"     ,  this, this.initDispositifGrid    	, null, null);
+  PageBus.subscribe("listLieu.loaded"     ,  this, this.initChooseHospitalList	, null, null);
 };
 
 /**
@@ -196,17 +201,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
             forceFit      :true,
             enableRowBody :true,
             getRowClass   :moDispositifCs.buildDispositifRowBody
-        },/*
-        tbar        :[{
-            text:'Init Dropzone',
-            tooltip:'Init drop zone',
-            iconCls:'downloadSelected',
-            handler: function(button,event)
-            {
-              MonitorOutputDispositifCs.prototype.initDropZone();
-            }
-       }
-        ],*/
+        },
         collapsible : false,
         animCollapse: false,
         height      : 1800,
@@ -273,16 +268,41 @@ MonitorOutputDispositifCs.prototype.initChooseHopitalWindow=function()
           
   MonitorOutputDispositifCs.prototype.chooseHopitalWindow = win;
 };
+MonitorOutputDispositifCs.prototype.initChooseHospitalList=function()
+{
+	this.initChooseHopitalWindow();
+  
+  var allLieu           = CrfIrpUtils.prototype.allLieu;
+  var typeLieu          = crfIrpUtils.getTypeLieu(1);
+  var chooseHopitalHtml = [];
+  if(allLieu === null || allLieu[1]===null)
+  {
+    alert('Hopitaux non trouvé');
+    return;
+  }
+  var hospitalList = allLieu[1];
+  
+  for(var i=0,counti=hospitalList.length;i<counti;i++)
+  {
+	  var lieu = hospitalList[i];
+    //idLieu, label, rue, codePostal, ville, googleCoordsLat,googleCoordsLong
+    var htmlListLieu = ['<div class="ListLieuItem" onclick="moDispositifCs.chooseEvacDestination(',lieu.idLieu,', \'',lieu.nom, '\', \'',lieu.addresse,'\', \'',lieu.codePostal,'\', \'',lieu.ville,'\', ',lieu.googleCoordsLat,', ',lieu.googleCoordsLong,');">',
+    '<span class="ListLieuListName"><img height="16" src="',contextPath,'/img/',typeLieu.iconLieu,'" alt="Icone"/>',lieu.nom,'</span><br/>',
+    '<span class="ListLieuListAddress">',lieu.addresse,', ',lieu.codePostal,', ',lieu.ville,'</span><br/>',
+    '<p class="ListLieuListHtml">',lieu.infoComplementaire,'</p>',
+    '</div>'].join('');
+    chooseHopitalHtml.push(htmlListLieu);
+  }
+  Ext.get('choose-hopital-window-content-list').update(chooseHopitalHtml.join(''));
+};
 /**
  * Affiche la liste des catégories sous la map
  * Remplie la fenetre qui permet d'afficher les lieux par catégorie
- * Remplie la fenetre qui permet de choisir un hoptial (ou de saisir un lieux)
  * **/
 MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
 {
   this.initListLieuWindow     ();
-  this.initChooseHopitalWindow();
-  
+ 
   var allLieu      = CrfIrpUtils.prototype.allLieu;
   var map          = Ext.getCmp('center-carte-paris-panel');
   var i            = 1;
@@ -302,7 +322,7 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
       map.setIconForCategory(category+'_from', typeLieu.iconGmapInit.replace(new RegExp('ambulance.png', 'g'), 'ambulance-from.png'));
       map.setIconForCategory(category+'_to'  , typeLieu.iconGmapInit.replace(new RegExp('ambulance.png', 'g'), 'ambulance-to.png'));
     }
-    var chooseHopitalHtml = [];
+
     var tabHtml           = [];
     var listLieuTabList   = Ext.get(listLieuTabId+'_list');
         
@@ -335,24 +355,8 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
       '</div>'].join('');
 
       tabHtml.push(htmlListLieu);
-      if(typeLieu.idTypeLieu == 1)//hopitaux
-      {//idLieu, label, rue, codePostal, ville, googleCoordsLat,googleCoordsLong
-        var htmlListLieu = ['<div class="ListLieuItem" onclick="moDispositifCs.chooseEvacDestination(',lieu.idLieu,', \'',lieu.nom, '\', \'',lieu.addresse,'\', \'',lieu.codePostal,'\', \'',lieu.ville,'\', ',lieu.googleCoordsLat,', ',lieu.googleCoordsLong,');">',
-        '<span class="ListLieuListName"><img height="16" src="',contextPath,'/img/',typeLieu.iconLieu,'" alt="Icone"/>',lieu.nom,'</span><br/>',
-        '<span class="ListLieuListAddress">',lieu.addresse,', ',lieu.codePostal,', ',lieu.ville,'</span><br/>',
-        '<p class="ListLieuListHtml">',lieu.infoComplementaire,'</p>',
-      '</div>'].join('');
-        chooseHopitalHtml.push(htmlListLieu);
-      }
-        
     }
 
-    if(typeLieu.idTypeLieu == 1)//hopitaux
-    {
-      Ext.get('choose-hopital-window-content-list').update(chooseHopitalHtml.join(''));
-    }
-      
-    
     listLieuTabs.add({
         id      : listLieuTabId         ,
         title   : catLieuName           ,
@@ -718,16 +722,28 @@ MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIn
     sendActionToServerNow = false;
   }
   
+  var callMetaData = {
+    callback:MonitorOutputDispositifCs.prototype.actionReturn,
+    arg :{idIntervention  : idIntervention,
+          idDispositif    : idDispositif   
+         }
+  };
   
-  if(sendActionToServerNow == true)
+  if(sendActionToServerNow == true && currentState != 8 && idIntervention != 0)
   {
-    var callMetaData = {
-      callback:MonitorOutputDispositifCs.prototype.actionReturn,
-      arg :{idIntervention  : idIntervention,
-            idDispositif    : idDispositif   
-           }
-    };
     MonitorOutputDispositif.actionOnDispositif(idIntervention, idDispositif, callMetaData);
+  }
+  else if(currentState == 8)
+  {
+    MonitorOutputDispositif.endOfIntervention(idIntervention, idDispositif, callMetaData);
+  }
+  else if(currentState <= 0)
+  {
+    MonitorOutputDispositif.actionOnDispositif(idIntervention, idDispositif, callMetaData);
+  }
+  else if(idIntervention == 0)
+  {
+    //TODO : présenter liste d'option possible
   }
 };
 

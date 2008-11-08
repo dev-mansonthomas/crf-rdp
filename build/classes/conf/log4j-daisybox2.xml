@@ -25,11 +25,6 @@
     <level value="info" />
     <appender-ref ref="STDOUT" />
   </logger>
-  
-  <logger name="fr.rs2i" additivity="false">
-    <level value="error" />
-    <appender-ref ref="STDOUT" />
-  </logger>
 
   <logger name="org.directwebremoting" additivity="false">
     <level value="info" />

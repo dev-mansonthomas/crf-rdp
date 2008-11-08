@@ -5,38 +5,12 @@
 	xsi:schemaLocation= "http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-
-  <bean class="fr.croixrouge.utilities.web.conf.PerMachinePropertyPlaceholderConfigurer">
-    <property name="prefix"     value="conf/crf-irp"/><!-- fichier de config par marchine dans JavaSource/conf -->
-    <property name="exportHostList"> <!-- Sur quelles machines doivent etre exportées les fichiers de conf (pas les machines de developpeur)-->
-    	<list>
-    		<value>home.paquerette.com</value>
-    	</list>
-    </property>
-    <property name="exportPath" value="/home/special/crfirp/conf"/> <!-- Fichiers de confs seront exporter a cette endroit et utilisé -->
-    <property name="location"   value="classpath:crf-irp.properties"/><!-- fichier de conf par défaut dans JavaSource/msc.properties -->
-  </bean> 
-
-  <bean       id="Log4JConfigurer" 
-           class="fr.croixrouge.utilities.web.conf.PerMachineLog4JConfigurer"
-     init-method="init">
-    <property name="log4jBasePath"    value="${log4j.log4jBasePath}"  /><!-- ex: conf  => fichier de config par marchine dans JavaSource/conf-->
-    <property name="log4jFileBase"    value="${log4j.log4jFileBase}"  /><!-- ex: log4j => nom de base du fichier de configuration pour log4j -->
-    <property name="log4jExtension"   value="${log4j.log4jExtension}" /><!-- ex: xml   => extension du fichier de configuration pour log4j -->
-    <property name="exportHostList"> <!-- Sur quelles machines doivent etre exportées les fichiers de conf (pas les machines de developpeur)-->
-       <list>
-         <value>home.paquerette.com</value>
-       </list>
-    </property>
-    <property name="exportPath"       value="${log4j.exportPath}"     /><!-- Fichiers de confs seront exporter a cette endroit et utilisé (ex:/home/special/crfirp/conf)-->
-    <property name="refreshInterval"  value="${log4j.refreshInterval}"/><!-- si != de 0, log4j vérifiera toutes les X secondes si le fichier de log4j n 'a pas changé -->
-  </bean>
-
-	<import resource="spring/cache.xml"		/>
-	<import resource="spring/dao.xml"		/>	
-	<import resource="spring/scheduler.xml"	/>
-	<import resource="spring/dwr.xml"       />
-	<import resource="spring/services.xml"	/>
+  <import resource="spring/propertiesAndLogger.xml"   />
+	<import resource="spring/cache.xml"		              />
+	<import resource="spring/dao.xml"		                />	
+	<import resource="spring/scheduler.xml"	            />
+	<import resource="spring/dwr.xml"                   />
+	<import resource="spring/services.xml"	            />
 			
 	<bean id="SecurityService" class="fr.croixrouge.irp.services.authentification.SecurityServiceImpl" autowire="constructor"/>
 </beans>

@@ -339,6 +339,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     idEtatDateFieldMapping.put(6, "DH_bilan_secondaire");
     idEtatDateFieldMapping.put(7, "DH_quitte_les_lieux");
     idEtatDateFieldMapping.put(8, "DH_arrivee_hopital");
+    idEtatDateFieldMapping.put(9, "DH_fin_intervention");
   }
   private final static String queryForActionOnIntervention = 
     "UPDATE intervention        \n" +
@@ -348,8 +349,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
   public void actionOnIntervention(int idIntervention, int newIdEtat, Date actionDate) throws Exception
   {
-    if(newIdEtat<3  || newIdEtat>8)
-      throw new Exception("Cette action n'est pas géré par cette méthode. idIntervention="+idIntervention+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+    if(newIdEtat<3  || newIdEtat>9)
+      throw new Exception("Cette action n'est pas géré par la méthode InterventionServiceImpl.actionOnIntervention. idIntervention="+idIntervention+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
     String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
     String query         = queryForActionOnIntervention.replaceAll("<<DateField>>", etatDateField);
     
@@ -620,21 +621,25 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   }
 
   public static String[]floatField = {  
-    "circul_tension_basse"          ,          
-    "circul_tension_haute"          ,          
-    "gestes_glycemie_gramme_litre"  ,          
-    "gestes_temperature"            ,          
-    "google_coords_lat"             ,          
-    "google_coords_long"
+    "circul_tension_basse"               ,          
+    "circul_tension_haute"               ,          
+    "gestes_glycemie_gramme_litre"       ,          
+    "gestes_temperature"                 ,          
+    "google_coords_lat"                  ,          
+    "google_coords_long"                 ,
+    "evac_autre_dest_google_coords_lat"  ,          
+    "evac_autre_dest_google_coords_long"
   };
   private static Hashtable<String, String> floatFieldMatching = new Hashtable<String, String>(floatField.length);
   {
-    floatFieldMatching.put("circul_tension_basse"          , "circul_tension_basse"         );
-    floatFieldMatching.put("circul_tension_haute"          , "circul_tension_haute"         );
-    floatFieldMatching.put("gestes_glycemie_gramme_litre"  , "gestes_glycemie_gramme_litre" );
-    floatFieldMatching.put("gestes_temperature"            , "gestes_temperature"           );
-    floatFieldMatching.put("google_coords_lat"             , "google_coords_lat"            );
-    floatFieldMatching.put("google_coords_long"            , "google_coords_long"           );
+    floatFieldMatching.put("circul_tension_basse"               , "circul_tension_basse"              );
+    floatFieldMatching.put("circul_tension_haute"               , "circul_tension_haute"              );
+    floatFieldMatching.put("gestes_glycemie_gramme_litre"       , "gestes_glycemie_gramme_litre"      );
+    floatFieldMatching.put("gestes_temperature"                 , "gestes_temperature"                );
+    floatFieldMatching.put("google_coords_lat"                  , "google_coords_lat"                 );
+    floatFieldMatching.put("google_coords_long"                 , "google_coords_long"                );
+    floatFieldMatching.put("evac_autre_dest_google_coords_lat"  , "evac_autre_dest_google_coords_lat" );
+    floatFieldMatching.put("evac_autre_dest_google_coords_long" , "evac_autre_dest_google_coords_long");
   }
   public void updateInterventionFloatField  (int idIntervention, String fieldName, float fieldValue) throws Exception
   {
@@ -739,6 +744,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "bilan_evaluation_ci"                     ,
     "cs_pci_duree"                            ,
     "evac_autre_dest_label"                   ,
+    "evac_autre_dest_rue"                     ,
+    "evac_autre_dest_code_postal"             ,
+    "evac_autre_dest_ville"                   ,
     "evac_aggravation_nature"                 ,
     "evac_par_autre"                          ,
     "num_inter"                               ,
@@ -781,7 +789,11 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     stringFieldMatching.put("bilan_evaluation_ci"                     ,"bilan_evaluation_ci"                     );
     
     stringFieldMatching.put("cs_pci_duree"                            ,"cs_pci_duree"                            );
-    stringFieldMatching.put("evac_autre_destination"                  ,"evac_autre_destination"                  );
+    stringFieldMatching.put("evac_autre_dest_label"                   ,"evac_autre_dest_label"                   );
+    stringFieldMatching.put("evac_autre_dest_rue"                     ,"evac_autre_dest_rue"                     );
+    stringFieldMatching.put("evac_autre_dest_code_postal"             ,"evac_autre_dest_code_postal"             );
+    stringFieldMatching.put("evac_autre_dest_ville"                   ,"evac_autre_dest_ville"                   );
+    
     stringFieldMatching.put("evac_aggravation_nature"                 ,"evac_aggravation_nature"                 );
     stringFieldMatching.put("evac_par_autre"                          ,"evac_par_autre"                          );
     stringFieldMatching.put("num_inter"                               ,"num_inter"                               );

@@ -1,5 +1,8 @@
 package fr.croixrouge.irp.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,7 +15,10 @@ public class MonitorOutController  extends AbstractController
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest arg0, HttpServletResponse arg1) throws Exception
   {
-    return new ModelAndView("private/monitor/out");
+    Date currentDate = new Date();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    
+    return new ModelAndView("private/monitor/out", "currentDate", sdf.format(currentDate));
   }
 
 }

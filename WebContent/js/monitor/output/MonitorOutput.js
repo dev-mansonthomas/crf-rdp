@@ -130,7 +130,7 @@ function initLayout()
                     id:'monitorOutputCenterRegion',
                     region:'center',
                     deferredRender:false,
-                    activeTab:1,
+                    activeTab:0,
                     tabPosition:'bottom',
                     items:[{
                         id:'center-dispositif-panel',

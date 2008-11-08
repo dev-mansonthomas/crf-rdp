@@ -116,7 +116,7 @@ MonitorInputCoRegulateurListCs.prototype.displayCoRegulateurReturn=function(CoRe
 
 MonitorInputCoRegulateurListCs.prototype.removeCoRegulateur=function(userId,numNivol, nomPrenom)
 {
-  if(confirm('Etes vous sur de vouloir supprimer l\accès en écriture sur cette régulation à l\'utilisateur '+nomPrenom+' ('+numNivol+') ?'))
+  if(confirm('Etes vous sur de vouloir supprimer l\'accès en écriture sur cette régulation à l\'utilisateur '+nomPrenom+' ('+numNivol+') ?'))
     MonitorInput.removeCoRegulateur(userId, numNivol, miCoRegulateurListCs.removeCoRegulateurReturn);
 };
 

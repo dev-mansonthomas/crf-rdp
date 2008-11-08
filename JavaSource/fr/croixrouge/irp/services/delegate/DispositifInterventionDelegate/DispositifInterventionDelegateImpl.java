@@ -90,9 +90,27 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
   public void action(int idRegulation, int idIntervention, int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
-      logger.debug("\"Action Button\" pushed pushed for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+      logger.debug("\"Action Button\" pushed for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
-    Dispositif          dispositif         = this.dispositifService.getDispositif(idRegulation, idDispositif);
+    Dispositif dispositif         = this.dispositifService.getDispositif      (idRegulation, idDispositif);
+    int        idEtatDispositif   = dispositif            .getIdEtatDispositif();
+    Date       actionDate         = new Date();
+    
+    if(idEtatDispositif < 1)
+    {
+      if(logger.isDebugEnabled())
+        logger.debug("Action is : set Dispotitif to etat 1 disponible for dispositif="+idDispositif+", regulation="+idRegulation+" with idEtatDispositif = "+idEtatDispositif+" < 1 => setting idEtatDispositif to 1 == disponible");
+
+      this.dispositifService  .actionOnDispositif(idDispositif, 1, actionDate);
+      
+      if(logger.isDebugEnabled())
+      {
+        logger.debug("DONE      : set Dispotitif to etat 1 disponible for dispositif="+idDispositif+", regulation="+idRegulation+" with idEtatDispositif = "+idEtatDispositif+" < 1 => setting idEtatDispositif to 1 == disponible");
+        logger.debug("\"Action Button\" pushed DONE : for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);        
+      }
+      return;
+    }
+    
     InterventionTicket  interventionTicket = null;
     
     if(dispositif.getIdEtatDispositif() == 1)//A l'état 1 pour le dispositif, l'intervention n'est pas encore affecté (c'est justement ce qu'on fait... l'affectation)
@@ -103,7 +121,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     if(interventionTicket == null || interventionTicket.getIdEtat() == 0)
       throw new Exception("Le dispositif n'as pas d'intervention affectée");
     
-    int idEtatDispositif   = dispositif        .getIdEtatDispositif();
+   
     int idEtatIntervention = interventionTicket.getIdEtat          ();
     
     if(idEtatDispositif < 1 || idEtatDispositif > 8)
@@ -112,7 +130,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     if(idEtatDispositif != idEtatIntervention)
       throw new Exception("L'état du dispositif est différent de l'état de l'intervention. idEtatIntervention="+idEtatIntervention+" idEtatDispositif="+idEtatDispositif);
 
-    Date actionDate = new Date();
+    
     if(idEtatDispositif == 1)
     {//Affectation de l'intervention au dispositif
       
@@ -123,7 +141,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       this.interventionService.affectInterventionToDispositif(idIntervention, idDispositif, actionDate);
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
     }
     else if(idEtatDispositif == 2)
@@ -136,7 +154,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       this.dispositifService  .updateDispositifPosition      (idDispositif  , interventionTicket.getPosition(), dispositif.getCurrentPosition());
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Dispositif Parti' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Dispositif Parti' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
     else if(idEtatDispositif == 3)
     {//SurPlace 
@@ -149,7 +167,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       this.dispositifService  .updateDispositifPosition      (idDispositif  , null              , interventionTicket.getPosition());
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Dispositif se présente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Dispositif se présente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
     }
     else if(idEtatDispositif == 4)
@@ -161,7 +179,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       this.interventionService.actionOnIntervention (idIntervention, idEtatDispositif+1, actionDate);
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Dispositif passe son primaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Dispositif passe son primaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
     }
     else if(idEtatDispositif == 5)
@@ -173,7 +191,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       this.interventionService.actionOnIntervention (idIntervention, idEtatDispositif+1, actionDate);
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Dispositif passe son secondaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Dispositif passe son secondaire' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
     }
     else if(idEtatDispositif == 6)
@@ -197,7 +215,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       //a ce moment, dispositif.getCurrentPosition contiendra la position de l'hopital.
       //          et dispositif.getPreviousPosition contiendra la position de l'intervention
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Dispositif quitte les lieux' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Dispositif quitte les lieux' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
     else if(idEtatDispositif == 7)
     {//Arrive à l'hopital
@@ -211,7 +229,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       this.dispositifService  .updateDispositifPosition (idDispositif  , null, dispositif.getCurrentPosition());
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Dispositif arrive a l'hopital' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Dispositif arrive a l'hopital' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
     else if(idEtatDispositif == 8)
     {//Inter terminée
@@ -224,7 +242,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
       //currentInter Id est ré initialisé a vide.
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is DONE : 'Intervention Terminée' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Intervention Terminée' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
     
     if(logger.isDebugEnabled())
@@ -243,5 +261,13 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     this.interventionService.chooseEvacDestination(idIntervention, idLieu, destinationLabel, position);
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
     this.dispositifService.updateDispositifPosition(idDispositif, position, dispositif.getCurrentPosition());
+  }
+  
+  public void endOfIntervention(int idRegulation, int idIntervention, int idDispositif) throws Exception
+  {
+    Date actionDate = new Date();                                      //8=arrivé hopital => 8+1=9 : inter terminée
+    this.interventionService.actionOnIntervention     (idIntervention, 8+1, actionDate);
+    this.dispositifService  .actionOnDispositif       (idDispositif  , 8+1, actionDate);//Pour l'historisation du changement d'état
+    this.dispositifService  .actionEndOfIntervention  (idDispositif                   );
   }
 }

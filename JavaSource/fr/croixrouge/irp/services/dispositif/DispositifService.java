@@ -11,13 +11,14 @@ import fr.croixrouge.irp.model.monitor.Regulation;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 
 public interface DispositifService
-{
-  public ListRange        getAllDispositif      (int regulationId                                                       ) throws Exception;
-  public Dispositif       getDispositif         (int idRegulation       , int disposifitId                              ) throws Exception;
-  public Dispositif       getDispositif         (int idRegulation       , int disposifitId    , boolean withEquipierList) throws Exception;
-  public DispositifTicket getDispositifTicket   (int idDispositif                                                       ) throws Exception;
-  public Dispositif       createEmptyDispositif (Regulation regulation                                                  ) throws Exception;
-  public void             updateEtatDispositif  (int idDispositif       , int idEtatDispositif                          ) throws Exception;
+{ 
+  public ListRange        getAllDispositif        (int regulationId                                                       ) throws Exception;
+  public Dispositif       getDispositif           (int idRegulation       , int disposifitId                              ) throws Exception;
+  public Dispositif       getDispositif           (int idRegulation       , int disposifitId    , boolean withEquipierList) throws Exception;
+  public DispositifTicket getDispositifTicket     (int idDispositif                                                       ) throws Exception;
+  public Dispositif       createEmptyDispositif   (Regulation regulation                                                  ) throws Exception;
+  public void             updateEtatDispositif    (int idDispositif       , int idEtatDispositif                          ) throws Exception;
+  public void             actionEndOfIntervention (int idDispositif) throws Exception;
   
   public List<Equipier> getEquipierIdAndRoleOfDispositif(int idRegulation, int idDispositif) throws Exception;
   public int            getIdTypeDispositif             (int idRegulation, int idDispositif) throws Exception;

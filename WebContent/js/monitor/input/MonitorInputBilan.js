@@ -16,6 +16,9 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       dropZonesIds:'',
       // public methods
       init: function() {
+        
+        PageBus.subscribe("listLieu.loaded"     ,  this, this.initHospitalList           , null, null);
+        
         crfIrpUtils.setupCalendar('bilanDateHeureBase', 
           function(event)
           {
@@ -23,6 +26,22 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           }
         );
         
+        
+      },
+      initHospitalList:function()
+      {
+        var allLieu      = CrfIrpUtils.prototype.allLieu;
+        var hospitalList = allLieu[1];
+        
+        
+        dwr.util.addOptions( 'bilan_evac_hopital_destination', 
+                             hospitalList,
+                             'idLieu',
+                             'nom');
+        dwr.util.addOptions( 'bilan_transport_medicalisee_de', 
+                             hospitalList,
+                             'idLieu',
+                             'nom');
         
       },
       editBilan:function(idIntervention, ongletToOpen)
@@ -155,11 +174,25 @@ Ext.ux.MonitorInput.BilanEditor = function() {
   Ext.get("bilan_gestes_autres"                            ).dom.setValue(intervention.gestesAutres                     ); 
   Ext.get("bilan_medecin_civil_sur_place"                  ).dom.setValue(intervention.medecinCivilSurPlace             ); 
   Ext.get("bilan_evac_laisse_sur_place_decedee_a_dispo_de" ).dom.setValue(intervention.evacLaisseSurPlaceDecedeeADispoDe); 
-  Ext.get("BilanHelper_evac_num_inter_banlieu"             ).update(intervention.evacNumInterBanlieu              ); 
-  Ext.get("bilan_evac_autre_destination"                   ).dom.setValue(intervention.evacAutreDestination             ); 
+  Ext.get("BilanHelper_evac_num_inter_banlieu"             ).update(intervention.evacNumInterBanlieu              );  
   Ext.get("bilan_evac_aggravation_nature"                  ).dom.setValue(intervention.evacAggravationNature            ); 
   Ext.get("bilan_evac_par_autre"                           ).dom.setValue(intervention.evacParAutre                     ); 
-                                                                                                                        
+
+  
+  Ext.get("bilan_evac_autre_dest_label"                    ).dom.setValue(intervention.evacAutreDestinationLabel                    );
+  Ext.get("bilan_evac_autre_dest_rue"                      ).dom.setValue(intervention.evacAutreDestinationPosition.rue             );
+  Ext.get("bilan_evac_autre_dest_code_postal"              ).dom.setValue(intervention.evacAutreDestinationPosition.codePostal      );
+  Ext.get("bilan_evac_autre_dest_ville"                    ).dom.setValue(intervention.evacAutreDestinationPosition.ville           );
+  Ext.get("bilan_evac_autre_dest_google_coords_lat"        ).dom.setValue(intervention.evacAutreDestinationPosition.googleCoordsLat );
+  Ext.get("bilan_evac_autre_dest_google_coords_long"       ).dom.setValue(intervention.evacAutreDestinationPosition.googleCoordsLong);
+  
+  
+  if(intervention.evacAutreDestinationPosition.googleCoordsLat != 0)
+    Ext.get('bilanEvacGoogleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
+  else
+    Ext.get('bilanEvacGoogleAdressCheckStatus').dom.src=contextPath+"/img/pix.png"
+  
+  
   Ext.get("bilan_bilan_circonstances"                      ).dom.setValue(intervention.bilanCirconstances               ); 
   Ext.get("bilan_bilan_detresses"                          ).dom.setValue(intervention.bilanDetresses                   ); 
   Ext.get("bilan_bilan_antecedents"                        ).dom.setValue(intervention.bilanAntecedents                 ); 
@@ -334,13 +367,65 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         else if(fieldId=='bilan_pupille_non_reactive' && Ext.get('bilan_pupille_non_reactive').dom.checked)
           Ext.get('bilan_pupille_reactive').dom.checked=false;
       },
-      mecialiseParCheck:function(fieldId)
+      medicaliseParCheck:function(fieldId)
       {
         if(fieldId=='bilan_transport_medicalisee_ar' && Ext.get('bilan_transport_medicalisee_ar').dom.checked)
           Ext.get('bilan_transport_medicalisee_umh').dom.checked=false;
         else if(fieldId=='bilan_transport_medicalisee_umh' && Ext.get('bilan_transport_medicalisee_umh').dom.checked)
           Ext.get('bilan_transport_medicalisee_ar').dom.checked=false;
       },
+ 
+      /************************Gestion*de*l'adresse*****************************************/
+      
+      updateAddress:function(fieldId, fieldName)
+      {
+        var rue       =$('bilan_evac_autre_dest_rue'        );
+        var codePostal=$('bilan_evac_autre_dest_code_postal');
+        var ville     =$('bilan_evac_autre_dest_ville'      );
+       
+        rue       .value=rue       .value.strip();
+        codePostal.value=codePostal.value.strip();
+        ville     .value=ville     .value.strip();
+      
+        this.updateStringField(fieldId, fieldName);
+        
+        if( rue       .value != '' && rue       .oldValue != rue       .value &&
+            codePostal.value != '' && codePostal.oldValue != codePostal.value &&
+            ville     .value != '' && ville     .oldValue != ville     .value   )
+        {// valeur non vide et non différente de la précédente valeur
+          googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
+                                                              codePostal.value +', '+
+                                                              ville     .value,
+                                                              this.updateAddressReturn,
+                                                              this.updateAddressErrorReturn);
+        }
+      },
+      updateAddressReturn:function(place)
+      {
+        var coordinates = place.Point.coordinates;
+        //ATTENTION, visiblement, les coordonnées google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisé partout ailleurs dans l'ordre (Latitude,Longitude)
+        $('bilan_evac_autre_dest_google_coords_lat' ).value=coordinates[1];
+        $('bilan_evac_autre_dest_google_coords_long').value=coordinates[0];
+      
+        MonitorInputBilan.updateGoogleCoordinates(coordinates[1], coordinates[0], $('bilan_id_intervention').value, miBilanCs.updateAddressSaveReturn);
+      
+        $('bilanEvacGoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/cog.png";
+      },
+      updateAddressSaveReturn:function()
+      {
+        $('bilanEvacGoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/accept.png";
+      },
+      updateAddressErrorReturn:function(response)
+      {
+        var icon = response.Status.code=='GoogleMapsUnavailable'?'disconnect':'exclamation';
+        $('bilanEvacGoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/"+icon+".png";
+      },     
+      
+      
+      
+      
+      
+      /************************Méthode D'update******************************/
       updateStringField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;

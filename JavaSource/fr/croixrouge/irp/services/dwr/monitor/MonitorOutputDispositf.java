@@ -36,10 +36,35 @@ public class MonitorOutputDispositf  extends DWRUtils
   
   public int actionOnDispositif(int idIntervention, int idDispositif) throws Exception
   {
+    try
+    {
+      int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+      
+      //Determine l'état suivant, met a jour la date de l'action courante.
+      this.dispositifInterventionDelegate.action(currentUserRegulationId, idIntervention, idDispositif);
+      
+      //Met a jour tous les navigateurs avec le nouvel état du dispositif
+      Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
+      
+      this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
+          outPageName);
+      
+      return dispositif.getIdEtatDispositif();      
+    }
+    catch(Exception e)
+    {
+      logger.error("error on actionOnDispositif",e);
+      throw e;
+    }
+  }
+  
+  
+  public int endOfIntervention(int idIntervention, int idDispositif) throws Exception
+  {
     int currentUserRegulationId = this.validateSessionAndGetRegulationId();
     
     //Determine l'état suivant, met a jour la date de l'action courante.
-    this.dispositifInterventionDelegate.action(currentUserRegulationId, idIntervention, idDispositif);
+    this.dispositifInterventionDelegate.endOfIntervention(currentUserRegulationId, idIntervention, idDispositif);
     
     //Met a jour tous les navigateurs avec le nouvel état du dispositif
     Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
@@ -49,6 +74,7 @@ public class MonitorOutputDispositf  extends DWRUtils
     
     return dispositif.getIdEtatDispositif();
   }
+  
   /**
    * Met a jour inter et dispositif
    * puis appel ActionOnDispositif

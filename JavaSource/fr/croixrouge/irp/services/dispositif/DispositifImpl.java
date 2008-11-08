@@ -93,24 +93,26 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   `DH_appel_renfort_medical`     datetime NULL,
   `DH_arrivee_renfort_medical`   datetime NULL, 
      * */
-    
+    idEtatDateFieldMapping.put(1, "DH_dispo");
     idEtatDateFieldMapping.put(3, "DH_depart");
     idEtatDateFieldMapping.put(4, "DH_sur_place");
     idEtatDateFieldMapping.put(5, "DH_bilan_primaire");
     idEtatDateFieldMapping.put(6, "DH_bilan_secondaire");
     idEtatDateFieldMapping.put(7, "DH_quitte_les_lieux");
     idEtatDateFieldMapping.put(8, "DH_arrivee_hopital");
+    idEtatDateFieldMapping.put(9, "DH_fin_intervention");
   }
   private final static String queryForActionOnDispositif = 
     "UPDATE dispositif                    \n" +
     "SET    id_etat_dispositif        = ?,\n" +
     "       <<DateField>>             = ? \n" +
     "WHERE  id_dispositif             = ? \n";
-  
+   
   public void actionOnDispositif(int idDispositif, int newIdEtat, Date actionDate) throws Exception
   {
-    if(newIdEtat<3  || newIdEtat>8)
-      throw new Exception("Cette action n'est pas géré par cette méthode. idDispositif="+idDispositif+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+    if((newIdEtat<3  || newIdEtat>9) && newIdEtat != 1)
+      throw new Exception("Cette action n'est pas géré par la méthode DispositifImpl.actionOnDispositif. idDispositif="+idDispositif+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+   
     String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
     String query         = queryForActionOnDispositif.replaceAll("<<DateField>>", etatDateField);
     
@@ -126,6 +128,36 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       logger.debug("Dispositif with id='"+idDispositif+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
   }
   
+  private final static String queryForActionEndOfIntervention = 
+    "UPDATE dispositif                            \n" +
+    "SET    id_etat_dispositif             = -1,  \n" +
+    "       id_current_intervention        = 0,   \n" +
+    "       `DH_reception`                 = NULL,\n" +
+    "       `DH_depart`                    = NULL,\n" +
+    "       `DH_sur_place`                 = NULL,\n" +
+    "       `DH_bilan_primaire`            = NULL,\n" +
+    "       `DH_bilan_secondaire`          = NULL,\n" +
+    "       `DH_quitte_les_lieux`          = NULL,\n" +
+    "       `DH_arrivee_hopital`           = NULL,\n" +
+    "       `DH_dispo`                     = NULL,\n" +
+    "       `DH_a_sa_base`                 = NULL,\n" +
+    "       `DH_appel_renfort_medical`     = NULL,\n" +
+    "       `DH_arrivee_renfort_medical`   = NULL \n" +
+    "WHERE  id_dispositif                  = ? \n";
+  
+  public void actionEndOfIntervention(int idDispositif) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Etat, currentInterId and dates are beeing reseted");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForActionEndOfIntervention, 
+        new Object[]{idDispositif  }, 
+        new int   []{Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Etat, currentInterId and dates has been reseted (line updated = '"+nbLineUpdated+"')");
+  }
   
   private final static String queryForUpdateDispositifCurrentPosition=
     "UPDATE dispositif                        \n" +
@@ -363,7 +395,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "    `contact_alphapage`          , `identite_medecin`      , `id_etat_dispositif`, `id_current_intervention` , `display_state`    ,\n"+
     "    `creation_terminee`\n"+
     "  )\n"+
-    "VALUES (0, ?, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,'', false, false, false, 'N/A', 0, '', ?, ?, 0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 0, 0, 0, false)\n";
+    "VALUES (0, ?, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,'', false, false, false, 'N/A', 0, '', ?, ?, 0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', -1, 0, 0, false)\n";
   
     this.jdbcTemplate.update(query, new Object[]{regulation.getRegulationId(), regulation.getStartDate(), regulation.getExpectedEndDate()}, new int[]{Types.INTEGER, Types.TIMESTAMP, Types.TIMESTAMP});
     

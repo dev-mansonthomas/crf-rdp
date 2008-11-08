@@ -81,7 +81,7 @@ public class LieuServiceImpl implements LieuService
 
     List<LieuType> typeLieu = this.getLieuType();
 
-    lieuSorted = new Hashtable<String, List<Lieu>>(10);
+    lieuSorted = new Hashtable<String, List<Lieu>>(typeLieu.size());
     
     for (LieuType lieuType : typeLieu)//initialise de cette facon, pour que les catégories vides (intevention/ambulance) soit quand meme initialisé, sinon ca a des effets de bords.
       lieuSorted.put(lieuType.getIdTypeLieu()+"", new ArrayList<Lieu> ());

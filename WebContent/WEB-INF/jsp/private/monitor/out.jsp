@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
 %><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
-%><%
-String contextPath = request.getContextPath();
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -12,7 +10,7 @@ String contextPath = request.getContextPath();
   <jwr:style src="/cssBundle/monitorOutput.css"/>
   
  
-  <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/application_side_list.png" type="image/png">
+  <link rel="shortcut icon" href="../../img/famfamfam/application_side_list.png" type="image/png">
 </head>
 <body id="body" scroll="no">
 
@@ -24,8 +22,8 @@ String contextPath = request.getContextPath();
 
 <!-- north -->
 <div id="north" class="x-layout-inactive-content">
-  <div id="clock" style="float:left"></div>
-  <div style="float:right;margin-right:5px"><img src="<%=contextPath%>/img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
+  <div id="clock" style="float:left">${currentDate}</div>
+  <div style="float:right;margin-right:5px"><img src="../../img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
 </div>
 
 <!-- west -->
@@ -93,7 +91,7 @@ String contextPath = request.getContextPath();
 <fieldset class="fieldset">
 <legend class="legend">Evacuation vers une destination qui n'est pas un Hopital référencé</legend>
 
-Description :
+<span ext:qtip="Exemple : Clinique privée, Maison de retraite, domicile du patient"  style="width:80px;display:block;float:left;">Description </span>
   <input style="width:60%;"
          class="input"
           type="text"
@@ -103,7 +101,7 @@ Description :
        onFocus="crfIrpUtils.fieldEdit(this.id)"
      maxlength="80"/>
 <br/>
-Rue :
+<span style="width:80px;display:block;float:left;">Rue</span> 
   <input style="width:60%;"
          class="input"
           type="text"
@@ -114,7 +112,7 @@ Rue :
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="moDispositifCs.updateAddress(this.id)"/>
 <br/>
-Code Postal :
+<span style="width:80px;display:block;float:left;">Code Postal</span> 
   <input style="width:50px;"
          class="input"
           type="text"
@@ -125,7 +123,7 @@ Code Postal :
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="moDispositifCs.updateAddress(this.id)"
   />
-Ville :
+Ville 
   <input style="width:60.0%;"
          class="input"
           type="text"
@@ -136,7 +134,7 @@ Ville :
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="moDispositifCs.updateAddress(this.id)"
   />
-  <img id="dispositifEvacGoogleAdressCheckStatus" alt="pix" style="height:16px;width:16px;" src="<%=contextPath%>/img/pix.png" />
+  <img id="dispositifEvacGoogleAdressCheckStatus" alt="pix" style="height:16px;width:16px;" src="../../img/pix.png" />
   <input type="hidden" id="dispositifEvacAddressCoordinateLat"  name="dispositifEvacAddressCoordinateLat" />
   <input type="hidden" id="dispositifEvacAddressCoordinateLong" name="dispositifEvacAddressCoordinateLong"/>
   <input type="button" 
@@ -158,7 +156,7 @@ Ville :
 
   <jwr:script src="/jsBundle/extJs.js"/>
   <script type="text/javascript">
-    var contextPath="<%=contextPath%>";
+    var contextPath="../..";
     var iconPath = '../img/famfamfam/';
     Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
   </script>

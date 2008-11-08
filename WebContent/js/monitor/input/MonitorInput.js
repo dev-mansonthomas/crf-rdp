@@ -39,7 +39,7 @@ function initLayout()
 {
   //Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
   Ext.QuickTips.init();
-  
+  Ext.apply(Ext.QuickTips.getQuickTip(), { trackMouse: true});
   
 /****************INTERVENTION*TICKET*************************/
   

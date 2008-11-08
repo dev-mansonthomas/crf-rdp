@@ -5,11 +5,7 @@
        xsi:schemaLocation= "http://www.springframework.org/schema/beans
                             http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location">
-		    <value>classpath:crf-irp.properties</value>
-		</property>
-	</bean>
-
-  <import resource="spring/servlet.xml"   />
+  <import resource="spring/propertiesAndLogger.xml"   />
+  <import resource="spring/servlet.xml"               />
+  
 </beans>

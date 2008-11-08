@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
 %><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
-%><%
-String contextPath = request.getContextPath();
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -12,12 +10,12 @@ String contextPath = request.getContextPath();
   <jwr:style src="/cssBundle/monitorInput.css"/>
 
 
-  <link rel="shortcut icon" href="<%=contextPath%>/img/famfamfam/table_edit.png" type="image/png">
+  <link rel="shortcut icon" href="../../img/famfamfam/table_edit.png" type="image/png">
 </head>
 <body id="MonitorInputBody">
 
   <div id="north">
-    <img src="<%=contextPath%>/img/RegulationParis.png" class="imgLoginLeft"  alt="Informatisation de la Régulation de Paris"/>
+    <img src="../../img/RegulationParis.png" class="imgLoginLeft"  alt="Informatisation de la Régulation de Paris"/>
   </div>
 <div id="regulationInformation">
 <input type="hidden" id="regulationId" name="regulationId"  value=""/>
@@ -36,7 +34,7 @@ String contextPath = request.getContextPath();
       <th>Date de fin prévue</th>
       <td id="expectedEndDate"></td>
       <th>co-régulateurs</th>
-      <td onClick="miCoRegulateurListCs.displayCoRegulateur();"><img src="<%=contextPath%>/img/monitorInput/user_edit.png" id="CoRegulateursListEdit" alt="Ajouter/Supprimer des co-Régulateurs"/></td>
+      <td onClick="miCoRegulateurListCs.displayCoRegulateur();"><img src="../../img/monitorInput/user_edit.png" id="CoRegulateursListEdit" alt="Ajouter/Supprimer des co-Régulateurs"/></td>
     </tr>
   </table>
 </div>
@@ -220,7 +218,7 @@ Age Approximatif :
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
                           onBlur="miInterventionCs.updateAddress(this.id, 'ville')"
                     />
-                    <img id="googleAdressCheckStatus" src="<%=contextPath%>/img/pix.png" alt="pix" style="height:16px;width:16px;"/>
+                    <img id="googleAdressCheckStatus" src="../../img/pix.png" alt="pix" style="height:16px;width:16px;"/>
                     <input type="hidden" id="interventionTicketCoordinateLat"  name="interventionTicketCoordinateLat" />
                     <input type="hidden" id="interventionTicketCoordinateLong" name="interventionTicketCoordinateLong"/>
 
@@ -361,7 +359,7 @@ Age Approximatif :
 
       </td>
       <td>
-        <div class="BilanFieldInputLabel">Nom JF :</div>
+        <div class="BilanFieldInputLabel" ext:qtip="Nom de Jeune Fille">Nom JF :</div>
       </td>
       <td>
 
@@ -633,7 +631,7 @@ Age Approximatif :
                  onChange="miBilanCs.updateBooleanField(this.id, 'cs_coma', 'bilanCsComaP')"/>
                Coma
             </p>
-            <p id="bilanCsPciP">
+            <p id="bilanCsPciP" ext:qtip="PCI : Perte de Connaissance Initiale">
               <input type="checkbox"
                        id="bilan_cs_pci"
                      name="bilan_cs_pci"
@@ -649,7 +647,7 @@ Age Approximatif :
                onFocus="crfIrpUtils.fieldEdit(this.id)"
                 onBlur="miBilanCs.updateStringField(this.id, 'cs_pci_duree')"/>
             </p>
-            <p id="bilanCsPcSecondaireP">
+            <p id="bilanCsPcSecondaireP" ext:qtip="PC : Perte de Connaissance">
               <input type="checkbox"
                        id="bilan_cs_pc_secondaire"
                      name="bilan_cs_pc_secondaire"
@@ -693,7 +691,7 @@ Age Approximatif :
                    maxlength="3"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
                       onBlur="miBilanCs.updateIntegerField(this.id, 'ventil_chiffre')"/>
-              Obs
+              <span  ext:qtip="Observation">Obs</span>
               <input style="width:120px;"
                         type="text"
                           id="bilan_ventil_commentaire"
@@ -807,7 +805,7 @@ Age Approximatif :
                    maxlength="3"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
                       onBlur="miBilanCs.updateIntegerField(this.id, 'circul_pouls_chiffre', 'bilanCirculChiffreP')"/>
-              Obs
+              <span  ext:qtip="Observation">Obs</span>
               <input style="width:120px;"
                         type="text"
                           id="bilan_circul_pouls_commentaire"
@@ -834,8 +832,8 @@ Age Approximatif :
                      name="bilan_circul_conjonctive_decolorees"
                   onFocus="crfIrpUtils.fieldEdit(this.id)"
                  onChange="miBilanCs.updateBooleanField(this.id, 'circul_conjonctive_decolorees', 'bilanCirculConjonctivesDecoloreesP')"/>
-               Conjonct. <sub>décolorées</sub>
-            </p>
+               <span ext:qtip="Conjonctive">Conjonct.</span> <sub>décolorées</sub>
+            </p> 
             <p id="bilanCirculMarbrureP">
               <input type="checkbox"
                        id="bilan_circul_marbrure"
@@ -890,7 +888,7 @@ Age Approximatif :
     </td>
   </tr>
   <tr>
-    <td>Tension de ref.</td>
+    <td ext:qtip="Tension de Référence">Tension de réf.</td>
     <td>
        <input style="width:30px;"
                             type="text"
@@ -936,7 +934,7 @@ Age Approximatif :
        onChange="miBilanCs.updateBooleanField(this.id, 'pupille_reactive', 'bilanPupilleReactiveP');miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
      Réactives
       </td>
-      <td style="text-align:right;" id="bilanPupilleMyosisGaucheP">
+      <td style="text-align:right;" id="bilanPupilleMyosisGaucheP" ext:qtip="Myosis: pupille de ma taille d'une tete d'aiguille en l'abscence de lumière">
      Myosis Gauche
      
      <input type="checkbox"
@@ -964,7 +962,7 @@ Age Approximatif :
        onChange="miBilanCs.updateBooleanField(this.id, 'pupille_non_reactive', 'bilanPupilleNonReactiveP');miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
      Non Réactives
       </td>
-      <td style="text-align:right;" id="bilanPupilleMydriaseGaucheP">
+      <td style="text-align:right;" id="bilanPupilleMydriaseGaucheP" ext:qtip="Mydriase: pupille complétement dilaté en présence d'une source de lumière">
      Mydriase Gauche
           <input type="checkbox"
              id="bilan_pupille_mydriase_gauche"
@@ -1056,7 +1054,7 @@ Age Approximatif :
     <tr>
       <td style="valign:top;">
 
-<p id="bilanGesteLvaP">
+<p id="bilanGesteLvaP" ext:qtip="LVA : Libération des Voies Aériennes">
   <input type="checkbox"
            id="bilan_gestes_lva"
          name="bilan_gestes_lva"
@@ -1072,7 +1070,7 @@ Age Approximatif :
      onChange="miBilanCs.updateBooleanField(this.id, 'gestes_aspiration', 'bilanGesteAspirationP')"/>
    Aspiration
 </p>
-<p id="bilanGesteVaP">
+<p id="bilanGesteVaP" ext:qtip="VA : Ventilation Artificielle">
   <input type="checkbox"
            id="bilan_gestes_va"
          name="bilan_gestes_va"
@@ -1082,7 +1080,7 @@ Age Approximatif :
 </p>
       </td>
       <td style="valign:top;">
-<p id="bilanGesteMceP">
+<p id="bilanGesteMceP" ext:qtip="MCE : Massage Cardiaque Externalisé">
   <input type="checkbox"
            id="bilan_gestes_mce"
          name="bilan_gestes_mce"
@@ -1090,7 +1088,7 @@ Age Approximatif :
      onChange="miBilanCs.updateBooleanField(this.id, 'gestes_mce', 'bilanGesteMceP')"/>
    MCE
 </p>
-<p id="bilanGesteDsaP">
+<p id="bilanGesteDsaP" ext:qtip="Défibrilateur Semi Automatique">
   <input type="checkbox"
            id="bilan_gestes_dsa"
          name="bilan_gestes_dsa"
@@ -1137,7 +1135,7 @@ Age Approximatif :
 </p>
       </td>
       <td style="valign:top;">
-<p id="bilanGestePlsP">
+<p id="bilanGestePlsP" ext:qtip="Position Latérale de Sécurité">
   <input type="checkbox"
            id="bilan_gestes_pls"
          name="bilan_gestes_pls"
@@ -1314,20 +1312,20 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
            id="bilan_transport_medicalisee_ar"
          name="bilan_transport_medicalisee_ar"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_ar','bilanRenfortMedicaliseeArP');miBilanCs.mecialiseParCheck(this.id);"/> AR&nbsp;&nbsp;&nbsp;&nbsp;
+     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_ar','bilanRenfortMedicaliseeArP');miBilanCs.medicaliseParCheck(this.id);"/> <span ext:qtip="Ambulance de Réanimation">AR</span>&nbsp;&nbsp;&nbsp;&nbsp;
      &nbsp;&nbsp;&nbsp;
        <input type="checkbox"
            id="bilan_transport_medicalisee_umh"
          name="bilan_transport_medicalisee_umh"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_umh','bilanRenfortMedicaliseeArP');miBilanCs.mecialiseParCheck(this.id);"/> UMH
+     onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_umh','bilanRenfortMedicaliseeArP');miBilanCs.medicaliseParCheck(this.id);"/> <span ext:qtip="Unité Médical Hospitalière">UMH</span>
      &nbsp;&nbsp;&nbsp;&nbsp;de
 
    <select  id="bilan_transport_medicalisee_de"
           name="bilan_transport_medicalisee_de"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
       onChange="miBilanCs.updateIntegerField(this.id, 'transport_medicalisee_de')">
-        <option value="0">Loading...</option>
+        <option value="0">&nbsp;</option>
         </select>
          </td>
          <td>
@@ -1475,7 +1473,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     maxlength="2"
         style="width:30px;"
      onChange="miBilanCs.updateIntegerField(this.id, 'evac_aggravation_ventilation')"/>
-     / <sub>mm</sub>
+     / <sub ext:qtip="Minute">min</sub>
      
      
         </td>
@@ -1488,9 +1486,9 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     maxlength="2"
         style="width:30px;"
      onChange="miBilanCs.updateIntegerField(this.id, 'evac_aggravation_circulation')"/>
-     / <sub>mm</sub>          
+     / <sub ext:qtip="Minute">min</sub>          
         </td>
-        <td>
+        <td ext:qtip="Douleur de 0 à 4">
           Douleur
   <input type="text"
            id="bilan_evac_aggravation_douleur"
@@ -1499,7 +1497,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     maxlength="2"
         style="width:30px;"
      onChange="miBilanCs.updateIntegerField(this.id, 'evac_aggravation_douleur')"/>
-     / <sub>mm</sub>
+     / <sub>4</sub>
         </td>
       </tr>
       <tr>
@@ -1541,14 +1539,14 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
          name="bilanEvacPar"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
         value="1"
-     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> Croix Rouge
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> <span ext:qtip="C'est nous ;)">Croix Rouge</span>
 &nbsp;&nbsp;
   <input type="radio"
            id="bilan_evac_par_2"
          name="bilanEvacPar"
         value="2"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> SAMU     
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> <span ext:qtip="Service d'Aide Médicale Urgente">SAMU</span>    
      
         
   <input type="radio"
@@ -1556,7 +1554,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
          name="bilanEvacPar"
         value="3"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> BSPP
+     onChange="miBilanCs.updateIntegerField(this.id, 'evac_par','bilanEvacParP')"/> <span ext:qtip="Brigade des Sapeurs Pompiers">BSPP</span>
 &nbsp;&nbsp;
   <input type="radio"
            id="bilan_evac_par_4"
@@ -1594,21 +1592,71 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
             name="bilan_evac_hopital_destination"
          onFocus="crfIrpUtils.fieldEdit(this.id)"
         onChange="miBilanCs.updateIntegerField(this.id, 'evac_hopital_destination')">
-          <option value="0">Loading...</option>
+          <option value="0">&nbsp;</option>
           </select>
+<br/><br/>
+ou Autre destination <br/>
+
+
+<span style="width:80px;display:block;float:left;" ext:qtip="Exemple : Clinique privée, Maison de retraite, domicile du patient">Description </span>
+  <input style="width:60%;"
+         class="input"
+          type="text"
+            id="bilan_evac_autre_dest_label"
+          name="bilan_evac_autre_dest_label"
+         value=""
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+      onChange="miBilanCs.updateStringField(this.id, 'evac_autre_dest_label')"
+     maxlength="80"/>
+<br/>
+<span style="width:80px;display:block;float:left;" >Rue </span>
+  <input style="width:60%;"
+         class="input"
+          type="text"
+            id="bilan_evac_autre_dest_rue"
+          name="bilan_evac_autre_dest_rue"
+         value=""
+     maxlength="80"
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+        onBlur="miBilanCs.updateAddress(this.id, 'evac_autre_dest_rue')"/>
+<br/>
+<span style="width:80px;display:block;float:left;" >Code Postal </span>
+  <input style="width:50px;"
+         class="input"
+          type="text"
+            id="bilan_evac_autre_dest_code_postal"
+          name="bilan_evac_autre_dest_code_postal"
+     maxlength="5"
+         value=""
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+        onBlur="miBilanCs.updateAddress(this.id,'evac_autre_dest_code_postal')"
+  />
+Ville 
+  <input style="width:60.0%;"
+         class="input"
+          type="text"
+            id="bilan_evac_autre_dest_ville"
+          name="bilan_evac_autre_dest_ville"
+         value=""
+     maxlength="80"
+       onFocus="crfIrpUtils.fieldEdit(this.id)"
+        onBlur="miBilanCs.updateAddress(this.id, 'evac_autre_dest_ville')"
+  />
+  <img id="bilanEvacGoogleAdressCheckStatus" alt="pix" style="height:16px;width:16px;" src="../../img/pix.png" />
+  <input type="hidden" id="bilan_evac_autre_dest_google_coords_lat"  name="evac_autre_dest_google_coords_lat" />
+  <input type="hidden" id="bilan_evac_autre_dest_google_coords_long" name="evac_autre_dest_google_coords_long"/>
+          
+
+        
+
+
+
+
+
         </td>
         <td>
 
-          Autre destination
-  <input style="width:120px;"
-          type="text"
-            id="bilan_evac_autre_destination"
-          name="bilan_evac_autre_destination"
-         value=""
-     maxlength="100"
-       onFocus="crfIrpUtils.fieldEdit(this.id)"
-        onBlur="miBilanCs.updateStringField(this.id, 'evac_autre_destination')"/>
-        
+         
         </td>
         <td>
           
@@ -1625,7 +1673,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
       <legend>Identification</legend>
       <table class="BilanHelperFieldsetTable">
         <tr>
-          <th>Id Inter. :</th>
+          <th ext:qtip="Identifiant de l'intervention">Id Inter. :</th>
           <td><span id="BilanHelper_id_intervention"      ></span></td>
         </tr>
         <tr>
@@ -1637,15 +1685,15 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           <td><span id="BilanHelper_indicatif_dispositif"></span></td>
         </tr>
         <tr>
-          <th>Etat Inter.     :</th>
+          <th ext:qtip="Etat de l'intervention">Etat Inter.     :</th>
           <td><span id="BilanHelper_id_etat"              ></span></td>
         </tr>
         <tr>
-          <th>Ref. Inter. Ori.:</th>
+          <th ext:qtip="Référence de l'intervention d'origine">Ref. Inter. Ori.:</th>
           <td><span id="BilanHelper_ref_inter_ori"        ></span></td>
         </tr>
         <tr>
-          <th>Ref. Inter. Ext.:</th>
+          <th ext:qtip="Référence Externe de l'intervention">Ref.  Ext. Inter.:</th>
           <td><input type="text" 
                     style="width:100%;"
                        id="BilanHelper_evac_num_inter_banlieu"
@@ -1677,7 +1725,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           <td><span id="BilanHelper_rue"></span></td>
         </tr>
         <tr>
-          <th>CP    :</th>
+          <th ext:qtip="Code Postale">CP    :</th>
           <td><span id="BilanHelper_code_postal"></span></td>
         </tr>
         <tr>
@@ -1694,7 +1742,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     <fieldset>
       <legend>Timing</legend>
       
-      Date Inter <div id="bilanDateHeureBase_div"></div> 
+      Date Inter. <div id="bilanDateHeureBase_div"></div> 
       <input type="hidden" id="bilanDateHeureBase_input" name="bilanDateHeureBase_input"/>
       
       <table id="BilanHelperTimingFieldsetTable" class="BilanHelperFieldsetTable">
@@ -1825,7 +1873,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           </td>
         </tr>
         <tr>
-          <th>Appel Renfort Med. :</th>
+          <th ext:qtip="Appel des Renforts Médicaux">Appel Renfort Med. :</th>
           <td>
             <input style="width:35px;"
                     type="text"
@@ -1839,7 +1887,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
           </td>
         </tr>
         <tr>
-          <th>Arrivée Renfort Med. :</th>
+          <th ext:qtip="Arrivée des Renfort Médicaux">Arrivée Renfort Med. :</th>
           <td>
             <input style="width:35px;"
                     type="text"
@@ -2013,7 +2061,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     <th rowspan="2" style="font-size:14px;width:20px;">
       O<sub>2</sub>
     </th>
-    <th class="DispositifO2TableRowTitle">V <sub>(l)</sub></th>
+    <th class="DispositifO2TableRowTitle" ext:qtip="Volume en litre des bouteilles">V <sub>(l)</sub></th>
     <td><!-- B1 -->
 <input type="text"
          id="DispositifB1V"
@@ -2063,7 +2111,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
     </td>
   </tr>
   <tr>
-   <th class="DispositifO2TableRowTitle">P <sub>(b)</sub></th>
+   <th class="DispositifO2TableRowTitle"  ext:qtip="Pression en bar des bouteilles">P <sub>(b)</sub></th>
     <td><!-- B1 -->
 
 <input type="text"
@@ -2117,7 +2165,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
               <td id="dsa_td">
                 <input type="hidden" id="dsa_td_value" name="dsa_td_value" value=""/>
 
-                <span title="Pas de DSA sur la mission">Aucun</span>
+                <span ext:qtip="Pas de DSA sur la mission ou DSA non fonctionnel">Aucun</span>
                 <input type="radio"
                        name="DispositifDefibrilateurType"
                       class="DispositifDefibrilateurRadio"
@@ -2126,7 +2174,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
                     onFocus="crfIrpUtils.fieldEdit('dsa_td')"
                    onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
 
-                <span title="Défibrilateur Semi Automatique">DSA</span>
+                <span ext:qtip="Défibrilateur Semi Automatique">DSA</span>
                 <input type="radio"
                        name="DispositifDefibrilateurType"
                       class="DispositifDefibrilateurRadio"
@@ -2134,7 +2182,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
                       value="DSA" onFocus="crfIrpUtils.fieldEdit('dsa_td')"
                    onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
 
-                <span title="Défibrilateur Entièrement Automatique">DEA</span>
+                <span ext:qtip="Défibrilateur Entièrement Automatique">DEA</span>
                 <input type="radio"
                        name="DispositifDefibrilateurType"
                       class="DispositifDefibrilateurRadio"
@@ -2149,7 +2197,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
               <td id="dsa_complet_td">
                 <input type="hidden" id="dsa_complet_td_value" name="dsa_complet_td_value" value=""/>
 
-                <span title="2 jeux de patch non périmé, Rasoir, Carte Mémoire, à l'heure">Oui</span>
+                <span ext:qtip="2 jeux de patch non périmé, Rasoir, Carte Mémoire, à l'heure">Oui</span>
                 <input type="radio"
                        name="DispositifDefibrilateurComplet"
                       class="DispositifDefibrilateurRadio"
@@ -2201,7 +2249,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
         </fieldset>
         <fieldset>
           <legend>Localisation</legend>
-<span class="fieldsetSubtitle">Adresse Actuelle/Cible</span><br/>
+<span class="fieldsetSubtitle"  ext:qtip="Adresse actuelle de l'ASM en stationnement ou adresse de destination de l'ASM en déplacement">Adresse Actuelle/Cible</span><br/>
                   Rue :
                 <input style="width:93%;"
                         type="text"
@@ -2232,11 +2280,11 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
                           onBlur="miDispositifCs.updateAddress(this.id, 'current_addresse_ville', true)"
                     />
-                    <img id="dispositifCurrentGoogleAdressCheckStatus" src="<%=contextPath%>/img/pix.png" alt="pix" style="height:16px;width:16px;"/>
+                    <img id="dispositifCurrentGoogleAdressCheckStatus" src="../../img/pix.png" alt="pix" style="height:16px;width:16px;"/>
                     <input type="hidden" id="dispositifCurrentAddressCoordinateLat"  name="dispositifCurrentAddressCoordinateLat" />
                     <input type="hidden" id="dispositifCurrentAddressCoordinateLong" name="dispositifCurrentAddressCoordinateLong"/>
 <br/>       
-<span class="fieldsetSubtitle">Adresse Précédente</span><br/>
+<span class="fieldsetSubtitle"  ext:qtip="Adresse de départ de l'ASM en déplacement">Adresse Précédente</span><br/>
                   Rue :
                 <input style="width:93%;"
                         type="text"
@@ -2267,7 +2315,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
                           onBlur="miDispositifCs.updateAddress(this.id, 'previous_addresse_ville', false)"
                     />
-                    <img id="dispositifPreviousGoogleAdressCheckStatus" src="<%=contextPath%>/img/pix.png" alt="pix" style="height:16px;width:16px;"/>
+                    <img id="dispositifPreviousGoogleAdressCheckStatus" src="../../img/pix.png" alt="pix" style="height:16px;width:16px;"/>
                     <input type="hidden" id="dispositifPreviousAddressCoordinateLat"  name="dispositifPreviousAddressCoordinateLat" />
                     <input type="hidden" id="dispositifPreviousAddressCoordinateLong" name="dispositifPreviousAddressCoordinateLong"/>
          
@@ -2334,7 +2382,7 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
 
   <jwr:script src="/jsBundle/extJs.js"/>
   <script type="text/javascript">
-    var contextPath="<%=contextPath%>";
+    var contextPath="../..";
     var iconPath = '../img/famfamfam/';
     Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
   </script>

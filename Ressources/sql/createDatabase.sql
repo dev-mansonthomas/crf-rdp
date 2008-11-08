@@ -142,6 +142,7 @@ CREATE TABLE `dispositif` (
   `DH_quitte_les_lieux`          datetime NULL,
   `DH_arrivee_hopital`           datetime NULL,
   `DH_dispo`                     datetime NULL,
+  `DH_fin_intervention`          datetime NULL,
   `DH_a_sa_base`                 datetime NULL,
   `DH_appel_renfort_medical`     datetime NULL,
   `DH_arrivee_renfort_medical`   datetime NULL,

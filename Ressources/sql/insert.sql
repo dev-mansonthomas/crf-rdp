@@ -208,17 +208,17 @@ ALTER TABLE `lieu` AUTO_INCREMENT = 19;
 -- Insert test data
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values
-('75233A', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson'     , 'Thomas'    , 4, '', 1, 0 ),
-('111111', false, '033bd94b1168d7e4f0d644c3c95e35bf','Arecki'     , 'Thomas'    , 4, '', 2, 0 ),
-('222222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Escoube'    , 'Raphaelle' , 4, '', 3, 0 ),
-('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Coutant'    , 'Séverine'  , 4, '', 3, 0 ),
-('224333', true , '033bd94b1168d7e4f0d644c3c95e35bf','Philipakis' , 'Alexandre' , 4, '', 3, 0 ),
-('224334', true , '033bd94b1168d7e4f0d644c3c95e35bf','Phills'     , 'Richard'   , 4, '', 3, 0 ),
-('224344', true , '033bd94b1168d7e4f0d644c3c95e35bf','Poules'     , 'Titi'      , 4, '', 3, 0 ),
-('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Sergent'    , 'Stéphanie' , 4, '', 2, 0 ),
-('224336', true , '033bd94b1168d7e4f0d644c3c95e35bf','Valet'      , 'Fabien'    , 4, '', 3, 0 ),
-('224337', false, '033bd94b1168d7e4f0d644c3c95e35bf','Soulas'     , 'Marine'    , 4, '', 4, 0 ),
-('222223', true , '033bd94b1168d7e4f0d644c3c95e35bf','Legualle'   , 'Philippe'  , 4, '', 1, 0 );
+('75233A', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson', 'Thomas' , 4, '', 1, 0 ),
+('111111', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User1'  , 4, '', 2, 0 ),
+('222222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User2'  , 4, '', 3, 0 ),
+('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User3'  , 4, '', 3, 0 ),
+('224333', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User4'  , 4, '', 3, 0 ),
+('224334', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User5'  , 4, '', 3, 0 ),
+('224344', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User6'  , 4, '', 3, 0 ),
+('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User7'  , 4, '', 2, 0 ),
+('224336', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User8'  , 4, '', 3, 0 ),
+('224337', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User9'  , 4, '', 4, 0 ),
+('222223', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User10' , 4, '', 1, 0 );
 
 
 
@@ -237,29 +237,29 @@ INSERT INTO `dispositif` (`id_dispositif`,`id_type_dispositif`,`id_regulation`,`
 
 
 INSERT INTO `equipier` (`id_equipier`,`id_dispositif`,`id_role_dans_dispositif`,`num_nivol`,`equipier_is_male`,`nom`,`prenom`,`DH_debut`,`DH_fin`,`id_delegation`,`autre_delegation`,`id_role_equipier1`,`id_role_equipier2`) VALUES 
- (1,1,4,'22223A',1,'Manson','Thomas','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (2,1,1,'222211',1,'Arecki','Thomas','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
- (3,1,4,'222221',0,'Escoube','Raphaelle','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',5,0),
- (4,1,4,'222222',0,'Coutant','Séverine','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (5,2,4,'222233',1,'Philipakis','Alexandre','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (6,1,3,'222234',1,'Phills','Richard','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
- (7,2,3,'222244',1,'Poules','Titi','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
- (8,3,4,'222245',1,'Doré','Bastien','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',2,0),
- (9,2,1,'222235',0,'Sergent','Stéphanie','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
- (10,3,3,'222236',1,'Valet','Sébastien','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (11,2,4,'222237',0,'Soulas','Marine','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (12,3,1,'222223',1,'Legualle','Philippe','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (13,2,4,'222224',1,'Legualle1','Philippe1','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (14,3,4,'222225',1,'Legualle2','Philippe2','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (15,3,4,'222226',1,'Legualle3','Philippe3','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (16,0,0,'222227',1,'Legualle4','Philippe4','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (17,0,0,'222228',1,'Legualle5','Philippe5','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (18,0,0,'222229',1,'Legualle6','Philippe6','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3);
+ (1 ,1,4,'22223A',1,'Manson' ,'Thomas','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (2 ,1,1,'222211',1,'Manson' ,'Thomas','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
+ (3 ,1,4,'222221',0,'Manson' ,'Raphaelle','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',5,0),
+ (4 ,1,4,'222222',0,'Manson' ,'Séverine','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (5 ,2,4,'222233',1,'Manson' ,'Alexandre','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (6 ,1,3,'222234',1,'Manson' ,'Richard','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
+ (7 ,2,3,'222244',1,'Manson' ,'Titi','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
+ (8 ,3,4,'222245',1,'Manson' ,'Bastien','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',2,0),
+ (9 ,2,1,'222235',0,'Manson' ,'Stéphanie','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
+ (10,3,3,'222236',1,'Manson' ,'Sébastien','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (11,2,4,'222237',0,'Manson' ,'Marine','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (12,3,1,'222223',1,'Manson' ,'Philippe','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (13,2,4,'222224',1,'Manson' ,'Philippe1','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (14,3,4,'222225',1,'Manson' ,'Philippe2','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (15,3,4,'222226',1,'Manson' ,'Philippe3','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (16,0,0,'222227',1,'Manson' ,'Philippe4','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (17,0,0,'222228',1,'Manson' ,'Philippe5','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (18,0,0,'222229',1,'Manson' ,'Philippe6','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3);
 
 
 
 INSERT INTO `intervention` (`id_intervention`,`id_dispositif`,`id_regulation`,`id_origine`,`id_motif`,`id_etat`,`complement_motif`,`num_inter`,`id_ref_num_inter`,`ref_num_inter`,`DH_saisie`,`DH_reception`,`DH_depart`,`DH_sur_place`,`DH_bilan_primaire`,`DH_bilan_secondaire`,`DH_quitte_les_lieux`,`DH_arrivee_hopital`,`DH_fin_intervention`,`DH_appel_renfort_medical`,`DH_arrivee_renfort_medical`,`homme_victime`,`nom_victime`,`nom_jf_victime`,`prenom_victime`,`age_approx_victime`,`date_naissance`,`lieu_naissance`,`adresse_victime`,`code_postal_victime`,`ville_victime`,`pays_victime`,`personne_a_prevenir`,`tel_personne_a_prevenir`,`effet_ou_objet_remis`,`effet_ou_objet_remis_a`,`nom_contact_sur_place`,`coordonnees_contact`,`batiment`,`etage`,`porte`,`complement_adresse`,`rue`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`bilan_circonstances`,`bilan_detresses`,`bilan_antecedents`,`bilan_commentaires`,`bilan_evaluation_ci`,`cs_coma`,`cs_pci`,`cs_pci_duree`,`cs_pc_secondaire`,`cs_agitation`,`cs_convulsions`,`ventil_absence`,`ventil_chiffre`,`ventil_commentaire`,`ventil_superficielle`,`ventil_ronflement`,`ventil_irreguliere`,`ventil_tirage`,`ventil_pauses`,`ventil_sueurs`,`ventil_sifflement`,`ventil_cyanose`,`ventil_saturation_o2`,`circul_pouls_non_percu`,`circul_pouls_chiffre`,`circul_pouls_commentaire`,`circul_pouls_irregulier`,`circul_pouls_faible`,`circul_conjonctive_decolorees`,`circul_paleur_cutanees`,`circul_marbrure`,`circul_tension_basse`,`circul_tension_haute`,`circul_tension_ref_basse`,`circul_tension_ref_haute`,`pupille_reactive`,`pupille_non_reactive`,`pupille_myosis_gauche`,`pupille_myosis_droite`,`pupille_mydriase_gauche`,`pupille_mydriase_droite`,`pupille_asymetriques`,`douleur`,`gestes_lva`,`gestes_mce`,`gestes_allongee`,`gestes_pls`,`gestes_pansement`,`gestes_refroidissement`,`gestes_aspiration`,`gestes_dsa`,`gestes_dsa_nb_chocs`,`gestes_demi_assis`,`gestes_collier_cervical`,`gestes_point_de_compression`,`gestes_protection_thermique`,`gestes_va`,`gestes_jambes_surelevees`,`gestes_attelle`,`gestes_garrot`,`gestes_garrot_heure_pose`,`gestes_autres`,`gestes_inhalation_o2_litre_min`,`gestes_glycemie_gramme_litre`,`gestes_temperature`,`gestes_immobilisation_generale`,`coordinateur_bspp_contacte`,`coordinateur_samu_contacte`,`transport_medicalisee_ar`,`transport_medicalisee_umh`,`transport_medicalisee_de`,`medecin_civil_sur_place`,`police_sur_place`,`pompier_sur_place`,`evac_laisse_sur_place`,`evac_laisse_sur_place_decedee`,`evac_laisse_sur_place_decedee_a_dispo_de`,`evac_refus_de_transport`,`evac_decharche`,`evac_num_inter_banlieu`,`evac_hopital_destination`,`evac_autre_dest_label`,`evac_autre_dest_rue`,`evac_autre_dest_code_postal`,`evac_autre_dest_ville`,`evac_autre_dest_google_coords_lat`,`evac_autre_dest_google_coords_long`,`evac_aggravation`,`evac_aggravation_pendant_transport`,`evac_aggravation_arrive_a_destination`,`evac_aggravation_ventilation`,`evac_aggravation_circulation`,`evac_aggravation_douleur`,`evac_aggravation_contact_regulation`,`evac_aggravation_nature`,`evac_par`,`evac_par_autre`) VALUES 
- (1,0,1,1,1,1,'Complément info personne malade ','0',NULL,NULL,'2008-09-18 20:55:59',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'Manson',NULL,'Thomas',30,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Manson Alain','06 64 66 42 96','1','7','1','code porte:  35496798','135 route de la reine','92100','Boulogne Billancourt',48.840576,2.229526,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+ (1,0,1,1,1,1,'Complément info personne malade ','0',NULL,NULL,'2008-09-18 20:55:59',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'Manson',NULL,'Thomas',30,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Manson Robert','06 64 66 42 96','1','7','1','code porte:  35496798','135 route de la reine','92100','Boulogne Billancourt',48.840576,2.229526,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
  (2,0,1,1,4,1,'Complement info malaise','0',NULL,NULL,'2008-09-18 20:57:01',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,'Nours',NULL,'Bisous',78,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'papa Nours','06 45 78 94 12','1','3','1','fsdfsdf','7 impasse Sesquez','92600','Asnières Sur  Seine',48.906731,2.286220,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
  (3,0,1,2,3,1,'Accident de poucette.','0',NULL,NULL,'2008-09-18 20:58:32',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,'Moujeau ',NULL,'Papi',126,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Mme Moujeau','01 45 78 99 55','1','1','1','bla bla bla','5 Impasse Poule','75020','Paris',48.853390,2.399246,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 

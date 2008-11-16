@@ -9,7 +9,7 @@
   </appender>
   
   <appender name="FILE"  class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="/home/special/crfirp/logs/crf-irp.log" />
+    <param name="File" value="/tmp/crf-irp.log" />
     <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d %p %c : %m%n" />
@@ -19,25 +19,37 @@
   <logger name="org.springframework" additivity="false">
     <level value="info" />
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
   </logger>
 
   <logger name="net.jawr" additivity="false">
     <level value="info" />
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
   </logger>
 
   <logger name="org.directwebremoting" additivity="false">
     <level value="info" />
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
   </logger>
 
-  <logger name="fr.croixrouge" additivity="false">
+  <logger name="fr.croixrouge.irp" additivity="false">
     <level value="debug" />
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+
+
+  <logger name="fr.croixrouge.utilities" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
   </logger>
   
   <root>
     <priority value="error" />
     <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
   </root>
 </log4j:configuration>

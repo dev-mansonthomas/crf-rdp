@@ -1,5 +1,5 @@
 /*
- * Créé le 20 déc. 04
+ * CrÃ©Ã© le 20 dÃ©c. 04
  * 
  */
 package fr.croixrouge.irp.services.cache;
@@ -31,13 +31,13 @@ public class EHCacheService implements CacheService
   }
   
   /**
-   * récupere un objet dans dans la région region du cache
-   * Si objet non trouvé, lance un exception
+   * rÃ©cupere un objet dans dans la rÃ©gion region du cache
+   * Si objet non trouvÃ©, lance un exception
    * <P>
    * 
-   * @param   name    nom de l'objet a récuperer   
+   * @param   name    nom de l'objet a rÃ©cuperer   
    *                  
-   * @return                  Objet de cache demandé
+   * @return                  Objet de cache demandÃ©
    * @since   1.0
    *
    */
@@ -47,13 +47,13 @@ public class EHCacheService implements CacheService
   }
   
   /**
-   * récupere un objet dans dans la région region du cache
-   * Si objet non trouvé, lance un exception si silentCacheMiss == false, sinon retourne null
+   * rÃ©cupere un objet dans dans la rÃ©gion region du cache
+   * Si objet non trouvÃ©, lance un exception si silentCacheMiss == false, sinon retourne null
    * <P>
    * 
-   * @param   name    nom de l'objet a récuperer   
+   * @param   name    nom de l'objet a rÃ©cuperer   
    *                  
-   * @return                  Objet de cache demandé
+   * @return                  Objet de cache demandÃ©
    * @since   1.0
    *
    */
@@ -68,7 +68,7 @@ public class EHCacheService implements CacheService
       Element e = cache.get(name);
       
       if(e == null && !silentCacheMiss)
-        throw new Exception("Objet '"+name+"' non trouvé.");
+        throw new Exception("Objet '"+name+"' non trouvÃ©.");
       else if( e == null)
         return null;
 
@@ -85,13 +85,13 @@ public class EHCacheService implements CacheService
   }
   
   /**
-   * Met un objet dans dans la région region du cache
+   * Met un objet dans dans la rÃ©gion region du cache
    * <P>
    * 
    * @param   name    nom de l'objet a mettre en cache
    *          object  objet a mettre en cache
    *                  
-   * @return                  Objet de cache demandé
+   * @return                  Objet de cache demandÃ©
    * @since   1.0
    *
    */  
@@ -119,7 +119,7 @@ public class EHCacheService implements CacheService
   /**
    * Vide entierement le cache
    * <P>
-   * @return                  Objet de cache demandé
+   * @return                  Objet de cache demandÃ©
    * @since   1.0
    *
    */  

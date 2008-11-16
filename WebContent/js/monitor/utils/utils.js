@@ -36,8 +36,8 @@ CrfIrpUtils.prototype.initialize=function()
 
 CrfIrpUtils.prototype.allList=[];
 CrfIrpUtils.prototype.allLieu=[];
-CrfIrpUtils.prototype.allTypeLieuOrdered=[];//Type lieu dans l'ordre spécifié par numOrdre
-CrfIrpUtils.prototype.allTypeLieu=[];//Type lieu indexé par idTypeLieu
+CrfIrpUtils.prototype.allTypeLieuOrdered=[];//Type lieu dans l'ordre spÃ©cifiÃ© par numOrdre
+CrfIrpUtils.prototype.allTypeLieu=[];//Type lieu indexÃ© par idTypeLieu
 /***
  * Demande toute les listes statiques au serveur
  */
@@ -143,8 +143,8 @@ CrfIrpUtils.prototype.getLabelFor=function(listId, id)
 
 /***
  * Sauvegarde l'ancienne valeur,
- * Met la couleur de fond, a la couleur signifiant 'champ en cours d'édition'
- * Met la couleur de fond du précédent champ de saisie à la couleur de fond par défaut.
+ * Met la couleur de fond, a la couleur signifiant 'champ en cours d'Ã©dition'
+ * Met la couleur de fond du prÃ©cÃ©dent champ de saisie Ã  la couleur de fond par dÃ©faut.
  * Pointe le champ fieldId comme dernier champ en cours de saisie.
  */
 CrfIrpUtils.prototype.fieldEdit=function(fieldId)
@@ -159,7 +159,7 @@ CrfIrpUtils.prototype.fieldEdit=function(fieldId)
 };
 
 /***
- * Initialise la couleur de fond du champ fieldId à la couleur siginifiant que la sauvegarde de
+ * Initialise la couleur de fond du champ fieldId Ã  la couleur siginifiant que la sauvegarde de
  * la valeur du champ est en cours.
  */
 CrfIrpUtils.prototype.fieldSaving=function(fieldId)
@@ -168,14 +168,14 @@ CrfIrpUtils.prototype.fieldSaving=function(fieldId)
 };
 
 /***
- * Initialise la couleur de fond du champ fieldId à la couleur par défaut
+ * Initialise la couleur de fond du champ fieldId Ã  la couleur par dÃ©faut
  */
 CrfIrpUtils.prototype.defaultBackgroundColorForField=function(fieldId)
 {
   $(fieldId).style.backgroundColor=this.defaultFieldBackgroundColor;
 };
 /***
- * Initialise la couleur de fond du champ fieldId à la couleur signifiant une erreur de saisie
+ * Initialise la couleur de fond du champ fieldId Ã  la couleur signifiant une erreur de saisie
  */
 CrfIrpUtils.prototype.errorBackgroundColorForField=function(fieldId)
 {
@@ -183,8 +183,8 @@ CrfIrpUtils.prototype.errorBackgroundColorForField=function(fieldId)
 };
 
 /**
- * Initialise les propriétées valueMatch, defaultOnError de l'objet d'id fieldId
- * Permet à la fonction CrfIrpUtils.prototype.checkField de vérifier la valeur du champ fieldId
+ * Initialise les propriÃ©tÃ©es valueMatch, defaultOnError de l'objet d'id fieldId
+ * Permet Ã  la fonction CrfIrpUtils.prototype.checkField de vÃ©rifier la valeur du champ fieldId
  * est correct. (voir la fonction checkFielf)
  * 
  * */
@@ -197,19 +197,19 @@ CrfIrpUtils.prototype.setFieldValidation=function(fieldId, valueMatch, defaultOn
 
 
 /**
- * Note : les propriétées valueMatch, defaultOnError peuvent être définies avec la fonction
+ * Note : les propriÃ©tÃ©es valueMatch, defaultOnError peuvent Ãªtre dÃ©finies avec la fonction
  *   CrfIrpUtils.prototype.setFieldValidation
  * 
- * Si une expression régulière est défini dans la propriété valueMatch (sous forme de template prototype)
- * du DOM de l'objet d'id fieldId et que la valeur de l'input est non vide, l'expression régulière 
- * est appliquée à la valeur.
+ * Si une expression rÃ©guliÃ¨re est dÃ©fini dans la propriÃ©tÃ© valueMatch (sous forme de template prototype)
+ * du DOM de l'objet d'id fieldId et que la valeur de l'input est non vide, l'expression rÃ©guliÃ¨re 
+ * est appliquÃ©e Ã  la valeur.
  * 
- * Si l'évaluation de l'expression régulière retourne true, la valeur saise est considérée 
+ * Si l'Ã©valuation de l'expression rÃ©guliÃ¨re retourne true, la valeur saise est considÃ©rÃ©e 
  * comme correcte, la fonction retourne true;
  * 
- * Si l'évaluation de l'expression régulière retourne false, la valeur saisie est considéré comme incorrect.
- * Un message d'erreur est affiché, si la propriété defaultOnError du DOM de l'objet d'id fieldId est définie,
- * alors la fonction écrase la valeur saisie par cette valeur.
+ * Si l'Ã©valuation de l'expression rÃ©guliÃ¨re retourne false, la valeur saisie est considÃ©rÃ© comme incorrect.
+ * Un message d'erreur est affichÃ©, si la propriÃ©tÃ© defaultOnError du DOM de l'objet d'id fieldId est dÃ©finie,
+ * alors la fonction Ã©crase la valeur saisie par cette valeur.
  * 
  * */
 CrfIrpUtils.prototype.checkField=function(fieldId)
@@ -228,8 +228,8 @@ CrfIrpUtils.prototype.checkField=function(fieldId)
   return true;
 };
 /**
- * Vérifie que le champ fieldId est renseigné (!= '' pour les input, !=0 pour les selects)
- * Si le champ est vide, retourn false, et met la couleur de fond à la couleur signifiant, erreur de saisie.
+ * VÃ©rifie que le champ fieldId est renseignÃ© (!= '' pour les input, !=0 pour les selects)
+ * Si le champ est vide, retourn false, et met la couleur de fond Ã  la couleur signifiant, erreur de saisie.
  * */
 CrfIrpUtils.prototype.checkMandatoryField=function(fieldId)
 {

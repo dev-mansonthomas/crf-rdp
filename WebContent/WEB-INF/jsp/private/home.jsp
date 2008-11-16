@@ -1,18 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
 %><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
 %><%
   String contextPath = request.getContextPath();
 %>
 <html>
   <head>
-    <title>Accueil de la Régulation de la Croix Rouge de Paris</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Accueil de la RÃ©gulation de la Croix Rouge de Paris</title>
     <jwr:style src="/cssBundle/home.css"/>
   </head>
   <body>
 
   <div id="north">
-    <img src="<%=contextPath%>/img/RegulationParis.png" class="imgLoginLeft"  alt="Informatisation de la Régulation de Paris"/>
+    <img src="<%=contextPath%>/img/RegulationParis.png" class="imgLoginLeft"  alt="Informatisation de la RÃ©gulation de Paris"/>
     <img src="<%=contextPath%>/img/logo-crf-small.png"  class="imgLoginRight" alt="Croix Rouge Francaise"/>
   </div>
   <div id="center">

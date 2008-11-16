@@ -69,7 +69,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
         store: dataStore1,
         cm: new xg.ColumnModel([
             {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
-            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
+            {id:'dhReceptionITUnfinishedCol', header: "Date RÃ©cÃ©ption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
             {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
             {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'position.ville'}
         ]),
@@ -88,8 +88,8 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
           pageSize   : 5,
           store      : dataStore1,
           displayInfo: true,
-          displayMsg : 'Ticket d\'Intervention(s) {0} à {1} de {2}',
-          emptyMsg   : 'aucun Ticket d\'Intervention en cours d\'édition'
+          displayMsg : 'Ticket d\'Intervention(s) {0} Ã  {1} de {2}',
+          emptyMsg   : 'aucun Ticket d\'Intervention en cours d\'Ã©dition'
         })
     });
   grid1.getStore().load({params: {start:0, limit:5}});
@@ -122,7 +122,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
         store: dataStore2,
         cm   : new xg.ColumnModel([
             {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
-            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
+            {id:'dhReceptionITUnfinishedCol', header: "Date RÃ©cÃ©ption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
             {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
             {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'position.ville'}
         ]),
@@ -141,8 +141,8 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
           pageSize   : 5,
           store      : dataStore2,
           displayInfo: true,
-          displayMsg : 'Ticket d\'Intervention(s) {0} à {1} de {2}',
-          emptyMsg   : 'aucun Ticket d\'Intervention non affectée'
+          displayMsg : 'Ticket d\'Intervention(s) {0} Ã  {1} de {2}',
+          emptyMsg   : 'aucun Ticket d\'Intervention non affectÃ©e'
         })
     });
   grid2.getStore().load({params: {start:0, limit:5}});
@@ -348,7 +348,7 @@ MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
   if( rue       .value != '' && rue       .oldValue != rue       .value &&
       codePostal.value != '' && codePostal.oldValue != codePostal.value &&
       ville     .value != '' && ville     .oldValue != ville     .value   )
-  {// valeur non vide et non différente de la précédente valeur
+  {// valeur non vide et non diffÃ©rente de la prÃ©cÃ©dente valeur
     googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
                                                         codePostal.value +', '+
                                                         ville     .value,
@@ -360,7 +360,7 @@ MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
 MonitorInputInterventionCs.prototype.updateAddressReturn=function(place)
 {
   var coordinates = place.Point.coordinates;
-  //ATTENTION, visiblement, les coordonnées google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisé partout ailleurs dans l'ordre (Latitude,Longitude)
+  //ATTENTION, visiblement, les coordonnÃ©es google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisÃ© partout ailleurs dans l'ordre (Latitude,Longitude)
   $('interventionTicketCoordinateLat' ).value=coordinates[1];
   $('interventionTicketCoordinateLong').value=coordinates[0];
 
@@ -380,7 +380,7 @@ MonitorInputInterventionCs.prototype.updateAddressErrorReturn=function(response)
 };
 
 
-/************************Méthode*d'update*****************************************/
+/************************MÃ©thode*d'update*****************************************/
 MonitorInputInterventionCs.prototype.updateInterventionIntegerField=function(fieldId, fieldName)
 {
   crfIrpUtils.checkField (fieldId);

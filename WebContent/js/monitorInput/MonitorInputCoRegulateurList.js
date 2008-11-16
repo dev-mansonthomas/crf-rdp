@@ -12,10 +12,10 @@ MonitorInputCoRegulateurListCs.prototype.createCoregulateur=function()
 {
   if(miWm.createUserWindows == null)
   {
-    miWm.createUserWindows = new Window ('createUser_window', {title: "Création d'un Utilisateur", className: "alphacube2", resizable:true, draggable:true});   
+    miWm.createUserWindows = new Window ('createUser_window', {title: "CrÃ©ation d'un Utilisateur", className: "alphacube2", resizable:true, draggable:true});   
     miWm.createUserWindows.setContent   ('createUser', true, false);
     miWm.createUserWindows.setLocation  (80, 25);
-    miWm.createUserWindows.setStatusBar ('Seul des Co-Régulateurs et des Observateurs');
+    miWm.createUserWindows.setStatusBar ('Seul des Co-RÃ©gulateurs et des Observateurs');
     
     new Autocompleter.DWR( 'CreateUserDelegation', 
                            'CreateUserDelegation_select', 
@@ -40,9 +40,9 @@ MonitorInputCoRegulateurListCs.prototype.createUserDelegationSelected=function(i
     $('DispositifAutreDelegationIdToUpdate').value='CreateUserDelegation';
     if(miWm.autreDelegationWindow==null)
     {
-      miWm.autreDelegationWindow = new Window ('autreDelegation_window', {title: "Autre Délégation", className: "alphacube2", resizable:true, draggable:true});   
+      miWm.autreDelegationWindow = new Window ('autreDelegation_window', {title: "Autre DÃ©lÃ©gation", className: "alphacube2", resizable:true, draggable:true});   
       miWm.autreDelegationWindow.setContent   ('AutreDelegationEdit', true, false);
-      miWm.autreDelegationWindow.setStatusBar ("le Choix Autre (NA) doit être exceptionnel");
+      miWm.autreDelegationWindow.setStatusBar ("le Choix Autre (NA) doit Ãªtre exceptionnel");
     }
     miWm.autreDelegationWindow.setSize(390, 230);
     miWm.autreDelegationWindow.toFront();
@@ -63,7 +63,7 @@ MonitorInputCoRegulateurListCs.prototype.updateCoRegulateurList=function(CoRegul
     function(coregulateur) {return coregulateur.numNivol;},
     function(coregulateur) {return coregulateur.nom+' '+coregulateur.prenom;},
     function(coregulateur) {return crfIrpUtils.getLabelFor('RolesUser',coregulateur.idRole);},
-    function(coregulateur) {return '<img src="'+contextPath+'/img/monitorInput/user_delete.png" id="CoRegulateurDel_Button_'+coregulateur.numNivol+'" alt="Supprimer Le Co-Régulateur '+coregulateur.nom+' '+coregulateur.prenom+'"  onClick="removeCoRegulateur(\''+coregulateur.idUser+'\',\''+coregulateur.numNivol+'\',\''+coregulateur.nom+' '+coregulateur.prenom+'\');"/>';}
+    function(coregulateur) {return '<img src="'+contextPath+'/img/monitorInput/user_delete.png" id="CoRegulateurDel_Button_'+coregulateur.numNivol+'" alt="Supprimer Le Co-RÃ©gulateur '+coregulateur.nom+' '+coregulateur.prenom+'"  onClick="removeCoRegulateur(\''+coregulateur.idUser+'\',\''+coregulateur.numNivol+'\',\''+coregulateur.nom+' '+coregulateur.prenom+'\');"/>';}
   ];
 
   var pair = true;
@@ -85,10 +85,10 @@ MonitorInputCoRegulateurListCs.prototype.displayCoRegulateurReturn=function(CoRe
 
   if(miWm.coRegulateurListWindow==null)
   {
-    miWm.coRegulateurListWindow = new Window ('coRegulateurList_window', {title: "Liste des Co-Régulateurs Dispo", className: "alphacube2", resizable:true, draggable:true});   
+    miWm.coRegulateurListWindow = new Window ('coRegulateurList_window', {title: "Liste des Co-RÃ©gulateurs Dispo", className: "alphacube2", resizable:true, draggable:true});   
     miWm.coRegulateurListWindow.setContent   ('coRegulateurList', true, false);
     miWm.coRegulateurListWindow.setLocation  (60, 5);
-    miWm.coRegulateurListWindow.setStatusBar ('Commencer à tapper le N° de nivol ou le nom pour ajouter un CoRégulateur');
+    miWm.coRegulateurListWindow.setStatusBar ('Commencer Ã  tapper le NÂ° de nivol ou le nom pour ajouter un CoRÃ©gulateur');
 
      new Autocompleter.DWR( 'CoRegulateurAdd_Nivol'     , 
                             'CoRegulateurAdd_SelectList', 
@@ -116,7 +116,7 @@ MonitorInputCoRegulateurListCs.prototype.displayCoRegulateurReturn=function(CoRe
 
 MonitorInputCoRegulateurListCs.prototype.removeCoRegulateur=function(userId,numNivol, nomPrenom)
 {
-  if(confirm('Etes vous sur de vouloir supprimer l\'accès en écriture sur cette régulation à l\'utilisateur '+nomPrenom+' ('+numNivol+') ?'))
+  if(confirm('Etes vous sur de vouloir supprimer l\'accÃ¨s en Ã©criture sur cette rÃ©gulation Ã  l\'utilisateur '+nomPrenom+' ('+numNivol+') ?'))
     MonitorInput.removeCoRegulateur(userId, numNivol, miCoRegulateurListCs.removeCoRegulateurReturn);
 };
 

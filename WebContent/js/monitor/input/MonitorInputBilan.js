@@ -282,7 +282,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         var interventionId = Ext.get('bilan_id_intervention').getValue();
         if(interventionId == '' || interventionId == 0)
         {
-          crfIrpUtils.error('BilanHelper_openTicket', 'Identifiant de l\'intervention non trouvé.');
+          crfIrpUtils.error('BilanHelper_openTicket', 'Identifiant de l\'intervention non trouvÃ©.');
           return;
         }
         miInterventionCs.editInterventionTicket(interventionId);
@@ -292,7 +292,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         var idDispositif = Ext.get('bilan_id_dispositif').getValue();
         if(idDispositif == '' || idDispositif == 0)
         {
-          crfIrpUtils.error('BilanHelper_openDispositif', 'Identifiant du dispositif non trouvé.');
+          crfIrpUtils.error('BilanHelper_openDispositif', 'Identifiant du dispositif non trouvÃ©.');
           return;
         }
         miDispositifCs.editDispositif(idDispositif);
@@ -304,7 +304,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         
         if(googleCoordsLat == '' || googleCoordsLong == '' || (googleCoordsLat == 0 && googleCoordsLong == 0))
         {
-          crfIrpUtils.error('BilanHelper_openAddress', 'Coordonnées Google Maps non disponible');
+          crfIrpUtils.error('BilanHelper_openAddress', 'CoordonnÃ©es Google Maps non disponible');
           return;
         }
 
@@ -392,7 +392,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         if( rue       .value != '' && rue       .oldValue != rue       .value &&
             codePostal.value != '' && codePostal.oldValue != codePostal.value &&
             ville     .value != '' && ville     .oldValue != ville     .value   )
-        {// valeur non vide et non différente de la précédente valeur
+        {// valeur non vide et non diffÃ©rente de la prÃ©cÃ©dente valeur
           googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
                                                               codePostal.value +', '+
                                                               ville     .value,
@@ -403,7 +403,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       updateAddressReturn:function(place)
       {
         var coordinates = place.Point.coordinates;
-        //ATTENTION, visiblement, les coordonnées google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisé partout ailleurs dans l'ordre (Latitude,Longitude)
+        //ATTENTION, visiblement, les coordonnÃ©es google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisÃ© partout ailleurs dans l'ordre (Latitude,Longitude)
         $('bilan_evac_autre_dest_google_coords_lat' ).value=coordinates[1];
         $('bilan_evac_autre_dest_google_coords_long').value=coordinates[0];
       
@@ -425,7 +425,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       
       
       
-      /************************Méthode D'update******************************/
+      /************************MÃ©thode D'update******************************/
       updateStringField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;

@@ -110,7 +110,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
   {
     this.checkGoogleMap();
     this.afterRender   ();
-    //TODO lancer un evenement qu'écoute les autres classe utilisant google map
+    //TODO lancer un evenement qu'ï¿½coute les autres classe utilisant google map
   },
   onResize : function(w, h)
   {
@@ -217,7 +217,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       return;
     var markers = this.markerCategories[category];
     if(markers == null)
-    {//catégorie vide ou inconnue
+    {//catÃ©gorie vide ou inconnue
       return;
     }
 
@@ -398,11 +398,11 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
          var extraHtml = ['<br/>En mouvement : ',
                           '<b>distance :</b> ',
                           this.getDistance().html,
-                          ', <b>durée :</b> ',
+                          ', <b>durÃ©e :</b> ',
                           this.getDuration().html,
                           '<br/> depuis :<br/>',
                           directionInfo.fromAddress,
-                          '<br/>à destination de : <br/>',
+                          '<br/>Ã  destination de : <br/>',
                           directionInfo.toAddress,
                           '<br/> <input type="button" value="Voir les indications pour le trajet" onClick="Ext.getCmp(\'center-carte-paris-panel\').showDirectionPath(\''+directionDivId+'\')"/>'];
 
@@ -482,7 +482,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
         {//once it's found, hide the marker at the begining and the end of the direction
           if(markers != null)
           {
-            //supprime les markers associé a la route, car dans showDirection, on recrée tout (route et 2 markers).
+            //supprime les markers associÃ© a la route, car dans showDirection, on recrÃ©e tout (route et 2 markers).
             for(var j=0, countj=markers.size();j<countj;j++)
             {
               if(markers[j] != null && markers[j].customId == gDirection.customId)
@@ -494,7 +494,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
           }//end if markers != null
           
           gDirection.clear();
-          directions[i]=null;//supprimer la direction, pour ne pas la réafficher si on cache/affiche la catégorie
+          directions[i]=null;//supprimer la direction, pour ne pas la rÃ©afficher si on cache/affiche la catÃ©gorie
           break;//Stop here, only one direction to hide.
         }
         
@@ -518,7 +518,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
         var gDirection = directions[i].gDirection;
         if(markers != null)
         {
-          //supprime les markers associé a la route, car dans showDirection, on recrée tout (route et 2 markers).
+          //supprime les markers associÃ© a la route, car dans showDirection, on recrÃ©e tout (route et 2 markers).
           for(var j=0, countj=markers.size();j<countj;j++)
           {
             if(markers[j] != null && markers[j].customId == gDirection.customId)
@@ -729,7 +729,7 @@ Ext.ux.GMapAddressResolver = function()
       }
       else
         errorHandlerCallBackFunction({Status:{code:'GoogleMapsUnavailable'}});
-      //TODO : créer un status 'GOOGLE_MAP_UNAVAILABLE'
+      //TODO : crÃ©er un status 'GOOGLE_MAP_UNAVAILABLE'
       ;
     }
   };

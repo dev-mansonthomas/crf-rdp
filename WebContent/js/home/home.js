@@ -38,7 +38,7 @@ Ext.onReady(function()
         {
             id:'home_center_list_regulation_tab',
             contentEl:'center',
-            title: 'Liste des régulations ouvertes',
+            title: 'Liste des rÃ©gulations ouvertes',
             closable:false,
             autoScroll:true
         }]
@@ -85,18 +85,18 @@ Ext.onReady(function()
         }},
         cm: new xg.ColumnModel([
             expander,
-            {id:'labelCol'            , header: "Intitulé"      , width: 150, sortable: true, dataIndex: 'label'},
-            {id:'startDateCol'        , header: "Date de Début" , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'},
+            {id:'labelCol'            , header: "IntitulÃ©"      , width: 150, sortable: true, dataIndex: 'label'},
+            {id:'startDateCol'        , header: "Date de DÃ©but" , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'},
             {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
-            {id:'nomCol'              , header: "Régulateur"    , width: 150, sortable: true, dataIndex: 'regulateur.nom'}
+            {id:'nomCol'              , header: "RÃ©gulateur"    , width: 150, sortable: true, dataIndex: 'regulateur.nom'}
         ]),
         viewConfig: {
             forceFit:false
         },
         
         tbar:[{
-            text:'Ajouter une régulation',
-            tooltip:'Déclarer une nouvelle régulation',
+            text:'Ajouter une rÃ©gulation',
+            tooltip:'DÃ©clarer une nouvelle rÃ©gulation',
             iconCls:'addButton',
             handler:function(){alert('click')}
         }],
@@ -106,7 +106,7 @@ Ext.onReady(function()
         plugins: expander,
         collapsible: false,
         animCollapse: false,
-        title: 'Liste des Régulations en cours',
+        title: 'Liste des RÃ©gulations en cours',
         iconCls: 'icon-grid',
         renderTo: 'RegulationList'
     });

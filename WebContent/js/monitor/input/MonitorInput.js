@@ -22,7 +22,7 @@ MonitorInputCs.prototype.initRegulationReturn=function(Regulation)
   dwr.util.setValue('regulationId'   , Regulation.regulationId       );
   dwr.util.setValue('startDate'      , Regulation.startDateStr       );
   dwr.util.setValue('expectedEndDate', Regulation.expectedEndDateStr );
-  dwr.util.setValue('open'           , Regulation.open?'Ouverte':'Fermée');
+  dwr.util.setValue('open'           , Regulation.open?'Ouverte':'FermÃ©e');
   dwr.util.setValue('regulateur'     , Regulation.regulateur.nom + ' ' + Regulation.regulateur.prenom   );
   dwr.util.setValue('label'          , Regulation.label          );
 };
@@ -72,7 +72,7 @@ function initLayout()
             iconCls  :'settings'
           },
           {
-            title    : 'Liste des Tickets d\'Interventions Non Affectées',
+            title    : 'Liste des Tickets d\'Interventions Non AffectÃ©es',
             contentEl: 'InterventionListUnaffected',
             border   : false,
             iconCls  : 'settings'
@@ -127,7 +127,7 @@ function initLayout()
     },
     items:[{
             id       : 'monitorInputBilanEditorCenterPanelIdentite',
-            title    : 'Identité',
+            title    : 'IdentitÃ©',
             contentEl: 'BilanIdentite',
             border   : false,
             iconCls  : 'settings'
@@ -162,7 +162,7 @@ function initLayout()
     collapsible : true,
     collapsed   : true,
     contentEl   : 'BilanHelper',
-    title       : 'Résumé',
+    title       : 'RÃ©sumÃ©',
     xtype       : 'panel',
     width       : 200
   };
@@ -245,7 +245,7 @@ function initLayout()
   var regulationPanel= {
       id        : 'monitorInputRegulationPanel',
       contentEl : 'RegulationPanel',
-      title     : 'Propriété de la Régulation',
+      title     : 'PropriÃ©tÃ© de la RÃ©gulation',
       closable  : false,
       autoScroll: true
     };

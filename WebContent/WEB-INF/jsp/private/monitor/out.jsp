@@ -1,11 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
 %><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-  <title>Monitor - CRF - Informatisation de la Régulation de Paris</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Monitor - CRF - Informatisation de la RÃ©gulation de Paris</title>
   
   <jwr:style src="/cssBundle/monitorOutput.css"/>
   
@@ -16,14 +16,14 @@
 
 <div id="loading-mask" class="ext-el-mask"></div>
 <div id="loading-msg" class="ext-el-mask-msg x-mask-loading">
-  <div>Chargement de la Régulation de la Croix Rouge de Paris</div>
+  <div>Chargement de la RÃ©gulation de la Croix Rouge de Paris</div>
 </div>
 
 
 <!-- north -->
 <div id="north" class="x-layout-inactive-content">
   <div id="clock" style="float:left">${currentDate}</div>
-  <div style="float:right;margin-right:5px"><img src="../../img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
+  <div style="float:right;margin-right:5px"><img src="../../img/logo-crf-small.png" alt="RÃ©gulation de la Croix Rouge de Paris"/></div>
 </div>
 
 <!-- west -->
@@ -81,7 +81,7 @@
 </div>
 
 <div id="choose-hopital-window" style="display:none;">
-  <div class="x-window-header">Choisissez un Hopital d'évacuation</div>
+  <div class="x-window-header">Choisissez un Hopital d'Ã©vacuation</div>
   <input id="choose-hopital-window-current-dispositif"   name="choose-hopital-window-current-dispositif"   type="hidden"/>
   <input id="choose-hopital-window-current-intervention" name="choose-hopital-window-current-intervention" type="hidden"/>
   <div id="choose-hopital-window-content">
@@ -89,9 +89,9 @@
     </div>
     <div class="x-tab" id="choose-hopital-window-content-input" title="Autre Destination"/>
 <fieldset class="fieldset">
-<legend class="legend">Evacuation vers une destination qui n'est pas un Hopital référencé</legend>
+<legend class="legend">Evacuation vers une destination qui n'est pas un Hopital rÃ©fÃ©rencÃ©</legend>
 
-<span ext:qtip="Exemple : Clinique privée, Maison de retraite, domicile du patient"  style="width:80px;display:block;float:left;">Description </span>
+<span ext:qtip="Exemple : Clinique privÃ©e, Maison de retraite, domicile du patient"  style="width:80px;display:block;float:left;">Description </span>
   <input style="width:60%;"
          class="input"
           type="text"
@@ -140,7 +140,7 @@ Ville
   <input type="button" 
            id="dispositifEvacAutreAddresseButton"   
          name="dispositifEvacAutreAddresseButton" 
-        value="Evacuation vers une destination qui n'est pas un Hopital référencé" 
+        value="Evacuation vers une destination qui n'est pas un Hopital rÃ©fÃ©rencÃ©" 
       onClick="moDispositifCs.chooseEvacDestinationButton()">
 </fieldset>
     </div>    

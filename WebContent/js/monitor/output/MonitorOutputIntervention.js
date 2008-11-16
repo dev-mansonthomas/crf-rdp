@@ -18,7 +18,7 @@ MonitorOutputInterventionCs.prototype.loadAllIntervention=function(eventName, da
   if(eventName == "listLieu.loaded")
     this.listLieuLoaded = true;
   
-  if(this.listLoaded == true &&  this.listLieuLoaded == true)//on attends que les 2 listes soient initialisées
+  if(this.listLoaded == true &&  this.listLieuLoaded == true)//on attends que les 2 listes soient initialisÃ©es
     MonitorOutputIntervention.loadAllIntervention(moInterventionCs.loadAllInterventionReturn);
 };
 
@@ -59,8 +59,8 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
                           autoHide:true,
                           hideDelay:10,
                           animate:true,
-                          title :'Complément d\'adresse',
-                          text  :'batiment: '+intervention.batiment+'<br/>étage: '+intervention.etage+'<br/>porte: '+intervention.porte+'<br/>Complément d\'adresse:<br/>'+intervention.complementAdresse});
+                          title :'ComplÃ©ment d\'adresse',
+                          text  :'batiment: '+intervention.batiment+'<br/>Ã©tage: '+intervention.etage+'<br/>porte: '+intervention.porte+'<br/>ComplÃ©ment d\'adresse:<br/>'+intervention.complementAdresse});
 
   Ext.QuickTips.register({target:'interventionTicket_contact_'+intervention.idIntervention,
                           showDelay: 10,
@@ -68,13 +68,13 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
                           hideDelay:10,
                           animate:true,
                           title :'Victime & contact',
-                          text  :'Complément d\'information sur le motif: '+intervention.complementMotif+'<br/>Nom de la victime: '+intervention.nomVictime+'<br/>Nom Contact: '+intervention.nomContactSurPlace+'<br/>Coordonnées Contact:<br/>'+intervention.coordonneesContactSurPlace});
+                          text  :'ComplÃ©ment d\'information sur le motif: '+intervention.complementMotif+'<br/>Nom de la victime: '+intervention.nomVictime+'<br/>Nom Contact: '+intervention.nomContactSurPlace+'<br/>CoordonnÃ©es Contact:<br/>'+intervention.coordonneesContactSurPlace});
 
   */
   
   
   var category = 'lieu_cat_'+8;
-  var title    = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
+  var title    = 'NÂ°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
   var html     = title + '<br/>'+
                  intervention.rue+', '+intervention.codePostal+", "+intervention.ville;
 

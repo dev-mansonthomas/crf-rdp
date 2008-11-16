@@ -25,7 +25,7 @@ public class DWRUtils
     WebContext  webContext  = WebContextFactory.get();
     HttpSession session     = webContext.getSession(false);
     if(session == null)
-      throw new Exception("Votre Session a expiré, veuillez vous reconnecter");
+      throw new Exception("Votre Session a expirÃ©e, veuillez vous reconnecter");
     return session;
   }
   
@@ -36,8 +36,8 @@ public class DWRUtils
   
   
   /**
-   * Execute le script passé en parametre sur la page 'pageName' 
-   * de tout le client sur la meme régulation que l'utilisateur courant.
+   * Execute le script passÃ© en parametre sur la page 'pageName' 
+   * de tout le client sur la meme rÃ©gulation que l'utilisateur courant.
    * 
    * */
   protected void updateRegulationUser(ScriptBuffer script, String pageName) throws Exception
@@ -60,7 +60,7 @@ public class DWRUtils
   }
   
   /**
-   * Retourne l'id de la régulation sur laquelle on est connecté via la httpSession
+   * Retourne l'id de la rÃ©gulation sur laquelle on est connectÃ© via la httpSession
    * 
    * */
   protected int validateSessionAndGetRegulationId() throws Exception
@@ -69,13 +69,13 @@ public class DWRUtils
     Regulation  regulation  = (Regulation)session.getAttribute("regulation");
     
     if(regulation == null )
-      throw new Exception("Régulation non trouvée");
+      throw new Exception("RÃ©gulation non trouvÃ©e");
     
     return regulation.getRegulationId();
   }
  
   /**
-   * Met l'id de la régulation sur laquelle on est connecté dans la scriptSession
+   * Met l'id de la rÃ©gulation sur laquelle on est connectÃ© dans la scriptSession
    * A n'employer que sur les pages utilisant du reverse Ajax
    * */
   public void initScriptSession() throws Exception
@@ -84,7 +84,7 @@ public class DWRUtils
     Regulation  regulation  = (Regulation)session.getAttribute("regulation");
     
     if(regulation == null )
-      throw new Exception("Régulation non trouvée");
+      throw new Exception("RÃ©gulation non trouvÃ©e");
     
     WebContext webContext = WebContextFactory.get() ;
     webContext.getScriptSession().setAttribute("regulationId", regulation.getRegulationId());

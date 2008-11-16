@@ -28,36 +28,36 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
   }
   
   /**
-   * GËre l'action sur un dispositif (affectation, dÈpart, arrivÈ sur place etc..)
+   * G√®re l'action sur un dispositif (affectation, d√©part, arriv√© sur place etc..)
    * 
-   * La cinÈmatique de changement (d'Ètat et d'adresse) standard est la suivante : 
+   * La cin√©matique de changement (d'√©tat et d'adresse) standard est la suivante : 
    *  
-   * SynthËse des modification apportÈes au dispositif et ‡ l'intervention au cours des changements d'Ètats 
+   * Synth√®se des modification apport√©es au dispositif et √† l'intervention au cours des changements d'√©tats 
    * 
-   * CrÈation du dispositif :
+   * Cr√©ation du dispositif :
    * 
    * currentAddresse = Adresse Saisie
    * previousAddresse = NULL
    * 
    * Affectation d'une inter :
    * 
-   * Date RÈception(Inter/Dispositif) = Date courante  
+   * Date R√©ception(Inter/Dispositif) = Date courante  
    * Etat = 2
-   * currentAddresse = InchangÈ
-   * previousAddresse = inchangÈ
+   * currentAddresse = Inchang√©
+   * previousAddresse = inchang√©
    * dispositif.currentInterId = id Inter
    * intervention.idDispositif = id dispositif
    * 
    * Parti :
    * 
-   * Date DÈpart(Inter/Dispositif) = Date courante
+   * Date D√©part(Inter/Dispositif) = Date courante
    * Etat = 3
    * currentAddresse : Addresse Intervention
-   * previousAddresse: Adresse prÈcÈdente
+   * previousAddresse: Adresse pr√©c√©dente
    * 
    * Sur place :
    * Etat = 4 
-   * currentAddresse : InchangÈ
+   * currentAddresse : Inchang√©
    * previousAddresse: Adresse Intervention
    * 
    * Primaire
@@ -72,12 +72,12 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
    *            
    * Etat = 7
    * currentAddresse : Adresse Hopital Intervention
-   * previousAddresse : inchangÈ
+   * previousAddresse : inchang√©
    *
-   * ArrivÈ a l'hopital : 
+   * Arriv√© a l'hopital : 
    * 
    * Etat = 8
-   * currentAddresse : inchangÈ
+   * currentAddresse : inchang√©
    * previousAddresse : currentAddresse
    * 
    * A sa base : 
@@ -113,22 +113,22 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     
     InterventionTicket  interventionTicket = null;
     
-    if(dispositif.getIdEtatDispositif() == 1)//A l'Ètat 1 pour le dispositif, l'intervention n'est pas encore affectÈ (c'est justement ce qu'on fait... l'affectation)
+    if(dispositif.getIdEtatDispositif() == 1)//A l'√©tat 1 pour le dispositif, l'intervention n'est pas encore affect√© (c'est justement ce qu'on fait... l'affectation)
       interventionTicket = this.interventionService.getInterventionTicket(idIntervention);
     else
       interventionTicket = dispositif.getCurrentIntervention();
     
     if(interventionTicket == null || interventionTicket.getIdEtat() == 0)
-      throw new Exception("Le dispositif n'as pas d'intervention affectÈe");
+      throw new Exception("Le dispositif n'as pas d'intervention affect√©e");
     
    
     int idEtatIntervention = interventionTicket.getIdEtat          ();
     
     if(idEtatDispositif < 1 || idEtatDispositif > 8)
-      throw new Exception("L'Ètat du dispositif ne permet pas d'effectuer cette opÈration idEtatDispositif="+idEtatDispositif);
+      throw new Exception("L'√©tat du dispositif ne permet pas d'effectuer cette op√©ration idEtatDispositif="+idEtatDispositif);
     
     if(idEtatDispositif != idEtatIntervention)
-      throw new Exception("L'Ètat du dispositif est diffÈrent de l'Ètat de l'intervention. idEtatIntervention="+idEtatIntervention+" idEtatDispositif="+idEtatDispositif);
+      throw new Exception("L'√©tat du dispositif est diff√©rent de l'√©tat de l'intervention. idEtatIntervention="+idEtatIntervention+" idEtatDispositif="+idEtatDispositif);
 
     
     if(idEtatDispositif == 1)
@@ -160,14 +160,14 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     {//SurPlace 
       
       if(logger.isDebugEnabled())
-        logger.debug("Action is 'Dispositif se prÈsente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("Action is 'Dispositif se pr√©sente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
       this.dispositifService  .actionOnDispositif            (idDispositif  , idEtatDispositif+1, actionDate);
       this.interventionService.actionOnIntervention          (idIntervention, idEtatDispositif+1, actionDate);
       this.dispositifService  .updateDispositifPosition      (idDispositif  , null              , interventionTicket.getPosition());
       
       if(logger.isDebugEnabled())
-        logger.debug("DONE    : 'Dispositif se prÈsente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Dispositif se pr√©sente' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
     }
     else if(idEtatDispositif == 4)
@@ -197,14 +197,14 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     else if(idEtatDispositif == 6)
     {//Quitte les lieux => choisi hoptial destination
       
-      /*SÈquencement : 
+      /*S√©quencement : 
        * 
        * Lorsque l'utilisateur clic sur Action, 
        * on affiche la listes des hopitaux de paris(ou adresse en saisie libre, dans ce cas, on met 0 pour evac_hopital_destination),
        * il choisi ou saisie, 
-       * update ajax met a jour l'inter, le dispositif et appel cette mÈthode. 
+       * update ajax met a jour l'inter, le dispositif et appel cette m√©thode. 
        * 
-       * currentPosition et previousPosition sont dÈja correct
+       * currentPosition et previousPosition sont d√©ja correct
        */
       
       if(logger.isDebugEnabled())
@@ -218,7 +218,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
         logger.debug("DONE    : 'Dispositif quitte les lieux' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
     else if(idEtatDispositif == 7)
-    {//Arrive ‡ l'hopital
+    {//Arrive √† l'hopital
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Dispositif arrive a l'hopital' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
@@ -232,17 +232,17 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
         logger.debug("DONE    : 'Dispositif arrive a l'hopital' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
     else if(idEtatDispositif == 8)
-    {//Inter terminÈe
+    {//Inter termin√©e
       if(logger.isDebugEnabled())
-        logger.debug("Action is 'Intervention TerminÈe' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("Action is 'Intervention Termin√©e' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
       this.dispositifService  .actionOnDispositif       (idDispositif  , idEtatDispositif+1, actionDate);
       this.interventionService.actionOnIntervention     (idIntervention, idEtatDispositif+1, actionDate);
 
-      //currentInter Id est rÈ initialisÈ a vide.
+      //currentInter Id est r√© initialis√© a vide.
       
       if(logger.isDebugEnabled())
-        logger.debug("DONE    : 'Intervention TerminÈe' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+        logger.debug("DONE    : 'Intervention Termin√©e' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
     
     if(logger.isDebugEnabled())
@@ -252,7 +252,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
 
   
   /**
-   * Met a jour l'intervention avec l'hoptial choisi ou l'addresse spÈcifique
+   * Met a jour l'intervention avec l'hoptial choisi ou l'addresse sp√©cifique
    * Met a jour la previous position du dispositif avec sa current Position
    * Met a jour la current position avec l'adresse destination
    * */
@@ -265,9 +265,9 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
   
   public void endOfIntervention(int idRegulation, int idIntervention, int idDispositif) throws Exception
   {
-    Date actionDate = new Date();                                      //8=arrivÈ hopital => 8+1=9 : inter terminÈe
+    Date actionDate = new Date();                                      //8=arriv√© hopital => 8+1=9 : inter termin√©e
     this.interventionService.actionOnIntervention     (idIntervention, 8+1, actionDate);
-    this.dispositifService  .actionOnDispositif       (idDispositif  , 8+1, actionDate);//Pour l'historisation du changement d'Ètat
+    this.dispositifService  .actionOnDispositif       (idDispositif  , 8+1, actionDate);//Pour l'historisation du changement d'√©tat
     this.dispositifService  .actionEndOfIntervention  (idDispositif                   );
   }
 }

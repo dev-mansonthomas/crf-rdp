@@ -40,12 +40,12 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
-  /*Injection faite par setter pour résoudre une dépendence cyclique entre les services equipier et dispositif*/
+  /*Injection faite par setter pour rÃ©soudre une dÃ©pendence cyclique entre les services equipier et dispositif*/
   public void setEquipierService(EquipierService equipierService)
   {
     this.equipierService = equipierService;
   }
-  /*Injection faite par setter pour résoudre une dépendence cyclique entre les services equipier et intervention*/
+  /*Injection faite par setter pour rÃ©soudre une dÃ©pendence cyclique entre les services equipier et intervention*/
   public void setInterventionService(InterventionService interventionService)
   {
     this.interventionService = interventionService;
@@ -111,7 +111,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   public void actionOnDispositif(int idDispositif, int newIdEtat, Date actionDate) throws Exception
   {
     if((newIdEtat<3  || newIdEtat>9) && newIdEtat != 1)
-      throw new Exception("Cette action n'est pas géré par la méthode DispositifImpl.actionOnDispositif. idDispositif="+idDispositif+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+      throw new Exception("Cette action n'est pas gÃ©rÃ©e par la mÃ©thode DispositifImpl.actionOnDispositif. idDispositif="+idDispositif+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
    
     String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
     String query         = queryForActionOnDispositif.replaceAll("<<DateField>>", etatDateField);

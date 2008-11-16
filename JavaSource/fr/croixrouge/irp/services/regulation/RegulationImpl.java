@@ -62,7 +62,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   public void createRegulation(Regulation regulation)
   {
     /* 
-    INSERT INTO regulation (`start_date` ,`expected_end_date`, `open`, `id_regulateur`, `label`, `comment`) VALUES(NOW(), ADDDATE(NOW(),1), true, 2, 'Régulation Paris', 'Régulation de Test')*/
+    INSERT INTO regulation (`start_date` ,`expected_end_date`, `open`, `id_regulateur`, `label`, `comment`) VALUES(NOW(), ADDDATE(NOW(),1), true, 2, 'RÃ©gulation Paris', 'RÃ©gulation de Test')*/
     if(logger.isDebugEnabled())
       logger.debug("Creating a regulation : "+regulation);
     
@@ -99,7 +99,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     if(logger.isDebugEnabled())
     logger.debug("regulation created with id="+regulation.getRegulationId());
 
-    //Affecte le régulateur à la régulation
+    //Affecte le rÃ©gulateur Ã  la rÃ©gulation
     this.setRegulationToUser(regulation.getRegulateur().getIdUser(), regulation.getRegulationId());
     
   }
@@ -138,7 +138,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
 
   
   /**
-   * Méthode utilisé pour l'autocomplete pour rechercer un co régulateur par nom ou n° nivol
+   * MÃ©thode utilisÃ© pour l'autocomplete pour rechercer un co rÃ©gulateur par nom ou nÂ° nivol
    * */
   @SuppressWarnings("unchecked")
   public List<User> getCoRegulateurs(String numNivol, String nom)

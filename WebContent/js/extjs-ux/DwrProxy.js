@@ -174,7 +174,7 @@ UI.Ext = function()
             Ext.MessageBox.show({
               buttons: Ext.MessageBox.OK, 
               title: 'Erreur', 
-              msg: 'Votre session a expiré.\nVous allez être redirigé vers la page de connexion...',
+              msg: 'Votre session a expirÃ©e.\nVous allez Ãªtre redirigÃ© vers la page de connexion...',
               minWidth: 500,
               fn: function(btn,text){window.location.reload();}
             });

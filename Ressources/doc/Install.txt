@@ -1,3 +1,9 @@
+Connect to your MySQL server as root
+
+grant all on crfirp.* to 'crfirp'@'localhost' identified by 'CRFCRF';
+flush privileges;
+
+
 
 Tomcat Setup :
   * Tomcat 6
@@ -10,8 +16,8 @@ ________________________________________________________________________________
   <Resource name="jdbc/crfirpDS"
             auth="Container"
             type="javax.sql.DataSource"
-        username="_LOGIN_"
-        password="_PASSWORD_"
+        username="crfirp"
+        password="CRFCRF"
  driverClassName="com.mysql.jdbc.Driver"
              url="jdbc:mysql://localhost/crfirp?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
  validationQuery="Select 1"

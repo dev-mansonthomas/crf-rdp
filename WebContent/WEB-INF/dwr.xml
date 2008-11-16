@@ -2,7 +2,7 @@
 
 <dwr>
   <allow>
-    <convert match="fr.croixrouge.irp.model.**"    converter="bean"/><!-- a partir du build 111 il faut mettre ** pour inclure les sous packages -->
+    <convert match="fr.croixrouge.irp.model.**"   converter="bean"/><!-- a partir du build 111 il faut mettre ** pour inclure les sous packages -->
     <convert match="java.lang.Exception"          converter="bean"/>
     <convert match="java.lang.StackTraceElement"  converter="bean"/>
     

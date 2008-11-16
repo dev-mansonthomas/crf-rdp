@@ -250,7 +250,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `evac_aggravation_nature`                 ,\n"+
     "  `evac_par`                                ,\n"+
     "  `evac_par_autre`                           \n"+
-    "FROM INTERVENTION                            \n";
+    "FROM intervention                            \n";
   
   private final static String queryForGetIntervention =
     selectForIntevention +
@@ -350,7 +350,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   public void actionOnIntervention(int idIntervention, int newIdEtat, Date actionDate) throws Exception
   {
     if(newIdEtat<3  || newIdEtat>9)
-      throw new Exception("Cette action n'est pas géré par la méthode InterventionServiceImpl.actionOnIntervention. idIntervention="+idIntervention+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+      throw new Exception("Cette action n'est pas gÃ©rÃ©e par la mÃ©thode InterventionServiceImpl.actionOnIntervention. idIntervention="+idIntervention+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
     String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
     String query         = queryForActionOnIntervention.replaceAll("<<DateField>>", etatDateField);
     

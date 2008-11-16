@@ -46,7 +46,16 @@ public class MonitorInputBilanImpl  extends DWRUtils
   public Intervention       getIntervention(int idIntervention) throws Exception
   {
     this.validateSession();
-    return this.interventionService.getIntervention(idIntervention);
+    try
+    {
+      return this.interventionService.getIntervention(idIntervention);  
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while loading intervention id="+idIntervention, e);
+      throw e;
+    }
+    
   }
   public InterventionTicket getInterventionTicket(int idIntervention) throws Exception
   {

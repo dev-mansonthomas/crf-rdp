@@ -7,7 +7,7 @@ MonitorInputDispositifCs.prototype.initialize=function()
 //  MonitorInputDispositif.initScriptSession();
   $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
   this.getDispositifMaps ();
-      /*Selection de la délégation*/  
+      /*Selection de la dÃ©lÃ©gation*/  
   new Autocompleter.DWR( 'DispositifDelegation', 
                          'DispositifDelegation_SelectList', 
                          this.updateListDelegation, 
@@ -17,7 +17,7 @@ MonitorInputDispositifCs.prototype.initialize=function()
                            displayItemsThatDontMatchInput:true
                          }
                        );
-  /*Séléction des équipiers*/
+  /*SÃ©lÃ©ction des Ã©quipiers*/
   new Autocompleter.DWR( 'DispositifEquipierAdd_Nivol'     , 
                          'DispositifEquipierAdd_SelectList', 
                          this.updateListEquipierNivol, 
@@ -103,9 +103,9 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
             {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:miDispositifCs.typeCellRenderer},
             {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
-            {id:'dhDebutDCurrentCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
+            {id:'dhDebutDCurrentCol'            , header: "Date DÃ©but Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
             {id:'dhFinDCurrentCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
-            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'     , renderer:miDispositifCs.delegationCellRenderer},
+            {id:'idDelegationDCurrentCol'       , header: "DÃ©lÃ©gation"      , width: 150, sortable: true, dataIndex: 'idDelegation'     , renderer:miDispositifCs.delegationCellRenderer},
             {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif' , renderer:miDispositifCs.etatDispositifCellRenderer}
         ]),
         viewConfig: {
@@ -123,7 +123,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
           pageSize: 5,
           store: dataStore1,
           displayInfo: true,
-          displayMsg: 'Dispositifs(s) {0} à {1} de {2}',
+          displayMsg: 'Dispositifs(s) {0} Ã  {1} de {2}',
           emptyMsg: 'aucun dispositif actif'
         })
     });
@@ -160,9 +160,9 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
             {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:miDispositifCs.typeCellRenderer},
             {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
-            {id:'dhDebutDCurrentCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
+            {id:'dhDebutDCurrentCol'            , header: "Date DÃ©but Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
             {id:'dhFinDCurrentCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
-            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'     , renderer:miDispositifCs.delegationCellRenderer},
+            {id:'idDelegationDCurrentCol'       , header: "DÃ©lÃ©gation"      , width: 150, sortable: true, dataIndex: 'idDelegation'     , renderer:miDispositifCs.delegationCellRenderer},
             {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif' , renderer:miDispositifCs.etatDispositifCellRenderer}
         ]),
         viewConfig: {
@@ -180,8 +180,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
           pageSize: 5,
           store: dataStore2,
           displayInfo: true,
-          displayMsg: 'Dispositif(s) {0} à {1} de {2}',
-          emptyMsg: 'aucun dispositif en cours d\'édition'
+          displayMsg: 'Dispositif(s) {0} Ã  {1} de {2}',
+          emptyMsg: 'aucun dispositif en cours d\'Ã©dition'
         })
     });
   grid2.getStore().load({params: {start:0, limit:5}});
@@ -225,18 +225,18 @@ MonitorInputDispositifCs.prototype.typeCellRenderer=function(value, metadata, re
 MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 {
   var displayWarningMsg = false;
-  var warningMsg = 'Attention, le dispositif ne respecte pas certains pré-requis :<br/> <ul>';
+  var warningMsg = 'Attention, le dispositif ne respecte pas certains prÃ©-requis :<br/> <ul>';
   
   if(this.equipageInformation['onlyGirlInBack'])
   {
     displayWarningMsg = true;
-    warningMsg += '<li> le véhicule n\'a pas d\'homme dans la cellule arrière</li>';
+    warningMsg += '<li> le vÃ©hicule n\'a pas d\'homme dans la cellule arriÃ¨re</li>';
   }
 
   if(MonitorInputDispositifCs.prototype.updateVolumeAndAutonomie() < 3)
   {
     displayWarningMsg = true;
-    warningMsg += '<li> le véhicule n\'a pas le volume réglementaire requis pour un réseau de secours</li>';
+    warningMsg += '<li> le vÃ©hicule n\'a pas le volume rÃ©glementaire requis pour un rÃ©seau de secours</li>';
   }  
   warningMsg += '</ul><br/><br/>Etes vous sur de vouloir passer ce dispositif comme disponible ?<br/><br/>Cliquez sur OK pour ajouter le dispositif comme disponible, annulez pour ajouter le dispositif comme indisponible.';
   
@@ -483,7 +483,7 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   
   
   this.updateVolumeAndAutonomie();
-  if(dispositif.idTypeDispositif!=0)// si pas de type de dispositif, aucun équipier ne  peut etre saisie.
+  if(dispositif.idTypeDispositif!=0)// si pas de type de dispositif, aucun Ã©quipier ne  peut etre saisie.
     this.updateListEquipierReturn(dispositif.equipierList);
 };
 
@@ -491,11 +491,11 @@ MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equi
 {
   if($('DispositifType').value == 0)
   {
-    crfIrpUtils.error('DispositifType', 'Veuillez choisir le type de dispositif avant d\'ajouter des équipiers');
+    crfIrpUtils.error('DispositifType', 'Veuillez choisir le type de dispositif avant d\'ajouter des Ã©quipiers');
     return;
   }
 
-  //Vérifie qu'il n'y pas de trous du a une suppression
+  //VÃ©rifie qu'il n'y pas de trous du a une suppression
   for(i=1;i<equipierRank;i++)
   {
     if( MonitorInputDispositifCs.prototype.equipageInformation['rankInfo'][i] == null)
@@ -543,7 +543,7 @@ MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listEquipie
       function(equipier) {return '<img src="'+contextPath+'/img/monitorInput/user'+(equipier.homme?'':'_female')+'.png" alt="'+(equipier.homme?'Homme':'Femme')+'"/> '+equipier.nom+' '+equipier.prenom;},
       function(equipier) {return crfIrpUtils.getLabelFor('RolesEquipier', equipier.idRoleDansDispositif );},
       function(equipier) {return '<img src="'+contextPath+'/img/monitorInput/user_delete.png" ' +
-                                      'id="CoRegulateurDel_Button_'+equipier.numNivol+'" alt="Supprimer Le Co-Régulateur '+equipier.nom+' '+equipier.prenom+'"  ' +
+                                      'id="CoRegulateurDel_Button_'+equipier.numNivol+'" alt="Supprimer Le Co-RÃ©gulateur '+equipier.nom+' '+equipier.prenom+'"  ' +
                                       'onClick="miDispositifCs.removeEquipierFromDispositif(\''+equipier.idEquipier+'\', \''+equipier.equipierRank+'\', \''+equipier.numNivol+'\',\''+equipier.nom+' '+equipier.prenom+'\');"/>';}
     ];
   
@@ -668,7 +668,7 @@ MonitorInputDispositifCs.prototype.updateAddress=function(fieldId, fieldName, cu
   if( rue       .value != '' && rue       .oldValue != rue       .value &&
       codePostal.value != '' && codePostal.oldValue != codePostal.value &&
       ville     .value != '' && ville     .oldValue != ville     .value   )
-  {// valeur non vide et non différente de la précédente valeur
+  {// valeur non vide et non diffÃ©rente de la prÃ©cÃ©dente valeur
     googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
                                                         codePostal.value +', '+
                                                         ville     .value,
@@ -689,7 +689,7 @@ MonitorInputDispositifCs.prototype.updatePreviousAddressReturn=function(place)
 MonitorInputDispositifCs.prototype.updateAddressReturn=function(place, current)
 {
   var coordinates = place.Point.coordinates;
-  //ATTENTION, visiblement, les coordonnées google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisé partout ailleurs dans l'ordre (Latitude,Longitude)
+  //ATTENTION, visiblement, les coordonnÃ©es google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisÃ©s partout ailleurs dans l'ordre (Latitude,Longitude)
   
   var which = current ? 'Current' : 'Previous';
   $('dispositif'+which+'AddressCoordinateLat' ).value=coordinates[1];
@@ -721,7 +721,7 @@ MonitorInputDispositifCs.prototype.updateAddressErrorReturn=function(response, c
 };
 
 
-/************************Méthode*d'update*****************************************/
+/************************MÃ©thode*d'update*****************************************/
 MonitorInputDispositifCs.prototype.updateDispositifIntField=function(fieldId, fieldName)
 {
   crfIrpUtils.checkField (fieldId);
@@ -833,7 +833,7 @@ MonitorInputDispositifCs.prototype.updateDispositifBooleanField=function(fieldId
 
 
   /** 
-   * Function fired when an "Autre Délegation" is validated
+   * Function fired when an "Autre DÃ©legation" is validated
    */
 MonitorInputDispositifCs.prototype.dispositifSetAutreDelegation=function()
 {
@@ -871,7 +871,7 @@ MonitorInputDispositifCs.prototype.updateListEquipierNom=function(autocompleter,
                                      }
                                     );
 };
-  //Fonction pour l'autocomplete du choix de la délégation
+  //Fonction pour l'autocomplete du choix de la dÃ©lÃ©gation
 MonitorInputDispositifCs.prototype.updateListDelegation=function(autocompleter, token) 
 {
   MonitorInput.getDelegationByZipCode  (  token, 

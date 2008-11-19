@@ -5,137 +5,139 @@
 TODO :      
 
 Application : 
+  + version de l'application "Majeur.Medium.Mineur, build yyyyMMdd HHmm"
   + Confirmer les descriptions d'AR, UMH, Myosis, Mydryase
   + debugger l'adresse d'evac
-     
-  + bug ext (el is null) après plusieurs cycle d'inter (ou sur la dernière inter a affecter (plus probable))                                                                 
-      ==> bug dwr dans la version 111, les appels ajax classiques attendent un reverse ajax pour s'executer. (une sorte de piggyback a l'envers)
-      ==> voir si nouvelle version de dwr ou poser la question sur la mailling list
+
 
   + implementer l'historisation des changements des interventions et dispositifs dans mysql 
-      Soit sous forme de trigger avec historisation systématique, mais volume de données trop important, peu exploitable
-      Soit sous la forme d'une table d'historique avec les évenements marquants + zone de données XML
-        charge plus importante, il faut définir quelles évenements sont a coder.
-        On pourrait y stocker les éléments de timing                       
+      Soit sous forme de trigger avec historisation systÃ©matique, mais volume de donnÃ©es trop important, peu exploitable
+      Soit sous la forme d'une table d'historique avec les Ã©venements marquants + zone de donnÃ©es XML
+        charge plus importante, il faut dÃ©finir quelles Ã©venements sont a coder.
+        On pourrait y stocker les Ã©lÃ©ments de timing                       
 
-  + Ré intégrer le code pour la gestion des régulateurs sur in.jsp
+  + RÃ© intÃ©grer le code pour la gestion des rÃ©gulateurs sur in.jsp
     
   
   + BILAN : Date de naissance
  
-  + Dispositif : gestion du focus sur ajout de dispositif : skip des dates, après saisie équipier donner le focus aux premier volume d'O2, faire volume/pression/volume/pression plutot que volume/volume/pression/pression
-  + Dispositif : Arrondi a l'entier près pour l'autonomie, un chiffre après la virgule pour le volume
+  + Dispositif : gestion du focus sur ajout de dispositif : skip des dates, aprÃ¨s saisie Ã©quipier donner le focus aux premier volume d'O2, faire volume/pression/volume/pression plutot que volume/volume/pression/pression
+  + Dispositif : Arrondi a l'entier prÃ¨s pour l'autonomie, un chiffre aprÃ¨s la virgule pour le volume
   + Dispositif : Drop down pour le volume des bouteilles
  
-  + Ajout de la possiblité de transferer une vicitime d'un dispositif a un autre (PAPS -> dispositif, dispositif->dispositif)
-  + Ajout de la possiblité de mettre plus d'une victime dans un dispositif : PAPS, transport exceptionnel de N victime. Via une table d'association
+  + Ajout de la possiblitÃ© de transferer une vicitime d'un dispositif a un autre (PAPS -> dispositif, dispositif->dispositif)
+  + Ajout de la possiblitÃ© de mettre plus d'une victime dans un dispositif : PAPS, transport exceptionnel de N victime. Via une table d'association
   + init drop zone : gestion des couleurs de la dropzone : vert :droppable, rouge : qqn a bord ajout impossible dans un premier temps, gris : indisponible
-  + Input , Dispositif : Ajout d'une référence à sa base. Référence a un lieu + adresse complete (cas ou la base est un point d'alerte par exemple)
+  + Input , Dispositif : Ajout d'une rÃ©fÃ©rence Ã  sa base. RÃ©fÃ©rence a un lieu + adresse complete (cas ou la base est un point d'alerte par exemple)
   + Output, Dispositif, ajout d'un bouton "A sa base" en forme de maison  
   
   + BILAN : Gestion de la mise a jours des Dates avec Gestion du +1J par rapport a la date de saisie de l'inter
-  + BILAN : Controle sur les dates : controle d'antériorité
-  + Page pour les crédits des produits opensources utilisé.             
+  + BILAN : Controle sur les dates : controle d'antÃ©rioritÃ©
+  + Page pour les crÃ©dits des produits opensources utilisÃ©.             
   + Gestion des lieux : Interface de saisie dans Input   
-  + Ajouter le N° d'inter dans l'affichage du Ticket
+  + Ajouter le NÂ° d'inter dans l'affichage du Ticket
                
 Technique : 
                                                
   + build my own Ext  
-  + Mise en place YUI Compressor  (intégré dans jawr)        
+  + Mise en place YUI Compressor  (intÃ©grÃ© dans jawr)        
   + Mode Admin : vider les caches.
   
-Déploiement : 
+DÃ©ploiement : 
 
-  + STARTUP : vérifier l'existance de la database crfirp via "show databases", créer la base et la remplir si elle n'existe pas.
+  + STARTUP : vÃ©rifier l'existance de la database crfirp via "show databases", crÃ©er la base et la remplir si elle n'existe pas.
               a ce moment, dispositif.getCurrentPosition contiendra la position de l'hopital.
-              Lorsque l'utilisateur clic sur Action, on affiche la listes des hopitaux de paris(ou adresse en saisie libre, dans ce cas, on met -1 pour evac_hopital_destination), il choisi, update ajax, sur le retour, on appel la méthode actionOnDispositif
+              Lorsque l'utilisateur clic sur Action, on affiche la listes des hopitaux de paris(ou adresse en saisie libre, dans ce cas, on met -1 pour evac_hopital_destination), il choisi, update ajax, sur le retour, on appel la mÃ©thode actionOnDispositif
 
   
 GOOGLE MAPS     
-  + Avoir une version d'icone par dispositif pour un repérage plus facile sur la carte. Positionnement plus précis
-  + Google Map : sur une intervetion qui est affecté a un dispositif, dans la bubble, afficher les références au dispositifi (id, indicatif),  ajouter bouton pour centrer sur dispositifi (et vice versa, bouton pour centré sur inter, pour un dispositif qui a une inter)
+  + Avoir une version d'icone par dispositif pour un repÃ©rage plus facile sur la carte. Positionnement plus prÃ©cis
+  + Google Map : sur une intervetion qui est affectÃ© a un dispositif, dans la bubble, afficher les rÃ©fÃ©rences au dispositifi (id, indicatif),  ajouter bouton pour centrer sur dispositifi (et vice versa, bouton pour centrÃ© sur inter, pour un dispositif qui a une inter)
   + Google Map : voir pour changer les couleurs des gdirection
-  + Si objet google non chargé, Reloader le script en ajoutant la balise html <script> dans la page. cf script.aculo.us. Sur reconnection a google map lancer un evenement qu'écoute les autres objets utilisant google map
-  + Gerer la séquence suivante: Google map available, perte réseau => exception, a catcher pour marquer gmap unavailable.
+  + Si objet google non chargÃ©, Reloader le script en ajoutant la balise html <script> dans la page. cf script.aculo.us. Sur reconnection a google map lancer un evenement qu'Ã©coute les autres objets utilisant google map
+  + Gerer la sÃ©quence suivante: Google map available, perte rÃ©seau => exception, a catcher pour marquer gmap unavailable.
   + Inclure street view
       http://code.google.com/apis/maps/documentation/services.html#Streetview
       http://keirclarke.googlepages.com/streetviewapi.htm
       http://googlemapsapi.blogspot.com/2008/03/street-view-in-api-or-how-i-spent-my.html
       http://gmaps-samples.googlecode.com/svn/trunk/streetview/streetview_directions.html 
-  + Calcul de distance/durée entre un dispositif et un lieu. Lieu et Lieu.                                                                                   
+  + Calcul de distance/durÃ©e entre un dispositif et un lieu. Lieu et Lieu.                                                                                   
   + Gestion des lieux : Ajuster l'anchor pour les icones
  
 
 
   
   
-DONE :  
-  - BILAN : Afficher les infos sur Autre destination (rue, cp, ville, icone pour centré sur la map, mecanisme de geocodage)
-  - PARTOUT : Ajouter des quicktip pour expliquer les champs (RCP : Réanimation Cardio Pulmonaire) etc... 
+DONE :
+  - bug ext (el is null) aprÃ¨s plusieurs cycle d'inter (ou sur la derniÃ¨re inter a affecter (plus probable))                                                                 
+      ==> bug dwr dans la version 111, les appels ajax classiques attendent un reverse ajax pour s'executer. (une sorte de piggyback a l'envers)
+      ==> voir si nouvelle version de dwr ou poser la question sur la mailling list
+  
+  - BILAN : Afficher les infos sur Autre destination (rue, cp, ville, icone pour centrÃ© sur la map, mecanisme de geocodage)
+  - PARTOUT : Ajouter des quicktip pour expliquer les champs (RCP : RÃ©animation Cardio Pulmonaire) etc... 
   - BILAN : remplir la liste des hopitaux
   - Afficher l'heure dans la JSP out pour avant l'appel ajax+  
-  - Bouton Action : Inter Terminé : supprimer les marqueurs de la carte, désaffecter l'intervention du dispositif (seulement sur le dispositif)
+  - Bouton Action : Inter TerminÃ© : supprimer les marqueurs de la carte, dÃ©saffecter l'intervention du dispositif (seulement sur le dispositif)
                     
-    Terminée => Indispo => dispo
+    TerminÃ©e => Indispo => dispo
                                         => retourne a sa base
                                         => 
-    Intervention : Mise a jour de l'état* , de la date de fin*
-    Dispositif   : Mise a jour état et date de fin intervention pour historisation
-                   Puis réinit du dispositif: etat, current_intervention, réinitialisation des dates de l'intervention a null
+    Intervention : Mise a jour de l'Ã©tat* , de la date de fin*
+    Dispositif   : Mise a jour Ã©tat et date de fin intervention pour historisation
+                   Puis rÃ©init du dispositif: etat, current_intervention, rÃ©initialisation des dates de l'intervention a null
 
   - lib native tomcat : http://tomcat.apache.org/tomcat-6.0-doc/apr.html (sous linux, voir doc d'install)
-  - Ré écrire sedna security
-  - Virer les contextPath et utiliser des chemins relatifs (chemin absolu ct nécessaire du temps des 2 webapps)    
-  - Anonymiser les données de test pour pouvoir publier l'appli sur le net  
-  - Mise en place d'une configuration par machine (Log4J et Properties), mutualisé entre spring mvc et spring
+  - RÃ© Ã©crire sedna security
+  - Virer les contextPath et utiliser des chemins relatifs (chemin absolu ct nÃ©cessaire du temps des 2 webapps)    
+  - Anonymiser les donnÃ©es de test pour pouvoir publier l'appli sur le net  
+  - Mise en place d'une configuration par machine (Log4J et Properties), mutualisÃ© entre spring mvc et spring
   - Update to jawr 2.5 + jawr-dwr plugin 1.3 + dwr 3 build 111
   - Utiliser une dataSource dans le serveur d'application. (voir cataliane base local/catalina example jira/confluence)
-  - intégrer vue : http://www.sytadin.fr/tempsreel/parisint.gif et http://www.sytadin.fr/opencms/sites/sytadin/sys/raster_fs.jsp.html_430821966.html rafraichi toutes les 2 minutes.
+  - intÃ©grer vue : http://www.sytadin.fr/tempsreel/parisint.gif et http://www.sytadin.fr/opencms/sites/sytadin/sys/raster_fs.jsp.html_430821966.html rafraichi toutes les 2 minutes.
   - Mise en place de Jawr 
   - Ajout d'un filter pour expire headers
   - JS a la fin des pages
-  - BILAN : Formulaire doit être caché par défaut et activé lorsqu'on veut regarder
-  - Lorsqu'on clic sur Parti, et une direction déja affiché, le nouveau trajet ne s'affiche pas
+  - BILAN : Formulaire doit Ã©tre cachÃ© par dÃ©faut et activÃ© lorsqu'on veut regarder
+  - Lorsqu'on clic sur Parti, et une direction dÃ©ja affichÃ©, le nouveau trajet ne s'affiche pas
   - Lorsqu'on a choisi un hopital, le trajet ne s'affiche pas
   - mettre le recordId plutot que le row num dans initdropzone[A tester]
   - InitDropZone, ajout d'un dispositif depuis input => pb
-  - Maintenir la position d'un dispositif dans la liste au changement d'état, sinon ca clignote et change d'ordre
-  - Réactivé recherche intuitive par nom sur l'ajout d'équipier au dispositif
-  - réinitialiser l'indicatif du véhicule sur création
-  - Jeux de base, initialisé la valeur de l'auto_increment des tables égale au nombre d'enregistrement présent
+  - Maintenir la position d'un dispositif dans la liste au changement d'Ã©tat, sinon ca clignote et change d'ordre
+  - RÃ©activÃ© recherche intuitive par nom sur l'ajout d'Ã©quipier au dispositif
+  - rÃ©initialiser l'indicatif du vÃ©hicule sur crÃ©ation
+  - Jeux de base, initialisÃ© la valeur de l'auto_increment des tables Ã©gale au nombre d'enregistrement prÃ©sent
   - Ajout Dispositif, end of edition event, le dispositif ne disparait pas.
   - Bouton Action : nettoyage de la carte qui n'est pas bien fait (reste les marqeurs des directions)
   - Bouton Action : sur Transport, afficher la liste des lieux de type Hoptiaux avec saisie d'adresse libre possible.
-  - Bouton Action : changer le libellé en fonction du status courant de l'intervention.  
-  - InterventionTicket: supprimer le marker lorsqu'on affect l'inter (inter réafficher par le dispositif)
-  - Dispositif : Réduire taille du champ ville pour que l'icone google maps tienne sur la ligne, agrandire la rue
-  - Gestion trajet en fonction des coordonnées GPS (pas de trajet lorsque currentAddr ==  previousAddr)
+  - Bouton Action : changer le libellÃ© en fonction du status courant de l'intervention.  
+  - InterventionTicket: supprimer le marker lorsqu'on affect l'inter (inter rÃ©afficher par le dispositif)
+  - Dispositif : RÃ©duire taille du champ ville pour que l'icone google maps tienne sur la ligne, agrandire la rue
+  - Gestion trajet en fonction des coordonnÃ©es GPS (pas de trajet lorsque currentAddr ==  previousAddr)
   - Liste des lieux changer le style pour cursor:pointer, ajouter l'icone en classe sur l'onglet et chaque item
-  - Transferer les dernières fonctionnalité de l'ancien fichier google maps vers le nouveau, et migrer InputIntervention, IntputDispositif
+  - Transferer les derniÃ©res fonctionnalitÃ© de l'ancien fichier google maps vers le nouveau, et migrer InputIntervention, IntputDispositif
   - Mode offline google maps
-  - Dispositif : calcul d'itinéraire avec google maps
-  - Ticket d'intervention, reset form : prénom/age/sexe/image google  
+  - Dispositif : calcul d'itinÃ©raire avec google maps
+  - Ticket d'intervention, reset form : prÃ©nom/age/sexe/image google  
   - InterventionTicket : affichage de l'intervention sur la map, utiliser focusMaker plutot que panTo.
-  - Gestion des lieux : Lister les lieux par catégories, click sur un lieu, affiche le lieu, centre et affiche la description
-  - Gestion des lieux : Afficher/cacher les lieux par catégories
+  - Gestion des lieux : Lister les lieux par catÃ©gories, click sur un lieu, affiche le lieu, centre et affiche la description
+  - Gestion des lieux : Afficher/cacher les lieux par catÃ©gories
   - Google Maps : Affichage des lieux par layer en fonction du type de lieux.
-  - Gestion des lieux : afficher les lieux par catégorie
-  - La méthode qui ouvre le bilan doit prendre en parametre l'onglet a ouvrir (primaire/secondaire)
-  - Intervention Ticket, créer une classe sous titre, utiliser des span
-  - Ajout de dispositif, ré initialisation du calcul de capacité en O2, et de l'Etat (Dispo/Indispo), mettre indispo par defaut
+  - Gestion des lieux : afficher les lieux par catÃ©gorie
+  - La mÃ©thode qui ouvre le bilan doit prendre en parametre l'onglet a ouvrir (primaire/secondaire)
+  - Intervention Ticket, crÃ©er une classe sous titre, utiliser des span
+  - Ajout de dispositif, rÃ© initialisation du calcul de capacitÃ© en O2, et de l'Etat (Dispo/Indispo), mettre indispo par defaut
   - Action
   - intervention : remplacer DH_dispo par DH_fin_intervention, supprimer DH_a_sa_base
   - BILAN : Changer evac_arrivee_destination par DH_arrivee_hopital dans sauvegarde Ajax et DAO
   - Intervention : faire le select intervention
-  - Intervention : refaire l'objet intervention pour matcher la base  de données,
+  - Intervention : refaire l'objet intervention pour matcher la base  de donnÃ©es,
   - Intervention : refaire le rowmapper
   - BILAN : charger l'intervention,
-  - BILAN : ajouter les données qui identifie le dispositif qui prends en charge l'intervention
+  - BILAN : ajouter les donnÃ©es qui identifie le dispositif qui prends en charge l'intervention
   - BILAN : Ajouter le sexe et l'age aproximatif
   - BILAN : Myosis & Mydriase sur le meme oeil, impossible.
-  - BILAN : Pupille réactive & Non réactive impossible
-  - BILAN : Médicalisé Par UMH et AR en meme temps, impossible
+  - BILAN : Pupille rÃ©active & Non rÃ©active impossible
+  - BILAN : MÃ©dicalisÃ© Par UMH et AR en meme temps, impossible
 
 
 

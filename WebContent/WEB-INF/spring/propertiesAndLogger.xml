@@ -14,7 +14,7 @@
   </bean>
   
   <bean id="exportPath" class="java.lang.String">
-    <constructor-arg value="/home/special/crfirp/conf"/>
+    <constructor-arg value="/home/special/tomcat/crf/conf"/>
   </bean>
 
 

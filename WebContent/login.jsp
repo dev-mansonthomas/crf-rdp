@@ -18,8 +18,8 @@
     <form action="j_security_check" method="post">
   
     <div id="loginForm">
-      <div class="label">Login   </div><input type="text"      id="j_username" name="j_username" value="75233A"  size="15"/><br/>
-      <div class="label">Password</div><input type="password"  id="j_password" name="j_password" value="TEST"    size="15"/><br/>
+      <div class="label">Login   </div><input type="text"      id="j_username" name="j_username" value=""  size="15"/><br/>
+      <div class="label">Password</div><input type="password"  id="j_password" name="j_password" value=""    size="15"/><br/>
                                        <input type="submit"    id="submit"     name="submit"     value="valider" class="formButton"/>
     </div>
 <%

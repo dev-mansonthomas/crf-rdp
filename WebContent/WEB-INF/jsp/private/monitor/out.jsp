@@ -152,7 +152,7 @@ Ville
 </div>
 
   <!-- google map -->
-  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g" type="text/javascript"> </script>
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${googleMapsKey}" type="text/javascript"> </script>
 
   <jwr:script src="/jsBundle/extJs.js"/>
   <script type="text/javascript">

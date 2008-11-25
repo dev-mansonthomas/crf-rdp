@@ -24,12 +24,10 @@
 
   <bean id="MonitorInController" name="MonitorInController"
        class="fr.croixrouge.irp.controller.MonitorInController" autowire="constructor">
-    <property name="googleMapsKey" value="${google.maps.key}"/>
   </bean>
 
   <bean id="MonitorOutController" name="MonitorOutController"
        class="fr.croixrouge.irp.controller.MonitorOutController" autowire="constructor">
-    <property name="googleMapsKey" value="${google.maps.key}"/>
   </bean>
 
 

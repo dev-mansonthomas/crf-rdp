@@ -3,6 +3,16 @@
  **/
 
 /* ===================== Exception def ============================== */
+var consoleEnabled = false;
+
+try
+{
+console.log("Console test log");
+	consoleEnabled = true;
+}
+catch(e)
+{
+}
 
 function ParseDateException(input, expectedFormat, extraInformation) 
 {

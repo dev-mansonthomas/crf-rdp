@@ -12,8 +12,9 @@
   </head>
   <body>
 
-  <div id="north">
+  <div id="north"  style="vertical-align: bottom;">
     <img src="<%=contextPath%>/img/RegulationParis.png" class="imgLoginLeft"  alt="Informatisation de la Régulation de Paris"/>
+    <span style="margin-left:275px;">version ${applicationVersion}</span>
     <img src="<%=contextPath%>/img/logo-crf-small.png"  class="imgLoginRight" alt="Croix Rouge Francaise"/>
   </div>
   <div id="center">

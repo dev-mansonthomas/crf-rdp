@@ -5,7 +5,7 @@
 TODO :      
 
 Application : 
-  + version de l'application "Majeur.Medium.Mineur, build yyyyMMdd HHmm"
+
   + Confirmer les descriptions d'AR, UMH, Myosis, Mydryase
   + debugger l'adresse d'evac
 
@@ -38,7 +38,7 @@ Application :
   + Ajouter le N° d'inter dans l'affichage du Ticket
                
 Technique : 
-                                               
+  + Spring 2.5.6 + dependencies                                               
   + build my own Ext  
   + Mise en place YUI Compressor  (intégré dans jawr)        
   + Mode Admin : vider les caches.
@@ -69,6 +69,8 @@ GOOGLE MAPS
   
   
 DONE :
+  - version de l'application "Majeur.Medium.Mineur, build yyyyMMdd HHmm"
+  - Gestion de la console, firebug désactivé
   - bug ext (el is null) après plusieurs cycle d'inter (ou sur la dernière inter a affecter (plus probable))                                                                 
       ==> bug dwr dans la version 111, les appels ajax classiques attendent un reverse ajax pour s'executer. (une sorte de piggyback a l'envers)
       ==> voir si nouvelle version de dwr ou poser la question sur la mailling list

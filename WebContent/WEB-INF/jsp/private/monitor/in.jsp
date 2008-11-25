@@ -16,6 +16,7 @@
 
   <div id="north">
     <img src="../../img/RegulationParis.png" class="imgLoginLeft"  alt="Informatisation de la Régulation de Paris"/>
+    version ${applicationVersion}
   </div>
 <div id="regulationInformation">
 <input type="hidden" id="regulationId" name="regulationId"  value=""/>
@@ -445,7 +446,7 @@ Age Approximatif :
         <div class="BilanFieldInputLabel">Adresse :</div>
       </td>
       <td>
-          <input style="width:120px;"
+          <input style="width:220px;"
                   type="text"
                     id="bilan_adresse_victime"
                   name="bilan_adresse_victime"

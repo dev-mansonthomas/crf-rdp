@@ -2,8 +2,8 @@
 Ext.override(Ext.dd.DDProxy, {
       startDrag: function(x, y) 
       {
-        if(console)
-          console.log('StartDrag x='+x+' y='+y+'');
+        if(consoleEnabled)
+         console.log('StartDrag x='+x+' y='+y+'');
         var dragEl = Ext.get(this.getDragEl());
         var el     = Ext.get(this.getEl    ());
  
@@ -16,8 +16,8 @@ Ext.override(Ext.dd.DDProxy, {
       },
       onDragOver: function(e, targetId) 
       {
-        if(console)
-          console.log('drag Over '+targetId+' '+(targetId.indexOf('dispositifDz_')>-1));
+    	if(consoleEnabled)
+    	  console.log('drag Over '+targetId+' '+(targetId.indexOf('dispositifDz_')>-1));
         if(targetId.indexOf('dispositifDz_')>-1) 
         {
           var target = Ext.get(targetId);
@@ -27,8 +27,8 @@ Ext.override(Ext.dd.DDProxy, {
       },
       onDragOut: function(e, targetId) 
       {
-        if(console)
-          console.log('drag Out '+targetId+' '+(targetId.indexOf('dispositifDz_')>-1));
+    	  if(consoleEnabled)
+        	console.log('drag Out '+targetId+' '+(targetId.indexOf('dispositifDz_')>-1));
         if(targetId.indexOf('dispositifDz_')>-1)
         {
           var target = Ext.get(targetId);
@@ -38,11 +38,11 @@ Ext.override(Ext.dd.DDProxy, {
       },
       endDrag: function() 
       {
-        if(console)
+    	if(consoleEnabled)
           console.log('drag End ');
         var dragEl = Ext.get(this.getDragEl());
         var el     = Ext.get(this.getEl    ());
-        if(console)
+        if(consoleEnabled)
           console.log('last target = '+this.lastTarget);
         if(this.lastTarget) 
         {
@@ -82,6 +82,8 @@ Ext.ux.MonitorOutput.dd = function() {
       init: function() {
         dropZones  = Array();
         draggables = Array();
+        if(consoleEnabled)
+          console.log('dd init');
       },
       addDraggable:function(id, intervention){
         var ddItem = Ext.get(id);
@@ -92,7 +94,7 @@ Ext.ux.MonitorOutput.dd = function() {
                                           scope:this,
                                           fn:function(dd, dragElementData, lastTarget) 
                                           {
-                                            if(console)
+                                            if(consoleEnabled)
                                               console.log('handling drop of '+dragElementData+' in '+lastTarget.id);
                                             var dropZoneData = Ext.ux.MonitorOutput.dd.getDropZoneData(lastTarget.id);
                                             moDispositifCs.setInterventionToDispositif(dragElementData, dropZoneData);
@@ -105,8 +107,8 @@ Ext.ux.MonitorOutput.dd = function() {
         return draggableGroup;
       },
       removeTagFromDropZoneList:function(dropZoneId){
-        if(console)
-          console.log('removeTagFromDropZoneList on '+dropZoneId+' state before : '+this.dropZonesIds);
+    	  if(consoleEnabled)
+    	  console.log('removeTagFromDropZoneList on '+dropZoneId+' state before : '+this.dropZonesIds);
 
         var index = this.dropZonesIds.indexOf(dropZoneId+'|');
         if(index>-1)
@@ -120,15 +122,16 @@ Ext.ux.MonitorOutput.dd = function() {
               this.dropZonesIds+=oneItem+'|';
           }
         }
-        if(console)
-          console.log('removeTagFromDropZoneList on '+dropZoneId+' state after : '+this.dropZonesIds);
+        if(consoleEnabled)
+        console.log('removeTagFromDropZoneList on '+dropZoneId+' state after : '+this.dropZonesIds);
       },
       addDropZone:function(id, recordId, data){
-        if(console)
-          console.log('addDropZone on '+id+' row '+recordId);
+    	  
+    	  if(consoleEnabled)
+    	  console.log('addDropZone on '+id+' row '+recordId);
         if(this.dropZonesIds.indexOf(id+'|')>-1)
         {
-          if(console)
+          if(consoleEnabled)
             console.log('dropZone id='+id+' row='+recordId+' already added, ignoring');
         }
         else

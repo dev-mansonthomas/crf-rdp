@@ -35,7 +35,7 @@ if(error)
 		</form>
     
     <div id="footer">
-       Copyright © 2006 Croix Rouge Française
+       Copyright © 2009 - Croix Rouge Française
     </div>
     <jwr:script src="/jsBundle/baseLogin.js"/> 
 	</body>

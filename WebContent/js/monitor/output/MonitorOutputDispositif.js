@@ -662,8 +662,8 @@ MonitorOutputDispositifCs.prototype.initDropZoneAdd  =function()
  * */
 MonitorOutputDispositifCs.prototype.initDropZone  =function()
 {
-  if(console)
-    console.log('adding drop zone');
+  //if(consoleEnabled)
+    //console.log('adding drop zone');
     
   var store = Ext.getCmp('DispositifListGrid').getStore();
   

@@ -42,6 +42,80 @@ CrfIrpUtils.prototype.initialize=function()
   this.infoTemplate = new Template('<div class="CrfUtilsInfoWindowElement" onmouseover="highlight(#{fieldId}, true);" onmouseout="highlight(#{fieldId}, false);"><span class="CrfUtilsInfoWindowElementDate">#{myDate}</span>#{msg}</div>');
 };
 
+
+/* ===================== Radio ============================== */
+
+
+CrfIrpUtils.prototype.radioAlphabet = {A:"ALPHA"
+      ,B:"BRAVO"
+      ,C:"CHARLIE"
+      ,D:"DELTA"
+      ,E:"ECHO"
+      ,F:"FOXTROT"
+      ,G:"GOLF"
+      ,H:"HOTEL"
+      ,I:"INDIA"
+      ,J:"JULIET"
+      ,K:"KILO"
+      ,L:"LIMA"
+      ,M:"MIKE"
+      ,N:"NOVEMBER"
+      ,O:"OSCAR"
+      ,P:"PAPA"
+      ,Q:"QUEBEC"
+      ,R:"ROMEO"
+      ,S:"SIERRA"
+      ,T:"TANGO"
+      ,U:"UNIFORM"
+      ,V:"VICTOR"
+      ,W:"WHISKY"
+      ,X:"X-RAY"
+      ,Y:"YANKEE"
+      ,Z:"ZULU"
+      ," ":" "};
+
+
+CrfIrpUtils.prototype.toRadio=function(str)
+{
+  var str2   = str.replace(/é|è|ê|ë/gi,"").replace(/à|â|ä/gi, "a").replace(/ç/gi, "c").replace(/ù/gi, "u").replace(/î|ï/gi, "i");
+  var result = [];
+  
+  for(i=0,count=str2.length;i<count;i++)
+  {
+    tmp = this.radioAlphabet[str2.charAt(i).toUpperCase()]
+    if(tmp != null)
+      result.push(tmp.capitalize()+' ');
+    else
+      result.push(' ');
+  }
+  return result.join('');
+};
+
+/** Give the focus to the next predefined field, if configured.
+ * 
+ * a 'UtilsFocusList' array should be defined and filled with values like this :  
+ *
+ * UtilsFocusList['currentFieldId']='nextFieldId';
+ * 
+ * So that, on blur of currentFieldId, the focus will be given to 'nextFieldId' instead of the field that follow currentFieldId in the html code.
+ * 
+ * 
+ * 
+ * */
+CrfIrpUtils.prototype.focusHandling=function(currentFieldId)
+{
+  if(UtilsFocusList == null)
+    return;
+  
+  var nextFocus = UtilsFocusList[currentFieldId];
+  
+  if(nextFocus == null)
+    return;
+    
+  $(nextFocus).focus();
+};
+
+
 /* ===================== List Handling ============================== */
 
 CrfIrpUtils.prototype.allList=[];
@@ -55,7 +129,7 @@ CrfIrpUtils.prototype.getAllList=function()
 {
   MonitorCommons.getAllList  ( crfIrpUtils.getAllListReturn     );
   MonitorCommons.getLieuType ( crfIrpUtils.getAllTypeLieuReturn );
-}
+};
 /***
  * Initialise toutes les listes statics de la page
  * 
@@ -95,7 +169,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   CrfIrpUtils.prototype.allList['Delegations']=newList; 
   
   PageBus.publish("list.loaded", null);
-}
+};
 CrfIrpUtils.prototype.getAllLieuReturn=function(allLieu)
 {
   CrfIrpUtils.prototype.allLieu = allLieu;

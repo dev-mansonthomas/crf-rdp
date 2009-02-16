@@ -6,6 +6,13 @@ TODO :
 
 Application : 
 
+  + Ajouter un bouton 'Fin de vacation' pour sortir un véhicule de la régulation.
+  + Ajouter la version radio du nom de la victime
+  + gestion du focus sur bilan
+  
+  + Gestion des Equipiers (avec bouton : Ajout comme utilisateur de l'application)
+  + Gestion des Users
+  
   + Confirmer les descriptions d'AR, UMH, Myosis, Mydryase
   + debugger l'adresse d'evac
 
@@ -38,7 +45,7 @@ Application :
   + Ajouter le N° d'inter dans l'affichage du Ticket
                
 Technique : 
-  + Spring 2.5.6 + dependencies                                               
+  + Spring 3 + dependencies                                               
   + build my own Ext  
   + Mise en place YUI Compressor  (intégré dans jawr)        
   + Mode Admin : vider les caches.

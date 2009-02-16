@@ -417,7 +417,7 @@ MonitorOutputDispositifCs.prototype.initLieuOnMap=function()
   }
   htmlGenerated.push('</table>');
   
-  Ext.get('south').update(htmlGenerated.join(''));
+  Ext.get('south-lieu-selector-div').update(htmlGenerated.join(''));
 };
 
 /**
@@ -448,6 +448,30 @@ MonitorOutputDispositifCs.prototype.toggleCategory=function(htmlId, idCategory)
   }
   
 };
+
+MonitorOutputDispositifCs.prototype.toggleStreetView=function()
+{
+  var map    = Ext.getCmp('center-carte-paris-panel');
+  var button = Ext.get   ('streetViewActivateButton'); 
+  
+  button.toggleClass('type-lieu-'+(map.streetView.displayed?''  :'un')+'selected');//remove
+  button.toggleClass('type-lieu-'+(map.streetView.displayed?'un':''  )+'selected');//add
+  
+  map.toggleStreetViewOverlay();
+};
+
+
+MonitorOutputDispositifCs.prototype.toggleTraffic=function()
+{
+  var map    = Ext.getCmp('center-carte-paris-panel');
+  var button = Ext.get   ('trafficActivateButton'); 
+  
+  button.toggleClass('type-lieu-'+(map.traffic.displayed?''  :'un')+'selected');//remove
+  button.toggleClass('type-lieu-'+(map.traffic.displayed?'un':''  )+'selected');//add
+  
+  map.toggleTrafficOverlay();
+};
+
 
 /**
  * Affiche les lieux par catégorie

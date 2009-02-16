@@ -114,7 +114,7 @@
                        value=""
                    maxlength="30"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
-                      onBlur="miInterventionCs.updateInterventionStringField(this.id, 'nom_victime')"/>
+                      onBlur="miInterventionCs.updateInterventionStringField(this.id, 'nom_victime');miInterventionCs.updateNomPrenomRadio();"/>
                       
  Prénom :
                 <input style="width:33%;"
@@ -124,9 +124,16 @@
                        value=""
                    maxlength="30"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
-                      onBlur="miInterventionCs.updateInterventionStringField(this.id, 'prenom_victime')"/>                      
+                      onBlur="miInterventionCs.updateInterventionStringField(this.id, 'prenom_victime');miInterventionCs.updateNomPrenomRadio();"/>                      
 <br/>
-
+Radio :
+                <input style="width:90%;"
+                        type="text"
+                          id="interventionNomPrenomRadio"
+                        name="interventionNomPrenomRadio"
+                       value=""
+                    readonly="readonly"/>
+<br/>
 Sexe :           <input type="radio"
                           id="interventionSexeVictimeFemme"
                         name="interventionSexeVictime"

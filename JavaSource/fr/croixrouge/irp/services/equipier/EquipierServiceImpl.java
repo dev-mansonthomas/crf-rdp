@@ -33,6 +33,8 @@ public class EquipierServiceImpl implements EquipierService
     "       e.equipier_is_male    ,                  \n"+
     "       e.nom                 ,                  \n"+
     "       e.prenom              ,                  \n"+
+    "       e.mobile              ,                  \n"+
+    "       e.email               ,                  \n"+
     "       e.DH_debut            ,                  \n"+
     "       e.DH_fin              ,                  \n"+
     "       d.id_delegation       ,                  \n"+

@@ -44,6 +44,24 @@ DIV
   background-repeat:no-repeat;
 }
 
+.validateButton
+{
+  background-image: url("../../img/famfamfam/accept.png") !important;
+  background-repeat:no-repeat;
+}
+
+.deleteButton
+{
+  background-image: url("../../img/famfamfam/cancel.png") !important;
+  background-repeat:no-repeat;
+}
+
+.endOfVacationButton
+{
+  background-image: url("../../img/famfamfam/lorry_go.png") !important;
+  background-repeat:no-repeat;
+}
+
 .fieldsetSubtitle
 {
   font-weight: bold;

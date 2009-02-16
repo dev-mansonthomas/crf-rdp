@@ -91,6 +91,39 @@ public class MonitorInputDispositifImpl extends DWRUtils
 
     this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), outPageName);
   }
+  /**
+   * Désactive le dispositif, si pas d'inter en cours.
+   * Retournue l'id de l'inter courante. Si >0 désactivation non faite.
+   * */
+  public int endOfVacation(int idDispositif) throws Exception 
+  {
+    int currentInterventionId = this.dispositifService.getCurrentInterventionId(idDispositif);
+    
+    if(currentInterventionId == 0)
+      this.dispositifService.updateActifValueOfDispositif(idDispositif, false);
+
+    return currentInterventionId;
+  }
+
+  /**
+   * Supprime le dispositif, si pas d'inter affectées.
+   * Retournue le nombre d'inter qui ont été affectées. Si >0 suppression non faite.
+   * */
+  public int deleteDispositif(int idDispositif) throws Exception
+  {
+    int nbOfIntervention = this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif);
+    
+    if(nbOfIntervention == 0)
+      this.dispositifService.deleteDispositif(idDispositif);
+    
+    return nbOfIntervention;
+    
+  }
+  
+  public int numberOfInterventionAffected(int idDispositif) throws Exception
+  {
+    return this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif); 
+  }
   
   
   public Dispositif getDispositif(int idDispositif)throws Exception

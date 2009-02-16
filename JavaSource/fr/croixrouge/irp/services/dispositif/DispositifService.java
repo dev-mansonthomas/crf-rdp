@@ -30,10 +30,16 @@ public interface DispositifService
   public void updateDispositifDateField   (int idDispositif, String fieldName, Date     fieldValue  ) throws Exception;
   public void updateDispositifBooleanField(int idDispositif, String fieldName, boolean  fieldValue  ) throws Exception;
   
-  public void      updateDispositifSetIntervention(int idDispositif  , int idIntervention                                 ) throws Exception;
-  public void      affectInterventionToDispositif (int idIntervention, int idDispositif        , Date dateAffectation     ) throws Exception;
-  public void      actionOnDispositif             (int idDispositif  , int newIdEtat           , Date actionDate          ) throws Exception;
-  public void      updateDispositifPosition       (int idDispositif  , Position currentPosition, Position previousPosition) throws Exception;
-  public ListRange getDispositifTicketWithStatus  (int idRegulation  , boolean creationTerminee, int index, int limit     ) throws Exception;
+  public void       updateDispositifSetIntervention         (int idDispositif  , int idIntervention                                 ) throws Exception;
+  public void       affectInterventionToDispositif          (int idIntervention, int idDispositif        , Date dateAffectation     ) throws Exception;
+  public void       actionOnDispositif                      (int idDispositif  , int newIdEtat           , Date actionDate          ) throws Exception;
+  public void       updateDispositifPosition                (int idDispositif  , Position currentPosition, Position previousPosition) throws Exception;
+  public ListRange  getDispositifTicketWithStatus           (int idRegulation  , boolean creationTerminee, int index, int limit     ) throws Exception;
+  
+  public void       updateActifValueOfDispositif            (int idDispositif, boolean actif                                        ) throws Exception;
+  public void       deleteDispositif                        (int idDispositif                                                       ) throws Exception;
+  public int        numberOfInterventionAffectedToDispositif(int idDispositif                                                       ) throws Exception;
+  public int        getCurrentInterventionId                (int idDispositif                                                       ) throws Exception;
+
 
 }

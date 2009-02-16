@@ -206,19 +206,19 @@ UPDATE `lieu` SET `id_lieu` = 0 WHERE `id_lieu` = 19;
 ALTER TABLE `lieu` AUTO_INCREMENT = 19;
 
 -- Insert test data
-insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
+insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values
-('75233A', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson', 'Thomas' , 4, '', 1, 0 ),
-('111111', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User1'  , 4, '', 2, 0 ),
-('222222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User2'  , 4, '', 3, 0 ),
-('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User3'  , 4, '', 3, 0 ),
-('224333', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User4'  , 4, '', 3, 0 ),
-('224334', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User5'  , 4, '', 3, 0 ),
-('224344', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User6'  , 4, '', 3, 0 ),
-('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User7'  , 4, '', 2, 0 ),
-('224336', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User8'  , 4, '', 3, 0 ),
-('224337', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User9'  , 4, '', 4, 0 ),
-('222223', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User10' , 4, '', 1, 0 );
+('75233A', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'Thomas' , 'toto@toto.com', 4, '', 1, 0 ),
+('111111', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User1'  , 'toto@toto.com', 4, '', 2, 0 ),
+('222222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User2'  , 'toto@toto.com', 4, '', 3, 0 ),
+('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User3'  , 'toto@toto.com', 4, '', 3, 0 ),
+('224333', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User4'  , 'toto@toto.com', 4, '', 3, 0 ),
+('224334', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User5'  , 'toto@toto.com', 4, '', 3, 0 ),
+('224344', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User6'  , 'toto@toto.com', 4, '', 3, 0 ),
+('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User7'  , 'toto@toto.com', 4, '', 2, 0 ),
+('224336', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User8'  , 'toto@toto.com', 4, '', 3, 0 ),
+('224337', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User9'  , 'toto@toto.com', 4, '', 4, 0 ),
+('222223', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User10' , 'toto@toto.com', 4, '', 1, 0 );
 
 
 
@@ -229,32 +229,32 @@ values
 (ADDDATE(NOW(),-2), ADDDATE(NOW(),-1), false, 2, 'Régulation Paris' , 'Régulation de Test'),
 (ADDDATE(NOW(),-3), ADDDATE(NOW(),-2), false, 2, 'Régulation Paris' , 'Régulation de Test');
 
-INSERT INTO `dispositif` (`id_dispositif`,`id_type_dispositif`,`id_regulation`,`indicatif_vehicule`,`O2_B1_volume`,`O2_B1_pression`,`O2_B2_volume`,`O2_B2_pression`,`O2_B3_volume`,`O2_B3_pression`,`O2_B4_volume`,`O2_B4_pression`,`O2_B5_volume`,`O2_B5_pression`,`dispositif_comment`,`dispositif_back_3_girl`,`dispositif_not_enough_O2`,`dispositif_set_available_with_warning`,`creation_terminee`,`dsa_type`,`dsa_complet`,`observation`,`DH_debut`,`DH_fin`,`id_delegation_responsable`,`autre_delegation`,`contact_radio`,`contact_tel1`,`contact_tel2`,`contact_alphapage`,`identite_medecin`,`id_etat_dispositif`,`id_current_intervention`,`display_state`,`equipier_1_id`,`equipier_2_id`,`equipier_3_id`,`equipier_4_id`,`equipier_5_id`,`equipier_1_role`,`equipier_2_role`,`equipier_3_role`,`equipier_4_role`,`equipier_5_role`,`current_addresse_rue`,`current_addresse_code_postal`,`current_addresse_ville`,`current_google_coords_lat`,`current_google_coords_long`,`previous_addresse_rue`,`previous_addresse_code_postal`,`previous_addresse_ville`,`previous_google_coords_lat`,`previous_google_coords_long`,`DH_reception`,`DH_depart`,`DH_sur_place`,`DH_bilan_primaire`,`DH_bilan_secondaire`,`DH_quitte_les_lieux`,`DH_arrivee_hopital`,`DH_dispo`,`DH_a_sa_base`,`DH_appel_renfort_medical`,`DH_arrivee_renfort_medical`) VALUES
- (1,1,1,'Alpha Sud',5,200,5,200,5,200,5,200,5,200,'',0,0,0,1,'DEA',1,'','2008-09-18 20:23:09','2008-09-19 20:23:09',5,'N/A','75042','06 64 66 42 96','N/A','N/A','N/A',1,0,0,2,6,1,3,4,1,3,4,4,4,'36 rue Geoffroy l\'asnier','75004','Paris',48.855434,2.357217,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
- (2,1,1,'Alpha Nord',5,200,5,200,5,200,5,200,5,200,'',0,0,0,1,'DEA',1,'','2008-09-18 20:23:09','2008-09-19 20:23:09',6,'N/A','75052','06 64 66 01','N/A','N/A','N/A',1,0,0,9,7,5,11,13,1,3,4,4,4,'5 rue de Thann','75017','Paris',48.881165,2.309461,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
- (3,2,1,'Port Royal',5,200,5,200,5,200,5,200,5,200,'',0,0,0,1,'DEA',1,'','2008-09-18 20:23:09','2008-09-19 20:23:09',17,'N/A','75162','06 64 66 42 04','N/A','N/A','N/A',1,0,0,12,10,8,14,15,1,3,4,4,4,'17 rue de Cronstadt','75015','Paris',48.834469,2.302085,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `dispositif` (`id_dispositif`,`id_type_dispositif`,`id_regulation`,`actif`,`indicatif_vehicule`,`O2_B1_volume`,`O2_B1_pression`,`O2_B2_volume`,`O2_B2_pression`,`O2_B3_volume`,`O2_B3_pression`,`O2_B4_volume`,`O2_B4_pression`,`O2_B5_volume`,`O2_B5_pression`,`dispositif_comment`,`dispositif_back_3_girl`,`dispositif_not_enough_O2`,`dispositif_set_available_with_warning`,`creation_terminee`,`dsa_type`,`dsa_complet`,`observation`,`DH_debut`,`DH_fin`,`id_delegation_responsable`,`autre_delegation`,`contact_radio`,`contact_tel1`,`contact_tel2`,`contact_alphapage`,`identite_medecin`,`id_etat_dispositif`,`id_current_intervention`,`display_state`,`equipier_1_id`,`equipier_2_id`,`equipier_3_id`,`equipier_4_id`,`equipier_5_id`,`equipier_1_role`,`equipier_2_role`,`equipier_3_role`,`equipier_4_role`,`equipier_5_role`,`current_addresse_rue`,`current_addresse_code_postal`,`current_addresse_ville`,`current_google_coords_lat`,`current_google_coords_long`,`previous_addresse_rue`,`previous_addresse_code_postal`,`previous_addresse_ville`,`previous_google_coords_lat`,`previous_google_coords_long`,`DH_reception`,`DH_depart`,`DH_sur_place`,`DH_bilan_primaire`,`DH_bilan_secondaire`,`DH_quitte_les_lieux`,`DH_arrivee_hopital`,`DH_dispo`,`DH_a_sa_base`,`DH_appel_renfort_medical`,`DH_arrivee_renfort_medical`) VALUES
+ (1,1,1,true,'Alpha Sud',5,200,5,200,5,200,5,200,5,200,'',0,0,0,1,'DEA',1,'','2008-09-18 20:23:09','2008-09-19 20:23:09',5,'N/A','75042','06 64 66 42 96','N/A','N/A','N/A',1,0,0,2,6,1,3,4,1,3,4,4,4,'36 rue Geoffroy l\'asnier','75004','Paris',48.855434,2.357217,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+ (2,1,1,true,'Alpha Nord',5,200,5,200,5,200,5,200,5,200,'',0,0,0,1,'DEA',1,'','2008-09-18 20:23:09','2008-09-19 20:23:09',6,'N/A','75052','06 64 66 01','N/A','N/A','N/A',1,0,0,9,7,5,11,13,1,3,4,4,4,'5 rue de Thann','75017','Paris',48.881165,2.309461,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL),
+ (3,2,1,true,'Port Royal',5,200,5,200,5,200,5,200,5,200,'',0,0,0,1,'DEA',1,'','2008-09-18 20:23:09','2008-09-19 20:23:09',17,'N/A','75162','06 64 66 42 04','N/A','N/A','N/A',1,0,0,12,10,8,14,15,1,3,4,4,4,'17 rue de Cronstadt','75015','Paris',48.834469,2.302085,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 
 
-INSERT INTO `equipier` (`id_equipier`,`id_dispositif`,`id_role_dans_dispositif`,`num_nivol`,`equipier_is_male`,`nom`,`prenom`,`DH_debut`,`DH_fin`,`id_delegation`,`autre_delegation`,`id_role_equipier1`,`id_role_equipier2`) VALUES 
- (1 ,1,4,'22223A',1,'Manson' ,'Thomas','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (2 ,1,1,'222211',1,'Manson' ,'Thomas','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
- (3 ,1,4,'222221',0,'Manson' ,'Raphaelle','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',5,0),
- (4 ,1,4,'222222',0,'Manson' ,'Séverine','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (5 ,2,4,'222233',1,'Manson' ,'Alexandre','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (6 ,1,3,'222234',1,'Manson' ,'Richard','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
- (7 ,2,3,'222244',1,'Manson' ,'Titi','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
- (8 ,3,4,'222245',1,'Manson' ,'Bastien','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',2,0),
- (9 ,2,1,'222235',0,'Manson' ,'Stéphanie','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
- (10,3,3,'222236',1,'Manson' ,'Sébastien','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (11,2,4,'222237',0,'Manson' ,'Marine','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
- (12,3,1,'222223',1,'Manson' ,'Philippe','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (13,2,4,'222224',1,'Manson' ,'Philippe1','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (14,3,4,'222225',1,'Manson' ,'Philippe2','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (15,3,4,'222226',1,'Manson' ,'Philippe3','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (16,0,0,'222227',1,'Manson' ,'Philippe4','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (17,0,0,'222228',1,'Manson' ,'Philippe5','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
- (18,0,0,'222229',1,'Manson' ,'Philippe6','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3);
+INSERT INTO `equipier` (`id_equipier`,`id_dispositif`,`id_role_dans_dispositif`,`num_nivol`,`equipier_is_male`,`nom`,`prenom`,`mobile`,`email`,`DH_debut`,`DH_fin`,`id_delegation`,`autre_delegation`,`id_role_equipier1`,`id_role_equipier2`) VALUES 
+ (1 ,1,4,'22223A',1,'Manson' ,'Thomas'   ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (2 ,1,1,'222211',1,'Manson' ,'Thomas'   ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
+ (3 ,1,4,'222221',0,'Manson' ,'Raphaelle','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',5,0),
+ (4 ,1,4,'222222',0,'Manson' ,'Séverine' ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (5 ,2,4,'222233',1,'Manson' ,'Alexandre','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (6 ,1,3,'222234',1,'Manson' ,'Richard'  ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
+ (7 ,2,3,'222244',1,'Manson' ,'Titi'     ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',3,0),
+ (8 ,3,4,'222245',1,'Manson' ,'Bastien'  ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',2,0),
+ (9 ,2,1,'222235',0,'Manson' ,'Stéphanie','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,0),
+ (10,3,3,'222236',1,'Manson' ,'Sébastien','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (11,2,4,'222237',0,'Manson' ,'Marine'   ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',4,0),
+ (12,3,1,'222223',1,'Manson' ,'Philippe' ,'0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (13,2,4,'222224',1,'Manson' ,'Philippe1','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (14,3,4,'222225',1,'Manson' ,'Philippe2','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (15,3,4,'222226',1,'Manson' ,'Philippe3','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (16,0,0,'222227',1,'Manson' ,'Philippe4','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (17,0,0,'222228',1,'Manson' ,'Philippe5','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3),
+ (18,0,0,'222229',1,'Manson' ,'Philippe6','0606060606','toto@toto.com','1970-01-01 00:00:00','1970-01-01 00:00:00',6,'',1,3);
 
 
 

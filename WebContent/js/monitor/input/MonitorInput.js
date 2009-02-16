@@ -8,6 +8,9 @@ var miBilanCs               = null;
 
 var MonitorInputCs = Class.create();
 
+/*to handle next focus of a field*/
+var UtilsFocusList = [];
+
 MonitorInputCs.prototype.initialize=function()
 {
   //MonitorInput.initScriptSession();
@@ -182,16 +185,49 @@ function initLayout()
         
     
 /****************DISPOSITIF*EDITOR*************************/
-    
+  var dispositifEditorToolbar = new Ext.Toolbar({	id     : 'DispositifPanelBottomToolbar', 
+	  												hidden : true,
+	  												items  :[{
+	  													text   : 'Terminer',
+	  													handler: function()
+	  													{
+	  														miDispositifCs.endOfEditionEvent();
+	  													},
+	  													iconCls: 'validateButton',
+	  													xtype:'tbbutton'
+	  											    },
+	  											    {
+	  											       text   : 'Supprimer',
+	  											       handler: function()
+	  											       {
+	  											    		miDispositifCs.deleteDispositifConfirm ();
+	  											       },
+	  											       iconCls: 'deleteButton'
+	  											    },
+	  											    '-',
+	  											    {
+	  											        text   : 'Fin de Vacation',
+	  											        handler: function()
+	  											        {
+	  											   	 		miDispositifCs.endOfVacationConfirm();
+	  											        },
+	  											        iconCls: 'endOfVacationButton'
+	  											    }
+	  											    ]//fin tableau d'item
+	  										    });
+  
+
+  
   var dispositifEditor={
     region        : 'center',
     split         : true,
     contentEl     : 'DispositifPanel',
     title         : 'Editeur de Dispositif',
     deferredRender: false,
-    xtype         :'panel'
-    
+    xtype         :'panel',
+    bbar 		  : dispositifEditorToolbar
   };
+  
   var dispositifList={
     id          : 'DispositifListEastPanel',
     region      : 'east',
@@ -245,7 +281,7 @@ function initLayout()
   var regulationPanel= {
       id        : 'monitorInputRegulationPanel',
       contentEl : 'RegulationPanel',
-      title     : 'Propriété de la Régulation',
+      title     : 'Gestion de la Régulation',
       closable  : false,
       autoScroll: true
     };
@@ -297,6 +333,8 @@ function initLayout()
   var viewport = new Ext.Viewport({ id    :'monitorInputViewPort',
                                     layout:'border',
                                     items :[ north, south, center]});
+  
+  
 
 }
 
@@ -315,4 +353,8 @@ function init()
  
   initLayout();
   monitorInputCs.initRegulation();
+  
+  Ext.MessageBox.buttonText.yes = "Oui"; 
+  Ext.MessageBox.buttonText.no  = "Non";
+  
 }

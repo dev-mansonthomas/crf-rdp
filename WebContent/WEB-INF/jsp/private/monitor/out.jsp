@@ -49,18 +49,16 @@
 
   </div>
 </div>
+<!-- StreetView -->
+<div id="center-streetView" style="height:100%;width:100%;"></div>
 
-<!-- center-circulation1 -->
+
+
+<!-- center-circulation1 
 <div class="x-layout-inactive-content" id="center-circulation1">
-
 <iframe frameborder="0"  src="http://www.sytadin.fr/opencms/sites/sytadin/sys/raster_fs.jsp.html_430821966.html" style="width:100%;height:100%;"></iframe>
-
-<!--   
-  <div id="center-circulation1-content" class="tab-content" style="width:100%;height:100%;">
-
-  </div> -->
 </div>
-
+-->
 <!-- center-circulation2 -->
 <div class="x-layout-inactive-content" id="center-circulation2">
   <div id="center-circulation2-content" class="tab-content" style="width:100%;height:100%;">
@@ -71,6 +69,33 @@
 
 <!-- south -->
 <div id="south" class="x-layout-inactive-content"> 
+
+<table>
+  <tr>
+    <td>
+      <div id="south-lieu-selector-div">
+      </div>
+    </td>
+    <td>
+      <div id="south-googleMap-control-div">
+        <table>
+          <tr>
+            <td id="trafficActivateButton" class="type-lieu-unselected"    onClick="moDispositifCs.toggleTraffic();">
+              Traffic
+            </td>
+          </tr>
+          <tr>
+            <td id="streetViewActivateButton" class="type-lieu-unselected" onClick="moDispositifCs.toggleStreetView();">
+              <img src="../../img/monitorOutput/streetViewIcon.png" height="16" width="9" /> StreetView
+            </td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+</table>
+  
+  
   
 </div>
 

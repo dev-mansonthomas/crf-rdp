@@ -64,8 +64,8 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     Ext.ux.GMapPanel.superclass.afterRender.call(this);
 
     if (this.gmapType === 'map'){
-      this.gmap = new GMap2(this.body.dom);
-    }
+      this.gmap = new GMap2(this.body.dom);  
+      }
 
     if (this.gmapType === 'panorama'){
       this.gmap = new GStreetviewPanorama(this.body.dom);
@@ -105,12 +105,69 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
   {
     this.addMapControls();
     this.addOptions    ();
+    this.addStreetView ();
+    this.addTraffic    ();
+  },
+  addStreetView:function(){
+    
+    if(this.streetView === null)
+    {
+      alert('StreetView Not properly configured !');
+      return;
+    }      
+    this.streetViewPanoramaTab= new GStreetviewPanorama(document.getElementById(this.streetView.panoramaId));  
+    this.streetViewOverlay    = new GStreetviewOverlay ();
+    
+    this.streetView.displayed = false;
+    
+    var googleMapPanelId          = this.id;
+    var panoramaTabCmpId          = this.streetView.panoramaTabCmpId;
+    var panoramaTabPanelContainer = this.streetView.panoramaTabPanelContainer;
+    
+    GEvent.addListener(this.gmap, "click", function(overlay,latlng) {
+      var map = Ext.getCmp(googleMapPanelId);
+      if(map.streetView.displayed)
+      {
+        map.streetViewPanoramaTab.setLocationAndPOV(latlng);
+        Ext.getCmp(panoramaTabPanelContainer).activate(panoramaTabCmpId);
+      }
+    });
+  },
+  toggleStreetViewOverlay:function(){
+    if(this.streetView.displayed)
+    {
+      this.gmap.removeOverlay(this.streetViewOverlay);
+      this.streetView.displayed = false;
+    }
+    else
+    {
+      this.gmap.addOverlay(this.streetViewOverlay);
+      this.streetView.displayed = true;
+    }
+  },
+  toggleTrafficOverlay:function(){
+    if(this.traffic.displayed)
+    {
+      this.gmap.removeOverlay(this.trafficOverlay);
+      this.traffic.displayed = false;
+    }
+    else
+    {
+      this.gmap.addOverlay   (this.trafficOverlay);
+      this.traffic.displayed = true;
+    }
+  },
+  
+  addTraffic:function(){
+    var trafficOptions = {incidents:true};
+    this.trafficOverlay    = new GTrafficOverlay   (trafficOptions);
+    this.traffic= {displayed:false};
   },
   recheckGoogleMapConnection: function()
   {
     this.checkGoogleMap();
     this.afterRender   ();
-    //TODO lancer un evenement qu'�coute les autres classe utilisant google map
+    //TODO lancer un evenement qu'ecoute les autres classe utilisant google map
   },
   onResize : function(w, h)
   {
@@ -179,11 +236,12 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
   },
   addMarker: function(latitude, longitude, specificIconScript, category, center, title, html, businessId, iconCategory)
   {
-    if(this.googleMapAvailable!= true)
+    if(this.googleMapAvailable!= true || this.gmap === undefined)
       return;
       
     if(!iconCategory)
       iconCategory = category;
+      
     var point  = new GLatLng (latitude,longitude);
     var icon   = this.getIcon(iconCategory);
     var marker = new GMarker (point, {icon:icon,title:title});

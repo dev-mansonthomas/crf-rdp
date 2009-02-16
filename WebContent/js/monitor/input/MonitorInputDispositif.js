@@ -38,11 +38,12 @@ MonitorInputDispositifCs.prototype.initialize=function()
                        );
 
   crfIrpUtils.setupCalendar("DispositifDHDebut", function(event){
-      miDispositifCs.updateDispositifDateField(event.id, 'DH_debut')
+      miDispositifCs.updateDispositifDateField(event.id, 'DH_debut');
    });
    
   crfIrpUtils.setupCalendar("DispositifDHFin", function(event){
-       miDispositifCs.updateDispositifDateField(event.id, 'DH_fin')
+       miDispositifCs.updateDispositifDateField(event.id, 'DH_fin');
+       crfIrpUtils.focusHandling('DispositifDHFin');
     });
     
   //initialisation des controles javascripts
@@ -58,11 +59,19 @@ MonitorInputDispositifCs.prototype.initialize=function()
   crfIrpUtils.setFieldValidation('DispositifB5P', "#{value}>=20 && #{value}<=200", "200");
   
   
+  /*focus handling*/
+  UtilsFocusList.push('DispositifDHFin','DispositifEquipierAdd_Nivol');
+  UtilsFocusList.push('DispositifB1V'  ,'DispositifB1P'              );
+  UtilsFocusList.push('DispositifB2V'  ,'DispositifB2P'              );
+  UtilsFocusList.push('DispositifB3V'  ,'DispositifB3P'              );
+  UtilsFocusList.push('DispositifB4V'  ,'DispositifB4P'              );
+  UtilsFocusList.push('DispositifB5V'  ,'DispositifB5P'              );
   
+  /*event handling*/
   PageBus.subscribe("list.loaded",  this, this.initDispositif     , null, null);
   PageBus.subscribe("list.loaded",  this, this.initDispositifGrids, null, null);
   
-  PageBus.subscribe("monitor.input.dispositif.endOfEditionEvent",  this, this.reloadDispositifLists     , null, null);
+  PageBus.subscribe("monitor.input.dispositif.updateThatChangeLists",  this, this.reloadDispositifLists     , null, null);
 };
 
 
@@ -254,12 +263,14 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 {
   miDispositifCs.resetDispositifForm();
-  $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
-  Ext.get   ('DispositifEdit'         ).slideOut();
-  Ext.getCmp('DispositifListEastPanel').expand  ();
   
-  PageBus.publish("monitor.input.dispositif.endOfEditionEvent",null);
-
+  $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
+  
+  Ext.getCmp('DispositifPanelBottomToolbar'	).setVisible(false);
+  Ext.get   ('DispositifEdit'         		).slideOut	();
+  Ext.getCmp('DispositifListEastPanel'		).expand  	();
+  
+  PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
   
 };
 
@@ -381,7 +392,8 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispo
   $('DispositifDHDebut').value=dispositif.dhDebutStr;
   $('DispositifDHFin'  ).value=dispositif.dhFinStr;
   
-   Ext.get('DispositifEdit').slideIn();
+  Ext.get('DispositifEdit').slideIn();
+  Ext.getCmp('DispositifPanelBottomToolbar').setVisible(true);
 };
 
 MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
@@ -407,7 +419,65 @@ MonitorInputDispositifCs.prototype.editDispositifReturn=function(Dispositif)
   var dispositifForm = Ext.get('DispositifEdit');
   if(!dispositifForm.isVisible())
     dispositifForm.slideIn();
+  Ext.getCmp('DispositifPanelBottomToolbar').setVisible(true);
 };
+
+
+
+
+
+
+MonitorInputDispositifCs.prototype.deleteDispositifConfirm=function()
+{
+  var title = 'Suppression du dispositif N°'+$('dispositif_id_field').value+' - '+$('dispositif_title_indicatif').innerHTML;
+  var msg   = 'Etes vous sur de vouloir supprimer le dispositif N°'+$('dispositif_id_field').value+' - '+$('dispositif_title_indicatif').innerHTML+' ?';
+  
+  Ext.Msg.confirm(title, msg, function(btn){
+    if(btn == 'yes')
+    {
+      miDispositifCs.deleteDispositif();
+    }
+  });  
+};
+
+
+
+MonitorInputDispositifCs.prototype.deleteDispositif=function()
+{
+	MonitorInputDispositif.deleteDispositif($('dispositif_id_field').value, this.deleteDispositifReturn);
+};
+
+MonitorInputDispositifCs.prototype.deleteDispositifReturn=function()
+{
+	Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
+	PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
+};
+
+MonitorInputDispositifCs.prototype.endOfVacationConfirm=function()
+{
+  var title = 'Confirmer la fin de vacation du dispositif N°'+$('dispositif_id_field').value+' - '+$('dispositif_title_indicatif').innerHTML;
+  var msg   = 'Etes vous sur de vouloir confirmer la fin de vacation du dispositif N°'+$('dispositif_id_field').value+' - '+$('dispositif_title_indicatif').innerHTML+' ?';
+  
+  Ext.Msg.confirm(title, msg, function(btn){
+    if(btn == 'yes')
+    {
+      miDispositifCs.endOfVacation();
+    }
+  });    
+};
+
+
+MonitorInputDispositifCs.prototype.endOfVacation=function()
+{
+	MonitorInputDispositif.endOfVacation($('dispositif_id_field').value, this.endOfVacationReturn);
+};
+
+MonitorInputDispositifCs.prototype.endOfVacationReturn=function()
+{
+	Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
+	PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
+};
+
 
 MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
 {
@@ -741,6 +811,7 @@ MonitorInputDispositifCs.prototype.updateDispositifIntField=function(fieldId, fi
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };
 
 MonitorInputDispositifCs.prototype.updateDispositifDateField=function(fieldId, fieldName)
@@ -762,6 +833,7 @@ MonitorInputDispositifCs.prototype.updateDispositifDateField=function(fieldId, f
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };
 
 
@@ -783,6 +855,7 @@ MonitorInputDispositifCs.prototype.updateDispositifFloatField=function(fieldId, 
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };
 
 MonitorInputDispositifCs.prototype.updateDispositifStringField=function(fieldId, fieldName, objectIdForGraphicalEffect)
@@ -806,6 +879,7 @@ MonitorInputDispositifCs.prototype.updateDispositifStringField=function(fieldId,
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
+  crfIrpUtils.focusHandling(fieldId);
 };
 
 MonitorInputDispositifCs.prototype.updateDispositifBooleanField=function(fieldId, fieldName, objectIdForGraphicalEffect)
@@ -829,6 +903,8 @@ MonitorInputDispositifCs.prototype.updateDispositifBooleanField=function(fieldId
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
+    
+  crfIrpUtils.focusHandling(fieldId);
 };
 
 

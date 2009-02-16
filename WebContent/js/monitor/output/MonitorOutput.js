@@ -139,32 +139,50 @@ function initLayout()
                         closable:false,
                         autoScroll:true
                     },{
-                        id:'center-carte-paris-panel',
-                        xtype: 'gmappanel',
-                        gmapType: 'map',
-                        zoomLevel: 14,
+                        id         : 'center-carte-paris-panel',
+                        xtype      : 'gmappanel',
+                        gmapType   : 'map',
+                        zoomLevel  : 14,
                         mapConfOpts: ['enableScrollWheelZoom','enableDoubleClickZoom','enableDragging'],
                         mapControls: ['GLargeMapControl','GMapTypeControl', 'GOverviewMapControl', 'NonExistantControl' ],
-                        contentEl:'center-carte-paris',
-                        title: 'Carte de Paris',
-                        closable:false,
-                        //autoScroll:true,
-                        setCenter: {
+                        streetView : {
+                          panoramaId                : 'center-streetView',
+                          panoramaTabCmpId          : 'center-streetView-panel',
+                          panoramaTabPanelContainer : 'monitorOutputCenterRegion'
+                          
+                          
+                        },
+                        contentEl  : 'center-carte-paris',
+                        title      : 'Carte de Paris',
+                        closable   :false,
+                        setCenter: {//paris
                             lat: 48.85436, 
                             lng: 2.348156
                         }                        
                     },{
+                        id          : 'center-streetView-panel',
+                        contentEl   : 'center-streetView',
+                        title       : 'Street View',
+                        closable    : false,
+                        autoScroll  : true,
+                        listeners   : {
+                          bodyresize : function(panel, width, height){
+                           Ext.getCmp('center-carte-paris-panel').streetViewPanoramaTab.checkResize(); 
+                          }
+                        }
+                    }
+                    /*,{
                         id:'center-circulation1-panel',
                         contentEl:'center-circulation1',
                         title: 'Circulation vue 1',
                         closable:false,
                         autoScroll:true
-                    },{
-                        id:'center-circulation2-panel',
-                        contentEl:'center-circulation2',
-                        title: 'Circulation vue 2',
-                        closable:false,
-                        autoScroll:true
+                    }*/,{
+                        id        : 'center-circulation2-panel',
+                        contentEl : 'center-circulation2',
+                        title     : 'Circulation vue simple',
+                        closable  : false,
+                        autoScroll: true
                     }]
                 });
   

@@ -13,6 +13,10 @@ MonitorInputInterventionCs.prototype.initialize=function()
   crfIrpUtils.setupCalendar("interventionTicketDHReception", function(event){
   	   miInterventionCs.updateInterventionDateField(event.id, 'DH_reception')
   	});
+    
+    
+  UtilsFocusList.push('interventionPrenomVictime','interventionSexeVictimeFemme');
+    
 };
 
 MonitorInputInterventionCs.prototype.fieldList = [
@@ -331,6 +335,15 @@ MonitorInputInterventionCs.prototype.hideInterventionTicket=function()
   miInterventionCs.resetInterventionForm();
 };
 
+
+
+
+MonitorInputInterventionCs.prototype.updateNomPrenomRadio=function()
+{
+  var nomPrenom = $('interventionNomVictime').value+' '+$('interventionPrenomVictime').value;
+  $('interventionNomPrenomRadio').value=crfIrpUtils.toRadio(nomPrenom);
+};
+
 /************************Gestion*de*l'adresse*****************************************/
 
 MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
@@ -400,6 +413,7 @@ MonitorInputInterventionCs.prototype.updateInterventionIntegerField=function(fie
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };
 MonitorInputInterventionCs.prototype.updateInterventionDateField=function(fieldId, fieldName)
 {
@@ -420,6 +434,7 @@ MonitorInputInterventionCs.prototype.updateInterventionDateField=function(fieldI
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };
 MonitorInputInterventionCs.prototype.updateInterventionFloatField=function(fieldId, fieldName)
 {
@@ -439,6 +454,7 @@ MonitorInputInterventionCs.prototype.updateInterventionFloatField=function(field
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };
 
 MonitorInputInterventionCs.prototype.updateInterventionStringField=function(fieldId, fieldName)
@@ -459,6 +475,7 @@ MonitorInputInterventionCs.prototype.updateInterventionStringField=function(fiel
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };
 
 MonitorInputInterventionCs.prototype.updateInterventionBooleanField=function(fieldId, fieldName)
@@ -479,4 +496,5 @@ MonitorInputInterventionCs.prototype.updateInterventionBooleanField=function(fie
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
+  crfIrpUtils.focusHandling(fieldId);
 };

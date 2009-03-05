@@ -1676,6 +1676,14 @@ Ville
     
     </div>
   </div><!-- FIN BilanEditor -->
+  <div id="cancel-intervention-window" >  </div>
+  <div class="x-window-header">Choisissez un motif d'annulation d'intervention</div>
+  <div id="cancel-intervention-window-content">
+    <div class="x-tab" id="choose-hopital-window-content-list"  title="Hopitaux">
+    cancel-intervention-window
+    </div>
+  </div>
+
   <div id="BilanHelper">
     <fieldset>
       <legend>Identification</legend>
@@ -1701,7 +1709,7 @@ Ville
           <td><span id="BilanHelper_ref_inter_ori"        ></span></td>
         </tr>
         <tr>
-          <th ext:qtip="Référence Externe de l'intervention">Ref.  Ext. Inter.:</th>
+          <th ext:qtip="Référence Externe de l'intervention">Ref. Ext. Inter.:</th>
           <td><input type="text" 
                     style="width:100%;"
                        id="BilanHelper_evac_num_inter_banlieu"
@@ -1711,7 +1719,8 @@ Ville
                    onBlur="miBilanCs.updateStringField(this.id, 'evac_num_inter_banlieu')"/></td>
         </tr>
        </table>
-       <input id="BilanHelper_openDispositif" type="button" value="Voir le Dispositif" onClick="miBilanCs.openDispositif();"/>
+       <input id="BilanHelper_openDispositif"     type="button" value="Voir le Dispositif"   onClick="miBilanCs.openDispositif    ();"/>
+       <input id="BilanHelper_cancelIntervention" type="button" value="Annuler Intervention" onClick="miBilanCs.showCancelInterventionWin();"/>
     </fieldset>
     <fieldset>
       <legend>Ticket</legend>
@@ -1953,6 +1962,7 @@ Ville
 
 <div id="DispositifEdit" style="width:460px;display:none;">
   <input type="hidden" id="dispositif_id_field"         name="dispositif_id_field"         value=""/>
+  <input type="hidden" id="dispositifCurrentInterId"    name="dispositifCurrentInterId"    value=""/>
   <input type="hidden" id="dispositif_isCreation_field" name="dispositif_isCreation_field" value=""/>
   <table>
     <thead>
@@ -2351,11 +2361,11 @@ Ville
                 <option value=" "> </option>
               </select>
             </fieldset>
-            <fieldset>
+<!--             <fieldset>
               <legend>Action</legend>
               <input type="button" id="AddDispositif"       value="Terminer"  onclick="miDispositifCs.endOfEditionEvent();"/>
               <input type="button" id="AddDispositifCancel" value="Supprimer" onclick="miDispositifCs.deleteDispositif ();"/>
-            </fieldset>
+            </fieldset> -->
           </td>
         </tr>
       </table>

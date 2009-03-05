@@ -742,7 +742,7 @@ MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIn
     $('dispositifEvacAddressCoordinateLat'  ).value='';
     $('dispositifEvacAddressCoordinateLong' ).value='';
     $('dispositifEvacGoogleAdressCheckStatus').src  =contextPath+"/img/pix.png";
-    MonitorOutputDispositifCs.prototype.chooseHopitalWindow.show('DispositifActionButton_'+idDispositif);//
+    MonitorOutputDispositifCs.prototype.chooseHopitalWindow.show(Ext.get('DispositifActionButton_'+idDispositif));//
     sendActionToServerNow = false;
   }
   

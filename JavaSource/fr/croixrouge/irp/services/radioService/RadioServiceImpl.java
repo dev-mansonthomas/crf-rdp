@@ -5,6 +5,8 @@ import java.util.HashMap;
 public class RadioServiceImpl implements RadioService
 {
   private final static HashMap<String, String> alphabetRadio = new HashMap<String,String>(){
+    private static final long serialVersionUID = -6849501202899370635L;
+
     {
       this.put("A","ALPHA");
       this.put("B","BRAVO");

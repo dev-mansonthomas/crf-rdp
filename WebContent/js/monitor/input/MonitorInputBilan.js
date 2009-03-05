@@ -14,6 +14,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
     return {
       // public properties, e.g. strings to translate
       dropZonesIds:'',
+      cancelInterventionWindow: null,
       // public methods
       init: function() {
         
@@ -25,7 +26,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
             Ext.get('bilanDateHeureBase_input').dom.setValue(Ext.get(event.id).getValue());
           }
         );
-        
+        this.initCancelInterventionWindow();
         
       },
       initHospitalList:function()
@@ -44,6 +45,29 @@ Ext.ux.MonitorInput.BilanEditor = function() {
                              'nom');
         
       },
+      initCancelInterventionWindow:function()
+      {
+          var win = new Ext.Window({
+                      id          : 'cancel-intervention-windowCmp',
+                      applyTo     : 'cancel-intervention-window',
+                      layout      : 'fit'             ,
+                      width       : 300               ,
+                      height      : 500               ,
+                      x           : 50                 ,
+                      y           : 135                ,
+                      closeAction : 'hide'            ,
+                      plain       : true
+                    });
+                          
+        this.cancelInterventionWindow = win;
+      },
+      showCancelInterventionWin:function()
+      {
+        this.cancelInterventionWindow.show('BilanHelper_cancelIntervention');
+        this.cancelInterventionWindow.setVisible(true);
+      },
+      /** si ongletToOpen == 'BilanSecouristInitial' alors l'onglet du bilan qui sera ouvert sera celui du bilan secouriste initial,
+       * sinon, l'identité de la victime sera affiché*/
       editBilan:function(idIntervention, ongletToOpen)
       {
         if(!ongletToOpen)
@@ -276,6 +300,10 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       resetBilanForm:function()
       {
       
+      },
+      cancelIntervention:function()
+      {
+        
       },
       openTicket:function()
       {

@@ -212,6 +212,19 @@ function initLayout()
 	  											   	 		miDispositifCs.endOfVacationConfirm();
 	  											        },
 	  											        iconCls: 'endOfVacationButton'
+	  											    },
+	  											    '-',
+	  											    {
+	  											        text   : 'Voir Intervention en Cours',
+	  											        handler: function()
+	  											        {
+	  											          var currentInterventionId = $('dispositifCurrentInterId').value;
+	  											          if(currentInterventionId == 0 || currentInterventionId == '')
+                                    	Ext.Msg.alert('Aucune Intervention', 'Le dispositif n\'a actuellement pas d\'intervention affectée');  											        	
+	  											          else
+  	  											    	    miBilanCs.editBilan(currentInterventionId);
+	  											        },
+	  											        iconCls: 'editInterButton'
 	  											    }
 	  											    ]//fin tableau d'item
 	  										    });
@@ -224,8 +237,8 @@ function initLayout()
     contentEl     : 'DispositifPanel',
     title         : 'Editeur de Dispositif',
     deferredRender: false,
-    xtype         :'panel',
-    bbar 		  : dispositifEditorToolbar
+    xtype         : 'panel',
+    tbar 		  : dispositifEditorToolbar
   };
   
   var dispositifList={

@@ -18,20 +18,19 @@
     <img src="<%=contextPath%>/img/logo-crf-small.png"  class="imgLoginRight" alt="Croix Rouge Francaise"/>
   </div>
   <div id="center">
-
     <div id="RegulationList"></div>
-
-
+  </div>
+  <div id="equipier">
   </div>
   <div id="south">
-    <p>south - generally for informational stuff, also could be for status bar</p>
+    <p></p>
   </div>
 
 
   <jwr:script src="/jsBundle/extJs.js"/>
   <script type="text/javascript">
-    var contextPath="<%=contextPath%>";
-    var iconPath = '../img/famfamfam/';
+    var contextPath     = "<%=contextPath%>";
+    var iconPath        = '../img/famfamfam/';
     Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
   </script>
   <jwr:script src="/jsBundle/baseApp.js"/>

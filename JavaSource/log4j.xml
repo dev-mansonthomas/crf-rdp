@@ -24,7 +24,12 @@
   </logger>
 
   <logger name="fr.croixrouge" additivity="false">
-    <level value="debug" />
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+  </logger>
+
+  <logger name="fr.croixrouge.irp" additivity="false">
+    <level value="info" />
     <appender-ref ref="STDOUT" />
   </logger>
 

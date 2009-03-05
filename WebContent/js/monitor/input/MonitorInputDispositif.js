@@ -81,8 +81,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   
   var dataStore1 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call: MonitorInputDispositif.getDispositifTicketList,
-               args: [true],
+               call  : MonitorInputDispositif.getDispositifTicketList,
+               args  : [true],
                paging: true
                }),
            reader: new Ext.data.JsonReader({
@@ -106,9 +106,9 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
            
 
   var grid1 = new xg.GridPanel({
-        id:'DispositifListCurrentGrid',
+        id   :'DispositifListCurrentGrid',
         store: dataStore1,
-        cm: new xg.ColumnModel([
+        cm   : new xg.ColumnModel([
             {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
             {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:miDispositifCs.typeCellRenderer},
             {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
@@ -120,28 +120,28 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         viewConfig: {
             forceFit:true
         },
-        collapsible: false,
+        collapsible : false,
         animCollapse: false,
-        height:400,
-        iconCls: 'icon-grid',
-        renderTo: 'DispositifListCurrent',
-        listeners:{
+        height      : 400,
+        iconCls     : 'icon-grid',
+        renderTo    : 'DispositifListCurrent',
+        listeners   :{
           'rowdblclick':miDispositifCs.gridRowDoubleClickHandler
         },
         bbar:new Ext.PagingToolbar({
-          pageSize: 5,
-          store: dataStore1,
+          pageSize   : 5,
+          store      : dataStore1,
           displayInfo: true,
-          displayMsg: 'Dispositifs(s) {0} à {1} de {2}',
-          emptyMsg: 'aucun dispositif actif'
+          displayMsg : 'Dispositifs(s) {0} à {1} de {2}',
+          emptyMsg   : 'aucun dispositif actif'
         })
     });
   grid1.getStore().load({params: {start:0, limit:5}});
   
   var dataStore2 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call: MonitorInputDispositif.getDispositifTicketList,
-               args: [false],
+               call  : MonitorInputDispositif.getDispositifTicketList,
+               args  : [false],
                paging: true
                }),
            reader: new Ext.data.JsonReader({
@@ -177,20 +177,20 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         viewConfig: {
             forceFit:true
         },
-        collapsible: false,
+        collapsible : false,
         animCollapse: false,
-        height:400,
-        iconCls: 'icon-grid',
-        renderTo: 'DispositifListEncoursEdition',
-        listeners:{
+        height      : 400,
+        iconCls     : 'icon-grid',
+        renderTo    : 'DispositifListEncoursEdition',
+        listeners   : {
           'rowdblclick':miDispositifCs.gridRowDoubleClickHandler
         },
         bbar:new Ext.PagingToolbar({
-          pageSize: 5,
-          store: dataStore2,
+          pageSize   : 5,
+          store      : dataStore2,
           displayInfo: true,
-          displayMsg: 'Dispositif(s) {0} à {1} de {2}',
-          emptyMsg: 'aucun dispositif en cours d\'édition'
+          displayMsg : 'Dispositif(s) {0} à {1} de {2}',
+          emptyMsg   : 'aucun dispositif en cours d\'édition'
         })
     });
   grid2.getStore().load({params: {start:0, limit:5}});
@@ -297,6 +297,7 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 
 MonitorInputDispositifCs.prototype.fieldList = [ 
     'dispositif_id_field',
+    'dispositifCurrentInterId',
     'dispositif_isCreation_field',
     'DispositifType',
     'DispositifIndicatif',
@@ -472,10 +473,25 @@ MonitorInputDispositifCs.prototype.endOfVacation=function()
 	MonitorInputDispositif.endOfVacation($('dispositif_id_field').value, this.endOfVacationReturn);
 };
 
-MonitorInputDispositifCs.prototype.endOfVacationReturn=function()
+MonitorInputDispositifCs.prototype.endOfVacationReturn=function(idCurrentIntervention)
 {
-	Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
-	PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
+  if(idCurrentIntervention == 0)
+  {
+    PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
+  }
+  else
+  {
+    var title = 'Annulation impossible - intervention affectée';
+    var msg   = 'Une intervention est affectée à ce dispositif, veuillez annuler l\'intervention au préalable.<br/></br>Pour editer l\'intervention afin de l\'annuler, cliquez sur Oui'; 
+    Ext.Msg.confirm(title, msg, function(btn){
+    if(btn == 'yes')
+    {
+      miBilanCs.editBilan(idCurrentIntervention);
+    }
+  });    
+    
+  }
+	
 };
 
 
@@ -483,6 +499,8 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
 {
   dwr.util.setValue('dispositif_id_span'            , dispositif.idDispositif);
   dwr.util.setValue('dispositif_id_field'           , dispositif.idDispositif);
+  
+  dwr.util.setValue('dispositifCurrentInterId'      , dispositif.currentInterId);
   
   dwr.util.setValue('dispositif_title_indicatif'    , dispositif.indicatifVehicule);
   dwr.util.setValue('DispositifIndicatif'           , dispositif.indicatifVehicule);

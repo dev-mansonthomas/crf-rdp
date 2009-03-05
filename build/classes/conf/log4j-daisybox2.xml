@@ -32,10 +32,15 @@
   </logger>
 
   <logger name="fr.croixrouge" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+  </logger>
+
+  <logger name="fr.croixrouge.irp" additivity="false">
     <level value="debug" />
     <appender-ref ref="STDOUT" />
   </logger>
-  
+    
   <root>
     <priority value="error" />
     <appender-ref ref="STDOUT" />

@@ -61,6 +61,11 @@ DIV
   background-image: url("../../img/famfamfam/lorry_go.png") !important;
   background-repeat:no-repeat;
 }
+.editInterButton
+{
+  background-image: url("../../img/gmap/intervention.png") !important;
+  background-repeat:no-repeat;
+}
 
 .fieldsetSubtitle
 {

@@ -434,7 +434,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
   
   private final static String queryGetCurrentInterventionId = 
-    "SELECT id_intervention   \n"+
+    "SELECT id_current_intervention   \n"+
     "FROM   dispositif        \n"+
     "WHERE  id_dispositif = ? "; 
 

@@ -11,37 +11,45 @@ Ext.onReady(function()
     [
       new Ext.BoxComponent(
       { // raw
-        id:'home_north',
-        region:'north',
-        el: 'north',
-        height:62
+        id    : 'home_north',
+        region: 'north',
+        el    : 'north',
+        height: 62
       }),
       {
-        id:'home_south',
-        region:'south',
-        contentEl: 'south',
-        split:true,
-        height: 100,
-        minSize: 100,
-        maxSize: 200,
+        id         : 'home_south',
+        region     : 'south',
+        contentEl  : 'south',
+        split      : true,
+        height     : 100,
+        minSize    : 100,
+        maxSize    : 200,
         collapsible: true,
-        title:'South',
-        margins:'0 0 0 0'
+        title      : 'South',
+        margins    : '0 0 0 0'
       },
       new Ext.TabPanel(
       {
-        id:'home_center',
-        region:'center',
-        deferredRender:false,
-        activeTab:0,
-        items:[
+        id            : 'home_center',
+        region        : 'center',
+        deferredRender: false,
+        activeTab     : 0,
+        items         :[
         {
-            id:'home_center_list_regulation_tab',
-            contentEl:'center',
-            title: 'Liste des régulations ouvertes',
-            closable:false,
-            autoScroll:true
-        }]
+            id        : 'home_center_list_regulation_tab',
+            contentEl : 'center',
+            title     : 'Liste des régulations ouvertes',
+            closable  : false,
+            autoScroll: true
+        },
+        {
+            id        : 'home_center_equipier_tab',
+            contentEl : 'equipier',
+            title     : 'Gestion des Equipiers',
+            closable  : false,
+            autoScroll: true
+        }
+        ]
       })
     ]
   });

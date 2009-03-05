@@ -5,7 +5,9 @@
 TODO :      
 
 Application : 
-
+  + Ajouter une fonctionnalité qui permet d'annulé une intervention sur l'intervention
+  
+  
   + Ajouter un bouton 'Fin de vacation' pour sortir un véhicule de la régulation.
   + Ajouter la version radio du nom de la victime
   + gestion du focus sur bilan
@@ -76,6 +78,7 @@ GOOGLE MAPS
   
   
 DONE :
+  - un bouton pour visualiser l'intervention d'un dispositif depuis l'écran d'édition du dispositif
   - version de l'application "Majeur.Medium.Mineur, build yyyyMMdd HHmm"
   - Gestion de la console, firebug désactivé
   - bug ext (el is null) après plusieurs cycle d'inter (ou sur la dernière inter a affecter (plus probable))                                                                 

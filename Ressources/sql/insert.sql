@@ -84,9 +84,9 @@ update user_role set id_role = 0 where id_role = 5;
 ALTER TABLE user_role AUTO_INCREMENT = 5;
 
 
-insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
+insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`, `email` ,`id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values
-('NA', true, '0','N/A'     , 'N/A'    , 0, '', 0, 0 );
+('NA', true, '0','N/A'     , 'N/A'    , '0', 't@t.com', 0, '', 0, 0 );
 
 update `user` set id_user = 0 where id_user = 1;
 ALTER TABLE `user` AUTO_INCREMENT = 1;
@@ -206,19 +206,19 @@ UPDATE `lieu` SET `id_lieu` = 0 WHERE `id_lieu` = 19;
 ALTER TABLE `lieu` AUTO_INCREMENT = 19;
 
 -- Insert test data
-insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
+insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values
-('75233A', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'Thomas' , 'toto@toto.com', 4, '', 1, 0 ),
-('111111', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User1'  , 'toto@toto.com', 4, '', 2, 0 ),
-('222222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User2'  , 'toto@toto.com', 4, '', 3, 0 ),
-('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User3'  , 'toto@toto.com', 4, '', 3, 0 ),
-('224333', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User4'  , 'toto@toto.com', 4, '', 3, 0 ),
-('224334', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User5'  , 'toto@toto.com', 4, '', 3, 0 ),
-('224344', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User6'  , 'toto@toto.com', 4, '', 3, 0 ),
-('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User7'  , 'toto@toto.com', 4, '', 2, 0 ),
-('224336', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User8'  , 'toto@toto.com', 4, '', 3, 0 ),
-('224337', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User9'  , 'toto@toto.com', 4, '', 4, 0 ),
-('222223', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User10' , 'toto@toto.com', 4, '', 1, 0 );
+('75233A', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'Thomas' ,'06060606060', 'toto@toto.com', 4, '', 1, 0 ),
+('111111', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User1'  ,'06060606060', 'toto@toto.com', 4, '', 2, 0 ),
+('222222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User2'  ,'06060606060', 'toto@toto.com', 4, '', 3, 0 ),
+('223222', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User3'  ,'06060606060', 'toto@toto.com', 4, '', 3, 0 ),
+('224333', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User4'  ,'06060606060', 'toto@toto.com', 4, '', 3, 0 ),
+('224334', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User5'  ,'06060606060', 'toto@toto.com', 4, '', 3, 0 ),
+('224344', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User6'  ,'06060606060', 'toto@toto.com', 4, '', 3, 0 ),
+('224335', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User7'  ,'06060606060', 'toto@toto.com', 4, '', 2, 0 ),
+('224336', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User8'  ,'06060606060', 'toto@toto.com', 4, '', 3, 0 ),
+('224337', false, '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User9'  ,'06060606060', 'toto@toto.com', 4, '', 4, 0 ),
+('222223', true , '033bd94b1168d7e4f0d644c3c95e35bf','Manson' , 'User10' ,'06060606060', 'toto@toto.com', 4, '', 1, 0 );
 
 
 

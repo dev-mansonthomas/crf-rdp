@@ -106,7 +106,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   
   
   private final static String selectForUser = 
-    "SELECT   u.id_user, u.num_nivol, u.user_is_male, u.nom, u.prenom, u.email, u.autre_delegation, u.id_delegation, \n" +
+    "SELECT   u.id_user, u.num_nivol, u.user_is_male, u.nom, u.prenom, u.mobile, u.email, u.autre_delegation, u.id_delegation, \n" +
     "         d.nom AS delegation_nom, u.id_role\n"+
     "FROM     `user` u, `delegation` d\n";
     
@@ -232,7 +232,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   }
 
   private final static String queryForGetCoRegulateurs = 
-    "SELECT u.id_user       , u.num_nivol, u.user_is_male, u.nom     , u.prenom          ,\n" +
+    "SELECT u.id_user       , u.num_nivol, u.user_is_male, u.nom     , u.prenom          , u.mobile, u.email, \n" +
     "       u.id_delegation , u.autre_delegation, u.id_role ,\n" +
     "       d.nom as delegation_nom\n" +
     "FROM   `user` u, `delegation` d\n"+

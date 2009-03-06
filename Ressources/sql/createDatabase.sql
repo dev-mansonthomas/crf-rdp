@@ -1,4 +1,4 @@
-
+﻿
 DROP DATABASE IF EXISTS `crfirp`;
 CREATE DATABASE `crfirp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
@@ -50,6 +50,7 @@ CREATE TABLE `user` (
   `password` varchar(32) NOT NULL,
   `nom` varchar(45) NOT NULL,
   `prenom` varchar(45) NOT NULL,
+  `mobile` varchar(15) NOT NULL, 
   `email` varchar(255) NOT NULL,
   `id_delegation` int(10) unsigned NOT NULL,
   `autre_delegation` varchar(45) NOT NULL,

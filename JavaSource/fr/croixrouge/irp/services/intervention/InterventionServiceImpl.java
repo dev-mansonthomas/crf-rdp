@@ -102,7 +102,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
         new InterventionTicketRowMapper      ()); 
   }
   
-  
+   
   
   private final static String selectForIntevention = 
     "SELECT                                       \n"+
@@ -111,8 +111,10 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `id_regulation`                           ,\n"+
     "  `id_origine`                              ,\n"+
     "  `id_motif`                                ,\n"+
+    "  `id_motif_annulation`                     ,\n"+
     "  `id_etat`                                 ,\n"+
     "  `complement_motif`                        ,\n"+
+    "  `annulation_commentaires`                 ,\n"+
     "  `num_inter`                               ,\n"+
     "  `id_ref_num_inter`                        ,\n"+
     "  `ref_num_inter`                           ,\n"+
@@ -273,9 +275,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
 
   private final static String queryForCreateEmptyIntervention = 
     "INSERT INTO `intervention`\n"+
-    "  (`id_dispositif`, `id_origine`, `id_motif`, `id_regulation`, `DH_saisie`, `num_inter`)\n"+
+    "  (`id_dispositif`, `id_origine`, `id_motif`, `id_motif_annulation`, `id_regulation`, `DH_saisie`, `num_inter`)\n"+
     "VALUES\n"+
-    "  ( 0, 0, 0, ?, ?, 0)\n";
+    "  ( 0, 0, 0, 0, ?, ?, 0)\n";
 
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public Intervention createEmptyIntervention(int idRegulation) throws Exception
@@ -363,7 +365,24 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
       );
     
     if(logger.isDebugEnabled())
-      logger.debug("Interviention with id='"+idIntervention+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
+      logger.debug("Intervention with id='"+idIntervention+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
+  }
+  
+  private final static String queryForUpdateEtatIntervention = 
+    "UPDATE intervention        \n" +
+    "SET    id_etat         = ? \n" +
+    "WHERE  id_intervention = ? \n";
+  
+  public void updateEtatIntervention(int idIntervention, int idNewEtatIntervention) throws Exception
+  {
+    int nbLineUpdated = this.jdbcTemplate.update( queryForUpdateEtatIntervention, 
+        new Object[]{idNewEtatIntervention , idIntervention }, 
+        new int   []{Types.INTEGER         , Types.INTEGER}
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+idIntervention+"' has been updated with new idEtat="+idNewEtatIntervention+",  (line updated = '"+nbLineUpdated+"')");
+  
   }
   
   private final static String queryForChooseEvacDestination = 
@@ -581,7 +600,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "DH_dispo"                           ,    
     "DH_a_sa_base"                       ,    
     "DH_appel_renfort_medical"           ,    
-    "DH_arrivee_renfort_medical"             
+    "DH_arrivee_renfort_medical"         ,
+    "date_naissance"
 };
   private static Hashtable<String, String> dateFieldMatching = new Hashtable<String, String>(dateField.length);
   {
@@ -598,6 +618,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     dateFieldMatching.put("DH_dispo"                           , "DH_dispo"                              );
     dateFieldMatching.put("DH_appel_renfort_medical"           , "DH_appel_renfort_medical"              );
     dateFieldMatching.put("DH_arrivee_renfort_medical"         , "DH_arrivee_renfort_medical"            );
+    dateFieldMatching.put("date_naissance"                     , "date_naissance"                        );
+    
   }
   public void updateInterventionDateField   (int idIntervention, String fieldName, Date fieldValue) throws Exception
   {
@@ -672,7 +694,6 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "gestes_dsa_nb_chocs"           ,
     "evac_par"                      ,
     "id_intervention"               ,
-    "id_etat"                       ,
     "id_dispositif"                 ,
     "id_regulation"                 ,
     "id_origine"                    ,
@@ -685,7 +706,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "evac_aggravation_ventilation"  ,
     "evac_aggravation_circulation"  ,
     "evac_aggravation_douleur"      ,
-    "age_approx_victime"
+    "age_approx_victime"            ,
+    "id_motif_annulation"
   };
   private static Hashtable<String, String> intFieldMatching = new Hashtable<String, String>(intField.length);
   {
@@ -696,12 +718,12 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     intFieldMatching.put("douleur"                       , "douleur"                        );       
     intFieldMatching.put("gestes_dsa_nb_chocs"           , "gestes_dsa_nb_chocs"            );       
     intFieldMatching.put("evac_par"                      , "evac_par"                       );       
-    intFieldMatching.put("id_intervention"               , "id_intervention"                );       
-    intFieldMatching.put("id_etat"                       , "id_etat"                        );       
+    intFieldMatching.put("id_intervention"               , "id_intervention"                );              
     intFieldMatching.put("id_dispositif"                 , "id_dispositif"                  );       
     intFieldMatching.put("id_regulation"                 , "id_regulation"                  );       
     intFieldMatching.put("id_origine"                    , "id_origine"                     );       
-    intFieldMatching.put("id_motif"                      , "id_motif"                       );       
+    intFieldMatching.put("id_motif"                      , "id_motif"                       );
+    intFieldMatching.put("id_motif_annulation"           , "id_motif_annulation"            );
     intFieldMatching.put("id_ref_num_inter"              , "id_ref_num_inter"               );       
     intFieldMatching.put("ventil_chiffre"                , "ventil_chiffre"                 );       
     intFieldMatching.put("circul_pouls_chiffre"          , "circul_pouls_chiffre"           );       
@@ -778,7 +800,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "adresse_victime"                         ,
     "rue"                                     ,
     "ville"                                   ,
-    "evac_laisse_sur_place_decedee_a_dispo_de"
+    "evac_laisse_sur_place_decedee_a_dispo_de",
+    "annulation_commentaires"
 };
   private static Hashtable<String, String> stringFieldMatching = new Hashtable<String, String>(stringField.length);
   {
@@ -826,6 +849,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     stringFieldMatching.put("rue"                                     ,"rue"                                     );
     stringFieldMatching.put("ville"                                   ,"ville"                                   );
     stringFieldMatching.put("evac_laisse_sur_place_decedee_a_dispo_de","evac_laisse_sur_place_decedee_a_dispo_de");
+    stringFieldMatching.put("annulation_commentaires"                 ,"annulation_commentaires"                 );
+    
   }
   public void updateInterventionStringField (int idIntervention, String fieldName, String fieldValue) throws Exception
   {

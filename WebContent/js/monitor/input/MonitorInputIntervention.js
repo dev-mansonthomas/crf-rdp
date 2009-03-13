@@ -15,7 +15,7 @@ MonitorInputInterventionCs.prototype.initialize=function()
   	});
     
     
-  UtilsFocusList.push('interventionPrenomVictime','interventionSexeVictimeFemme');
+  UtilsFocusList['interventionPrenomVictime']='interventionSexeVictimeFemme';
     
 };
 

@@ -20,6 +20,7 @@ import fr.croixrouge.irp.model.monitor.rowMapper.DispositifEtatRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.DispositifTypeRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.EquipierRoleRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionEtatRowMapper;
+import fr.croixrouge.irp.model.monitor.rowMapper.InterventionMotifAnnulationRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionMotifRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.InterventionOrigineRowMapper;
 import fr.croixrouge.irp.model.monitor.rowMapper.UserRoleRowMapper;
@@ -103,7 +104,15 @@ public class ListServiceImpl implements ListService, InitializingBean
     return this.jdbcTemplate.query(queryForGetMotifsIntervention,new Object[]{}, new int[]{}, new InterventionMotifRowMapper());
   }
   
-  
+  private final static String queryForGetMotifsAnnulationIntervention =
+    "SELECT id_motif_annulation, label_motif_annulation \n" +
+    "FROM   intervention_motif_annulation    \n" +
+    "ORDER BY id_motif_annulation ASC        \n";
+  @SuppressWarnings("unchecked")
+  public List<InterventionMotif> getMotifsAnnulationIntervention()
+  {
+    return this.jdbcTemplate.query(queryForGetMotifsAnnulationIntervention,new Object[]{}, new int[]{}, new InterventionMotifAnnulationRowMapper());
+  }
   
   private final static String queryForGetOriginesIntervention =
     "SELECT   id_origine, label_origine \n" +
@@ -145,14 +154,15 @@ public class ListServiceImpl implements ListService, InitializingBean
     {
       private static final long serialVersionUID = 5456339591578590644L;
       {
-        this.put("EtatsDispositif"       , getEtatsDispositif       ());
-        this.put("MotifsIntervention"    , getMotifsIntervention    ());
-        this.put("EtatsIntervention"     , getEtatsIntervention     ());
-        this.put("OriginesIntervention"  , getOriginesIntervention  ());
-        this.put("RolesEquipier"         , getRolesEquipier         ());
-        this.put("RolesUser"             , getRolesUser             ());
-        this.put("TypesDispositif"       , getTypesDispositif       ());
-        this.put("Delegations"           , getDelegations           ());
+        this.put("EtatsDispositif"       , getEtatsDispositif             ());
+        this.put("MotifsIntervention"    , getMotifsIntervention          ());
+        this.put("EtatsIntervention"     , getEtatsIntervention           ());
+        this.put("OriginesIntervention"  , getOriginesIntervention        ());
+        this.put("RolesEquipier"         , getRolesEquipier               ());
+        this.put("RolesUser"             , getRolesUser                   ());
+        this.put("TypesDispositif"       , getTypesDispositif             ());
+        this.put("Delegations"           , getDelegations                 ());
+        this.put("MotifsAnnulation"      , getMotifsAnnulationIntervention());
       }
     };
   }

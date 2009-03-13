@@ -7,7 +7,7 @@ var consoleEnabled = false;
 
 try
 {
-console.log("Console test log");
+  console.log("Console test log");
 	consoleEnabled = true;
 }
 catch(e)
@@ -97,6 +97,10 @@ CrfIrpUtils.prototype.toRadio=function(str)
  *
  * UtilsFocusList['currentFieldId']='nextFieldId';
  * 
+ * or
+ * 
+ * UtilsFocusList['currentFieldId']= function(){if(<<some condition>>) return "fieldID1"; else "fieldID2";};
+ * 
  * So that, on blur of currentFieldId, the focus will be given to 'nextFieldId' instead of the field that follow currentFieldId in the html code.
  * 
  * 
@@ -111,8 +115,19 @@ CrfIrpUtils.prototype.focusHandling=function(currentFieldId)
   
   if(nextFocus == null)
     return;
-    
-  $(nextFocus).focus();
+  var nextFieldId = null;
+  
+  if(typeof nextFocus == 'function')
+  {
+    nextFieldId = nextFocus();
+  }
+  else
+    nextFieldId = nextFocus;
+  
+  if(consoleEnabled)
+    console.log("nextFocus="+nextFieldId);
+
+  $(nextFieldId).focus();
 };
 
 
@@ -148,7 +163,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   var tmpList = Array();
   var newList = Array();
   
-  var listList = ['EtatsDispositif', 'MotifsIntervention', 'OriginesIntervention', 'RolesEquipier', 'RolesUser', 'TypesDispositif', 'EtatsIntervention'];
+  var listList = ['EtatsDispositif', 'MotifsIntervention', 'OriginesIntervention', 'RolesEquipier', 'RolesUser', 'TypesDispositif', 'EtatsIntervention', 'MotifsAnnulation'];
   
   for(var z=0, listListCount=listList.length; z<listListCount;z++)
   {
@@ -327,21 +342,31 @@ CrfIrpUtils.prototype.checkMandatoryField=function(fieldId)
 };
 /* ===================== Date Function ============================== */
 
-CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler)
+CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler, format)
 {
-	
+	if(format == null || format == '')
+    format = 'd/m/Y H:i';
+  
 	var myDateSelector = new Ext.form.DateField({
-		        id        : inputId,
-            width     : 130,
-            format    : 'd/m/Y H:i',
-            allowBlank: true,
-            icon      : '../../../img/famfamfam/calendar.png',
-            listeners : {
+		        id             : inputId,
+            width          : 130,
+            format         : format,
+            allowBlank     : true,
+            icon           : '../../../img/famfamfam/calendar.png',
+            enableKeyEvents: true,
+            listeners      : {
             	'focus':function(event)
             	{
             	  crfIrpUtils.fieldEdit(event.id+'_div');	
             	},
-            	'change':changeHandler
+            	'change':changeHandler,
+              'blur':function(){
+                crfIrpUtils.focusHandling(inputId);
+               },
+              'keyup':function(obj, event){
+                alert(event.keyCode());
+               // crfIrpUtils.focusHandling(inputId);
+               }
             }
         });
  
@@ -399,6 +424,7 @@ CrfIrpUtils.prototype.parseDateTime=function(dateTimeString)
     throw new ParseDateException(dateTimeString, "dd/MM/yyyy HH:mm", ", Time part is invalid ('"+dateTimeArray[1]+"')");
   
   var newDate = new Date();
+
   newDate.setFullYear (dateArray[2]  );
   newDate.setMonth    (dateArray[1]-1);//les mois commencent a 0...
   newDate.setDate     (dateArray[0]  );
@@ -423,6 +449,28 @@ CrfIrpUtils.prototype.parseDate=function(dateString)
   
   return newDate;
 };
+
+CrfIrpUtils.prototype.checkTimeFormat=function(fieldValue)
+{
+  return !/[0-9]{2,2}:[0-9]{2,2}/.test(fieldValue)
+};
+/**
+ * Compare les temps timeStr1 et timeStr2
+ * retourne true si timeStr1 est supérieur (après) a timeStr2
+ * false sinon
+ * */
+CrfIrpUtils.prototype.compareTime=function(timeStr1,timeStr2)
+{
+  var timeArray1 = timeStr1.split(':');
+  var timeComparable1 = timeArray1[0]+timeArray1[1];
+  
+  var timeArray2 = timeStr2.split(':');
+  var timeComparable2 = timeArray2[0]+timeArray2[1];
+  
+  
+  return timeComparable1>timeComparable2;
+};
+
 /* ===================== Padding Function ============================== */
 CrfIrpUtils.prototype.padLeft=function(myString, wantedLength, paddingChar)
 {

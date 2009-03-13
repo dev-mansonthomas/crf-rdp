@@ -209,6 +209,16 @@ CREATE TABLE `crfirp`.`intervention_motif`
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
+DROP TABLE IF EXISTS `crfirp`.`intervention_motif_annulation`;
+CREATE TABLE `crfirp`.`intervention_motif_annulation`
+(
+  `id_motif_annulation` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `label_motif_annulation` VARCHAR(45) NOT NULL,
+  PRIMARY KEY(`id_motif_annulation`)
+)
+ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+
 
 DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
 CREATE TABLE `crfirp`.`lieu_type`
@@ -265,8 +275,10 @@ CREATE TABLE `intervention` (
   `id_regulation`                                       int(10) unsigned NOT NULL,
   `id_origine`                                          int(10) unsigned NOT NULL,
   `id_motif`                                            int(10) unsigned NOT NULL,
+  `id_motif_annulation`                                 int(10) unsigned NOT NULL,
   `id_etat`                                             int(10) NOT NULL DEFAULT 0,
   `complement_motif`                                    varchar(255) NULL,
+  `annulation_commentaires`                             text NULL,
   `num_inter`                                           varchar(16) NOT NULL,
   `id_ref_num_inter`                                    int(10) unsigned NULL,
   `ref_num_inter`                                       varchar(16) NULL,
@@ -431,20 +443,22 @@ CREATE TABLE `intervention` (
 
 
   PRIMARY KEY  (`id_intervention`),
-  KEY `FK_intervention_dispositif` (`id_dispositif`),
-  KEY `FK_intervention_origine`    (`id_origine`   ),
-  KEY `FK_intervention_motif`      (`id_motif`     ),
-  KEY `FK_intervention_regulation` (`id_regulation`),
-  KEY `FK_intervention_etat`       (`id_etat`      ),
+  KEY `FK_intervention_dispositif`      (`id_dispositif`      ),
+  KEY `FK_intervention_origine`         (`id_origine`         ),
+  KEY `FK_intervention_motif`           (`id_motif`           ),
+  KEY `FK_intervention_motif_annulation`(`id_motif_annulation`),
+  KEY `FK_intervention_regulation`      (`id_regulation`      ),
+  KEY `FK_intervention_etat`            (`id_etat`            ),
 
 
-  CONSTRAINT `FK_intervention_dispositif`   FOREIGN KEY (`id_dispositif`            ) REFERENCES `dispositif`           (`id_dispositif`),
-  CONSTRAINT `FK_intervention_origine`      FOREIGN KEY (`id_origine`               ) REFERENCES `intervention_origine` (`id_origine`   ),
-  CONSTRAINT `FK_intervention_motif`        FOREIGN KEY (`id_motif`                 ) REFERENCES `intervention_motif`   (`id_motif`     ),
-  CONSTRAINT `FK_intervention_regulation`   FOREIGN KEY (`id_regulation`            ) REFERENCES `regulation`           (`id_regulation`),
-  CONSTRAINT `FK_intervention_origine_smur` FOREIGN KEY (`transport_medicalisee_de` ) REFERENCES `lieu`                 (`id_lieu`      ),
-  CONSTRAINT `FK_intervention_hopital_evac` FOREIGN KEY (`evac_hopital_destination` ) REFERENCES `lieu`                 (`id_lieu`      ),
-  CONSTRAINT `FK_intervention_etat`         FOREIGN KEY (`id_etat`                  ) REFERENCES `intervention_etat`    (`id_etat`      )
+  CONSTRAINT `FK_intervention_dispositif`       FOREIGN KEY (`id_dispositif`            ) REFERENCES `dispositif`                   (`id_dispositif`        ),
+  CONSTRAINT `FK_intervention_origine`          FOREIGN KEY (`id_origine`               ) REFERENCES `intervention_origine`         (`id_origine`           ),
+  CONSTRAINT `FK_intervention_motif`            FOREIGN KEY (`id_motif`                 ) REFERENCES `intervention_motif`           (`id_motif`             ),
+  CONSTRAINT `FK_intervention_motif_annulation` FOREIGN KEY (`id_motif_annulation`      ) REFERENCES `intervention_motif_annulation`(`id_motif_annulation`  ),
+  CONSTRAINT `FK_intervention_regulation`       FOREIGN KEY (`id_regulation`            ) REFERENCES `regulation`                   (`id_regulation`        ),
+  CONSTRAINT `FK_intervention_origine_smur`     FOREIGN KEY (`transport_medicalisee_de` ) REFERENCES `lieu`                         (`id_lieu`              ),
+  CONSTRAINT `FK_intervention_hopital_evac`     FOREIGN KEY (`evac_hopital_destination` ) REFERENCES `lieu`                         (`id_lieu`              ),
+  CONSTRAINT `FK_intervention_etat`             FOREIGN KEY (`id_etat`                  ) REFERENCES `intervention_etat`            (`id_etat`              )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfirp`.`bilan_evolutif`;

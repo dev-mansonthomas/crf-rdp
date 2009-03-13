@@ -538,7 +538,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     int nbLineUpdated = jdbcTemplate.update(queryForUpdateEtatDispositif, os, types);
 	  
     if(logger.isDebugEnabled())
-      logger.debug("updateEtatDispositif (line updated = "+nbLineUpdated+")");
+      logger.debug("updateEtatDispositif id='"+idDispositif+"' with idEtat='"+idEtatDispositif+"'(line updated = "+nbLineUpdated+")");
   }
 
 
@@ -682,7 +682,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
                                     "O2_B4_volume"             , 
                                     "O2_B5_volume"             , 
                                     "id_delegation_responsable", 
-                                    "id_etat_dispositif"       , 
                                     "equipier_1_id"            , 
                                     "equipier_1_role"          , 
                                     "equipier_2_id"            , 
@@ -705,7 +704,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     intFieldMatching.put("O2_B4_volume"             , "O2_B4_volume"              );
     intFieldMatching.put("O2_B5_volume"             , "O2_B5_volume"              );
     intFieldMatching.put("id_delegation_responsable", "id_delegation_responsable" );
-    intFieldMatching.put("id_etat_dispositif"       , "id_etat_dispositif"        );
     intFieldMatching.put("equipier_1_id"            , "equipier_1_id"             );
     intFieldMatching.put("equipier_1_role"          , "equipier_1_role"           );
     intFieldMatching.put("equipier_2_id"            , "equipier_2_id"             );

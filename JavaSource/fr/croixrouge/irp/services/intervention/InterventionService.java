@@ -21,7 +21,7 @@ public interface InterventionService
   
   public void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception;
   public void actionOnIntervention          (int idIntervention, int newIdEtat   , Date actionDate     ) throws Exception;
-  
+  public void updateEtatIntervention        (int idIntervention, int idNewEtatIntervention) throws Exception;
   public void updateInterventionIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception;
   public void updateInterventionFloatField  (int idIntervention, String fieldName, float    fieldValue) throws Exception;
   public void updateInterventionStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception;

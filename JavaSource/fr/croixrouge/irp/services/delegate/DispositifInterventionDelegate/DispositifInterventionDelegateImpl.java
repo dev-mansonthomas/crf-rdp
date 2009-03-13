@@ -4,14 +4,16 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
 import fr.croixrouge.irp.model.monitor.Position;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
+import fr.croixrouge.irp.services.dwr.DWRUtils;
 import fr.croixrouge.irp.services.intervention.InterventionService;
 
-public class DispositifInterventionDelegateImpl implements DispositifInterventionDelegate
+public class DispositifInterventionDelegateImpl extends DWRUtils implements DispositifInterventionDelegate
 {
   private static Log          logger              = LogFactory.getLog(DispositifInterventionDelegateImpl.class);
   
@@ -270,4 +272,32 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     this.dispositifService  .actionOnDispositif       (idDispositif  , 8+1, actionDate);//Pour l'historisation du changement d'état
     this.dispositifService  .actionEndOfIntervention  (idDispositif                   );
   }
+  
+  public void changeDispositifStatus(int idRegulation, int idDispositif, int newEtatDispositif) throws Exception
+  {
+    //TODO: certain changement d'état ne doivent pas être propagé au intervention
+    Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
+    
+    this.dispositifService.updateEtatDispositif(idDispositif, newEtatDispositif);
+    //on met a jour l'objet local (pour propagation via reverse ajax)
+    dispositif.setIdEtatDispositif(newEtatDispositif);
+    
+    if(dispositif.getCurrentInterId() != 0)//si une intervention en cours, on met a jours sont état de facon
+      this.interventionService.updateEtatIntervention(dispositif.getCurrentInterId(), newEtatDispositif);
+    
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
+        outPageName);
+  }
+  
+  public void updateDispositifTiming(int idRegulation, int idDispositif, String fieldName, Date fieldValue) throws Exception
+  {
+    Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
+    
+    this.dispositifService.updateDispositifDateField(idDispositif, fieldName, fieldValue);
+    
+    if(dispositif.getCurrentInterId() !=0)
+      this.interventionService.updateInterventionDateField(dispositif.getCurrentInterId(), fieldName, fieldValue);
+    
+  }
+  
 }

@@ -12,26 +12,30 @@ import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.Equipier;
 import fr.croixrouge.irp.model.monitor.Regulation;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
+import fr.croixrouge.irp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.irp.services.dispositif.DispositifService;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
 import fr.croixrouge.irp.services.equipier.EquipierService;
 
 public class MonitorInputDispositifImpl extends DWRUtils
 {
-  private static Log logger           = LogFactory.getLog(MonitorInputDispositifImpl.class);
-  private DispositifService        dispositifService  = null;
-  private EquipierService          equipierService    = null;
-  private MonitorInputImpl         monitorInputImpl   = null;
+  private static Log                      logger                          = LogFactory.getLog(MonitorInputDispositifImpl.class);
+  private DispositifService               dispositifService               = null;
+  private DispositifInterventionDelegate  dispositifInterventionDelegate  = null;
+  private EquipierService                 equipierService                 = null;
+  private MonitorInputImpl                monitorInputImpl                = null;
   
   private Hashtable<String, int[]> bsppSamuEquiperMap = new Hashtable<String, int[]>();
 
-  public MonitorInputDispositifImpl(DispositifService dispositifService, 
-                                    EquipierService   equipierService  ,
-                                    MonitorInputImpl  monitorInputImpl)
+  public MonitorInputDispositifImpl(DispositifService               dispositifService, 
+                                    EquipierService                 equipierService  ,
+                                    MonitorInputImpl                monitorInputImpl , 
+                                    DispositifInterventionDelegate  dispositifInterventionDelegate)
   {
-    this.monitorInputImpl  = monitorInputImpl;
-    this.dispositifService = dispositifService;
-    this.equipierService   = equipierService;
+    this.monitorInputImpl               = monitorInputImpl ;
+    this.dispositifService              = dispositifService;
+    this.equipierService                = equipierService  ;
+    this.dispositifInterventionDelegate = dispositifInterventionDelegate;
 
     bsppSamuEquiperMap.put("1", new int[] { 1 });
     bsppSamuEquiperMap.put("2", new int[] { 3 });
@@ -89,7 +93,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
 
     Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
 
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), outPageName);
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
   }
   /**
    * Désactive le dispositif, si pas d'inter en cours.
@@ -168,6 +172,25 @@ public class MonitorInputDispositifImpl extends DWRUtils
     this.dispositifService.updateGoogleCoordinates(latitude, longitude, idDispositif, current);
     return current;
   }
+  
+  public void updateDispositifEtat(int idDispositif, int      newEtatDispositif) throws Exception
+  {
+    int idRegulation = this.validateSessionAndGetRegulationId();
+    try
+    {
+       this.dispositifInterventionDelegate.changeDispositifStatus(idRegulation, idDispositif, newEtatDispositif);
+    }
+    catch(Exception e)
+    {
+      logger.error("", e);
+    }
+    catch(Throwable ee)
+    {
+      logger.error("", ee);
+    }
+    
+  }
+  
   
   public void updateDispositifIntegerField(int idDispositif, String fieldName, int      fieldValue) throws Exception
   {

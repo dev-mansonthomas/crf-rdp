@@ -46,8 +46,7 @@ public class MonitorOutputDispositf  extends DWRUtils
       //Met a jour tous les navigateurs avec le nouvel état du dispositif
       Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
       
-      this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
-          outPageName);
+      this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), DWRUtils.outPageName);
       
       return dispositif.getIdEtatDispositif();      
     }

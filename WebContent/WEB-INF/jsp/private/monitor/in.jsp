@@ -1675,15 +1675,9 @@ Ville
     
     
     </div>
-  </div><!-- FIN BilanEditor -->
-  <div id="cancel-intervention-window" >  </div>
-  <div class="x-window-header">Choisissez un motif d'annulation d'intervention</div>
-  <div id="cancel-intervention-window-content">
-    <div class="x-tab" id="choose-hopital-window-content-list"  title="Hopitaux">
-    cancel-intervention-window
-    </div>
   </div>
-
+  
+  <!-- FIN BilanEditor -->
   <div id="BilanHelper">
     <fieldset>
       <legend>Identification</legend>
@@ -1773,8 +1767,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_saisie')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_saisie', 'bilanDateHeureBase', null)"/>
+            <span id="bilan_DH_saisie_j1"></span>
           </td>
         </tr>
         <tr>
@@ -1787,8 +1781,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_reception')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_reception', 'bilanDateHeureBase', 'bilan_DH_saisie')"/>
+            <span id="bilan_DH_reception_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1801,8 +1795,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_depart')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_depart', 'bilanDateHeureBase', 'bilan_DH_reception')"/>
+            <span id="bilan_DH_depart_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1815,8 +1809,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_sur_place')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_sur_place', 'bilanDateHeureBase', 'bilan_DH_depart')"/>
+            <span id="bilan_DH_sur_place_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1829,8 +1823,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_bilan_primaire')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_bilan_primaire', 'bilanDateHeureBase', 'bilan_DH_sur_place')"/>
+            <span id="bilan_DH_bilan_primaire_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1843,8 +1837,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_bilan_secondaire')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_bilan_secondaire', 'bilanDateHeureBase', 'bilan_DH_bilan_primaire')"/>
+            <span id="bilan_DH_bilan_secondaire_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1857,8 +1851,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_quitte_les_lieux')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_quitte_les_lieux', 'bilanDateHeureBase', 'bilan_DH_bilan_secondaire')"/>
+            <span id="bilan_DH_quitte_les_lieux_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1871,8 +1865,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_arrivee_hopital')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_arrivee_hopital', 'bilanDateHeureBase', 'bilan_DH_quitte_les_lieux')"/>
+            <span id="bilan_DH_arrivee_hopital_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1885,12 +1879,12 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_fin_intervention')"/>
-            
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_fin_intervention', 'bilanDateHeureBase', 'bilan_DH_arrivee_hopital')"/>
+            <span id="bilan_DH_fin_intervention_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
-          <th ext:qtip="Appel des Renforts Médicaux">Appel Renfort Med. :</th>
+          <th ext:qtip="Appel des Renforts Médicaux" style="border-top:1px solid grey;">Appel Renfort Med. :</th>
           <td>
             <input style="width:35px;"
                     type="text"
@@ -1899,8 +1893,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_appel_renfort_medical')"/>
-            
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_appel_renfort_medical', 'bilanDateHeureBase', 'bilan_DH_bilan_primaire')"/><!-- je considère qu'on demande les renforts médicaux qu'après le primaire -->
+            <span id="bilan_DH_appel_renfort_medical_j1" class="dateJplus1"></span>
           </td>
         </tr>
         <tr>
@@ -1913,8 +1907,8 @@ Ville
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_arrivee_renfort_medical')"/>
-            
+                  onBlur="miBilanCs.updateDateField(this.id, 'DH_arrivee_renfort_medical', 'bilanDateHeureBase', 'bilan_DH_appel_renfort_medical')"/>
+            <span id="bilan_DH_arrivee_renfort_medical_j1" class="dateJplus1"></span>
           </td>
         </tr>
       </table>
@@ -1952,6 +1946,26 @@ Ville
         </div>
     </div>
 </div>
+
+
+<!-- Fenetre pour l'annulation de l'intervention -->
+
+<div id="bilan-cancelIntervention" class="x-hidden">
+    <div class="x-window-header">Annulation de l'Intervention</div>
+    <div id="bilan-cancelIntervention-content">
+      Motif de l'annulation:
+           <select  id="bilan_motif_annulation"
+                  name="bilan_motif_annulation"><option value=" "> </option></select><br/><br/>
+
+      Commentaire sur l'annulation : <br/>
+                  <textarea   id="bilan_annulation_commentaires"
+                            name="bilan_annulation_commentaires"
+                         onFocus="crfIrpUtils.fieldEdit(this.id)"
+                          onBlur="miBilanCs.updateStringField(this.id, 'annulation_commentaires')"
+                    ></textarea>
+    </div>
+</div>
+
 
 <!-- Fin Bilan Editor -->
 
@@ -2356,8 +2370,9 @@ Ville
               <legend>Statut</legend>
               <select id="DispositifStatus"
                     name="DispositifStatus"
-                 onFocus="crfIrpUtils.fieldEdit(this.id)"
-                onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_etat_dispositif')">
+                 onFocus="crfIrpUtils.fieldEdit(this.id);"
+                onChange="miDispositifCs.updateDispositifEtat(this.id, 'id_etat_dispositif');"
+               >
                 <option value=" "> </option>
               </select>
             </fieldset>

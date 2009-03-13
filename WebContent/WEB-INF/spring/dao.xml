@@ -10,7 +10,7 @@
 
 
 
-	<bean id="crfIrpDataSource" class="org.springframework.jndi.JndiObjectFactoryBean" destroy-method="close">
+	<bean id="crfIrpDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="${jdbc.dataSourceJndiName}" />
 	</bean>
 

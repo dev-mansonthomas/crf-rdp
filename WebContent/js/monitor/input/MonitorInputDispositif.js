@@ -43,7 +43,7 @@ MonitorInputDispositifCs.prototype.initialize=function()
    
   crfIrpUtils.setupCalendar("DispositifDHFin", function(event){
        miDispositifCs.updateDispositifDateField(event.id, 'DH_fin');
-       crfIrpUtils.focusHandling('DispositifDHFin');
+       //crfIrpUtils.focusHandling('DispositifDHFin');
     });
     
   //initialisation des controles javascripts
@@ -60,13 +60,23 @@ MonitorInputDispositifCs.prototype.initialize=function()
   
   
   /*focus handling*/
-  UtilsFocusList.push('DispositifDHFin','DispositifEquipierAdd_Nivol');
-  UtilsFocusList.push('DispositifB1V'  ,'DispositifB1P'              );
-  UtilsFocusList.push('DispositifB2V'  ,'DispositifB2P'              );
-  UtilsFocusList.push('DispositifB3V'  ,'DispositifB3P'              );
-  UtilsFocusList.push('DispositifB4V'  ,'DispositifB4P'              );
-  UtilsFocusList.push('DispositifB5V'  ,'DispositifB5P'              );
-  
+  UtilsFocusList['DispositifDHFin'] = function(){
+    if($('DispositifEquipierAddIHM').style.display=='none')
+      return "DispositifB1V";
+    else
+      return "DispositifEquipierAdd_Nivol";
+  };
+  UtilsFocusList['DispositifB1V'  ] = 'DispositifB1P'              ;
+  UtilsFocusList['DispositifB2V'  ] = 'DispositifB2P'              ;
+  UtilsFocusList['DispositifB3V'  ] = 'DispositifB3P'              ;
+  UtilsFocusList['DispositifB4V'  ] = 'DispositifB4P'              ;
+  UtilsFocusList['DispositifB5V'  ] = 'DispositifB5P'              ;
+  UtilsFocusList['DispositifB1P'  ] = 'DispositifB2V'                   ;   
+  UtilsFocusList['DispositifB2P'  ] = 'DispositifB3V'                   ;   
+  UtilsFocusList['DispositifB3P'  ] = 'DispositifB4V'                   ;   
+  UtilsFocusList['DispositifB4P'  ] = 'DispositifB5V'                   ;   
+  UtilsFocusList['DispositifB5P'  ] = 'DispositifDefibrilateurTypeAUCUN';   
+
   /*event handling*/
   PageBus.subscribe("list.loaded",  this, this.initDispositif     , null, null);
   PageBus.subscribe("list.loaded",  this, this.initDispositifGrids, null, null);
@@ -809,6 +819,51 @@ MonitorInputDispositifCs.prototype.updateAddressErrorReturn=function(response, c
 };
 
 
+MonitorInputDispositifCs.prototype.updateDispositifEtat=function(fieldId)
+{
+  if(consoleEnabled)
+    console.log("Starting updating status");
+  crfIrpUtils.checkField (fieldId);
+  
+    if(consoleEnabled)
+    console.log("check field");
+
+  crfIrpUtils.fieldSaving(fieldId);
+  if(consoleEnabled)
+    console.log("fieldSaving");
+  
+  fieldValue = $(fieldId).value;
+    if(consoleEnabled)
+    console.log("getting current value");
+
+  if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
+  {
+    if(consoleEnabled)
+      console.log("current value is not equals to old value");
+
+    MonitorInputDispositif.updateDispositifEtat(
+                                              $('dispositif_id_field').value, 
+                                              fieldValue, 
+                                              function()
+                                              {
+                                                  if(consoleEnabled)
+                                                    console.log("end of update");
+
+                                                crfIrpUtils.defaultBackgroundColorForField(fieldId);
+                                              });
+  }
+  else
+    crfIrpUtils.defaultBackgroundColorForField(fieldId);
+    
+  if(consoleEnabled)
+    console.log("before focus");
+
+   crfIrpUtils.focusHandling(fieldId);
+     if(consoleEnabled)
+    console.log("after focus");
+
+};
+
 /************************Méthode*d'update*****************************************/
 MonitorInputDispositifCs.prototype.updateDispositifIntField=function(fieldId, fieldName)
 {
@@ -851,7 +906,7 @@ MonitorInputDispositifCs.prototype.updateDispositifDateField=function(fieldId, f
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
-  crfIrpUtils.focusHandling(fieldId);
+  //crfIrpUtils.focusHandling(fieldId);
 };
 
 

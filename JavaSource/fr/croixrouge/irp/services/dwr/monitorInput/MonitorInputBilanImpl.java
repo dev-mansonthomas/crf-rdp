@@ -6,9 +6,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
+import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.Intervention;
 import fr.croixrouge.irp.model.monitor.InterventionTicket;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
+import fr.croixrouge.irp.services.dispositif.DispositifService;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
 import fr.croixrouge.irp.services.intervention.InterventionService;
 
@@ -16,9 +18,13 @@ public class MonitorInputBilanImpl  extends DWRUtils
 {
   private static Log logger           = LogFactory.getLog(MonitorInputBilanImpl.class);
   private InterventionService interventionService = null;
-  public MonitorInputBilanImpl(InterventionService interventionService)
+  private DispositifService   dispositifService   = null;
+  
+  public MonitorInputBilanImpl(InterventionService interventionService,
+                               DispositifService   dispositifService)
   {
     this.interventionService = interventionService;
+    this.dispositifService   = dispositifService;
     
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -57,6 +63,25 @@ public class MonitorInputBilanImpl  extends DWRUtils
     }
     
   }
+  
+  
+  public void       cancelIntervention(int idIntervention, int idDispositif, int idMotifAnnulation) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("cancelling intervention "+idIntervention+" of dispositif "+idDispositif+" with motif "+idMotifAnnulation);
+    
+    int regulationId = this.validateSessionAndGetRegulationId();
+
+    this.interventionService.updateEtatIntervention         (idIntervention, 10);//inter annulée
+    this.interventionService.updateInterventionIntegerField (idIntervention, "id_motif_annulation", idMotifAnnulation);// set le motif annulation (commentaires sauvegarder normalement)
+    this.dispositifService  .updateDispositifSetIntervention(idDispositif  , 0 );//désaffecte l'intervention au dispositif
+    this.dispositifService  .updateEtatDispositif           (idDispositif  , -1);
+    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
+    
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
+  }
+  
+  
   public InterventionTicket getInterventionTicket(int idIntervention) throws Exception
   {
     this.validateSession();

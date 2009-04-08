@@ -272,6 +272,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private final static String queryForGetAllDispositif = dispositifSelectQuery + 
   "WHERE   id_regulation=?          \n"+
   "AND     creation_terminee = true \n"+
+  "AND     actif             = true \n"+
   "ORDER BY indicatif_vehicule ASC  \n";
 
   @SuppressWarnings("unchecked")
@@ -468,8 +469,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   private final static String queryUpdateActifValueOfDispositif = 
     "UPDATE dispositif        \n" +
-    "SET    actif         = ?"+
-    "WHERE  id_dispositif = ? ";  
+    "SET    actif         = ?\n"+
+    "WHERE  id_dispositif = ?\n";  
   
   
   public void updateActifValueOfDispositif(int idDispositif, boolean actif) throws Exception

@@ -277,7 +277,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     
     Object[] os = new Object[]
                {
-                 user.getNumNivol(),
+                 user.getNivol(),
                  user.isHomme(),
                  user.getNom(),
                  user.getPrenom(),

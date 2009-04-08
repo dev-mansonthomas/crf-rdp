@@ -77,12 +77,12 @@ CrfIrpUtils.prototype.radioAlphabet = {A:"ALPHA"
 
 CrfIrpUtils.prototype.toRadio=function(str)
 {
-  var str2   = str.replace(/é|è|ê|ë/gi,"").replace(/à|â|ä/gi, "a").replace(/ç/gi, "c").replace(/ù/gi, "u").replace(/î|ï/gi, "i");
+  var str2   = str.replace(/é|è|ê|ë/gi,"e").replace(/à|â|ä/gi, "a").replace(/ç/gi, "c").replace(/ù/gi, "u").replace(/î|ï/gi, "i").toUpperCase();
   var result = [];
   
   for(i=0,count=str2.length;i<count;i++)
   {
-    tmp = this.radioAlphabet[str2.charAt(i).toUpperCase()]
+    tmp = this.radioAlphabet[str2.charAt(i)]
     if(tmp != null)
       result.push(tmp.capitalize()+' ');
     else

@@ -167,7 +167,9 @@ function initLayout()
                         autoScroll  : true,
                         listeners   : {
                           bodyresize : function(panel, width, height){
-                           Ext.getCmp('center-carte-paris-panel').streetViewPanoramaTab.checkResize(); 
+                           var streetViewTab = Ext.getCmp('center-carte-paris-panel').streetViewPanoramaTab;
+                           if(streetViewTab!=null)
+                             streetViewTab.checkResize(); 
                           }
                         }
                     }
@@ -187,7 +189,7 @@ function initLayout()
                 });
   
   
-   var viewport = new Ext.Viewport({id:'monitorOutputViewPort',layout:'border', items:[north, south,west, south, center]});
+   var viewport = new Ext.Viewport({id:'monitorOutputViewPort',layout:'border', items:[north, south , west, center]});
   
    window.setTimeout(function(){
     var map = Ext.getCmp('center-carte-paris-panel');

@@ -2,7 +2,7 @@ Ext.onReady(function()
 {
   Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
   Ext.QuickTips.init();
-  
+  Ext.apply(Ext.QuickTips.getQuickTip(), { trackMouse: true});
   
   var viewport = new Ext.Viewport(
   {

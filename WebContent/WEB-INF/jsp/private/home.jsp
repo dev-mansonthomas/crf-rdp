@@ -33,6 +33,11 @@
     <div id="RegulationList"></div>
   </div>
   <div id="equipier">
+
+<input id="filter" type="text" value=""/>
+
+    <div id="RegulationList-test">
+    </div>
   </div>
   <div id="south">
     <p></p>

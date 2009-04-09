@@ -1,3 +1,20 @@
+var GridSearchFilterAndSortObject= {
+ index:0,
+ limit:5,
+ filterObjects:[],
+ sortObjects  :[]
+};
+var SortObject={
+  fieldName:'',
+  ascending:true
+};
+
+var FilterObject={
+  fieldName:'',
+  fieldValue:''
+};
+
+
 Ext.ux.rs = function(){};
 Ext.ux.rs.data = function(){};
 
@@ -27,13 +44,13 @@ Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
         callParams = this.args.slice();
       }
       
+      
+      //TODO, congtroler que params est du type GridSearchFilterAndSortObject, sinon throw Exection("")
+      //grid.getStore().load( ... instance de GridSearchFilterAndSortObject... )
       //paging
       if(params!=undefined && this.paging)
       {
-        if(params.start==undefined) params.start=0;
-        if(params.limit==undefined) params.limit=25;
-        callParams.push(params.start);
-        callParams.push(params.limit);
+        callParams.push(params);
       }
       
       callParams.push(delegate);

@@ -333,35 +333,44 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "        `DH_debut`     , `DH_fin`            , `id_delegation_responsable`, `autre_delegation`  , `display_state`     \n" +
     "FROM    dispositif\n";  
   
-  private final static String queryForGetDispositifTicketWithStatus = dispositifTicketSelectQuery + 
-  "WHERE    id_regulation     = ? \n" +
-  "AND      creation_terminee = ? \n" +
-  "ORDER BY indicatif_vehicule ASC\n";
+  private final static String queryForActiveDispositif = dispositifTicketSelectQuery + 
+  "WHERE    id_regulation     = ?    \n" +
+  "AND      creation_terminee = true \n" +
+  "AND      actif             = true \n" +
+  "ORDER BY indicatif_vehicule ASC   \n";
   
   
-  private final static String queryForGetDispositifTicketWithStatusCount =
-    "SELECT   count(1)             \n" +
-    "FROM     dispositif           \n"+
-    "WHERE    id_regulation     = ?\n"+
-    "AND      creation_terminee = ?\n";
+  private final static String queryForGetActiveDispositifCount =
+    "SELECT   count(1)                \n"+
+    "FROM     dispositif              \n"+
+    "WHERE    id_regulation     = ?   \n"+
+    "AND      creation_terminee = true\n"+
+    "AND      actif             = true\n";
   
   @SuppressWarnings("unchecked")
-  public ListRange getDispositifTicketWithStatus(int idRegulation, boolean creationTerminee, int index, int limit) throws Exception
+  public ListRange getActiveDispositif(int idRegulation, int index, int limit) throws Exception
   {
     if(logger.isDebugEnabled())
-      logger.debug("getting dispositif ticket for regulation id='"+idRegulation+"' with status creationTerminee='"+creationTerminee+"' from index='"+index+"' with limit='"+limit+"'");
+      logger.debug("getting dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"'");
     
-    int totalCount = this.jdbcTemplate.queryForInt(queryForGetDispositifTicketWithStatusCount,
-        new Object[]{idRegulation , creationTerminee?1:0  },
+    int totalCount = this.jdbcTemplate.queryForInt(queryForGetActiveDispositifCount,
+        new Object[]{idRegulation , },
         new int   []{Types.INTEGER, Types.INTEGER});
     
-    List<DispositifTicket> list = this.jdbcTemplate.query( queryForGetDispositifTicketWithStatus + "LIMIT    ?,?              \n", 
-        new Object[]{idRegulation , creationTerminee?1:0       , index        , limit        },
+    List<DispositifTicket> list = this.jdbcTemplate.query( queryForActiveDispositif + "LIMIT    ?,?              \n", 
+        new Object[]{idRegulation , index        , limit        },
         new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER},
         new DispositifTicketRowMapper      ()); 
     
     return new ListRange(totalCount, list); 
   }
+
+  private ListRange searchDispositif(int idRegulation, int index, int limit) throws Exception
+  {
+    return null;
+  }
+  
+  
   
   private final static String queryForGetDispositifTicket = dispositifTicketSelectQuery+
   "WHERE id_dispositif = ?\n";

@@ -91,8 +91,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   
   var dataStore1 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call  : MonitorInputDispositif.getDispositifTicketList,
-               args  : [true],
+               call  : MonitorInputDispositif.getActiveDispositifList,
+               args  : [],
                paging: true
                }),
            reader: new Ext.data.JsonReader({
@@ -203,7 +203,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
           emptyMsg   : 'aucun dispositif en cours d\'édition'
         })
     });
-  grid2.getStore().load({params: {start:0, limit:5}});
+  //grid2.getStore().load({params: {start:0, limit:5}});
 };
 
 MonitorInputDispositifCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)

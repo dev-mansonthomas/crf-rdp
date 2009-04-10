@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.croixrouge.irp.model.monitor.Regulation;
+import fr.croixrouge.irp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 import fr.croixrouge.irp.services.dwr.DWRUtils;
 import fr.croixrouge.irp.services.regulation.RegulationService;
@@ -27,6 +28,16 @@ public class Homepage extends DWRUtils
   public ListRange getOpenRegulationList() throws Exception
   {
     this.validateSession();
+    List<Regulation> list = this.regulationService.getRegulations(true);
+    return  new ListRange(list.size(), list);
+  }
+  
+  public ListRange getRegulationList(GridSearchFilterAndSortObject gridSearchFilterAndSortObject ) throws Exception
+  {
+    this.validateSession();
+    
+    System.out.println(gridSearchFilterAndSortObject.getIndex());
+    
     List<Regulation> list = this.regulationService.getRegulations(true);
     return  new ListRange(list.size(), list);
   }

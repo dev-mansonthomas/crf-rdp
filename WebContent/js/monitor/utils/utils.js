@@ -364,7 +364,7 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler, format)
                 crfIrpUtils.focusHandling(inputId);
                },
               'keyup':function(obj, event){
-                alert(event.keyCode());
+               // alert(event.keyCode());
                // crfIrpUtils.focusHandling(inputId);
                }
             }

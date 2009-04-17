@@ -34,7 +34,7 @@
   </div>
   <div id="equipier">
 
-<input id="filter" type="text" value=""/>
+<input id="filter" type="text" onclick="EquipierEditor.init();" value=""/>
 
     <div id="RegulationList-test">
     </div>

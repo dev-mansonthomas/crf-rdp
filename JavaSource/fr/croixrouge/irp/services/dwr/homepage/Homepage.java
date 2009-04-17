@@ -31,15 +31,25 @@ public class Homepage extends DWRUtils
     List<Regulation> list = this.regulationService.getRegulations(true);
     return  new ListRange(list.size(), list);
   }
+
   
   public ListRange getRegulationList(GridSearchFilterAndSortObject gridSearchFilterAndSortObject ) throws Exception
   {
-    this.validateSession();
+    try
+    {
+      this.validateSession();
+      
+      System.out.println(gridSearchFilterAndSortObject.getIndex());
+      
+      List<Regulation> list = this.regulationService.getRegulations(true);
+      return  new ListRange(list.size(), list);      
+    }
+    catch (Exception e)
+    {
+      e.printStackTrace();
+      return null;
+    }
     
-    System.out.println(gridSearchFilterAndSortObject.getIndex());
-    
-    List<Regulation> list = this.regulationService.getRegulations(true);
-    return  new ListRange(list.size(), list);
   }
   
   public void setRegulation(int regulationId) throws Exception

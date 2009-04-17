@@ -24,9 +24,9 @@ Ext.ux.Home.EquipierEditor = function() {
     	  
     	  var dataStore = new Ext.data.Store({
     	           proxy: new Ext.ux.rs.data.DwrProxy({
-    	               call: Homepage.getRegulationList,
-    	               args: [],
-    	               paging: true
+    	               call  : Homepage.getRegulationList,
+    	               args  : [],
+    	               paging: PAGING_WITH_SORT_AND_FILTER
     	               }),
     	           reader: new Ext.data.JsonReader({
     	                 	root: 'data',
@@ -93,9 +93,11 @@ Ext.ux.Home.EquipierEditor = function() {
     	        })
     	    });
     	  
-    	  grid1.getStore().load({params:{start:0,limit:5}});
+          
+    	  grid1.getStore().load({params:new GridSearchFilterAndSortObject(0,5, [new FilterObject('titit','toto')],[new SortObject('test',false)])});
         
         
       }
   };
 }();
+

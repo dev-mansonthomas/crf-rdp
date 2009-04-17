@@ -52,7 +52,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
            proxy: new Ext.ux.rs.data.DwrProxy({
                call  : MonitorInputIntervention.getInterventionTicketList,
                args  : [0],
-               paging: true
+               paging: SIMPLE_PAGING
                }),
            reader: new Ext.data.JsonReader({
                  root: 'data',
@@ -98,68 +98,12 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
     });
   grid1.getStore().load({params: {start:0, limit:5}});
   
-  
-  
-  
-  var dataStore2 = new Ext.data.Store({
-           proxy: new Ext.ux.rs.data.DwrProxy({
-               call  : MonitorInputIntervention.getInterventionTicketList,
-               args  : [1],
-               paging: true
-               }),
-           reader: new Ext.data.JsonReader({
-                 root: 'data',
-        totalProperty: 'totalCount',
-               fields:
-                   [
-                       {name: 'idIntervention', type: 'int'    },
-                       {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'nomVictime'    , type: 'string' },
-                       {name: 'position.ville', type: 'string' }
-                   ]
-               })
-           });
-           
-
-  var grid2 = new xg.GridPanel({
-        id   :'InterventionListNonAffecteeEditionGrid',
-        store: dataStore2,
-        cm   : new xg.ColumnModel([
-            {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
-            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
-            {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
-            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'position.ville'}
-        ]),
-        viewConfig: {
-            forceFit:true
-        },
-        collapsible : false,
-        animCollapse: false,
-        height      : 400,
-        iconCls     : 'icon-grid',
-        renderTo    : 'InterventionListUnaffected',
-        listeners   : {
-          'rowdblclick':miInterventionCs.gridRowDoubleClickHandler
-        },
-        bbar         : new Ext.PagingToolbar({
-          pageSize   : 5,
-          store      : dataStore2,
-          displayInfo: true,
-          displayMsg : 'Ticket d\'Intervention(s) {0} à {1} de {2}',
-          emptyMsg   : 'aucun Ticket d\'Intervention non affectée'
-        })
-    });
-  grid2.getStore().load({params: {start:0, limit:5}});
 };
-
-
 
 MonitorInputInterventionCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
 {
   miInterventionCs.editInterventionTicket(grid.store.getAt(rowIndex).data.idIntervention);
 };
-
-
 
 MonitorInputInterventionCs.prototype.reloadInterventionTicketLists=function(data)
 {
@@ -167,7 +111,6 @@ MonitorInputInterventionCs.prototype.reloadInterventionTicketLists=function(data
   Ext.getCmp('InterventionListEncoursEditionGrid'    ).getStore().reload();
 }
 
- 
 MonitorInputInterventionCs.prototype.addIntervention=function()
 {
   miInterventionCs.resetInterventionForm();

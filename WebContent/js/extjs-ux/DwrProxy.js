@@ -1,29 +1,35 @@
-var GridSearchFilterAndSortObject= {
- index:0,
- limit:5,
- filterObjects:[],
- sortObjects  :[]
+var GridSearchFilterAndSortObject= function(index, limit, filterObjects, sortObjects){
+ this.index        = index;
+ this.limit        = limit;
+ this.filterObjects= filterObjects;
+ this.sortObjects  = sortObjects;
 };
-var SortObject={
-  fieldName:'',
-  ascending:true
+var SortObject=function(fieldName, ascending){
+  this.fieldName=fieldName;
+  this.ascending=ascending;
 };
 
-var FilterObject={
-  fieldName:'',
-  fieldValue:''
+var FilterObject=function(fieldName, fieldValue){
+  this.fieldName =fieldName ;
+  this.fieldValue=fieldValue;
 };
 
 
 Ext.ux.rs = function(){};
 Ext.ux.rs.data = function(){};
 
+NO_PAGING                  =0;
+SIMPLE_PAGING              =1;
+PAGING_WITH_SORT_AND_FILTER=2;
+
 Ext.ux.rs.data.DwrProxy = function(config){
     Ext.ux.rs.data.DwrProxy.superclass.constructor.call(this);
     
     this.call = config.call;
     this.args = config.args;
-    this.paging = (config.paging!=undefined ? config.paging : true);
+    
+    this.paging = (config.paging!=undefined ? config.paging : NO_PAGING );
+
 };
 
 Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
@@ -48,18 +54,32 @@ Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
       //TODO, congtroler que params est du type GridSearchFilterAndSortObject, sinon throw Exection("")
       //grid.getStore().load( ... instance de GridSearchFilterAndSortObject... )
       //paging
-      if(params!=undefined && this.paging)
+      if(params!=undefined)
       {
-        callParams.push(params);
+        if( this.paging == SIMPLE_PAGING)
+        {
+          if(params.start==undefined) params.start=0;
+          if(params.limit==undefined) params.limit=25;
+          callParams.push(params.start);
+          callParams.push(params.limit);
+
+        }
+        else if( this.paging == PAGING_WITH_SORT_AND_FILTER)
+        {
+          callParams.push(params);
+        }  
       }
+      
       
       callParams.push(delegate);
       
-            this.call.apply(this,callParams);
-        }else{
-            callback.call(scope||this, null, arg, false);
-        }
-    },
+      this.call.apply(this,callParams);
+    }
+    else
+    {
+      callback.call(scope||this, null, arg, false);
+    }
+  },
 
     
     loadResponse : function(o, reader, callback, scope, arg){

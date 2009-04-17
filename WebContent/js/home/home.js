@@ -4,7 +4,7 @@ Ext.onReady(function()
   Ext.QuickTips.init();
   Ext.apply(Ext.QuickTips.getQuickTip(), { trackMouse: true});
   
-  initLayout();
+  initLayout ();
   initHomeTab();
   EquipierEditor = Ext.ux.Home.EquipierEditor;
   EquipierEditor.init();

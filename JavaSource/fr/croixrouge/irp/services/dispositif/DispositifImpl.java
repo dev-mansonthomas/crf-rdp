@@ -354,20 +354,18 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       logger.debug("getting dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"'");
     
     int totalCount = this.jdbcTemplate.queryForInt(queryForGetActiveDispositifCount,
-        new Object[]{idRegulation , },
-        new int   []{Types.INTEGER, Types.INTEGER});
+        new Object[]{idRegulation  },
+        new int   []{Types.INTEGER });
     
     List<DispositifTicket> list = this.jdbcTemplate.query( queryForActiveDispositif + "LIMIT    ?,?              \n", 
         new Object[]{idRegulation , index        , limit        },
-        new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER},
+        new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER},
         new DispositifTicketRowMapper      ()); 
+
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"' (total count = '"+totalCount+"', numberOfResult in List : '"+list.size()+"')");
     
     return new ListRange(totalCount, list); 
-  }
-
-  private ListRange searchDispositif(int idRegulation, int index, int limit) throws Exception
-  {
-    return null;
   }
   
   

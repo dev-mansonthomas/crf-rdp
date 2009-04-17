@@ -137,13 +137,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
   }
   
-  public ListRange getActiveDispositifList( int index, int limit) throws Exception
-  {
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
-    return this.dispositifService.getActiveDispositif(currentUserRegulationId, index, limit);
-  }
-  
-  public ListRange searchDispositif( int index, int limit) throws Exception
+  public ListRange getActiveDispositifList(int index, int limit) throws Exception
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     return this.dispositifService.getActiveDispositif(currentUserRegulationId, index, limit);

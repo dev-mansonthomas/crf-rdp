@@ -256,14 +256,8 @@ function initLayout()
         animate:true
     },
     items:[{
-            title    : 'Liste des Dispositifs',
+            title    : 'Liste des Dispositifs Récents',
             contentEl: 'DispositifListCurrent',
-            border   : false,
-            iconCls  : 'settings'
-          },
-          {
-            title    : 'Liste des Dispositifs en cours de saisie',
-            contentEl: 'DispositifListEncoursEdition',
             border   : false,
             iconCls  : 'settings'
           }]

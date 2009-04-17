@@ -93,7 +93,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
            proxy: new Ext.ux.rs.data.DwrProxy({
                call  : MonitorInputDispositif.getActiveDispositifList,
                args  : [],
-               paging: true
+               paging: SIMPLE_PAGING
                }),
            reader: new Ext.data.JsonReader({
                  root: 'data',
@@ -151,8 +151,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   var dataStore2 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
                call  : MonitorInputDispositif.getDispositifTicketList,
-               args  : [false],
-               paging: true
+               args  : [],
+               paging: SIMPLE_PAGING
                }),
            reader: new Ext.data.JsonReader({
                  root: 'data',

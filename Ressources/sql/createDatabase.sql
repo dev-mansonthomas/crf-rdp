@@ -5,13 +5,6 @@ CREATE DATABASE `crfirp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 use crfirp;
 
 
-DROP TABLE IF EXISTS `crfirp`.`delegation`;
-CREATE TABLE `delegation` (
-  `id_delegation` int(10) unsigned NOT NULL auto_increment,
-  `nom` varchar(45) NOT NULL,
-  `departement` varchar(8) NOT NULL,
-  PRIMARY KEY  (`id_delegation`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfirp`.`dispositif_etat`;
 CREATE TABLE `dispositif_etat` (
@@ -41,6 +34,54 @@ CREATE TABLE `user_role` (
   `code_role` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
+CREATE TABLE `crfirp`.`lieu_type`
+(
+  `id_type_lieu`     INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `num_ordre`        INTEGER UNSIGNED NOT NULL, 
+  `label_type_lieu`  VARCHAR(100) NOT NULL,
+  `icon_class_lieu`  VARCHAR(40 ) NOT NULL,
+  `icon_lieu`        VARCHAR(40 ) NOT NULL,
+  `icon_gmap_init`   VARCHAR(500) NOT NULL,
+  PRIMARY KEY(`id_type_lieu`)
+)
+ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+
+DROP TABLE IF EXISTS `crfirp`.`lieu`;
+CREATE TABLE `lieu` (
+  `id_lieu`                     int(10) unsigned NOT NULL auto_increment,
+  `id_type_lieu`                int(10) unsigned NOT NULL,
+  `icon`                        VARCHAR(20) NULL,
+  `icon_gmap_init`              VARCHAR(500) NULL,
+  `nom`                         varchar(45) NOT NULL,
+  `addresse`                    varchar(45) NOT NULL,
+  `code_postal`                 varchar(5 ) NOT NULL,
+  `ville`                       varchar(80) NOT NULL,
+  `google_coords_lat`           float(10,6) NOT NULL,
+  `google_coords_long`          float(10,6) NOT NULL,
+  `info_complementaire`         varchar(1000) NULL,
+  PRIMARY KEY (`id_lieu`),
+  CONSTRAINT `FK_lieu_type_lieu` FOREIGN KEY (`id_type_lieu`) REFERENCES `lieu_type`(`id_type_lieu`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+
+
+DROP TABLE IF EXISTS `crfirp`.`delegation`;
+CREATE TABLE `delegation` (
+  `id_delegation` int(10) unsigned NOT NULL auto_increment,
+  `nom` varchar(45) NOT NULL,
+  `departement` varchar(8) NOT NULL,
+  `telephone` varchar(10) NULL,
+  `mobile` varchar(10) NULL,
+  `mail`   varchar(255) NULL,
+  `web`    varchar(255) NULL,
+  `id_lieu` int(10) unsigned NOT NULL
+  PRIMARY KEY  (`id_delegation`),
+  CONSTRAINT `FK_delegation_lieu` FOREIGN KEY (`id_lieu`) REFERENCES `lieu`(`id_lieu`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
 
 DROP TABLE IF EXISTS `crfirp`.`user`;
 CREATE TABLE `user` (
@@ -219,37 +260,6 @@ CREATE TABLE `crfirp`.`intervention_motif_annulation`
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 
-
-DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
-CREATE TABLE `crfirp`.`lieu_type`
-(
-  `id_type_lieu`     INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `num_ordre`        INTEGER UNSIGNED NOT NULL, 
-  `label_type_lieu`  VARCHAR(100) NOT NULL,
-  `icon_class_lieu`  VARCHAR(40 ) NOT NULL,
-  `icon_lieu`        VARCHAR(40 ) NOT NULL,
-  `icon_gmap_init`   VARCHAR(500) NOT NULL,
-  PRIMARY KEY(`id_type_lieu`)
-)
-ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-
-DROP TABLE IF EXISTS `crfirp`.`lieu`;
-CREATE TABLE `lieu` (
-  `id_lieu`                     int(10) unsigned NOT NULL auto_increment,
-  `id_type_lieu`                int(10) unsigned NOT NULL,
-  `icon`                        VARCHAR(20) NULL,
-  `icon_gmap_init`              VARCHAR(500) NULL,
-  `nom`                         varchar(45) NOT NULL,
-  `addresse`                    varchar(45) NOT NULL,
-  `code_postal`                 varchar(5 ) NOT NULL,
-  `ville`                       varchar(80) NOT NULL,
-  `google_coords_lat`           float(10,6) NOT NULL,
-  `google_coords_long`          float(10,6) NOT NULL,
-  `info_complementaire`         varchar(1000) NULL,
-  PRIMARY KEY (`id_lieu`),
-  CONSTRAINT `FK_lieu_type_lieu` FOREIGN KEY (`id_type_lieu`) REFERENCES `lieu_type`(`id_type_lieu`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 
 

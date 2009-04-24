@@ -5,17 +5,17 @@ import java.io.Serializable;
 public class SortObject implements Serializable
 {
   private static final long serialVersionUID = -8690097939621623466L;
-  private String fieldName;
+  private String name;
   private boolean ascending;
   
   
-  public String getFieldName()
+  public String getName()
   {
-    return fieldName;
+    return name;
   }
-  public void setFieldName(String fieldName)
+  public void setName(String fieldName)
   {
-    this.fieldName = fieldName;
+    this.name = fieldName;
   }
   public boolean isAscending()
   {

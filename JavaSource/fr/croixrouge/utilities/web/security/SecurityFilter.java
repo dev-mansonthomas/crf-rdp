@@ -101,7 +101,7 @@ public class SecurityFilter implements Filter
 
     Principal principal = (Principal) httpSession.getAttribute(PRINCIPAL);
 
-    WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(httpSession.getServletContext());
+    WebApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(httpSession.getServletContext());
 
     SecurityRealm realm = (SecurityRealm) applicationContext.getBean(beanName);
 

@@ -5,24 +5,24 @@ import java.io.Serializable;
 public class FilterObject implements Serializable
 {
   private static final long serialVersionUID = -6264746880876616788L;
-  private String fieldName;
-  private String fieldValue;
+  private String name;
+  private String value;
   
   
-  public String getFieldName()
+  public String getName()
   {
-    return fieldName;
+    return name;
   }
-  public void setFieldName(String fieldName)
+  public void setName(String fieldName)
   {
-    this.fieldName = fieldName;
+    this.name = fieldName;
   }
-  public String getFieldValue()
+  public String getValue()
   {
-    return fieldValue;
+    return value;
   }
-  public void setFieldValue(String fieldValue)
+  public void setValue(String fieldValue)
   {
-    this.fieldValue = fieldValue;
+    this.value = fieldValue;
   }
 }

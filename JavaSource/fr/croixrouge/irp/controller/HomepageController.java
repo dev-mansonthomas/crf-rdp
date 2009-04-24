@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -25,10 +26,11 @@ public class HomepageController extends AbstractController
     this.regulationService             = regulationService;
     this.propertyPlaceholderConfigurer = propertyPlaceholderConfigurer;
   }
+ 
 
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
-  {
+  {    
     List<Regulation> regulations = regulationService.getRegulations(true);
     Map<String, Object> model = new HashMap<String, Object>();
     model.put("regulations"       , regulations);

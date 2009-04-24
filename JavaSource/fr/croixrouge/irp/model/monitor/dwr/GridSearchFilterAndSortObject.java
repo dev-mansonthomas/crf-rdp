@@ -8,8 +8,8 @@ public class GridSearchFilterAndSortObject implements Serializable
   private int index;
   private int limit;
   
-  private FilterObject[] filterObjects;
-  private SortObject  [] sortObjects  ;
+  private FilterObject[] filters;
+  private SortObject  [] sorts  ;
   
   public int getIndex()
   {
@@ -27,21 +27,21 @@ public class GridSearchFilterAndSortObject implements Serializable
   {
     this.limit = limit;
   }
-  public FilterObject[] getFilterObjects()
+  public FilterObject[] getFilters()
   {
-    return filterObjects;
+    return filters;
   }
-  public void setFilterObjects(FilterObject[] filterObjects)
+  public void setFilters(FilterObject[] filterObjects)
   {
-    this.filterObjects = filterObjects;
+    this.filters = filterObjects;
   }
-  public SortObject[] getSortObjects()
+  public SortObject[] getSorts()
   {
-    return sortObjects;
+    return sorts;
   }
-  public void setSortObjects(SortObject[] sortObjects)
+  public void setSorts(SortObject[] sortObjects)
   {
-    this.sortObjects = sortObjects;
+    this.sorts = sortObjects;
   }
   
   

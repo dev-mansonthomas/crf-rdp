@@ -6,7 +6,12 @@
               version="2.4">
   
   <display-name>crf-irp</display-name>
-
+  <!-- 
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/applicationContext*.xml</param-value>
+  </context-param>
+  -->
   <filter>
     <filter-name>Security Filter</filter-name>
     <filter-class>fr.croixrouge.utilities.web.security.SecurityFilter</filter-class>
@@ -80,6 +85,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+<!--
   <servlet>
     <description>Direct Web Remoter Servlet</description>
     <display-name>DWR Servlet</display-name>
@@ -104,15 +110,16 @@
     
     <load-on-startup>1</load-on-startup>
   </servlet>
-    
+-->
+
   <servlet>
     <servlet-name>crf-irp-spring-mvc</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>/WEB-INF/applicationContext-servlet.xml</param-value>
     </init-param>
-    <load-on-startup>1</load-on-startup>
   </servlet>
   
     <!-- Jawr -->
@@ -147,17 +154,18 @@
     <load-on-startup>2</load-on-startup>
   </servlet>
   
-  <!-- DWR -->
-  <servlet-mapping>
-    <servlet-name>dwr-invoker</servlet-name>
-    <url-pattern>/dwr/*</url-pattern>
-  </servlet-mapping>
+
     
   <!-- Spring MVC -->
   <servlet-mapping>
     <servlet-name>crf-irp-spring-mvc</servlet-name>
     <url-pattern>*.html</url-pattern>
   </servlet-mapping>  
+   <!-- DWR -->
+  <servlet-mapping>
+    <servlet-name>crf-irp-spring-mvc</servlet-name>
+    <url-pattern>/dwr/*</url-pattern>
+  </servlet-mapping> 
   
   <!-- Jawr -->
   <servlet-mapping>

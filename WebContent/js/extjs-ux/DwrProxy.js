@@ -1,17 +1,17 @@
-var GridSearchFilterAndSortObject= function(index, limit, filterObjects, sortObjects){
- this.index        = index;
- this.limit        = limit;
- this.filterObjects= filterObjects;
- this.sortObjects  = sortObjects;
+var GridSearchFilterAndSortObject= function(index, limit, filters, sorts){
+ this.index  = index;
+ this.limit  = limit;
+ this.filters= filters;
+ this.sorts  = sorts;
 };
-var SortObject=function(fieldName, ascending){
-  this.fieldName=fieldName;
+var SortObject=function(name, ascending){
+  this.name=name;
   this.ascending=ascending;
 };
 
-var FilterObject=function(fieldName, fieldValue){
-  this.fieldName =fieldName ;
-  this.fieldValue=fieldValue;
+var FilterObject=function(name, value){
+  this.name =name ;
+  this.value=nalue;
 };
 
 

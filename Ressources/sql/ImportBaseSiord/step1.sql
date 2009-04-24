@@ -1,6 +1,7 @@
 alter table membres add column (status varchar(2) default 'ok', comment varchar(255));
 
 CREATE TABLE `equipier` (
+  `id_equipier`       int(10) unsigned NOT NULL auto_increment,
   `id_equipier_siord`       int(10) unsigned NOT NULL ,
   `num_nivol` varchar(16) NOT NULL,
   `equipier_is_male` boolean NOT NULL,
@@ -11,20 +12,26 @@ CREATE TABLE `equipier` (
   `id_delegation` int(10) unsigned  NULL,
   `autre_delegation` varchar(45)  NULL,
   `id_role_equipier1`  int(10) unsigned  NULL,
-  `id_role_equipier2`  int(10) unsigned  NULL
+  `id_role_equipier2`  int(10) unsigned  NULL,
+  PRIMARY KEY (`id_equipier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
 update membres
 set status = 'KO', comment='user disabled'
-where login ='6474c6ade84b7bd4c56d9eeef5680287';
+where droits =999;
 
 
 
 update membres
-set status = 'KO', comment=comment||' no nivol'
+set status = 'KO', comment=' no nivol'
 where nivol =''
 and status = 'ok';
+
+-- enleve les leading 0
+update membres
+set nivol = TRIM(LEADING '0' FROM nivol)
+where status = 'OK';
 
 update membres
 set status = 'KO', comment=concat(comment,' nivol incorrect')
@@ -33,13 +40,6 @@ where nivol in
 from membres
 where nivol not regexp '[0-9]{3,9}[[:alpha:]]?') temp);
 
-update membres
-set status = 'KO', comment='nivol incorrect'
-where (nivol like 'XX%'
-or nivol like  '-%'
-or lower(nivol) like 'd%'
-)
-and status = 'ok';
 
 update membres
 set status = 'KO', comment='nivol en double'
@@ -56,10 +56,62 @@ and nivol in(
 );
 
 
-pour le nivol : 
-SELECT  UCASE(REPLACE(nivol, ' ', ''))
-FROM siord2.membres m
-where nivol regexp '[0-9]{3,9}[[:alpha:]]?'
+
+
+
+
+
+update membres
+set
+telephone = replace (telephone, ' ', '')
+where status = 'OK';
+
+update membres
+set
+telephone = replace (telephone, '.', '')
+where status ='OK';
+
+update membres
+set
+telephone = replace (telephone, '-', '')
+where status ='OK';
+
+update membres
+set telephone = concat('0', trim(leading '+33' from telephone))
+where status = 'OK'
+and telephone like '+33%';
+
+
+update membres
+set telephone = concat('0', trim(leading '33' from telephone))
+where status = 'OK'
+and telephone like '33%';
+
+update membres
+set telephone = ''
+where status = 'OK'
+and length(telephone) > 10;
+
+
+update membres
+set nivol = UCASE(REPLACE(nivol, ' ', ''))
+where status = 'ok';
+
+update membres
+set sexe = REPLACE(REPLACE(sexe, 'M', 1),'F', 0)
+where status = 'ok';
+
+update membres
+set nom = concat(ucase(substring(nom, 1,1)),substring(lower(nom), 2))
+where status = 'ok';
+
+update membres
+set prenom = concat(ucase(substring(prenom, 1,1)),substring(lower(prenom), 2))
+where status = 'ok';
+
+update membres
+set email = lower(email)
+where status = 'ok';
 
 
 
@@ -68,29 +120,15 @@ insert into equipier (`id_equipier_siord`,
   `num_nivol`,
   `equipier_is_male`,
   `nom`,
-  `prenom`, 
+  `prenom`,
   `mobile`,
   `email`)
   select id,
-       UCASE(REPLACE(nivol, ' ', '')),
-       REPLACE(REPLACE(sexe, 'M', 1),'F', 0),
-       concat(ucase(substring(nom, 1,1)),substring(lower(nom), 2)),
-       lower(prenom),
-       REPLACE(telephone, ' ',''),
-       lower(email)
+       nivol,
+       sexe,
+       nom,
+       prenom,
+       telephone,
+       email
 from membres
 where status = 'OK';
-
-
-update membres
-set
-telephone = replace (telephone, ' ', '');
-
-update membres
-set
-telephone = replace (telephone, '.', '');
-
-update membres
-set
-telephone = replace (telephone, '-', '');
-

@@ -85,7 +85,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
-<!--
+
   <servlet>
     <description>Direct Web Remoter Servlet</description>
     <display-name>DWR Servlet</display-name>
@@ -110,7 +110,7 @@
     
     <load-on-startup>1</load-on-startup>
   </servlet>
--->
+
 
   <servlet>
     <servlet-name>crf-irp-spring-mvc</servlet-name>
@@ -163,7 +163,7 @@
   </servlet-mapping>  
    <!-- DWR -->
   <servlet-mapping>
-    <servlet-name>crf-irp-spring-mvc</servlet-name>
+    <servlet-name>dwr-invoker</servlet-name>
     <url-pattern>/dwr/*</url-pattern>
   </servlet-mapping> 
   

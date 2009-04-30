@@ -5,19 +5,19 @@ import java.io.Serializable;
 public class GridSearchFilterAndSortObject implements Serializable
 {
   private static final long serialVersionUID = 2644048316831832097L;
-  private int index;
+  private int start;
   private int limit;
   
   private FilterObject[] filters;
   private SortObject  [] sorts  ;
   
-  public int getIndex()
+  public int getStart()
   {
-    return index;
+    return start;
   }
-  public void setIndex(int index)
+  public void setStart(int index)
   {
-    this.index = index;
+    this.start = index;
   }
   public int getLimit()
   {

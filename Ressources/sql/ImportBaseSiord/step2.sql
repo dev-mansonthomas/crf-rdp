@@ -176,3 +176,11 @@ INSERT into `delegation`
 select d.id, d.deleguation, d.code_postal, d.telephone, d.portable, d.email, d.site, ld.id_lieu
 from deleguations d, lieu_delegation ld
 where d.id = id_delegation_siord;
+
+
+update equipier e
+set id_delegation = (select id_delegation 
+                     from delegation, membres 
+                     where id_delegation_siord = membres.id_del_urgence
+                     and   membres.id = e.id_equipier_siord);
+         

@@ -1,5 +1,5 @@
-var GridSearchFilterAndSortObject= function(index, limit, filters, sorts){
- this.index  = index;
+var GridSearchFilterAndSortObject= function(start, limit, filters, sorts){
+ this.start  = start;
  this.limit  = limit;
  this.filters= filters;
  this.sorts  = sorts;
@@ -11,7 +11,7 @@ var SortObject=function(name, ascending){
 
 var FilterObject=function(name, value){
   this.name =name ;
-  this.value=nalue;
+  this.value=value;
 };
 
 

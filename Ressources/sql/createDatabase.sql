@@ -1,4 +1,3 @@
-﻿
 DROP DATABASE IF EXISTS `crfirp`;
 CREATE DATABASE `crfirp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 

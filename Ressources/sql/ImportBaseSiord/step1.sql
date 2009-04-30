@@ -22,7 +22,6 @@ set status = 'KO', comment='user disabled'
 where droits =999;
 
 
-
 update membres
 set status = 'KO', comment=' no nivol'
 where nivol =''

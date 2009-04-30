@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans          xmlns    = "http://www.springframework.org/schema/beans"
-	xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
-	
-	xsi:schemaLocation= "http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+  xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+  
+  xsi:schemaLocation= "http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <import resource="spring/propertiesAndLogger.xml"   />
-	<import resource="spring/cache.xml"		              />
-	<import resource="spring/dao.xml"		                />	
-	<import resource="spring/scheduler.xml"	            />
-	<import resource="spring/dwr.xml"                   />
-	<import resource="spring/services.xml"	            />
-			
-	<bean id="SecurityService" class="fr.croixrouge.irp.services.authentification.SecurityServiceImpl" autowire="constructor"/>
+  <import resource="spring/cache.xml"                 />
+  <import resource="spring/dao.xml"                   />  
+  <import resource="spring/scheduler.xml"             />
+  <import resource="spring/dwr.xml"                   />
+  <import resource="spring/services.xml"              />
+      
+  <bean id="SecurityService" class="fr.croixrouge.irp.services.authentification.SecurityServiceImpl" autowire="constructor"/>
 </beans>

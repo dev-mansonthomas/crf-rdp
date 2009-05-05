@@ -1,3 +1,8 @@
++ Gerer l'auto désaffectation du dispositif après X heure d'inactivité d'un dispositif.
++ gerer l'import des données
++ gerer la multi affecation de victime a un dispositif
+
+
 <a href="http://icanhascheezburger.com/2008/09/09/funny-pictures-kitteh-cheks-fr-breethin-furst/"><img class="mine_1760499" title="funny-pictures-cat-tries-to-save-your-life" src="http://icanhascheezburger.wordpress.com/files/2008/09/funny-pictures-cat-tries-to-save-your-life.jpg" alt="cat" /></a><br />more <a href="http://icanhascheezburger.com">animals</a>
 <a href="http://icanhascheezburger.com/2008/09/08/funny-pictures-im-hit/"><img class="mine_1755357" title="funny-pictures-your-cat-is-hit" src="http://icanhascheezburger.wordpress.com/files/2008/09/funny-pictures-your-cat-is-hit.jpg" alt="cat" /></a><br />more <a href="http://icanhascheezburger.com">animals</a>
 

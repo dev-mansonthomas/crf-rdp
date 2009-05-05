@@ -153,11 +153,46 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
                 , autoScroll:true
                 , border:false
                 , html:this.interventionTemplates[intervention.idOrigine].evaluate({id:intervention.idIntervention, idRegulation:intervention.idRegulation})
+                , listeners: {
+                    render: this.initializeInterventionDragZone
+                  }
+                , itemSelector: 'table.intervention'
                 });
+  tab.data = intervention;
+  
   westPanel.add(tab);
   westPanel.doLayout();
+};
 
-  Ext.ux.MonitorOutput.dd.addDraggable('interventionTicket_dragAndDrop_'+intervention.idIntervention, intervention);
+MonitorOutputInterventionCs.prototype.initializeInterventionDragZone=function(panelComponent)
+{
+    panelComponent.dragZone = new Ext.dd.DragZone(panelComponent.getEl(), {
+
+//      On receipt of a mousedown event, see if it is within a draggable element.
+//      Return a drag data object if so. The data object can contain arbitrary application
+//      data, but it should also contain a DOM element in the ddel property to provide
+//      a proxy to drag.
+        getDragData: function(e) {
+            var sourceEl = e.getTarget(panelComponent.itemSelector, 10);
+            if (sourceEl) {
+                d = sourceEl.cloneNode(true);
+                d.id = Ext.id();
+                return panelComponent.dragData = {
+                    sourcePanel     : panelComponent,//pour pouvoir retirer le panel après l'affectation
+                    sourceEl        : sourceEl,
+                    repairXY        : Ext.fly(sourceEl).getXY(),
+                    ddel            : d,
+                    interventionData: panelComponent.data
+                }
+            }
+        },
+
+//      Provide coordinates for the proxy to slide back to on failed drag.
+//      This is the original XY coordinates of the draggable element.
+        getRepairXY: function() {
+            return this.dragData.repairXY;
+        }
+    });
 };
 
 
@@ -165,7 +200,7 @@ MonitorOutputInterventionCs.prototype.interventionTemplates = Array();
 MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template(['<input type="hidden" id="interventionTicket_regulation_id_#{id}"    name="interventionTicket_regulation_id_#{id}" value="#{idRegulation}"/>',
 '<input type="hidden" id="interventionTicket_googleCoordsLat_#{id}"  name="interventionTicket_googleCoordsLat_#{id}"/>',
 '<input type="hidden" id="interventionTicket_googleCoordsLong_#{id}" name="interventionTicket_googleCoordsLong_#{id}"/>',
-'<table id="interventionTicket_#{id}" class="intervention_samu">',
+'<table id="interventionTicket_#{id}" class="intervention intervention_samu">',
 '  <tr>',
 '    <th>Date</th>',
 '    <td id="interventionTicket_dhReception_#{id}"></td>',
@@ -190,11 +225,14 @@ MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template(['
 '    <th>Ville</th>',
 '    <td id="interventionTicket_ville_#{id}"></td>',
 '  </tr>',
-'</table>',
+'  <tr>',
+'    <td colspan="2">',
 '<img src="',contextPath,'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="moInterventionCs.showInterventionOnGlobalMap(#{id})"/>',
 '<img src="',contextPath,'/img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>',
 '<img src="',contextPath,'/img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>',
-'<div id="interventionTicket_dragAndDrop_#{id}"><img src="',contextPath,'/img/monitorOutput/blesse.jpg"  class="dd-item"/></div>'].join(''));
+'    </td>',
+'  </tr>',
+'</table>'].join(''));
 
 MonitorOutputInterventionCs.prototype.interventionTemplates[0] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;
 MonitorOutputInterventionCs.prototype.interventionTemplates[2] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;
@@ -202,10 +240,3 @@ MonitorOutputInterventionCs.prototype.interventionTemplates[3] = MonitorOutputIn
 MonitorOutputInterventionCs.prototype.interventionTemplates[4] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;
 MonitorOutputInterventionCs.prototype.interventionTemplates[5] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;
 MonitorOutputInterventionCs.prototype.interventionTemplates[6] = MonitorOutputInterventionCs.prototype.interventionTemplates[1] ;
-
-/*
-MonitorOutputInterventionCs.prototype.addIntervention=function()
-{
-  var monitorInput = monitorOutputCs.getMonitorInputRef  ();
-  monitorInput.miInterventionCs.addIntervention();
-};*/

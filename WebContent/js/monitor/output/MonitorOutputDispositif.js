@@ -112,9 +112,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
   
   var xg = Ext.grid;
 
-  var dataStore1 = new Ext.data.Store({
-           listeners: { load : MonitorOutputDispositifCs.prototype.initDropZone,
-                         add : MonitorOutputDispositifCs.prototype.initDropZoneAdd},
+  var dispositifDataStore = new Ext.data.Store({
                proxy: new Ext.ux.rs.data.DwrProxy({
                 call: MonitorOutputDispositif.getAllDispositif,
                 args: [],
@@ -187,10 +185,10 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
                })
            });
 
-  var grid1 = new xg.GridPanel({
-        id:'DispositifListGrid',
-        store: dataStore1,
-        cm: new xg.ColumnModel([
+  var dispositifGrid = new xg.GridPanel({
+        id   : 'DispositifListGrid',
+        store: dispositifDataStore,
+        cm   : new xg.ColumnModel([
             {id:'indicatifVehiculeDCol'     , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
             {id:'idTypeDispositifDCol'      , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif'  , renderer:moDispositifCs.typeCellRenderer},
             {id:'contactRadioDispositifDCol', header: "Selectif Radio"  , width: 150, sortable: true, dataIndex: 'contactRadio'      },
@@ -206,10 +204,87 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
         animCollapse: false,
         height      : 1800,
         iconCls     : 'icon-grid',
-        renderTo    : 'center-dispositif-list'
+        renderTo    : 'center-dispositif-list',
+        listeners: {
+            render: this.initializeDispositifDropZone
+        }
     });
-  grid1.getStore().load();
+  dispositifGrid.getStore().load();
 };
+
+/**
+ * Drag & Drop handling
+ **/
+MonitorOutputDispositifCs.prototype.initializeDispositifDropZone=function(dispositifGrid)
+{
+      dispositifGrid.dropZone = new Ext.dd.DropZone(dispositifGrid.getView().scroller, {
+
+//      If the mouse is over a target node, return that node. This is
+//      provided as the "target" parameter in all "onNodeXXXX" node event handling functions
+        getTargetFromEvent: function(e) {
+            return e.getTarget('.interventionDropZone');
+        },
+
+//      On entry into a target node, highlight that node.
+        onNodeEnter : function(target, dd, e, data){ 
+            Ext.fly(target).addClass('interventionDropZone-hover');
+        },
+
+//      On exit from a target node, unhighlight that node.
+        onNodeOut : function(target, dd, e, data){ 
+            Ext.fly(target).removeClass('interventionDropZone-hover');
+        },
+
+//      While over a target node, return the default drop allowed class which
+//      places a "tick" icon into the drag proxy.
+        onNodeOver : function(target, dd, e, data){ 
+            return Ext.dd.DropZone.prototype.dropAllowed;
+        },
+
+//      On node drop, we can interrogate the target node to find the underlying
+//      application object that is the real target of the dragged data.
+//      In this case, it is a Record in the GridPanel's Store.
+//      We can use the data set up by the DragZone's getDragData method to read
+//      any data we decided to attach.
+        onNodeDrop : function(target, dd, e, draggableItemData){
+          var rowIndex       = dispositifGrid.getView ().findRowIndex(target  );
+          var dispositifData = dispositifGrid.getStore().getAt       (rowIndex);
+
+          moDispositifCs.setInterventionToDispositif(draggableItemData, target, dispositifData );
+       
+          return true;
+        }
+    });
+};
+
+MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifData)
+{
+  var intervention     = draggableElement.interventionData;
+
+  var callMetaData = {
+    callback:MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn,
+    arg:{ intervention    : intervention                  ,
+          dispositif      : dispositifData.data           ,
+          panelComponent  : draggableElement.sourcePanel}
+  };
+
+  MonitorOutputDispositif.actionOnDispositif( intervention  .idIntervention     , 
+                                              dispositifData.data.idDispositif  , 
+                                              callMetaData);
+};
+
+MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(serverData, metaData)
+{
+  var westPanel = Ext.getCmp('west-panel');
+  westPanel.remove(metaData.panelComponent);
+  //note: pas besoin de mettre a jour la drop zone, le reverse ajax d'update le mettra a jour tout seul
+};
+
+
+/**
+ * END - Drag & Drop handling
+ **/
+
 
 /**
  * initalise la fenetre permettant de voir les lieux par catégorie
@@ -573,7 +648,7 @@ detailIntervention,
   
   moDispositifCs.displayDispositifOnMap(record.data);
   
-  Ext.ux.MonitorOutput.dd.removeTagFromDropZoneList(dropZoneId);
+  //Ext.ux.MonitorOutput.dd.removeTagFromDropZoneList(dropZoneId);
   return 'x-grid3-row-expanded';
 };
 /**
@@ -673,29 +748,6 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
 };
 
 /**
- * Lance l'initialisation des dropzone aprés un certain temps (temps de chargemnent du store)
- * Disparaitra lorsque j'aurais changer l'implémentation des dropzone pour etre plus dans l'esprit Ext
- * */
-MonitorOutputDispositifCs.prototype.initDropZoneAdd  =function()
-{
-  window.setTimeout(function(){MonitorOutputDispositifCs.prototype.initDropZone();}, 200)
-};
-/**
- * initialise la dropzone des dispositifs
- * 
- * */
-MonitorOutputDispositifCs.prototype.initDropZone  =function()
-{
-  //if(consoleEnabled)
-    //console.log('adding drop zone');
-    
-  var store = Ext.getCmp('DispositifListGrid').getStore();
-  
-  store.each(function(record){
-    Ext.ux.MonitorOutput.dd.addDropZone('dispositifDz_'+record.data.idTypeDispositif+'_'+record.data.idDispositif+'_'+record.id, record.id, record.data);
-  });
-};
-/**
  * Ouvre le dispositif dans in.jsp
  * */
 MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif)
@@ -720,7 +772,7 @@ MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention, on
 MonitorOutputDispositifCs.prototype.action          =function(idDispositif, idIntervention, currentState)
 {
   var sendActionToServerNow = true;
-  if(currentState == 4)//Etat : Sur Place, doit afficher le formulaire de primaire
+  if     (currentState == 4)//Etat : Sur Place, doit afficher le formulaire de primaire
   {
     MonitorOutputDispositifCs.prototype.editIntervention(idIntervention); 
   }
@@ -926,35 +978,6 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
     store.remove(record);
   }
   store.insert(recordIndex, newDispositif);
-};
-
-
-MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggableElement, dropZoneData)
-{
-  var draggedElementId = draggableElement.id          ;
-  var intervention     = draggableElement.intervention;
-
-  var dropZoneId       = dropZoneData.id        ;
-  var dispositifData   = dropZoneData.dispositif;
-
-  var callMetaData = {
-    callback:MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn,
-    arg:{draggedElementId: draggedElementId              ,
-          dropZoneId      : dropZoneId                    , 
-          idIntervention  : intervention.idIntervention   ,
-          dispositifId    : dispositifData.idDispositif   ,
-          dispositif      : dropZoneData.dispositif       ,
-          intervention    : draggableElement.intervention }
-  };
-
-  MonitorOutputDispositif.actionOnDispositif(intervention.idIntervention, dispositifData.idDispositif, callMetaData);
-};
-
-MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(serverData, metaData)
-{
-  var westPanel = Ext.getCmp('west-panel');
-  westPanel.remove('interventionTicket_'+metaData.idIntervention);
-  //note: pas besoin de mettre a jour la drop zone, le reverse ajax d'update le mettra a jour tout seul
 };
 
 MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(dispositif)

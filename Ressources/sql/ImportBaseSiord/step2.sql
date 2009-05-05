@@ -1,7 +1,7 @@
-CREATE TABLE `lieu_delegation` (
+﻿CREATE TABLE `lieu_delegation` (
   `id_delegation_siord`         int(10) unsigned NOT NULL,
   `id_lieu`                     int(10) unsigned NOT NULL auto_increment,
-  `id_type_lieu`                int(10) unsigned default(3),
+  `id_type_lieu`                int(10) unsigned default 3,
   `icon`                        VARCHAR(20) NULL,
   `icon_gmap_init`              VARCHAR(500) NULL,
   `nom`                         varchar(45) NOT NULL,

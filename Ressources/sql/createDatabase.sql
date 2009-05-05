@@ -1,4 +1,4 @@
-DROP DATABASE IF EXISTS `crfirp`;
+﻿DROP DATABASE IF EXISTS `crfirp`;
 CREATE DATABASE `crfirp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 use crfirp;
@@ -76,7 +76,7 @@ CREATE TABLE `delegation` (
   `mobile` varchar(10) NULL,
   `mail`   varchar(255) NULL,
   `web`    varchar(255) NULL,
-  `id_lieu` int(10) unsigned NOT NULL
+  `id_lieu` int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_delegation`),
   CONSTRAINT `FK_delegation_lieu` FOREIGN KEY (`id_lieu`) REFERENCES `lieu`(`id_lieu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;

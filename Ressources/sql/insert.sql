@@ -1,27 +1,72 @@
-﻿insert into delegation (nom, departement)
+﻿-- type de lieux
+INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`,`label_type_lieu`,`icon_class_lieu`, `icon_lieu`,`icon_gmap_init`) VALUES
+ (1,1,'Hopital'                        ,'hopitalIcon'         ,'gmap/hopital.png'          ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/hopital.png\";\r\nicon.shadow=contextPath+\"/img/gmap/hopital-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);'),
+ (2,2,'Centre de Secours des Pompiers' ,'pompierIcon'         ,'gmap/pompier.png'          ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/pompier.png\";\r\nicon.shadow=contextPath+\"/img/gmap/pompier-s.png\";\r\nicon.iconSize=new GSize(28.0, 30.0);\r\nicon.shadowSize=new GSize(44.0, 30.0);\r\nicon.iconAnchor=new GPoint(14.0, 15.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 15.0);'),
+ (3,3,'CRF - Base locale'              ,'localCroixRougeIcon' ,'gmap/local-croix-rouge.png','icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/local-croix-rouge.png\";\r\nicon.shadow=contextPath+\"/img/gmap/local-croix-rouge-s.png\";\r\nicon.iconSize=new GSize(32.0, 32.0);\r\nicon.shadowSize=new GSize(49.0, 32.0);\r\nicon.iconAnchor=new GPoint(16.0, 32.0);\r\nicon.infoWindowAnchor=new GPoint(16.0, 0.0);\r\n'),
+ (4,4,'Station Service H24'            ,'stationserviceIcon'  ,'gmap/stationservice.png'   ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/stationservice.png\";\r\nicon.shadow=contextPath+\"/img/gmap/stationservice-s.png\";\r\nicon.iconSize=new GSize(25.0, 28.0);\r\nicon.shadowSize=new GSize(40.0, 28.0);\r\nicon.iconAnchor=new GPoint(12.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 14.0);'),
+ (5,5,'Boulangerie/Fast Food/Resto H24','restoIcon'           ,'gmap/resto.png'            ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/resto.png\";\r\nicon.shadow=contextPath+\"/img/gmap/resto-s.png\";\r\nicon.iconSize=new GSize(28.0, 28.0);\r\nicon.shadowSize=new GSize(43.0, 28.0);\r\nicon.iconAnchor=new GPoint(14.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 14.0);'),
+ (6,6,'Pharmacie H24'                  ,'pharmacieIcon'       ,'gmap/pharmacie.png'        ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/pharmacie.png\";\r\nicon.shadow=contextPath+\"/img/gmap/pharmacie-s.png\";\r\nicon.iconSize=new GSize(28.0, 28.0);\r\nicon.shadowSize=new GSize(43.0, 28.0);\r\nicon.iconAnchor=new GPoint(14.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 14.0);'),
+ (7,7,'Police'                         ,'policeIcon'          ,'gmap/police.png'           ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/police.png\";\r\nicon.shadow=contextPath+\"/img/gmap/police-s.png\";\r\nicon.iconSize=new GSize(26.0, 26.0);\r\nicon.shadowSize=new GSize(40.0, 26.0);\r\nicon.iconAnchor=new GPoint(13.0, 13.0);\r\nicon.infoWindowAnchor=new GPoint(13.0, 13.0);'),
+ (8,8,'Intervention'                   ,'interventionIcon'    ,'gmap/intervention.png'     ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/intervention.png\";\r\nicon.shadow=contextPath+\"/img/gmap/intervention-s.png\";\r\nicon.iconSize=new GSize(16.0, 16.0);\r\nicon.shadowSize=new GSize(25.0, 16.0);\r\nicon.iconAnchor=new GPoint(8.0, 8.0);\r\nicon.infoWindowAnchor=new GPoint(8.0, 8.0);'),
+ (9,9,'Ambulance'                      ,'ambulanceIcon'       ,'gmap/ambulance.png'        ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/ambulance.png\";\r\nicon.shadow=contextPath+\"/img/gmap/ambulance-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);'),
+ (10,0,'N/A'                      ,'N/A'       ,'N/A'        ,'');
+
+UPDATE `lieu_type` SET `id_type_lieu` = 0 WHERE `id_type_lieu` = 10;
+ALTER TABLE `lieu_type` AUTO_INCREMENT = 10;
+
+-- lieux
+INSERT INTO `lieu` (`id_lieu`,`id_type_lieu`,`icon`,`icon_gmap_init`,`nom`,`addresse`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`info_complementaire`) VALUES
+ (1 ,1,NULL,NULL,'BICHAT - CLAUDE-BERNARD'   ,'46, rue Henri-Huchard','75018','Paris',48.899136,2.334483,NULL),
+ (2 ,1,NULL,NULL,'HOTEL-DIEU'                ,'1, place du Parvis Notre-Dame','75004','Paris',48.853264,2.348034,'<b>Attention : </b> Entrée des urgence a changé'),
+ (3 ,1,NULL,NULL,'LARIBOISIERE'              ,'9, rue Ambroise Paré','75010','Paris',48.881939,2.352589,NULL),
+ (4 ,2,NULL,NULL,'Rousseau'                  ,'21, rue du Jour','75001','Paris',48.863880,2.344957,NULL),
+ (5 ,2,NULL,NULL,'Sévigné'                   ,'7, rue Sévigné','75004','Paris',48.855671,2.362153,NULL),
+ (6 ,2,NULL,NULL,'Dauphine'                  ,'2, rue François Millet','75016','Paris',48.850437,2.273220,NULL),
+ (7 ,2,NULL,NULL,'Montmartre'                ,'12, rue Carpeaux','75018','Paris',48.891346,2.332324,NULL),
+ (8 ,3,NULL,NULL,'CRF - Base IV'             ,"36, rue Geoffroy l'Asnier",'75004','Paris',48.855434,2.357217,NULL),
+ (9 ,3,NULL,NULL,'CRF - Base XVI'            ,'68, rue de Passy','75016','Paris',48.857967,2.277349,NULL),
+ (10,3,NULL,NULL,'CRF - Base XIV'            ,'72, rue Halle','75014','Paris',48.829185,2.331103,NULL),
+ (11,4,NULL,NULL,'Station Total Victor Hugo' ,'183, avenue Victor Hugo','75016','Paris',48.865891,2.276386,NULL),
+ (12,5,NULL,NULL,'Le Pied de Cochon'         ,'6, rue Coquillière','75001','Paris',48.863377,2.343667,NULL),
+ (13,6,NULL,NULL,'Pharmacie Les Champs'      ,'84, avenue des Champs-Elysées','75008','Paris',48.871059,2.303572,NULL),
+ (14,6,NULL,NULL,'Pharmacie Européenne'      ,'6, place Clichy','75009','Paris',48.883270,2.327567,NULL),
+ (15,6,NULL,NULL,'Grande Pharmacie Daumesnil','6, place Félix Eboué','75012','Paris',48.839417,2.395632,NULL),
+ (16,7,NULL,NULL,'Commissariat Central, 20eme','48, avenue Gambetta','75020','Paris',48.865781,2.39925,NULL),
+ (17,7,NULL,NULL,'Commissariat Central, 19eme','3, rue Erik Satie','75019','Paris',48.884248,2.38627,'S.A.R.I.J Service Accueil Recherche Investigation Judiciaire'),
+ (18,7,NULL,NULL,'Commissariat Central, 15eme','250 rue Vaugirard','75015','Paris',48.839833,2.302275,'U.P.Q Unité Police Quartier St Lambert - S.A.R.I.J Service Accueil Recherche Investigation Judiciaire'),
+ (19,0,NULL,NULL,'N/A','N/A','N/A','N/A',0,0,'N/A');
+
+UPDATE `lieu` SET `id_lieu` = 0 WHERE `id_lieu` = 19;
+ALTER TABLE `lieu` AUTO_INCREMENT = 19;
+
+
+
+
+
+insert into delegation (nom, departement, id_lieu)
 values
-('National'      ,'00000'),
-('Département 75','75000'),
-('PARIS-I'       ,'75001'),
-('PARIS-III'     ,'75003'),
-('PARIS-IV'      ,'75004'),
-('PARIS-V'       ,'75005'),
-('PARIS-VI'      ,'75006'),
-('PARIS-VII'     ,'75007'),
-('PARIS-VIII'    ,'75008'),
-('PARIS-IX'      ,'75009'),
-('PARIS-X'       ,'75010'),
-('PARIS-XI'      ,'75011'),
-('PARIS-XII'     ,'75012'),
-('PARIS-XIII'    ,'75013'),
-('PARIS-XIV'     ,'75014'),
-('PARIS-XV'      ,'75015'),
-('PARIS-XVI'     ,'75016'),
-('PARIS-XVII'    ,'75017'),
-('PARIS-XVIII'   ,'75018'),
-('PARIS-XIX'     ,'75019'),
-('PARIS-XX'      ,'75020'),
-('Autre'         ,'{N/A}');
+('National'      ,'00000',8 ),
+('Département 75','75000',9 ),
+('PARIS-I'       ,'75001',10),
+('PARIS-III'     ,'75003',8 ),
+('PARIS-IV'      ,'75004',9 ),
+('PARIS-V'       ,'75005',10),
+('PARIS-VI'      ,'75006',8 ),
+('PARIS-VII'     ,'75007',9 ),
+('PARIS-VIII'    ,'75008',10),
+('PARIS-IX'      ,'75009',8 ),
+('PARIS-X'       ,'75010',9 ),
+('PARIS-XI'      ,'75011',10),
+('PARIS-XII'     ,'75012',8 ),
+('PARIS-XIII'    ,'75013',9 ),
+('PARIS-XIV'     ,'75014',10),
+('PARIS-XV'      ,'75015',8 ),
+('PARIS-XVI'     ,'75016',9 ),
+('PARIS-XVII'    ,'75017',10),
+('PARIS-XVIII'   ,'75018',8 ),
+('PARIS-XIX'     ,'75019',9 ),
+('PARIS-XX'      ,'75020',10),
+('Autre'         ,'{N/A}',10);
 
 update delegation set id_delegation=0 where id_delegation = 22;
 ALTER TABLE delegation AUTO_INCREMENT = 22;
@@ -177,46 +222,7 @@ values
 update intervention_etat set id_etat = 0 where id_etat = 11;
 ALTER TABLE `intervention_etat` AUTO_INCREMENT = 11;
 
--- type de lieux
-INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`,`label_type_lieu`,`icon_class_lieu`, `icon_lieu`,`icon_gmap_init`) VALUES
- (1,1,'Hopital'                        ,'hopitalIcon'         ,'gmap/hopital.png'          ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/hopital.png\";\r\nicon.shadow=contextPath+\"/img/gmap/hopital-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);'),
- (2,2,'Centre de Secours des Pompiers' ,'pompierIcon'         ,'gmap/pompier.png'          ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/pompier.png\";\r\nicon.shadow=contextPath+\"/img/gmap/pompier-s.png\";\r\nicon.iconSize=new GSize(28.0, 30.0);\r\nicon.shadowSize=new GSize(44.0, 30.0);\r\nicon.iconAnchor=new GPoint(14.0, 15.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 15.0);'),
- (3,3,'CRF - Base locale'              ,'localCroixRougeIcon' ,'gmap/local-croix-rouge.png','icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/local-croix-rouge.png\";\r\nicon.shadow=contextPath+\"/img/gmap/local-croix-rouge-s.png\";\r\nicon.iconSize=new GSize(32.0, 32.0);\r\nicon.shadowSize=new GSize(49.0, 32.0);\r\nicon.iconAnchor=new GPoint(16.0, 32.0);\r\nicon.infoWindowAnchor=new GPoint(16.0, 0.0);\r\n'),
- (4,4,'Station Service H24'            ,'stationserviceIcon'  ,'gmap/stationservice.png'   ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/stationservice.png\";\r\nicon.shadow=contextPath+\"/img/gmap/stationservice-s.png\";\r\nicon.iconSize=new GSize(25.0, 28.0);\r\nicon.shadowSize=new GSize(40.0, 28.0);\r\nicon.iconAnchor=new GPoint(12.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 14.0);'),
- (5,5,'Boulangerie/Fast Food/Resto H24','restoIcon'           ,'gmap/resto.png'            ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/resto.png\";\r\nicon.shadow=contextPath+\"/img/gmap/resto-s.png\";\r\nicon.iconSize=new GSize(28.0, 28.0);\r\nicon.shadowSize=new GSize(43.0, 28.0);\r\nicon.iconAnchor=new GPoint(14.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 14.0);'),
- (6,6,'Pharmacie H24'                  ,'pharmacieIcon'       ,'gmap/pharmacie.png'        ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/pharmacie.png\";\r\nicon.shadow=contextPath+\"/img/gmap/pharmacie-s.png\";\r\nicon.iconSize=new GSize(28.0, 28.0);\r\nicon.shadowSize=new GSize(43.0, 28.0);\r\nicon.iconAnchor=new GPoint(14.0, 14.0);\r\nicon.infoWindowAnchor=new GPoint(14.0, 14.0);'),
- (7,7,'Police'                         ,'policeIcon'          ,'gmap/police.png'           ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/police.png\";\r\nicon.shadow=contextPath+\"/img/gmap/police-s.png\";\r\nicon.iconSize=new GSize(26.0, 26.0);\r\nicon.shadowSize=new GSize(40.0, 26.0);\r\nicon.iconAnchor=new GPoint(13.0, 13.0);\r\nicon.infoWindowAnchor=new GPoint(13.0, 13.0);'),
- (8,8,'Intervention'                   ,'interventionIcon'    ,'gmap/intervention.png'     ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/intervention.png\";\r\nicon.shadow=contextPath+\"/img/gmap/intervention-s.png\";\r\nicon.iconSize=new GSize(16.0, 16.0);\r\nicon.shadowSize=new GSize(25.0, 16.0);\r\nicon.iconAnchor=new GPoint(8.0, 8.0);\r\nicon.infoWindowAnchor=new GPoint(8.0, 8.0);'),
- (9,9,'Ambulance'                      ,'ambulanceIcon'       ,'gmap/ambulance.png'        ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/ambulance.png\";\r\nicon.shadow=contextPath+\"/img/gmap/ambulance-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);'),
- (10,0,'N/A'                      ,'N/A'       ,'N/A'        ,'');
 
-UPDATE `lieu_type` SET `id_type_lieu` = 0 WHERE `id_type_lieu` = 10;
-ALTER TABLE `lieu_type` AUTO_INCREMENT = 10;
-
--- lieux
-INSERT INTO `lieu` (`id_lieu`,`id_type_lieu`,`icon`,`icon_gmap_init`,`nom`,`addresse`,`code_postal`,`ville`,`google_coords_lat`,`google_coords_long`,`info_complementaire`) VALUES
- (1 ,1,NULL,NULL,'BICHAT - CLAUDE-BERNARD'   ,'46, rue Henri-Huchard','75018','Paris',48.899136,2.334483,NULL),
- (2 ,1,NULL,NULL,'HOTEL-DIEU'                ,'1, place du Parvis Notre-Dame','75004','Paris',48.853264,2.348034,'<b>Attention : </b> Entrée des urgence a changé'),
- (3 ,1,NULL,NULL,'LARIBOISIERE'              ,'9, rue Ambroise Paré','75010','Paris',48.881939,2.352589,NULL),
- (4 ,2,NULL,NULL,'Rousseau'                  ,'21, rue du Jour','75001','Paris',48.863880,2.344957,NULL),
- (5 ,2,NULL,NULL,'Sévigné'                   ,'7, rue Sévigné','75004','Paris',48.855671,2.362153,NULL),
- (6 ,2,NULL,NULL,'Dauphine'                  ,'2, rue François Millet','75016','Paris',48.850437,2.273220,NULL),
- (7 ,2,NULL,NULL,'Montmartre'                ,'12, rue Carpeaux','75018','Paris',48.891346,2.332324,NULL),
- (8 ,3,NULL,NULL,'CRF - Base IV'             ,"36, rue Geoffroy l'Asnier",'75004','Paris',48.855434,2.357217,NULL),
- (9 ,3,NULL,NULL,'CRF - Base XVI'            ,'68, rue de Passy','75016','Paris',48.857967,2.277349,NULL),
- (10,3,NULL,NULL,'CRF - Base XIV'            ,'72, rue Halle','75014','Paris',48.829185,2.331103,NULL),
- (11,4,NULL,NULL,'Station Total Victor Hugo' ,'183, avenue Victor Hugo','75016','Paris',48.865891,2.276386,NULL),
- (12,5,NULL,NULL,'Le Pied de Cochon'         ,'6, rue Coquillière','75001','Paris',48.863377,2.343667,NULL),
- (13,6,NULL,NULL,'Pharmacie Les Champs'      ,'84, avenue des Champs-Elysées','75008','Paris',48.871059,2.303572,NULL),
- (14,6,NULL,NULL,'Pharmacie Européenne'      ,'6, place Clichy','75009','Paris',48.883270,2.327567,NULL),
- (15,6,NULL,NULL,'Grande Pharmacie Daumesnil','6, place Félix Eboué','75012','Paris',48.839417,2.395632,NULL),
- (16,7,NULL,NULL,'Commissariat Central, 20eme','48, avenue Gambetta','75020','Paris',48.865781,2.39925,NULL),
- (17,7,NULL,NULL,'Commissariat Central, 19eme','3, rue Erik Satie','75019','Paris',48.884248,2.38627,'S.A.R.I.J Service Accueil Recherche Investigation Judiciaire'),
- (18,7,NULL,NULL,'Commissariat Central, 15eme','250 rue Vaugirard','75015','Paris',48.839833,2.302275,'U.P.Q Unité Police Quartier St Lambert - S.A.R.I.J Service Accueil Recherche Investigation Judiciaire'),
- (19,0,NULL,NULL,'N/A','N/A','N/A','N/A',0,0,'N/A');
-
-UPDATE `lieu` SET `id_lieu` = 0 WHERE `id_lieu` = 19;
-ALTER TABLE `lieu` AUTO_INCREMENT = 19;
 
 -- Insert test data
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )

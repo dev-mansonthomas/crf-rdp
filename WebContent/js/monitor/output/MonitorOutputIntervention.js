@@ -30,12 +30,12 @@ MonitorOutputInterventionCs.prototype.loadAllInterventionReturn=function(interve
 
 MonitorOutputInterventionCs.prototype.deleteInterventionToAffect=function(idIntervention)
 {
-  $('panel_interventionTicket_'+idIntervention).remove();
+  Ext.getCmp('monitorOutputWestRegion').remove(this.getPanelId(idIntervention));
 };
 
 MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(intervention)
 {
-  if( $('interventionTicket_'+intervention.idIntervention) == null)
+  if( $(this.getPanelId(intervention.idIntervention)) == null)
   {//*Si le dispositif n'existe pas sur la page on le cree*
     this.addInterventionPanel(intervention);
   }
@@ -79,13 +79,13 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
                  intervention.rue+', '+intervention.codePostal+", "+intervention.ville;
 
   Ext.getCmp('center-carte-paris-panel').addMarker( intervention.position.googleCoordsLat, 
-                                                  intervention.position.googleCoordsLong, 
-                                                  null, 
-                                                  category, 
-                                                  false, 
-                                                  title, 
-                                                  html,
-                                                  intervention.idIntervention);
+                                                    intervention.position.googleCoordsLong, 
+                                                    null, 
+                                                    category, 
+                                                    false, 
+                                                    title, 
+                                                    html,
+                                                    intervention.idIntervention);
 };
 
 MonitorOutputInterventionCs.prototype.showInterventionOnGlobalMap=function(idIntervention)
@@ -145,22 +145,22 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
   panel.update(this.interventionTemplates[intervention.idOrigine].evaluate({id:intervention.idIntervention, idRegulation:intervention.idRegulation}));
   acc.add(panel);
   */
-  var westPanel = Ext.getCmp('west-panel');
-  var tab = new Ext.Panel({ id: 'interventionTicket_'+intervention.idIntervention
-                , layout:'fit'
-                , title : '<span title="id:'+intervention.idIntervention+' - Date:'+fullDate+'">'+shortDate +'</span> - '+ origine +' - '+ motif
-                , closable:false
-                , autoScroll:true
-                , border:false
-                , html:this.interventionTemplates[intervention.idOrigine].evaluate({id:intervention.idIntervention, idRegulation:intervention.idRegulation})
-                , listeners: {
-                    render: this.initializeInterventionDragZone
+  var westPanel = Ext.getCmp('monitorOutputWestRegion');
+  var tab = new Ext.Panel({ id: this.getPanelId(intervention.idIntervention)
+                , layout      : 'fit'
+                , title       : '<span title="id:'+intervention.idIntervention+' - Date:'+fullDate+'">'+shortDate +'</span> - '+ origine +' - '+ motif
+                , closable    : false
+                , autoScroll  : true
+                , border      : false
+                , html        : this.interventionTemplates[intervention.idOrigine].evaluate({id:intervention.idIntervention, idRegulation:intervention.idRegulation})
+                , listeners   : {
+                    render : this.initializeInterventionDragZone
                   }
-                , itemSelector: 'table.intervention'
+                , itemSelector: 'table.intervention'//désigne ce qui est draggable
                 });
   tab.data = intervention;
   
-  westPanel.add(tab);
+  westPanel.add     (tab);
   westPanel.doLayout();
 };
 
@@ -178,11 +178,11 @@ MonitorOutputInterventionCs.prototype.initializeInterventionDragZone=function(pa
                 d = sourceEl.cloneNode(true);
                 d.id = Ext.id();
                 return panelComponent.dragData = {
-                    sourcePanel     : panelComponent,//pour pouvoir retirer le panel après l'affectation
-                    sourceEl        : sourceEl,
-                    repairXY        : Ext.fly(sourceEl).getXY(),
-                    ddel            : d,
-                    interventionData: panelComponent.data
+                    sourceEl         : sourceEl,
+                    repairXY         : Ext.fly(sourceEl).getXY(),
+                    ddel             : d,
+                    interventionData : panelComponent.data,
+                    currentDispositif: 0
                 }
             }
         },
@@ -194,6 +194,12 @@ MonitorOutputInterventionCs.prototype.initializeInterventionDragZone=function(pa
         }
     });
 };
+
+MonitorOutputInterventionCs.prototype.getPanelId=function(idIntervention)
+{
+  return 'interventionTicket_'+idIntervention;
+};
+
 
 
 MonitorOutputInterventionCs.prototype.interventionTemplates = Array();

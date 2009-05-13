@@ -26,14 +26,6 @@
   <div style="float:right;margin-right:5px">version ${applicationVersion}<img src="../../img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
 </div>
 
-<!-- west -->
-<div id="west" class="x-layout-inactive-content">
-  <!-- west-body container -->
-  <div id="west-body">
-
-  </div>
-</div>
-
 
 <!-- center -->
 <!-- listeDispositif -->

@@ -206,18 +206,155 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
         iconCls     : 'icon-grid',
         renderTo    : 'center-dispositif-list',
         listeners: {
-            render: this.initializeDispositifDropZone
+            render: this.initializeDispositifDragAndDropZone        
         }
     });
   dispositifGrid.getStore().load();
 };
 
+
+
+/*
+
+//Drag Zones :
+  dispositifGrid.getStore().each(function(record){
+
+    var dispositif      = record.data;
+    var divId           = 'DispositifInterDetail_'+dispositif.idDispositif+ '_'+ dispositif.currentInterId;
+    
+    var interDetailDiv  = Ext.get(divId);
+
+    var currentIntervention = {
+      idOrigine                  : dispositif['currentIntervention.idOrigine'                 ],
+      idMotif                    : dispositif['currentIntervention.idMotif'                   ],
+      idEtat                     : dispositif['currentIntervention.idEtat'                    ],
+      
+      dhSaisie                   : dispositif['currentIntervention.dhSaisie'                  ],
+      
+      victimeHomme               : dispositif['currentIntervention.victimeHomme'              ],
+      nomVictime                 : dispositif['currentIntervention.nomVictime'                ],
+      nomContactSurPlace         : dispositif['currentIntervention.nomContactSurPlace'        ],
+      coordonneesContactSurPlace : dispositif['currentIntervention.coordonneesContactSurPlace'],
+      
+      position:{
+        googleCoordsLat   : dispositif['currentIntervention.position.googleCoordsLat'  ],
+        googleCoordsLong  : dispositif['currentIntervention.position.googleCoordsLong' ],
+        rue               : dispositif['currentIntervention.position.rue'              ],
+        codePostal        : dispositif['currentIntervention.position.codePostal'       ],
+        ville             : dispositif['currentIntervention.position.ville'            ]
+      }
+    };
+    
+    interDetailDiv.dragZone = new Ext.dd.DragZone(interDetailDiv, {
+
+//      On receipt of a mousedown event, see if it is within a draggable element.
+//      Return a drag data object if so. The data object can contain arbitrary application
+//      data, but it should also contain a DOM element in the ddel property to provide
+//      a proxy to drag.
+        getDragData: function(e) {
+            var sourceEl = e.getTarget('#'+divId, 1);
+            if (sourceEl) {
+                d = sourceEl.cloneNode(true);
+                d.id = Ext.id();
+                return interDetailDiv.dragData = {
+                    sourceEl         : sourceEl,
+                    repairXY         : Ext.fly(sourceEl).getXY(),
+                    ddel             : d,
+                    interventionData : currentIntervention,
+                    currentDispositif: dispositif.idDispositif
+                }
+            }
+        },
+
+//      Provide coordinates for the proxy to slide back to on failed drag.
+//      This is the original XY coordinates of the draggable element.
+        getRepairXY: function() {
+            return this.dragData.repairXY;
+        }
+    });
+    
+  });//Fin du each sur le store
+
+
+ */
+
+
 /**
  * Drag & Drop handling
  **/
-MonitorOutputDispositifCs.prototype.initializeDispositifDropZone=function(dispositifGrid)
+MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function(dispositifGrid)
 {
-      dispositifGrid.dropZone = new Ext.dd.DropZone(dispositifGrid.getView().scroller, {
+  try
+  {
+     dispositifGrid.dragZone = new Ext.dd.DragZone(Ext.get('center-dispositif-list'), {
+
+//      On receipt of a mousedown event, see if it is within a draggable element.
+//      Return a drag data object if so. The data object can contain arbitrary application
+//      data, but it should also contain a DOM element in the ddel property to provide
+//      a proxy to drag.
+        getDragData: function(e) {
+          
+          var sourceEl = e.getTarget('.DispositifInterDetail');
+          if (sourceEl) 
+          {
+            var tempArray = sourceEl.id.split('|');
+            var recordId  = tempArray[1];
+            var interId   = tempArray[0].split('-')[1];
+
+            var dispositif = dispositifGrid.getStore().getById(recordId).data;
+
+            var currentIntervention = {
+              idOrigine                  : dispositif['currentIntervention.idOrigine'                 ],
+              idMotif                    : dispositif['currentIntervention.idMotif'                   ],
+              idEtat                     : dispositif['currentIntervention.idEtat'                    ],
+              
+              dhSaisie                   : dispositif['currentIntervention.dhSaisie'                  ],
+              
+              victimeHomme               : dispositif['currentIntervention.victimeHomme'              ],
+              nomVictime                 : dispositif['currentIntervention.nomVictime'                ],
+              nomContactSurPlace         : dispositif['currentIntervention.nomContactSurPlace'        ],
+              coordonneesContactSurPlace : dispositif['currentIntervention.coordonneesContactSurPlace'],
+              
+              position:{
+                googleCoordsLat   : dispositif['currentIntervention.position.googleCoordsLat'  ],
+                googleCoordsLong  : dispositif['currentIntervention.position.googleCoordsLong' ],
+                rue               : dispositif['currentIntervention.position.rue'              ],
+                codePostal        : dispositif['currentIntervention.position.codePostal'       ],
+                ville             : dispositif['currentIntervention.position.ville'            ]
+              }
+            };
+    
+            
+            
+            d = sourceEl.cloneNode(true);
+            d.id = Ext.id();
+            return dispositifGrid.dragData = {
+                sourceEl         : sourceEl,
+                repairXY         : Ext.fly(sourceEl).getXY(),
+                ddel             : d,
+                interventionData : currentIntervention,
+                currentDispositif: dispositif.idDispositif
+            }
+          }
+        },
+
+//      Provide coordinates for the proxy to slide back to on failed drag.
+//      This is the original XY coordinates of the draggable element.
+        getRepairXY: function() {
+            return this.dragData.repairXY;
+        }
+    });
+  }
+  catch(e)
+  {
+    console.log(e);
+  }
+  
+ 
+  
+  
+  
+  dispositifGrid.dropZone = new Ext.dd.DropZone(dispositifGrid.getView().scroller, {
 
 //      If the mouse is over a target node, return that node. This is
 //      provided as the "target" parameter in all "onNodeXXXX" node event handling functions
@@ -275,9 +412,7 @@ MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggab
 
 MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(serverData, metaData)
 {
-  var westPanel = Ext.getCmp('west-panel');
-  westPanel.remove(metaData.panelComponent);
-  //note: pas besoin de mettre a jour la drop zone, le reverse ajax d'update le mettra a jour tout seul
+  //Rien a faire, dispositif et liste des interventions sont mise a jour en reverse ajax (pour que tout les régulateurs voient la modif)
 };
 
 
@@ -593,7 +728,7 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
   var dropZoneId          = 'dispositifDz_'+record.data.idTypeDispositif+'_'+record.data.idDispositif+'_'+record.id;
   
   if(record.data.currentInterId != 0)
-    detailIntervention = MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(record.data);
+    detailIntervention = MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif(record);
 
 
   var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
@@ -904,6 +1039,11 @@ MonitorOutputDispositifCs.prototype.contactTelsCellRenderer=function(value, meta
   return '<p>'+value+'</p><p>'+record.data.contactTel2+'</p>';
 };
 
+MonitorOutputDispositifCs.prototype.updateDispositifAndRemoveAffectedIntervention = function (dispositif, idIntervention)
+{
+  moInterventionCs.deleteInterventionToAffect(dispositif.currentInterId);
+  this.updateDispositif                      (dispositif               );
+};
 
 MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 {
@@ -980,10 +1120,18 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
   store.insert(recordIndex, newDispositif);
 };
 
-MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(dispositif)
+MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(record)
 {
+  var dispositif = record.data;
+  
   var info = [
-              '<div class="DispositifInterOrigineMotif"><span class="DispositifInterNomVictimeOrigine">',
+              '<div class="DispositifInterDetail" id="DispositifInterDetail_',
+              dispositif.idDispositif, 
+              '-', 
+              dispositif.currentInterId,
+              '|',
+              record.id,
+              '"><div class="DispositifInterOrigineMotif"><span class="DispositifInterNomVictimeOrigine">',
               crfIrpUtils.getLabelFor('OriginesIntervention',dispositif['currentIntervention.idOrigine'        ]),
               '</span> - <span class="DispositifInterMotif">',
               crfIrpUtils.getLabelFor('MotifsIntervention'  ,dispositif['currentIntervention.idMotif'          ]),
@@ -1000,7 +1148,7 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
               dispositif['currentIntervention.nomContactSurPlace'        ],
               '</span> - <span class="DispositifInterCoordonneesContact">',
               dispositif['currentIntervention.coordonneesContactSurPlace'],
-              '</span></div>'
+              '</span></div></div>'
               ];
   return info.join('');
 };

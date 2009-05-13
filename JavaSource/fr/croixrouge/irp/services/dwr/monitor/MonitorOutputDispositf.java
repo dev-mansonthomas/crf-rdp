@@ -41,12 +41,19 @@ public class MonitorOutputDispositf  extends DWRUtils
       int currentUserRegulationId = this.validateSessionAndGetRegulationId();
       
       //Determine l'état suivant, met a jour la date de l'action courante.
-      this.dispositifInterventionDelegate.action(currentUserRegulationId, idIntervention, idDispositif);
+      boolean deleteIntervention = this.dispositifInterventionDelegate.action(currentUserRegulationId, idIntervention, idDispositif);
       
       //Met a jour tous les navigateurs avec le nouvel état du dispositif
       Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
       
-      this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), DWRUtils.outPageName);
+      ScriptBuffer scriptBuffer = new ScriptBuffer();
+      
+      if(deleteIntervention)
+        scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif);
+      else  
+        scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositif", dispositif);
+      
+      this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
       
       return dispositif.getIdEtatDispositif();      
     }

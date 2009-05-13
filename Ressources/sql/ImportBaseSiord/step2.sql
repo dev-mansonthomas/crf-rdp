@@ -67,7 +67,7 @@ where code_postal = '';
 update deleguations
 set status ='ko', comment='is not a delegation local'
 where deleguation like 'DD%'
-or delelguation like '%groupement';
+or deleguation like '%groupement';
 
 
 update deleguations

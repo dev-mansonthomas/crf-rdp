@@ -29,12 +29,17 @@
   border: 1px solid silver;
   vertical-align:top;
   height:40px;
-  background-color: #ffffc0;
+  background-color: #E4F1F1;
 }
 
 .interventionDropZone-hover
 {
-  background-color: #ffff60;
+  background-color: #9DCCCC;
+}
+
+.interventionDesaffectationDropZone-hover
+{
+  border:1px dotted #FFFF0F;
 }
 
 .red

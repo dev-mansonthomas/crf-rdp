@@ -122,7 +122,7 @@ function initLayout()
                   animate:true
               },
               listeners:{
-                render:initializeInterventionDropZone
+                render:moInterventionCs.initializeInterventionDropZone
               }
           };
   
@@ -198,54 +198,3 @@ function initLayout()
   
    unmask.defer(100);
 }
-
-
-
-/**
- * Drag & Drop handling
- **/
-initializeInterventionDropZone=function(monitorOutputWestRegionPanel)
-{
-  //monitorOutputWestRegionPanel.getEl().addClass();
-  
-      monitorOutputWestRegionPanel.dropZone = new Ext.dd.DropZone(monitorOutputWestRegionPanel.getEl(), {
-
-//      If the mouse is over a target node, return that node. This is
-//      provided as the "target" parameter in all "onNodeXXXX" node event handling functions
-        getTargetFromEvent: function(e) {
-            return e.getTarget('#monitorOutputWestRegion');
-        },
-
-//      On entry into a target node, highlight that node.
-        onNodeEnter : function(target, dd, e, data){ 
-            Ext.fly(target).addClass('interventionDesaffectationDropZone-hover');
-        },
-
-//      On exit from a target node, unhighlight that node.
-        onNodeOut : function(target, dd, e, data){ 
-            Ext.fly(target).removeClass('interventionDesaffectationDropZone-hover');
-        },
-
-//      While over a target node, return the default drop allowed class which
-//      places a "tick" icon into the drag proxy.
-        onNodeOver : function(target, dd, e, data){ 
-            return Ext.dd.DropZone.prototype.dropAllowed;
-        },
-
-//      On node drop, we can interrogate the target node to find the underlying
-//      application object that is the real target of the dragged data.
-//      In this case, it is a Record in the GridPanel's Store.
-//      We can use the data set up by the DragZone's getDragData method to read
-//      any data we decided to attach.
-        onNodeDrop : function(target, dd, e, draggableItemData){
-         
-          if(draggableItemData.currentDispositif > 0)
-          {//L'inter était affecté, il faut la désaffecter
-            alert('inter deja affectée');
-          }
-          //moDispositifCs.setInterventionToDispositif(draggableItemData, target, dispositifData );
-       
-          return true;
-        }
-    });
-};

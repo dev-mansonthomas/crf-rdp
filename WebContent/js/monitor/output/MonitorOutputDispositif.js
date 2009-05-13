@@ -29,7 +29,7 @@
                          {name: 'dhAppelRenfortMedical'                         , mapping: 'dhAppelRenfortMedical'                         },
                          {name: 'dhArriveeRenfortMedical'                       , mapping: 'dhArriveeRenfortMedical'                       },
 
-
+                         {name: 'currentIntervention.idIntervention'            , mapping: 'currentIntervention.idIntervention'            },
                          {name: 'currentIntervention.idOrigine'                 , mapping: 'currentIntervention.idOrigine'                 },
                          {name: 'currentIntervention.idMotif'                   , mapping: 'currentIntervention.idMotif'                   },
                          {name: 'currentIntervention.idEtat'                    , mapping: 'currentIntervention.idEtat'                    },
@@ -153,6 +153,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
 {name:'dhAppelRenfortMedical'                           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 {name:'dhArriveeRenfortMedical'                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 
+{name:'currentIntervention.idIntervention'              , type: 'int'     },
 {name:'currentIntervention.idOrigine'                   , type: 'int'     },
 {name:'currentIntervention.idMotif'                     , type: 'int'     },
 {name:'currentIntervention.idEtat'                      , type: 'int'     },
@@ -212,73 +213,6 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
   dispositifGrid.getStore().load();
 };
 
-
-
-/*
-
-//Drag Zones :
-  dispositifGrid.getStore().each(function(record){
-
-    var dispositif      = record.data;
-    var divId           = 'DispositifInterDetail_'+dispositif.idDispositif+ '_'+ dispositif.currentInterId;
-    
-    var interDetailDiv  = Ext.get(divId);
-
-    var currentIntervention = {
-      idOrigine                  : dispositif['currentIntervention.idOrigine'                 ],
-      idMotif                    : dispositif['currentIntervention.idMotif'                   ],
-      idEtat                     : dispositif['currentIntervention.idEtat'                    ],
-      
-      dhSaisie                   : dispositif['currentIntervention.dhSaisie'                  ],
-      
-      victimeHomme               : dispositif['currentIntervention.victimeHomme'              ],
-      nomVictime                 : dispositif['currentIntervention.nomVictime'                ],
-      nomContactSurPlace         : dispositif['currentIntervention.nomContactSurPlace'        ],
-      coordonneesContactSurPlace : dispositif['currentIntervention.coordonneesContactSurPlace'],
-      
-      position:{
-        googleCoordsLat   : dispositif['currentIntervention.position.googleCoordsLat'  ],
-        googleCoordsLong  : dispositif['currentIntervention.position.googleCoordsLong' ],
-        rue               : dispositif['currentIntervention.position.rue'              ],
-        codePostal        : dispositif['currentIntervention.position.codePostal'       ],
-        ville             : dispositif['currentIntervention.position.ville'            ]
-      }
-    };
-    
-    interDetailDiv.dragZone = new Ext.dd.DragZone(interDetailDiv, {
-
-//      On receipt of a mousedown event, see if it is within a draggable element.
-//      Return a drag data object if so. The data object can contain arbitrary application
-//      data, but it should also contain a DOM element in the ddel property to provide
-//      a proxy to drag.
-        getDragData: function(e) {
-            var sourceEl = e.getTarget('#'+divId, 1);
-            if (sourceEl) {
-                d = sourceEl.cloneNode(true);
-                d.id = Ext.id();
-                return interDetailDiv.dragData = {
-                    sourceEl         : sourceEl,
-                    repairXY         : Ext.fly(sourceEl).getXY(),
-                    ddel             : d,
-                    interventionData : currentIntervention,
-                    currentDispositif: dispositif.idDispositif
-                }
-            }
-        },
-
-//      Provide coordinates for the proxy to slide back to on failed drag.
-//      This is the original XY coordinates of the draggable element.
-        getRepairXY: function() {
-            return this.dragData.repairXY;
-        }
-    });
-    
-  });//Fin du each sur le store
-
-
- */
-
-
 /**
  * Drag & Drop handling
  **/
@@ -304,6 +238,7 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
             var dispositif = dispositifGrid.getStore().getById(recordId).data;
 
             var currentIntervention = {
+              idIntervention             : dispositif['currentIntervention.idIntervention'            ],
               idOrigine                  : dispositif['currentIntervention.idOrigine'                 ],
               idMotif                    : dispositif['currentIntervention.idMotif'                   ],
               idEtat                     : dispositif['currentIntervention.idEtat'                    ],
@@ -387,30 +322,38 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
           var rowIndex       = dispositifGrid.getView ().findRowIndex(target  );
           var dispositifData = dispositifGrid.getStore().getAt       (rowIndex);
 
-          moDispositifCs.setInterventionToDispositif(draggableItemData, target, dispositifData );
+          moDispositifCs.addInterventionToDispositif(draggableItemData, target, dispositifData );
        
           return true;
         }
     });
 };
 
-MonitorOutputDispositifCs.prototype.setInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifData)
+MonitorOutputDispositifCs.prototype.addInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifData)
 {
+  //TODO si une intervention est déja affecté (différente de celle qu'on veut affecter), demander une confirmation
+  //TODO si une intervention était déja affecté a un autre dispositif, on demande confirmation et si ok, on déseaffecte puis on réaffecte.
+  
   var intervention     = draggableElement.interventionData;
-
+  var dispositif       = dispositifData.data;
+  
+  if(draggableElement.currentDispositif == dispositif.idDispositif)
+    return;//drag une inter depuis un dispositif et on relache sur le dispositif d'origine (on change rien => on ne fait rien)
+    
+    
   var callMetaData = {
-    callback:MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn,
+    callback:MonitorOutputDispositifCs.prototype.addInterventionToDispositifReturn,
     arg:{ intervention    : intervention                  ,
           dispositif      : dispositifData.data           ,
           panelComponent  : draggableElement.sourcePanel}
   };
 
-  MonitorOutputDispositif.actionOnDispositif( intervention  .idIntervention     , 
-                                              dispositifData.data.idDispositif  , 
-                                              callMetaData);
+  MonitorOutputDispositif.addInterventionToDispositif(  intervention  .idIntervention     , 
+                                                        dispositifData.data.idDispositif  , 
+                                                        callMetaData);
 };
 
-MonitorOutputDispositifCs.prototype.setInterventionToDispositifReturn=function(serverData, metaData)
+MonitorOutputDispositifCs.prototype.addInterventionToDispositifReturn=function(serverData, metaData)
 {
   //Rien a faire, dispositif et liste des interventions sont mise a jour en reverse ajax (pour que tout les régulateurs voient la modif)
 };
@@ -1080,6 +1023,7 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
  'dhAppelRenfortMedical'                               : dispositif.dhAppelRenfortMedical,
  'dhArriveeRenfortMedical'                             : dispositif.dhArriveeRenfortMedical,
  
+ 'currentIntervention.idIntervention'                  : dispositif.currentIntervention.idIntervention,
  'currentIntervention.idOrigine'                       : dispositif.currentIntervention.idOrigine,
  'currentIntervention.idMotif'                         : dispositif.currentIntervention.idMotif,
  'currentIntervention.idEtat'                          : dispositif.currentIntervention.idEtat,

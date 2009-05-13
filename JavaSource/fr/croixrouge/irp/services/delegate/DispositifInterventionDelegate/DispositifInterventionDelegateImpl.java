@@ -32,6 +32,8 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
   /**
    * Gère l'action sur un dispositif (affectation, départ, arrivé sur place etc..)
    * 
+   * Retourne true si on doit supprimer l'intervention des interventions a affecter.
+   * 
    * La cinématique de changement (d'état et d'adresse) standard est la suivante : 
    *  
    * Synthèse des modification apportées au dispositif et à l'intervention au cours des changements d'états 
@@ -89,11 +91,10 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
    * 
    * 
    * */
-  public boolean action(int idRegulation, int idIntervention, int idDispositif) throws Exception
+  public void action(int idRegulation, int idIntervention, int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("\"Action Button\" pushed for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
-    boolean    returnValue        = false;
     Dispositif dispositif         = this.dispositifService.getDispositif      (idRegulation, idDispositif);
     int        idEtatDispositif   = dispositif            .getIdEtatDispositif();
     Date       actionDate         = new Date();
@@ -110,7 +111,6 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
         logger.debug("DONE      : set Dispotitif to etat 1 disponible for dispositif="+idDispositif+", regulation="+idRegulation+" with idEtatDispositif = "+idEtatDispositif+" < 1 => setting idEtatDispositif to 1 == disponible");
         logger.debug("\"Action Button\" pushed DONE : for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);        
       }
-      return returnValue;
     }
     
     InterventionTicket  interventionTicket = null;
@@ -135,16 +135,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
 
     if(idEtatDispositif == 1)
     {//Affectation de l'intervention au dispositif
-      
-      if(logger.isDebugEnabled())
-        logger.debug("Action is 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
-
-      this.dispositifService  .affectInterventionToDispositif(idIntervention, idDispositif, actionDate);
-      this.interventionService.affectInterventionToDispositif(idIntervention, idDispositif, actionDate);
-      returnValue = true;
-      if(logger.isDebugEnabled())
-        logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
-
+      throw new Exception("Wrong dispositif state (1), affectation has its own method.");
     }
     else if(idEtatDispositif == 2)
     {//Parti
@@ -249,10 +240,20 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     
     if(logger.isDebugEnabled())
       logger.debug("\"Action Button\" pushed DONE : for intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
-
-    return returnValue;
   }
 
+  
+  public void affectInterventionToDispositif(int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Action is 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+
+    this.dispositifService  .affectInterventionToDispositif(idIntervention, idDispositif, actionDate);
+    this.interventionService.affectInterventionToDispositif(idIntervention, idDispositif, actionDate);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
+  }
   
   /**
    * Met a jour l'intervention avec l'hoptial choisi ou l'addresse spécifique

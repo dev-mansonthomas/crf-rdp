@@ -1,5 +1,7 @@
 package fr.croixrouge.irp.services.dwr.monitor;
 
+import java.util.Date;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
@@ -41,17 +43,13 @@ public class MonitorOutputDispositf  extends DWRUtils
       int currentUserRegulationId = this.validateSessionAndGetRegulationId();
       
       //Determine l'état suivant, met a jour la date de l'action courante.
-      boolean deleteIntervention = this.dispositifInterventionDelegate.action(currentUserRegulationId, idIntervention, idDispositif);
+      this.dispositifInterventionDelegate.action(currentUserRegulationId, idIntervention, idDispositif);
       
       //Met a jour tous les navigateurs avec le nouvel état du dispositif
       Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
       
       ScriptBuffer scriptBuffer = new ScriptBuffer();
-      
-      if(deleteIntervention)
-        scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif);
-      else  
-        scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositif", dispositif);
+      scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositif", dispositif);
       
       this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
       
@@ -64,6 +62,21 @@ public class MonitorOutputDispositf  extends DWRUtils
     }
   }
   
+  public void addInterventionToDispositif(int idIntervention, int idDispositif) throws Exception
+  {
+    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    
+    this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserRegulationId, idIntervention, idDispositif, new Date());
+
+
+    //Met a jour tous les navigateurs avec le nouvel état du dispositif
+    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
+    
+    ScriptBuffer scriptBuffer = new ScriptBuffer();
+    scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif);
+    
+    this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
+  }
   
   public int endOfIntervention(int idIntervention, int idDispositif) throws Exception
   {

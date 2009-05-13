@@ -19,14 +19,15 @@ public interface InterventionService
   public void updateGoogleCoordinates       (float latitude, float longitude, int idIntervention      ) throws Exception;
   
   
-  public void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception;
-  public void actionOnIntervention          (int idIntervention, int newIdEtat   , Date actionDate     ) throws Exception;
-  public void updateEtatIntervention        (int idIntervention, int idNewEtatIntervention) throws Exception;
-  public void updateInterventionIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception;
-  public void updateInterventionFloatField  (int idIntervention, String fieldName, float    fieldValue) throws Exception;
-  public void updateInterventionStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception;
-  public void updateInterventionDateField   (int idIntervention, String fieldName, Date     fieldValue) throws Exception;
-  public void updateInterventionBooleanField(int idIntervention, String fieldName, boolean  fieldValue) throws Exception;
+  public void affectInterventionToDispositif  (int idIntervention, int idDispositif, Date dateAffectation ) throws Exception;
+  public void unAffectInterventionToDispositif(int idIntervention, Date dateAffectation                   ) throws Exception;
+  public void actionOnIntervention            (int idIntervention, int newIdEtat   , Date actionDate      ) throws Exception;
+  public void updateEtatIntervention          (int idIntervention, int idNewEtatIntervention              ) throws Exception;
+  public void updateInterventionIntegerField  (int idIntervention, String fieldName, int      fieldValue  ) throws Exception;
+  public void updateInterventionFloatField    (int idIntervention, String fieldName, float    fieldValue  ) throws Exception;
+  public void updateInterventionStringField   (int idIntervention, String fieldName, String   fieldValue  ) throws Exception;
+  public void updateInterventionDateField     (int idIntervention, String fieldName, Date     fieldValue  ) throws Exception;
+  public void updateInterventionBooleanField  (int idIntervention, String fieldName, boolean  fieldValue  ) throws Exception;
   
-  public void chooseEvacDestination         (int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception;
+  public void chooseEvacDestination           (int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception;
 }

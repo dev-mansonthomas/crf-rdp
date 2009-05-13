@@ -305,19 +305,29 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "UPDATE intervention        \n" +
     "SET    id_dispositif   = ?,\n" +
     "       DH_reception    = ?,\n" +
-    "       id_etat         = 2 \n" +
+    "       id_etat         = ? \n" +
     "WHERE  id_intervention = ? \n";
   
   
   public void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception
+  {
+    this.affectInterventionToDispositif(idIntervention, idDispositif, dateAffectation, 2);
+  }
+ 
+  public void unAffectInterventionToDispositif(int idIntervention, Date dateAffectation) throws Exception
+  {
+    this.affectInterventionToDispositif(idIntervention, 0, dateAffectation, 1);
+  }
+  
+  private void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation, int idEtat) throws Exception
   {
 
     if(logger.isDebugEnabled())
       logger.debug("Intervention with id='"+idIntervention+"' has been assigned to dispositif "+idDispositif+"");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
-        new Object[]{idDispositif , dateAffectation, idIntervention}, 
-        new int   []{Types.INTEGER, Types.TIMESTAMP, Types.INTEGER }
+        new Object[]{idDispositif , dateAffectation, idEtat        , idIntervention}, 
+        new int   []{Types.INTEGER, Types.TIMESTAMP, Types.INTEGER , Types.INTEGER }
       );
     
     if(logger.isDebugEnabled())

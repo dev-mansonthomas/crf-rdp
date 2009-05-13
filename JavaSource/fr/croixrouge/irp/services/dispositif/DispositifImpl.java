@@ -26,7 +26,21 @@ import fr.croixrouge.irp.services.intervention.InterventionService;
 
 public class DispositifImpl extends JDBCHelper implements DispositifService
 {
-  private final static int STATUS_INTERVENTION_AFFECTEE=2;
+  public final static int STATUS_INDISPO_EQUIPAGE_INCOMPLET = -3; //indispo equipage incomplet
+  public final static int STATUS_INDISPO_MATERIEL_INCOMPLET = -2; //indispo materiel incomplet
+  public final static int STATUS_INDISPO                    = -1; //indispo
+  public final static int STATUS_NA                         = 0 ; //N/A
+  public final static int STATUS_DISPO                      = 1 ; //dispo
+  public final static int STATUS_INTERVENTION_AFFECTEE      = 2 ; //intervention affecté
+  public final static int STATUS_PARTI                      = 3 ; //Parti
+  public final static int STATUS_SUR_PLACE                  = 4 ; //Sur place
+  public final static int STATUS_PRIMAIRE                   = 5 ; //Primaire
+  public final static int STATUS_SECONDAIRE                 = 6 ; //Secondaire
+  public final static int STATUS_TRANSPORT                  = 7 ; //transport
+  public final static int STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
+  
+  
+  
   
   private static Log          logger              = LogFactory.getLog(DispositifImpl.class);
   private JdbcTemplate        jdbcTemplate        = null;
@@ -58,20 +72,28 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private final static String queryForAffectInterventionToDispositif =
     "UPDATE dispositif                    \n" +
     "SET    id_current_intervention   = ?,\n" +
-    "       id_etat_dispositif        = "+STATUS_INTERVENTION_AFFECTEE+",\n" +
+    "       id_etat_dispositif        = ?,\n" +
     "       DH_reception              = ? \n" +
     "WHERE  id_dispositif             = ? \n";
   
   
-  public void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception
+  public void affectInterventionToDispositif  (int idIntervention, int idDispositif, Date dateAffectation) throws Exception
+  {
+    this.affectInterventionToDispositif(idIntervention, idDispositif, dateAffectation, STATUS_INTERVENTION_AFFECTEE);
+  }
+  public void unAffectInterventionToDispositif(int idDispositif, Date dateAffectation) throws Exception
+  {
+    this.affectInterventionToDispositif(0, idDispositif, dateAffectation, STATUS_DISPO);
+  }
+  private void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation, int idEtat) throws Exception
   {
 
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+"");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
-        new Object[]{idIntervention , dateAffectation, idDispositif }, 
-        new int   []{Types.INTEGER  , Types.TIMESTAMP, Types.INTEGER}
+        new Object[]{idIntervention , idEtat       , dateAffectation, idDispositif }, 
+        new int   []{Types.INTEGER  , Types.INTEGER, Types.TIMESTAMP, Types.INTEGER}
       );
     
     if(logger.isDebugEnabled())

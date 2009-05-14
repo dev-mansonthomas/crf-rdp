@@ -340,7 +340,19 @@ MonitorOutputDispositifCs.prototype.addInterventionToDispositif=function(draggab
   if(draggableElement.currentDispositif == dispositif.idDispositif)
     return;//drag une inter depuis un dispositif et on relache sur le dispositif d'origine (on change rien => on ne fait rien)
     
+  if(draggableElement.currentDispositif != 0 && draggableElement.currentDispositif != dispositif.idDispositif)
+  {//Si l'inter est passé d'un dispositif a l'autre (ie : dispositif courrant différent de 0 et différent du dispositif sur lequel on drop
     
+  }
+    
+    
+  this.doAddInterventionToDispositif(draggableElement, dropZoneTarget, dispositifData);
+};
+
+MonitorOutputDispositifCs.prototype.doAddInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifData)
+{
+  var intervention     = draggableElement.interventionData;
+  var dispositif       = dispositifData.data;
   var callMetaData = {
     callback:MonitorOutputDispositifCs.prototype.addInterventionToDispositifReturn,
     arg:{ intervention    : intervention                  ,

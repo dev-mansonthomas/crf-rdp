@@ -76,30 +76,56 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "       DH_reception              = ? \n" +
     "WHERE  id_dispositif             = ? \n";
   
+
+
   
   public void affectInterventionToDispositif  (int idIntervention, int idDispositif, Date dateAffectation) throws Exception
   {
-    this.affectInterventionToDispositif(idIntervention, idDispositif, dateAffectation, STATUS_INTERVENTION_AFFECTEE);
-  }
-  public void unAffectInterventionToDispositif(int idDispositif, Date dateAffectation) throws Exception
-  {
-    this.affectInterventionToDispositif(0, idDispositif, dateAffectation, STATUS_DISPO);
-  }
-  private void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation, int idEtat) throws Exception
-  {
-//TODO : réinitialiser les dates du dispositif
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+"");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
-        new Object[]{idIntervention , idEtat       , dateAffectation, idDispositif }, 
-        new int   []{Types.INTEGER  , Types.INTEGER, Types.TIMESTAMP, Types.INTEGER}
+        new Object[]{idIntervention , STATUS_INTERVENTION_AFFECTEE, dateAffectation, idDispositif }, 
+        new int   []{Types.INTEGER  , Types.INTEGER               , Types.TIMESTAMP, Types.INTEGER}
       );
     
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+" (line updated = '"+nbLineUpdated+"')");
   }
   
+  
+  private final static String queryForUnAffectInterventionToDispositif =
+    "UPDATE dispositif                          \n" + 
+    "SET    id_current_intervention      = ?,   \n" + 
+    "       id_etat_dispositif           = ?,   \n" + 
+    "       `DH_reception`               = null,\n" + 
+    "       `DH_depart`                  = null,\n" + 
+    "       `DH_sur_place`               = null,\n" + 
+    "       `DH_bilan_primaire`          = null,\n" + 
+    "       `DH_bilan_secondaire`        = null,\n" + 
+    "       `DH_quitte_les_lieux`        = null,\n" + 
+    "       `DH_arrivee_hopital`         = null,\n" + 
+    "       `DH_dispo`                   = null,\n" + 
+    "       `DH_a_sa_base`               = null,\n" + 
+    "       `DH_appel_renfort_medical`   = null,\n" + 
+    "       `DH_arrivee_renfort_medical` = null,\n" + 
+    "WHERE  id_dispositif                = ?    \n";  
+  
+  public void unAffectInterventionToDispositif(int idDispositif, Date dateAffectation) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif, 
+        new Object[]{0              , STATUS_DISPO  , idDispositif }, 
+        new int   []{Types.INTEGER  , Types.INTEGER , Types.INTEGER}
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected (line updated = '"+nbLineUpdated+"')");
+  }
+
+
   private final static Hashtable <Integer,String> idEtatDateFieldMapping = new Hashtable<Integer,String>();
   {
     /*

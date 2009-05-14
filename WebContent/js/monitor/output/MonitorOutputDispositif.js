@@ -311,6 +311,7 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
         onNodeOver : function(target, dd, e, data){ 
           //TODO si plus de 5 victime dans le camion , interdire le drop
             return Ext.dd.DropZone.prototype.dropAllowed;
+            //Ext.dd.DropZone.prototype.dropNotAllowed
         },
 
 //      On node drop, we can interrogate the target node to find the underlying
@@ -332,7 +333,6 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
 MonitorOutputDispositifCs.prototype.addInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifRecord)
 {
   //TODO si une intervention est déja affecté (différente de celle qu'on veut affecter), demander une confirmation
-  //TODO si une intervention était déja affecté a un autre dispositif, on demande confirmation et si ok, on déseaffecte puis on réaffecte.
   
   var intervention     = draggableElement.interventionData;
   var dispositif       = dispositifRecord.data;

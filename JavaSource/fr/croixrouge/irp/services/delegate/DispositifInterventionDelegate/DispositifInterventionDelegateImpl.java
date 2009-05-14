@@ -292,7 +292,6 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
   
   public void changeDispositifStatus(int idRegulation, int idDispositif, int newEtatDispositif) throws Exception
   {
-    //TODO: certain changement d'état ne doivent pas être propagé au intervention
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
     
     this.dispositifService.updateEtatDispositif(idDispositif, newEtatDispositif);

@@ -373,11 +373,13 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler, format)
   myDateSelector.render(inputId+'_div');  
 };
 
-//TODO check if it's a date before doing anything
 CrfIrpUtils.prototype.getFullDate=function(dateObject)
 {
   if(dateObject == null)
     return 'N/A';
+    
+  if(!(dateObject instanceof Date))
+    throw dateObject+" n'est pas un objet";
     
   return this.padLeft(dateObject.getDate    ()  , 2, '0')+'/'+
          this.padLeft(dateObject.getMonth   ()+1, 2, '0')+'/'+

@@ -16,7 +16,6 @@
                          {name: 'equipierCi.prenom'                             , mapping: 'equipierCi.prenom'                             },
                          {name: 'equipierCi.homme'                              , mapping: 'equipierCi.homme'                              },
                          {name: 'equipierCi.numNivol'                           , mapping: 'equipierCi.numNivol'                           },
-                         {name: 'currentInterId'                                , mapping: 'currentInterId'                                },
                          {name: 'dhReception'                                   , mapping: 'dhReception'                                   },
                          {name: 'dhDepart'                                      , mapping: 'dhDepart'                                      },
                          {name: 'dhSurPlace'                                    , mapping: 'dhSurPlace'                                    },
@@ -268,7 +267,7 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
                 repairXY         : Ext.fly(sourceEl).getXY(),
                 ddel             : d,
                 interventionData : currentIntervention,
-                currentDispositif: dispositif.idDispositif
+                currentDispositif: dispositif
             }
           }
         },
@@ -310,6 +309,7 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
 //      While over a target node, return the default drop allowed class which
 //      places a "tick" icon into the drag proxy.
         onNodeOver : function(target, dd, e, data){ 
+          //TODO si plus de 5 victime dans le camion , interdire le drop
             return Ext.dd.DropZone.prototype.dropAllowed;
         },
 
@@ -320,56 +320,98 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
 //      any data we decided to attach.
         onNodeDrop : function(target, dd, e, draggableItemData){
           var rowIndex       = dispositifGrid.getView ().findRowIndex(target  );
-          var dispositifData = dispositifGrid.getStore().getAt       (rowIndex);
+          var dispositifRecord = dispositifGrid.getStore().getAt       (rowIndex);
 
-          moDispositifCs.addInterventionToDispositif(draggableItemData, target, dispositifData );
+          moDispositifCs.addInterventionToDispositif(draggableItemData, target, dispositifRecord );
        
           return true;
         }
     });
 };
 
-MonitorOutputDispositifCs.prototype.addInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifData)
+MonitorOutputDispositifCs.prototype.addInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifRecord)
 {
   //TODO si une intervention est déja affecté (différente de celle qu'on veut affecter), demander une confirmation
   //TODO si une intervention était déja affecté a un autre dispositif, on demande confirmation et si ok, on déseaffecte puis on réaffecte.
   
   var intervention     = draggableElement.interventionData;
-  var dispositif       = dispositifData.data;
+  var dispositif       = dispositifRecord.data;
   
-  if(draggableElement.currentDispositif == dispositif.idDispositif)
+  if(draggableElement.currentDispositif.idDispositif == dispositif.idDispositif)
     return;//drag une inter depuis un dispositif et on relache sur le dispositif d'origine (on change rien => on ne fait rien)
     
-  if(draggableElement.currentDispositif != 0 && draggableElement.currentDispositif != dispositif.idDispositif)
+  if(draggableElement.currentDispositif.idDispositif != 0 && draggableElement.currentDispositif.idDispositif != dispositif.idDispositif)
   {//Si l'inter est passé d'un dispositif a l'autre (ie : dispositif courrant différent de 0 et différent du dispositif sur lequel on drop
+    var title = 'Réaffectation de l\'intervention N°'+intervention.idIntervention+' de '+draggableElement.currentDispositif.indicatifVehicule+' à '+dispositif.indicatifVehicule;
+    var msg   = 'Etes vous sur de vouloir réaffecter l\'intervention N°'+
+                  intervention.idIntervention+' - '+
+                  intervention.nomVictime+' - '+
+                  crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine)+' <br/> de <b>'+
+                  draggableElement.currentDispositif.indicatifVehicule+'</b> à <b>'
+                  +dispositif.indicatifVehicule+'</B>?';
+  
+                  
+    if(draggableElement.currentDispositif.idTypeDispositif != dispositif.idTypeDispositif)
+    {
+      msg += '<br/><br/><span style="color:red;font-weight:bold;">ATTENTION : </span> le dispositif cible ( '+
+                dispositif.indicatifVehicule+' - <b>'+
+                crfIrpUtils.getLabelFor('TypesDispositif', dispositif.idTypeDispositif)+
+                '</b> ) et le dispositif d\'origine ( '+
+                draggableElement.currentDispositif.indicatifVehicule+' - <b>'+
+                crfIrpUtils.getLabelFor('TypesDispositif', draggableElement.currentDispositif.idTypeDispositif)+
+                '</b> ) ne sont pas du même type.';
+    }
     
+    Ext.Msg.confirm(title, msg, function(btn){
+      if(btn == 'yes')
+      {
+        moDispositifCs.doReAffecationInterventionToDispositif(draggableElement, dropZoneTarget, dispositifRecord);
+      }
+    });
   }
-    
-    
-  this.doAddInterventionToDispositif(draggableElement, dropZoneTarget, dispositifData);
+  else
+  {
+    this.doAddInterventionToDispositif(draggableElement, dropZoneTarget, dispositifRecord);
+  }
 };
 
-MonitorOutputDispositifCs.prototype.doAddInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifData)
+MonitorOutputDispositifCs.prototype.doAddInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifRecord)
 {
   var intervention     = draggableElement.interventionData;
-  var dispositif       = dispositifData.data;
-  var callMetaData = {
-    callback:MonitorOutputDispositifCs.prototype.addInterventionToDispositifReturn,
-    arg:{ intervention    : intervention                  ,
-          dispositif      : dispositifData.data           ,
-          panelComponent  : draggableElement.sourcePanel}
-  };
+  var dispositif       = dispositifRecord.data;
 
   MonitorOutputDispositif.addInterventionToDispositif(  intervention  .idIntervention     , 
-                                                        dispositifData.data.idDispositif  , 
-                                                        callMetaData);
+                                                        dispositifRecord.data.idDispositif, 
+                                                        MonitorOutputDispositifCs.prototype.addInterventionToDispositifReturn);
 };
 
-MonitorOutputDispositifCs.prototype.addInterventionToDispositifReturn=function(serverData, metaData)
+MonitorOutputDispositifCs.prototype.addInterventionToDispositifReturn=function(serverData)
 {
   //Rien a faire, dispositif et liste des interventions sont mise a jour en reverse ajax (pour que tout les régulateurs voient la modif)
 };
 
+
+MonitorOutputDispositifCs.prototype.doReAffecationInterventionToDispositif=function(draggableElement, dropZoneTarget, dispositifRecord)
+{
+  var intervention     = draggableElement.interventionData;
+  var dispositif       = dispositifRecord.data;
+
+  MonitorOutputDispositif.reAffectInterventionToDispositif(   intervention    .idIntervention     ,
+                                                              draggableElement.currentDispositif.idDispositif,
+                                                              dispositifRecord.data.idDispositif  , 
+                                                              MonitorOutputDispositifCs.prototype.reAffectInterventionToDispositifReturn);
+};
+MonitorOutputDispositifCs.prototype.reAffectInterventionToDispositifReturn=function(serverData)
+{
+  //Rien a faire, dispositif et liste des interventions sont mise a jour en reverse ajax (pour que tout les régulateurs voient la modif)
+};
+
+
+MonitorOutputDispositifCs.prototype.updateDispositifAfterReaffectation=function(dispositifOrigine, dispositifCible)
+{
+  this.updateDispositif(dispositifOrigine);
+  this.updateDispositif(dispositifCible  );
+};
 
 /**
  * END - Drag & Drop handling

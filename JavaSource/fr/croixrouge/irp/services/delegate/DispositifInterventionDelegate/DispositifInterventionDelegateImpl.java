@@ -255,6 +255,21 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
   }
   
+  
+  public void reAffectInterventionToDispositif(int idRegulation, int idIntervention, int idDispositifOrigine, int idDispositifCible, Date actionDate) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Action is 'RéAffectation Intervention' on intervention="+idIntervention+", dispositifOrigine="+idDispositifOrigine+", dispositifCible="+idDispositifCible+", regulation="+idRegulation);
+
+    this.dispositifService  .unAffectInterventionToDispositif (idDispositifOrigine , actionDate);
+    this.dispositifService  .affectInterventionToDispositif   (idIntervention, idDispositifCible   , actionDate);
+    this.interventionService.affectInterventionToDispositif   (idIntervention, idDispositifCible   , actionDate);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositifCible+", regulation="+idRegulation);
+  }
+  
+  
   /**
    * Met a jour l'intervention avec l'hoptial choisi ou l'addresse spécifique
    * Met a jour la previous position du dispositif avec sa current Position

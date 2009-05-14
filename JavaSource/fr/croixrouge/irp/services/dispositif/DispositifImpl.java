@@ -87,7 +87,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
   private void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation, int idEtat) throws Exception
   {
-
+//TODO : réinitialiser les dates du dispositif
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+"");
 

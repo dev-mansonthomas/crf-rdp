@@ -3,7 +3,7 @@ Connect to your MySQL server as root
 grant all on crfirp.* to 'crfirp'@'localhost' identified by 'CRFCRF';
 flush privileges;
 
-
+ 
 
 Tomcat Setup :
   * Tomcat 6

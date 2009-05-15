@@ -42,12 +42,12 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   }
   
   private final static String selectForInteventionTicket = 
-    "SELECT  `id_intervention`, `id_regulation`, `id_dispositif`, `id_origine` ,`id_etat`,            \n" +
-    "        `id_motif`       , `DH_saisie`    , `rue`          , `code_postal`,                      \n" +
-    "        `ville`          , `batiment`     , `etage`        , `porte`      ,                      \n" +
-    "        `complement_adresse`, `complement_motif`, `google_coords_lat`    , `google_coords_long` ,\n" +
-    "        `nom_victime`       , `homme_victime`   , `nom_contact_sur_place`, `coordonnees_contact` \n" +
-    "FROM     intervention                                                                            \n";
+    "SELECT  i.`id_intervention`   , i.`id_regulation`   , i.`id_dispositif`        , i.`id_origine`          ,i.`id_etat`, \n" +
+    "        i.`id_motif`          , i.`DH_saisie`       , i.`rue`                  , i.`code_postal`         ,             \n" +
+    "        i.`ville`             , i.`batiment`        , i.`etage`                , i.`porte`               ,             \n" +
+    "        i.`complement_adresse`, i.`complement_motif`, i.`google_coords_lat`    , i.`google_coords_long`  ,             \n" +
+    "        i.`nom_victime`       , i.`homme_victime`   , i.`nom_contact_sur_place`, i.`coordonnees_contact`               \n" +
+    "FROM     intervention i                                                                                                 \n";
   
   private final static String queryForGetInterventionTicket =
     selectForInteventionTicket +
@@ -64,13 +64,21 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
 
   private final static String queryForGetAllOthersInterventionsTicketFromDispositif =
-    selectForInteventionTicket +
-    "WHERE    id_intervention = ?\n";
+    selectForInteventionTicket + ", dispositif_interventions di"+
+    "WHERE    id_intervention  = di.id_intervention\n" +
+    "AND      di.id_dispositif = ?";
 
   
-  public void getAllOthersInterventionsTicketFromDispositif(int idDispositif) throws Exception
+  @SuppressWarnings("unchecked")
+  public List<InterventionTicket> getAllOthersInterventionsTicketFromDispositif(int idDispositif) throws Exception
   {
+    if(logger.isDebugEnabled())
+      logger.debug("getting internvetion ticket for dispositif id='"+idDispositif+"'");
     
+    return (List<InterventionTicket>) this.jdbcTemplate.query(queryForGetAllOthersInterventionsTicketFromDispositif   , 
+        new Object[]{idDispositif}      ,
+        new int   []{Types.INTEGER}     ,
+        new InterventionTicketRowMapper());
   }
   
   

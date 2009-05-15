@@ -153,7 +153,9 @@ CREATE TABLE `dispositif` (
   `contact_alphapage` varchar(16) NOT NULL,
   `identite_medecin` varchar(45) NOT NULL,
   `id_etat_dispositif` int(10) NOT NULL,
-  `id_current_intervention` int(10) unsigned NOT NULL,
+  
+  `id_current_intervention` int(10) unsigned NULL DEFAULT 0,
+  
   `display_state` int(3) unsigned NOT NULL,
   `equipier_1_id`   int(10) unsigned NULL DEFAULT 0,
   `equipier_2_id`   int(10) unsigned NULL DEFAULT 0,
@@ -196,11 +198,24 @@ CREATE TABLE `dispositif` (
   KEY      `FK_dispositif_etat`             (`id_etat_dispositif`),
   KEY      `FK_dispositif_regulation`       (`id_regulation`   ),
   KEY      `FK_dispositif_delegation`       (`id_delegation_responsable`),
-  CONSTRAINT `FK_dispositif_etat`       FOREIGN KEY (`id_etat_dispositif`) REFERENCES `dispositif_etat`   (`id_etat`),
   CONSTRAINT `FK_dispositif_type`       FOREIGN KEY (`id_type_dispositif`) REFERENCES `dispositif_type`   (`id_type`),
+  CONSTRAINT `FK_dispositif_etat`       FOREIGN KEY (`id_etat_dispositif`) REFERENCES `dispositif_etat`   (`id_etat`),
   CONSTRAINT `FK_dispositif_regulation` FOREIGN KEY (`id_regulation`     ) REFERENCES `regulation`        (`id_regulation`),
   CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`   (`id_delegation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+DROP TABLE IF EXISTS `crfirp`.`dispositif_interventions`;
+CREATE TABLE `dispositif_interventions` (
+  `id_dispositif`      int(10)       unsigned    NOT NULL,
+  `id_intervention`    int(10)       unsigned    NOT NULL,
+  PRIMARY KEY  (`id_dispositif`, `id_intervention`),
+  KEY      `FK_dispositif_interventions_dispositif`     (`id_dispositif`),
+  KEY      `FK_dispositif_interventions_intervention`   (`id_intervention`),
+  CONSTRAINT `FK_dispositif_interventions_dispositif`   FOREIGN KEY (`id_dispositif`  ) REFERENCES `dispositif`   (`id_dispositif`  ),
+  CONSTRAINT `FK_dispositif_interventions_intervention` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
 
 DROP TABLE IF EXISTS `crfirp`.`equipier`;
 CREATE TABLE `equipier` (

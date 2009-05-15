@@ -1,16 +1,23 @@
 package fr.croixrouge.irp.model.monitor;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Dispositif extends MonitorBean
+public class Dispositif implements Serializable
 {
+  private static final long serialVersionUID = -7396645401166837188L;
+
+
   public Dispositif()
   {
     this.currentIntervention  = new InterventionTicket();
     this.currentPosition      = new Position();
     this.previousPosition     = new Position();
     this.equipierCi           = new Equipier();
+    this.otherInterventions   = new HashMap<Integer, InterventionTicket>();
   }
   
   private int             idDispositif;
@@ -50,7 +57,12 @@ public class Dispositif extends MonitorBean
   private String          contactAlphapage;
   private String          identiteMedecin;
   private int             idEtatDispositif;
+  
   private int             currentInterId;
+  
+  
+  
+  
   private int             displayState;
   
   private Position currentPosition ;
@@ -72,7 +84,7 @@ public class Dispositif extends MonitorBean
   
   private Equipier           equipierCi;
   private InterventionTicket currentIntervention;
-  
+  private Map<Integer, InterventionTicket> otherInterventions;
  
   public Equipier getEquipierCi()
   {
@@ -490,6 +502,14 @@ public class Dispositif extends MonitorBean
   public void setActif(boolean actif)
   {
     this.actif = actif;
+  }
+  public Map<Integer, InterventionTicket> getOtherInterventions()
+  {
+    return otherInterventions;
+  }
+  public void setOtherInterventions(Map<Integer, InterventionTicket> otherInterventions)
+  {
+    this.otherInterventions = otherInterventions;
   }
 
 }

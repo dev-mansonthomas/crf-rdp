@@ -1,9 +1,12 @@
 package fr.croixrouge.irp.model.monitor;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class DispositifTicket extends MonitorBean
+public class DispositifTicket implements Serializable
 {
+  private static final long serialVersionUID = 3165824454988623867L;
+
   private int             idDispositif;
   private int             idTypeDispositif;
 

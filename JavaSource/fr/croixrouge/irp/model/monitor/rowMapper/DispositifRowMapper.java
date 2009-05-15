@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.irp.model.monitor.Dispositif;
 import fr.croixrouge.irp.model.monitor.Equipier;
-import fr.croixrouge.irp.model.monitor.InterventionTicket;
 import fr.croixrouge.irp.model.monitor.Position;
 
 public class DispositifRowMapper extends RowMapperHelper implements RowMapper
@@ -76,10 +75,11 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper
     dispositif.setEquipierCi                (equipierCi);
     dispositif.setIdDispositif              (rs.getInt    ("id_dispositif"            ));
     dispositif.setIdDelegation              (rs.getInt    ("id_delegation_responsable"));
+
     dispositif.setCurrentInterId            (rs.getInt    ("id_current_intervention"  ));
     
-    InterventionTicket currentIntervention          = dispositif.getCurrentIntervention();
-    currentIntervention.setIdIntervention(rs.getInt    ("id_current_intervention"  ));
+    dispositif.getCurrentIntervention().setIdIntervention(dispositif.getCurrentInterId());
+    
 
     
     dispositif.setIdTypeDispositif          (rs.getInt    ("id_type_dispositif"       ));

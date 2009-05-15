@@ -62,6 +62,19 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
                                                                 new InterventionTicketRowMapper());
   }
   
+
+  private final static String queryForGetAllOthersInterventionsTicketFromDispositif =
+    selectForInteventionTicket +
+    "WHERE    id_intervention = ?\n";
+
+  
+  public void getAllOthersInterventionsTicketFromDispositif(int idDispositif) throws Exception
+  {
+    
+  }
+  
+  
+  
   private final static String queryForGetInterventionTicketWithStatus =
     selectForInteventionTicket           +
     "WHERE    id_regulation = ?\n"+

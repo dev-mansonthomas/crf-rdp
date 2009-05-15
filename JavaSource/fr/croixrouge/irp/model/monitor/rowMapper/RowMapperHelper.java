@@ -1,10 +1,6 @@
 package fr.croixrouge.irp.model.monitor.rowMapper;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-
-import fr.croixrouge.irp.model.monitor.MonitorBean;
 
 
 public class RowMapperHelper
@@ -17,11 +13,4 @@ public class RowMapperHelper
       return "";
     return string;
   }
-  
-  public static void mapRow(ResultSet rs, int rowNum, MonitorBean monitorBean) throws SQLException
-  {
-    monitorBean.setHash   (rs.getString("hash"));
-    monitorBean.setRowNum (rowNum);
-  }
-  
 }

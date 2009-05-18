@@ -62,7 +62,12 @@ Ext.ux.crf.Login = function() {
               fieldLabel: 'Password'  ,
               inputType : 'password'  ,
               name      : 'j_password',
-              value     : ''
+              value     : '',
+              fireKey:function(e) {
+                if(e.getKey()==e.ENTER && formPanel.getForm().isValid()){
+                	loginCs.login();
+                }
+              }
           }]
       });
 

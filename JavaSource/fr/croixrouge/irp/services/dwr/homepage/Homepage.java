@@ -38,8 +38,10 @@ public class Homepage extends DWRUtils
     try
     {
       this.validateSession();
+
+      System.out.println(gridSearchFilterAndSortObject);
+
       
-      System.out.println(gridSearchFilterAndSortObject.getStart());
       
       List<Regulation> list = this.regulationService.getRegulations(true);
       return  new ListRange(list.size(), list);      

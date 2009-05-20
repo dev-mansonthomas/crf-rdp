@@ -24,19 +24,20 @@ Ext.ux.Home.EquipierEditor = function() {
     	  
     	  var dataStore = new Ext.data.Store({
     	           proxy: new Ext.ux.rs.data.DwrProxy({
-    	               call  : Homepage.getRegulationList,
-    	               args  : [],
-    	               paging: PAGING_WITH_SORT_AND_FILTER
+    	               call          : Homepage.getRegulationList,
+    	               args          : [],
+    	               proxyConfig   : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
+                     filterCallBack: function(){return [new Ext.ux.rs.data.FilterObject('age','18','>=')];}
     	               }),
-    	           reader: new Ext.data.JsonReader({
+    	           reader: new Ext.ux.rs.data.JsonReader({
     	                 	root: 'data',
     	         totalProperty: 'totalCount',
     	                fields:
     	                   [
     	                       {name: 'regulationId'   , type: 'int'    },
     	                       {name: 'label'          , type: 'string' },
-    	                       {name: 'startDate'      , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-    	                       {name: 'expectedEndDate', type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+    	                       {name: 'startDate'      , type: 'date'   },
+    	                       {name: 'expectedEndDate', type: 'date'   },
     	                       {name: 'regulateur.nom' , type: 'string' },
     	                       {name: 'comment'        , type: 'string' }
     	                   ]
@@ -94,7 +95,7 @@ Ext.ux.Home.EquipierEditor = function() {
     	    });
     	  
           
-    	  grid1.getStore().load({params:new GridSearchFilterAndSortObject(0,5, [new FilterObject('titit','toto')],[new SortObject('test',false)])});
+    	  grid1.getStore().load({params:{start:0, limit:20}});
         
         
       }

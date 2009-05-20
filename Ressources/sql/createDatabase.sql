@@ -198,10 +198,10 @@ CREATE TABLE `dispositif` (
   KEY      `FK_dispositif_etat`             (`id_etat_dispositif`),
   KEY      `FK_dispositif_regulation`       (`id_regulation`   ),
   KEY      `FK_dispositif_delegation`       (`id_delegation_responsable`),
-  CONSTRAINT `FK_dispositif_type`       FOREIGN KEY (`id_type_dispositif`) REFERENCES `dispositif_type`   (`id_type`),
-  CONSTRAINT `FK_dispositif_etat`       FOREIGN KEY (`id_etat_dispositif`) REFERENCES `dispositif_etat`   (`id_etat`),
-  CONSTRAINT `FK_dispositif_regulation` FOREIGN KEY (`id_regulation`     ) REFERENCES `regulation`        (`id_regulation`),
-  CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`   (`id_delegation`)
+  CONSTRAINT `FK_dispositif_type`       FOREIGN KEY (`id_type_dispositif`       ) REFERENCES `dispositif_type`   (`id_type`      ),
+  CONSTRAINT `FK_dispositif_etat`       FOREIGN KEY (`id_etat_dispositif`       ) REFERENCES `dispositif_etat`   (`id_etat`      ),
+  CONSTRAINT `FK_dispositif_regulation` FOREIGN KEY (`id_regulation`            ) REFERENCES `regulation`        (`id_regulation`),
+  CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`        (`id_delegation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 

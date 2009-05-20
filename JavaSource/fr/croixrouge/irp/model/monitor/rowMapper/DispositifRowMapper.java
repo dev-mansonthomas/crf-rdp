@@ -75,12 +75,6 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper
     dispositif.setEquipierCi                (equipierCi);
     dispositif.setIdDispositif              (rs.getInt    ("id_dispositif"            ));
     dispositif.setIdDelegation              (rs.getInt    ("id_delegation_responsable"));
-
-    dispositif.setCurrentInterId            (rs.getInt    ("id_current_intervention"  ));
-    
-    dispositif.getCurrentIntervention().setIdIntervention(dispositif.getCurrentInterId());
-    
-
     
     dispositif.setIdTypeDispositif          (rs.getInt    ("id_type_dispositif"       ));
     dispositif.setIdEtatDispositif          (rs.getInt    ("id_etat_dispositif"       ));

@@ -1,6 +1,7 @@
 package fr.croixrouge.irp.services.intervention;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -63,19 +64,20 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   }
   
 
-  private final static String queryForGetAllOthersInterventionsTicketFromDispositif =
+  private final static String queryForGetInterventionsTicketFromDispositif =
     selectForInteventionTicket + ", dispositif_interventions di"+
-    "WHERE    id_intervention  = di.id_intervention\n" +
-    "AND      di.id_dispositif = ?";
+    "WHERE    i.id_intervention = di.id_intervention\n" +
+    "AND      di.id_dispositif  = ?\n" +
+    "ORDER BY i.id_intervention ASC";
 
   
   @SuppressWarnings("unchecked")
-  public List<InterventionTicket> getAllOthersInterventionsTicketFromDispositif(int idDispositif) throws Exception
+  public List<InterventionTicket> getInterventionsTicketFromDispositif(int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("getting internvetion ticket for dispositif id='"+idDispositif+"'");
     
-    return (List<InterventionTicket>) this.jdbcTemplate.query(queryForGetAllOthersInterventionsTicketFromDispositif   , 
+    return (List<InterventionTicket>) this.jdbcTemplate.query(queryForGetInterventionsTicketFromDispositif   , 
         new Object[]{idDispositif}      ,
         new int   []{Types.INTEGER}     ,
         new InterventionTicketRowMapper());
@@ -378,25 +380,38 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "UPDATE intervention        \n" +
     "SET    id_etat         = ?,\n" +
     "       <<DateField>>   = ? \n" +
-    "WHERE  id_intervention = ? \n";
+    "WHERE  id_intervention IN  \n";
   
   public void actionOnIntervention(int idIntervention, int newIdEtat, Date actionDate) throws Exception
   {
+    InterventionTicket            intervention  = new InterventionTicket();
+    ArrayList<InterventionTicket> interventions = new ArrayList<InterventionTicket>(1);
+    
+    intervention .setIdIntervention(idIntervention);
+    interventions.add              (intervention);
+    
+    this.actionOnInterventions(interventions, newIdEtat, actionDate);
+  }
+  
+  public void actionOnInterventions(List<InterventionTicket> interventions, int newIdEtat, Date actionDate) throws Exception
+  {
+    String interventionsIds = this.generateIdsList(interventions);
+    
     if(newIdEtat<3  || newIdEtat>9)
-      throw new Exception("Cette action n'est pas gérée par la méthode InterventionServiceImpl.actionOnIntervention. idIntervention="+idIntervention+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+      throw new Exception("Cette action n'est pas gérée par la méthode InterventionServiceImpl.actionOnIntervention. idIntervention="+interventionsIds+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
     String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
     String query         = queryForActionOnIntervention.replaceAll("<<DateField>>", etatDateField);
     
     if(logger.isDebugEnabled())
-      logger.debug("Intervention with id='"+idIntervention+"' is beeing updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate);
+      logger.debug("Intervention with id='"+interventionsIds+"' is beeing updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate);
 
-    int nbLineUpdated = this.jdbcTemplate.update( query, 
-        new Object[]{newIdEtat      , actionDate     , idIntervention }, 
-        new int   []{Types.INTEGER  , Types.TIMESTAMP, Types.INTEGER}
+    int nbLineUpdated = this.jdbcTemplate.update( query+interventionsIds, 
+        new Object[]{newIdEtat      , actionDate      }, 
+        new int   []{Types.INTEGER  , Types.TIMESTAMP }
       );
     
     if(logger.isDebugEnabled())
-      logger.debug("Intervention with id='"+idIntervention+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
+      logger.debug("Intervention with id='"+interventionsIds+"' has been updated with new idEtat="+newIdEtat+",  "+etatDateField+"="+actionDate+" (line updated = '"+nbLineUpdated+"')");
   }
   
   private final static String queryForUpdateEtatIntervention = 
@@ -413,7 +428,47 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     if(logger.isDebugEnabled())
       logger.debug("Intervention with id='"+idIntervention+"' has been updated with new idEtat="+idNewEtatIntervention+",  (line updated = '"+nbLineUpdated+"')");
+  }
   
+  private final static String queryForUpdateEtatInterventions = 
+    "UPDATE intervention        \n" +
+    "SET    id_etat         = ? \n" +
+    "WHERE  id_intervention IN ";
+  /**
+   * A n'utiliser que pour les ambulances.
+   * Pour les PAPS etc.. le status de l'intervention est dissociée du dispositif.
+   * */
+  public void updateEtatInterventions(List<InterventionTicket> interventions, int idNewEtatIntervention) throws Exception
+  {
+    String interventionIds = this.generateIdsList(interventions);
+   
+    int nbLineUpdated = this.jdbcTemplate.update( queryForUpdateEtatInterventions+interventionIds, 
+        new Object[]{idNewEtatIntervention}, 
+        new int   []{Types.INTEGER        }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Interventions with id='"+interventionIds+"' has been updated with new idEtat="+idNewEtatIntervention+",  (line updated = '"+nbLineUpdated+"')");
+  }
+  
+  /**Génère la liste des ids pour etre dans un IN d'une requete SQL
+   * 
+   * WHERE id_intervention IN (1,4,6)
+   * 
+   * */
+  public String generateIdsList(List<InterventionTicket> interventions) throws Exception
+  {
+    if(interventions == null || interventions.size() == 0)
+      throw new Exception("No intervention to update for dispositif");
+    
+    String interventionIds = " (";
+    
+    for (InterventionTicket interventionTicket : interventions)
+      interventionIds += interventionTicket.getIdIntervention()+",";
+    
+    interventionIds = interventionIds.substring(0, interventionIds.length()-1)+ ")";
+    
+    return interventionIds;
   }
   
   private final static String queryForChooseEvacDestination = 

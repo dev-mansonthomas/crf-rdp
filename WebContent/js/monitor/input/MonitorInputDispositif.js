@@ -307,7 +307,6 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 
 MonitorInputDispositifCs.prototype.fieldList = [ 
     'dispositif_id_field',
-    'dispositifCurrentInterId',
     'dispositif_isCreation_field',
     'DispositifType',
     'DispositifIndicatif',
@@ -509,8 +508,6 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
 {
   dwr.util.setValue('dispositif_id_span'            , dispositif.idDispositif);
   dwr.util.setValue('dispositif_id_field'           , dispositif.idDispositif);
-  
-  dwr.util.setValue('dispositifCurrentInterId'      , dispositif.currentInterId);
   
   dwr.util.setValue('dispositif_title_indicatif'    , dispositif.indicatifVehicule);
   dwr.util.setValue('DispositifIndicatif'           , dispositif.indicatifVehicule);

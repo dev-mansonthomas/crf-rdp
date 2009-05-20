@@ -72,19 +72,19 @@ function initHomeTab()
 	  
 	  var dataStore = new Ext.data.Store({
 	           proxy: new Ext.ux.rs.data.DwrProxy({
-	               call: Homepage.getOpenRegulationList,
-	               args: [],
-	               paging: false
+	               call       : Homepage.getOpenRegulationList,
+	               args       : [],
+	               proxyConfig: Ext.ux.rs.data.NO_PAGING
 	               }),
-	           reader: new Ext.data.JsonReader({
+	           reader: new Ext.ux.rs.data.JsonReader({
 	                 	root: 'data',
 	         totalProperty: 'totalCount',
 	                fields:
 	                   [
 	                       {name: 'regulationId'   , type: 'int'    },
 	                       {name: 'label'          , type: 'string' },
-	                       {name: 'startDate'      , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-	                       {name: 'expectedEndDate', type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+	                       {name: 'startDate'      , type: 'date'   },
+	                       {name: 'expectedEndDate', type: 'date'   },
 	                       {name: 'regulateur.nom' , type: 'string' },
 	                       {name: 'comment'        , type: 'string' }
 	                   ]

@@ -8,6 +8,10 @@ public class SortObject implements Serializable
   private String name;
   private boolean ascending;
   
+  public String toString()
+  {
+    return "[name:"+this.name+",ascending:"+this.ascending+"]"; 
+  }
   
   public String getName()
   {

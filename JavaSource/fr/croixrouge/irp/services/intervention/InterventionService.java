@@ -10,9 +10,12 @@ import fr.croixrouge.irp.model.monitor.dwr.ListRange;
 
 public interface InterventionService
 {
+  public String generateIdsList(List<InterventionTicket> interventions) throws Exception;
+  
   public Intervention             createEmptyIntervention             (int idRegulation  ) throws Exception;
   public Intervention             getIntervention                     (int idIntervention) throws Exception;
   public InterventionTicket       getInterventionTicket               (int idIntervention) throws Exception;
+  public List<InterventionTicket> getInterventionsTicketFromDispositif(int idDispositif  ) throws Exception;
   public ListRange                getInterventionTicketWithStatus     (int idRegulation, int status, int index, int limit) throws Exception; 
   public List<InterventionTicket> getAllInterventionTicketWithStatus  (int idRegulation, int status) throws Exception;
   
@@ -22,7 +25,9 @@ public interface InterventionService
   public void affectInterventionToDispositif  (int idIntervention, int idDispositif, Date dateAffectation ) throws Exception;
   public void unAffectInterventionToDispositif(int idIntervention, Date dateAffectation                   ) throws Exception;
   public void actionOnIntervention            (int idIntervention, int newIdEtat   , Date actionDate      ) throws Exception;
+  public void actionOnInterventions           (List<InterventionTicket> interventions, int newIdEtat   , Date actionDate      ) throws Exception;
   public void updateEtatIntervention          (int idIntervention, int idNewEtatIntervention              ) throws Exception;
+  public void updateEtatInterventions         (List<InterventionTicket> interventions, int idNewEtatIntervention) throws Exception;
   public void updateInterventionIntegerField  (int idIntervention, String fieldName, int      fieldValue  ) throws Exception;
   public void updateInterventionFloatField    (int idIntervention, String fieldName, float    fieldValue  ) throws Exception;
   public void updateInterventionStringField   (int idIntervention, String fieldName, String   fieldValue  ) throws Exception;

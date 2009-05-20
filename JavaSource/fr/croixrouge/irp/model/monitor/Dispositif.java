@@ -1,10 +1,9 @@
 package fr.croixrouge.irp.model.monitor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Dispositif implements Serializable
 {
@@ -13,11 +12,10 @@ public class Dispositif implements Serializable
 
   public Dispositif()
   {
-    this.currentIntervention  = new InterventionTicket();
-    this.currentPosition      = new Position();
-    this.previousPosition     = new Position();
-    this.equipierCi           = new Equipier();
-    this.otherInterventions   = new HashMap<Integer, InterventionTicket>();
+    this.currentPosition  = new Position();
+    this.previousPosition = new Position();
+    this.equipierCi       = new Equipier();
+    this.interventions    = new ArrayList<InterventionTicket>();
   }
   
   private int             idDispositif;
@@ -58,11 +56,6 @@ public class Dispositif implements Serializable
   private String          identiteMedecin;
   private int             idEtatDispositif;
   
-  private int             currentInterId;
-  
-  
-  
-  
   private int             displayState;
   
   private Position currentPosition ;
@@ -82,9 +75,8 @@ public class Dispositif implements Serializable
 
   private List<Equipier> equipierList = null;
   
-  private Equipier           equipierCi;
-  private InterventionTicket currentIntervention;
-  private Map<Integer, InterventionTicket> otherInterventions;
+  private Equipier                 equipierCi   ;
+  private List<InterventionTicket> interventions;
  
   public Equipier getEquipierCi()
   {
@@ -93,14 +85,6 @@ public class Dispositif implements Serializable
   public void setEquipierCi(Equipier equipierCi)
   {
     this.equipierCi = equipierCi;
-  }
-  public InterventionTicket getCurrentIntervention()
-  {
-    return currentIntervention;
-  }
-  public void setCurrentIntervention(InterventionTicket currentIntervention)
-  {
-    this.currentIntervention = currentIntervention;
   }
   public String getContactAlphapage()
   {
@@ -270,14 +254,6 @@ public class Dispositif implements Serializable
   public void setDhFinStr(String dhFinStr)
   {
     this.dhFinStr = dhFinStr;
-  }
-  public int getCurrentInterId()
-  {
-    return currentInterId;
-  }
-  public void setCurrentInterId(int currentInterId)
-  {
-    this.currentInterId = currentInterId;
   }
   public int getDisplayState()
   {
@@ -503,13 +479,12 @@ public class Dispositif implements Serializable
   {
     this.actif = actif;
   }
-  public Map<Integer, InterventionTicket> getOtherInterventions()
+  public List<InterventionTicket> getInterventions()
   {
-    return otherInterventions;
+    return interventions;
   }
-  public void setOtherInterventions(Map<Integer, InterventionTicket> otherInterventions)
+  public void setInterventions(List<InterventionTicket> interventions)
   {
-    this.otherInterventions = otherInterventions;
+    this.interventions = interventions;
   }
-
 }

@@ -10,7 +10,7 @@
                          {name: 'contactRadio'                                  , mapping: 'contactRadio'                                  },
                          {name: 'contactTel1'                                   , mapping: 'contactTel1'                                   },
                          {name: 'contactTel2'                                   , mapping: 'contactTel2'                                   },
-                         {name: 'currentInterId'                                , mapping: 'currentInterId'                                },
+//a voir comment gérer les multiples interventions (demander a Jérome s'il a une idée)
                          {name: 'equipierCi.idEquipier'                         , mapping: 'equipierCi.idEquipier'                         },
                          {name: 'equipierCi.nom'                                , mapping: 'equipierCi.nom'                                },
                          {name: 'equipierCi.prenom'                             , mapping: 'equipierCi.prenom'                             },
@@ -139,7 +139,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
 {name:'equipierCi.prenom'                               , type: 'string' },
 {name:'equipierCi.homme'                                , type: 'boolean'},
 {name:'equipierCi.numNivol'                             , type: 'string' },
-{name:'currentInterId'                                  , type: 'int'    },
+//a voir comment gérer les multiples interventions (demander a Jérome s'il a une idée)
 {name:'dhReception'                                     , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 {name:'dhDepart'                                        , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 {name:'dhSurPlace'                                      , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
@@ -151,7 +151,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
 {name:'dhASaBase'                                       , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 {name:'dhAppelRenfortMedical'                           , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
 {name:'dhArriveeRenfortMedical'                         , type: 'date'    ,dateFormat:'Y-m-d\\TH:i:s'},
-
+//TODO a remplacer par la liste
 {name:'currentIntervention.idIntervention'              , type: 'int'     },
 {name:'currentIntervention.idOrigine'                   , type: 'int'     },
 {name:'currentIntervention.idMotif'                     , type: 'int'     },
@@ -1064,7 +1064,6 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
  'equipierCi.prenom'                                   : dispositif.equipierCi.prenom,
  'equipierCi.homme'                                    : dispositif.equipierCi.homme,
  'equipierCi.numNivol'                                 : dispositif.equipierCi.numNivol,
- 'currentInterId'                                      : dispositif.currentInterId,
  'dhReception'                                         : dispositif.dhReception,
  'dhDepart'                                            : dispositif.dhDepart,
  'dhSurPlace'                                          : dispositif.dhSurPlace,

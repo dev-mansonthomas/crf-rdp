@@ -31,8 +31,8 @@ public interface DispositifService
   public void updateDispositifBooleanField(int idDispositif, String fieldName, boolean  fieldValue  ) throws Exception;
   
   public void       updateDispositifSetIntervention         (int idDispositif  , int idIntervention                                 ) throws Exception;
-  public void       affectInterventionToDispositif          (int idIntervention, int idDispositif        , Date dateAffectation     ) throws Exception;
-  public void       unAffectInterventionToDispositif        (int idDispositif  , Date dateAffectation                               ) throws Exception;
+  public void       affectInterventionToDispositif          (int idDispositif  , int idIntervention      , Date dateAffectation     ) throws Exception;
+  public void       unAffectInterventionToDispositif        (int idDispositif  , int idIntervention      , Date dateAffectation     ) throws Exception;
   public void       actionOnDispositif                      (int idDispositif  , int newIdEtat           , Date actionDate          ) throws Exception;
   public void       updateDispositifPosition                (int idDispositif  , Position currentPosition, Position previousPosition) throws Exception;
   public ListRange  getActiveDispositif                     (int idRegulation  , int index, int limit                               ) throws Exception;

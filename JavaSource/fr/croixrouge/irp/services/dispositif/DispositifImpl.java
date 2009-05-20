@@ -71,33 +71,51 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   private final static String queryForAffectInterventionToDispositif =
     "UPDATE dispositif                    \n" +
-    "SET    id_current_intervention   = ?,\n" +
-    "       id_etat_dispositif        = ?,\n" +
+    "SET    id_etat_dispositif        = ?,\n" +
     "       DH_reception              = ? \n" +
     "WHERE  id_dispositif             = ? \n";
   
+  private final static String queryForAffectInterventionToDispositif2 =
+    "INSERT INTO dispositif_interventions \n" +
+    "(`id_dispositif`,`id_intervention`)  \n" +
+    "VALUES                               \n" +
+    "( ?, ?)\n" ;
+  
 
 
   
-  public void affectInterventionToDispositif  (int idIntervention, int idDispositif, Date dateAffectation) throws Exception
+  public void affectInterventionToDispositif  (int idDispositif, int idIntervention, Date dateAffectation) throws Exception
   {
+    
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+"");
 
-    int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
-        new Object[]{idIntervention , STATUS_INTERVENTION_AFFECTEE, dateAffectation, idDispositif }, 
-        new int   []{Types.INTEGER  , Types.INTEGER               , Types.TIMESTAMP, Types.INTEGER}
+    int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif2, 
+        new Object[]{idDispositif , idIntervention}, 
+        new int   []{Types.INTEGER, Types.INTEGER }
       );
     
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+" (line updated = '"+nbLineUpdated+"')");
+
+    
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has its status and DH_RECEPTION updated");
+
+    nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
+        new Object[]{STATUS_INTERVENTION_AFFECTEE, dateAffectation, idDispositif }, 
+        new int   []{Types.INTEGER               , Types.TIMESTAMP, Types.INTEGER}
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has its status and DH_RECEPTION updated (line updated = '"+nbLineUpdated+"')");
   }
   
   
   private final static String queryForUnAffectInterventionToDispositif =
     "UPDATE dispositif                          \n" + 
-    "SET    id_current_intervention      = ?,   \n" + 
-    "       id_etat_dispositif           = ?,   \n" + 
+    "SET    id_etat_dispositif           = ?,   \n" + 
     "       `DH_reception`               = null,\n" + 
     "       `DH_depart`                  = null,\n" + 
     "       `DH_sur_place`               = null,\n" + 
@@ -111,14 +129,31 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "       `DH_arrivee_renfort_medical` = null,\n" + 
     "WHERE  id_dispositif                = ?    \n";  
   
-  public void unAffectInterventionToDispositif(int idDispositif, Date dateAffectation) throws Exception
+  private final static String queryForUnAffectInterventionToDispositif2 =
+    "DELETE FROM dispositif_interventions \n" +
+    "WHERE id_dispositif   = ?            \n" +
+    "AND   id_intervention = ?            \n";
+  
+  
+  public void unAffectInterventionToDispositif(int idDispositif, int idIntervention, Date dateAffectation) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected");
 
-    int nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif, 
-        new Object[]{0              , STATUS_DISPO  , idDispositif }, 
-        new int   []{Types.INTEGER  , Types.INTEGER , Types.INTEGER}
+    int nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif2, 
+        new Object[]{idDispositif   , idIntervention}, 
+        new int   []{Types.INTEGER  , Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected (line updated = '"+nbLineUpdated+"')");
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected");
+
+    nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif, 
+        new Object[]{STATUS_DISPO  , idDispositif }, 
+        new int   []{Types.INTEGER , Types.INTEGER}
       );
     
     if(logger.isDebugEnabled())
@@ -337,8 +372,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       if(dispositif.getEquipierCi().getIdEquipier() != 0)
         dispositif.setEquipierCi(this.equipierService.getEquipier(dispositif.getEquipierCi().getIdEquipier()));
       
-      if(dispositif.getCurrentIntervention().getIdIntervention() != 0)
-        dispositif.setCurrentIntervention(interventionService.getInterventionTicket(dispositif.getCurrentIntervention().getIdIntervention()));
+      dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
     }
     
     return new ListRange(dispositifs.size(), dispositifs);
@@ -365,9 +399,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(dispositif.getEquipierCi().getIdEquipier() != 0)
       dispositif.setEquipierCi(this.equipierService.getEquipier(dispositif.getEquipierCi().getIdEquipier()));
     
-    if(dispositif.getCurrentIntervention().getIdIntervention() != 0)
-      dispositif.setCurrentIntervention(interventionService.getInterventionTicket(dispositif.getCurrentIntervention().getIdIntervention()));
-      
+    dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
+ 
     if(withEquipierList)
       dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(idRegulation, disposifitId));
     

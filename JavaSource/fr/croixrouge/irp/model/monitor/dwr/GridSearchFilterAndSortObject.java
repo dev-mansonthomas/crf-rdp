@@ -11,6 +11,29 @@ public class GridSearchFilterAndSortObject implements Serializable
   private FilterObject[] filters;
   private SortObject  [] sorts  ;
   
+  public String toString()
+  {
+    StringBuilder sb = new StringBuilder("GridSearchFilterAndSortObject:{");
+    
+    sb.append("start:");
+    sb.append(start);
+    sb.append(",limit:");
+    sb.append(limit);
+    
+    sb.append(",filters:[");
+    for (FilterObject filterObject : this.filters)
+      sb.append(filterObject);
+    
+    sb.append("],sorts:[");
+    for (SortObject sortObject : this.sorts)
+      sb.append(sortObject); 
+
+    sb.append("]}");
+    return sb.toString();
+  }
+  
+  
+  
   public int getStart()
   {
     return start;

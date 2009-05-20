@@ -2,6 +2,10 @@
 + gerer l'import des données
 + gerer la multi affecation de victime a un dispositif [en cours]
 
+  currentInterId, on le dégage, tout dans la table d'association
+  sur une intervention, un bouton clone, fait apparaitre une fenetre demandant le nom/prénom de la nouvelle victime et on clone les reste des infos
+  sur le bouton action, si action == primaire ou secondaire et qu'il existe plus d'une intervention, lorsqu'on clic de nouveau sur  le bouton action : 'Etes vous sur d'avoir rempli le primaire de toutes les vicitimes'?
+  
 
 <a href="http://icanhascheezburger.com/2008/09/09/funny-pictures-kitteh-cheks-fr-breethin-furst/"><img class="mine_1760499" title="funny-pictures-cat-tries-to-save-your-life" src="http://icanhascheezburger.wordpress.com/files/2008/09/funny-pictures-cat-tries-to-save-your-life.jpg" alt="cat" /></a><br />more <a href="http://icanhascheezburger.com">animals</a>
 <a href="http://icanhascheezburger.com/2008/09/08/funny-pictures-im-hit/"><img class="mine_1755357" title="funny-pictures-your-cat-is-hit" src="http://icanhascheezburger.wordpress.com/files/2008/09/funny-pictures-your-cat-is-hit.jpg" alt="cat" /></a><br />more <a href="http://icanhascheezburger.com">animals</a>

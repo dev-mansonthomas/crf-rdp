@@ -218,6 +218,8 @@ function initLayout()
 	  											        text   : 'Voir Intervention en Cours',
 	  											        handler: function()
 	  											        {
+                                    
+                                    //TODO afficher la liste des interventions en cours si plus d'une intervention, sinon afficher l'intervention.
 	  											          var currentInterventionId = $('dispositifCurrentInterId').value;
 	  											          if(currentInterventionId == 0 || currentInterventionId == '')
                                     	Ext.Msg.alert('Aucune Intervention', 'Le dispositif n\'a actuellement pas d\'intervention affectée');  											        	

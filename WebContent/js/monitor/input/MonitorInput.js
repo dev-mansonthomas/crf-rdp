@@ -194,7 +194,7 @@ function initLayout()
 	  														miDispositifCs.endOfEditionEvent();
 	  													},
 	  													iconCls: 'validateButton',
-	  													xtype:'tbbutton'
+	  													xtype  : 'tbbutton'
 	  											    },
 	  											    {
 	  											       text   : 'Supprimer',

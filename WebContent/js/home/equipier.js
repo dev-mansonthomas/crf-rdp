@@ -29,6 +29,7 @@ Ext.ux.Home.EquipierEditor = function() {
     	               proxyConfig   : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
                      filterCallBack: function(){return [new Ext.ux.rs.data.FilterObject('age','18','>=')];}
     	               }),
+             remoteSort: true,
     	           reader: new Ext.ux.rs.data.JsonReader({
     	                 	root: 'data',
     	         totalProperty: 'totalCount',

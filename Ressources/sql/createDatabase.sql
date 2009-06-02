@@ -204,19 +204,6 @@ CREATE TABLE `dispositif` (
   CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`        (`id_delegation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-
-DROP TABLE IF EXISTS `crfirp`.`dispositif_interventions`;
-CREATE TABLE `dispositif_interventions` (
-  `id_dispositif`      int(10)       unsigned    NOT NULL,
-  `id_intervention`    int(10)       unsigned    NOT NULL,
-  PRIMARY KEY  (`id_dispositif`, `id_intervention`),
-  KEY      `FK_dispositif_interventions_dispositif`     (`id_dispositif`),
-  KEY      `FK_dispositif_interventions_intervention`   (`id_intervention`),
-  CONSTRAINT `FK_dispositif_interventions_dispositif`   FOREIGN KEY (`id_dispositif`  ) REFERENCES `dispositif`   (`id_dispositif`  ),
-  CONSTRAINT `FK_dispositif_interventions_intervention` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
-
-
 DROP TABLE IF EXISTS `crfirp`.`equipier`;
 CREATE TABLE `equipier` (
   `id_equipier`       int(10) unsigned NOT NULL auto_increment,
@@ -272,11 +259,6 @@ CREATE TABLE `crfirp`.`intervention_motif_annulation`
   PRIMARY KEY(`id_motif_annulation`)
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
-
-
-
-
 
 DROP TABLE IF EXISTS `crfirp`.`intervention_etat`;
 CREATE TABLE `intervention_etat` (
@@ -507,3 +489,55 @@ CREATE TABLE `bilan_evolutif` (
   KEY `FK_bilan_evolutif_intervention` (`id_intervention`),
   CONSTRAINT `FK_bilan_evolutif_intervention` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+
+
+DROP TABLE IF EXISTS `crfirp`.`dispositif_interventions`;
+CREATE TABLE `dispositif_interventions` (
+  `id_dispositif`      int(10)       unsigned    NOT NULL,
+  `id_intervention`    int(10)       unsigned    NOT NULL,
+  PRIMARY KEY  (`id_dispositif`, `id_intervention`),
+  KEY      `FK_dispositif_interventions_dispositif`     (`id_dispositif`),
+  KEY      `FK_dispositif_interventions_intervention`   (`id_intervention`),
+  CONSTRAINT `FK_dispositif_interventions_dispositif`   FOREIGN KEY (`id_dispositif`  ) REFERENCES `dispositif`   (`id_dispositif`  ),
+  CONSTRAINT `FK_dispositif_interventions_intervention` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+
+
+DROP TABLE IF EXISTS `crfirp`.`credits`;
+CREATE TABLE `crfirp`.`credits` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `presentation_order` INTEGER UNSIGNED NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `version` VARCHAR(45) NOT NULL,
+  `url` VARCHAR(255) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+DROP TABLE IF EXISTS `crfirp`.`application_version`;
+CREATE TABLE `crfirp`.`application_version` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `version_name` VARCHAR(45) NOT NULL,
+  `dev_release_date` VARCHAR(45) NOT NULL,
+  `production_release_date` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`)
+)ENGINE = InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+DROP TABLE IF EXISTS `crfirp`.`application_version_changelog`;
+CREATE TABLE `crfirp`.`application_version_changelog` (
+  `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_application_version` INTEGER UNSIGNED NOT NULL,
+  `id_jira` VARCHAR(45) NOT NULL,
+  `description` TEXT NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_application_version_changelog-application_version` (`id_application_version`),
+  CONSTRAINT `FK_application_version_changelog-application_version` FOREIGN KEY `FK_application_version_changelog-application_version` (`id_application_version`)
+    REFERENCES `application_version` (`id`)
+)
+ENGINE = InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;

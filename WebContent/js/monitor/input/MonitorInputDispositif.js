@@ -91,11 +91,11 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   
   var dataStore1 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call  : MonitorInputDispositif.getActiveDispositifList,
-               args  : [],
-               paging: SIMPLE_PAGING
+               call       : MonitorInputDispositif.getActiveDispositifList,
+               args       : [],
+               proxyConfig: Ext.ux.rs.data.SIMPLE_PAGING
                }),
-           reader: new Ext.data.JsonReader({
+           reader: new Ext.ux.rs.data.JsonReader({
                  root: 'data',
         totalProperty: 'totalCount',
                fields:
@@ -106,8 +106,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
                        {name: 'idDelegation'      , type: 'int'    },
                        {name: 'displayState'      , type: 'int'    },
                        {name: 'creationTerminee'  , type: 'boolean'},
-                       {name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhDebut'           , type: 'date'   },
+                       {name: 'dhFin'             , type: 'date'   },
                        {name: 'indicatifVehicule' , type: 'string' },
                        {name: 'autreDelegation'   , type: 'string' }
                    ]
@@ -150,11 +150,11 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   
   var dataStore2 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call  : MonitorInputDispositif.getDispositifTicketList,
-               args  : [],
-               paging: SIMPLE_PAGING
+               call       : MonitorInputDispositif.getDispositifTicketList,
+               args       : [],
+               proxyConfig: Ext.ux.rs.data.SIMPLE_PAGING
                }),
-           reader: new Ext.data.JsonReader({
+           reader: new  Ext.ux.rs.data.JsonReader({
                  root: 'data',
         totalProperty: 'totalCount',
                fields:
@@ -164,8 +164,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
                        {name: 'idDelegation'      , type: 'int'    },
                        {name: 'displayState'      , type: 'int'    },
                        {name: 'creationTerminee'  , type: 'boolean'},
-                       {name: 'dhDebut'           , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
-                       {name: 'dhFin'             , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhDebut'           , type: 'date'   },
+                       {name: 'dhFin'             , type: 'date'   },
                        {name: 'indicatifVehicule' , type: 'string' },
                        {name: 'autreDelegation'   , type: 'string' }
                    ]

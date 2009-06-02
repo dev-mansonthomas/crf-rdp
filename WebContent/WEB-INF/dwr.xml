@@ -18,7 +18,11 @@
         <param name="beanName" value="homepage"/>
     </create>
 
-
+    <create
+      creator="spring"
+      javascript="CreditsAndChangeLogService">
+        <param name="beanName" value="creditsAndChangeLogDwrService"/>
+    </create>
 
     
     <!--  Output -->    

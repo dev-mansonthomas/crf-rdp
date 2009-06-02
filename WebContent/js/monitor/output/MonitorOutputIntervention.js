@@ -182,7 +182,7 @@ MonitorOutputInterventionCs.prototype.initializeInterventionDragZone=function(pa
                     repairXY         : Ext.fly(sourceEl).getXY(),
                     ddel             : d,
                     interventionData : panelComponent.data,
-                    currentDispositif: {idDispositif:0}
+                    currentDispositif: {data:{idDispositif:0}}//on met maintenant le dispositifRecord => simule un record
                 }
             }
         },
@@ -232,9 +232,9 @@ MonitorOutputInterventionCs.prototype.initializeInterventionDropZone=function(mo
 //      any data we decided to attach.
         onNodeDrop : function(target, dd, e, draggableItemData){
          
-          if(draggableItemData.currentDispositif.idDispositif > 0)
+          if(draggableItemData.currentDispositif.data.idDispositif > 0)
           {//L'inter était affecté, il faut la désaffecter
-            MonitorOutputIntervention.unAffectIntervention(draggableItemData.interventionData.idIntervention, draggableItemData.currentDispositif.idDispositif, function(){});
+            MonitorOutputIntervention.unAffectIntervention(draggableItemData.interventionData.idIntervention, draggableItemData.currentDispositif.data.idDispositif, function(){});
           }
           //moDispositifCs.setInterventionToDispositif(draggableItemData, target, dispositifData );
        

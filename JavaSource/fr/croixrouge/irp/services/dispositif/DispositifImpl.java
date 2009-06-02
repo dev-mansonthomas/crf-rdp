@@ -126,7 +126,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "       `DH_dispo`                   = null,\n" + 
     "       `DH_a_sa_base`               = null,\n" + 
     "       `DH_appel_renfort_medical`   = null,\n" + 
-    "       `DH_arrivee_renfort_medical` = null,\n" + 
+    "       `DH_arrivee_renfort_medical` = null \n" + 
     "WHERE  id_dispositif                = ?    \n";  
   
   private final static String queryForUnAffectInterventionToDispositif2 =

@@ -8,18 +8,18 @@
 
 
     <!-- Services classique -->
-    <bean id="regulationService"           class="fr.croixrouge.irp.services.regulation.RegulationImpl"                         autowire="constructor" />
+    <bean id="regulationService"           class="fr.croixrouge.irp.services.regulation.RegulationImpl"                          autowire="constructor" />
     
-    <bean id="dispositifService"           class="fr.croixrouge.irp.services.dispositif.DispositifImpl"                         autowire="constructor">
+    <bean id="dispositifService"           class="fr.croixrouge.irp.services.dispositif.DispositifImpl"                          autowire="constructor">
       <property name="equipierService"     ref="equipierService"    /><!-- Injection faite par setter pour résoudre une dépendence cyclique entre les services dispositif et equipier -->
       <property name="interventionService" ref="interventionService"/><!-- Injection faite par setter pour résoudre une dépendence cyclique entre les services dispositif et intervention -->
     </bean>
     
-    <bean id="equipierService"             class="fr.croixrouge.irp.services.equipier.EquipierServiceImpl"                      autowire="constructor" />
-    <bean id="listService"                 class="fr.croixrouge.irp.services.list.ListServiceImpl"                              autowire="constructor" />
+    <bean id="equipierService"             class="fr.croixrouge.irp.services.equipier.EquipierServiceImpl"                       autowire="constructor" />
+    <bean id="listService"                 class="fr.croixrouge.irp.services.list.ListServiceImpl"                               autowire="constructor" />
     
-    <bean id="interventionService"         class="fr.croixrouge.irp.services.intervention.InterventionServiceImpl"              autowire="constructor" />
-    <bean id="lieuService"                 class="fr.croixrouge.irp.services.lieu.LieuServiceImpl"                              autowire="constructor" >
+    <bean id="interventionService"         class="fr.croixrouge.irp.services.intervention.InterventionServiceImpl"               autowire="constructor" />
+    <bean id="lieuService"                 class="fr.croixrouge.irp.services.lieu.LieuServiceImpl"                               autowire="constructor" >
       <constructor-arg index="1">
         <bean class="fr.croixrouge.irp.services.cache.EHCacheService" autowire="constructor">
           <constructor-arg index="0" ref="UtilCacheHashesFB"/>
@@ -27,6 +27,7 @@
       </constructor-arg>
     </bean>
     
+    <bean id="creditsAndChangeLogService"  class="fr.croixrouge.irp.services.creditsAndChangeLog.CreditsAndChangeLogServiceImpl" autowire="constructor" />
     
 
     <!-- Delegate -->

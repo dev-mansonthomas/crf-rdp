@@ -48,7 +48,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "        i.`ville`             , i.`batiment`        , i.`etage`                , i.`porte`               ,             \n" +
     "        i.`complement_adresse`, i.`complement_motif`, i.`google_coords_lat`    , i.`google_coords_long`  ,             \n" +
     "        i.`nom_victime`       , i.`homme_victime`   , i.`nom_contact_sur_place`, i.`coordonnees_contact`               \n" +
-    "FROM     intervention i                                                                                                 \n";
+    "FROM     intervention i                                                                                                \n";
   
   private final static String queryForGetInterventionTicket =
     selectForInteventionTicket +
@@ -65,10 +65,10 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   
 
   private final static String queryForGetInterventionsTicketFromDispositif =
-    selectForInteventionTicket + ", dispositif_interventions di"+
-    "WHERE    i.id_intervention = di.id_intervention\n" +
-    "AND      di.id_dispositif  = ?\n" +
-    "ORDER BY i.id_intervention ASC";
+    selectForInteventionTicket + ", dispositif_interventions di \n" +
+    "WHERE    i.id_intervention = di.id_intervention            \n" +
+    "AND      di.id_dispositif  = ?                             \n" +
+    "ORDER BY i.id_intervention ASC                             \n" ;
 
   
   @SuppressWarnings("unchecked")

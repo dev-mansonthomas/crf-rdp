@@ -16,8 +16,9 @@
 
   <div id="north">
     <img src="../../img/RegulationParis.png" class="imgLoginLeft"  alt="Informatisation de la Régulation de Paris"/>
-    version ${applicationVersion}
   </div>
+<jsp:include page="../versionAndChangelog.jsp"/>
+
 <div id="regulationInformation">
 <input type="hidden" id="regulationId" name="regulationId"  value=""/>
   <table>

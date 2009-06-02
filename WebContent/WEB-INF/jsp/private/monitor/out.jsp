@@ -23,9 +23,9 @@
 <!-- north -->
 <div id="north" class="x-layout-inactive-content">
   <div id="clock" style="float:left">${currentDate}</div>
-  <div style="float:right;margin-right:5px">version ${applicationVersion}<img src="../../img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
+  <div style="float:right;margin-right:5px"><img src="../../img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
 </div>
-
+<jsp:include page="../versionAndChangelog.jsp"/>
 
 <!-- center -->
 <!-- listeDispositif -->
@@ -168,6 +168,15 @@ Ville
   
 </div>
 
+
+<div id="clone-intevention-window">
+  
+</div>
+
+
+
+
+<!-- Include JS -->
   <!-- google map -->
   <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${googleMapsKey}" type="text/javascript"> </script>
 

@@ -50,17 +50,17 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
   
   var dataStore1 = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call  : MonitorInputIntervention.getInterventionTicketList,
-               args  : [0],
-               paging: SIMPLE_PAGING
+               call       : MonitorInputIntervention.getInterventionTicketList,
+               args       : [0],
+               proxyConfig: Ext.ux.rs.data.SIMPLE_PAGING
                }),
-           reader: new Ext.data.JsonReader({
+           reader: new  Ext.ux.rs.data.JsonReader({
                  root: 'data',
         totalProperty: 'totalCount',
                fields:
                    [
                        {name: 'idIntervention', type: 'int'    },
-                       {name: 'dhReception'   , type: 'date'   ,dateFormat:'Y-m-d\\TH:i:s'},
+                       {name: 'dhReception'   , type: 'date'   },
                        {name: 'nomVictime'    , type: 'string' },
                        {name: 'position.ville', type: 'string' }
                    ]

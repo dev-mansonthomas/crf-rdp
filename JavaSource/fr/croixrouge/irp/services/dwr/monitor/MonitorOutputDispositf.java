@@ -36,7 +36,7 @@ public class MonitorOutputDispositf  extends DWRUtils
   }
   
   
-  public int actionOnDispositif(int idIntervention, int idDispositif) throws Exception
+  public int actionOnDispositif(int idDispositif) throws Exception
   {
     try
     {
@@ -73,7 +73,7 @@ public class MonitorOutputDispositf  extends DWRUtils
     Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
     
     ScriptBuffer scriptBuffer = new ScriptBuffer();
-    scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif);
+    scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif, idIntervention);
     
     this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
   }
@@ -121,6 +121,6 @@ public class MonitorOutputDispositf  extends DWRUtils
   {
     int currentUserRegulationId = this.validateSessionAndGetRegulationId();
     this.dispositifInterventionDelegate.chooseEvacDestination(currentUserRegulationId, idIntervention, idDispositif, idLieu, destinationLabel, position);
-    return this.actionOnDispositif(idIntervention, idDispositif);
+    return this.actionOnDispositif(idDispositif);
   }
 }

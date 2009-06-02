@@ -61,6 +61,9 @@ function initCirculationVue2Refresh()
 
 function initLayout()
 {
+  Ext.QuickTips.init();
+  Ext.apply(Ext.QuickTips.getQuickTip(), { trackMouse: true});
+  
 	 // function to remove loading mask
   var unmask = function() {
     var mask = Ext.get('loading-mask');

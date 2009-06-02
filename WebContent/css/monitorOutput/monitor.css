@@ -110,3 +110,14 @@
 {
   cursor:pointer;
 }
+.DispositifInterDetail
+{
+  width:365px;
+  float:left;
+  border:1px solid #D8D8D8;
+  margin:2px;
+  padding:1px;
+  background-image: url('../../img/monitorOutput/blesse.jpg');
+  background-position:top right;
+  background-repeat: no-repeat;
+}

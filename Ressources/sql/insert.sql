@@ -224,6 +224,58 @@ ALTER TABLE `intervention_etat` AUTO_INCREMENT = 11;
 
 
 
+insert into credits (`presentation_order`, `name`, `version`, `url`, `description`)
+values
+(1 , 'DWR'               , '3.0 RC1(build113)'   , 'http://www.directwebremoting.org'                , 'a Java integrated Ajax Framework that allow you to call java methods from javascript'),
+(18, 'Jakarta Commons'   , '*'                   , 'http://commons.apache.org'                       , 'Very usefull Java libraries'),
+(6 , 'JAWR'              , '2.5.1'               , 'http://jawr.dev.java.net'                        , 'Performance Librairy that do the following to your css & js files : minify, put in one file, gzip, set far expiry date, i18n handling, load js & css from jar'),
+(7 , 'EHCache'           , '1.4.1'               , 'http://ehcache.sourceforge.net/'                 , 'A very efficient java cache manager'),
+(17, 'mozilla js'        , '1.7'                 , 'http://www.mozilla.org/rhino/'                   , 'Jawr dependency'),
+(16, 'Jakarta ORO'       , '2.0.8'               , 'http://jakarta.apache.org/oro/'                  , 'Text processing library'),
+(15, 'JSR107-Cache'      , '1.0'                 , 'http://sourceforge.net/projects/jsr107cache/'    , 'EHCache dependency'),
+(14, 'Log4J'             , '1.2.14'              , 'http://logging.apache.org/log4j/'                , 'Logging framework'),
+(1 , 'Quartz'            , '1.6.1-RC1'           , 'https://quartz.dev.java.net/'                    , 'Job Scheduler'),
+(2 , 'Spring'            , '2.5.6'               , 'http://www.springsource.org/'                    , 'Java IOC Framework'),
+(13, 'YUI Compression'   , '2.3.6'               , 'http://developer.yahoo.com/yui/compressor/'      , 'js & css compression librairy'),
+(5 , 'Tomcat'            , '6'                   , 'http://tomcat.apache.org'                        , 'J2EE application server'),
+(4 , 'MySQL'             , '5.1'                 , 'http://www.mysql.org'                            , 'Database Server'),
+(3 , 'ExtJS'             , '2.2.1'               , 'http://www.extjs.com'                            , 'Javascript Framework for GUI'),
+(12, 'FamFamFam'         , '1.00'                , 'http://www.famfamfam.com'                        , 'Image librairy'),
+(11, 'Ubuntu Server'     , '9.04'                , 'http://www.ubuntu.com'                           , 'Operating System'),
+(10, 'Prototype'         , '1.6.0.1'             , 'http://www.prototypejs.org'                      , 'Javascript utility librairy'),
+(9 , 'ScriptAculoUs'     , '1.8.1'               , 'http://www.script.aculo.us'                      , 'Javascript GUI effect library'),
+(8 , 'Google Maps'       , '2.x'                 , 'http://code.google.com/intl/fr/apis/maps/'       , 'Map display & geocoding api');
+
+
+insert into `application_version` (`version_name`, `dev_release_date`, `production_release_date`, `description`)
+values
+('0.1.0','milieu 2008'  ,'No production release','Première version mise à disposition pour présentation'),
+('0.2.0','fin 2008'     ,'No production release','Bug fix release'),
+('0.3.0','2009-03-13'   ,'No production release','Google Maps Traffic et Street View'),
+('0.4.0','2009-06-01'   ,'No production release','Ré implémentation du Drag & Drop, affectation de plusieurs victime à un dispositif')
+;
+
+insert into application_version_changelog(`id_application_version`, `id_jira`, `description`)
+values
+(1,'','Première version déployée avec les fonctionnalités majeurs opérationnelles'),
+(1,'IRP-11', 'Ajout d\'une intervention'),
+(1,'IRP-10', 'Ajout d\'un dispositif'),
+(1,'IRP-10', 'Edition d\'un dispositif'),
+(2,'IRP-19', 'Edition d\'une intervention'),
+(2,'IRP-16', 'Affectation d\'une intervention à un dispositif'),
+(2,'IRP-6' , 'Bouton d\'édition d\'une intervention'),
+(3,'IRP-65', 'Gestion de l\'annulation d\'une intervention'),
+(3,'IRP-43', 'Overlay Traffic sur google Maps'),
+(3,'IRP-40', 'Street View Sur google Maps'),
+(4,'IRP-26', 'Transfert d\'une victime d\'un dispositif à un autre'),
+(4,'IRP-77', 'Affichage Credit et changelog'),
+(4,'IRP-75', 'Bouton pour cloner une intervention'),
+(4,'IRP-73', 'Reprise des données du SIORD'),
+(4,'IRP-59', 'Affichage de l\'environnement sur lequel tourne l\'application '),
+(4,'IRP-27', 'Gestion de N victimes par dispositif');
+  
+  
+
 -- Insert test data
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values

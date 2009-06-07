@@ -2,7 +2,7 @@
 
 <dwr>
   <allow>
-    <convert match="fr.croixrouge.irp.model.**"   converter="bean"/><!-- a partir du build 111 il faut mettre ** pour inclure les sous packages -->
+    <convert match="fr.croixrouge.rdp.model.**"   converter="bean"/><!-- a partir du build 111 il faut mettre ** pour inclure les sous packages -->
     <convert match="java.lang.Exception"          converter="bean"/>
     <convert match="java.lang.StackTraceElement"  converter="bean"/>
     
@@ -13,13 +13,15 @@
     <!--  Homepage-->
 
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="Homepage">
         <param name="beanName" value="homepage"/>
     </create>
 
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="CreditsAndChangeLogService">
         <param name="beanName" value="creditsAndChangeLogDwrService"/>
     </create>
@@ -27,19 +29,22 @@
     
     <!--  Output -->    
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="Monitor">
         <param name="beanName" value="monitor"/>
     </create>
 
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="MonitorOutputDispositif">
         <param name="beanName" value="monitorOutputDispositif"/>
     </create>
 
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="MonitorOutputIntervention">
         <param name="beanName" value="monitorOutputIntervention"/>
     </create>
@@ -48,25 +53,29 @@
 
 <!--  INPUT -->    
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="MonitorInput">
         <param name="beanName" value="monitorInput"/>
     </create>
 
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="MonitorInputDispositif">
         <param name="beanName" value="monitorInputDispositif"/>
     </create>
 
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="MonitorInputIntervention">
         <param name="beanName" value="monitorInputIntervention"/>
     </create>
 
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="MonitorInputBilan">
         <param name="beanName" value="monitorInputBilan"/>
     </create>
@@ -74,7 +83,8 @@
 
     
     <create
-      creator="spring"
+         creator="spring"
+           scope="application"
       javascript="MonitorCommons">
         <param name="beanName" value="monitorCommons"/>
     </create>    

@@ -19,10 +19,10 @@
 
 
   <bean class="fr.croixrouge.utilities.web.conf.PerMachinePropertyPlaceholderConfigurer">
-    <property name="prefix"         value="conf/crf-irp"/><!-- fichier de config par marchine dans JavaSource/conf -->
+    <property name="prefix"         value="conf/crf-rdp"/><!-- fichier de config par marchine dans JavaSource/conf -->
     <property name="exportHostList" ref="exportHostList"/> <!-- Sur quelles machines doivent etre exportées les fichiers de conf (pas les machines de developpeur)-->
     <property name="exportPath"     ref="exportPath"/> <!-- Fichiers de confs seront exporter a cette endroit et utilisé -->
-    <property name="location"       value="classpath:crf-irp.properties"/><!-- fichier de conf par défaut dans JavaSource/msc.properties -->
+    <property name="location"       value="classpath:crf-rdp.properties"/><!-- fichier de conf par défaut dans JavaSource/msc.properties -->
   </bean> 
 
   <bean       id="Log4JConfigurer" 

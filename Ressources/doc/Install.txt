@@ -1,6 +1,6 @@
 Connect to your MySQL server as root
  
-grant all on crfirp.* to 'crfirp'@'localhost' identified by 'CRFCRF';
+grant all on crfrdp.* to 'crfrdp'@'localhost' identified by 'CRFCRF';
 flush privileges;
 
  
@@ -8,18 +8,18 @@ flush privileges;
 Tomcat Setup :
   * Tomcat 6
   * Download the MySQL jdbc driver mysql-connector-java-5.1.5-bin.jar (or above)
-  * Create a file in $CATALINA_BASE/conf/Catalina/localhost/crf-irp.xml
+  * Create a file in $CATALINA_BASE/conf/Catalina/localhost/crf-rdp.xml
   * choose a login and a password
 ___________________________________________________________________________________
-<Context path="crf-irp" docBase="crf-irp" debug="0">
+<Context path="crf-rdp" docBase="crf-rdp" debug="0">
 
-  <Resource name="jdbc/crfirpDS"
+  <Resource name="jdbc/crfrdpDS"
             auth="Container"
             type="javax.sql.DataSource"
-        username="crfirp"
+        username="crfrdp"
         password="CRFCRF"
  driverClassName="com.mysql.jdbc.Driver"
-             url="jdbc:mysql://localhost/crfirp?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
+             url="jdbc:mysql://localhost/crfrdp?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
  validationQuery="Select 1"
     />
 
@@ -31,8 +31,8 @@ MySQL Setup :
 
   * MySQL server 5.0 and above.
   * TCP/IP enabled
-  * Load with the root account the files crf-irp/Ressources/sql/createDatabase.sql and crf-irp/Ressources/sql/insert.sql
-  * Create an user and set a password and give all permission to the crfirp database.
+  * Load with the root account the files crf-rdp/Ressources/sql/createDatabase.sql and crf-rdp/Ressources/sql/insert.sql
+  * Create an user and set a password and give all permission to the crfrdp database.
   
 Copy the war and start tomcat.
 

@@ -9,7 +9,7 @@
   </appender>
   
   <appender name="FILE"  class="org.apache.log4j.DailyRollingFileAppender">
-    <param name="File" value="/home/special/crfirp/logs/crf-irp.log" />
+    <param name="File" value="/home/special/crfrdp/logs/crf-rdp.log" />
     <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d %p %c : %m%n" />
@@ -27,7 +27,7 @@
   </logger>
 
   <logger name="org.directwebremoting" additivity="false">
-    <level value="debug" />
+    <level value="info" />
     <appender-ref ref="STDOUT" />
   </logger>
 
@@ -36,7 +36,7 @@
     <appender-ref ref="STDOUT" />
   </logger>
 
-  <logger name="fr.croixrouge.irp" additivity="false">
+  <logger name="fr.croixrouge.rdp" additivity="false">
     <level value="debug" />
     <appender-ref ref="STDOUT" />
   </logger>

@@ -5,7 +5,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-  <title>Saisie - CRF - Informatisation de la Régulation de Paris</title>
+  <title>Saisie - CRF - Régulation De Paris</title>
 
   <jwr:style src="/cssBundle/monitorInput.css"/>
 

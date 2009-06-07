@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>crf-irp</name>
+	<name>crf-rdp</name>
 	<comment></comment>
 	<projects>
 		<project>crf-utilities</project>

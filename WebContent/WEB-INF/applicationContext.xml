@@ -12,5 +12,5 @@
   <import resource="spring/dwr.xml"                   />
   <import resource="spring/services.xml"              />
       
-  <bean id="SecurityService" class="fr.croixrouge.irp.services.authentification.SecurityServiceImpl" autowire="constructor"/>
+  <bean id="SecurityService" class="fr.croixrouge.rdp.services.authentification.SecurityServiceImpl" autowire="constructor"/>
 </beans>

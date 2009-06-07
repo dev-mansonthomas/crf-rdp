@@ -400,13 +400,25 @@ MonitorOutputDispositifCs.prototype.initCloneInterventionWindow=function()
   var win = new Ext.Window({
       id          : 'clone-intevention-windowCmp',
       applyTo     : 'clone-intevention-window',
+      contentEl   : 'clone-intevention-window-content',
       layout      : 'fit'             ,
       width       : 500               ,
       height      : 500               ,
       x           : 0                 ,
       y           : 35                ,
       closeAction : 'hide'            ,
-      plain       : true              
+      plain       : true              ,
+      buttons: [{
+                    text: 'Fermer la fenêtre',
+                    handler: function(){
+                        Ext.getCmp('clone-intevention-windowCmp').hide();
+                    }
+                },{
+                    text: 'Dupliquer l\'intervention',
+                    handler: function(){
+                        moDispositifCs.cloneIntervention();
+                    }
+                }]
     });
           
   MonitorOutputDispositifCs.prototype.cloneInterventionWindow = win;
@@ -1029,6 +1041,13 @@ MonitorOutputDispositifCs.prototype.updateAddressErrorReturn=function(response)
   $('dispositifEvacGoogleAdressCheckStatus').src=contextPath+"/img/famfamfam/"+icon+".png";
   $('dispositifEvacAddressCoordinateLat'   ).value='0';//on met qqch de non vide pour s'avoir qu'on est passé par la
   $('dispositifEvacAddressCoordinateLong'  ).value='0';
+};
+
+
+MonitorOutputDispositifCs.prototype.updateNomPrenomRadio=function()
+{
+  var nomPrenom = $('cloneInterventionNomVictime').value+' '+$('cloneInterventionPrenomVictime').value;
+  $('cloneInterventionNomPrenomRadio').value=crfIrpUtils.toRadio(nomPrenom);
 };
 
 

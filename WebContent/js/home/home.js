@@ -8,7 +8,7 @@ Ext.onReady(function()
   initHomeTab();
   EquipierEditor = Ext.ux.Home.EquipierEditor;
   EquipierEditor.init();
-    
+  crfIrpUtils.getAllList();
 });
 
 function initLayout()

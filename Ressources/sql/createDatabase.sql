@@ -1,32 +1,32 @@
-﻿DROP DATABASE IF EXISTS `crfirp`;
-CREATE DATABASE `crfirp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+﻿DROP DATABASE IF EXISTS `crfrdp`;
+CREATE DATABASE `crfrdp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-use crfirp;
+use crfrdp;
 
 
 
-DROP TABLE IF EXISTS `crfirp`.`dispositif_etat`;
+DROP TABLE IF EXISTS `crfrdp`.`dispositif_etat`;
 CREATE TABLE `dispositif_etat` (
   `id_etat` int(10) NOT NULL auto_increment,
   `label_etat` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`dispositif_type`;
+DROP TABLE IF EXISTS `crfrdp`.`dispositif_type`;
 CREATE TABLE `dispositif_type` (
   `id_type` int(10) unsigned NOT NULL auto_increment,
   `label_type` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`equipier_role`;
+DROP TABLE IF EXISTS `crfrdp`.`equipier_role`;
 CREATE TABLE `equipier_role` (
   `id_role` int(10) unsigned NOT NULL auto_increment,
   `label_role` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`user_role`;
+DROP TABLE IF EXISTS `crfrdp`.`user_role`;
 CREATE TABLE `user_role` (
   `id_role` int(10) unsigned NOT NULL auto_increment,
   `label_role` varchar(45) NOT NULL,
@@ -34,8 +34,8 @@ CREATE TABLE `user_role` (
   PRIMARY KEY  (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`lieu_type`;
-CREATE TABLE `crfirp`.`lieu_type`
+DROP TABLE IF EXISTS `crfrdp`.`lieu_type`;
+CREATE TABLE `crfrdp`.`lieu_type`
 (
   `id_type_lieu`     INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `num_ordre`        INTEGER UNSIGNED NOT NULL, 
@@ -48,7 +48,7 @@ CREATE TABLE `crfirp`.`lieu_type`
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 
-DROP TABLE IF EXISTS `crfirp`.`lieu`;
+DROP TABLE IF EXISTS `crfrdp`.`lieu`;
 CREATE TABLE `lieu` (
   `id_lieu`                     int(10) unsigned NOT NULL auto_increment,
   `id_type_lieu`                int(10) unsigned NOT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE `lieu` (
 
 
 
-DROP TABLE IF EXISTS `crfirp`.`delegation`;
+DROP TABLE IF EXISTS `crfrdp`.`delegation`;
 CREATE TABLE `delegation` (
   `id_delegation` int(10) unsigned NOT NULL auto_increment,
   `nom` varchar(45) NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `delegation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
-DROP TABLE IF EXISTS `crfirp`.`user`;
+DROP TABLE IF EXISTS `crfrdp`.`user`;
 CREATE TABLE `user` (
   `id_user` int(10) unsigned NOT NULL auto_increment,
   `num_nivol` varchar(16) NOT NULL,
@@ -102,7 +102,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
-DROP TABLE IF EXISTS `crfirp`.`regulation`;
+DROP TABLE IF EXISTS `crfrdp`.`regulation`;
 CREATE TABLE `regulation` (
 `id_regulation` int(10) unsigned NOT NULL auto_increment,
 `start_date` datetime NOT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE `regulation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
-DROP TABLE IF EXISTS `crfirp`.`dispositif`;
+DROP TABLE IF EXISTS `crfrdp`.`dispositif`;
 CREATE TABLE `dispositif` (
   `id_dispositif`                         int(10)       unsigned    NOT NULL auto_increment,
   `id_type_dispositif`                    int(10)       unsigned        NULL DEFAULT 0,
@@ -204,7 +204,7 @@ CREATE TABLE `dispositif` (
   CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`        (`id_delegation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`equipier`;
+DROP TABLE IF EXISTS `crfrdp`.`equipier`;
 CREATE TABLE `equipier` (
   `id_equipier`       int(10) unsigned NOT NULL auto_increment,
   `id_dispositif`       int(10) unsigned NULL DEFAULT 0,
@@ -233,8 +233,8 @@ CREATE TABLE `equipier` (
 
 
 
-DROP TABLE IF EXISTS `crfirp`.`intervention_origine`;
-CREATE TABLE `crfirp`.`intervention_origine`
+DROP TABLE IF EXISTS `crfrdp`.`intervention_origine`;
+CREATE TABLE `crfrdp`.`intervention_origine`
 (
   `id_origine` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `label_origine` VARCHAR(45) NOT NULL,
@@ -242,8 +242,8 @@ CREATE TABLE `crfirp`.`intervention_origine`
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`intervention_motif`;
-CREATE TABLE `crfirp`.`intervention_motif`
+DROP TABLE IF EXISTS `crfrdp`.`intervention_motif`;
+CREATE TABLE `crfrdp`.`intervention_motif`
 (
   `id_motif` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `label_motif` VARCHAR(45) NOT NULL,
@@ -251,8 +251,8 @@ CREATE TABLE `crfirp`.`intervention_motif`
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`intervention_motif_annulation`;
-CREATE TABLE `crfirp`.`intervention_motif_annulation`
+DROP TABLE IF EXISTS `crfrdp`.`intervention_motif_annulation`;
+CREATE TABLE `crfrdp`.`intervention_motif_annulation`
 (
   `id_motif_annulation` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `label_motif_annulation` VARCHAR(45) NOT NULL,
@@ -260,21 +260,21 @@ CREATE TABLE `crfirp`.`intervention_motif_annulation`
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`intervention_etat`;
+DROP TABLE IF EXISTS `crfrdp`.`intervention_etat`;
 CREATE TABLE `intervention_etat` (
   `id_etat` int(10) NOT NULL auto_increment,
   `label_etat` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `crfirp`.`intervention_seq`;
+DROP TABLE IF EXISTS `crfrdp`.`intervention_seq`;
 CREATE TABLE `intervention_seq` (
   `year`                 varchar(4) NOT NULL,
   `number`               int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 
-DROP TABLE IF EXISTS `crfirp`.`intervention`;
+DROP TABLE IF EXISTS `crfrdp`.`intervention`;
 CREATE TABLE `intervention` (
   `id_intervention`                                     int(10) unsigned NOT NULL auto_increment,
   `id_dispositif`                                       int(10) unsigned NOT NULL,
@@ -467,7 +467,7 @@ CREATE TABLE `intervention` (
   CONSTRAINT `FK_intervention_etat`             FOREIGN KEY (`id_etat`                  ) REFERENCES `intervention_etat`            (`id_etat`              )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`bilan_evolutif`;
+DROP TABLE IF EXISTS `crfrdp`.`bilan_evolutif`;
 CREATE TABLE `bilan_evolutif` (
   `id_bilan_evolutif`           int(10) unsigned NOT NULL auto_increment,
   `id_intervention`             int(10) unsigned NOT NULL,
@@ -493,7 +493,7 @@ CREATE TABLE `bilan_evolutif` (
 
 
 
-DROP TABLE IF EXISTS `crfirp`.`dispositif_interventions`;
+DROP TABLE IF EXISTS `crfrdp`.`dispositif_interventions`;
 CREATE TABLE `dispositif_interventions` (
   `id_dispositif`      int(10)       unsigned    NOT NULL,
   `id_intervention`    int(10)       unsigned    NOT NULL,
@@ -507,8 +507,8 @@ CREATE TABLE `dispositif_interventions` (
 
 
 
-DROP TABLE IF EXISTS `crfirp`.`credits`;
-CREATE TABLE `crfirp`.`credits` (
+DROP TABLE IF EXISTS `crfrdp`.`credits`;
+CREATE TABLE `crfrdp`.`credits` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `presentation_order` INTEGER UNSIGNED NOT NULL,
   `name` VARCHAR(255) NOT NULL,
@@ -519,8 +519,8 @@ CREATE TABLE `crfirp`.`credits` (
 ) ENGINE = InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
-DROP TABLE IF EXISTS `crfirp`.`application_version`;
-CREATE TABLE `crfirp`.`application_version` (
+DROP TABLE IF EXISTS `crfrdp`.`application_version`;
+CREATE TABLE `crfrdp`.`application_version` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `version_name` VARCHAR(45) NOT NULL,
   `dev_release_date` VARCHAR(45) NOT NULL,
@@ -529,8 +529,8 @@ CREATE TABLE `crfirp`.`application_version` (
   PRIMARY KEY (`id`)
 )ENGINE = InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-DROP TABLE IF EXISTS `crfirp`.`application_version_changelog`;
-CREATE TABLE `crfirp`.`application_version_changelog` (
+DROP TABLE IF EXISTS `crfrdp`.`application_version_changelog`;
+CREATE TABLE `crfrdp`.`application_version_changelog` (
   `id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
   `id_application_version` INTEGER UNSIGNED NOT NULL,
   `id_jira` VARCHAR(45) NOT NULL,

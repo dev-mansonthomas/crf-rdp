@@ -24,6 +24,6 @@
     <property name="targetMethod" value="broadcastTime"   />
   </bean>
   
-  <bean id="clockJobExecuter" class="fr.croixrouge.irp.scheduler.ClockJob"/>
+  <bean id="clockJobExecuter" class="fr.croixrouge.rdp.scheduler.ClockJob"/>
  
 </beans>

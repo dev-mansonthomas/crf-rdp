@@ -28,7 +28,7 @@
     <appender-ref ref="STDOUT" />
   </logger>
 
-  <logger name="fr.croixrouge.irp" additivity="false">
+  <logger name="fr.croixrouge.rdp" additivity="false">
     <level value="info" />
     <appender-ref ref="STDOUT" />
   </logger>

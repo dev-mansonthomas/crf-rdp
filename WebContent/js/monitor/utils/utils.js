@@ -1,5 +1,5 @@
 /*
- *  @include "/crf-irp/WebContent/js/monitor/utils/CustomEventPublishSubscribe.js"
+ *  @include "/crf-rdp/WebContent/js/monitor/utils/CustomEventPublishSubscribe.js"
  **/
 
 /* ===================== Exception def ============================== */

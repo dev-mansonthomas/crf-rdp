@@ -5,7 +5,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <title>Monitor - CRF - Informatisation de la Régulation de Paris</title>
+  <title>Monitor - CRF - Régulation De Paris</title>
   
   <jwr:style src="/cssBundle/monitorOutput.css"/>
   
@@ -168,8 +168,66 @@ Ville
   
 </div>
 
+<div id="clone-intevention-window" class="x-hidden">
+  <div class="x-window-header">Duplication de l'intervention</div>
+  <div id="clone-intevention-window-content">
+    <fieldset>
+      <legend>Identification de la 'nouvelle' victime</legend>
+      
+      
+ Nom :
+                <input style="width:33%;"
+                        type="text"
+                          id="cloneInterventionNomVictime"
+                        name="cloneInterventionNomVictime"
+                       value=""
+                   maxlength="30"
+                      onBlur="moDispositifCs.updateNomPrenomRadio();"/>
+                      
+ Prénom :
+                <input style="width:33%;"
+                        type="text"
+                          id="cloneInterventionPrenomVictime"
+                        name="cloneInterventionPrenomVictime"
+                       value=""
+                   maxlength="30"
+                      onBlur="moDispositifCs.updateNomPrenomRadio();"/>                      
+<br/>
+Radio :
+                <input style="width:90%;"
+                        type="text"
+                          id="cloneInterventionNomPrenomRadio"
+                        name="cloneInterventionNomPrenomRadio"
+                       value=""
+                    readonly="readonly"/>
+<br/>
+Sexe :           <input type="radio"
+                          id="cloneInterventionSexeVictimeFemme"
+                        name="cloneInterventionSexeVictime"
+                       value="false"
+/>
+                  Femme.
+                 <input type="radio"
+                          id="cloneInterventionSexeVictimeHomme"
+                        name="cloneInterventionSexeVictime"
+                       value="true"
+/>
+                 Homme.
+&nbsp;&nbsp;&nbsp;&nbsp;                  
+Age Approximatif : 
 
-<div id="clone-intevention-window">
+                <input style="width:35px;"
+                        type="text"
+                          id="cloneInterventionAgeVictime"
+                        name="cloneInterventionAgeVictime"
+                       value=""
+                   maxlength="3"
+/>                      
+      
+      
+       
+    </fieldset>
+  </div>
   
 </div>
 

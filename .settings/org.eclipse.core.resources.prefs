@@ -1,5 +1,5 @@
-#Sat Nov 22 04:57:39 CET 2008
+#Fri Jun 19 17:35:53 CEST 2009
 eclipse.preferences.version=1
-encoding//Ressources/sql/createDatabase.sql=UTF-8
-encoding//Ressources/sql/insert.sql=UTF-8
+encoding//Ressources/sql/01-createDatabase.sql=UTF-8
+encoding//Ressources/sql/01-insert.sql=UTF-8
 encoding/<project>=UTF-8

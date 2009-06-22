@@ -1,6 +1,6 @@
 package fr.croixrouge.rdp.model.monitor;
 
-import java.util.Date;
+import java.util.List;
 
 public class Equipier extends CrfDto
 {
@@ -9,23 +9,23 @@ public class Equipier extends CrfDto
   private int       idEquipier            ;
   private int       equipierRank          ;
   private int       idDispositif          ;
-  private boolean   homme;
+  private boolean   homme                 ;
+  private boolean   enabled               ;
   private String    numNivol               = null;
   private String    nom                    = null;
   private String    prenom                 = null;
   private String    mobile                 = null;
   private String    email                  = null;
   
-  private Date      dhDebut                = null;
-  private Date      dhFin                  = null;
-  
   private Delegation  delegation          = null;
-  
   private String      autreDelegation     = null;
-
-  private int         idRole1;
-  private int         idRole2;
-  private int         idRoleDansDispositif;
+  
+  //données récupéré de la table dispositif_equipiers
+  private int         idRoleDansDispositif= 0;
+  private boolean     enEvaluationDansDispositif = false;
+  
+  
+  private List<EquipierRole> roles;
   
   
   public String getAutreDelegation()
@@ -44,22 +44,7 @@ public class Equipier extends CrfDto
   {
     this.delegation = delegation;
   }
-  public Date getDhDebut()
-  {
-    return dhDebut;
-  }
-  public void setDhDebut(Date dh_debut)
-  {
-    dhDebut = dh_debut;
-  }
-  public Date getDhFin()
-  {
-    return dhFin;
-  }
-  public void setDhFin(Date dh_fin)
-  {
-    dhFin = dh_fin;
-  }
+  
   public int getIdDispositif()
   {
     return idDispositif;
@@ -100,22 +85,6 @@ public class Equipier extends CrfDto
   {
     this.prenom = prenom;
   }
-  public int getIdRole1()
-  {
-    return idRole1;
-  }
-  public void setIdRole1(int idRole1)
-  {
-    this.idRole1 = idRole1;
-  }
-  public int getIdRole2()
-  {
-    return idRole2;
-  }
-  public void setIdRole2(int idRole2)
-  {
-    this.idRole2 = idRole2;
-  }
   public int getIdRoleDansDispositif()
   {
     return idRoleDansDispositif;
@@ -155,6 +124,30 @@ public class Equipier extends CrfDto
   public void setEmail(String email)
   {
     this.email = email;
+  }
+  public List<EquipierRole> getRoles()
+  {
+    return roles;
+  }
+  public void setRoles(List<EquipierRole> roles)
+  {
+    this.roles = roles;
+  }
+  public boolean isEnEvaluationDansDispositif()
+  {
+    return enEvaluationDansDispositif;
+  }
+  public void setEnEvaluationDansDispositif(boolean enEvaluationDansDispositif)
+  {
+    this.enEvaluationDansDispositif = enEvaluationDansDispositif;
+  }
+  public boolean isEnabled()
+  {
+    return enabled;
+  }
+  public void setEnabled(boolean enabled)
+  {
+    this.enabled = enabled;
   }
  
       

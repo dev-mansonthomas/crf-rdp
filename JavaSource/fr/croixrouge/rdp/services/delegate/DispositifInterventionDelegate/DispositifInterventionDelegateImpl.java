@@ -10,6 +10,7 @@ import org.directwebremoting.ScriptBuffer;
 import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Position;
+import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
@@ -101,7 +102,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     int                       idEtatDispositif   = dispositif            .getIdEtatDispositif();
     Date                      actionDate         = new Date();
     List<InterventionTicket>  interventions      = dispositif.getInterventions();
-    String                    interventionsIds   = this.interventionService.generateIdsList(interventions);
+
     if(idEtatDispositif < 1)
     {
       if(logger.isDebugEnabled())
@@ -112,10 +113,11 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       if(logger.isDebugEnabled())
       {
         logger.debug("DONE      : set Dispotitif to etat 1 disponible for dispositif="+idDispositif+", regulation="+idRegulation+" with idEtatDispositif = "+idEtatDispositif+" < 1 => setting idEtatDispositif to 1 == disponible");
-        logger.debug("\"Action Button\" pushed DONE : for intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);        
+        logger.debug("\"Action Button\" pushed DONE : for dispositif="+idDispositif+", regulation="+idRegulation);
       }
+      return;
     }
-    
+    String                    interventionsIds   = this.interventionService.generateIdsList(interventions);    
     InterventionTicket  firstIntervention = null;
     if(interventions.size() > 0)
     firstIntervention = interventions.get(0);
@@ -179,8 +181,9 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
         logger.debug("Action is 'Dispositif passe son primaire' on intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
 
       this.dispositifService  .actionOnDispositif   (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.actionOnInterventions(interventions , idEtatDispositif+1, actionDate);
-      
+      if(interventions.size() == 1)
+        this.interventionService.actionOnIntervention(interventions.get(0).getIdIntervention() , idEtatDispositif+1, actionDate);
+      //else : on ne fait rien, pour les multi intervention, on passe les primaires pour chaque inter, puis sur le dispositif
       if(logger.isDebugEnabled())
         logger.debug("DONE    : 'Dispositif passe son primaire' on intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
 
@@ -191,7 +194,9 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
         logger.debug("Action is 'Dispositif passe son secondaire' on intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
 
       this.dispositifService  .actionOnDispositif   (idDispositif  , idEtatDispositif+1, actionDate);
-      this.interventionService.actionOnInterventions(interventions , idEtatDispositif+1, actionDate);
+      if(interventions.size() == 1)
+        this.interventionService.actionOnIntervention(interventions.get(0).getIdIntervention() , idEtatDispositif+1, actionDate);
+      //else : on ne fait rien, pour les multi intervention, on passe les primaires pour chaque inter, puis sur le dispositif
       
       if(logger.isDebugEnabled())
         logger.debug("DONE    : 'Dispositif passe son secondaire' on intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -285,17 +290,25 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
    * Met a jour la previous position du dispositif avec sa current Position
    * Met a jour la current position avec l'adresse destination
    * */
-  public void chooseEvacDestination(int idRegulation, int idIntervention, int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception
+  public void chooseEvacDestination(int idRegulation, int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception
   {
-    this.interventionService.chooseEvacDestination(idIntervention, idLieu, destinationLabel, position);
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
+    
+    for (InterventionTicket intervention : dispositif.getInterventions())
+      this.interventionService.chooseEvacDestination(intervention.getIdIntervention(), idLieu, destinationLabel, position);      
+
     this.dispositifService.updateDispositifPosition(idDispositif, position, dispositif.getCurrentPosition());
   }
   
-  public void endOfIntervention(int idRegulation, int idIntervention, int idDispositif) throws Exception
+  public void endOfIntervention(int idRegulation, int idDispositif) throws Exception
   {
     Date actionDate = new Date();                                      //8=arrivé hopital => 8+1=9 : inter terminée
-    this.interventionService.actionOnIntervention     (idIntervention, 8+1, actionDate);
+    
+    Dispositif dispositif =  this.dispositifService.getDispositif(idRegulation, idDispositif);
+    
+    for (InterventionTicket intervention : dispositif.getInterventions())
+      this.interventionService.actionOnIntervention     (intervention.getIdIntervention(), 8+1, actionDate);  
+    
     this.dispositifService  .actionOnDispositif       (idDispositif  , 8+1, actionDate);//Pour l'historisation du changement d'état
     this.dispositifService  .actionEndOfIntervention  (idDispositif                   );
   }
@@ -327,4 +340,58 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
         this.interventionService.updateInterventionDateField(intervention.getIdIntervention(), fieldName, fieldValue);
     }
   }
+  
+  public void cloneIntervention(int idRegulation, DataForCloneIntervention dataForCloneIntervention) throws Exception
+  {
+    int idClonedIntervention = this.interventionService.cloneIntervention(dataForCloneIntervention);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Attaching new intervention with id='"+idClonedIntervention+"' at dispositif id='"+dataForCloneIntervention.getIdDispositif()+"'");
+    
+    this.dispositifService.attachInterventionToDispositif(dataForCloneIntervention.getIdDispositif(), idClonedIntervention);
+    
+    Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, dataForCloneIntervention.getIdDispositif());
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
+        outPageName);
+  }
+  
+  
+  public void handlePrimaireAndSecondaireOnIntervention(int idDispositif, int idIntervention, boolean isPrimaire) throws Exception
+  {
+    int idNextEtat = isPrimaire?5:6;
+    
+    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    if(logger.isDebugEnabled())
+      logger.debug((isPrimaire?"Primaire":"Secondaire")+" passed for internvention id='"+idIntervention+"' of dispositif id='"+idDispositif+"'");
+    
+    //update inter status
+    this.interventionService.actionOnIntervention(idIntervention, idNextEtat, new Date());
+    
+    
+    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
+    //check if on inter exists with primaire(or secondaire) still to be passed
+    boolean interWithPrimaireToBePassedExist = false;
+    for (InterventionTicket intervention : dispositif.getInterventions())
+    {
+      if(intervention.getIdEtat() == (idNextEtat-1))//looking for intervention still at previous state
+      {
+        interWithPrimaireToBePassedExist = true;
+        break;
+      }
+    }
+    //if not, change the dispositif status.
+    if(!interWithPrimaireToBePassedExist)
+    {
+      if(logger.isDebugEnabled())
+        logger.debug("All "+(isPrimaire?"Primaire":"Secondaire")+" passed for dispositif id='"+idDispositif+"', changing idEtatDispositif to "+idNextEtat);
+      
+      this.dispositifService.actionOnDispositif(idDispositif, idNextEtat, new Date());
+      //update the dispositif
+      dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
+    }
+    
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
+        outPageName);
+  }
+  
 }

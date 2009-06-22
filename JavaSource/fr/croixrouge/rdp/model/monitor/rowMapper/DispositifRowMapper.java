@@ -70,7 +70,7 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper
     
     
     Equipier equipierCi = dispositif.getEquipierCi();
-    equipierCi.setIdEquipier(rs.getInt    ("equipier_1_id"            ));
+    equipierCi.setIdEquipier(rs.getInt    ("id_equipier_responsable"            ));
     
     dispositif.setEquipierCi                (equipierCi);
     dispositif.setIdDispositif              (rs.getInt    ("id_dispositif"            ));

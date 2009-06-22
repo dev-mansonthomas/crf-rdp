@@ -16,6 +16,12 @@ CREATE TABLE `equipier` (
   PRIMARY KEY (`id_equipier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
+CREATE TABLE `equipier_roles` (
+  `id_equipier`      int(10) unsigned NOT NULL,
+  `id_role_equipier` int(10) unsigned NOT NULL,
+  `en_evaluation`    boolean          NOT NULL,
+  PRIMARY KEY (`id_equipier`,`id_role_equipier`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 update membres
 set status = 'KO', comment='user disabled'
@@ -131,3 +137,60 @@ insert into equipier (`id_equipier_siord`,
        email
 from membres
 where status = 'OK';
+
+
+
+/*
+
+    53->AFCPSAM - PSE 1                         ok
+    33->AFPS                                    ok
+38->Aide Régulateur
+36->Assistant Formation
+1 ->Bénévole
+50->BNSSA
+41->Cadre Local
+39->CDO
+40->CDP
+    3 ->CFAPSE - PSE 2                          ok
+63->Chef d'Equipe Solidarité
+    54->Chef d'Inter CS                         ok
+    45->Chef d'Inter Réseau                     ok
+    2 ->Chef d'Intervention                     ok
+    61->Chef de dispositif                      ok
+    62->Chef de poste                           ok
+    60->Chef de section                         ok
+43->Communication
+    4 ->Conducteur ASM                          ok
+    19->Conducteur VL                           ok
+49->DDUS
+22->DLUS
+27->DLUS Adj ADM
+26->DLUS Adj AE
+23->DLUS Adj FOR
+25->DLUS Adj MOT
+24->DLUS Adj MS
+52->EDIR
+21->Elu
+64->ESE
+    35->Eval Chauffeur
+    34->Eval CI
+57->Formateur PSE
+66->Infirmier
+31->Initiateur
+55->Instructeur
+42->Jeunesse
+51->Logisticien Adm &amp; Tech
+32->MNPS
+56->MORAD
+37->Opérateur Radio
+59->Pilote cotier
+58->Pilote fluviale
+20->Président
+46->Régulateur
+29->Resp. DPS
+44->Resp. Groupement
+30->Resp. Local Action Sociale
+28->Resp. Routier
+   
+ * */
+

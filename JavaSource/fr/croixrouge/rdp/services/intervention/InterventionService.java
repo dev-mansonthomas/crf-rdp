@@ -6,6 +6,7 @@ import java.util.List;
 import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Position;
+import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 
 public interface InterventionService
@@ -35,4 +36,5 @@ public interface InterventionService
   public void updateInterventionBooleanField  (int idIntervention, String fieldName, boolean  fieldValue  ) throws Exception;
   
   public void chooseEvacDestination           (int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception;
+  public int  cloneIntervention               (DataForCloneIntervention dataForCloneIntervention) throws Exception;
 }

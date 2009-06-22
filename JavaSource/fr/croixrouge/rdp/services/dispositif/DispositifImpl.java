@@ -69,41 +69,113 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     return this.getLastInsertedId(jdbcTemplate, "dispositif");
   }
   
+
+  private final static String queryForAffectEquipierToDispositif = 
+    "INSERT INTO `dispositif_equipiers` (  \n"+  
+    "  `id_dispositif`    ,                \n"+  
+    "  `id_equipier`      ,                \n"+  
+    "  `id_role_equipier` ,                \n"+  
+    "  `en_evaluation`                     \n"+  
+    ")                                     \n"+  
+    "VALUES                                \n"+  
+    "(?, ?, ?, false)                      \n";  
+
+
+  private final static String queryForAffectEquipierToDispositif2 = 
+    "INSERT INTO `dispositif_equipiers_log` (  \n"+  
+    "  `id_dispositif`    ,                \n"+  
+    "  `id_equipier`      ,                \n"+  
+    "  `id_role_equipier` ,                \n"+    
+    "  `DH_debut`         ,                \n"+
+    "  `DH_fin`                            \n"+
+    ")                                     \n"+  
+    "VALUES                                \n"+  
+    "(?, ?, ?, NOW(), NULL)                \n";  
+  
+  public void affectEquipierToDispositif(int idDispositif, int idEquipier, int idRoleEquipier) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned a new equipier id='"+idEquipier+"' with role ='"+idRoleEquipier+"'");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForAffectEquipierToDispositif, 
+        new Object[]{idDispositif , idEquipier   , idRoleEquipier }, 
+        new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER  }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned a new equipier id='"+idEquipier+"' with role ='"+idRoleEquipier+"'(line inserted = '"+nbLineUpdated+"')");
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Inserting in logging table for : Dispositif with id='"+idDispositif+"' has been assigned a new equipier id='"+idEquipier+"' with role ='"+idRoleEquipier+"'");
+
+    
+    nbLineUpdated = this.jdbcTemplate.update( queryForAffectEquipierToDispositif2, 
+        new Object[]{idDispositif , idEquipier   , idRoleEquipier }, 
+        new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER  }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Inserting in logging table for : Dispositif with id='"+idDispositif+"' has been assigned a new equipier id='"+idEquipier+"' with role ='"+idRoleEquipier+"'(line inserted = '"+nbLineUpdated+"')");
+    
+  }
+  
+  
+  private final static String queryForUnAffectEquipierToDispositif = 
+    "DELETE `dispositif_equipiers` \n"+  
+    "WHERE  `id_dispositif` = ?    \n"+  
+    "AND    `id_equipier`   = ?    \n";  
+
+
+  private final static String queryForUnAffectEquipierToDispositif2 = 
+    "UPDATE `dispositif_equipiers_log` \n"+  
+    "SET    `DH_fin`        = NOW()    \n"+
+    "WHERE  `id_dispositif` = ?   ,    \n"+  
+    "AND    `id_equipier`   = ?   ,    \n"+  
+    "AND    `DH_fin`        IS NULL    \n";    
+  
+  public void unaffectEquipierToDispositif(int idDispositif, int idEquipier) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been unassigned an equipier id='"+idEquipier+"'");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectEquipierToDispositif, 
+        new Object[]{idDispositif , idEquipier   }, 
+        new int   []{Types.INTEGER, Types.INTEGER}
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been unassigned an equipier id='"+idEquipier+"' (line deleted = '"+nbLineUpdated+"')");
+    
+    if(logger.isDebugEnabled())
+      logger.debug("updating in logging table for : Dispositif with id='"+idDispositif+"' has been assigned a new equipier id='"+idEquipier+"' ");
+
+    
+    nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectEquipierToDispositif2, 
+        new Object[]{idDispositif , idEquipier    }, 
+        new int   []{Types.INTEGER, Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("updating in logging table for : Dispositif with id='"+idDispositif+"' has been assigned a new equipier id='"+idEquipier+"' with (line inserted = '"+nbLineUpdated+"')");
+  }
+  
+  
   private final static String queryForAffectInterventionToDispositif =
     "UPDATE dispositif                    \n" +
     "SET    id_etat_dispositif        = ?,\n" +
     "       DH_reception              = ? \n" +
     "WHERE  id_dispositif             = ? \n";
   
-  private final static String queryForAffectInterventionToDispositif2 =
-    "INSERT INTO dispositif_interventions \n" +
-    "(`id_dispositif`,`id_intervention`)  \n" +
-    "VALUES                               \n" +
-    "( ?, ?)\n" ;
-  
-
-
-  
   public void affectInterventionToDispositif  (int idDispositif, int idIntervention, Date dateAffectation) throws Exception
   {
+    //attache l'intervention au dispositif
+    this.attachInterventionToDispositif(idDispositif, idIntervention);
     
-    if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+"");
-
-    int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif2, 
-        new Object[]{idDispositif , idIntervention}, 
-        new int   []{Types.INTEGER, Types.INTEGER }
-      );
-    
-    if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+" (line updated = '"+nbLineUpdated+"')");
-
-    
-    
+    //met a jour status, date 
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has its status and DH_RECEPTION updated");
 
-    nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
+    int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
         new Object[]{STATUS_INTERVENTION_AFFECTEE, dateAffectation, idDispositif }, 
         new int   []{Types.INTEGER               , Types.TIMESTAMP, Types.INTEGER}
       );
@@ -112,6 +184,26 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       logger.debug("Dispositif with id='"+idDispositif+"' has its status and DH_RECEPTION updated (line updated = '"+nbLineUpdated+"')");
   }
   
+  private final static String queryForAttachInterventionToDispositif=
+    "INSERT INTO dispositif_interventions \n" +
+    "(`id_dispositif`,`id_intervention`)  \n" +
+    "VALUES                               \n" +
+    "( ?, ?)\n" ;
+  
+  public void attachInterventionToDispositif(int idDispositif, int idIntervention) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+"");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForAttachInterventionToDispositif, 
+        new Object[]{idDispositif , idIntervention}, 
+        new int   []{Types.INTEGER, Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has been assigned the intervention "+idIntervention+" (line updated = '"+nbLineUpdated+"')");
+
+  }
   
   private final static String queryForUnAffectInterventionToDispositif =
     "UPDATE dispositif                          \n" + 
@@ -214,7 +306,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private final static String queryForActionEndOfIntervention = 
     "UPDATE dispositif                            \n" +
     "SET    id_etat_dispositif             = -1,  \n" +
-    "       id_current_intervention        = 0,   \n" +
     "       `DH_reception`                 = NULL,\n" +
     "       `DH_depart`                    = NULL,\n" +
     "       `DH_sur_place`                 = NULL,\n" +
@@ -228,10 +319,14 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "       `DH_arrivee_renfort_medical`   = NULL \n" +
     "WHERE  id_dispositif                  = ? \n";
   
+  private final static String queryForActionEndOfIntervention2 = 
+    "DELETE FROM dispositif_interventions  \n" +
+    "WHERE       id_dispositif = ?";
+  
   public void actionEndOfIntervention(int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Etat, currentInterId and dates are beeing reseted");
+      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Etat and dates are beeing reseted");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForActionEndOfIntervention, 
         new Object[]{idDispositif  }, 
@@ -239,7 +334,20 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       );
     
     if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Etat, currentInterId and dates has been reseted (line updated = '"+nbLineUpdated+"')");
+      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Etat, and dates has been reseted (line updated = '"+nbLineUpdated+"')");
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Affected intervetion are beeing detached");
+
+    nbLineUpdated = this.jdbcTemplate.update( queryForActionEndOfIntervention2, 
+        new Object[]{idDispositif  }, 
+        new int   []{Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Dispositif with id='"+idDispositif+"' has ended its intervention. Affected intervetion has been detached (line updated = '"+nbLineUpdated+"')");
+    
+  
   }
   
   private final static String queryForUpdateDispositifCurrentPosition=
@@ -336,7 +444,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String dispositifSelectQuery = 
-    "SELECT  `id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`, `equipier_1_id` ,                                                               \n" +
+    "SELECT  `id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`, 0 as 'id_equipier_responsable',                                                  \n" +
     "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                                 \n" +
     "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                                 \n" +
     "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`,                                                               \n" +
@@ -402,7 +510,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
  
     if(withEquipierList)
-      dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(idRegulation, disposifitId));
+      dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(disposifitId));
     
     return dispositif;
   }
@@ -538,7 +646,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String queryDeleteDispositif = 
-    "DELETE dispositif        \n"+
+    "DELETE from dispositif        \n"+
     "WHERE  id_dispositif = ? ";  
   
   
@@ -770,17 +878,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
                                     "O2_B3_volume"             , 
                                     "O2_B4_volume"             , 
                                     "O2_B5_volume"             , 
-                                    "id_delegation_responsable", 
-                                    "equipier_1_id"            , 
-                                    "equipier_1_role"          , 
-                                    "equipier_2_id"            , 
-                                    "equipier_2_role"          , 
-                                    "equipier_3_id"            , 
-                                    "equipier_3_role"          , 
-                                    "equipier_4_id"            , 
-                                    "equipier_4_role"          , 
-                                    "equipier_5_id"            , 
-                                    "equipier_5_role"           
+                                    "id_delegation_responsable"
                                 };
   private static Hashtable<String, String> intFieldMatching = new Hashtable<String, String>(intField.length);
   {
@@ -793,16 +891,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     intFieldMatching.put("O2_B4_volume"             , "O2_B4_volume"              );
     intFieldMatching.put("O2_B5_volume"             , "O2_B5_volume"              );
     intFieldMatching.put("id_delegation_responsable", "id_delegation_responsable" );
-    intFieldMatching.put("equipier_1_id"            , "equipier_1_id"             );
-    intFieldMatching.put("equipier_1_role"          , "equipier_1_role"           );
-    intFieldMatching.put("equipier_2_id"            , "equipier_2_id"             );
-    intFieldMatching.put("equipier_2_role"          , "equipier_2_role"           );
-    intFieldMatching.put("equipier_3_id"            , "equipier_3_id"             );
-    intFieldMatching.put("equipier_3_role"          , "equipier_3_role"           );
-    intFieldMatching.put("equipier_4_id"            , "equipier_4_id"             );
-    intFieldMatching.put("equipier_4_role"          , "equipier_4_role"           );
-    intFieldMatching.put("equipier_5_id"            , "equipier_5_id"             );
-    intFieldMatching.put("equipier_5_role"          , "equipier_5_role"           );
   }
   public void updateDispositifIntegerField(int idDispositif, String fieldName, int fieldValue) throws Exception
   {

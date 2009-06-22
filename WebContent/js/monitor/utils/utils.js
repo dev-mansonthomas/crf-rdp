@@ -14,13 +14,13 @@ catch(e)
 {
 }
 
-function ParseDateException(input, expectedFormat, extraInformation) 
+function ParseDateException(method, input, expectedFormat, extraInformation) 
 {
   this.input = input;
   this.expectedFormat= expectedFormat;
   this.extraInformation = extraInformation;
   
-  this.message = "Bad dateTime format input : '"+this.input+"', expected format : '"+this.expectedFormat+"'" +(extraInformation == null ? "": extraInformation);
+  this.message = "JSError - "+method+" - Bad dateTime format input : '"+this.input+"', expected format : '"+this.expectedFormat+"'" +(extraInformation == null ? "": extraInformation);
   this.toString = function() 
   {
     return this.message;
@@ -206,12 +206,12 @@ CrfIrpUtils.prototype.getAllTypeLieuReturn=function(allTypeLieu)
 CrfIrpUtils.prototype.getTypeLieu=function(idTypeLieu)
 {
   if(CrfIrpUtils.prototype.allTypeLieu == null)
-    throw {message:'allTypeLieu not initialized'};
+    throw 'JSError - CrfIrpUtils.prototype.getTypeLieu - allTypeLieu not initialized';
   
   var typeLieu = CrfIrpUtils.prototype.allTypeLieu[idTypeLieu];
   
   if(typeLieu == null)
-    throw {message:'typeLieu with id '+idTypeLieu+' not found'};
+    throw 'JSError - CrfIrpUtils.prototype.getTypeLieu - typeLieu with id '+idTypeLieu+' not found';
     
   return typeLieu;
 };
@@ -379,7 +379,7 @@ CrfIrpUtils.prototype.getFullDate=function(dateObject)
     return 'N/A';
     
   if(!(dateObject instanceof Date))
-    throw dateObject+" n'est pas un objet";
+    throw 'JSError - CrfIrpUtils.prototype.getTypeLieu - '+dateObject+" n'est pas un objet";
     
   return this.padLeft(dateObject.getDate    ()  , 2, '0')+'/'+
          this.padLeft(dateObject.getMonth   ()+1, 2, '0')+'/'+
@@ -415,15 +415,15 @@ CrfIrpUtils.prototype.parseDateTime=function(dateTimeString)
   var dateTimeArray = dateTimeString.split(" ");
   
   if(dateTimeArray.length != 2)
-    throw new ParseDateException(dateTimeString, "dd/MM/yyyy HH:mm");
+    throw new ParseDateException('CrfIrpUtils.prototype.parseDateTime',dateTimeString, "dd/MM/yyyy HH:mm");
   
   var dateArray = dateTimeArray[0].split("/");
   if(dateArray.length != 3)  
-    throw new ParseDateException(dateTimeString, "dd/MM/yyyy HH:mm", ", Date part is invalid ('"+dateTimeArray[0]+"')");
+    throw new ParseDateException('CrfIrpUtils.prototype.parseDateTime',dateTimeString, "dd/MM/yyyy HH:mm", ", Date part is invalid ('"+dateTimeArray[0]+"')");
 
   var timeArray = dateTimeArray[1].split(":");
   if(timeArray.length != 2)  
-    throw new ParseDateException(dateTimeString, "dd/MM/yyyy HH:mm", ", Time part is invalid ('"+dateTimeArray[1]+"')");
+    throw new ParseDateException('CrfIrpUtils.prototype.parseDateTime',dateTimeString, "dd/MM/yyyy HH:mm", ", Time part is invalid ('"+dateTimeArray[1]+"')");
   
   var newDate = new Date();
 
@@ -439,7 +439,7 @@ CrfIrpUtils.prototype.parseDate=function(dateString)
 {
   var dateArray = dateString.split("/");
   if(dateArray.length != 3)  
-    throw new ParseDateException(dateTimeString, "dd/MM/yyyy");
+    throw new ParseDateException('CrfIrpUtils.prototype.parseDate',dateTimeString, "dd/MM/yyyy");
     
   var newDate = new Date();
   newDate.setFullYear (dateArray[2]  );

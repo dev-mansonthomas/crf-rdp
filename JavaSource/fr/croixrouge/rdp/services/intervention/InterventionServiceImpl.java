@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Position;
+import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionTicketRowMapper;
@@ -957,4 +958,116 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     if(logger.isDebugEnabled())
       logger.debug("Intervention with id='"+idIntervention+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
   }
+  
+  
+  private final static String queryForCloneIntervention = 
+    "INSERT INTO `intervention`          \n"+
+    "( `homme_victime`             ,     \n"+
+    "  `nom_victime`               ,     \n"+
+    "  `prenom_victime`            ,     \n"+
+    "  `age_approx_victime`        ,     \n"+
+    "  `id_dispositif`             ,     \n"+
+    "  `id_regulation`             ,     \n"+
+    "  `id_origine`                ,     \n"+
+    "  `id_motif`                  ,     \n"+
+    "  `id_etat`                   ,     \n"+
+    "  `id_motif_annulation`       ,     \n"+
+    "  `complement_motif`          ,     \n"+
+    "  `num_inter`                 ,     \n"+
+    "  `id_ref_num_inter`          ,     \n"+
+    "  `ref_num_inter`             ,     \n"+
+    "  `DH_saisie`                 ,     \n"+
+    "  `DH_reception`              ,     \n"+
+    "  `DH_depart`                 ,     \n"+
+    "  `DH_sur_place`              ,     \n"+
+    "  `DH_bilan_primaire`         ,     \n"+
+    "  `DH_bilan_secondaire`       ,     \n"+
+    "  `DH_quitte_les_lieux`       ,     \n"+
+    "  `DH_arrivee_hopital`        ,     \n"+
+    "  `DH_fin_intervention`       ,     \n"+
+    "  `DH_appel_renfort_medical`  ,     \n"+
+    "  `DH_arrivee_renfort_medical`,     \n"+
+    "  `nom_contact_sur_place`     ,     \n"+
+    "  `coordonnees_contact`       ,     \n"+
+    "  `batiment`                  ,     \n"+
+    "  `etage`                     ,     \n"+
+    "  `porte`                     ,     \n"+
+    "  `complement_adresse`        ,     \n"+
+    "  `rue`                       ,     \n"+
+    "  `code_postal`               ,     \n"+
+    "  `ville`                     ,     \n"+
+    "  `google_coords_lat`         ,     \n"+
+    "  `google_coords_long`        ,     \n"+
+    "  `police_sur_place`          ,     \n"+
+    "  `pompier_sur_place`)              \n"+
+    "select ?                          , \n"+
+    "       ?                          , \n"+
+    "       ?                          , \n"+
+    "       ?                          , \n"+
+    "      `id_dispositif`             , \n"+
+    "      `id_regulation`             , \n"+
+    "      `id_origine`                , \n"+
+    "      `id_motif`                  , \n"+
+    "      `id_etat`                   , \n"+
+    "      `id_motif_annulation`       , \n"+
+    "      `complement_motif`          , \n"+
+    "      ?                           , \n"+
+    "      `id_ref_num_inter`          , \n"+
+    "      `ref_num_inter`             , \n"+
+    "      `DH_saisie`                 , \n"+
+    "      `DH_reception`              , \n"+
+    "      `DH_depart`                 , \n"+
+    "      `DH_sur_place`              , \n"+
+    "      `DH_bilan_primaire`         , \n"+
+    "      `DH_bilan_secondaire`       , \n"+
+    "      `DH_quitte_les_lieux`       , \n"+
+    "      `DH_arrivee_hopital`        , \n"+
+    "      `DH_fin_intervention`       , \n"+
+    "      `DH_appel_renfort_medical`  , \n"+
+    "      `DH_arrivee_renfort_medical`, \n"+
+    "      `nom_contact_sur_place`     , \n"+
+    "      `coordonnees_contact`       , \n"+
+    "      `batiment`                  , \n"+
+    "      `etage`                     , \n"+
+    "      `porte`                     , \n"+
+    "      `complement_adresse`        , \n"+
+    "      `rue`                       , \n"+
+    "      `code_postal`               , \n"+
+    "      `ville`                     , \n"+
+    "      `google_coords_lat`         , \n"+
+    "      `google_coords_long`        , \n"+
+    "      `police_sur_place`          , \n"+
+    "      `pompier_sur_place`           \n"+
+    "FROM  `intervention`                \n"+
+    "WHERE `id_intervention` = ?         \n";
+  
+  
+  public int cloneIntervention(DataForCloneIntervention dataForCloneIntervention) throws Exception
+  {
+    Object [] os    = new Object[]{ dataForCloneIntervention.isHommeVictime (), 
+                                    dataForCloneIntervention.getNom         (),
+                                    dataForCloneIntervention.getPrenom      (),
+                                    dataForCloneIntervention.getAge         (),
+                                    ""                                        ,//Id métier intervention
+                                    dataForCloneIntervention.getIdInterventionOrigine()
+                                    };
+    int    [] types = new int   []{ Types.BOOLEAN, 
+                                    Types.VARCHAR,
+                                    Types.VARCHAR,
+                                    Types.INTEGER, 
+                                    Types.VARCHAR,
+                                    Types.INTEGER
+                                    };
+    
+    jdbcTemplate.update(queryForCloneIntervention, os, types);
+
+    int idIntervention = this.getLastInsertedId();
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+dataForCloneIntervention.getIdInterventionOrigine()+"' affected to dispositif id='"+dataForCloneIntervention.getIdDispositif()+"' " +
+      		"cloned :  new id='"+idIntervention+"'");
+    
+   return idIntervention;
+  }
+  
 }

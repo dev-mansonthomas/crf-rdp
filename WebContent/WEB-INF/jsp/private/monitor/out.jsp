@@ -100,7 +100,6 @@
 <div id="choose-hopital-window" style="display:none;">
   <div class="x-window-header">Choisissez un Hopital d'évacuation</div>
   <input id="choose-hopital-window-current-dispositif"   name="choose-hopital-window-current-dispositif"   type="hidden"/>
-  <input id="choose-hopital-window-current-intervention" name="choose-hopital-window-current-intervention" type="hidden"/>
   <div id="choose-hopital-window-content">
     <div class="x-tab" id="choose-hopital-window-content-list"  title="Hopitaux">
     </div>
@@ -176,7 +175,7 @@ Ville
       
       
  Nom :
-                <input style="width:33%;"
+                <input style="width:40%;"
                         type="text"
                           id="cloneInterventionNomVictime"
                         name="cloneInterventionNomVictime"
@@ -185,7 +184,7 @@ Ville
                       onBlur="moDispositifCs.updateNomPrenomRadio();"/>
                       
  Prénom :
-                <input style="width:33%;"
+                <input style="width:40%;"
                         type="text"
                           id="cloneInterventionPrenomVictime"
                         name="cloneInterventionPrenomVictime"
@@ -194,7 +193,7 @@ Ville
                       onBlur="moDispositifCs.updateNomPrenomRadio();"/>                      
 <br/>
 Radio :
-                <input style="width:90%;"
+                <input style="width:96%;"
                         type="text"
                           id="cloneInterventionNomPrenomRadio"
                         name="cloneInterventionNomPrenomRadio"

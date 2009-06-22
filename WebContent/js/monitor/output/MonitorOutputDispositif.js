@@ -402,10 +402,8 @@ MonitorOutputDispositifCs.prototype.initCloneInterventionWindow=function()
       applyTo     : 'clone-intevention-window',
       contentEl   : 'clone-intevention-window-content',
       layout      : 'fit'             ,
-      width       : 500               ,
-      height      : 500               ,
-      x           : 0                 ,
-      y           : 35                ,
+      width       : 800               ,
+      height      : 170               ,
       closeAction : 'hide'            ,
       plain       : true              ,
       buttons: [{
@@ -416,7 +414,7 @@ MonitorOutputDispositifCs.prototype.initCloneInterventionWindow=function()
                 },{
                     text: 'Dupliquer l\'intervention',
                     handler: function(){
-                        moDispositifCs.cloneIntervention();
+                        moDispositifCs.doCloneIntervention();
                     }
                 }]
     });
@@ -793,10 +791,47 @@ MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention, on
  * */
 MonitorOutputDispositifCs.prototype.cloneIntervention=function(idDispositif, idIntervention)
 {
+  Ext.get('cloneInterventionNomVictime'       ).dom.value  = '';
+  Ext.get('cloneInterventionPrenomVictime'    ).dom.value  = '';
+  Ext.get('cloneInterventionNomPrenomRadio'   ).dom.value  = '';
+  Ext.get('cloneInterventionSexeVictimeFemme' ).dom.checked= false;
+  Ext.get('cloneInterventionSexeVictimeHomme' ).dom.checked= false;
+  Ext.get('cloneInterventionAgeVictime'       ).dom.value  = '';
+  
   MonitorOutputDispositifCs.prototype.cloneInterventionWindow.idDispositif   = idDispositif  ;
   MonitorOutputDispositifCs.prototype.cloneInterventionWindow.idIntervention = idIntervention;
   MonitorOutputDispositifCs.prototype.cloneInterventionWindow.show('DispositifInterDetail_CloneInterButton-'+idDispositif+'-'+idIntervention);
 };
+
+MonitorOutputDispositifCs.prototype.doCloneIntervention=function()
+{
+  if(Ext.get('cloneInterventionNomVictime'   ).getValue().trim() == '' ||
+     Ext.get('cloneInterventionPrenomVictime').getValue().trim() == '' ||
+     !Ext.get('cloneInterventionSexeVictimeFemme').dom.checked && !Ext.get('cloneInterventionSexeVictimeHomme').dom.checked ||
+     Ext.get('cloneInterventionAgeVictime').getValue().trim() == '' ||
+     isNaN(Ext.get('cloneInterventionAgeVictime').getValue().trim()))
+  {
+    Ext.Msg.alert('Champ manquant', 'Veuillez saisir tous les champs');
+    return;
+  }
+  
+ 
+  MonitorOutputDispositif.cloneIntervention({
+    idDispositif          : MonitorOutputDispositifCs.prototype.cloneInterventionWindow.idDispositif,
+    idInterventionOrigine : MonitorOutputDispositifCs.prototype.cloneInterventionWindow.idIntervention,
+    nom                   : Ext.get('cloneInterventionNomVictime'   ).getValue().trim(),
+    prenom                : Ext.get('cloneInterventionPrenomVictime').getValue().trim(),
+    hommeVictime          : Ext.get('cloneInterventionSexeVictimeHomme').dom.checked, 
+    age                   : Ext.get('cloneInterventionAgeVictime').getValue().trim()
+  },
+  MonitorOutputDispositifCs.prototype.doCloneInterventionReturn);
+};
+
+MonitorOutputDispositifCs.prototype.doCloneInterventionReturn=function()
+{
+  MonitorOutputDispositifCs.prototype.cloneInterventionWindow.hide();
+};
+
 
 /**
  * 
@@ -810,32 +845,50 @@ MonitorOutputDispositifCs.prototype.action          =function(buttonId)
   var dispositifRecord  = dispositifGrid.getStore().getById(recordId);
   var interventions     = dispositifRecord.json.interventions;
   var interventionsCount= interventions.length;
-  
-  //TODO si une seule interventions, on garde le fonctionnement actuel
-  //TODO Sinon a réfléchir (le bouton déclenche le meme comportement sur la première intervention, puis un status sur les interventions supplémentaires, on ne peut pas changer de status sur le dispositif si toutes les interventions ne sont pas au meme status)
+  var currentState      = dispositifRecord.json.idEtatDispositif;
+  var idDispositif      = dispositifRecord.json.idDispositif;
+
   var sendActionToServerNow = true;
   if     (currentState == 4)//Etat : Sur Place, doit afficher le formulaire de primaire
   {
     if(interventionsCount == 1)
-      MonitorOutputDispositifCs.prototype.editIntervention(idIntervention);
+      MonitorOutputDispositifCs.prototype.editIntervention(interventions[0].idIntervention);
     else
-    {
+    {//on va faire saisir les bilans les uns à la suite des autres. Une fois que tout les bilans sont passé, on change le status du dispositif
+    
+      var inter = this.findInterWithEtat(interventions, 4);
       
+      if(inter == null)
+      {// toutes les inters ont leur primaire de passé, on change le status du dispositif
+        throw "JSError - MonitorOutputDispositifCs.prototype.action -, this state should not be possible (bug...)";
+      }
+      sendActionToServerNow = false;
+      MonitorOutputDispositif.primaireOnOneIntervention(idDispositif, inter.idIntervention);
+      MonitorOutputDispositifCs.prototype.editIntervention(inter.idIntervention);
     }
   }
   else if(currentState == 5)//Etat : Primaire, doit afficher le formulaire de primaire
   {
     if(interventionsCount == 1)
-      MonitorOutputDispositifCs.prototype.editIntervention(idIntervention, 'BilanSecouristInitial');
+      MonitorOutputDispositifCs.prototype.editIntervention(interventions[0].idIntervention, 'BilanSecouristInitial');
     else
     {
+      var inter = this.findInterWithEtat(interventions, 5);
       
+      if(inter == null)
+      {// toutes les inters ont leur secondaire de passé, on change le status du dispositif
+        throw "JSError - MonitorOutputDispositifCs.prototype.action - this state should not be possible (bug...)";
+      }
+
+      sendActionToServerNow = false;
+      MonitorOutputDispositif.secondaireOnOneIntervention (idDispositif, inter.idIntervention);
+      MonitorOutputDispositifCs.prototype.editIntervention(inter.idIntervention, 'BilanSecouristInitial');
     }
   }
   else if(currentState == 6)//Etat : Secondaire Passé, quand on appuie sur le bouton action, on doit choisir l'hopital destination
   {
     $('choose-hopital-window-current-dispositif'  ).value=idDispositif;
-    $('choose-hopital-window-current-intervention').value=interventions[0].idIntervention;//TODO supprimer cette donnée, inutile toutes les victimes evacué sur le meme hopital
+//    $('choose-hopital-window-current-intervention').value=interventions[0].idIntervention;//TODO supprimer cette donnée, inutile toutes les victimes evacué sur le meme hopital
     /* affiche juste la liste des hopitaux
      * Sur la séléciton d'un hopital, on met a jour inter et dispositif avec l'hopital choisi et l'adresse destination, puis on passe l'action
      */
@@ -855,21 +908,25 @@ MonitorOutputDispositifCs.prototype.action          =function(buttonId)
     arg :{idDispositif    : idDispositif }
   };
   
-  if(sendActionToServerNow == true && currentState != 8 && idIntervention != 0)
+  if(sendActionToServerNow == true)//on n'envoie pas dans les cas suivant:  choix de l'hopital, et si plus d'une intervention lors du primaire et secondaire
   {
-    MonitorOutputDispositif.actionOnDispositif(idIntervention, idDispositif, callMetaData);
-  }
-  else if(currentState == 8)
-  {
-    MonitorOutputDispositif.endOfIntervention(idIntervention, idDispositif, callMetaData);
-  }
-  else if(currentState <= 0)
-  {
-    MonitorOutputDispositif.actionOnDispositif(idIntervention, idDispositif, callMetaData);
-  }
-  else if(idIntervention == 0)
-  {
-    //TODO : présenter liste d'option possible
+    if(currentState != 8 && interventions.length != 0)
+    {
+      MonitorOutputDispositif.actionOnDispositif(idDispositif, callMetaData);
+    }
+    else if(currentState == 8)
+    {
+      MonitorOutputDispositif.endOfIntervention (idDispositif, callMetaData);
+    }
+    else if(currentState <= 0)
+    {
+      MonitorOutputDispositif.actionOnDispositif(idDispositif, callMetaData);
+    }
+    else if(interventions.length == 0)
+    {
+      alert('TODO : presenter le liste des options possible');
+      //TODO : présenter liste d'option possible
+    }
   }
 };
 
@@ -877,6 +934,26 @@ MonitorOutputDispositifCs.prototype.actionReturn     =function(newIdEtatDisposit
 {
   //alert('New Etat ' + newIdEtatDispositif + ' for dispositif : '+metaData.idDispositif+' intervention : '+metaData.idIntervention);
 };
+
+MonitorOutputDispositifCs.prototype.findInterWithEtat=function(interventions, idEtat)
+{
+
+// recherche de l'inter
+  var interventionsCount = interventions.length;
+  var i = 0;
+  var interFound = null;
+  for(i=0;i<interventionsCount;i++)
+  {
+    
+    if(interventions[i].idEtat == idEtat)//on a pas encore passé le bilan sur cette inter
+    {
+      interFound = interventions[i];
+      break;
+    }
+  }
+  return interFound;
+};
+
 
 MonitorOutputDispositifCs.prototype.chooseEvacDestinationButton=function()
 {
@@ -913,15 +990,12 @@ MonitorOutputDispositifCs.prototype.chooseEvacDestination=function(idLieu, label
                     googleCoordsLong:googleCoordsLong};
   
   var idDispositif   = $('choose-hopital-window-current-dispositif'  ).value;                    
-  var idIntervention = $('choose-hopital-window-current-intervention').value;
   
   var callMetaData = {
       callback:MonitorOutputDispositifCs.prototype.actionReturn,
-      arg :{idIntervention  : idIntervention,
-            idDispositif    : idDispositif   
-           }
+      arg :{idDispositif    : idDispositif}
     };
-  MonitorOutputDispositif.chooseEvacDestination(idDispositif, idIntervention, idLieu, label, position, callMetaData);
+  MonitorOutputDispositif.chooseEvacDestination(idDispositif, idLieu, label, position, callMetaData);
   MonitorOutputDispositifCs.prototype.chooseHopitalWindow.hide('DispositifActionButton_'+idDispositif);
 };
 
@@ -1135,6 +1209,19 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
   for(i=0;i<count;i++)
   {
     var intervention       = interventions[i];
+    var etat = '';
+    
+    if(intervention.idEtat==4 || intervention.idEtat==5)
+    {
+      etat = '<div>';
+      if(intervention.idEtat==4)
+        etat += 'Primaire à Passer';
+      else if(intervention.idEtat==5)
+        etat += 'Secondaire à Passer';
+      etat += '</div>';    
+    }
+  
+    
     var detailIntervention = [
       '<div class="DispositifInterDetail" id="DispositifInterDetail_',
       dispositif.idDispositif, 
@@ -1162,6 +1249,7 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
       '</span></div>',
       '<input type="button" value="Editer"    onClick="moDispositifCs.editIntervention (',intervention.idIntervention,');" style="width:85px;height:24px;"/>',
       '<input id="DispositifInterDetail_CloneInterButton-', dispositif.idDispositif,'-',intervention.idIntervention,'" type="button" value="Dupliquer" onClick="moDispositifCs.cloneIntervention(',dispositif.idDispositif,',', intervention.idIntervention,');" style="width:85px;height:24px;"/>',
+      etat,
       '</div>'
       ].join('');
     html.push(detailIntervention);

@@ -37,11 +37,11 @@ public class MonitorInputDispositifImpl extends DWRUtils
     this.equipierService                = equipierService  ;
     this.dispositifInterventionDelegate = dispositifInterventionDelegate;
 
-    bsppSamuEquiperMap.put("1", new int[] { 1 });
-    bsppSamuEquiperMap.put("2", new int[] { 3 });
-    bsppSamuEquiperMap.put("3", new int[] { 4, 2 });
-    bsppSamuEquiperMap.put("4", new int[] { 4 });
-    bsppSamuEquiperMap.put("5", new int[] { 4, 5 });
+    bsppSamuEquiperMap.put("1", new int[] { 4 });
+    bsppSamuEquiperMap.put("2", new int[] { 7 });
+    bsppSamuEquiperMap.put("3", new int[] { 9, 4 });
+    bsppSamuEquiperMap.put("4", new int[] { 9 });
+    bsppSamuEquiperMap.put("5", new int[] { 9, 10, 11 });
     
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -143,26 +143,24 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return this.dispositifService.getActiveDispositif(currentUserRegulationId, index, limit);
   }
   
-  public List<Equipier> addEquipierToDispositif(int idDispositif, int equipierRank, int equipierRole, int equipierId) throws Exception
+  public List<Equipier> addEquipierToDispositif(int idDispositif, int equipierRank, int idRoleEquipier, int idEquipier) throws Exception
   {
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    this.validateSession();
     
-    this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_id"  , equipierId  );
-    this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_role", equipierRole);
-    this.equipierService.setDispositifToEquipier        (equipierId  , idDispositif                    , equipierRole);
+    this.dispositifService.affectEquipierToDispositif(idDispositif, idEquipier  , idRoleEquipier);
+    this.equipierService  .setDispositifToEquipier     (idEquipier  , idDispositif                );
     
-    return this.equipierService.getEquipiersForDispositif(currentUserRegulationId, idDispositif);
+    return this.equipierService.getEquipiersForDispositif(idDispositif);
   }
   
-  public List<Equipier> removeEquipierFromDispositif(int idDispositif, int equipierRank, int equipierId) throws Exception
+  public List<Equipier> removeEquipierFromDispositif(int idDispositif, int equipierRank, int idEquipier) throws Exception
   {
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    this.validateSession();
     
-    this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_id"  , 0);
-    this.dispositifService.updateDispositifIntegerField (idDispositif, "equipier_"+equipierRank+"_role", 0);
-    this.equipierService  .setDispositifToEquipier      (equipierId  , 0, 0);
+    this.dispositifService.unaffectEquipierToDispositif(idDispositif, idEquipier);
+    this.equipierService  .setDispositifToEquipier     (idEquipier  , 0);
     
-    return this.equipierService.getEquipiersForDispositif(currentUserRegulationId, idDispositif);
+    return this.equipierService.getEquipiersForDispositif(idDispositif);
   }
   
   public boolean updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception

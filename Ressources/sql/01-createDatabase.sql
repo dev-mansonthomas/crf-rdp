@@ -157,16 +157,7 @@ CREATE TABLE `dispositif` (
   `id_current_intervention` int(10) unsigned NULL DEFAULT 0,
   
   `display_state` int(3) unsigned NOT NULL,
-  `equipier_1_id`   int(10) unsigned NULL DEFAULT 0,
-  `equipier_2_id`   int(10) unsigned NULL DEFAULT 0,
-  `equipier_3_id`   int(10) unsigned NULL DEFAULT 0,
-  `equipier_4_id`   int(10) unsigned NULL DEFAULT 0,
-  `equipier_5_id`   int(10) unsigned NULL DEFAULT 0,
-  `equipier_1_role` int(10) unsigned NULL DEFAULT 0,
-  `equipier_2_role` int(10) unsigned NULL DEFAULT 0,
-  `equipier_3_role` int(10) unsigned NULL DEFAULT 0,
-  `equipier_4_role` int(10) unsigned NULL DEFAULT 0,
-  `equipier_5_role` int(10) unsigned NULL DEFAULT 0,
+  
 
   `current_addresse_rue`         varchar(60) NULL,
   `current_addresse_code_postal` varchar(5 ) NULL,
@@ -194,43 +185,81 @@ CREATE TABLE `dispositif` (
   `DH_arrivee_renfort_medical`   datetime NULL,
 
   PRIMARY KEY  (`id_dispositif`),
-  KEY      `FK_dispositif_type`             (`id_type_dispositif`),
-  KEY      `FK_dispositif_etat`             (`id_etat_dispositif`),
-  KEY      `FK_dispositif_regulation`       (`id_regulation`   ),
-  KEY      `FK_dispositif_delegation`       (`id_delegation_responsable`),
+  KEY        `FK_dispositif_type`             (`id_type_dispositif`),
+  KEY        `FK_dispositif_etat`             (`id_etat_dispositif`),
+  KEY        `FK_dispositif_regulation`       (`id_regulation`   ),
+  KEY        `FK_dispositif_delegation`       (`id_delegation_responsable`),
   CONSTRAINT `FK_dispositif_type`       FOREIGN KEY (`id_type_dispositif`       ) REFERENCES `dispositif_type`   (`id_type`      ),
   CONSTRAINT `FK_dispositif_etat`       FOREIGN KEY (`id_etat_dispositif`       ) REFERENCES `dispositif_etat`   (`id_etat`      ),
   CONSTRAINT `FK_dispositif_regulation` FOREIGN KEY (`id_regulation`            ) REFERENCES `regulation`        (`id_regulation`),
   CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`        (`id_delegation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
+
 DROP TABLE IF EXISTS `crfrdp`.`equipier`;
 CREATE TABLE `equipier` (
-  `id_equipier`       int(10) unsigned NOT NULL auto_increment,
-  `id_dispositif`       int(10) unsigned NULL DEFAULT 0,
-  `id_role_dans_dispositif` int(10) unsigned NULL DEFAULT 0,
-  `num_nivol` varchar(16) NOT NULL,
-  `equipier_is_male` boolean NOT NULL,
-  `nom` varchar(45) NOT NULL,
-  `prenom` varchar(45) NOT NULL, 
-  `mobile` varchar(15) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `DH_debut` datetime NOT NULL,
-  `DH_fin` datetime NOT NULL,
-  `id_delegation` int(10) unsigned NOT NULL,
-  `autre_delegation` varchar(45) NOT NULL,
-  `id_role_equipier1`  int(10) unsigned NOT NULL,
-  `id_role_equipier2`  int(10) unsigned NOT NULL,
+  `id_equipier`             int     (10) unsigned   NOT NULL auto_increment,
+  `id_dispositif`           int     (10) unsigned       NULL DEFAULT 0,
+  `num_nivol`               varchar (16)            NOT NULL,
+  `equipier_is_male`        boolean                 NOT NULL,
+  `enabled`                 boolean                 NOT NULL,
+  `nom`                     varchar (45)            NOT NULL,
+  `prenom`                  varchar (45)            NOT NULL, 
+  `mobile`                  varchar (15)            NOT NULL,
+  `email`                   varchar (255)           NOT NULL,
+  `id_delegation`           int     (10) unsigned   NOT NULL,
+  `autre_delegation`        varchar (45)            NOT NULL,
   PRIMARY KEY  (`id_equipier`),
-  KEY `FK_equipier_role1`      (`id_role_equipier1`),
-  KEY `FK_equipier_role2`      (`id_role_equipier2`),
   KEY `FK_equipier_delegation` (`id_delegation`    ),
-  CONSTRAINT `FK_equipier_delegation` FOREIGN KEY (`id_delegation`     ) REFERENCES `delegation`    (`id_delegation`),
-  CONSTRAINT `FK_equipier_role1`      FOREIGN KEY (`id_role_equipier1` ) REFERENCES `equipier_role` (`id_role`      ),
-  CONSTRAINT `FK_equipier_role2`      FOREIGN KEY (`id_role_equipier2` ) REFERENCES `equipier_role` (`id_role`      )
+  CONSTRAINT `FK_equipier_delegation` FOREIGN KEY (`id_delegation`     ) REFERENCES `delegation`    (`id_delegation`)
+)  ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+  
+  
+DROP TABLE IF EXISTS `crfrdp`.`dispositif_equipiers`;
+CREATE TABLE `dispositif_equipiers` (
+  `id_dispositif`    int(10) unsigned NOT NULL,
+  `id_equipier`      int(10) unsigned NOT NULL,
+  `id_role_equipier` int(10) unsigned NOT NULL,
+  `en_evaluation`    boolean          NOT NULL,
+  PRIMARY KEY (`id_dispositif`,`id_equipier`),
+  KEY `FK_dispositif_equipiers-dispositif`    (`id_dispositif`      ),
+  KEY `FK_dispositif_equipiers-equipier`      (`id_equipier`        ),
+  KEY `FK_dispositif_equipiers-equipier_role` (`id_role_equipier`   ),
+  CONSTRAINT `FK_dispositif_equipiers-dispositif`    FOREIGN KEY (`id_dispositif`    ) REFERENCES `dispositif`    (`id_dispositif`),
+  CONSTRAINT `FK_dispositif_equipiers-equipier`      FOREIGN KEY (`id_equipier`      ) REFERENCES `equipier`      (`id_equipier`  ),
+  CONSTRAINT `FK_dispositif_equipiers-equipier_role` FOREIGN KEY (`id_role_equipier` ) REFERENCES `equipier_role` (`id_role`      )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
+DROP TABLE IF EXISTS `crfrdp`.`dispositif_equipiers_log`;
+CREATE TABLE `dispositif_equipiers_log` (
+  `id_dispositif_equipiers_log` int(10) unsigned NOT NULL auto_increment,
+  `id_dispositif`               int(10) unsigned NOT NULL,
+  `id_equipier`                 int(10) unsigned NOT NULL,
+  `id_role_equipier`            int(10) unsigned NOT NULL,
+  `DH_debut`                    datetime         NOT NULL,
+  `DH_fin`                      datetime             NULL,
+  PRIMARY KEY (`id_dispositif_equipiers_log`),
+  KEY `FK_dispositif_equipiers_log-dispositif`    (`id_dispositif`      ),
+  KEY `FK_dispositif_equipiers_log-equipier`      (`id_equipier`        ),
+  KEY `FK_dispositif_equipiers_log-equipier_role` (`id_role_equipier`   ),
+  CONSTRAINT `FK_dispositif_equipiers_log-dispositif`    FOREIGN KEY (`id_dispositif`    ) REFERENCES `dispositif`    (`id_dispositif`),
+  CONSTRAINT `FK_dispositif_equipiers_log-equipier`      FOREIGN KEY (`id_equipier`      ) REFERENCES `equipier`      (`id_equipier`  ),
+  CONSTRAINT `FK_dispositif_equipiers_log-equipier_role` FOREIGN KEY (`id_role_equipier` ) REFERENCES `equipier_role` (`id_role`      )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+DROP TABLE IF EXISTS `crfrdp`.`equipier_roles`;
+CREATE TABLE `equipier_roles` (
+  `id_equipier`      int(10) unsigned NOT NULL,
+  `id_role_equipier` int(10) unsigned NOT NULL,
+  `en_evaluation`    boolean          NOT NULL,
+  PRIMARY KEY (`id_equipier`,`id_role_equipier`),
+  KEY `FK_equipier_roles-equipier`      (`id_equipier`        ),
+  KEY `FK_equipier_roles-equipier_role` (`id_role_equipier`   ),
+  CONSTRAINT `FK_equipier_roles-equipier`      FOREIGN KEY (`id_equipier`      ) REFERENCES `equipier`      (`id_equipier`  ),
+  CONSTRAINT `FK_equipier_roles-equipier_role` FOREIGN KEY (`id_role_equipier` ) REFERENCES `equipier_role` (`id_role`      )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
 DROP TABLE IF EXISTS `crfrdp`.`intervention_origine`;

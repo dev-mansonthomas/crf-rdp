@@ -1,12 +1,15 @@
 package fr.croixrouge.rdp.services.equipier;
 
 import java.sql.Types;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
+import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
+import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import fr.croixrouge.rdp.model.monitor.rowMapper.EquipierRowMapper;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 
@@ -14,10 +17,18 @@ public class EquipierServiceImpl implements EquipierService
 {
   private JdbcTemplate      jdbcTemplate;
   private static Logger     logger = Logger.getLogger(EquipierServiceImpl.class);
+  private Hashtable<String, String> sortMap = new Hashtable<String, String>();
   
   public EquipierServiceImpl(JdbcTemplate jdbcTemplate, DispositifService dispositifService)
   {
     this.jdbcTemplate      = jdbcTemplate;
+    
+    sortMap.put("nom"                       , "nom");
+    sortMap.put("prenom"                    , "prenom");
+    sortMap.put("homme"                     , "equipier_is_male");
+    sortMap.put("delegation.idDelegation"   , "nom_delegation");
+    sortMap.put("numNivol"                  , "num_nivol");
+    
 
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -103,7 +114,50 @@ public class EquipierServiceImpl implements EquipierService
     return equipier;
   }
   
-
+  
+  private final static String queryForGetNbEquipiers = 
+	  "SELECT count(1) FROM equipier e, delegation d WHERE e.id_delegation = d.id_delegation"; 
+	  
+  public int getNbEquipiers(GridSearchFilterAndSortObject gsfaso)
+  {
+    return (int)jdbcTemplate.queryForLong(queryForGetNbEquipiers);
+  }
+  
+  private final static String queryForGetEquipiers = 
+	  selectForEquipier+
+	  "WHERE  e.id_delegation      = d.id_delegation   \n"; 
+	  
+  @SuppressWarnings("unchecked")  
+  public List<Equipier> getEquipiers(GridSearchFilterAndSortObject gsfaso)
+  {
+	String queryForGetEquipiersCustom = queryForGetEquipiers;
+	String orders = "ORDER BY ";
+	
+	if (gsfaso.getSorts()!= null && gsfaso.getSorts().length>0){
+		for (int i = 0; i < gsfaso.getSorts().length; i++) {
+			SortObject so = gsfaso.getSorts()[i];
+			orders += sortMap.get(so.getName()) + (so.isAscending()?" ASC":" DESC");
+			if(i<gsfaso.getSorts().length-1){
+				orders += ", ";
+			}
+		}
+	}
+	
+	queryForGetEquipiersCustom += orders + "\n";
+	queryForGetEquipiersCustom += "LIMIT "+gsfaso.getStart()+", "+gsfaso.getLimit()+" \n";
+	
+	System.out.println("queryForGetEquipiersCustom="+queryForGetEquipiersCustom);
+	
+    Object [] os    = {};
+    int    [] types = {};
+   
+    List<Equipier> equipierList = jdbcTemplate.query( queryForGetEquipiersCustom , 
+                                                      os    , 
+                                                      types , 
+                                                      new EquipierRowMapper());
+    return equipierList;
+  }
+  
   
   private final static String queryForGetEquipiersByNivol = 
     selectForEquipier+

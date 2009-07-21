@@ -5,6 +5,7 @@ Ext.ux.Home.EquipierEditor = function() {
     // do NOT access DOM from here; elements don't exist yet
 
     // private variables
+    var grid1 = null;
   
     // private functions
     
@@ -15,91 +16,93 @@ Ext.ux.Home.EquipierEditor = function() {
       // public methods
       init: function() {
     	  this.initEquipierGrid();
-        
+    	  PageBus.subscribe("list.loaded", this, this.loadEquipiers, null, null);
+    	  crfIrpUtils.getAllList();
       },
       
       initEquipierGrid:function()
       {
     	  var xg = Ext.grid;
     	  
+    	  var myPageSize = 10;
+    	  
     	  var dataStore = new Ext.data.Store({
     	           proxy: new Ext.ux.rs.data.DwrProxy({
-    	               call          : Homepage.getRegulationList,
+    	               call          : Homepage.getEquipierList,
     	               args          : [],
     	               proxyConfig   : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
-                     filterCallBack: function(){return [new Ext.ux.rs.data.FilterObject('age','18','>=')];}
-    	               }),
-             remoteSort: true,
+                       filterCallBack: function(){return [];}
+    	           }),
     	           reader: new Ext.ux.rs.data.JsonReader({
-    	                 	root: 'data',
-    	         totalProperty: 'totalCount',
-    	                fields:
-    	                   [
-    	                       {name: 'regulationId'   , type: 'int'    },
-    	                       {name: 'label'          , type: 'string' },
-    	                       {name: 'startDate'      , type: 'date'   },
-    	                       {name: 'expectedEndDate', type: 'date'   },
-    	                       {name: 'regulateur.nom' , type: 'string' },
-    	                       {name: 'comment'        , type: 'string' }
-    	                   ]
-    	               })
-    	           });
+    	                root: 'data',
+    	                totalProperty: 'totalCount',
+    	                fields:[
+    	                     {name: 'nom'                     , type: 'string'  },
+    	                     {name: 'prenom'                  , type: 'string'  },
+    	                     {name: 'homme'                   , type: 'boolean' },
+    	                     {name: 'delegation.idDelegation' , type: 'string'  },
+    	                     {name: 'numNivol'                , type: 'string'  }
+    	                ]
+    	           }),
+    	           remoteSort: true
+    	  });
+    	  
+    	  dataStore.setDefaultSort('prenom', 'asc');
     	           
-    	      // row expander
-    	  var expander = new xg.RowExpander({
-    	        tpl : new Ext.Template(
-    	            '<p><b>id:</b> {regulationId}<br>',
-    	            '<p><b>comments:</b> {comment}</p>'
-    	        )
-    	    });
-
-    	  var grid1 = new xg.GridPanel({
-    	        id:'home-list-regulation-grid-test',
+    	  grid1 = new xg.GridPanel({
+    	        id:'home-list-equipier-grid-test',
     	        store: dataStore,
-    	        listeners :{ rowdblclick : function(theGrid, rowIndex, e ){
-    	            openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId);
-    	        }},
     	        cm: new xg.ColumnModel([
-    	            expander,
-    	            {id:'labelCol'            , header: "Intitulé"      , width: 150, sortable: true, dataIndex: 'label'},
-    	            {id:'startDateCol'        , header: "Date de Début" , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'},
-    	            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
-    	            {id:'nomCol'              , header: "Régulateur"    , width: 150, sortable: true, dataIndex: 'regulateur.nom'}
+    	            {id:'nomCol'              , header: 'Nom'        , width: 140, sortable: true, dataIndex: 'nom'},
+    	            {id:'prenomCol'           , header: 'Prénom'     , width: 140, sortable: true, dataIndex: 'prenom'},
+    	            {id:'sexeCol'             , header: 'Sexe'       , width: 70 , sortable: true, dataIndex: 'homme', align:'center', 
+    	            	renderer:function(isHomme){
+    	            		var image = '<img style="vertical-align:bottom;" src="../img/famfamfam/user.png" alt="H" />';
+    	            		if(!isHomme) {
+    	            			image = '<img style="vertical-align:bottom;" src="../img/famfamfam/user_female.png" alt="F" />';
+    	            		}
+    	            		return image;
+    	            	},
+    	            },
+    	            {id:'delegationCol'       , header: 'Délégation' , width: 120, sortable: true, dataIndex: 'delegation.idDelegation', 
+    	                renderer:function(idDelegation){
+    	            		return crfIrpUtils.getLabelFor('Delegations',idDelegation);
+    	            	}
+    	            },
+    	            {id:'numNivolCol'         , header: 'Nivol'      , width: 80, sortable: true, dataIndex: 'numNivol'}
     	        ]),
     	        viewConfig: {
     	            forceFit:false
     	        },
     	        
     	        tbar:[{
-    	            text:'Ajouter une régulation',
-    	            tooltip:'Déclarer une nouvelle régulation',
+    	            text:'Ajouter un équipier',
+    	            tooltip:'Ajouter un équipier',
     	            iconCls:'addButton',
     	            handler:function(){alert('click')}
     	        }],
     	        
-    	        width: 600,
-    	        height: 300,
-    	        plugins: expander,
-    	        collapsible: false,
-    	        animCollapse: false,
-    	        title: 'Liste des Régulations',
+    	        width: 554,
+    	        height: 270,
+    	        title: 'Liste des équipiers',
+    	        stripeRows : true,
+    	        autoScroll : false,
     	        iconCls: 'icon-grid',
     	        renderTo: 'RegulationList-test',
 
     	        bbar:new Ext.PagingToolbar({
-    	          pageSize   : 5,
+    	          pageSize   : myPageSize,
     	          store      : dataStore,
     	          displayInfo: true,
-    	          displayMsg : 'Dispositif(s) {0} à {1} de {2}',
-    	          emptyMsg   : 'aucun dispositif en cours d\'édition'
+    	          displayMsg : 'Équipier(s) {0} à {1} de {2}',
+    	          emptyMsg   : 'aucun équipier'
     	        })
     	    });
-    	  
-          
-    	  grid1.getStore().load({params:{start:0, limit:20}});
-        
-        
+      },
+      
+      loadEquipiers:function()
+      {
+    	  grid1.getStore().load({params:{start:0, limit:10}});
       }
   };
 }();
-

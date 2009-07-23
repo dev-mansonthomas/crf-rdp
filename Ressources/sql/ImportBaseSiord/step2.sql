@@ -175,12 +175,15 @@ INSERT into `delegation`
 )
 select d.id, d.deleguation, d.code_postal, d.telephone, d.portable, d.email, d.site, ld.id_lieu
 from deleguations d, lieu_delegation ld
-where d.id = id_delegation_siord;
+where d.id = id_delegation_siord
+and d.status = 'ok';
 
 
 update equipier e
-set id_delegation = (select id_delegation 
-                     from delegation, membres 
-                     where id_delegation_siord = membres.id_del_urgence
-                     and   membres.id = e.id_equipier_siord);
+set id_delegation = (select d.id_delegation 
+                     from membres_delegations md, delegation d
+                     where d.id_delegation_siord = md.id_delegation
+                     and   e.id_equipier_siord   = md.id_membre);
+                     
+
          

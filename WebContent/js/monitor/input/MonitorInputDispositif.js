@@ -412,10 +412,10 @@ MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
   MonitorInputDispositif.getDispositif(idDispositif, this.editDispositifReturn);
 };
 
-MonitorInputDispositifCs.prototype.editDispositifReturn=function(Dispositif)
+MonitorInputDispositifCs.prototype.editDispositifReturn=function(dispositif)
 {
-  miDispositifCs.initDispositifForm(Dispositif);
-  
+  miDispositifCs.initDispositifForm(dispositif);
+  $('DispositifEquipierRoleToChoose').equipierRankToChoose=dispositif.equipierList.length+1;
   var centerRegion = Ext.getCmp('monitorInputCenterRegion');
   var currentPanel = centerRegion.getActiveTab();
 
@@ -424,7 +424,7 @@ MonitorInputDispositifCs.prototype.editDispositifReturn=function(Dispositif)
   
   Ext.getCmp('DispositifListEastPanel').collapse();
   
-  Ext.get('dispositif_isCreation_field').dom.setValue(!Dispositif.creationTerminee);
+  Ext.get('dispositif_isCreation_field').dom.setValue(!dispositif.creationTerminee);
   
   var dispositifForm = Ext.get('DispositifEdit');
   if(!dispositifForm.isVisible())
@@ -1033,11 +1033,11 @@ MonitorInputDispositifCs.prototype.updateListDelegation=function(autocompleter, 
 MonitorInputDispositifCs.prototype.equipierSelected=function(inputElement, selectedElement, selectedUserObject)
 {
   MonitorInputDispositif.addEquipierToDispositif(	$('dispositif_id_field'           ).value, 
-                                        $('DispositifEquipierRoleToChoose').equipierRankToChoose, 
-                                        $('DispositifEquipierToAddRole'   ).value, 
-                                        selectedUserObject.idEquipier,
-                                        miDispositifCs.updateListEquipierReturn
-                                        );
+                                                  $('DispositifEquipierRoleToChoose').equipierRankToChoose, 
+                                                  $('DispositifEquipierToAddRole'   ).value, 
+                                                  selectedUserObject.idEquipier,
+                                                  miDispositifCs.updateListEquipierReturn
+                                                );
 };
  
 MonitorInputDispositifCs.prototype.delegationSelected=function(inputElement, selectedElement, selectedDelegationObject)

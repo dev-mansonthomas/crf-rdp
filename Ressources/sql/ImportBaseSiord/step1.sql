@@ -19,8 +19,7 @@ CREATE TABLE `equipier` (
 CREATE TABLE `equipier_roles` (
   `id_equipier`      int(10) unsigned NOT NULL,
   `id_role_equipier` int(10) unsigned NOT NULL,
-  `en_evaluation`    boolean          NOT NULL,
-  PRIMARY KEY (`id_equipier`,`id_role_equipier`)
+  `en_evaluation`    boolean          NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 update membres
@@ -193,4 +192,24 @@ where status = 'OK';
 28->Resp. Routier
    
  * */
+insert into equipier_roles  (`id_equipier`,`id_role_equipier`,`en_evaluation`)
+SELECT distinct e.id_equipier,case mc.id_role
+when 61 then 01
+when 62 then 02
+when 60 then 03
+when 2  then 04
+when 45 then 05
+when 54 then 06
+when 4  then 07
+when 5  then 08
+when 3  then 09
+when 53 then 10
+when 33 then 11
+else 0 end as role, false as `en_evaluation`
+FROM equipier e, membres_competences mc
+where e.id_equipier_siord = mc.id_membre
+order by e.id_equipier asc;
+
+delete from equipier_roles
+where id_role_equipier = 0;
 

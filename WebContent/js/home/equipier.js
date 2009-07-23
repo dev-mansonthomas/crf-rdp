@@ -62,7 +62,7 @@ Ext.ux.Home.EquipierEditor = function() {
     	            			image = '<img style="vertical-align:bottom;" src="../img/famfamfam/user_female.png" alt="F" />';
     	            		}
     	            		return image;
-    	            	},
+    	            	}
     	            },
     	            {id:'delegationCol'       , header: 'Délégation' , width: 120, sortable: true, dataIndex: 'delegation.idDelegation', 
     	                renderer:function(idDelegation){

@@ -58,22 +58,22 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return hash;
     
   }
-  public List<Equipier> getEquipierByNivol(int type, int equipierType, String numNivol) throws Exception
+  public List<Equipier> getEquipierByNivol(int type, int equipierRole, String numNivol) throws Exception
   {
     if(numNivol.length()<3)
       return null;
     this.validateSession();
     
-    return this.equipierService.getEquipiersByNivol(numNivol, equipierType);
+    return this.equipierService.getEquipiersByNivol(numNivol, equipierRole);
   }
 
-  public List<Equipier> getEquipierByNom(int type, int equipierType, String nom) throws Exception
+  public List<Equipier> getEquipierByNom(int type, int equipierRole, String nom) throws Exception
   {
     if(nom.length()<3)
       return null;
     this.validateSession();
 
-    return this.equipierService.getEquipiersByNom(nom, equipierType);
+    return this.equipierService.getEquipiersByNom(nom, equipierRole);
   }
   
   public Dispositif createEmptyDispositif() throws Exception

@@ -784,6 +784,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "id_dispositif"                 ,
     "id_regulation"                 ,
     "id_origine"                    ,
+    "id_etat"                       ,
     "id_motif"                      ,
     "id_ref_num_inter"              ,
     "ventil_chiffre"                ,
@@ -810,6 +811,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     intFieldMatching.put("id_regulation"                 , "id_regulation"                  );       
     intFieldMatching.put("id_origine"                    , "id_origine"                     );       
     intFieldMatching.put("id_motif"                      , "id_motif"                       );
+    intFieldMatching.put("id_etat"                       , "id_etat"                       );
     intFieldMatching.put("id_motif_annulation"           , "id_motif_annulation"            );
     intFieldMatching.put("id_ref_num_inter"              , "id_ref_num_inter"               );       
     intFieldMatching.put("ventil_chiffre"                , "ventil_chiffre"                 );       

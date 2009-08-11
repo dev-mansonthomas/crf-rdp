@@ -1,3 +1,11 @@
+/*
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
 /**
  * Romanian translations for ExtJS 2.1
  * First released by Lucian Lature on 2007-04-24
@@ -5,6 +13,8 @@
  * on ExtJS forums: http://www.extjs.com/forum/showthread.php?p=129524#post129524
  * Removed some useless parts
  * Changed by: Emil Cazamir, 2008-04-24
+ * Fixed some errors left behind
+ * Changed by: Emil Cazamir, 2008-09-01
  */
 
 Ext.UpdateManager.defaults.indicatorText = '<div class="loading-indicator">Încărcare...</div>';
@@ -55,7 +65,7 @@ Date.monthNumbers = {
   Aug : 7,
   Sep : 8,
   Oct : 9,
-  Nov : 10,
+  Noi : 10,
   Dec : 11
 };
 
@@ -123,7 +133,7 @@ if(Ext.PagingToolbar){
     nextText       : "Pagina următoare",
     lastText       : "Ultima pagină",
     refreshText    : "Împrospătează",
-    displayMsg     : "Afișare înregistrări {0} - {1} din {2}",
+    displayMsg     : "Afișare înregistrările {0} - {1} din {2}",
     emptyMsg       : 'Nu sunt date de afișat'
   });
 }

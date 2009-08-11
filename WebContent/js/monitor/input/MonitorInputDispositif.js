@@ -5,7 +5,7 @@ var MonitorInputDispositifCs = Class.create();
 MonitorInputDispositifCs.prototype.initialize=function()
 {
 //  MonitorInputDispositif.initScriptSession();
-  $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
+
   this.getDispositifMaps ();
       /*Selection de la délégation*/  
   new Autocompleter.DWR( 'DispositifDelegation', 
@@ -15,25 +15,6 @@ MonitorInputDispositifCs.prototype.initialize=function()
                            afterUpdateElement: this.delegationSelected, 
                            valueSelector     : this.delegationValueSelector,
                            displayItemsThatDontMatchInput:true
-                         }
-                       );
-  /*Séléction des équipiers*/
-  new Autocompleter.DWR( 'DispositifEquipierAdd_Nivol'     , 
-                         'DispositifEquipierAdd_SelectList', 
-                         this.updateListEquipierNivol, 
-                         {
-                           afterUpdateElement: this.equipierSelected, 
-                           valueSelector     : this.equipierValueSelector
-                         }
-                       );
-  
-  
-  new Autocompleter.DWR( 'DispositifEquipierAdd_Nom'       , 
-                         'DispositifEquipierAdd_SelectList', 
-                         this.updateListEquipierNom, 
-                         {
-                           afterUpdateElement: this.equipierSelected, 
-                           valueSelector     : this.equipierValueSelector
                          }
                        );
 
@@ -148,63 +129,143 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
     });
   grid1.getStore().load({params: {start:0, limit:5}});
   
-  var dataStore2 = new Ext.data.Store({
-           proxy: new Ext.ux.rs.data.DwrProxy({
-               call       : MonitorInputDispositif.getDispositifTicketList,
-               args       : [],
-               proxyConfig: Ext.ux.rs.data.SIMPLE_PAGING
-               }),
-           reader: new  Ext.ux.rs.data.JsonReader({
+  
+  
+  /*Combo box pour selectionner le type de role a ajouter*/
+  var roleToSearchComboBox =  new Ext.form.ComboBox({
+                  store: new Ext.data.SimpleStore({
+                    fields: ['id_role', 'label_role']
+                  }),
+                  displayField  : 'role',
+                  typeAhead     : true,
+                  mode          : 'local',
+                  triggerAction : 'all',
+                  emptyText     : 'Selectionner un role...',
+                  selectOnFocus : true
+              })
+
+  
+ /* Combo Box de recherche d'équipier*/ 
+  var equipierSearchDataStore = new Ext.data.Store({
+      proxy: new Ext.ux.rs.data.DwrProxy({
+             call           : MonitorInputDispositif.searchEquipier,
+             args           : [],
+             proxyConfig    : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
+             filterCallBack : function()
+             {
+                return [new Ext.ux.rs.data.FilterObject('idRole',7,'='),
+                        new Ext.ux.rs.data.FilterObject('search','M%','=')]
+             }
+        }),
+        reader: new Ext.ux.rs.data.JsonReader({
                  root: 'data',
         totalProperty: 'totalCount',
+                   id: 'idEquipier',
                fields:
                    [
-                       {name: 'idDispositif'      , type: 'int'    },
-                       {name: 'idTypeDispositif'  , type: 'int'    },
-                       {name: 'idDelegation'      , type: 'int'    },
-                       {name: 'displayState'      , type: 'int'    },
-                       {name: 'creationTerminee'  , type: 'boolean'},
-                       {name: 'dhDebut'           , type: 'date'   },
-                       {name: 'dhFin'             , type: 'date'   },
-                       {name: 'indicatifVehicule' , type: 'string' },
-                       {name: 'autreDelegation'   , type: 'string' }
+                       {name: 'idEquipier'                , type: 'int'     },
+                       {name: 'homme'                     , type: 'boolean' },
+                       {name: 'numNivol'                  , type: 'string'  },
+                       {name: 'nom'                       , type: 'string'  },
+                       {name: 'prenom'                    , type: 'string'  },
+                       {name: 'mobile'                    , type: 'string'  },
+                       {name: 'email'                     , type: 'string'  },
+                       {name: 'delegation.idDelegation'   , type: 'int'     },
+                       {name: 'idRoleDansDispositif'      , type: 'int'     },
+                       {name: 'enEvaluationDansDispositif', type: 'boolean' }
                    ]
                })
-           });
+    });
+
+    // Custom rendering Template
+    var resultTpl = new Ext.XTemplate(
+        '<tpl for="."><div class="search-item">',
+            '<h3><span>{numNivol}</span> {prenom} {nom}</h3>',//{delegation.idDelegation}
+            '{idRoleDansDispositif} - {enEvaluationDansDispositif}',
+        '</div></tpl>'
+    );
+    
+    var searchEquipierComboBox = new Ext.form.ComboBox({
+        id          : 'DispositifEquipierSearch', 
+        store       : equipierSearchDataStore,
+        displayField: 'numNivol',
+        typeAhead   : false,
+        loadingText : 'Searching...',
+        width       : 570,
+        listWidth   : 570,
+        pageSize    : 10,
+        hideTrigger : true,
+        tpl         : resultTpl,
+        itemSelector: 'div.search-item',
+        applyTo     : 'search',
+        onSelect    : function(record){ // override default onSelect to do redirect
+            alert(record.data.numNivol);
+        }
+    });
+  /* FIN Combo Box de recherche d'équipier*/
+  
+    
+    
+  
+  var DELGToolbar = new Ext.Toolbar({
+    id     : 'DELGToolbar', 
+    hidden : true,
+    items  :[ roleToSearchComboBox  ,
+              searchEquipierComboBox]//fin tableau d'item
+  });
+  
+  
+  
+  
+  
+  
+  var dataStoreForEquipierList = new Ext.data.SimpleStore({
+      fields: [
+         {name: 'id_equipier'               , type: 'int'     },
+         {name: 'nivol'                                       },
+         {name: 'nom'                                         },
+         {name: 'prenom'                                      },
+         {name: 'homme'                     , type: 'boolean' },
+         {name: 'mobile'                    , type: 'string'  },
+         {name: 'idRoleDansDispositif'      , type: 'int'     },
+         {name: 'enEvaluationDansDispositif', type: 'boolean' }
+      ]
+  });
+
+  
+  
 
   var grid2 = new xg.GridPanel({
-        id:'DispositifListEncoursEditionGrid',
-        store: dataStore2,
-        cm: new xg.ColumnModel([
-            {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
-            {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:miDispositifCs.typeCellRenderer},
-            {id:'indicatifVehiculeDCurrentCol'  , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
-            {id:'dhDebutDCurrentCol'            , header: "Date Début Vac." , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhDebut'},
-            {id:'dhFinDCurrentCol'              , header: "Date Fin Vac."   , width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhFin'},
-            {id:'idDelegationDCurrentCol'       , header: "Délégation"      , width: 150, sortable: true, dataIndex: 'idDelegation'     , renderer:miDispositifCs.delegationCellRenderer},
-            {id:'idEtatDispositifDCurrentCol'   , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif' , renderer:miDispositifCs.etatDispositifCellRenderer}
+        id   :'DispositifEquipierListGrid',
+        store: dataStoreForEquipierList,
+        cm   : new xg.ColumnModel([
+            {id:'DELG_nivol'       , header: "Nivol"      , width: 80 , sortable: true , dataIndex: 'nivol'                                                                           },
+            {id:'DELG_nomprenom'   , header: "Nom Prénom" , width: 200, sortable: true , dataIndex: 'nom'                       , renderer:miDispositifCs.DELGNomPrenomCellRenderer   },
+            {id:'DELG_mobile'      , header: "Mobile"     , width: 120, sortable: true , dataIndex: 'mobile'                                                                          },
+            {id:'DELG_role'        , header: "Role"       , width: 150, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
+            {id:'DELG_evalutation' , header: "En Eval?"   , width: 50 , sortable: true , dataIndex: 'enEvaluationDansDispositif', renderer:miDispositifCs.DELGEvalCellRenderer        },
+            {id:'DELG_delete'      , header: "Suppresion" , width: 80 , sortable: false, dataIndex: 'id_equipier'               , renderer:miDispositifCs.DELGSuppressionCellRenderer ,menuDisabled:true}
         ]),
-        viewConfig: {
-            forceFit:true
-        },
+        tbar        : DELGToolbar,  
         collapsible : false,
         animCollapse: false,
         height      : 400,
+        width       : 700,
         iconCls     : 'icon-grid',
-        renderTo    : 'DispositifListEncoursEdition',
-        listeners   : {
-          'rowdblclick':miDispositifCs.gridRowDoubleClickHandler
-        },
-        bbar:new Ext.PagingToolbar({
-          pageSize   : 5,
-          store      : dataStore2,
-          displayInfo: true,
-          displayMsg : 'Dispositif(s) {0} à {1} de {2}',
-          emptyMsg   : 'aucun dispositif en cours d\'édition'
-        })
+        renderTo    : 'DispositifEquipierList'
+ /*     view: new Ext.grid.GroupingView({
+           forceFit:true,
+           groupRenderer: function(value, unused, record, rowIndex, colIndex, dataStore)
+           {            
+             return value;
+           },
+           groupTextTpl: '{group}'
+
+        })*/
     });
-  //grid2.getStore().load({params: {start:0, limit:5}});
 };
+
+
 
 MonitorInputDispositifCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
 {
@@ -217,6 +278,31 @@ MonitorInputDispositifCs.prototype.reloadDispositifLists=function(data)
   Ext.getCmp('DispositifListCurrentGrid'       ).getStore().reload();
   Ext.getCmp('DispositifListEncoursEditionGrid').getStore().reload();
 }
+
+MonitorInputDispositifCs.prototype.DELGNomPrenomCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  return '<img src="'+contextPath+'/img/monitorInput/user'+(record.homme?'':'_female')+'.png" alt="'+(record.homme?'Homme':'Femme')+'"/> '+record.nom+' '+record.prenom;
+};
+
+MonitorInputDispositifCs.prototype.DELGRoleCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  return crfIrpUtils.getLabelFor('RolesEquipier', value );
+};
+
+MonitorInputDispositifCs.prototype.DELGEvalCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  return value;
+};
+
+MonitorInputDispositifCs.prototype.DELGSuppressionCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  return '<img src="'+contextPath+'/img/monitorInput/user_delete.png" ' +
+         'id="CoRegulateurDel_Button_'+record.numNivol+'" alt="Supprimer l\'équipier '+record.nom+' '+record.prenom+'"  ' +
+         'onClick="miDispositifCs.removeEquipierFromDispositif(\''+record.idEquipier+'\', \''+record.equipierRank+'\', \''+record.numNivol+'\',\''+record.nom+' '+record.prenom+'\');"/>';
+};
+
+
+
 
 MonitorInputDispositifCs.prototype.delegationCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
@@ -276,9 +362,9 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
   
   $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
   
-  Ext.getCmp('DispositifPanelBottomToolbar'	).setVisible(false);
-  Ext.get   ('DispositifEdit'         		).slideOut	();
-  Ext.getCmp('DispositifListEastPanel'		).expand  	();
+  Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
+  Ext.get   ('DispositifEdit'         		 ).slideOut	 ();
+  Ext.getCmp('DispositifListEastPanel'		 ).expand  	 ();
   
   PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
   
@@ -286,8 +372,6 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 
 MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 {
-  dwr.util.removeAllRows('dispositifEquipierList_tbody');
-
   for(i=0,count=this.fieldList.length;i<count;i++)
     dwr.util.setValue(this.fieldList[i], '');
 
@@ -299,8 +383,6 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   this.updateVolumeAndAutonomie();
   
   dwr.util.setValue('DispositifStatus',-1);
-  dwr.util.removeAllOptions('DispositifEquipierToAddRole');
-  $('DispositifEquipierAddIHM').style.display='block';
 };
 
 
@@ -315,8 +397,6 @@ MonitorInputDispositifCs.prototype.fieldList = [
     'DispositifDelegation_autreNom',
     'DispositifDHDebut',
     'DispositifDHFin',
-    'DispositifEquipierAdd_Nivol',
-    'DispositifEquipierAdd_Nom',
     'DispositifB1V',
     'DispositifB2V',
     'DispositifB3V',
@@ -617,50 +697,7 @@ MonitorInputDispositifCs.prototype.equipageInformation=Array();
 
 MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listEquipier)
 {
-  dwr.util.removeAllRows('dispositifEquipierList_tbody');
  
-  MonitorInputDispositifCs.prototype.equipageInformation = Array();
-  MonitorInputDispositifCs.prototype.equipageInformation['rankInfo'] = Array();
-  MonitorInputDispositifCs.prototype.equipageInformation['onlyGirlInBack'] = true;
-  
-  
-     
-  var cellFuncs = [
-      function(equipier) 
-      {
-        MonitorInputDispositifCs.prototype.equipageInformation['rankInfo'][equipier.equipierRank]=true;
-
-        if( ($('DispositifType').value==1 || $('DispositifType').value==2) && (equipier.idRoleDansDispositif == 4 || equipier.idRoleDansDispositif == 5))
-          MonitorInputDispositifCs.prototype.equipageInformation['onlyGirlInBack'] = MonitorInputDispositifCs.prototype.equipageInformation['onlyGirlInBack'] && !equipier.homme;
-          
-        return equipier.numNivol;
-      },
-      function(equipier) {return '<img src="'+contextPath+'/img/monitorInput/user'+(equipier.homme?'':'_female')+'.png" alt="'+(equipier.homme?'Homme':'Femme')+'"/> '+equipier.nom+' '+equipier.prenom;},
-      function(equipier) {return crfIrpUtils.getLabelFor('RolesEquipier', equipier.idRoleDansDispositif );},
-      function(equipier) {return '<img src="'+contextPath+'/img/monitorInput/user_delete.png" ' +
-                                      'id="CoRegulateurDel_Button_'+equipier.numNivol+'" alt="Supprimer Le Co-Régulateur '+equipier.nom+' '+equipier.prenom+'"  ' +
-                                      'onClick="miDispositifCs.removeEquipierFromDispositif(\''+equipier.idEquipier+'\', \''+equipier.equipierRank+'\', \''+equipier.numNivol+'\',\''+equipier.nom+' '+equipier.prenom+'\');"/>';}
-    ];
-  
-    var pair = true;
-    dwr.util.addRows('dispositifEquipierList_tbody', listEquipier, cellFuncs, {
-      rowCreator:function(options)
-      {
-        var row = document.createElement("tr");
-        row.id='row_'+options.rowData.numNivol;
-        row.styleClass='row'+(pair?'1':'0');
-        pair=!pair;
-        return row;
-      },
-      escapeHtml:false
-    });
-    
-    $('DispositifEquipierRoleToChoose').equipierRankToChoose=listEquipier.length+1;
-    miDispositifCs.displayCurrentEquipierRoleToAdd(listEquipier.length+1);
-    
-    $('DispositifEquipierAdd_Nivol').value='';
-    $('DispositifEquipierAdd_Nom'  ).value='';
-    $('DispositifEquipierAdd_Nivol').focus();
   
 }
 

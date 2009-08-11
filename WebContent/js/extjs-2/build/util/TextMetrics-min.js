@@ -1,9 +1,12 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.util.TextMetrics=function(){var A;return{measure:function(B,C,D){if(!A){A=Ext.util.TextMetrics.Instance(B,D)}A.bind(B);A.setFixedWidth(D||"auto");return A.getSize(C)},createInstance:function(B,C){return Ext.util.TextMetrics.Instance(B,C)}}}();Ext.util.TextMetrics.Instance=function(B,D){var C=new Ext.Element(document.createElement("div"));document.body.appendChild(C.dom);C.position("absolute");C.setLeftTop(-1000,-1000);C.hide();if(D){C.setWidth(D)}var A={getSize:function(F){C.update(F);var E=C.getSize();C.update("");return E},bind:function(E){C.setStyle(Ext.fly(E).getStyles("font-size","font-style","font-weight","font-family","line-height","text-transform","letter-spacing"))},setFixedWidth:function(E){C.setWidth(E)},getWidth:function(E){C.dom.style.width="auto";return this.getSize(E).width},getHeight:function(E){return this.getSize(E).height}};A.bind(B);return A};Ext.Element.measureText=Ext.util.TextMetrics.measure;
+
+Ext.util.TextMetrics=function(){var shared;return{measure:function(el,text,fixedWidth){if(!shared){shared=Ext.util.TextMetrics.Instance(el,fixedWidth);}
+shared.bind(el);shared.setFixedWidth(fixedWidth||'auto');return shared.getSize(text);},createInstance:function(el,fixedWidth){return Ext.util.TextMetrics.Instance(el,fixedWidth);}};}();Ext.util.TextMetrics.Instance=function(bindTo,fixedWidth){var ml=new Ext.Element(document.createElement('div'));document.body.appendChild(ml.dom);ml.position('absolute');ml.setLeftTop(-1000,-1000);ml.hide();if(fixedWidth){ml.setWidth(fixedWidth);}
+var instance={getSize:function(text){ml.update(text);var s=ml.getSize();ml.update('');return s;},bind:function(el){ml.setStyle(Ext.fly(el).getStyles('font-size','font-style','font-weight','font-family','line-height','text-transform','letter-spacing'));},setFixedWidth:function(width){ml.setWidth(width);},getWidth:function(text){ml.dom.style.width='auto';return this.getSize(text).width;},getHeight:function(text){return this.getSize(text).height;}};instance.bind(bindTo);return instance;};Ext.Element.measureText=Ext.util.TextMetrics.measure;

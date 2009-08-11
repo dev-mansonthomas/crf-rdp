@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-%><%@ taglib uri="http://jawr.net/tags" prefix="jwr" 
+%><%@ taglib uri="http://jawr.net/tags"              prefix="jwr" 
+%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" 
 %><%
   String contextPath = request.getContextPath();
 %>
@@ -28,6 +29,13 @@
   </div>
   <div id="south">
     <p>N° de Déclaration à la CNIL : ${applicationDeclarationCnil}</p>
+    
+<c:if test="${environmentCode=='DEV'}">
+  <a href="test/testThomas.html">Page de Test Thomas</a>
+</c:if>    
+
+
+
   </div>
 
 

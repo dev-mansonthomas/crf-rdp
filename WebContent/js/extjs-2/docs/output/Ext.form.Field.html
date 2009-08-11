@@ -44,9 +44,9 @@
         <td class="sig">
         <a id="Ext.form.Field-applyTo"></a>
             <b>applyTo</b> : Mixed            <div class="mdesc">
-                        <div class="short">The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document ...</div>
+                        <div class="short">The id of the element, a DOM element or an existing Element corresponding to a DIV that is already present in the doc...</div>
             <div class="long">
-                The id of the node, a DOM node or an existing Element corresponding to a DIV that is already present in the document that specifies some structural markup for this component. When applyTo is used, constituent parts of the component can also be specified by id or CSS class name within the main element, and the component being created may attempt to create its subcomponents from that markup if applicable. Using this config, a call to render() is not required. If applyTo is specified, any value passed for <a ext:cls="Ext.Component" ext:member="renderTo" href="output/Ext.Component.html#renderTo">renderTo</a> will be ignored and the target element's parent node will automatically be used as the component's container.            </div>
+                The id of the element, a DOM element or an existing Element corresponding to a DIV that is already present in the document that specifies some structural markup for this component. When applyTo is used, constituent parts of the component can also be specified by id or CSS class name within the main element, and the component being created may attempt to create its subcomponents from that markup if applicable. Using this config, a call to render() is not required. If applyTo is specified, any value passed for <a ext:cls="Ext.Component" ext:member="renderTo" href="output/Ext.Component.html#renderTo">renderTo</a> will be ignored and the target element's parent node will automatically be used as the component's container.            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#applyTo" href="output/Ext.Component.html#applyTo">Component</a></td>
@@ -105,12 +105,15 @@
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#ctCls" href="output/Ext.Component.html#ctCls">Component</a></td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-disabled"></a>
             <b>disabled</b> : Boolean            <div class="mdesc">
-                            True to disable the field (defaults to false).                        </div>
+                        <div class="short">True to disable the field (defaults to false). Be aware that conformant with the HTML specification, disabled Fields ...</div>
+            <div class="long">
+                True to disable the field (defaults to false). <p>Be aware that conformant with the <a href="http://www.w3.org/TR/html401/interact/forms.html#h-17.12.1">HTML specification</a>, disabled Fields will not be <a ext:cls="Ext.form.BasicForm" ext:member="submit" href="output/Ext.form.BasicForm.html#submit">submitted</a>.</p>            </div>
+                        </div>
         </td>
         <td class="msource">Field</td>
     </tr>
@@ -132,12 +135,15 @@
         </td>
         <td class="msource">Field</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-fieldLabel"></a>
             <b>fieldLabel</b> : String            <div class="mdesc">
-                            The label text to display next to this field (defaults to '')                        </div>
+                        <div class="short">The label text to display next to this field (defaults to '') A Field's label is not by default rendered as part of t...</div>
+            <div class="long">
+                The label text to display next to this field (defaults to '') <p><b>A Field's label is not by default rendered as part of the Field's structure. The label is rendered by the <a ext:cls="Ext.layout.FormLayout" href="output/Ext.layout.FormLayout.html">form layout</a> layout manager of the <a ext:cls="Ext.form.Container" href="output/Ext.form.Container.html">Container</a> to which the Field is added.</b></p>            </div>
+                        </div>
         </td>
         <td class="msource">Field</td>
     </tr>
@@ -182,9 +188,9 @@
         <td class="sig">
         <a id="Ext.form.Field-hideMode"></a>
             <b>hideMode</b> : String            <div class="mdesc">
-                        <div class="short">How this component should hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset posi...</div>
+                        <div class="short">How this component should be hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset p...</div>
             <div class="long">
-                How this component should hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset position) and "display" (css display) - defaults to "display".            </div>
+                <p>How this component should be hidden. Supported values are "visibility" (css visibility), "offsets" (negative offset position) and "display" (css display) - defaults to "display".</p> <p>For Containers which may be hidden and shown as part of a <a ext:cls="Ext.layout.CardLayout" href="output/Ext.layout.CardLayout.html">card layout</a> Container such as a <a ext:cls="Ext.TabPanel" href="output/Ext.TabPanel.html">TabPanel</a>, it is recommended that hideMode is configured as "offsets". This ensures that hidden Components still have height and width so that layout managers can perform measurements when calculating layouts.</p>            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideMode" href="output/Ext.Component.html#hideMode">Component</a></td>
@@ -201,12 +207,15 @@
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#hideParent" href="output/Ext.Component.html#hideParent">Component</a></td>
     </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-id"></a>
             <b>id</b> : String            <div class="mdesc">
-                            The unique id of this component (defaults to an auto-assigned id).                        </div>
+                        <div class="short">The unique id of this component (defaults to an auto-assigned id). You should assign an id if you need to be able to ...</div>
+            <div class="long">
+                The unique id of this component (defaults to an auto-assigned id). You should assign an id if you need to be able to access the component later and you do not have an object reference available (e.g., using <a ext:cls="Ext.ComponentMgr" ext:member="getCmp" href="output/Ext.ComponentMgr.html#getCmp">Ext.ComponentMgr.getCmp</a>). Note that this id will also be used as the element id for the containing HTML element that is rendered to the page for this component. This allows you to write id-based CSS rules to style the specific instance of this component uniquely, and also to select sub-elements using this component's id as the parent.            </div>
+                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#id" href="output/Ext.Component.html#id">Component</a></td>
     </tr>
@@ -300,9 +309,9 @@
         <td class="sig">
         <a id="Ext.form.Field-listeners"></a>
             <b>listeners</b> : Object            <div class="mdesc">
-                        <div class="short">A config object containing one or more event handlers to be added to this object during initialization. This should b...</div>
+                        <div class="short">(optional) A config object containing one or more event handlers to be added to this object during initialization. Th...</div>
             <div class="long">
-                A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
+                (optional) A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
@@ -402,9 +411,9 @@ side          Add an error icon to the right of the field with a popup on hover
         <td class="sig">
         <a id="Ext.form.Field-renderTo"></a>
             <b>renderTo</b> : Mixed            <div class="mdesc">
-                        <div class="short">The id of the node, a DOM node or an existing Element that will be the container to render this component into. Using...</div>
+                        <div class="short">The id of the element, a DOM element or an existing Element that this component will be rendered into. When using thi...</div>
             <div class="long">
-                The id of the node, a DOM node or an existing Element that will be the container to render this component into. Using this config, a call to render() is not required.            </div>
+                <p>The id of the element, a DOM element or an existing Element that this component will be rendered into. When using this config, a call to render() is not required.<p> <p>If this Component needs to be managed by a <a ext:cls="Ext.Container" href="output/Ext.Container.html">Container</a>'s <a ext:cls="Ext.Component" ext:member="layout" href="output/Ext.Component.html#layout">layout manager</a>, do not use this option. It is the responsiblity of the Container's layout manager to perform rendering. See <a ext:cls="Ext.Component" ext:member="render" href="output/Ext.Component.html#render">render</a>.</p>            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#renderTo" href="output/Ext.Component.html#renderTo">Component</a></td>
@@ -426,9 +435,9 @@ side          Add an error icon to the right of the field with a popup on hover
         <td class="sig">
         <a id="Ext.form.Field-stateId"></a>
             <b>stateId</b> : String            <div class="mdesc">
-                        <div class="short">The unique id for this component to use for state management purposes (defaults to the component id). See stateful fo...</div>
+                        <div class="short">The unique id for this component to use for state management purposes (defaults to the component id if one was set, o...</div>
             <div class="long">
-                The unique id for this component to use for state management purposes (defaults to the component id). <p>See <a ext:cls="Ext.Component" ext:member="stateful" href="output/Ext.Component.html#stateful">stateful</a> for an explanation of saving and restoring Component state.</p>            </div>
+                The unique id for this component to use for state management purposes (defaults to the component id if one was set, otherwise null if the component is using a generated id). <p>See <a ext:cls="Ext.Component" ext:member="stateful" href="output/Ext.Component.html#stateful">stateful</a> for an explanation of saving and restoring Component state.</p>            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateId" href="output/Ext.Component.html#stateId">Component</a></td>
@@ -440,7 +449,7 @@ side          Add an error icon to the right of the field with a popup on hover
             <b>stateful</b> : Boolean            <div class="mdesc">
                         <div class="short">A flag which causes the Component to attempt to restore the state of internal properties from a saved state on startu...</div>
             <div class="long">
-                A flag which causes the Component to attempt to restore the state of internal properties from a saved state on startup.<p> For state saving to work, the state manager's provider must have been set to an implementation of <a ext:cls="Ext.state.Provider" href="output/Ext.state.Provider.html">Ext.state.Provider</a> which overrides the <a ext:cls="Ext.state.Provider" ext:member="set" href="output/Ext.state.Provider.html#set">set</a> and <a ext:cls="Ext.state.Provider" ext:member="get" href="output/Ext.state.Provider.html#get">get</a> methods to save and recall name/value pairs. A built-in implementation, <a ext:cls="Ext.state.CookieProvider" href="output/Ext.state.CookieProvider.html">Ext.state.CookieProvider</a> is available.</p> <p>To set the state provider for the current page:</p> <pre><code>Ext.state.Manager.setProvider(<b>new</b> Ext.state.CookieProvider());</code></pre> <p>Components attempt to save state when one of the events listed in the <a ext:cls="Ext.Component" ext:member="stateEvents" href="output/Ext.Component.html#stateEvents">stateEvents</a> configuration fires.</p> <p>You can perform extra processing on state save and restore by attaching handlers to the <a ext:cls="Ext.Component" ext:member="beforestaterestore" href="output/Ext.Component.html#beforestaterestore">beforestaterestore</a>, <a ext:cls="staterestore" href="output/staterestore.html">staterestore</a>, <a ext:cls="beforestatesave" href="output/beforestatesave.html">beforestatesave</a> and <a ext:cls="statesave" href="output/statesave.html">statesave</a> events</p>            </div>
+                <p>A flag which causes the Component to attempt to restore the state of internal properties from a saved state on startup. The component must have either a <a ext:cls="Ext.Component" ext:member="stateId" href="output/Ext.Component.html#stateId">stateId</a> or <a ext:cls="Ext.Component" ext:member="id" href="output/Ext.Component.html#id">id</a> assigned for state to be managed. Auto-generated ids are not guaranteed to be stable across page loads and cannot be relied upon to save and restore the same state for a component.<p> For state saving to work, the state manager's provider must have been set to an implementation of <a ext:cls="Ext.state.Provider" href="output/Ext.state.Provider.html">Ext.state.Provider</a> which overrides the <a ext:cls="Ext.state.Provider" ext:member="set" href="output/Ext.state.Provider.html#set">set</a> and <a ext:cls="Ext.state.Provider" ext:member="get" href="output/Ext.state.Provider.html#get">get</a> methods to save and recall name/value pairs. A built-in implementation, <a ext:cls="Ext.state.CookieProvider" href="output/Ext.state.CookieProvider.html">Ext.state.CookieProvider</a> is available.</p> <p>To set the state provider for the current page:</p> <pre><code>Ext.state.Manager.setProvider(<b>new</b> Ext.state.CookieProvider());</code></pre> <p>Components attempt to save state when one of the events listed in the <a ext:cls="Ext.Component" ext:member="stateEvents" href="output/Ext.Component.html#stateEvents">stateEvents</a> configuration fires.</p> <p>You can perform extra processing on state save and restore by attaching handlers to the <a ext:cls="Ext.Component" ext:member="beforestaterestore" href="output/Ext.Component.html#beforestaterestore">beforestaterestore</a>, <a ext:cls="Ext.Component" ext:member="staterestore" href="output/Ext.Component.html#staterestore">staterestore</a>, <a ext:cls="Ext.Component" ext:member="beforestatesave" href="output/Ext.Component.html#beforestatesave">beforestatesave</a> and <a ext:cls="Ext.Component" ext:member="statesave" href="output/Ext.Component.html#statesave">statesave</a> events</p>            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Component" ext:member="#stateful" href="output/Ext.Component.html#stateful">Component</a></td>
@@ -680,32 +689,34 @@ the component is added to a container).  Read-only.            </div>
             <div class="long">
                 Appends an event handler to this component    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
-function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
 properties. This may contain any of the following properties:<ul>
-<li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
-<li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
-<li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>scope</b> : Object<div class="sub-desc">The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li>
+<li><b>delay</b> : Number<div class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</div></li>
+<li><b>single</b> : Boolean<div class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</div></li>
+<li><b>buffer</b> : Number<div class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</div></li>
+<li><b>target</b> : Observable<div class="sub-desc">Only call the handler if the event was fired on the target Observable, <i>not</i>
+if the event was bubbled up from a child Observable.</div></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
 Using the options argument, it is possible to combine different types of listeners:<br>
 <br>
-A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
-<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+A delayed, one-time listener.
+<pre><code>myDataView.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
     single: true,
-    delay: 100,
-    forumId: 4
+    delay: 100
 });</code></pre>
 <p>
 <b>Attaching multiple handlers in 1 call</b><br>
 The method also allows for a single argument to be passed which is a config object containing properties
 which specify multiple handlers.
 <p>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : {
         fn: <b>this</b>.onClick,
         scope: <b>this</b>,
@@ -722,7 +733,7 @@ which specify multiple handlers.
 });</code></pre>
 <p>
 Or a shorthand syntax:<br>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : <b>this</b>.onClick,
     <em>'mouseover'</em> : <b>this</b>.onMouseOver,
     <em>'mouseout'</em> : <b>this</b>.onMouseOut,
@@ -867,7 +878,7 @@ should usually not need to be called directly.    <div class="mdetail-params">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-findParentBy"></a>
-            <b>findParentBy</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Array            <div class="mdesc">
+            <b>findParentBy</b>(&nbsp;<code>Function fcn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.Container            <div class="mdesc">
                         <div class="short">Find a container above this component at any level by a custom function. If the passed function returns
 true, the con...</div>
             <div class="long">
@@ -877,7 +888,7 @@ true, the container will be returned. The passed function is called with the arg
         <ul><li><code>fcn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>Array</code><div class="sub-desc">Array of Ext.Components</div></li>
+            <li><code>Ext.Container</code><div class="sub-desc">The first Container for which the custom function returns true</div></li>
         </ul>
     </div>
                 </div>
@@ -889,7 +900,7 @@ true, the container will be returned. The passed function is called with the arg
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-findParentByType"></a>
-            <b>findParentByType</b>(&nbsp;<code>String/Class xtype</code>&nbsp;) : Container            <div class="mdesc">
+            <b>findParentByType</b>(&nbsp;<code>String/Class xtype</code>&nbsp;) : Ext.Container            <div class="mdesc">
                         <div class="short">Find a container above this component at any level by xtype or class</div>
             <div class="long">
                 Find a container above this component at any level by xtype or class    <div class="mdetail-params">
@@ -897,7 +908,7 @@ true, the container will be returned. The passed function is called with the arg
         <ul><li><code>xtype</code> : String/Class<div class="sub-desc">The xtype string for a component, or the class of the component directly</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>Container</code><div class="sub-desc">The found container</div></li>
+            <li><code>Ext.Container</code><div class="sub-desc">The first Container which matches the given xtype or class</div></li>
         </ul>
     </div>
                 </div>
@@ -1221,15 +1232,19 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-isDirty"></a>
-            <b>isDirty</b>() : void            <div class="mdesc">
-                        <div class="short">Returns true if this field has been changed since it was originally loaded and is not disabled.</div>
+            <b>isDirty</b>() : Boolean            <div class="mdesc">
+                        <div class="short">Returns true if the value of this Field has been changed from its original value.
+Will return false if the field is d...</div>
             <div class="long">
-                Returns true if this field has been changed since it was originally loaded and is not disabled.    <div class="mdetail-params">
+                <p>Returns true if the value of this Field has been changed from its original value.
+Will return false if the field is disabled or has not been rendered yet.</p>
+<p>Note that if the owning <a ext:cls="Ext.form.BasicForm" href="output/Ext.form.BasicForm.html">form</a> was configured with <a ext:cls="Ext.form.BasicForm" ext:member="trackResetOnLoad" href="output/Ext.form.BasicForm.html#trackResetOnLoad">Ext.form.BasicForm.trackResetOnLoad</a>
+then the <i>original value</i> is updated when the values are loaded by <a ext:cls="Ext.form.BasicForm" ext:member="setValues" href="output/Ext.form.BasicForm.html#setValues">Ext.form.BasicForm.setValues</a>.</p>    <div class="mdetail-params">
         <strong>Parameters:</strong>
         <ul><li>None.</li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>void</code></li>
+            <li><code>Boolean</code><div class="sub-desc">True if this field has been changed from its original value (and is not disabled), false otherwise.</div></li>
         </ul>
     </div>
                 </div>
@@ -1261,7 +1276,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-isVisible"></a>
-            <b>isVisible</b>() : void            <div class="mdesc">
+            <b>isVisible</b>() : Boolean            <div class="mdesc">
                         <div class="short">Returns true if this component is visible.</div>
             <div class="long">
                 Returns true if this component is visible.    <div class="mdetail-params">
@@ -1269,7 +1284,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         <ul><li>None.</li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>void</code></li>
+            <li><code>Boolean</code><div class="sub-desc">True if this component is visible, false otherwise.</div></li>
         </ul>
     </div>
                 </div>
@@ -1281,7 +1296,7 @@ alert(t.getXTypes());  // alerts 'component/box/field/textfield'</pre></code>   
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-isXType"></a>
-            <b>isXType</b>(&nbsp;<code>String xtype</code>, <span class="optional" title="Optional">[<code>Boolean shallow</code>]</span>&nbsp;) : void            <div class="mdesc">
+            <b>isXType</b>(&nbsp;<code>String xtype</code>, <span class="optional" title="Optional">[<code>Boolean shallow</code>]</span>&nbsp;) : Boolean            <div class="mdesc">
                         <div class="short">Tests whether or not this Component is of a specific xtype. This can test whether this Component is descended
 from th...</div>
             <div class="long">
@@ -1300,7 +1315,7 @@ to participate in determination of inherited xtypes.</b></p>
 the default), or true to check whether this Component is directly of the specified xtype.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>void</code></li>
+            <li><code>Boolean</code><div class="sub-desc">True if this component descends from the specified xtype, false otherwise.</div></li>
         </ul>
     </div>
                 </div>
@@ -1313,10 +1328,10 @@ the default), or true to check whether this Component is directly of the specifi
         <td class="sig">
         <a id="Ext.form.Field-markInvalid"></a>
             <b>markInvalid</b>(&nbsp;<span class="optional" title="Optional">[<code>String msg</code>]</span>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Mark this field as invalid, using msgTarget to determine how to display the error and 
-applying invalidClass to the f...</div>
+                        <div class="short">Mark this field as invalid, using msgTarget to determine how to display the error and
+applying invalidClass to the fi...</div>
             <div class="long">
-                Mark this field as invalid, using <a ext:cls="Ext.form.Field" ext:member="msgTarget" href="output/Ext.form.Field.html#msgTarget">msgTarget</a> to determine how to display the error and 
+                Mark this field as invalid, using <a ext:cls="Ext.form.Field" ext:member="msgTarget" href="output/Ext.form.Field.html#msgTarget">msgTarget</a> to determine how to display the error and
 applying <a ext:cls="Ext.form.Field" ext:member="invalidClass" href="output/Ext.form.Field.html#invalidClass">invalidClass</a> to the field's element.    <div class="mdetail-params">
         <strong>Parameters:</strong>
         <ul><li><code>msg</code> : String<div class="sub-desc">(optional) The validation message (defaults to <a ext:cls="Ext.form.Field" ext:member="invalidText" href="output/Ext.form.Field.html#invalidText">invalidText</a>)</div></li>        </ul>
@@ -1436,10 +1451,10 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         <td class="sig">
         <a id="Ext.form.Field-render"></a>
             <b>render</b>(&nbsp;<span class="optional" title="Optional">[<code>Element/HTMLElement/String container</code>]</span>, <span class="optional" title="Optional">[<code>String/Number position</code>]</span>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Render this Components into the passed HTML element.
-If you are using a Container object to house this Component, the...</div>
+                        <div class="short">Render this Component into the passed HTML element.
+If you are using a Container object to house this Component, then...</div>
             <div class="long">
-                <p>Render this Components into the passed HTML element.</p>
+                <p>Render this Component into the passed HTML element.</p>
 <p><b>If you are using a <a ext:cls="Ext.Container" href="output/Ext.Container.html">Container</a> object to house this Component, then
 do not use the render method.</b></p>
 <p>A Container's child Components are rendered by that Container's
@@ -1457,7 +1472,7 @@ If you expect child items to be sized in response to user interactions, you must
 configure the Container with a layout manager which creates and manages the type of layout you
 have in mind.</p>
 <p><b>Omitting the Container's <a ext:cls="Ext.Container" ext:member="layout" href="output/Ext.Container.html#layout">layout</a> config means that a basic
-layout manager is used which does nothnig but render child components sequentially into the
+layout manager is used which does nothing but render child components sequentially into the
 Container. No sizing or positioning will be performed in this situation.</b></p>    <div class="mdetail-params">
         <strong>Parameters:</strong>
         <ul><li><code>container</code> : Element/HTMLElement/String<div class="sub-desc">(optional) The element this Component should be
@@ -1542,7 +1557,11 @@ which this component will be inserted (defaults to appending to the end of the c
             <div class="long">
                 Sets the height of the component.  This method fires the <a ext:cls="Ext.BoxComponent" ext:member="resize" href="output/Ext.BoxComponent.html#resize">resize</a> event.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>height</code> : Number<div class="sub-desc">The new height to set</div></li>        </ul>
+        <ul><li><code>height</code> : Number<div class="sub-desc">The new height to set. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in the <a ext:cls="Ext.BoxComponent" ext:member="getEl" href="output/Ext.BoxComponent.html#getEl">Element</a>'s <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">Ext.Element.defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS height style.</li>
+<li><i>undefined</i> to leave the height unchanged.</li>
+</ul></div></div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.BoxComponent</code><div class="sub-desc">this</div></li>
@@ -1621,14 +1640,24 @@ This method fires the <a ext:cls="Ext.BoxComponent" ext:member="move" href="outp
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.form.Field-setSize"></a>
-            <b>setSize</b>(&nbsp;<code>Number/Object width</code>, <code>Number height</code>&nbsp;) : Ext.BoxComponent            <div class="mdesc">
-                        <div class="short">Sets the width and height of the component.  This method fires the resize event.  This method can accept
-either width...</div>
+            <b>setSize</b>(&nbsp;<code>Mixed width</code>, <code>Mixed height</code>&nbsp;) : Ext.BoxComponent            <div class="mdesc">
+                        <div class="short">Sets the width and height of this BoxComponent. This method fires the resize event. This method can accept
+either wid...</div>
             <div class="long">
-                Sets the width and height of the component.  This method fires the <a ext:cls="Ext.BoxComponent" ext:member="resize" href="output/Ext.BoxComponent.html#resize">resize</a> event.  This method can accept
-either width and height as separate numeric arguments, or you can pass a size object like {width:10, height:20}.    <div class="mdetail-params">
+                Sets the width and height of this BoxComponent. This method fires the <a ext:cls="Ext.BoxComponent" ext:member="resize" href="output/Ext.BoxComponent.html#resize">resize</a> event. This method can accept
+either width and height as separate arguments, or you can pass a size object like <code>{width:10, height:20}</code>.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>width</code> : Number/Object<div class="sub-desc">The new width to set, or a size object in the format {width, height}</div></li><li><code>height</code> : Number<div class="sub-desc">The new height to set (not required if a size object is passed as the first arg)</div></li>        </ul>
+        <ul><li><code>width</code> : Mixed<div class="sub-desc">The new width to set. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in the <a ext:cls="Ext.BoxComponent" ext:member="getEl" href="output/Ext.BoxComponent.html#getEl">Element</a>'s <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">Ext.Element.defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS width style.</li>
+<li>A size object in the format <code>{width: widthValue, height: heightValue}</code>.</li>
+<li><code>undefined</code> to leave the width unchanged.</li>
+</ul></div></div></li><li><code>height</code> : Mixed<div class="sub-desc">The new height to set (not required if a size object is passed as the first arg).
+This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in the <a ext:cls="Ext.BoxComponent" ext:member="getEl" href="output/Ext.BoxComponent.html#getEl">Element</a>'s <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">Ext.Element.defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS height style. Animation may <b>not</b> be used.</li>
+<li><code>undefined</code> to leave the height unchanged.</li>
+</ul></div></div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.BoxComponent</code><div class="sub-desc">this</div></li>
@@ -1688,7 +1717,10 @@ either width and height as separate numeric arguments, or you can pass a size ob
             <div class="long">
                 Sets the width of the component.  This method fires the <a ext:cls="Ext.BoxComponent" ext:member="resize" href="output/Ext.BoxComponent.html#resize">resize</a> event.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>width</code> : Number<div class="sub-desc">The new width to set</div></li>        </ul>
+        <ul><li><code>width</code> : Number<div class="sub-desc">The new width to setThis may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in the <a ext:cls="Ext.BoxComponent" ext:member="getEl" href="output/Ext.BoxComponent.html#getEl">Element</a>'s <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">Ext.Element.defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS width style.</li>
+</ul></div></div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.BoxComponent</code><div class="sub-desc">this</div></li>

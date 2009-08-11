@@ -1,9 +1,23 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.tree.TreeEventModel=function(A){this.tree=A;this.tree.on("render",this.initEvents,this)};Ext.tree.TreeEventModel.prototype={initEvents:function(){var A=this.tree.getTreeEl();A.on("click",this.delegateClick,this);if(this.tree.trackMouseOver!==false){A.on("mouseover",this.delegateOver,this);A.on("mouseout",this.delegateOut,this)}A.on("dblclick",this.delegateDblClick,this);A.on("contextmenu",this.delegateContextMenu,this)},getNode:function(B){var A;if(A=B.getTarget(".x-tree-node-el",10)){var C=Ext.fly(A,"_treeEvents").getAttributeNS("ext","tree-node-id");if(C){return this.tree.getNodeById(C)}}return null},getNodeTarget:function(B){var A=B.getTarget(".x-tree-node-icon",1);if(!A){A=B.getTarget(".x-tree-node-el",6)}return A},delegateOut:function(B,A){if(!this.beforeEvent(B)){return }if(B.getTarget(".x-tree-ec-icon",1)){var C=this.getNode(B);this.onIconOut(B,C);if(C==this.lastEcOver){delete this.lastEcOver}}if((A=this.getNodeTarget(B))&&!B.within(A,true)){this.onNodeOut(B,this.getNode(B))}},delegateOver:function(B,A){if(!this.beforeEvent(B)){return }if(this.lastEcOver){this.onIconOut(B,this.lastEcOver);delete this.lastEcOver}if(B.getTarget(".x-tree-ec-icon",1)){this.lastEcOver=this.getNode(B);this.onIconOver(B,this.lastEcOver)}if(A=this.getNodeTarget(B)){this.onNodeOver(B,this.getNode(B))}},delegateClick:function(B,A){if(!this.beforeEvent(B)){return }if(B.getTarget("input[type=checkbox]",1)){this.onCheckboxClick(B,this.getNode(B))}else{if(B.getTarget(".x-tree-ec-icon",1)){this.onIconClick(B,this.getNode(B))}else{if(this.getNodeTarget(B)){this.onNodeClick(B,this.getNode(B))}}}},delegateDblClick:function(B,A){if(this.beforeEvent(B)&&this.getNodeTarget(B)){this.onNodeDblClick(B,this.getNode(B))}},delegateContextMenu:function(B,A){if(this.beforeEvent(B)&&this.getNodeTarget(B)){this.onNodeContextMenu(B,this.getNode(B))}},onNodeClick:function(B,A){A.ui.onClick(B)},onNodeOver:function(B,A){A.ui.onOver(B)},onNodeOut:function(B,A){A.ui.onOut(B)},onIconOver:function(B,A){A.ui.addClass("x-tree-ec-over")},onIconOut:function(B,A){A.ui.removeClass("x-tree-ec-over")},onIconClick:function(B,A){A.ui.ecClick(B)},onCheckboxClick:function(B,A){A.ui.onCheckChange(B)},onNodeDblClick:function(B,A){A.ui.onDblClick(B)},onNodeContextMenu:function(B,A){A.ui.onContextMenu(B)},beforeEvent:function(A){if(this.disabled){A.stopEvent();return false}return true},disable:function(){this.disabled=true},enable:function(){this.disabled=false}};
+
+Ext.tree.TreeEventModel=function(tree){this.tree=tree;this.tree.on('render',this.initEvents,this);}
+Ext.tree.TreeEventModel.prototype={initEvents:function(){var el=this.tree.getTreeEl();el.on('click',this.delegateClick,this);if(this.tree.trackMouseOver!==false){el.on('mouseover',this.delegateOver,this);el.on('mouseout',this.delegateOut,this);}
+el.on('dblclick',this.delegateDblClick,this);el.on('contextmenu',this.delegateContextMenu,this);},getNode:function(e){var t;if(t=e.getTarget('.x-tree-node-el',10)){var id=Ext.fly(t,'_treeEvents').getAttributeNS('ext','tree-node-id');if(id){return this.tree.getNodeById(id);}}
+return null;},getNodeTarget:function(e){var t=e.getTarget('.x-tree-node-icon',1);if(!t){t=e.getTarget('.x-tree-node-el',6);}
+return t;},delegateOut:function(e,t){if(!this.beforeEvent(e)){return;}
+if(e.getTarget('.x-tree-ec-icon',1)){var n=this.getNode(e);this.onIconOut(e,n);if(n==this.lastEcOver){delete this.lastEcOver;}}
+if((t=this.getNodeTarget(e))&&!e.within(t,true)){this.onNodeOut(e,this.getNode(e));}},delegateOver:function(e,t){if(!this.beforeEvent(e)){return;}
+if(this.lastEcOver){this.onIconOut(e,this.lastEcOver);delete this.lastEcOver;}
+if(e.getTarget('.x-tree-ec-icon',1)){this.lastEcOver=this.getNode(e);this.onIconOver(e,this.lastEcOver);}
+if(t=this.getNodeTarget(e)){this.onNodeOver(e,this.getNode(e));}},delegateClick:function(e,t){if(!this.beforeEvent(e)){return;}
+if(e.getTarget('input[type=checkbox]',1)){this.onCheckboxClick(e,this.getNode(e));}
+else if(e.getTarget('.x-tree-ec-icon',1)){this.onIconClick(e,this.getNode(e));}
+else if(this.getNodeTarget(e)){this.onNodeClick(e,this.getNode(e));}},delegateDblClick:function(e,t){if(this.beforeEvent(e)&&this.getNodeTarget(e)){this.onNodeDblClick(e,this.getNode(e));}},delegateContextMenu:function(e,t){if(this.beforeEvent(e)&&this.getNodeTarget(e)){this.onNodeContextMenu(e,this.getNode(e));}},onNodeClick:function(e,node){node.ui.onClick(e);},onNodeOver:function(e,node){node.ui.onOver(e);},onNodeOut:function(e,node){node.ui.onOut(e);},onIconOver:function(e,node){node.ui.addClass('x-tree-ec-over');},onIconOut:function(e,node){node.ui.removeClass('x-tree-ec-over');},onIconClick:function(e,node){node.ui.ecClick(e);},onCheckboxClick:function(e,node){node.ui.onCheckChange(e);},onNodeDblClick:function(e,node){node.ui.onDblClick(e);},onNodeContextMenu:function(e,node){node.ui.onContextMenu(e);},beforeEvent:function(e){if(this.disabled){e.stopEvent();return false;}
+return true;},disable:function(){this.disabled=true;},enable:function(){this.disabled=false;}};

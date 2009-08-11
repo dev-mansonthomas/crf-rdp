@@ -1,11 +1,9 @@
 package fr.croixrouge.rdp.services.dispositif;
 
 import java.util.Date;
-import java.util.List;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
-import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.Position;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
@@ -19,8 +17,7 @@ public interface DispositifService
   public Dispositif       createEmptyDispositif   (Regulation regulation                                                  ) throws Exception;
   public void             updateEtatDispositif    (int idDispositif       , int idEtatDispositif                          ) throws Exception;
   public void             actionEndOfIntervention (int idDispositif) throws Exception;
-  
-  public List<Equipier> getEquipierIdAndRoleOfDispositif(int idRegulation, int idDispositif) throws Exception;
+
   public int            getIdTypeDispositif             (int idRegulation, int idDispositif) throws Exception;
   
   public void updateGoogleCoordinates     (float latitude  , float  longitude, int      idDispositif, boolean current) throws Exception;

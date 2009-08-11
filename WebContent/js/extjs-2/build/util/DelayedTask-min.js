@@ -1,9 +1,11 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.util.DelayedTask=function(E,D,A){var G=null,F,B;var C=function(){var H=new Date().getTime();if(H-B>=F){clearInterval(G);G=null;E.apply(D,A||[])}};this.delay=function(I,K,J,H){if(G&&I!=F){this.cancel()}F=I;B=new Date().getTime();E=K||E;D=J||D;A=H||A;if(!G){G=setInterval(C,F)}};this.cancel=function(){if(G){clearInterval(G);G=null}}};
+
+Ext.util.DelayedTask=function(fn,scope,args){var id=null;var call=function(){id=null;fn.apply(scope,args||[]);};this.delay=function(delay,newFn,newScope,newArgs){if(id){this.cancel();}
+fn=newFn||fn;scope=newScope||scope;args=newArgs||args;if(!id){id=setTimeout(call,delay);}};this.cancel=function(){if(id){clearTimeout(id);id=null;}};};

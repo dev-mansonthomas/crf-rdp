@@ -1,9 +1,10 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.ComponentMgr=function(){var B=new Ext.util.MixedCollection();var A={};return{register:function(C){B.add(C)},unregister:function(C){B.remove(C)},get:function(C){return B.get(C)},onAvailable:function(E,D,C){B.on("add",function(F,G){if(G.id==E){D.call(C||G,G);B.un("add",D,C)}})},all:B,registerType:function(D,C){A[D]=C;C.xtype=D},create:function(C,D){return new A[C.xtype||D](C)}}}();Ext.reg=Ext.ComponentMgr.registerType;
+
+Ext.ComponentMgr=function(){var all=new Ext.util.MixedCollection();var types={};return{register:function(c){all.add(c);},unregister:function(c){all.remove(c);},get:function(id){return all.get(id);},onAvailable:function(id,fn,scope){all.on("add",function(index,o){if(o.id==id){fn.call(scope||o,o);all.un("add",fn,scope);}});},all:all,registerType:function(xtype,cls){types[xtype]=cls;cls.xtype=xtype;},create:function(config,defaultType){return new types[config.xtype||defaultType](config);}};}();Ext.reg=Ext.ComponentMgr.registerType;

@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -45,14 +45,15 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
         if (this.gmapType === 'map'){
             this.gmap = new GMap2(this.body.dom);
         }
-        else if (this.gmapType === 'panorama'){
+        
+        if (this.gmapType === 'panorama'){
             this.gmap = new GStreetviewPanorama(this.body.dom);
         }
         
         if (typeof this.addControl == 'object' && this.gmapType === 'map') {
             this.gmap.addControl(this.addControl);
         }
-
+        
         if (typeof this.setCenter === 'object') {
             if (typeof this.setCenter.geoCodeAddr === 'string'){
                 this.geoCodeLookup(this.setCenter.geoCodeAddr);

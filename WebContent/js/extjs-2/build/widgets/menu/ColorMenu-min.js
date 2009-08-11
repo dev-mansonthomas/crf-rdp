@@ -1,9 +1,10 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.menu.ColorMenu=function(A){Ext.menu.ColorMenu.superclass.constructor.call(this,A);this.plain=true;var B=new Ext.menu.ColorItem(A);this.add(B);this.palette=B.palette;this.relayEvents(B,["select"])};Ext.extend(Ext.menu.ColorMenu,Ext.menu.Menu);
+
+Ext.menu.ColorMenu=function(config){Ext.menu.ColorMenu.superclass.constructor.call(this,config);this.plain=true;var ci=new Ext.menu.ColorItem(config);this.add(ci);this.palette=ci.palette;this.relayEvents(ci,["select"]);};Ext.extend(Ext.menu.ColorMenu,Ext.menu.Menu,{beforeDestroy:function(){this.palette.destroy();}});

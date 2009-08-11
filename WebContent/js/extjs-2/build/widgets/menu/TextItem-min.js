@@ -1,9 +1,11 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.menu.TextItem=function(A){if(typeof A=="string"){A={text:A}}Ext.menu.TextItem.superclass.constructor.call(this,A)};Ext.extend(Ext.menu.TextItem,Ext.menu.BaseItem,{hideOnClick:false,itemCls:"x-menu-text",onRender:function(){var A=document.createElement("span");A.className=this.itemCls;A.innerHTML=this.text;this.el=A;Ext.menu.TextItem.superclass.onRender.apply(this,arguments)}});
+
+Ext.menu.TextItem=function(cfg){if(typeof cfg=='string'){cfg={text:cfg}}
+Ext.menu.TextItem.superclass.constructor.call(this,cfg);};Ext.extend(Ext.menu.TextItem,Ext.menu.BaseItem,{hideOnClick:false,itemCls:"x-menu-text",onRender:function(){var s=document.createElement("span");s.className=this.itemCls;s.innerHTML=this.text;this.el=s;Ext.menu.TextItem.superclass.onRender.apply(this,arguments);}});

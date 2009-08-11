@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -111,7 +111,7 @@ Ext.extend(Ext.data.XmlReader, Ext.data.DataReader, {
 	        var id = sid ? q.selectValue(sid, n) : undefined;
 	        for(var j = 0, jlen = fields.length; j < jlen; j++){
 	            var f = fields.items[j];
-                var v = q.selectValue(f.mapping || f.name, n, f.defaultValue);
+                var v = q.selectValue(Ext.isEmpty(f.mapping, true) ? f.name : f.mapping, n, f.defaultValue);
 	            v = f.convert(v, n);
 	            values[f.name] = v;
 	        }

@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -130,7 +130,7 @@ Ext.DataView = Ext.extend(Ext.BoxComponent, {
     // private
     initComponent : function(){
         Ext.DataView.superclass.initComponent.call(this);
-        if(typeof this.tpl == "string"){
+        if(typeof this.tpl == "string" || Ext.isArray(this.tpl)){
             this.tpl = new Ext.XTemplate(this.tpl);
         }
 
@@ -262,13 +262,13 @@ Ext.DataView = Ext.extend(Ext.BoxComponent, {
             if(!this.deferEmptyText || this.hasSkippedEmptyText){
                 this.el.update(this.emptyText);
             }
-            this.hasSkippedEmptyText = true;
             this.all.clear();
-            return;
+        }else{
+            this.tpl.overwrite(this.el, this.collectData(records, 0));
+            this.all.fill(Ext.query(this.itemSelector, this.el.dom));
+            this.updateIndexes(0);
         }
-        this.tpl.overwrite(this.el, this.collectData(records, 0));
-        this.all.fill(Ext.query(this.itemSelector, this.el.dom));
-        this.updateIndexes(0);
+        this.hasSkippedEmptyText = true;
     },
 
     /**
@@ -347,6 +347,9 @@ Ext.DataView = Ext.extend(Ext.BoxComponent, {
         this.deselect(index);
         this.all.removeElement(index, true);
         this.updateIndexes(index);
+        if (this.store.getCount() == 0){
+            this.refresh();
+        }
     },
 
     /**
@@ -365,6 +368,14 @@ Ext.DataView = Ext.extend(Ext.BoxComponent, {
         for(var i = startIndex; i <= endIndex; i++){
             ns[i].viewIndex = i;
         }
+    },
+    
+    /**
+     * Returns the store associated with this DataView.
+     * @return {Ext.data.Store} The store
+     */
+    getStore : function(){
+        return this.store;
     },
 
     /**
@@ -448,7 +459,7 @@ Ext.DataView = Ext.extend(Ext.BoxComponent, {
     // private
     onMouseOut : function(e){
         if(this.lastItem){
-            if(!e.within(this.lastItem, true)){
+            if(!e.within(this.lastItem, true, true)){
                 Ext.fly(this.lastItem).removeClass(this.overClass);
                 this.fireEvent("mouseleave", this, this.indexOf(this.lastItem), this.lastItem, e);
                 delete this.lastItem;

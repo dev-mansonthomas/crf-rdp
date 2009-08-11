@@ -13,6 +13,7 @@
             <prop  key="/private/Homepage.html"   >HomepageController</prop>
             <prop  key="/private/monitor/in.html" >MonitorInController</prop>
             <prop  key="/private/monitor/out.html">MonitorOutController</prop>
+            <prop  key="/private/test/testThomas.html">TestController</prop>
           </props>
        </property>
   </bean>
@@ -30,7 +31,10 @@
        class="fr.croixrouge.rdp.controller.MonitorOutController" autowire="constructor">
   </bean>
 
-
+  <bean id="TestController" name="TestController"
+       class="fr.croixrouge.rdp.controller.TestController" autowire="constructor">
+  </bean>
+  
   <!-- View Resolvers -->
   <bean id="viewResolver"
      class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -25,7 +25,8 @@ and should generally not need to be created directly via the new keyword.</p>
 for customizing the BorderLayout are at the <a ext:cls="Ext.layout.BorderLayout.Region" href="output/Ext.layout.BorderLayout.Region.html">Ext.layout.BorderLayout.Region</a> and
 <a ext:cls="Ext.layout.BorderLayout.SplitRegion" href="output/Ext.layout.BorderLayout.SplitRegion.html">Ext.layout.BorderLayout.SplitRegion</a> levels.</p>
 <p><b>The regions of a BorderLayout are fixed at render time and thereafter, no regions may be removed or
-added.</b></p>
+added. The BorderLayout must have a center region, which will always fill the remaining space not used by
+the other regions in the layout.</b></p>
 <p>Example usage:</p>
 <pre><code>var border = <b>new</b> Ext.Panel({
     title: <em>'Border Layout'</em>,

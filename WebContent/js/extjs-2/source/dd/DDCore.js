@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -184,13 +184,21 @@ Ext.dd.DragDrop.prototype = {
     lock: function() { this.locked = true; },
 
     /**
+     * When set to true, other DD objects in cooperating DDGroups do not receive
+     * notification events when this DD object is dragged over them. Defaults to false.
+     * @property moveOnly
+     * @type boolean
+     */
+    moveOnly: false,
+
+    /**
      * Unlock this instace
      * @method unlock
      */
     unlock: function() { this.locked = false; },
 
     /**
-     * By default, all insances can be a drop target.  This can be disabled by
+     * By default, all instances can be a drop target.  This can be disabled by
      * setting isTarget to false.
      * @property isTarget
      * @type boolean
@@ -675,7 +683,7 @@ Ext.dd.DragDrop.prototype = {
 
     /**
      * Stores the initial placement of the linked element.
-     * @method setInitialPosition
+     * @method setInitPosition
      * @param {int} diffX   the X offset, default 0
      * @param {int} diffY   the Y offset, default 0
      */
@@ -1512,7 +1520,7 @@ Ext.dd.DragDropMgr = function() {
          */
         _remove: function(oDD) {
             for (var g in oDD.groups) {
-                if (g && this.ids[g][oDD.id]) {
+                if (g && this.ids[g] && this.ids[g][oDD.id]) {
                     delete this.ids[g][oDD.id];
                 }
             }
@@ -1560,7 +1568,7 @@ Ext.dd.DragDropMgr = function() {
         getRelated: function(p_oDD, bTargetsOnly) {
             var oDDs = [];
             for (var i in p_oDD.groups) {
-                for (j in this.ids[i]) {
+                for (var j in this.ids[i]) {
                     var dd = this.ids[i][j];
                     if (! this.isTypeOfDD(dd)) {
                         continue;
@@ -1653,8 +1661,13 @@ Ext.dd.DragDropMgr = function() {
             if(Ext.QuickTips){
                 Ext.QuickTips.disable();
             }
+            if(this.dragCurrent){
+                // the original browser mouseup wasn't handled (e.g. outside FF browser window)
+                // so clean up first to avoid breaking the next drag
+                this.handleMouseUp(e);
+            }
+            
             this.currentTarget = e.getTarget();
-
             this.dragCurrent = oDD;
 
             var el = oDD.getEl();

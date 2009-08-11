@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -477,7 +477,7 @@ el.frame("ff0000", 3, { duration: 3 });
 
 // common config options shown with default values
 el.frame("C3DAF9", 1, {
-    duration: 1 //duration of entire animation (not each individual ripple)
+    duration: 1 //duration of each individual ripple.
     // Note: Easing is not configurable and will be ignored if included
 });
 </code></pre>
@@ -487,46 +487,73 @@ el.frame("C3DAF9", 1, {
     * @return {Ext.Element} The Element
     */
     frame : function(color, count, o){
-        var el = this.getFxEl();
+        var el = this.getFxEl(),
+            proxy,
+            active;
+            
         o = o || {};
 
         el.queueFx(o, function(){
-            color = color || "#C3DAF9";
+            color = color || "#C3DAF9"
             if(color.length == 6){
                 color = "#" + color;
-            }
+            }            
             count = count || 1;
-            var duration = o.duration || 1;
             this.show();
 
-            var b = this.getBox();
-            var animFn = function(){
-                var proxy = Ext.getBody().createChild({
-                     style:{
-                        visbility:"hidden",
-                        position:"absolute",
-                        "z-index":"35000", // yee haw
-                        border:"0px solid " + color
-                     }
-                  });
+            var xy = this.getXY(),
+                dom = this.dom,
+                b = {x: xy[0], y: xy[1], 0: xy[0], 1: xy[1], width: dom.offsetWidth, height: dom.offsetHeight},
+                proxy,
+                queue = function(){
+                    proxy = Ext.get(document.body || document.documentElement).createChild({
+                        style:{
+                            visbility: 'hidden',
+                            position : 'absolute',
+                            "z-index": 35000, // yee haw
+                            border : "0px solid " + color
+                        }
+                    });
+                    return proxy.queueFx({}, animFn);
+                };
+            
+            
+            arguments.callee.anim = {
+                isAnimated: function(){
+                    return true;
+                },
+                stop: function() {
+                    count = 0;
+                    proxy.stopFx();
+                }
+            };
+            
+            function animFn(){
                 var scale = Ext.isBorderBox ? 2 : 1;
-                proxy.animate({
-                    top:{from:b.y, to:b.y - 20},
-                    left:{from:b.x, to:b.x - 20},
-                    borderWidth:{from:0, to:10},
-                    opacity:{from:1, to:0},
-                    height:{from:b.height, to:(b.height + (20*scale))},
-                    width:{from:b.width, to:(b.width + (20*scale))}
-                }, duration, function(){
-                    proxy.remove();
-                    if(--count > 0){
-                         animFn();
-                    }else{
-                        el.afterFx(o);
+                active = proxy.anim({
+                    top : {from : b.y, to : b.y - 20},
+                    left : {from : b.x, to : b.x - 20},
+                    borderWidth : {from : 0, to : 10},
+                    opacity : {from : 1, to : 0},
+                    height : {from : b.height, to : b.height + 20 * scale},
+                    width : {from : b.width, to : b.width + 20 * scale}
+                },{
+                    duration: o.duration || 1,
+                    callback: function() {
+                        proxy.remove();
+                        --count > 0 ? queue() : el.afterFx(o);
                     }
                 });
+                arguments.callee.anim = {
+                    isAnimated: function(){
+                        return true;
+                    },
+                    stop: function(){
+                        active.stop();
+                    }
+                };
             };
-            animFn.call(this);
+            queue();
         });
         return this;
     },
@@ -542,13 +569,22 @@ el.pause(1);
     * @return {Ext.Element} The Element
     */
     pause : function(seconds){
-        var el = this.getFxEl();
-        var o = {};
+        var el = this.getFxEl(),
+            t;
 
-        el.queueFx(o, function(){
-            setTimeout(function(){
-                el.afterFx(o);
+        el.queueFx({}, function(){
+            t = setTimeout(function(){
+                el.afterFx({});
             }, seconds * 1000);
+            arguments.callee.anim = {
+                isAnimated: function(){
+                    return true;
+                },
+                stop: function(){
+                    clearTimeout(t);
+                    el.afterFx({});
+                }
+            };
         });
         return this;
     },
@@ -621,14 +657,17 @@ el.fadeOut({
         var el = this.getFxEl();
         o = o || {};
         el.queueFx(o, function(){
-            arguments.callee.anim = this.fxanim({opacity:{to:o.endOpacity || 0}},
+            var to = o.endOpacity || 0;
+            arguments.callee.anim = this.fxanim({opacity:{to:to}},
                 o, null, .5, "easeOut", function(){
-                if(this.visibilityMode == Ext.Element.DISPLAY || o.useDisplay){
-                     this.dom.style.display = "none";
-                }else{
-                     this.dom.style.visibility = "hidden";
+                if(to === 0){
+                    if(this.visibilityMode == Ext.Element.DISPLAY || o.useDisplay){
+                         this.dom.style.display = "none";
+                    }else{
+                         this.dom.style.visibility = "hidden";
+                    }
+                    this.clearOpacity();
                 }
-                this.clearOpacity();
                 el.afterFx(o);
             });
         });
@@ -979,9 +1018,11 @@ el.ghost('b', {
         if(o.remove === true){
             this.remove();
         }
-        Ext.callback(o.callback, o.scope, [this]);
         if(!o.concurrent){
             this.fxQueue.shift();
+        }
+        Ext.callback(o.callback, o.scope, [this]);
+        if(!o.concurrent){
             this.nextFx();
         }
     },

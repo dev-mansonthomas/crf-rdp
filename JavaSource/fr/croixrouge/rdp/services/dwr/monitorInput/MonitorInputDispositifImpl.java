@@ -11,6 +11,8 @@ import org.directwebremoting.ScriptBuffer;
 import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.Regulation;
+import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
+import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
@@ -58,6 +60,49 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return hash;
     
   }
+  
+  public ListRange searchEquipier(GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
+  {
+    this.validateSession();
+    
+    FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("idRole");
+    
+    if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
+      throw new Exception("Veuillez choisir un role");
+    
+    int idRole = 0;
+    try
+    {
+      idRole = Integer.parseInt(filterObject.getValue());  
+    }
+    catch(NumberFormatException e)
+    {
+      throw new Exception("idRole n'est pas un entier '"+filterObject.getValue()+"'");
+    }
+    
+    String searchString = null;
+    filterObject = gridSearchFilterAndSortObject.getFilterObject("search");
+    if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
+      throw new Exception("Recherche nulle");
+    
+    searchString = filterObject.getValue();
+    
+    try
+    {
+      return this.equipierService.searchEquipier(
+          idRole, 
+          searchString,
+          gridSearchFilterAndSortObject.getStart(),
+          gridSearchFilterAndSortObject.getLimit()
+          );      
+    }
+    catch(Exception e)
+    {
+      logger.error("Erreur sur la recherche d'équipier",e);
+      throw e;
+    }
+  }
+  
   public List<Equipier> getEquipierByNivol(int type, int equipierRole, String numNivol) throws Exception
   {
     if(numNivol.length()<3)
@@ -147,9 +192,9 @@ public class MonitorInputDispositifImpl extends DWRUtils
   {
     this.validateSession();
     
-    this.dispositifService.affectEquipierToDispositif(idDispositif, idEquipier  , idRoleEquipier);
+    this.dispositifService.affectEquipierToDispositif  (idDispositif, idEquipier  , idRoleEquipier);
     this.equipierService  .setDispositifToEquipier     (idEquipier  , idDispositif                );
-    
+//TODO voir pkoi il manque le equipierRank dans l'equipier.    
     return this.equipierService.getEquipiersForDispositif(idDispositif);
   }
   

@@ -1,9 +1,18 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.dd.ScrollManager=function(){var C=Ext.dd.DragDropMgr;var E={};var B=null;var H={};var G=function(K){B=null;A()};var I=function(){if(C.dragCurrent){C.refreshCache(C.dragCurrent.groups)}};var D=function(){if(C.dragCurrent){var K=Ext.dd.ScrollManager;var L=H.el.ddScrollConfig?H.el.ddScrollConfig.increment:K.increment;if(!K.animate){if(H.el.scroll(H.dir,L)){I()}}else{H.el.scroll(H.dir,L,true,K.animDuration,I)}}};var A=function(){if(H.id){clearInterval(H.id)}H.id=0;H.el=null;H.dir=""};var F=function(L,K){A();H.el=L;H.dir=K;var M=(L.ddScrollConfig&&L.ddScrollConfig.frequency)?L.ddScrollConfig.frequency:Ext.dd.ScrollManager.frequency;H.id=setInterval(D,M)};var J=function(N,P){if(P||!C.dragCurrent){return }var Q=Ext.dd.ScrollManager;if(!B||B!=C.dragCurrent){B=C.dragCurrent;Q.refreshCache()}var R=Ext.lib.Event.getXY(N);var S=new Ext.lib.Point(R[0],R[1]);for(var L in E){var M=E[L],K=M._region;var O=M.ddScrollConfig?M.ddScrollConfig:Q;if(K&&K.contains(S)&&M.isScrollable()){if(K.bottom-S.y<=O.vthresh){if(H.el!=M){F(M,"down")}return }else{if(K.right-S.x<=O.hthresh){if(H.el!=M){F(M,"left")}return }else{if(S.y-K.top<=O.vthresh){if(H.el!=M){F(M,"up")}return }else{if(S.x-K.left<=O.hthresh){if(H.el!=M){F(M,"right")}return }}}}}}A()};C.fireEvents=C.fireEvents.createSequence(J,C);C.stopDrag=C.stopDrag.createSequence(G,C);return{register:function(M){if(Ext.isArray(M)){for(var L=0,K=M.length;L<K;L++){this.register(M[L])}}else{M=Ext.get(M);E[M.id]=M}},unregister:function(M){if(Ext.isArray(M)){for(var L=0,K=M.length;L<K;L++){this.unregister(M[L])}}else{M=Ext.get(M);delete E[M.id]}},vthresh:25,hthresh:25,increment:100,frequency:500,animate:true,animDuration:0.4,refreshCache:function(){for(var K in E){if(typeof E[K]=="object"){E[K]._region=E[K].getRegion()}}}}}();
+
+Ext.dd.ScrollManager=function(){var ddm=Ext.dd.DragDropMgr;var els={};var dragEl=null;var proc={};var onStop=function(e){dragEl=null;clearProc();};var triggerRefresh=function(){if(ddm.dragCurrent){ddm.refreshCache(ddm.dragCurrent.groups);}};var doScroll=function(){if(ddm.dragCurrent){var dds=Ext.dd.ScrollManager;var inc=proc.el.ddScrollConfig?proc.el.ddScrollConfig.increment:dds.increment;if(!dds.animate){if(proc.el.scroll(proc.dir,inc)){triggerRefresh();}}else{proc.el.scroll(proc.dir,inc,true,dds.animDuration,triggerRefresh);}}};var clearProc=function(){if(proc.id){clearInterval(proc.id);}
+proc.id=0;proc.el=null;proc.dir="";};var startProc=function(el,dir){clearProc();proc.el=el;proc.dir=dir;var freq=(el.ddScrollConfig&&el.ddScrollConfig.frequency)?el.ddScrollConfig.frequency:Ext.dd.ScrollManager.frequency;proc.id=setInterval(doScroll,freq);};var onFire=function(e,isDrop){if(isDrop||!ddm.dragCurrent){return;}
+var dds=Ext.dd.ScrollManager;if(!dragEl||dragEl!=ddm.dragCurrent){dragEl=ddm.dragCurrent;dds.refreshCache();}
+var xy=Ext.lib.Event.getXY(e);var pt=new Ext.lib.Point(xy[0],xy[1]);for(var id in els){var el=els[id],r=el._region;var c=el.ddScrollConfig?el.ddScrollConfig:dds;if(r&&r.contains(pt)&&el.isScrollable()){if(r.bottom-pt.y<=c.vthresh){if(proc.el!=el){startProc(el,"down");}
+return;}else if(r.right-pt.x<=c.hthresh){if(proc.el!=el){startProc(el,"left");}
+return;}else if(pt.y-r.top<=c.vthresh){if(proc.el!=el){startProc(el,"up");}
+return;}else if(pt.x-r.left<=c.hthresh){if(proc.el!=el){startProc(el,"right");}
+return;}}}
+clearProc();};ddm.fireEvents=ddm.fireEvents.createSequence(onFire,ddm);ddm.stopDrag=ddm.stopDrag.createSequence(onStop,ddm);return{register:function(el){if(Ext.isArray(el)){for(var i=0,len=el.length;i<len;i++){this.register(el[i]);}}else{el=Ext.get(el);els[el.id]=el;}},unregister:function(el){if(Ext.isArray(el)){for(var i=0,len=el.length;i<len;i++){this.unregister(el[i]);}}else{el=Ext.get(el);delete els[el.id];}},vthresh:25,hthresh:25,increment:100,frequency:500,animate:true,animDuration:.4,refreshCache:function(){for(var id in els){if(typeof els[id]=='object'){els[id]._region=els[id].getRegion();}}}};}();

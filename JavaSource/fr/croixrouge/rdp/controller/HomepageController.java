@@ -33,8 +33,10 @@ public class HomepageController extends AbstractController
     List<Regulation> regulations = regulationService.getRegulations(true);
     Map<String, Object> model = new HashMap<String, Object>();
     model.put("regulations"                 , regulations);
+    
     model.put("applicationVersion"          , this.propertyPlaceholderConfigurer.getPropertyValue("application.version"         ));
     model.put("environment"                 , this.propertyPlaceholderConfigurer.getPropertyValue("application.environment"     ));
+    model.put("environmentCode"             , this.propertyPlaceholderConfigurer.getPropertyValue("application.environment.code"));
     model.put("applicationDeclarationCnil"  , this.propertyPlaceholderConfigurer.getPropertyValue("application.declarationCnil" ));    
     
     

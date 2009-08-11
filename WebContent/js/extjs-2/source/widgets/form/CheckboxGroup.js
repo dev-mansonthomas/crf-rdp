@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -15,6 +15,10 @@
  * @param {Object} config Configuration options
  */
 Ext.form.CheckboxGroup = Ext.extend(Ext.form.Field, {
+    /**
+     * @cfg {Array} items An Array of {@link Ext.form.Checkbox Checkbox}es or Checkbox config objects
+     * to arrange in the group.
+     */
     /**
      * @cfg {String/Number/Array} columns Specifies the number of columns to use when displaying grouped
      * checkbox/radio controls using automatic layout.  This config can take several types of values:
@@ -52,6 +56,20 @@ Ext.form.CheckboxGroup = Ext.extend(Ext.form.Field, {
     
     // private
     groupCls: 'x-form-check-group',
+    
+    // private
+    initComponent: function(){
+        this.addEvents(
+            /**
+             * @event change
+             * Fires when the state of a child checkbox changes.
+             * @param {Ext.form.CheckboxGroup} this
+             * @param {Array} checked An array containing the checked boxes.
+             */
+            'change'
+        );   
+        Ext.form.CheckboxGroup.superclass.initComponent.call(this);
+    },
     
     // private
     onRender : function(ct, position){
@@ -144,6 +162,7 @@ Ext.form.CheckboxGroup = Ext.extend(Ext.form.Field, {
             }
             
             this.panel = new Ext.Panel(panelCfg);
+            this.panel.ownerCt = this;
             this.el = this.panel.getEl();
             
             if(this.forId && this.itemCls){
@@ -161,6 +180,24 @@ Ext.form.CheckboxGroup = Ext.extend(Ext.form.Field, {
             this.items.addAll(fields);
         }
         Ext.form.CheckboxGroup.superclass.onRender.call(this, ct, position);
+    },
+    
+    afterRender : function(){
+        Ext.form.CheckboxGroup.superclass.afterRender.call(this);
+        this.items.each(function(item){
+            item.on('check', this.fireChecked, this);
+        }, this);
+    },
+    
+    // private
+    fireChecked: function(){
+        var arr = [];
+        this.items.each(function(item){
+            if(item.checked){
+                arr.push(item);
+            }
+        });
+        this.fireEvent('change', this, arr);
     },
     
     // private
@@ -181,6 +218,12 @@ Ext.form.CheckboxGroup = Ext.extend(Ext.form.Field, {
     },
     
     // private
+    onDestroy: function() {
+        Ext.destroy(this.panel);
+        Ext.form.CheckboxGroup.superclass.onDestroy.call(this);
+    },
+    
+    // private
     onDisable : function(){
         this.items.each(function(item){
             item.disable();
@@ -192,6 +235,22 @@ Ext.form.CheckboxGroup = Ext.extend(Ext.form.Field, {
         this.items.each(function(item){
             item.enable();
         })
+    },
+    
+    isDirty: function(){
+        //override the behaviour to check sub items.
+        if (this.disabled || !this.rendered) {
+            return false;
+        }
+
+        var dirty = false;
+        this.items.each(function(item){
+            if(item.isDirty()){
+                dirty = true;
+                return false;
+            }
+        });
+        return dirty;
     },
     
     // private

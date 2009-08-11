@@ -1,4 +1,12 @@
-﻿/*
+/*
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
+ * licensing@extjs.com
+ * 
+ * http://extjs.com/license
+ */
+
+/*
  * Russian translation
  * By ZooKeeper (utf-8 encoding)
  * 6 November 2007
@@ -27,37 +35,52 @@ if(Ext.LoadMask){
 }
 
 Date.monthNames = [
-  "Январь",
-  "Февраль",
+    "Январь",
+    "Февраль",
+    "Март",
+    "Апрель",
+    "Май",
+    "Июнь",
+    "Июль",
+    "Август",
+    "Сентябрь",
+    "Октябрь",
+    "Ноябрь",
+    "Декабрь"
+];
+
+Date.shortMonthNames = [
+  "Янв",
+  "Февр",
   "Март",
-  "Апрель",
+  "Апр",
   "Май",
   "Июнь",
   "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь"
+  "Авг",
+  "Сент",
+  "Окт",
+  "Нояб",
+  "Дек"
 ];
 
 Date.getShortMonthName = function(month) {
-  return Date.monthNames[month].substring(0, 3);
+  return Date.shortMonthNames[month];
 };
 
 Date.monthNumbers = {
-  Jan : 0,
-  Feb : 1,
-  Mar : 2,
-  Apr : 3,
-  May : 4,
-  Jun : 5,
-  Jul : 6,
-  Aug : 7,
-  Sep : 8,
-  Oct : 9,
-  Nov : 10,
-  Dec : 11
+  'Янв': 0,
+  'Фев': 1,
+  'Мар': 2,
+  'Апр': 3,
+  'Май': 4,
+  'Июн': 5,
+  'Июл': 6,
+  'Авг': 7,
+  'Сен': 8,
+  'Окт': 9,
+  'Ноя': 10,
+  'Дек': 11
 };
 
 Date.getMonthNumber = function(name) {
@@ -251,6 +274,10 @@ if(Ext.form.HtmlEditor){
       }
     }
   });
+}
+
+if(Ext.form.BasicForm){
+  Ext.form.BasicForm.prototype.waitTitle = "Пожалуйста подождите...";
 }
 
 if(Ext.grid.GridView){

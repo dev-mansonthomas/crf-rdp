@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
+import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import fr.croixrouge.rdp.model.monitor.rowMapper.EquipierRowMapper;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
@@ -63,7 +64,7 @@ public class EquipierServiceImpl implements EquipierService
     ", de.id_role_equipier                     ,\n"+
     "de.en_evaluation                           \n"+
     equipierFrom+
-    ",      dispositif_equipiers de                  \n"+                 
+    ",      dispositif_equipiers de, delegation d    \n"+                 
     "WHERE  de.id_dispositif     = ?                 \n"+                 
     "AND    de.id_equipier       = e.id_equipier     \n"+                 
     "AND    e.id_delegation      = d.id_delegation   \n"+
@@ -158,6 +159,51 @@ public class EquipierServiceImpl implements EquipierService
     return equipierList;
   }
   
+  private final static String queryForSearchEquipierWhere =
+    "WHERE  e.id_dispositif     = 0                 \n"+
+    "AND    e.id_equipier       = er.id_equipier    \n"+
+    "AND    e.enabled           = true              \n"+
+    "AND    er.id_role_equipier = ?                 \n"+
+    "AND    e.id_delegation     = d.id_delegation   \n"+
+    "AND                                            \n"+
+    "(                                              \n"+
+    "       e.num_nivol         LIKE ?              \n" +
+    " OR    e.nom               LIKE ?              \n" +
+    ")\n";
+
+  
+  
+  @SuppressWarnings("unchecked")
+  public ListRange searchEquipier(int idRole, String searchString, int start, int limit) throws Exception
+  {
+    
+    Object [] os    =  new Object[]{idRole       , searchString , searchString };
+    int    [] types =  new int   []{Types.INTEGER, Types.CHAR   , Types.CHAR   };
+   
+    
+    int totalCount = this.jdbcTemplate.queryForInt(
+        "SELECT COUNT(1) \n" +
+    		"FROM   equipier e, equipier_roles er, delegation d \n"
+        +queryForSearchEquipierWhere, os, types);
+    
+    
+    String query = equipierSelect+ ", er.id_role_equipier, er.en_evaluation\n"
+    +equipierFrom + ", equipier_roles er\n"+
+    queryForSearchEquipierWhere 
+    +"LIMIT "+start+", "+limit;
+    
+    if(logger.isDebugEnabled())
+      logger.debug("searching for equipier : idRole='"+idRole+"', searchString='"+searchString+"', start='"+start+"', limit='"+limit+"' with SQL query : \n"+query);
+    
+    List<Equipier> equipierList = jdbcTemplate.query( query , 
+                                                      os    , 
+                                                      types , 
+                                                      new EquipierRowMapper(true));
+    
+    
+    return new ListRange(totalCount, equipierList);
+  }
+  
   
   private final static String queryForGetEquipiersByNivol = 
     selectForEquipier+
@@ -178,7 +224,7 @@ public class EquipierServiceImpl implements EquipierService
       nivol += "%";
     
     if(logger.isDebugEnabled())
-      logger.debug("Getting EquipiersByNivol '"+nivol+"'");
+      logger.debug("Getting EquipiersByNivol '"+nivol+"' query : \n"+queryForGetEquipiersByNivol);
 
     Object [] os    =  new Object[]{equipierRole , nivol     };
     int    [] types =  new int   []{Types.INTEGER, Types.CHAR};

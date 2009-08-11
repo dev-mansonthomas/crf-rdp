@@ -9,8 +9,8 @@
 
   <jwr:style src="/cssBundle/monitorInput.css"/>
 
-
   <link rel="shortcut icon" href="../../img/famfamfam/table_edit.png" type="image/png">
+ 
 </head>
 <body id="MonitorInputBody">
 
@@ -1975,21 +1975,15 @@ Ville
       <div id="DispositifEditor">
 
 
-<div id="DispositifEdit" style="width:460px;display:none;">
+<div id="DispositifEdit" style="display:none;width:600px;">
   <input type="hidden" id="dispositif_id_field"         name="dispositif_id_field"         value=""/>
   <input type="hidden" id="dispositifCurrentInterId"    name="dispositifCurrentInterId"    value=""/>
   <input type="hidden" id="dispositif_isCreation_field" name="dispositif_isCreation_field" value=""/>
-  <table>
-    <thead>
-      <tr>
-        <th id="dispositif_title">
+
+        <div id="dispositif_title">
           <span id="dispositif_title_indicatif">Nouveau Dispositif</span> <span id="dispositif_id_span"></span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
+        </div>
+
         <fieldset>
           <legend>Identification</legend>
           <table>
@@ -2029,59 +2023,25 @@ Ville
         <!-- Ajout/Suppression D'équipier-->
         <fieldset>
           <legend>Liste Des Equipiers Du Dispositif</legend>
-            <table id="DispositfEquipierTable" class="userList">
-              <thead>
-                <tr>
-                  <th style="width:70px;">N&deg; NIVOL</th>
-                  <th>Nom Prénom</th>
-                  <th>Role</th>
-                  <th style="width:70px;">Suppression</th>
-                </tr>
-              </thead>
-              <tbody id="dispositifEquipierList_tbody">
-                <tr>
-                  <td colspan="4" style="text-align:center;">
-                    Aucun équipier
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table id="DispositifEquipierAddIHM">
-              <tbody id="DispositifEquipierAddIHM_tBody">
-                <tr>
-                  <th  id="DispositifEquipierAddIHMHeader">
-                    Ajouter Un Equipier
-                  </th>
-                </tr>
-                <tr>
-                  <td style="text-align:center;"  id="DispositifEquipierAddIHMInput">
-                    <div id="DispositifEquipierRoleToChoose">
+            
+<!-- The box wrap markup embedded instead of using Element.boxWrap() -->
+<div style="width:600px;">
+    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+        <h3 style="margin-bottom:5px;">Chercher un équipier</h3>
+        <input type="text" size="40" name="search" id="search" />
+        <div style="padding-top:4px;">
+            Recherche par Nivol ou Nom.
+        </div>
 
-                      <select name="DispositifEquipierToAddRole" id="DispositifEquipierToAddRole"></select>&nbsp;&nbsp;&nbsp;Nivol&nbsp;:&nbsp;<input type="text"
-                               id="DispositifEquipierAdd_Nivol"
-                             name="DispositifEquipierAdd_Nivol"
-                             size="38"
-                          onFocus="miDispositifCs.displayCurrentEquipierRoleToAdd($('DispositifEquipierRoleToChoose').equipierRankToChoose);crfIrpUtils.fieldEdit(this.id);" />
-                    </div>
-                    <table>
-                      <tr>
-                        <td>
-                          &nbsp;Recherche par Nom&nbsp;:&nbsp;
-                        </td>
-                        <td>
-                          <input type="text"
-                                  id="DispositifEquipierAdd_Nom"
-                                name="DispositifEquipierAdd_Nom"
-                                size="35"
-                             onFocus="miDispositifCs.displayCurrentEquipierRoleToAdd($('DispositifEquipierRoleToChoose').equipierRankToChoose);crfIrpUtils.fieldEdit(this.id)" />
-                             <div id="DispositifEquipierAdd_SelectList" class="auto_complete" style="width:250px;"></div>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+    </div></div></div>
+    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+</div>
+       
+            <div id="DispositifEquipierList">
+             
+            </div>
+            
           </fieldset>
          <!-- FIN Ajout/Suppression D'équipier-->
 
@@ -2385,10 +2345,6 @@ Ville
           </td>
         </tr>
       </table>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>
 <!-- Fin Dispositif Edit -->
 </div><!-- Fin DispositifEditor -->

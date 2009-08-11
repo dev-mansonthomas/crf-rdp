@@ -1,9 +1,16 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.form.TextArea=Ext.extend(Ext.form.TextField,{growMin:60,growMax:1000,growAppend:"&#160;\n&#160;",growPad:0,enterIsSpecial:false,preventScrollbars:false,onRender:function(B,A){if(!this.el){this.defaultAutoCreate={tag:"textarea",style:"width:100px;height:60px;",autocomplete:"off"}}Ext.form.TextArea.superclass.onRender.call(this,B,A);if(this.grow){this.textSizeEl=Ext.DomHelper.append(document.body,{tag:"pre",cls:"x-form-grow-sizer"});if(this.preventScrollbars){this.el.setStyle("overflow","hidden")}this.el.setHeight(this.growMin)}},onDestroy:function(){if(this.textSizeEl){Ext.removeNode(this.textSizeEl)}Ext.form.TextArea.superclass.onDestroy.call(this)},fireKey:function(A){if(A.isSpecialKey()&&(this.enterIsSpecial||(A.getKey()!=A.ENTER||A.hasModifier()))){this.fireEvent("specialkey",this,A)}},onKeyUp:function(A){if(!A.isNavKeyPress()||A.getKey()==A.ENTER){this.autoSize()}Ext.form.TextArea.superclass.onKeyUp.call(this,A)},autoSize:function(){if(!this.grow||!this.textSizeEl){return }var C=this.el;var A=C.dom.value;var D=this.textSizeEl;D.innerHTML="";D.appendChild(document.createTextNode(A));A=D.innerHTML;Ext.fly(D).setWidth(this.el.getWidth());if(A.length<1){A="&#160;&#160;"}else{if(Ext.isIE){A=A.replace(/\n/g,"<p>&#160;</p>")}A+=this.growAppend}D.innerHTML=A;var B=Math.min(this.growMax,Math.max(D.offsetHeight,this.growMin)+this.growPad);if(B!=this.lastHeight){this.lastHeight=B;this.el.setHeight(B);this.fireEvent("autosize",this,B)}}});Ext.reg("textarea",Ext.form.TextArea);
+
+Ext.form.TextArea=Ext.extend(Ext.form.TextField,{growMin:60,growMax:1000,growAppend:'&#160;\n&#160;',growPad:Ext.isWebKit?-6:0,enterIsSpecial:false,preventScrollbars:false,onRender:function(ct,position){if(!this.el){this.defaultAutoCreate={tag:"textarea",style:"width:100px;height:60px;",autocomplete:"off"};}
+Ext.form.TextArea.superclass.onRender.call(this,ct,position);if(this.grow){this.textSizeEl=Ext.DomHelper.append(document.body,{tag:"pre",cls:"x-form-grow-sizer"});if(this.preventScrollbars){this.el.setStyle("overflow","hidden");}
+this.el.setHeight(this.growMin);}},onDestroy:function(){if(this.textSizeEl){Ext.removeNode(this.textSizeEl);}
+Ext.form.TextArea.superclass.onDestroy.call(this);},fireKey:function(e){if(e.isSpecialKey()&&(this.enterIsSpecial||(e.getKey()!=e.ENTER||e.hasModifier()))){this.fireEvent("specialkey",this,e);}},onKeyUp:function(e){if(!e.isNavKeyPress()||e.getKey()==e.ENTER){this.autoSize();}
+Ext.form.TextArea.superclass.onKeyUp.call(this,e);},autoSize:function(){if(!this.grow||!this.textSizeEl){return;}
+var el=this.el;var v=el.dom.value;var ts=this.textSizeEl;ts.innerHTML='';ts.appendChild(document.createTextNode(v));v=ts.innerHTML;Ext.fly(ts).setWidth(this.el.getWidth());if(v.length<1){v="&#160;&#160;";}else{v+=this.growAppend;if(Ext.isIE){v=v.replace(/\n/g,'<br />');}}
+ts.innerHTML=v;var h=Math.min(this.growMax,Math.max(ts.offsetHeight,this.growMin)+this.growPad);if(h!=this.lastHeight){this.lastHeight=h;this.el.setHeight(h);this.fireEvent("autosize",this,h);}}});Ext.reg('textarea',Ext.form.TextArea);

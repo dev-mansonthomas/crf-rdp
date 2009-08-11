@@ -1,18 +1,6 @@
-@CHARSET "ISO-8859-1";
+CHARSET "ISO-8859-1";
 
-#DispositifEquipierRoleToChoose
-{
-  margin-left:5px;
-  padding:4px 4px 0px 4px;
-  width:445px;
-  height:25px;
-  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
-	font-size: 12px;
-  font-variant:small-caps;
-	font-weight:bold;
-  background-color:#E8F0FF;
-  border:1px solid #003DAE;
-}
+
   
 #DispositifHoraire tr td
 {
@@ -32,7 +20,7 @@
                  
 #DispositifEdit
 {
-  width:600px;
+/*  width:600px;*/
 }
 
 #DispositifEdit fieldset table
@@ -192,3 +180,31 @@
   vertical-align:sub;
   margin-right:3px;
 }
+
+
+
+/*Pour la recherche d'équipier*/
+.search-item {
+    font:normal 11px tahoma, arial, helvetica, sans-serif;
+    padding:3px 10px 3px 10px;
+    border:1px solid #fff;
+    border-bottom:1px solid #eeeeee;
+    white-space:normal;
+    color:#555;
+}
+.search-item h3 {
+    display:block;
+    font:inherit;
+    font-weight:bold;
+    color:#222;
+}
+
+.search-item h3 span {
+    float: right;
+    font-weight:normal;
+    margin:0 0 5px 5px;
+    width:100px;
+    display:block;
+    clear:none;
+}
+

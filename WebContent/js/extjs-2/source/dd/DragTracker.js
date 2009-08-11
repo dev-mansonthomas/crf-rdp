@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -55,6 +55,11 @@ Ext.extend(Ext.dd.DragTracker, Ext.util.Observable,  {
     },
 
     onMouseMove: function(e, target){
+        if(this.active && Ext.isIE && !e.browserEvent.button){
+            e.preventDefault();
+            this.onMouseUp(e);
+            return;
+        }
         e.preventDefault();
         var xy = e.getXY(), s = this.startXY;
         this.lastXY = xy;

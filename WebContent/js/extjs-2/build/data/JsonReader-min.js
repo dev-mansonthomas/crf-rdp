@@ -1,9 +1,21 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.data.JsonReader=function(A,B){A=A||{};Ext.data.JsonReader.superclass.constructor.call(this,A,B||A.fields)};Ext.extend(Ext.data.JsonReader,Ext.data.DataReader,{read:function(response){var json=response.responseText;var o=eval("("+json+")");if(!o){throw {message:"JsonReader.read: Json object not found"}}return this.readRecords(o)},onMetaChange:function(A,C,B){},simpleAccess:function(B,A){return B[A]},getJsonAccessor:function(){var A=/[\[\.]/;return function(C){try{return(A.test(C))?new Function("obj","return obj."+C):function(D){return D[C]}}catch(B){}return Ext.emptyFn}}(),readRecords:function(K){this.jsonData=K;if(K.metaData){delete this.ef;this.meta=K.metaData;this.recordType=Ext.data.Record.create(K.metaData.fields);this.onMetaChange(this.meta,this.recordType,K)}var H=this.meta,A=this.recordType,R=A.prototype.fields,F=R.items,E=R.length;if(!this.ef){if(H.totalProperty){this.getTotal=this.getJsonAccessor(H.totalProperty)}if(H.successProperty){this.getSuccess=this.getJsonAccessor(H.successProperty)}this.getRoot=H.root?this.getJsonAccessor(H.root):function(U){return U};if(H.id){var Q=this.getJsonAccessor(H.id);this.getId=function(V){var U=Q(V);return(U===undefined||U==="")?null:U}}else{this.getId=function(){return null}}this.ef=[];for(var O=0;O<E;O++){R=F[O];var T=(R.mapping!==undefined&&R.mapping!==null)?R.mapping:R.name;this.ef[O]=this.getJsonAccessor(T)}}var M=this.getRoot(K),S=M.length,I=S,D=true;if(H.totalProperty){var G=parseInt(this.getTotal(K),10);if(!isNaN(G)){I=G}}if(H.successProperty){var G=this.getSuccess(K);if(G===false||G==="false"){D=false}}var P=[];for(var O=0;O<S;O++){var L=M[O];var B={};var J=this.getId(L);for(var N=0;N<E;N++){R=F[N];var G=this.ef[N](L);B[R.name]=R.convert((G!==undefined)?G:R.defaultValue,L)}var C=new A(B,J);C.json=L;P[O]=C}return{success:D,records:P,totalRecords:I}}});
+
+Ext.data.JsonReader=function(meta,recordType){meta=meta||{};Ext.data.JsonReader.superclass.constructor.call(this,meta,recordType||meta.fields);};Ext.extend(Ext.data.JsonReader,Ext.data.DataReader,{read:function(response){var json=response.responseText;var o=eval("("+json+")");if(!o){throw{message:"JsonReader.read: Json object not found"};}
+return this.readRecords(o);},onMetaChange:function(meta,recordType,o){},simpleAccess:function(obj,subsc){return obj[subsc];},getJsonAccessor:function(){var re=/[\[\.]/;return function(expr){try{return(re.test(expr))?new Function("obj","return obj."+expr):function(obj){return obj[expr];};}catch(e){}
+return Ext.emptyFn;};}(),readRecords:function(o){this.jsonData=o;if(o.metaData){delete this.ef;this.meta=o.metaData;this.recordType=Ext.data.Record.create(o.metaData.fields);this.onMetaChange(this.meta,this.recordType,o);}
+var s=this.meta,Record=this.recordType,f=Record.prototype.fields,fi=f.items,fl=f.length;if(!this.ef){if(s.totalProperty){this.getTotal=this.getJsonAccessor(s.totalProperty);}
+if(s.successProperty){this.getSuccess=this.getJsonAccessor(s.successProperty);}
+this.getRoot=s.root?this.getJsonAccessor(s.root):function(p){return p;};if(s.id){var g=this.getJsonAccessor(s.id);this.getId=function(rec){var r=g(rec);return(r===undefined||r==="")?null:r;};}else{this.getId=function(){return null;};}
+this.ef=[];for(var i=0;i<fl;i++){f=fi[i];var map=(f.mapping!==undefined&&f.mapping!==null)?f.mapping:f.name;this.ef[i]=this.getJsonAccessor(map);}}
+var root=this.getRoot(o),c=root.length,totalRecords=c,success=true;if(s.totalProperty){var v=parseInt(this.getTotal(o),10);if(!isNaN(v)){totalRecords=v;}}
+if(s.successProperty){var v=this.getSuccess(o);if(v===false||v==='false'){success=false;}}
+var records=[];for(var i=0;i<c;i++){var n=root[i];var values={};var id=this.getId(n);for(var j=0;j<fl;j++){f=fi[j];var v=this.ef[j](n);values[f.name]=f.convert((v!==undefined)?v:f.defaultValue,n);}
+var record=new Record(values,id);record.json=n;records[i]=record;}
+return{success:success,records:records,totalRecords:totalRecords};}});

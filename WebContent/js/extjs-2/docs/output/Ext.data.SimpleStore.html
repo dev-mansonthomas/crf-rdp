@@ -37,21 +37,24 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#autoLoad" href="output/Ext.data.Store.html#autoLoad">Store</a></td>
     </tr>
-        <tr class="config-row inherited alt">
+        <tr class="config-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.data.SimpleStore-baseParams"></a>
-            <b>baseParams</b> : Object            <div class="mdesc">
-                            An object containing properties which are to be sent as parameters on any HTTP request                        </div>
+        <a id="Ext.data.SimpleStore-baseParams<p>An"></a>
+            <b>baseParams<p>An</b> : Object            <div class="mdesc">
+                        <div class="short">object containing properties which are to be sent as parameters. Parameters are encoded as standard HTTP parameters u...</div>
+            <div class="long">
+                object containing properties which are to be sent as parameters.</p> <p>Parameters are encoded as standard HTTP parameters using <a ext:cls="Ext" ext:member="urlEncode" href="output/Ext.html#urlEncode">Ext.urlEncode</a>.</p> on any HTTP request            </div>
+                        </div>
         </td>
-        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#baseParams" href="output/Ext.data.Store.html#baseParams">Store</a></td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#baseParams<p>An" href="output/Ext.data.Store.html#baseParams<p>An">Store</a></td>
     </tr>
         <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-data"></a>
             <b>data</b> : Array            <div class="mdesc">
-                            The multi-dimensional array of data                        </div>
+                            The multi-dimensional array of data.                        </div>
         </td>
         <td class="msource">SimpleStore</td>
     </tr>
@@ -60,7 +63,7 @@
         <td class="sig">
         <a id="Ext.data.SimpleStore-fields"></a>
             <b>fields</b> : Array            <div class="mdesc">
-                            An array of field definition objects, or field name strings.                        </div>
+                            An array of field definition objects, or field name string as specified to <a ext:cls="Ext.data.Record" ext:member="create" href="output/Ext.data.Record.html#create">Ext.data.Record.create</a>                        </div>
         </td>
         <td class="msource">SimpleStore</td>
     </tr>
@@ -78,9 +81,9 @@
         <td class="sig">
         <a id="Ext.data.SimpleStore-listeners"></a>
             <b>listeners</b> : Object            <div class="mdesc">
-                        <div class="short">A config object containing one or more event handlers to be added to this object during initialization. This should b...</div>
+                        <div class="short">(optional) A config object containing one or more event handlers to be added to this object during initialization. Th...</div>
             <div class="long">
-                A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
+                (optional) A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
@@ -130,12 +133,15 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#remoteSort" href="output/Ext.data.Store.html#remoteSort">Store</a></td>
     </tr>
-        <tr class="config-row inherited">
+        <tr class="config-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-sortInfo"></a>
             <b>sortInfo</b> : Object            <div class="mdesc">
-                            A config object in the format: {field: "fieldName", direction: "ASC|DESC"}. The direction property is case-sensitive.                        </div>
+                        <div class="short">A config object in the format: {field: "fieldName", direction: "ASC|DESC"} to specify the sort order in the request o...</div>
+            <div class="long">
+                A config object in the format: {field: "fieldName", direction: "ASC|DESC"} to specify the sort order in the request of a remote Store's <a ext:cls="Ext.data.Store" ext:member="load" href="output/Ext.data.Store.html#load">load</a> operation. Note that for local sorting, the direction property is case-sensitive.            </div>
+                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#sortInfo" href="output/Ext.data.Store.html#sortInfo">Store</a></td>
     </tr>
@@ -179,7 +185,16 @@ This property can be changed after creating the Store to send different paramete
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#baseParams" href="output/Ext.data.Store.html#baseParams">Store</a></td>
     </tr>
-        <tr class="property-row inherited alt expandable">
+        <tr class="property-row inherited alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.SimpleStore-fields"></a>
+            <b>fields</b> : Ext.util.MixedCollection            <div class="mdesc">
+                            A MixedCollection containing the defined <a ext:cls="Ext.data.Field" href="output/Ext.data.Field.html">Field</a>s for the Records stored in this Store. Read-only.                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#fields" href="output/Ext.data.Store.html#fields">Store</a></td>
+    </tr>
+        <tr class="property-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-lastOptions"></a>
@@ -193,6 +208,47 @@ were used to load the current Record cache.            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#lastOptions" href="output/Ext.data.Store.html#lastOptions">Store</a></td>
+    </tr>
+        <tr class="property-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.SimpleStore-paramNames"></a>
+            <b>paramNames</b> : Object            <div class="mdesc">
+                        <div class="short">An object containing properties which specify the names of the paging and
+sorting parameters passed to remote servers...</div>
+            <div class="long">
+                <p>An object containing properties which specify the names of the paging and
+sorting parameters passed to remote servers when loading blocks of data. By default, this
+object takes the following form:</p><pre><code>{
+    start : <em>"start"</em>,    <i>// The parameter name which specifies the start row</i>
+    limit : <em>"limit"</em>,    <i>// The parameter name which specifies number of rows to <b>return</b></i>
+    sort : <em>"sort"</em>,      <i>// The parameter name which specifies the column to sort on</i>
+    dir : <em>"dir"</em>         <i>// The parameter name which specifies the sort direction</i>
+}</code></pre>
+<p>The server must produce the requested data block upon receipt of these parameter names.
+If different parameter names are required, this property can be overriden using a configuration
+property.</p>
+<p>A <a ext:cls="Ext.PagingToolbar" href="output/Ext.PagingToolbar.html">PagingToolbar</a> bound to this grid uses this property to determine
+the parameter names to use in its requests.            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#paramNames" href="output/Ext.data.Store.html#paramNames">Store</a></td>
+    </tr>
+        <tr class="property-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.data.SimpleStore-recordType"></a>
+            <b>recordType</b> : Function            <div class="mdesc">
+                        <div class="short">The Record constructor as supplied to (or created by) the Reader. Read-only.
+If the Reader was constructed by passing...</div>
+            <div class="long">
+                The <a ext:cls="Ext.data.Record" href="output/Ext.data.Record.html">Record</a> constructor as supplied to (or created by) the <a ext:cls="Ext.data.Reader" ext:member="Reader" href="output/Ext.data.Reader.html#Reader">Reader</a>. Read-only.
+<p>If the Reader was constructed by passing in an Array of field definition objects, instead of a created
+Record constructor it will have <a ext:cls="Ext.data.Record" ext:member="create" href="output/Ext.data.Record.html#create">created a constructor</a> from that Array.</p>
+<p>This property may be used to create new Records of the type held in this Store.</p>            </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#recordType" href="output/Ext.data.Store.html#recordType">Store</a></td>
     </tr>
             </table>
                 <a id="Ext.data.SimpleStore-methods"></a>
@@ -271,32 +327,34 @@ were used to load the current Record cache.            </div>
             <div class="long">
                 Appends an event handler to this component    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
-function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
 properties. This may contain any of the following properties:<ul>
-<li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
-<li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
-<li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>scope</b> : Object<div class="sub-desc">The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li>
+<li><b>delay</b> : Number<div class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</div></li>
+<li><b>single</b> : Boolean<div class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</div></li>
+<li><b>buffer</b> : Number<div class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</div></li>
+<li><b>target</b> : Observable<div class="sub-desc">Only call the handler if the event was fired on the target Observable, <i>not</i>
+if the event was bubbled up from a child Observable.</div></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
 Using the options argument, it is possible to combine different types of listeners:<br>
 <br>
-A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
-<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+A delayed, one-time listener.
+<pre><code>myDataView.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
     single: true,
-    delay: 100,
-    forumId: 4
+    delay: 100
 });</code></pre>
 <p>
 <b>Attaching multiple handlers in 1 call</b><br>
 The method also allows for a single argument to be passed which is a config object containing properties
 which specify multiple handlers.
 <p>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : {
         fn: <b>this</b>.onClick,
         scope: <b>this</b>,
@@ -313,7 +371,7 @@ which specify multiple handlers.
 });</code></pre>
 <p>
 Or a shorthand syntax:<br>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : <b>this</b>.onClick,
     <em>'mouseover'</em> : <b>this</b>.onMouseOver,
     <em>'mouseout'</em> : <b>this</b>.onMouseOut,
@@ -815,7 +873,8 @@ and this call will return before the new data has been loaded. Perform any post-
 in a callback function, or in a "load" event handler.</b></p>    <div class="mdetail-params">
         <strong>Parameters:</strong>
         <ul><li><code>options</code> : Object<div class="sub-desc">An object containing properties which control loading options:<ul>
-<li><b>params</b> :Object<p class="sub-desc">An object containing properties to pass as HTTP parameters to a remote data source.</p></li>
+<li><b>params</b> :Object<p class="sub-desc">An object containing properties to pass as HTTP parameters to a remote data source.</p>
+<p>Parameters are encoded as standard HTTP parameters using <a ext:cls="Ext" ext:member="urlEncode" href="output/Ext.html#urlEncode">Ext.urlEncode</a>.</p></li>
 <li><b>callback</b> : Function<p class="sub-desc">A function to be called after the Records have been loaded. The callback is
 passed the following arguments:<ul>
 <li>r : Ext.data.Record[]</li>
@@ -846,7 +905,9 @@ must ...</div>
 must have been configured in the constructor.    <div class="mdetail-params">
         <strong>Parameters:</strong>
         <ul><li><code>data</code> : Object<div class="sub-desc">The data block from which to read the Records. The format of the data expected
-is dependent on the type of Reader that is configured and should correspond to that Reader's readRecords parameter.</div></li><li><code>append</code> : Boolean<div class="sub-desc">(Optional) True to append the new Records rather than replace the existing cache.</div></li>        </ul>
+is dependent on the type of Reader that is configured and should correspond to that Reader's readRecords parameter.</div></li><li><code>append</code> : Boolean<div class="sub-desc">(Optional) True to append the new Records rather than replace the existing cache. <b>Remember that
+Records in a Store are keyed by their <a ext:cls="Ext.data.Record" ext:member="id" href="output/Ext.data.Record.html#id">id</a>, so added Records with ids which are already present in
+the Store will <i>replace</i> existing Records. Records with new, unique ids will be added.</b></div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>void</code></li>
@@ -994,10 +1055,13 @@ to test for filtering. Access field values using <a ext:cls="Ext.data.Record" ex
                         <div class="short">Reloads the Record cache from the configured Proxy using the configured Reader and
 the options from the last load ope...</div>
             <div class="long">
-                Reloads the Record cache from the configured Proxy using the configured Reader and
-the options from the last load operation performed.    <div class="mdetail-params">
+                <p>Reloads the Record cache from the configured Proxy using the configured Reader and
+the options from the last load operation performed.</p>
+<p><b>It is important to note that for remote data sources, loading is asynchronous,
+and this call will return before the new data has been loaded. Perform any post-processing
+in a callback function, or in a "load" event handler.</b></p>    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing properties which may override the options
+        <ul><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing loading options which may override the options
 used in the last load operation. See <a ext:cls="Ext.data.Store" ext:member="load" href="output/Ext.data.Store.html#load">load</a> for details (defaults to null, in which case
 the most recently used options are reused).</div></li>        </ul>
         <strong>Returns:</strong>
@@ -1019,7 +1083,7 @@ the most recently used options are reused).</div></li>        </ul>
             <div class="long">
                 Remove a Record from the Store and fires the <a ext:cls="Ext.data.Store" ext:member="remove" href="output/Ext.data.Store.html#remove">remove</a> event.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>record</code> : Ext.data.Record<div class="sub-desc">Th Ext.data.Record object to remove from the cache.</div></li>        </ul>
+        <ul><li><code>record</code> : Ext.data.Record<div class="sub-desc">The Ext.data.Record object to remove from the cache.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>void</code></li>
@@ -1053,6 +1117,26 @@ the most recently used options are reused).</div></li>        </ul>
         <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.data.SimpleStore-removeAt"></a>
+            <b>removeAt</b>(&nbsp;<code>Number index</code>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Remove a Record from the Store at the specified index. Fires the <a ext:cls="Ext.data.Store" ext:member="remove" href="output/Ext.data.Store.html#remove">remove</a> event.</div>
+            <div class="long">
+                Remove a Record from the Store at the specified index. Fires the <a ext:cls="Ext.data.Store" ext:member="remove" href="output/Ext.data.Store.html#remove">remove</a> event.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>index</code> : Number<div class="sub-desc">The index of the record to remove.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#removeAt" href="output/Ext.data.Store.html#removeAt">Store</a></td>
+    </tr>
+        <tr class="method-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.data.SimpleStore-removeListener"></a>
             <b>removeListener</b>(&nbsp;<code>String eventName</code>, <code>Function handler</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
                         <div class="short">Removes a listener</div>
@@ -1070,7 +1154,7 @@ the most recently used options are reused).</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-resumeEvents"></a>
@@ -1090,7 +1174,7 @@ the most recently used options are reused).</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-setDefaultSort"></a>
@@ -1110,7 +1194,7 @@ the most recently used options are reused).</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#setDefaultSort" href="output/Ext.data.Store.html#setDefaultSort">Store</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-sort"></a>
@@ -1134,7 +1218,7 @@ reloaded. If local sorting is used, the cache is sorted internally.    <div clas
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#sort" href="output/Ext.data.Store.html#sort">Store</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-sum"></a>
@@ -1154,7 +1238,7 @@ reloaded. If local sorting is used, the cache is sorted internally.    <div clas
         </td>
         <td class="msource"><a ext:cls="Ext.data.Store" ext:member="#sum" href="output/Ext.data.Store.html#sum">Store</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-suspendEvents"></a>
@@ -1174,7 +1258,7 @@ reloaded. If local sorting is used, the cache is sorted internally.    <div clas
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.SimpleStore-un"></a>
@@ -1257,11 +1341,11 @@ the load action will be canceled.    <div class="mdetail-params">
         <td class="sig">
         <a id="Ext.data.SimpleStore-datachanged"></a>
             <b>datachanged</b> : (&nbsp;<code>Store this</code>&nbsp;)            <div class="mdesc">
-                        <div class="short">Fires when the data cache has changed, and a widget which is using this Store
-as a Record cache should refresh its view.</div>
+                        <div class="short">Fires when the data cache has changed in a bulk manner (e.g., it has been sorted, filtered, etc.) and a 
+widget that ...</div>
             <div class="long">
-                Fires when the data cache has changed, and a widget which is using this Store
-as a Record cache should refresh its view.    <div class="mdetail-params">
+                Fires when the data cache has changed in a bulk manner (e.g., it has been sorted, filtered, etc.) and a 
+widget that is using this Store as a Record cache should refresh its view.    <div class="mdetail-params">
         <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
         <ul><li><code>this</code> : Store<div class="sub-desc"></div></li>        </ul>
     </div>

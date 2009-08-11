@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -73,7 +73,7 @@ Ext.extend(Ext.grid.CellSelectionModel, Ext.grid.AbstractSelectionModel,  {
     /** @ignore */
     initEvents : function(){
         this.grid.on("cellmousedown", this.handleMouseDown, this);
-        this.grid.getGridEl().on(Ext.isIE || Ext.isSafari3 ? "keydown" : "keypress", this.handleKeyDown, this);
+        this.grid.getGridEl().on(Ext.isIE || (Ext.isWebKit && !Ext.isSafari2) ? "keydown" : "keypress", this.handleKeyDown, this);
         var view = this.grid.view;
         view.on("refresh", this.onViewChange, this);
         view.on("rowupdated", this.onRowUpdated, this);

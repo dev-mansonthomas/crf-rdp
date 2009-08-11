@@ -1,9 +1,15 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.dd.DropZone=function(B,A){Ext.dd.DropZone.superclass.constructor.call(this,B,A)};Ext.extend(Ext.dd.DropZone,Ext.dd.DropTarget,{getTargetFromEvent:function(A){return Ext.dd.Registry.getTargetFromEvent(A)},onNodeEnter:function(D,A,C,B){},onNodeOver:function(D,A,C,B){return this.dropAllowed},onNodeOut:function(D,A,C,B){},onNodeDrop:function(D,A,C,B){return false},onContainerOver:function(A,C,B){return this.dropNotAllowed},onContainerDrop:function(A,C,B){return false},notifyEnter:function(A,C,B){return this.dropNotAllowed},notifyOver:function(A,C,B){var D=this.getTargetFromEvent(C);if(!D){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,A,C,B);this.lastOverNode=null}return this.onContainerOver(A,C,B)}if(this.lastOverNode!=D){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,A,C,B)}this.onNodeEnter(D,A,C,B);this.lastOverNode=D}return this.onNodeOver(D,A,C,B)},notifyOut:function(A,C,B){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,A,C,B);this.lastOverNode=null}},notifyDrop:function(A,C,B){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,A,C,B);this.lastOverNode=null}var D=this.getTargetFromEvent(C);return D?this.onNodeDrop(D,A,C,B):this.onContainerDrop(A,C,B)},triggerCacheRefresh:function(){Ext.dd.DDM.refreshCache(this.groups)}});
+
+Ext.dd.DropZone=function(el,config){Ext.dd.DropZone.superclass.constructor.call(this,el,config);};Ext.extend(Ext.dd.DropZone,Ext.dd.DropTarget,{getTargetFromEvent:function(e){return Ext.dd.Registry.getTargetFromEvent(e);},onNodeEnter:function(n,dd,e,data){},onNodeOver:function(n,dd,e,data){return this.dropAllowed;},onNodeOut:function(n,dd,e,data){},onNodeDrop:function(n,dd,e,data){return false;},onContainerOver:function(dd,e,data){return this.dropNotAllowed;},onContainerDrop:function(dd,e,data){return false;},notifyEnter:function(dd,e,data){return this.dropNotAllowed;},notifyOver:function(dd,e,data){var n=this.getTargetFromEvent(e);if(!n){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,dd,e,data);this.lastOverNode=null;}
+return this.onContainerOver(dd,e,data);}
+if(this.lastOverNode!=n){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,dd,e,data);}
+this.onNodeEnter(n,dd,e,data);this.lastOverNode=n;}
+return this.onNodeOver(n,dd,e,data);},notifyOut:function(dd,e,data){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,dd,e,data);this.lastOverNode=null;}},notifyDrop:function(dd,e,data){if(this.lastOverNode){this.onNodeOut(this.lastOverNode,dd,e,data);this.lastOverNode=null;}
+var n=this.getTargetFromEvent(e);return n?this.onNodeDrop(n,dd,e,data):this.onContainerDrop(dd,e,data);},triggerCacheRefresh:function(){Ext.dd.DDM.refreshCache(this.groups);}});

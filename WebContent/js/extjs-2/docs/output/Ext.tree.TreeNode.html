@@ -98,18 +98,36 @@
         <tr class="config-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.tree.TreeNode-expandable"></a>
-            <b>expandable</b> : Boolean            <div class="mdesc">
-                            If set to true, the node will always show a plus/minus icon, even when empty                        </div>
+        <a id="Ext.tree.TreeNode-editable"></a>
+            <b>editable</b> : Boolean            <div class="mdesc">
+                            False to not allow this node to be edited by an (@link Ext.tree.TreeEditor} (defaults to true)                        </div>
         </td>
         <td class="msource">TreeNode</td>
     </tr>
         <tr class="config-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.tree.TreeNode-expandable"></a>
+            <b>expandable</b> : Boolean            <div class="mdesc">
+                            If set to true, the node will always show a plus/minus icon, even when empty                        </div>
+        </td>
+        <td class="msource">TreeNode</td>
+    </tr>
+        <tr class="config-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.tree.TreeNode-expanded"></a>
             <b>expanded</b> : Boolean            <div class="mdesc">
                             true to start the node expanded                        </div>
+        </td>
+        <td class="msource">TreeNode</td>
+    </tr>
+        <tr class="config-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.tree.TreeNode-hidden"></a>
+            <b>hidden</b> : Boolean            <div class="mdesc">
+                            True to render hidden. (Defaults to false).                        </div>
         </td>
         <td class="msource">TreeNode</td>
     </tr>
@@ -184,9 +202,9 @@
         <td class="sig">
         <a id="Ext.tree.TreeNode-listeners"></a>
             <b>listeners</b> : Object            <div class="mdesc">
-                        <div class="short">A config object containing one or more event handlers to be added to this object during initialization. This should b...</div>
+                        <div class="short">(optional) A config object containing one or more event handlers to be added to this object during initialization. Th...</div>
             <div class="long">
-                A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
+                (optional) A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
@@ -280,7 +298,16 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Node" ext:member="#firstChild" href="output/Ext.data.Node.html#firstChild">Node</a></td>
     </tr>
-        <tr class="property-row inherited">
+        <tr class="property-row">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.tree.TreeNode-hidden"></a>
+            <b>hidden</b> : Boolean            <div class="mdesc">
+                            True if this node is hidden.                        </div>
+        </td>
+        <td class="msource">TreeNode</td>
+    </tr>
+        <tr class="property-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-id"></a>
@@ -289,7 +316,7 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Node" ext:member="#id" href="output/Ext.data.Node.html#id">Node</a></td>
     </tr>
-        <tr class="property-row inherited alt">
+        <tr class="property-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-lastChild"></a>
@@ -298,7 +325,7 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Node" ext:member="#lastChild" href="output/Ext.data.Node.html#lastChild">Node</a></td>
     </tr>
-        <tr class="property-row inherited">
+        <tr class="property-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-nextSibling"></a>
@@ -307,7 +334,7 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Node" ext:member="#nextSibling" href="output/Ext.data.Node.html#nextSibling">Node</a></td>
     </tr>
-        <tr class="property-row inherited alt">
+        <tr class="property-row inherited">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-parentNode"></a>
@@ -316,7 +343,7 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Node" ext:member="#parentNode" href="output/Ext.data.Node.html#parentNode">Node</a></td>
     </tr>
-        <tr class="property-row inherited">
+        <tr class="property-row inherited alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-previousSibling"></a>
@@ -325,7 +352,7 @@
         </td>
         <td class="msource"><a ext:cls="Ext.data.Node" ext:member="#previousSibling" href="output/Ext.data.Node.html#previousSibling">Node</a></td>
     </tr>
-        <tr class="property-row alt">
+        <tr class="property-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-text"></a>
@@ -334,7 +361,7 @@
         </td>
         <td class="msource">TreeNode</td>
     </tr>
-        <tr class="property-row">
+        <tr class="property-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-ui"></a>
@@ -400,32 +427,34 @@
             <div class="long">
                 Appends an event handler to this component    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
-function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
 properties. This may contain any of the following properties:<ul>
-<li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
-<li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
-<li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>scope</b> : Object<div class="sub-desc">The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li>
+<li><b>delay</b> : Number<div class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</div></li>
+<li><b>single</b> : Boolean<div class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</div></li>
+<li><b>buffer</b> : Number<div class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</div></li>
+<li><b>target</b> : Observable<div class="sub-desc">Only call the handler if the event was fired on the target Observable, <i>not</i>
+if the event was bubbled up from a child Observable.</div></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
 Using the options argument, it is possible to combine different types of listeners:<br>
 <br>
-A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
-<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+A delayed, one-time listener.
+<pre><code>myDataView.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
     single: true,
-    delay: 100,
-    forumId: 4
+    delay: 100
 });</code></pre>
 <p>
 <b>Attaching multiple handlers in 1 call</b><br>
 The method also allows for a single argument to be passed which is a config object containing properties
 which specify multiple handlers.
 <p>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : {
         fn: <b>this</b>.onClick,
         scope: <b>this</b>,
@@ -442,7 +471,7 @@ which specify multiple handlers.
 });</code></pre>
 <p>
 Or a shorthand syntax:<br>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : <b>this</b>.onClick,
     <em>'mouseover'</em> : <b>this</b>.onMouseOver,
     <em>'mouseout'</em> : <b>this</b>.onMouseOut,
@@ -654,14 +683,14 @@ the iteration stops.    <div class="mdetail-params">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.tree.TreeNode-ensureVisible"></a>
-            <b>ensureVisible</b>() : void            <div class="mdesc">
+            <b>ensureVisible</b>(&nbsp;<span class="optional" title="Optional">[<code>Function callback</code>]</span>&nbsp;) : void            <div class="mdesc">
                         <div class="short">Ensures all parent nodes are expanded, and if necessary, scrolls
 the node into view.</div>
             <div class="long">
                 Ensures all parent nodes are expanded, and if necessary, scrolls
 the node into view.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
+        <ul><li><code>callback</code> : Function<div class="sub-desc">(optional) A function to call when the node has been made visible.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>void</code></li>

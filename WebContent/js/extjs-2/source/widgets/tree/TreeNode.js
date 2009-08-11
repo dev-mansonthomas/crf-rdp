@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -20,6 +20,7 @@
  * @cfg {String} iconCls A css class to be added to the nodes icon element for applying css background images
  * @cfg {String} href URL of the link used for the node (defaults to #)
  * @cfg {String} hrefTarget target frame for the link
+ * @cfg {Boolean} hidden True to render hidden. (Defaults to false).
  * @cfg {String} qtip An Ext QuickTip for the node
  * @cfg {Boolean} expandable If set to true, the node will always show a plus/minus icon, even when empty
  * @cfg {String} qtipCfg An Ext QuickTip config for the node (used instead of qtip)
@@ -30,6 +31,7 @@
  * @cfg {Boolean} draggable True to make this node draggable (defaults to false)
  * @cfg {Boolean} isTarget False to not allow this node to act as a drop target (defaults to true)
  * @cfg {Boolean} allowChildren False to not allow this node to have child nodes (defaults to true)
+ * @cfg {Boolean} editable False to not allow this node to be edited by an (@link Ext.tree.TreeEditor} (defaults to true)
  * @constructor
  * @param {Object/String} attributes The attributes/config for the node or just a string with the text for the node
  */
@@ -56,6 +58,11 @@ Ext.tree.TreeNode = function(attributes){
      * @type Boolean
      */
     this.disabled = attributes.disabled === true;
+    /**
+     * True if this node is hidden.
+     * @type Boolean
+     */
+    this.hidden = attributes.hidden === true;
 
     this.addEvents(
         /**
@@ -393,10 +400,11 @@ Ext.extend(Ext.tree.TreeNode, Ext.data.Node, {
     /**
      * Ensures all parent nodes are expanded, and if necessary, scrolls
      * the node into view.
+     * @param {Function} callback (optional) A function to call when the node has been made visible.
      */
     ensureVisible : function(callback){
         var tree = this.getOwnerTree();
-        tree.expandPath(this.parentNode.getPath(), false, function(){
+        tree.expandPath(this.parentNode ? this.parentNode.getPath() : this.getPath(), false, function(){
             var node = tree.getNodeById(this.id);  // Somehow if we don't do this, we lose changes that happened to node in the meantime
             tree.getTreeEl().scrollChildIntoView(node.ui.anchor);
             Ext.callback(callback);

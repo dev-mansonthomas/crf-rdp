@@ -10,6 +10,7 @@
             <tr><td class="label">Package:</td><td class="hd-info">Ext.util</td></tr>
             <tr><td class="label">Defined In:</td><td class="hd-info">TaskMgr.js</td></tr>
             <tr><td class="label">Class:</td><td class="hd-info">TaskRunner</td></tr>
+                        <tr><td class="label">Subclasses:</td><td class="hd-info"><a ext:cls="Ext.TaskMgr" href="output/Ext.TaskMgr.html">TaskMgr</a></td></tr>
                                     <tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr>
                     </table>
         <div class="description">
@@ -74,8 +75,8 @@ particular scope is required, be sure to specify it using the <code>scope</scope
 should be executed.</div></li>
 <li><code>args</code> : Array<div class="sub-desc">(optional) An array of arguments to be passed to the function
 specified by <code>run</code>.</div></li>
-<li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the
-<code>run</code> function.</div></li>
+<li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<tt>this</tt> reference) in which to execute the
+<code>run</code> function. Defaults to the task config object.</div></li>
 <li><code>duration</code> : Number<div class="sub-desc">(optional) The length of time in milliseconds to execute
 the task before stopping automatically (defaults to indefinite).</div></li>
 <li><code>repeat</code> : Number<div class="sub-desc">(optional) The number of times to execute the task before

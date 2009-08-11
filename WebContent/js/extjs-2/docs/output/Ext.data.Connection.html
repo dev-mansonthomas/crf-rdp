@@ -22,9 +22,11 @@
 either to a configured URL, or to a URL specified at request time.</p>
 <p>Requests made by this class are asynchronous, and will return immediately. No data from
 the server will be available to the statement immediately following the <a ext:cls="Ext.data.Connection" ext:member="request" href="output/Ext.data.Connection.html#request">request</a> call.
-To process returned data, use a {@link #request-option-success callback} in the request options object,
+To process returned data, use a
+<a href="#request-option-success" ext:member="request-option-success" ext:cls="Ext.data.Connection">success callback</a>
+in the request options object,
 or an <a ext:cls="Ext.data.Connection" ext:member="requestcomplete" href="output/Ext.data.Connection.html#requestcomplete">event listener</a>.</p>
-<p>{@link #request-option-isUpload File uploads} are not performed using normal "Ajax" techniques, that
+<p><h3>File Uploads</h3><a href="#request-option-isUpload" ext:member="request-option-isUpload" ext:cls="Ext.data.Connection">File uploads</a> are not performed using normal "Ajax" techniques, that
 is they are <b>not</b> performed using XMLHttpRequests. Instead the form is submitted in the standard
 manner with the DOM <tt>&lt;form></tt> element temporarily modified to have its
 <a href="http://www.w3.org/TR/REC-html40/present/frames.html#adef-target">target</a> set to refer
@@ -34,6 +36,8 @@ but removed after the return data has been gathered.</p>
 server is using JSON to send the return object, then the
 <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">Content-Type</a> header
 must be set to "text/html" in order to tell the browser to insert the text unchanged into the document body.</p>
+<p>Characters which are significant to an HTML parser must be sent as HTML entities, so encode
+"&lt;" as "&amp;lt;", "&amp;" as "&amp;amp;" etc.</p>
 <p>The response text is retrieved from the document, and a fake XMLHttpRequest object
 is created containing a <tt>responseText</tt> property in order to conform to the
 requirements of event handlers and callbacks.</p>
@@ -105,9 +109,9 @@ retrieve parameter names and parameter values from the packet content.</p>      
         <td class="sig">
         <a id="Ext.data.Connection-listeners"></a>
             <b>listeners</b> : Object            <div class="mdesc">
-                        <div class="short">A config object containing one or more event handlers to be added to this object during initialization. This should b...</div>
+                        <div class="short">(optional) A config object containing one or more event handlers to be added to this object during initialization. Th...</div>
             <div class="long">
-                A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
+                (optional) A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
@@ -133,12 +137,15 @@ retrieve parameter names and parameter values from the packet content.</p>      
         </td>
         <td class="msource">Connection</td>
     </tr>
-        <tr class="config-row">
+        <tr class="config-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.data.Connection-url"></a>
             <b>url</b> : String            <div class="mdesc">
-                            (Optional) The default URL to be used for requests to the server. (defaults to undefined)                        </div>
+                        <div class="short">(Optional) The default URL to be used for requests to the server. Defaults to undefined. The url config may be a func...</div>
+            <div class="long">
+                (Optional) <p>The default URL to be used for requests to the server. Defaults to undefined.</p> <p>The <code>url</code> config may be a function which <i>returns</i> the URL to use for the Ajax request. The scope (<code><b>this</b></code> reference) of the function is the <code>scope</code> option passed to the <a ext:cls="Ext.data.Connection" ext:member="request" href="output/Ext.data.Connection.html#request">request</a> method.</p>            </div>
+                        </div>
         </td>
         <td class="msource">Connection</td>
     </tr>
@@ -221,32 +228,34 @@ retrieve parameter names and parameter values from the packet content.</p>      
             <div class="long">
                 Appends an event handler to this component    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
-function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
 properties. This may contain any of the following properties:<ul>
-<li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
-<li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
-<li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>scope</b> : Object<div class="sub-desc">The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li>
+<li><b>delay</b> : Number<div class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</div></li>
+<li><b>single</b> : Boolean<div class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</div></li>
+<li><b>buffer</b> : Number<div class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</div></li>
+<li><b>target</b> : Observable<div class="sub-desc">Only call the handler if the event was fired on the target Observable, <i>not</i>
+if the event was bubbled up from a child Observable.</div></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
 Using the options argument, it is possible to combine different types of listeners:<br>
 <br>
-A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
-<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+A delayed, one-time listener.
+<pre><code>myDataView.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
     single: true,
-    delay: 100,
-    forumId: 4
+    delay: 100
 });</code></pre>
 <p>
 <b>Attaching multiple handlers in 1 call</b><br>
 The method also allows for a single argument to be passed which is a config object containing properties
 which specify multiple handlers.
 <p>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : {
         fn: <b>this</b>.onClick,
         scope: <b>this</b>,
@@ -263,7 +272,7 @@ which specify multiple handlers.
 });</code></pre>
 <p>
 Or a shorthand syntax:<br>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : <b>this</b>.onClick,
     <em>'mouseover'</em> : <b>this</b>.onMouseOver,
     <em>'mouseout'</em> : <b>this</b>.onMouseOut,
@@ -436,9 +445,11 @@ in a callback function.</p>
 <p>To execute a callback function in the correct scope, use the <tt>scope</tt> option.</p>    <div class="mdetail-params">
         <strong>Parameters:</strong>
         <ul><li><code>options</code> : Object<div class="sub-desc">An object which may contain the following properties:<ul>
-<li><b>url</b> : String/Function (Optional)<div class="sub-desc">The URL to
-which to send the request, or a function to call which returns a URL string. The scope of the
-function is specified by the <tt>scope</tt> option. Defaults to configured URL.</div></li>
+<li><b>url</b> : String/Function (Optional)<div class="sub-desc"><p>The URL to
+which to send the request, or a function to call which returns a URL string. The scope (<code><b>this</b></code> reference) of the
+function is specified by the <tt>scope</tt> option. Defaults to configured URL.
+<p>The <code>url</code> config may be a function which <i>returns</i> the URL to use for the Ajax request. The scope
+(<code><b>this</b></code> reference) of the function is the <code>scope</code> option passed to the <a ext:cls="Ext.data.Connection" ext:member="request" href="output/Ext.data.Connection.html#request">request</a> method.</p></div></li>
 <li><b>params</b> : Object/String/Function (Optional)<div class="sub-desc">
 An object containing properties which are used as parameters to the
 request, a url encoded string or a function to call to get either. The scope of the function
@@ -457,7 +468,7 @@ parameters:<ul>
 See <a href="http://www.w3.org/TR/XMLHttpRequest/">http://www.w3.org/TR/XMLHttpRequest/</a> for details about 
 accessing elements of the response.</div></li>
 </ul></div></li>
-<a id="request-option-success"></a><li><b>success</b> : Function (Optional)<div class="sub-desc">The function
+<li><a id="request-option-success"></a><b>success</b> : Function (Optional)<div class="sub-desc">The function
 to be called upon success of the request. The callback is passed the following
 parameters:<ul>
 <li><b>response</b> : Object<div class="sub-desc">The XMLHttpRequest object containing the response data.</div></li>
@@ -473,10 +484,13 @@ following parameters:<ul>
 which to execute the callbacks: The "this" object for the callback function. If the <tt>url</tt>, or <tt>params</tt> options were
 specified as functions from which to draw values, then this also serves as the scope for those function calls.
 Defaults to the browser window.</div></li>
+<li><b>timeout</b> : Number (Optional)<div class="sub-desc">The timeout in milliseconds to be used for this request. Defaults to 30 seconds.</div></li>
 <li><b>form</b> : Element/HTMLElement/String (Optional)<div class="sub-desc">The <tt>&lt;form&gt;</tt>
 Element or the id of the <tt>&lt;form&gt;</tt> to pull parameters from.</div></li>
-<a id="request-option-isUpload"></a><li><b>isUpload</b> : Boolean (Optional)<div class="sub-desc">True if the form object is a
-file upload (will usually be automatically detected).
+<li><a id="request-option-isUpload"></a><b>isUpload</b> : Boolean (Optional)<div class="sub-desc"><b>Only meaningful when used 
+with the <tt>form</tt> option.</b>
+<p>True if the form object is a file upload (will be set automatically if the form was
+configured with <b><tt>enctype</tt></b> "multipart/form-data").</p>
 <p>File uploads are not performed using normal "Ajax" techniques, that is they are <b>not</b>
 performed using XMLHttpRequests. Instead the form is submitted in the standard manner with the
 DOM <tt>&lt;form></tt> element temporarily modified to have its

@@ -26,16 +26,30 @@ field the column draws its data from, an optional rendering function to provide 
 data formatting, and the ability to apply a CSS class to all cells in a column through its
 <a ext:cls="Ext.grid.ColumnModel" ext:member="id" href="output/Ext.grid.ColumnModel.html#id">id</a> config option.<br>
 <br>Usage:<br>
- <pre><code>var colModel = <b>new</b> Ext.grid.ColumnModel([
-	{header: <em>"Ticker"</em>, width: 60, sortable: true},
-	{header: <em>"Company Name"</em>, width: 150, sortable: true},
-	{header: <em>"Market Cap."</em>, width: 100, sortable: true},
-	{header: <em>"$ Sales"</em>, width: 100, sortable: true, renderer: money},
-	{header: <em>"Employees"</em>, width: 100, sortable: true, resizable: false}
+<pre><code>var colModel = <b>new</b> Ext.grid.ColumnModel([
+    { header: <em>"Ticker"</em>, width: 60, sortable: true},
+    { header: <em>"Company Name"</em>, width: 150, sortable: true},
+    { header: <em>"Market Cap."</em>, width: 100, sortable: true},
+    { header: <em>"$ Sales"</em>, width: 100, sortable: true, renderer: money},
+    { header: <em>"Employees"</em>, width: 100, sortable: true, resizable: false}
  ]);</code></pre>
 <p>
-The config options <b>defined by</b< this class are options which may appear in each
-individual column definition.        </div>
+The config options <b>defined by</b> this class are options which may appear in each
+individual column definition. In order to use configuration options from the superclass,
+specify the column configuration Array in the <tt><b>columns</b></tt> config property. eg:<pre><code>var colModel = <b>new</b> Ext.grid.ColumnModel({
+    listeners: {
+        widthchange: <b>function</b>(cm, colIndex, width) {
+            saveConfig(colIndex, width);
+        }
+    },
+    columns: [
+        { header: <em>"Ticker"</em>, width: 60, sortable: true},
+        { header: <em>"Company Name"</em>, width: 150, sortable: true},
+        { header: <em>"Market Cap."</em>, width: 100, sortable: true},
+        { header: <em>"$ Sales"</em>, width: 100, sortable: true, renderer: money},
+        { header: <em>"Employees"</em>, width: 100, sortable: true, resizable: false}
+     ]
+});</code></pre>        </div>
         
         <div class="hr"></div>
                 <a id="Ext.grid.ColumnModel-configs"></a>
@@ -140,9 +154,9 @@ individual column definition.        </div>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-listeners"></a>
             <b>listeners</b> : Object            <div class="mdesc">
-                        <div class="short">A config object containing one or more event handlers to be added to this object during initialization. This should b...</div>
+                        <div class="short">(optional) A config object containing one or more event handlers to be added to this object during initialization. Th...</div>
             <div class="long">
-                A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
+                (optional) A config object containing one or more event handlers to be added to this object during initialization. This should be a valid listeners config object as specified in the <a ext:cls="Ext.util.Observable" ext:member="addListener" href="output/Ext.util.Observable.html#addListener">addListener</a> example for attaching multiple handlers at once.            </div>
                         </div>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#listeners" href="output/Ext.util.Observable.html#listeners">Observable</a></td>
@@ -201,12 +215,15 @@ individual column definition.        </div>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="config-row alt">
+        <tr class="config-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-width"></a>
             <b>width</b> : Number            <div class="mdesc">
-                            (optional) The initial width in pixels of the column.                        </div>
+                        <div class="short">(optional) The initial width in pixels of the column. This is ignored if the Grid's view is configured with forceFit ...</div>
+            <div class="long">
+                (optional) The initial width in pixels of the column. This is ignored if the Grid's <a ext:cls="Ext.grid.GridView" href="output/Ext.grid.GridView.html">view</a> is configured with <a ext:cls="Ext.grid.GridView" ext:member="forceFit" href="output/Ext.grid.GridView.html#forceFit">forceFit</a> true.            </div>
+                        </div>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
@@ -221,13 +238,22 @@ individual column definition.        </div>
                 <tr class="property-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.grid.ColumnModel-config"></a>
+            <b>config</b> : Array            <div class="mdesc">
+                            The column configuration Array passed into the constructor.                        </div>
+        </td>
+        <td class="msource">ColumnModel</td>
+    </tr>
+        <tr class="property-row alt">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.grid.ColumnModel-defaultSortable"></a>
             <b>defaultSortable</b> : Boolean            <div class="mdesc">
                             Default sortable of columns which have no sortable specified (defaults to false)                        </div>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="property-row alt">
+        <tr class="property-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-defaultWidth"></a>
@@ -294,32 +320,34 @@ config objects for details.</div></li>        </ul>
             <div class="long">
                 Appends an event handler to this component    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope in which to execute the handler
-function. The handler function's "this" context.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
+        <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to listen for</div></li><li><code>handler</code> : Function<div class="sub-desc">The method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration
 properties. This may contain any of the following properties:<ul>
-<li><b>scope</b> : Object<p class="sub-desc">The scope in which to execute the handler function. The handler function's "this" context.</p></li>
-<li><b>delay</b> : Number<p class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</p></li>
-<li><b>single</b> : Boolean<p class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</p></li>
-<li><b>buffer</b> : Number<p class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>scope</b> : Object<div class="sub-desc">The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to the object which fired the event.</b></div></li>
+<li><b>delay</b> : Number<div class="sub-desc">The number of milliseconds to delay the invocation of the handler after the event fires.</div></li>
+<li><b>single</b> : Boolean<div class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</div></li>
+<li><b>buffer</b> : Number<div class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</p></li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</div></li>
+<li><b>target</b> : Observable<div class="sub-desc">Only call the handler if the event was fired on the target Observable, <i>not</i>
+if the event was bubbled up from a child Observable.</div></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
 Using the options argument, it is possible to combine different types of listeners:<br>
 <br>
-A normalized, delayed, one-time listener that auto stops the event and passes a custom argument (forumId)
-<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
+A delayed, one-time listener.
+<pre><code>myDataView.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
     single: true,
-    delay: 100,
-    forumId: 4
+    delay: 100
 });</code></pre>
 <p>
 <b>Attaching multiple handlers in 1 call</b><br>
 The method also allows for a single argument to be passed which is a config object containing properties
 which specify multiple handlers.
 <p>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : {
         fn: <b>this</b>.onClick,
         scope: <b>this</b>,
@@ -336,7 +364,7 @@ which specify multiple handlers.
 });</code></pre>
 <p>
 Or a shorthand syntax:<br>
-<pre><code>foo.on({
+<pre><code>myGridPanel.on({
     <em>'click'</em> : <b>this</b>.onClick,
     <em>'mouseover'</em> : <b>this</b>.onMouseOver,
     <em>'mouseout'</em> : <b>this</b>.onMouseOut,
@@ -353,6 +381,26 @@ Or a shorthand syntax:<br>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#addListener" href="output/Ext.util.Observable.html#addListener">Observable</a></td>
     </tr>
         <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.grid.ColumnModel-destroy"></a>
+            <b>destroy</b>() : void            <div class="mdesc">
+                        <div class="short">Destroys this the column model by purging any event listeners, and removing any editors.</div>
+            <div class="long">
+                Destroys this the column model by purging any event listeners, and removing any editors.    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li>None.</li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>void</code></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">ColumnModel</td>
+    </tr>
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-findColumnIndex"></a>
@@ -372,7 +420,7 @@ Or a shorthand syntax:<br>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-fireEvent"></a>
@@ -392,11 +440,11 @@ Or a shorthand syntax:<br>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#fireEvent" href="output/Ext.util.Observable.html#fireEvent">Observable</a></td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getCellEditor"></a>
-            <b>getCellEditor</b>(&nbsp;<code>Number colIndex</code>, <code>Number rowIndex</code>&nbsp;) : Object            <div class="mdesc">
+            <b>getCellEditor</b>(&nbsp;<code>Number colIndex</code>, <code>Number rowIndex</code>&nbsp;) : Ext.Editor            <div class="mdesc">
                         <div class="short">Returns the editor defined for the cell/column.</div>
             <div class="long">
                 Returns the editor defined for the cell/column.    <div class="mdetail-params">
@@ -404,7 +452,7 @@ Or a shorthand syntax:<br>
         <ul><li><code>colIndex</code> : Number<div class="sub-desc">The column index</div></li><li><code>rowIndex</code> : Number<div class="sub-desc">The row index</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>Object</code></li>
+            <li><code>Ext.Editor</code><div class="sub-desc">The {@link Ext.Editor Editor} that was created to wrap the {@link Ext.form.Field Field} used to edit the cell.</div></li>
         </ul>
     </div>
                 </div>
@@ -412,7 +460,7 @@ Or a shorthand syntax:<br>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getColumnById"></a>
@@ -432,16 +480,16 @@ Or a shorthand syntax:<br>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getColumnCount"></a>
-            <b>getColumnCount</b>() : Number            <div class="mdesc">
+            <b>getColumnCount</b>(&nbsp;<code>Boolean visibleOnly</code>&nbsp;) : Number            <div class="mdesc">
                         <div class="short">Returns the number of columns.</div>
             <div class="long">
                 Returns the number of columns.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li>None.</li>        </ul>
+        <ul><li><code>visibleOnly</code> : Boolean<div class="sub-desc">Optional. Pass as true to only include visible columns.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Number</code></li>
@@ -452,7 +500,7 @@ Or a shorthand syntax:<br>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getColumnHeader"></a>
@@ -472,7 +520,7 @@ Or a shorthand syntax:<br>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getColumnId"></a>
@@ -494,7 +542,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getColumnTooltip"></a>
@@ -514,7 +562,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getColumnWidth"></a>
@@ -534,7 +582,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getColumnsBy"></a>
@@ -554,7 +602,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getDataIndex"></a>
@@ -574,7 +622,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getIndexById"></a>
@@ -594,7 +642,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getRenderer"></a>
@@ -614,7 +662,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-getTotalWidth"></a>
@@ -634,7 +682,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-hasListener"></a>
@@ -654,7 +702,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#hasListener" href="output/Ext.util.Observable.html#hasListener">Observable</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-isCellEditable"></a>
@@ -674,7 +722,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-isFixed"></a>
@@ -694,7 +742,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-isHidden"></a>
@@ -714,7 +762,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-isMenuDisabled"></a>
@@ -734,7 +782,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-isResizable"></a>
@@ -754,7 +802,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-isSortable"></a>
@@ -774,7 +822,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-moveColumn"></a>
@@ -794,7 +842,7 @@ Returns the id of the column at the specified index.    <div class="mdetail-para
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-on"></a>
@@ -815,7 +863,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#on" href="output/Ext.util.Observable.html#on">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-purgeListeners"></a>
@@ -835,7 +883,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#purgeListeners" href="output/Ext.util.Observable.html#purgeListeners">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-relayEvents"></a>
@@ -855,7 +903,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#relayEvents" href="output/Ext.util.Observable.html#relayEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-removeListener"></a>
@@ -875,7 +923,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#removeListener" href="output/Ext.util.Observable.html#removeListener">Observable</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-resumeEvents"></a>
@@ -895,7 +943,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#resumeEvents" href="output/Ext.util.Observable.html#resumeEvents">Observable</a></td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setColumnHeader"></a>
@@ -915,7 +963,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setColumnTooltip"></a>
@@ -935,7 +983,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setColumnWidth"></a>
@@ -955,16 +1003,20 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setConfig"></a>
             <b>setConfig</b>(&nbsp;<code>Array config</code>&nbsp;) : void            <div class="mdesc">
-                        <div class="short">Reconfigures this column model</div>
+                        <div class="short">Reconfigures this column model according to the passed Array of column definition objects. For a description of
+the i...</div>
             <div class="long">
-                Reconfigures this column model    <div class="mdetail-params">
+                <p>Reconfigures this column model according to the passed Array of column definition objects. For a description of
+the individual properties of a column definition object, see the <a href="#Ext.grid.ColumnModel-configs">Config Options</a>.</p>
+<p>Causes the <a ext:cls="Ext.grid.ColumnModel" ext:member="configchange" href="output/Ext.grid.ColumnModel.html#configchange">configchange</a> event to be fired. A <a ext:cls="Ext.grid.GridPanel" href="output/Ext.grid.GridPanel.html">GridPanel</a> using
+this ColumnModel will listen for this event and refresh its UI automatically.</p>    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>config</code> : Array<div class="sub-desc">Array of Column configs</div></li>        </ul>
+        <ul><li><code>config</code> : Array<div class="sub-desc">Array of Column definition objects.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>void</code></li>
@@ -975,7 +1027,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setDataIndex"></a>
@@ -995,7 +1047,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setEditable"></a>
@@ -1015,7 +1067,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setEditor"></a>
@@ -1035,7 +1087,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setHidden"></a>
@@ -1055,7 +1107,7 @@ function. The handler function's "this" context.</div></li><li><code>options</co
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row expandable">
+        <tr class="method-row alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-setRenderer"></a>
@@ -1088,7 +1140,7 @@ the following parameters:<ul>
         </td>
         <td class="msource">ColumnModel</td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-suspendEvents"></a>
@@ -1108,7 +1160,7 @@ the following parameters:<ul>
         </td>
         <td class="msource"><a ext:cls="Ext.util.Observable" ext:member="#suspendEvents" href="output/Ext.util.Observable.html#suspendEvents">Observable</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.grid.ColumnModel-un"></a>

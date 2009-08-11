@@ -239,8 +239,9 @@ function initLayout()
     contentEl     : 'DispositifPanel',
     title         : 'Editeur de Dispositif',
     deferredRender: false,
+    autoScroll    : true,
     xtype         : 'panel',
-    tbar 		  : dispositifEditorToolbar
+    tbar 		      : dispositifEditorToolbar
   };
   
   var dispositifList={
@@ -267,7 +268,6 @@ function initLayout()
     
   var dispositifPanel={
       id        : 'monitorInputDispositifPanel',
-      contentEl : 'DispositifPanel',
       title     : 'Editeur de Dispositif',
       closable  : false,
       autoScroll: true,
@@ -306,7 +306,7 @@ function initLayout()
       { // raw
         id    :'monitorInputNorthRegion',
         region:'north',
-        el    : 'north',
+        el    :'north',
         height:50
       });
   
@@ -329,12 +329,12 @@ function initLayout()
   {
     id            : 'monitorInputCenterRegion',
     region        : 'center',
-    deferredRender: false,
-    activeTab     : 0,
+    deferredRender: false   ,
+    activeTab     : 0       ,
     items         : [
       interventionPanel,
-      bilanPanel,
-      dispositifPanel,
+      bilanPanel       ,
+      dispositifPanel  ,
       regulationPanel
     ]
   });

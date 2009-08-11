@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -298,6 +298,7 @@ Ext.extend(Ext.Resizable, Ext.util.Observable, {
 
     // private
     onMouseUp : function(e){
+        this.activeHandle = null;
         var size = this.resizeElement();
         this.resizing = false;
         this.handleOut();
@@ -404,14 +405,14 @@ new Ext.Panel({
         if(v - diff < m){
             diff = v - m;    
         }else if(v - diff > mx){
-            diff = mx - v; 
+            diff = v - mx; 
         }
         return diff;                
     },
 
     // private
     onMouseMove : function(e){
-        if(this.enabled){
+        if(this.enabled && this.activeHandle){
             try{// try catch so if something goes wrong the user doesn't get hung
 
             if(this.resizeRegion && !this.resizeRegion.contains(e.getPoint())) {
@@ -606,23 +607,22 @@ new Ext.Panel({
      * @param {Boolean} removeEl (optional) true to remove the element from the DOM
      */
     destroy : function(removeEl){
-        this.proxy.remove();
-        if(this.overlay){
-            this.overlay.removeAllListeners();
-            this.overlay.remove();
-        }
+        Ext.destroy(this.dd, this.overlay, this.proxy);
+        this.overlay = null;
+        this.proxy = null;
+        
         var ps = Ext.Resizable.positions;
         for(var k in ps){
             if(typeof ps[k] != "function" && this[ps[k]]){
-                var h = this[ps[k]];
-                h.el.removeAllListeners();
-                h.el.remove();
+                this[ps[k]].destroy();
             }
         }
         if(removeEl){
             this.el.update("");
-            this.el.remove();
+            Ext.destroy(this.el);
+            this.el = null;
         }
+        this.purgeListeners();
     },
 
     syncHandleHeight : function(){
@@ -668,6 +668,7 @@ Ext.Resizable.Handle = function(rz, pos, disableTrackOver, transparent){
 
 // private
 Ext.Resizable.Handle.prototype = {
+    // private
     afterResize : function(rz){
         // do nothing    
     },
@@ -682,7 +683,12 @@ Ext.Resizable.Handle.prototype = {
     // private
     onMouseOut : function(e){
         this.rz.handleOut(this, e);
-    }  
+    },
+    // private
+    destroy : function(){
+        Ext.destroy(this.el);
+        this.el = null;
+    }
 };
 
 

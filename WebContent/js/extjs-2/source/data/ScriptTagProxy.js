@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -214,5 +214,11 @@ Ext.extend(Ext.data.ScriptTagProxy, Ext.data.DataProxy, {
         this.destroyTrans(trans, false);
         this.fireEvent("loadexception", this, null, trans.arg);
         trans.callback.call(trans.scope||window, null, trans.arg, false);
+    },
+    
+    // inherit docs
+    destroy: function(){
+        this.abort();
+        Ext.data.ScriptTagProxy.superclass.destroy.call(this);
     }
 });

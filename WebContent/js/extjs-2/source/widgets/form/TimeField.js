@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -138,6 +138,7 @@ Ext.form.TimeField = Ext.extend(Ext.form.ComboBox, {
         if(v){
             this.setValue(v.dateFormat(this.format));
         }
+        Ext.form.TimeField.superclass.beforeBlur.call(this);
     }
 
     /**

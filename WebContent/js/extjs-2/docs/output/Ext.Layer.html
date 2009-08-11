@@ -60,9 +60,9 @@ automatic maintaining of shadow/shim positions.        </div>
         <td class="sig">
         <a id="Ext.Layer-shadow"></a>
             <b>shadow</b> : String/Boolean            <div class="mdesc">
-                        <div class="short">True to create a shadow element with default class "x-layer-shadow", or you can pass a string with a CSS class name. ...</div>
+                        <div class="short">True to automatically create an Ext.Shadow, or a string indicating the shadow's display Ext.Shadow.mode. False to dis...</div>
             <div class="long">
-                True to create a shadow element with default class "x-layer-shadow", or you can pass a string with a CSS class name. False turns off the shadow.            </div>
+                True to automatically create an <a ext:cls="Ext.Shadow" href="output/Ext.Shadow.html">Ext.Shadow</a>, or a string indicating the shadow's display <a ext:cls="Ext.Shadow" ext:member="mode" href="output/Ext.Shadow.html#mode">Ext.Shadow.mode</a>. False to disable the shadow. (defaults to false)            </div>
                         </div>
         </td>
         <td class="msource">Layer</td>
@@ -134,7 +134,8 @@ automatic maintaining of shadow/shim positions.        </div>
         <td class="sig">
         <a id="Ext.Layer-originalDisplay"></a>
             <b>originalDisplay</b> : String            <div class="mdesc">
-                            The element's default display mode  (defaults to "")                        </div>
+                            
+The element's default display mode  (defaults to "")                        </div>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#originalDisplay" href="output/Ext.Element.html#originalDisplay">Element</a></td>
     </tr>
@@ -298,24 +299,25 @@ automatic maintaining of shadow/shim positions.        </div>
         <strong>Parameters:</strong>
         <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to handle</div></li><li><code>fn</code> : Function<div class="sub-desc">The handler function the event invokes. This function is passed
 the following parameters:<ul>
-<li>evt : EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">EventObject</a> describing the event.</div></li>
-<li>t : Element<div class="sub-desc">The <a ext:cls="Ext.Element" href="output/Ext.Element.html">Element</a> which was the target of the event.
+<li><b>evt</b> : EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">EventObject</a> describing the event.</div></li>
+<li><b>el</b> : Element<div class="sub-desc">The <a ext:cls="Ext.Element" href="output/Ext.Element.html">Element</a> which was the target of the event.
 Note that this may be filtered by using the <tt>delegate</tt> option.</div></li>
-<li>o : Object<div class="sub-desc">The options object from the addListener call.</div></li>
-</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (The <tt>this</tt> reference) of the handler function. Defaults
-to this Element.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration properties.
+<li><b>o</b> : Object<div class="sub-desc">The options object from the addListener call.</div></li>
+</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to this Element.</b>.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration properties.
 This may contain any of the following properties:<ul>
-<li>scope {Object} : The scope in which to execute the handler function. The handler function's "this" context.</li>
-<li>delegate {String} : A simple selector to filter the target or look for a descendant of the target</li>
-<li>stopEvent {Boolean} : True to stop the event. That is stop propagation, and prevent the default action.</li>
-<li>preventDefault {Boolean} : True to prevent the default action</li>
-<li>stopPropagation {Boolean} : True to prevent event propagation</li>
-<li>normalized {Boolean} : False to pass a browser event to the handler function instead of an Ext.EventObject</li>
-<li>delay {Number} : The number of milliseconds to delay the invocation of the handler after te event fires.</li>
-<li>single {Boolean} : True to add a handler to handle just the next firing of the event, and then remove itself.</li>
-<li>buffer {Number} : Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>scope</b> Object : <div class="sub-desc">The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to this Element.</b></div></li>
+<li><b>delegate</b> String: <div class="sub-desc">A simple selector to filter the target or look for a descendant of the target</div></li>
+<li><b>stopEvent</b> Boolean: <div class="sub-desc">True to stop the event. That is stop propagation, and prevent the default action.</div></li>
+<li><b>preventDefault</b> Boolean: <div class="sub-desc">True to prevent the default action</div></li>
+<li><b>stopPropagation</b> Boolean: <div class="sub-desc">True to prevent event propagation</div></li>
+<li><b>normalized</b> Boolean: <div class="sub-desc">False to pass a browser event to the handler function instead of an Ext.EventObject</div></li>
+<li><b>delay</b> Number: <div class="sub-desc">The number of milliseconds to delay the invocation of the handler after te event fires.</div></li>
+<li><b>single</b> Boolean: <div class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</div></li>
+<li><b>buffer</b> Number: <div class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</div></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -323,7 +325,7 @@ In the following examples, the shorthand form <a ext:cls="Ext.Element" ext:membe
 addListener. The two are equivalent. Using the options argument, it is possible to combine different
 types of listeners:<br>
 <br>
-A normalized, delayed, one-time listener that auto stops the event and adds a custom argument (forumId) to the
+A delayed, one-time listener that auto stops the event and adds a custom argument (forumId) to the
 options object. The options object is available as the third parameter in the handler function.<div style="margin: 5px 20px 20px;">
 Code:<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
     single: true,
@@ -862,8 +864,7 @@ showing through.    <div class="mdetail-params">
             <div class="long">
                 Looks at this node and then at parent nodes for a match of the passed simple selector (e.g. div.some-class or span:first-child)    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>selector</code> : String<div class="sub-desc">The simple selector to test</div></li><li><code>maxDepth</code> : Number/Mixed<div class="sub-desc">(optional) The max depth to
- search as a number or element (defaults to 10 || document.body)</div></li><li><code>returnEl</code> : Boolean<div class="sub-desc">(optional) True to return a Ext.Element object instead of DOM node</div></li>        </ul>
+        <ul><li><code>selector</code> : String<div class="sub-desc">The simple selector to test</div></li><li><code>maxDepth</code> : Number/Mixed<div class="sub-desc">(optional) The max depth to search as a number or element (defaults to 50 || document.body)</div></li><li><code>returnEl</code> : Boolean<div class="sub-desc">(optional) True to return a Ext.Element object instead of DOM node</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>HTMLElement</code><div class="sub-desc">The matching DOM node (or null if no match was found)</div></li>
@@ -918,6 +919,31 @@ showing through.    <div class="mdetail-params">
         <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.Layer-fly"></a>
+            <b>fly</b>(&nbsp;<code>String/HTMLElement el</code>, <span class="optional" title="Optional">[<code>String named</code>]</span>&nbsp;) : Element            <div class="mdesc">
+                        <div class="short">Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a reference to t...</div>
+            <div class="long">
+                <p>Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a reference to this element -
+the dom node can be overwritten by other code. Shorthand of <a ext:cls="Ext.Element" ext:member="fly" href="output/Ext.Element.html#fly">Ext.Element.fly</a></p>
+<p>Use this to make one-time references to DOM elements which are not going to be accessed again either by
+application code, or by Ext's classes. If accessing an element which will be processed regularly, then <a ext:cls="Ext" ext:member="get" href="output/Ext.html#get">Ext.get</a>
+will be more appropriate to take advantage of the caching provided by the Ext.Element class.</p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc">The dom node or id</div></li><li><code>named</code> : String<div class="sub-desc">(optional) Allows for creation of named reusable flyweights to prevent conflicts
+(e.g. internally Ext uses "_global")</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Element</code><div class="sub-desc">The shared Element object (or null if no matching element was found)</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#fly" href="output/Ext.Element.html#fly">Element</a></td>
+    </tr>
+        <tr class="method-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.Layer-focus"></a>
             <b>focus</b>() : Ext.Element            <div class="mdesc">
                         <div class="short">Tries to focus the element. Any exceptions are caught and ignored.</div>
@@ -935,7 +961,7 @@ showing through.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#focus" href="output/Ext.Element.html#focus">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getAlignToXY"></a>
@@ -957,7 +983,7 @@ supported position values.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getAlignToXY" href="output/Ext.Element.html#getAlignToXY">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getAnchorXY"></a>
@@ -980,7 +1006,7 @@ of page coordinates</div></li><li><code>size</code> : Object<div class="sub-desc
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getAnchorXY" href="output/Ext.Element.html#getAnchorXY">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getAttributeNS"></a>
@@ -1000,7 +1026,7 @@ of page coordinates</div></li><li><code>size</code> : Object<div class="sub-desc
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getAttributeNS" href="output/Ext.Element.html#getAttributeNS">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getBorderWidth"></a>
@@ -1021,7 +1047,7 @@ passing lr would get the border (l)eft width + the border (r)ight width.</div></
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getBorderWidth" href="output/Ext.Element.html#getBorderWidth">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getBottom"></a>
@@ -1041,7 +1067,7 @@ passing lr would get the border (l)eft width + the border (r)ight width.</div></
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getBottom" href="output/Ext.Element.html#getBottom">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getBox"></a>
@@ -1063,7 +1089,7 @@ size/location to match this element.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getBox" href="output/Ext.Element.html#getBox">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getCenterXY"></a>
@@ -1083,7 +1109,7 @@ size/location to match this element.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getCenterXY" href="output/Ext.Element.html#getCenterXY">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getColor"></a>
@@ -1106,7 +1132,7 @@ color anims.</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getColor" href="output/Ext.Element.html#getColor">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getComputedHeight"></a>
@@ -1129,7 +1155,7 @@ if a height has not been set using CSS.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getComputedHeight" href="output/Ext.Element.html#getComputedHeight">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getComputedWidth"></a>
@@ -1152,7 +1178,7 @@ if a width has not been set using CSS.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getComputedWidth" href="output/Ext.Element.html#getComputedWidth">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getFrameWidth"></a>
@@ -1174,7 +1200,7 @@ if a width has not been set using CSS.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getFrameWidth" href="output/Ext.Element.html#getFrameWidth">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getHeight"></a>
@@ -1194,7 +1220,7 @@ if a width has not been set using CSS.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getHeight" href="output/Ext.Element.html#getHeight">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getLeft"></a>
@@ -1214,7 +1240,7 @@ if a width has not been set using CSS.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getLeft" href="output/Ext.Element.html#getLeft">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getMargins"></a>
@@ -1235,7 +1261,7 @@ then it returns the calculated width of the sides (see getPadding)    <div class
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getMargins" href="output/Ext.Element.html#getMargins">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getOffsetsTo"></a>
@@ -1255,7 +1281,7 @@ then it returns the calculated width of the sides (see getPadding)    <div class
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getOffsetsTo" href="output/Ext.Element.html#getOffsetsTo">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getPadding"></a>
@@ -1276,7 +1302,7 @@ passing lr would get the padding (l)eft + the padding (r)ight.</div></li>       
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getPadding" href="output/Ext.Element.html#getPadding">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getPositioning"></a>
@@ -1298,7 +1324,7 @@ snapshot before performing an update and then restoring the element.    <div cla
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getPositioning" href="output/Ext.Element.html#getPositioning">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getRegion"></a>
@@ -1320,7 +1346,7 @@ The element must be part of the DOM tree to have a region (display:none or eleme
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getRegion" href="output/Ext.Element.html#getRegion">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getRight"></a>
@@ -1340,7 +1366,7 @@ The element must be part of the DOM tree to have a region (display:none or eleme
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getRight" href="output/Ext.Element.html#getRight">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getScroll"></a>
@@ -1360,7 +1386,7 @@ The element must be part of the DOM tree to have a region (display:none or eleme
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getScroll" href="output/Ext.Element.html#getScroll">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getSize"></a>
@@ -1380,7 +1406,7 @@ The element must be part of the DOM tree to have a region (display:none or eleme
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getSize" href="output/Ext.Element.html#getSize">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getStyle"></a>
@@ -1400,7 +1426,7 @@ The element must be part of the DOM tree to have a region (display:none or eleme
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getStyle" href="output/Ext.Element.html#getStyle">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getStyles"></a>
@@ -1423,7 +1449,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getStyles" href="output/Ext.Element.html#getStyles">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getTextWidth"></a>
@@ -1443,7 +1469,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getTextWidth" href="output/Ext.Element.html#getTextWidth">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getTop"></a>
@@ -1463,7 +1489,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getTop" href="output/Ext.Element.html#getTop">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getUpdater"></a>
@@ -1483,7 +1509,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getUpdater" href="output/Ext.Element.html#getUpdater">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getValue"></a>
@@ -1503,7 +1529,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getValue" href="output/Ext.Element.html#getValue">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getViewSize"></a>
@@ -1523,7 +1549,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getViewSize" href="output/Ext.Element.html#getViewSize">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getWidth"></a>
@@ -1543,7 +1569,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getWidth" href="output/Ext.Element.html#getWidth">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getX"></a>
@@ -1563,7 +1589,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getX" href="output/Ext.Element.html#getX">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getXY"></a>
@@ -1583,7 +1609,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getXY" href="output/Ext.Element.html#getXY">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-getY"></a>
@@ -1603,7 +1629,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#getY" href="output/Ext.Element.html#getY">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-hasClass"></a>
@@ -1623,7 +1649,7 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#hasClass" href="output/Ext.Element.html#hasClass">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-hide"></a>
@@ -1643,21 +1669,19 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#hide" href="output/Ext.Element.html#hide">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-hover"></a>
-            <b>hover</b>(&nbsp;<code>Function overFn</code>, <code>Function outFn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Sets up event handlers to call the passed functions when the mouse is over this element. Automatically
-filters child ...</div>
+            <b>hover</b>(&nbsp;<code>Function overFn</code>, <code>Function outFn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets up event handlers to call the passed functions when the mouse is moved into and out of the Element.</div>
             <div class="long">
-                Sets up event handlers to call the passed functions when the mouse is over this element. Automatically
-filters child element mouse events.    <div class="mdetail-params">
+                Sets up event handlers to call the passed functions when the mouse is moved into and out of the Element.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>overFn</code> : Function<div class="sub-desc"></div></li><li><code>outFn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <ul><li><code>overFn</code> : Function<div class="sub-desc">The function to call when the mouse enters the Element.</div></li><li><code>outFn</code> : Function<div class="sub-desc">The function to call when the mouse leaves the Element.</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<tt>this</tt> reference) in which the functions are executed. Defaults to this Element.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
+            <li><code>void</code></li>
         </ul>
     </div>
                 </div>
@@ -1665,7 +1689,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#hover" href="output/Ext.Element.html#hover">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-initDD"></a>
@@ -1685,7 +1709,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#initDD" href="output/Ext.Element.html#initDD">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-initDDProxy"></a>
@@ -1705,7 +1729,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#initDDProxy" href="output/Ext.Element.html#initDDProxy">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-initDDTarget"></a>
@@ -1725,7 +1749,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#initDDTarget" href="output/Ext.Element.html#initDDTarget">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-insertAfter"></a>
@@ -1745,7 +1769,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#insertAfter" href="output/Ext.Element.html#insertAfter">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-insertBefore"></a>
@@ -1765,7 +1789,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#insertBefore" href="output/Ext.Element.html#insertBefore">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-insertFirst"></a>
@@ -1785,7 +1809,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#insertFirst" href="output/Ext.Element.html#insertFirst">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-insertHtml"></a>
@@ -1805,7 +1829,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#insertHtml" href="output/Ext.Element.html#insertHtml">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-insertSibling"></a>
@@ -1825,7 +1849,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#insertSibling" href="output/Ext.Element.html#insertSibling">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-is"></a>
@@ -1845,7 +1869,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#is" href="output/Ext.Element.html#is">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-isBorderBox"></a>
@@ -1865,7 +1889,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#isBorderBox" href="output/Ext.Element.html#isBorderBox">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-isDisplayed"></a>
@@ -1885,7 +1909,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#isDisplayed" href="output/Ext.Element.html#isDisplayed">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-isMasked"></a>
@@ -1905,7 +1929,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#isMasked" href="output/Ext.Element.html#isMasked">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-isScrollable"></a>
@@ -1925,7 +1949,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#isScrollable" href="output/Ext.Element.html#isScrollable">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-isVisible"></a>
@@ -1945,7 +1969,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#isVisible" href="output/Ext.Element.html#isVisible">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-last"></a>
@@ -1965,7 +1989,7 @@ filters child element mouse events.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#last" href="output/Ext.Element.html#last">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-load"></a>
@@ -1987,7 +2011,7 @@ parameter as <a ext:cls="Ext.Updater" ext:member="update" href="output/Ext.Updat
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#load" href="output/Ext.Element.html#load">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-mask"></a>
@@ -2009,7 +2033,7 @@ This method can only be applied to elements which accept child nodes.    <div cl
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#mask" href="output/Ext.Element.html#mask">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-move"></a>
@@ -2029,7 +2053,7 @@ This method can only be applied to elements which accept child nodes.    <div cl
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#move" href="output/Ext.Element.html#move">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-moveTo"></a>
@@ -2051,7 +2075,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#moveTo" href="output/Ext.Element.html#moveTo">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-next"></a>
@@ -2071,7 +2095,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#next" href="output/Ext.Element.html#next">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-on"></a>
@@ -2091,7 +2115,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#on" href="output/Ext.Element.html#on">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-parent"></a>
@@ -2111,7 +2135,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#parent" href="output/Ext.Element.html#parent">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-position"></a>
@@ -2133,7 +2157,7 @@ the element positioned relative IF it is not already positioned.    <div class="
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#position" href="output/Ext.Element.html#position">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-prev"></a>
@@ -2153,7 +2177,7 @@ the element positioned relative IF it is not already positioned.    <div class="
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#prev" href="output/Ext.Element.html#prev">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-query"></a>
@@ -2173,7 +2197,7 @@ the element positioned relative IF it is not already positioned.    <div class="
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#query" href="output/Ext.Element.html#query">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-radioClass"></a>
@@ -2193,7 +2217,7 @@ the element positioned relative IF it is not already positioned.    <div class="
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#radioClass" href="output/Ext.Element.html#radioClass">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-relayEvent"></a>
@@ -2216,7 +2240,7 @@ for firing the relayed event</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#relayEvent" href="output/Ext.Element.html#relayEvent">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-remove"></a>
@@ -2236,7 +2260,7 @@ for firing the relayed event</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#remove" href="output/Ext.Element.html#remove">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-removeAllListeners"></a>
@@ -2256,7 +2280,7 @@ for firing the relayed event</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#removeAllListeners" href="output/Ext.Element.html#removeAllListeners">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-removeClass"></a>
@@ -2276,7 +2300,7 @@ for firing the relayed event</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#removeClass" href="output/Ext.Element.html#removeClass">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-removeListener"></a>
@@ -2301,7 +2325,7 @@ to this Element.</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#removeListener" href="output/Ext.Element.html#removeListener">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-repaint"></a>
@@ -2321,7 +2345,7 @@ to this Element.</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#repaint" href="output/Ext.Element.html#repaint">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-replace"></a>
@@ -2341,7 +2365,7 @@ to this Element.</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#replace" href="output/Ext.Element.html#replace">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-replaceClass"></a>
@@ -2361,7 +2385,7 @@ to this Element.</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#replaceClass" href="output/Ext.Element.html#replaceClass">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-replaceWith"></a>
@@ -2381,7 +2405,7 @@ to this Element.</div></li>        </ul>
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#replaceWith" href="output/Ext.Element.html#replaceWith">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-scroll"></a>
@@ -2403,7 +2427,7 @@ within this element's scrollable range.    <div class="mdetail-params">
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#scroll" href="output/Ext.Element.html#scroll">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-scrollIntoView"></a>
@@ -2412,7 +2436,7 @@ within this element's scrollable range.    <div class="mdetail-params">
             <div class="long">
                 Scrolls this element into view within the passed container.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>container</code> : Mixed<div class="sub-desc">(optional) The container element to scroll (defaults to document.body). Should be a 
+        <ul><li><code>container</code> : Mixed<div class="sub-desc">(optional) The container element to scroll (defaults to document.body). Should be a
 string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Boolean<div class="sub-desc">(optional) False to disable horizontal scroll (defaults to true)</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
@@ -2424,7 +2448,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#scrollIntoView" href="output/Ext.Element.html#scrollIntoView">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-scrollTo"></a>
@@ -2444,7 +2468,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#scrollTo" href="output/Ext.Element.html#scrollTo">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-select"></a>
@@ -2464,7 +2488,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#select" href="output/Ext.Element.html#select">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-set"></a>
@@ -2484,7 +2508,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#set" href="output/Ext.Element.html#set">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setBottom"></a>
@@ -2504,16 +2528,22 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setBottom" href="output/Ext.Element.html#setBottom">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setBounds"></a>
-            <b>setBounds</b>(&nbsp;<code>Number x</code>, <code>Number y</code>, <code>Number width</code>, <code>Number height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+            <b>setBounds</b>(&nbsp;<code>Number x</code>, <code>Number y</code>, <code>Mixed width</code>, <code>Mixed height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
                         <div class="short">Sets the element's position and size in one shot. If animation is true then width, height, x and y will be animated c...</div>
             <div class="long">
                 Sets the element's position and size in one shot. If animation is true then width, height, x and y will be animated concurrently.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>x</code> : Number<div class="sub-desc">X value for new position (coordinates are page-based)</div></li><li><code>y</code> : Number<div class="sub-desc">Y value for new position (coordinates are page-based)</div></li><li><code>width</code> : Number<div class="sub-desc">The new width</div></li><li><code>height</code> : Number<div class="sub-desc">The new height</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>x</code> : Number<div class="sub-desc">X value for new position (coordinates are page-based)</div></li><li><code>y</code> : Number<div class="sub-desc">Y value for new position (coordinates are page-based)</div></li><li><code>width</code> : Mixed<div class="sub-desc">The new width. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels)</li>
+<li>A String used to set the CSS width style. Animation may <b>not</b> be used.
+</ul></div></div></li><li><code>height</code> : Mixed<div class="sub-desc">The new height. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels)</li>
+<li>A String used to set the CSS height style. Animation may <b>not</b> be used.</li>
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2524,7 +2554,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setBounds" href="output/Ext.Element.html#setBounds">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setBox"></a>
@@ -2544,7 +2574,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setBox" href="output/Ext.Element.html#setBox">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setDisplayed"></a>
@@ -2564,16 +2594,19 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setDisplayed" href="output/Ext.Element.html#setDisplayed">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setHeight"></a>
-            <b>setHeight</b>(&nbsp;<code>Number height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Set the height of the element</div>
+            <b>setHeight</b>(&nbsp;<code>Mixed height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Set the height of this Element.</div>
             <div class="long">
-                Set the height of the element    <div class="mdetail-params">
+                Set the height of this Element.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>height</code> : Number<div class="sub-desc">The new height</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>height</code> : Mixed<div class="sub-desc">The new height. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels.)</li>
+<li>A String used to set the CSS height style. Animation may <b>not</b> be used.</li>
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2584,7 +2617,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setHeight" href="output/Ext.Element.html#setHeight">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setLeft"></a>
@@ -2604,7 +2637,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setLeft" href="output/Ext.Element.html#setLeft">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setLeftTop"></a>
@@ -2624,7 +2657,7 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setLeftTop" href="output/Ext.Element.html#setLeftTop">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setLocation"></a>
@@ -2646,7 +2679,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setLocation" href="output/Ext.Element.html#setLocation">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setOpacity"></a>
@@ -2666,7 +2699,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setOpacity" href="output/Ext.Element.html#setOpacity">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setPositioning"></a>
@@ -2686,7 +2719,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setPositioning" href="output/Ext.Element.html#setPositioning">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setRegion"></a>
@@ -2706,7 +2739,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setRegion" href="output/Ext.Element.html#setRegion">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setRight"></a>
@@ -2726,16 +2759,23 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setRight" href="output/Ext.Element.html#setRight">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setSize"></a>
-            <b>setSize</b>(&nbsp;<code>Number width</code>, <code>Number height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Set the size of the element. If animation is true, both width an height will be animated concurrently.</div>
+            <b>setSize</b>(&nbsp;<code>Mixed width</code>, <code>Mixed height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Set the size of this Element. If animation is true, both width an height will be animated concurrently.</div>
             <div class="long">
-                Set the size of the element. If animation is true, both width an height will be animated concurrently.    <div class="mdetail-params">
+                Set the size of this Element. If animation is true, both width an height will be animated concurrently.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>width</code> : Number<div class="sub-desc">The new width</div></li><li><code>height</code> : Number<div class="sub-desc">The new height</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>width</code> : Mixed<div class="sub-desc">The new width. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS width style. Animation may <b>not</b> be used.
+<li>A size object in the format <code>{width: widthValue, height: heightValue}</code>.</li>
+</ul></div></div></li><li><code>height</code> : Mixed<div class="sub-desc">The new height. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS height style. Animation may <b>not</b> be used.</li>
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2746,7 +2786,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setSize" href="output/Ext.Element.html#setSize">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setStyle"></a>
@@ -2766,7 +2806,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setStyle" href="output/Ext.Element.html#setStyle">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setTop"></a>
@@ -2786,18 +2826,18 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setTop" href="output/Ext.Element.html#setTop">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setVisibilityMode"></a>
-            <b>setVisibilityMode</b>(&nbsp;<code>visMode Element.VISIBILITY</code>&nbsp;) : Ext.Element            <div class="mdesc">
+            <b>setVisibilityMode</b>(&nbsp;<code>visMode Ext.Element.VISIBILITY</code>&nbsp;) : Ext.Element            <div class="mdesc">
                         <div class="short">Sets the element's visibility mode. When setVisible() is called it
 will use this to determine whether to set the visi...</div>
             <div class="long">
                 Sets the element's visibility mode. When setVisible() is called it
 will use this to determine whether to set the visibility or the display property.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>Element.VISIBILITY</code> : visMode<div class="sub-desc">or Element.DISPLAY</div></li>        </ul>
+        <ul><li><code>Ext.Element.VISIBILITY</code> : visMode<div class="sub-desc">or Ext.Element.DISPLAY</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2808,7 +2848,7 @@ will use this to determine whether to set the visibility or the display property
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setVisibilityMode" href="output/Ext.Element.html#setVisibilityMode">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setVisible"></a>
@@ -2830,16 +2870,19 @@ the display property to hide the element, otherwise it uses visibility. The defa
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setVisible" href="output/Ext.Element.html#setVisible">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setWidth"></a>
-            <b>setWidth</b>(&nbsp;<code>Number width</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Set the width of the element</div>
+            <b>setWidth</b>(&nbsp;<code>Mixed width</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Set the width of this Element.</div>
             <div class="long">
-                Set the width of the element    <div class="mdetail-params">
+                Set the width of this Element.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>width</code> : Number<div class="sub-desc">The new width</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>width</code> : Mixed<div class="sub-desc">The new width. This may be one of<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS width style. Animation may <b>not</b> be used.
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2850,7 +2893,7 @@ the display property to hide the element, otherwise it uses visibility. The defa
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setWidth" href="output/Ext.Element.html#setWidth">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setX"></a>
@@ -2870,7 +2913,7 @@ the display property to hide the element, otherwise it uses visibility. The defa
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setX" href="output/Ext.Element.html#setX">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setXY"></a>
@@ -2892,7 +2935,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setXY" href="output/Ext.Element.html#setXY">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setY"></a>
@@ -2912,7 +2955,7 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#setY" href="output/Ext.Element.html#setY">Element</a></td>
     </tr>
-        <tr class="method-row alt expandable">
+        <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-setZIndex"></a>
@@ -2935,7 +2978,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource">Layer</td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-show"></a>
@@ -2955,16 +2998,16 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#show" href="output/Ext.Element.html#show">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-swallowEvent"></a>
-            <b>swallowEvent</b>(&nbsp;<code>String eventName</code>, <span class="optional" title="Optional">[<code>Boolean preventDefault</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Stops the specified event from bubbling and optionally prevents the default action</div>
+            <b>swallowEvent</b>(&nbsp;<code>String/Array eventName</code>, <span class="optional" title="Optional">[<code>Boolean preventDefault</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Stops the specified event(s) from bubbling and optionally prevents the default action</div>
             <div class="long">
-                Stops the specified event from bubbling and optionally prevents the default action    <div class="mdetail-params">
+                Stops the specified event(s) from bubbling and optionally prevents the default action    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>preventDefault</code> : Boolean<div class="sub-desc">(optional) true to prevent the default action too</div></li>        </ul>
+        <ul><li><code>eventName</code> : String/Array<div class="sub-desc">an event / array of events to stop from bubbling</div></li><li><code>preventDefault</code> : Boolean<div class="sub-desc">(optional) true to prevent the default action too</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2975,7 +3018,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#swallowEvent" href="output/Ext.Element.html#swallowEvent">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-toggle"></a>
@@ -2995,7 +3038,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#toggle" href="output/Ext.Element.html#toggle">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-toggleClass"></a>
@@ -3015,7 +3058,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#toggleClass" href="output/Ext.Element.html#toggleClass">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-translatePoints"></a>
@@ -3035,16 +3078,17 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#translatePoints" href="output/Ext.Element.html#translatePoints">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-un"></a>
-            <b>un</b>(&nbsp;<code>String eventName</code>, <code>Function fn</code>&nbsp;) : Ext.Element            <div class="mdesc">
+            <b>un</b>(&nbsp;<code>String eventName</code>, <code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
                         <div class="short">Removes an event handler from this element (shorthand for <a ext:cls="Ext.Element" ext:member="removeListener" href="output/Ext.Element.html#removeListener">removeListener</a>).</div>
             <div class="long">
                 Removes an event handler from this element (shorthand for <a ext:cls="Ext.Element" ext:member="removeListener" href="output/Ext.Element.html#removeListener">removeListener</a>).    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc">the type of event to remove</div></li><li><code>fn</code> : Function<div class="sub-desc">the method the event invokes</div></li>        </ul>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">the type of event to remove</div></li><li><code>fn</code> : Function<div class="sub-desc">the method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (The <tt>this</tt> reference) of the handler function. Defaults
+to this Element.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -3055,7 +3099,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#un" href="output/Ext.Element.html#un">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-unclip"></a>
@@ -3075,7 +3119,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#unclip" href="output/Ext.Element.html#unclip">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-unmask"></a>
@@ -3095,7 +3139,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#unmask" href="output/Ext.Element.html#unmask">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-unselectable"></a>
@@ -3115,7 +3159,7 @@ element, if any, will be assigned z-index + 1, and the shim element, if any, wil
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#unselectable" href="output/Ext.Element.html#unselectable">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-up"></a>
@@ -3137,7 +3181,7 @@ This is a shortcut for findParentNode() that always returns an Ext.Element.    <
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#up" href="output/Ext.Element.html#up">Element</a></td>
     </tr>
-        <tr class="method-row inherited expandable">
+        <tr class="method-row inherited alt expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-update"></a>
@@ -3157,7 +3201,7 @@ This is a shortcut for findParentNode() that always returns an Ext.Element.    <
         </td>
         <td class="msource"><a ext:cls="Ext.Element" ext:member="#update" href="output/Ext.Element.html#update">Element</a></td>
     </tr>
-        <tr class="method-row inherited alt expandable">
+        <tr class="method-row inherited expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Layer-wrap"></a>
@@ -3180,5 +3224,575 @@ This is a shortcut for findParentNode() that always returns an Ext.Element.    <
             </table>
                 <a id="Ext.Layer-events"></a>
         <h2>Public Events</h2>
-        <div class="no-members">This class has no public events.</div>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMActivate"></a>
+            <b>DOMActivate</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when an element is activated, for instance, through a mouse click or a keypress.</div>
+            <div class="long">
+                
+Where supported. Fires when an element is activated, for instance, through a mouse click or a keypress.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMActivate" href="output/Ext.Element.html#event-DOMActivate">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMAttrModified"></a>
+            <b>DOMAttrModified</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when an attribute has been modified.</div>
+            <div class="long">
+                
+Where supported. Fires when an attribute has been modified.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMAttrModified" href="output/Ext.Element.html#event-DOMAttrModified">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMCharacterDataModified"></a>
+            <b>DOMCharacterDataModified</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when the character data has been modified.</div>
+            <div class="long">
+                
+Where supported. Fires when the character data has been modified.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMCharacterDataModified" href="output/Ext.Element.html#event-DOMCharacterDataModified">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMFocusIn"></a>
+            <b>DOMFocusIn</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Where supported. Similar to HTML focus event, but can be applied to any focusable element.</div>
+            <div class="long">
+                Where supported. Similar to HTML focus event, but can be applied to any focusable element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event.</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMFocusIn" href="output/Ext.Element.html#event-DOMFocusIn">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMFocusOut"></a>
+            <b>DOMFocusOut</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Similar to HTML blur event, but can be applied to any focusable element.</div>
+            <div class="long">
+                
+Where supported. Similar to HTML blur event, but can be applied to any focusable element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMFocusOut" href="output/Ext.Element.html#event-DOMFocusOut">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMNodeInserted"></a>
+            <b>DOMNodeInserted</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a node has been added as a child of another node.</div>
+            <div class="long">
+                
+Where supported. Fires when a node has been added as a child of another node.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMNodeInserted" href="output/Ext.Element.html#event-DOMNodeInserted">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMNodeInsertedIntoDocument"></a>
+            <b>DOMNodeInsertedIntoDocument</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a node is being inserted into a document.</div>
+            <div class="long">
+                
+Where supported. Fires when a node is being inserted into a document.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMNodeInsertedIntoDocument" href="output/Ext.Element.html#event-DOMNodeInsertedIntoDocument">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMNodeRemoved"></a>
+            <b>DOMNodeRemoved</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a descendant node of the element is removed.</div>
+            <div class="long">
+                
+Where supported. Fires when a descendant node of the element is removed.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMNodeRemoved" href="output/Ext.Element.html#event-DOMNodeRemoved">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMNodeRemovedFromDocument"></a>
+            <b>DOMNodeRemovedFromDocument</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a node is being removed from a document.</div>
+            <div class="long">
+                
+Where supported. Fires when a node is being removed from a document.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMNodeRemovedFromDocument" href="output/Ext.Element.html#event-DOMNodeRemovedFromDocument">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-DOMSubtreeModified"></a>
+            <b>DOMSubtreeModified</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Where supported. Fires when the subtree is modified.</div>
+            <div class="long">
+                Where supported. Fires when the subtree is modified.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-DOMSubtreeModified" href="output/Ext.Element.html#event-DOMSubtreeModified">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-abort"></a>
+            <b>abort</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an object/image is stopped from loading before completely loaded.</div>
+            <div class="long">
+                
+Fires when an object/image is stopped from loading before completely loaded.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-abort" href="output/Ext.Element.html#event-abort">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-blur"></a>
+            <b>blur</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an element loses focus either via the pointing device or by tabbing navigation.</div>
+            <div class="long">
+                
+Fires when an element loses focus either via the pointing device or by tabbing navigation.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-blur" href="output/Ext.Element.html#event-blur">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-change"></a>
+            <b>change</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a control loses the input focus and its value has been modified since gaining focus.</div>
+            <div class="long">
+                
+Fires when a control loses the input focus and its value has been modified since gaining focus.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-change" href="output/Ext.Element.html#event-change">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-click"></a>
+            <b>click</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a mouse click is detected with the element.</div>
+            <div class="long">
+                Fires when a mouse click is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-click" href="output/Ext.Element.html#event-click">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-dblclick"></a>
+            <b>dblclick</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouse double click is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouse double click is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-dblclick" href="output/Ext.Element.html#event-dblclick">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-error"></a>
+            <b>error</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an object/image/frame cannot be loaded properly.</div>
+            <div class="long">
+                
+Fires when an object/image/frame cannot be loaded properly.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-error" href="output/Ext.Element.html#event-error">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-focus"></a>
+            <b>focus</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an element receives focus either via the pointing device or by tab navigation.</div>
+            <div class="long">
+                
+Fires when an element receives focus either via the pointing device or by tab navigation.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-focus" href="output/Ext.Element.html#event-focus">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-keydown"></a>
+            <b>keydown</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a keydown is detected with the element.</div>
+            <div class="long">
+                
+Fires when a keydown is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-keydown" href="output/Ext.Element.html#event-keydown">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-keypress"></a>
+            <b>keypress</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a keypress is detected with the element.</div>
+            <div class="long">
+                Fires when a keypress is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-keypress" href="output/Ext.Element.html#event-keypress">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-keyup"></a>
+            <b>keyup</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a keyup is detected with the element.</div>
+            <div class="long">
+                
+Fires when a keyup is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-keyup" href="output/Ext.Element.html#event-keyup">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-load"></a>
+            <b>load</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when the user agent finishes loading all content within the element. Only supported by window, frames, objects ...</div>
+            <div class="long">
+                Fires when the user agent finishes loading all content within the element. Only supported by window, frames, objects and images.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-load" href="output/Ext.Element.html#event-load">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-mousedown"></a>
+            <b>mousedown</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mousedown is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mousedown is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-mousedown" href="output/Ext.Element.html#event-mousedown">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-mousemove"></a>
+            <b>mousemove</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mousemove is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mousemove is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-mousemove" href="output/Ext.Element.html#event-mousemove">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-mouseout"></a>
+            <b>mouseout</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouseout is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouseout is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-mouseout" href="output/Ext.Element.html#event-mouseout">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-mouseover"></a>
+            <b>mouseover</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouseover is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouseover is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-mouseover" href="output/Ext.Element.html#event-mouseover">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-mouseup"></a>
+            <b>mouseup</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouseup is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouseup is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-mouseup" href="output/Ext.Element.html#event-mouseup">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-reset"></a>
+            <b>reset</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a form is reset.</div>
+            <div class="long">
+                
+Fires when a form is reset.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-reset" href="output/Ext.Element.html#event-reset">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-resize"></a>
+            <b>resize</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a document view is resized.</div>
+            <div class="long">
+                
+Fires when a document view is resized.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-resize" href="output/Ext.Element.html#event-resize">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-scroll"></a>
+            <b>scroll</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a document view is scrolled.</div>
+            <div class="long">
+                
+Fires when a document view is scrolled.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-scroll" href="output/Ext.Element.html#event-scroll">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-select"></a>
+            <b>select</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a user selects some text in a text field, including input and textarea.</div>
+            <div class="long">
+                Fires when a user selects some text in a text field, including input and textarea.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-select" href="output/Ext.Element.html#event-select">Element</a></td>
+    </tr>
+        <tr class="event-row inherited expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-submit"></a>
+            <b>submit</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a form is submitted.</div>
+            <div class="long">
+                
+Fires when a form is submitted.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-submit" href="output/Ext.Element.html#event-submit">Element</a></td>
+    </tr>
+        <tr class="event-row inherited alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Layer-unload"></a>
+            <b>unload</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when the user agent removes all content from a window or frame. For elements, it fires when the target element...</div>
+            <div class="long">
+                
+Fires when the user agent removes all content from a window or frame. For elements, it fires when the target element or any of its content has been removed.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource"><a ext:cls="Ext.Element" ext:member="#event-unload" href="output/Ext.Element.html#event-unload">Element</a></td>
+    </tr>
+            </table>
+        
         </div>

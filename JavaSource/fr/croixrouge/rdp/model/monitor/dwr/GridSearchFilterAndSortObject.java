@@ -32,7 +32,31 @@ public class GridSearchFilterAndSortObject implements Serializable
     return sb.toString();
   }
   
+  public FilterObject getFilterObject(String filterName)
+  {
+    if(filters == null || filters.length == 0 || filterName == null)
+      return null;
+    
+    for (FilterObject oneFilterObject : this.filters)
+    {
+      if(filterName.equals(oneFilterObject.getName()))
+          return oneFilterObject;
+    }
+    return null;
+  }
   
+  public SortObject getSortObject(String sortName)
+  {
+    if(filters == null || filters.length == 0 || sortName == null)
+      return null;
+    
+    for (SortObject oneSortObject : this.sorts)
+    {
+      if(sortName.equals(oneSortObject.getName()))
+          return oneSortObject;
+    }
+    return null;
+  }
   
   public int getStart()
   {

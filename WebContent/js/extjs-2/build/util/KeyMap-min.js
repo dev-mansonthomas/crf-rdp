@@ -1,9 +1,19 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
  */
 
-Ext.KeyMap=function(C,B,A){this.el=Ext.get(C);this.eventName=A||"keydown";this.bindings=[];if(B){this.addBinding(B)}this.enable()};Ext.KeyMap.prototype={stopEvent:false,addBinding:function(D){if(Ext.isArray(D)){for(var F=0,H=D.length;F<H;F++){this.addBinding(D[F])}return }var N=D.key,C=D.shift,A=D.ctrl,G=D.alt,J=D.fn||D.handler,M=D.scope;if(D.stopEvent){this.stopEvent=D.stopEvent}if(typeof N=="string"){var K=[];var I=N.toUpperCase();for(var E=0,H=I.length;E<H;E++){K.push(I.charCodeAt(E))}N=K}var B=Ext.isArray(N);var L=function(R){if((!C||R.shiftKey)&&(!A||R.ctrlKey)&&(!G||R.altKey)){var P=R.getKey();if(B){for(var Q=0,O=N.length;Q<O;Q++){if(N[Q]==P){if(this.stopEvent){R.stopEvent()}J.call(M||window,P,R);return }}}else{if(P==N){if(this.stopEvent){R.stopEvent()}J.call(M||window,P,R)}}}};this.bindings.push(L)},on:function(B,D,C){var G,A,E,F;if(typeof B=="object"&&!Ext.isArray(B)){G=B.key;A=B.shift;E=B.ctrl;F=B.alt}else{G=B}this.addBinding({key:G,shift:A,ctrl:E,alt:F,fn:D,scope:C})},handleKeyDown:function(D){if(this.enabled){var B=this.bindings;for(var C=0,A=B.length;C<A;C++){B[C].call(this,D)}}},isEnabled:function(){return this.enabled},enable:function(){if(!this.enabled){this.el.on(this.eventName,this.handleKeyDown,this);this.enabled=true}},disable:function(){if(this.enabled){this.el.removeListener(this.eventName,this.handleKeyDown,this);this.enabled=false}}};
+
+Ext.KeyMap=function(el,config,eventName){this.el=Ext.get(el);this.eventName=eventName||"keydown";this.bindings=[];if(config){this.addBinding(config);}
+this.enable();};Ext.KeyMap.prototype={stopEvent:false,addBinding:function(config){if(Ext.isArray(config)){for(var i=0,len=config.length;i<len;i++){this.addBinding(config[i]);}
+return;}
+var keyCode=config.key,shift=config.shift,ctrl=config.ctrl,alt=config.alt,fn=config.fn||config.handler,scope=config.scope;if(config.stopEvent){this.stopEvent=config.stopEvent;}
+if(typeof keyCode=="string"){var ks=[];var keyString=keyCode.toUpperCase();for(var j=0,len=keyString.length;j<len;j++){ks.push(keyString.charCodeAt(j));}
+keyCode=ks;}
+var keyArray=Ext.isArray(keyCode);var handler=function(e){if((!shift||e.shiftKey)&&(!ctrl||e.ctrlKey)&&(!alt||e.altKey)){var k=e.getKey();if(keyArray){for(var i=0,len=keyCode.length;i<len;i++){if(keyCode[i]==k){if(this.stopEvent){e.stopEvent();}
+fn.call(scope||window,k,e);return;}}}else{if(k==keyCode){if(this.stopEvent){e.stopEvent();}
+fn.call(scope||window,k,e);}}}};this.bindings.push(handler);},on:function(key,fn,scope){var keyCode,shift,ctrl,alt;if(typeof key=="object"&&!Ext.isArray(key)){keyCode=key.key;shift=key.shift;ctrl=key.ctrl;alt=key.alt;}else{keyCode=key;}
+this.addBinding({key:keyCode,shift:shift,ctrl:ctrl,alt:alt,fn:fn,scope:scope})},handleKeyDown:function(e){if(this.enabled){var b=this.bindings;for(var i=0,len=b.length;i<len;i++){b[i].call(this,e);}}},isEnabled:function(){return this.enabled;},enable:function(){if(!this.enabled){this.el.on(this.eventName,this.handleKeyDown,this);this.enabled=true;}},disable:function(){if(this.enabled){this.el.removeListener(this.eventName,this.handleKeyDown,this);this.enabled=false;}}};

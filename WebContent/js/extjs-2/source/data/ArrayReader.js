@@ -1,6 +1,6 @@
 /*
- * Ext JS Library 2.2
- * Copyright(c) 2006-2008, Ext JS, LLC.
+ * Ext JS Library 2.3.0
+ * Copyright(c) 2006-2009, Ext JS, LLC.
  * licensing@extjs.com
  * 
  * http://extjs.com/license
@@ -39,6 +39,18 @@ var myReader = new Ext.data.ArrayReader({
  * created using {@link Ext.data.Record#create}.
  */
 Ext.data.ArrayReader = Ext.extend(Ext.data.JsonReader, {
+    /**
+     * @cfg {String} totalProperty
+     * @hide
+     */
+    /**
+     * @cfg {String} successProperty
+     * @hide
+     */
+    /**
+ 	 * @cfg {String} root
+     * @hide
+     */
     /**
      * Create a data block containing Ext.data.Records from an Array.
      * @param {Object} o An Array of row objects which represents the dataset.

@@ -14,8 +14,12 @@
                                     <tr><td class="label">Extends:</td><td class="hd-info">Object</td></tr>
                     </table>
         <div class="description">
-            Represents an Element in the DOM.<br><br>
-Usage:<br>
+            <p>Encapsulates a DOM element, adding simple DOM manipulation facilities, normalizing for browser differences.</p>
+<p>All instances of this class inherit the methods of <a ext:cls="Ext.Fx" href="output/Ext.Fx.html">Ext.Fx</a> making visual effects easily available to all DOM elements.</p>
+<p>Note that the events documented in this class are not Ext events, they encapsulate browser events. To
+access the underlying browser event, see <a ext:cls="Ext.EventObject" ext:member="browserEvent" href="output/Ext.EventObject.html#browserEvent">Ext.EventObject.browserEvent</a>. Some older
+browsers may not support the full range of events. Which events are supported is beyond the control of ExtJs.</p>
+<p>Usage:</p>
 <pre><code><i>// by id</i>
 <b>var</b> el = Ext.get(<em>"my-div"</em>);
 
@@ -73,18 +77,18 @@ For working with collections of Elements, see <a ext:cls="Ext.CompositeElement" 
                 <tr class="property-row">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.Element-Element.DISPLAY"></a>
-            <b>Element.DISPLAY</b> : Number            <div class="mdesc">
-                            &lt;static&gt; Visibility mode constant - Use display to hide element                        </div>
+        <a id="Ext.Element-DISPLAY"></a>
+            <b>DISPLAY</b> : Number            <div class="mdesc">
+                            &lt;static&gt; Visibility mode constant for use with <a ext:cls="Ext.Element" ext:member="setVisibilityMode" href="output/Ext.Element.html#setVisibilityMode">setVisibilityMode</a>. Use display to hide element                        </div>
         </td>
         <td class="msource">Element</td>
     </tr>
         <tr class="property-row alt">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
-        <a id="Ext.Element-Element.VISIBILITY"></a>
-            <b>Element.VISIBILITY</b> : Number            <div class="mdesc">
-                            &lt;static&gt; Visibility mode constant - Use visibility to hide element                        </div>
+        <a id="Ext.Element-VISIBILITY"></a>
+            <b>VISIBILITY</b> : Number            <div class="mdesc">
+                            &lt;static&gt; Visibility mode constant for use with <a ext:cls="Ext.Element" ext:member="setVisibilityMode" href="output/Ext.Element.html#setVisibilityMode">setVisibilityMode</a>. Use visibility to hide element                        </div>
         </td>
         <td class="msource">Element</td>
     </tr>
@@ -120,7 +124,8 @@ For working with collections of Elements, see <a ext:cls="Ext.CompositeElement" 
         <td class="sig">
         <a id="Ext.Element-originalDisplay"></a>
             <b>originalDisplay</b> : String            <div class="mdesc">
-                            The element's default display mode  (defaults to "")                        </div>
+                            
+The element's default display mode  (defaults to "")                        </div>
         </td>
         <td class="msource">Element</td>
     </tr>
@@ -145,55 +150,6 @@ For working with collections of Elements, see <a ext:cls="Ext.CompositeElement" 
         <strong>Returns:</strong>
         <ul>
             <li><code></code></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource">Element</td>
-    </tr>
-        <tr class="method-row alt expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.Element-Element.fly"></a>
-            <b>Element.fly</b>(&nbsp;<code>String/HTMLElement el</code>, <span class="optional" title="Optional">[<code>String named</code>]</span>&nbsp;) : Element            <div class="mdesc">
-                        <div class="short">&lt;static&gt; Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a...</div>
-            <div class="long">
-                &lt;static&gt; Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a reference to this element -
-the dom node can be overwritten by other code.    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc">The dom node or id</div></li><li><code>named</code> : String<div class="sub-desc">(optional) Allows for creation of named reusable flyweights to
-prevent conflicts (e.g. internally Ext uses "_internal")</div></li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>Element</code><div class="sub-desc">The shared Element object (or null if no matching element was found)</div></li>
-        </ul>
-    </div>
-                </div>
-                        </div>
-        </td>
-        <td class="msource">Element</td>
-    </tr>
-        <tr class="method-row expandable">
-        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
-        <td class="sig">
-        <a id="Ext.Element-Element.get"></a>
-            <b>Element.get</b>(&nbsp;<code>Mixed el</code>&nbsp;) : Element            <div class="mdesc">
-                        <div class="short">&lt;static&gt; Static method to retrieve Ext.Element objects.
-This method does not retrieve Components. This method
-r...</div>
-            <div class="long">
-                &lt;static&gt; Static method to retrieve Ext.Element objects.
-<p><b>This method does not retrieve <a ext:cls="Ext.Component" href="output/Ext.Component.html">Component</a>s.</b> This method
-retrieves Ext.Element objects which encapsulate DOM elements. To retrieve a Component by
-its ID, use <a ext:cls="Ext.ComponentMgr" ext:member="get" href="output/Ext.ComponentMgr.html#get">Ext.ComponentMgr.get</a>.</p>
-<p>Uses simple caching to consistently return the same object.
-Automatically fixes if an object was recreated with the same id via AJAX or DOM.</p>    <div class="mdetail-params">
-        <strong>Parameters:</strong>
-        <ul><li><code>el</code> : Mixed<div class="sub-desc">The id of the node, a DOM Node or an existing Element.</div></li>        </ul>
-        <strong>Returns:</strong>
-        <ul>
-            <li><code>Element</code><div class="sub-desc">The {@link Ext.Element Element} object (or null if no matching element was found)</div></li>
         </ul>
     </div>
                 </div>
@@ -333,24 +289,25 @@ Automatically fixes if an object was recreated with the same id via AJAX or DOM.
         <strong>Parameters:</strong>
         <ul><li><code>eventName</code> : String<div class="sub-desc">The type of event to handle</div></li><li><code>fn</code> : Function<div class="sub-desc">The handler function the event invokes. This function is passed
 the following parameters:<ul>
-<li>evt : EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">EventObject</a> describing the event.</div></li>
-<li>t : Element<div class="sub-desc">The <a ext:cls="Ext.Element" href="output/Ext.Element.html">Element</a> which was the target of the event.
+<li><b>evt</b> : EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">EventObject</a> describing the event.</div></li>
+<li><b>el</b> : Element<div class="sub-desc">The <a ext:cls="Ext.Element" href="output/Ext.Element.html">Element</a> which was the target of the event.
 Note that this may be filtered by using the <tt>delegate</tt> option.</div></li>
-<li>o : Object<div class="sub-desc">The options object from the addListener call.</div></li>
-</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (The <tt>this</tt> reference) of the handler function. Defaults
-to this Element.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration properties.
+<li><b>o</b> : Object<div class="sub-desc">The options object from the addListener call.</div></li>
+</ul></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to this Element.</b>.</div></li><li><code>options</code> : Object<div class="sub-desc">(optional) An object containing handler configuration properties.
 This may contain any of the following properties:<ul>
-<li>scope {Object} : The scope in which to execute the handler function. The handler function's "this" context.</li>
-<li>delegate {String} : A simple selector to filter the target or look for a descendant of the target</li>
-<li>stopEvent {Boolean} : True to stop the event. That is stop propagation, and prevent the default action.</li>
-<li>preventDefault {Boolean} : True to prevent the default action</li>
-<li>stopPropagation {Boolean} : True to prevent event propagation</li>
-<li>normalized {Boolean} : False to pass a browser event to the handler function instead of an Ext.EventObject</li>
-<li>delay {Number} : The number of milliseconds to delay the invocation of the handler after te event fires.</li>
-<li>single {Boolean} : True to add a handler to handle just the next firing of the event, and then remove itself.</li>
-<li>buffer {Number} : Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
+<li><b>scope</b> Object : <div class="sub-desc">The scope (<code><b>this</b></code> reference) in which the handler function is executed.
+<b>If omitted, defaults to this Element.</b></div></li>
+<li><b>delegate</b> String: <div class="sub-desc">A simple selector to filter the target or look for a descendant of the target</div></li>
+<li><b>stopEvent</b> Boolean: <div class="sub-desc">True to stop the event. That is stop propagation, and prevent the default action.</div></li>
+<li><b>preventDefault</b> Boolean: <div class="sub-desc">True to prevent the default action</div></li>
+<li><b>stopPropagation</b> Boolean: <div class="sub-desc">True to prevent event propagation</div></li>
+<li><b>normalized</b> Boolean: <div class="sub-desc">False to pass a browser event to the handler function instead of an Ext.EventObject</div></li>
+<li><b>delay</b> Number: <div class="sub-desc">The number of milliseconds to delay the invocation of the handler after te event fires.</div></li>
+<li><b>single</b> Boolean: <div class="sub-desc">True to add a handler to handle just the next firing of the event, and then remove itself.</div></li>
+<li><b>buffer</b> Number: <div class="sub-desc">Causes the handler to be scheduled to run in an <a ext:cls="Ext.util.DelayedTask" href="output/Ext.util.DelayedTask.html">Ext.util.DelayedTask</a> delayed
 by the specified number of milliseconds. If the event fires again within that time, the original
-handler is <em>not</em> invoked, but the new handler is scheduled in its place.</li>
+handler is <em>not</em> invoked, but the new handler is scheduled in its place.</div></li>
 </ul><br>
 <p>
 <b>Combining Options</b><br>
@@ -358,7 +315,7 @@ In the following examples, the shorthand form <a ext:cls="Ext.Element" ext:membe
 addListener. The two are equivalent. Using the options argument, it is possible to combine different
 types of listeners:<br>
 <br>
-A normalized, delayed, one-time listener that auto stops the event and adds a custom argument (forumId) to the
+A delayed, one-time listener that auto stops the event and adds a custom argument (forumId) to the
 options object. The options object is available as the third parameter in the handler function.<div style="margin: 5px 20px 20px;">
 Code:<pre><code>el.on(<em>'click'</em>, <b>this</b>.onClick, <b>this</b>, {
     single: true,
@@ -897,8 +854,7 @@ showing through.    <div class="mdetail-params">
             <div class="long">
                 Looks at this node and then at parent nodes for a match of the passed simple selector (e.g. div.some-class or span:first-child)    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>selector</code> : String<div class="sub-desc">The simple selector to test</div></li><li><code>maxDepth</code> : Number/Mixed<div class="sub-desc">(optional) The max depth to
- search as a number or element (defaults to 10 || document.body)</div></li><li><code>returnEl</code> : Boolean<div class="sub-desc">(optional) True to return a Ext.Element object instead of DOM node</div></li>        </ul>
+        <ul><li><code>selector</code> : String<div class="sub-desc">The simple selector to test</div></li><li><code>maxDepth</code> : Number/Mixed<div class="sub-desc">(optional) The max depth to search as a number or element (defaults to 50 || document.body)</div></li><li><code>returnEl</code> : Boolean<div class="sub-desc">(optional) True to return a Ext.Element object instead of DOM node</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>HTMLElement</code><div class="sub-desc">The matching DOM node (or null if no match was found)</div></li>
@@ -953,6 +909,31 @@ showing through.    <div class="mdetail-params">
         <tr class="method-row expandable">
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
+        <a id="Ext.Element-fly"></a>
+            <b>fly</b>(&nbsp;<code>String/HTMLElement el</code>, <span class="optional" title="Optional">[<code>String named</code>]</span>&nbsp;) : Element            <div class="mdesc">
+                        <div class="short">Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a reference to t...</div>
+            <div class="long">
+                <p>Gets the globally shared flyweight Element, with the passed node as the active element. Do not store a reference to this element -
+the dom node can be overwritten by other code. Shorthand of <a ext:cls="Ext.Element" ext:member="fly" href="output/Ext.Element.html#fly">Ext.Element.fly</a></p>
+<p>Use this to make one-time references to DOM elements which are not going to be accessed again either by
+application code, or by Ext's classes. If accessing an element which will be processed regularly, then <a ext:cls="Ext" ext:member="get" href="output/Ext.html#get">Ext.get</a>
+will be more appropriate to take advantage of the caching provided by the Ext.Element class.</p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : String/HTMLElement<div class="sub-desc">The dom node or id</div></li><li><code>named</code> : String<div class="sub-desc">(optional) Allows for creation of named reusable flyweights to prevent conflicts
+(e.g. internally Ext uses "_global")</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Element</code><div class="sub-desc">The shared Element object (or null if no matching element was found)</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="method-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
         <a id="Ext.Element-focus"></a>
             <b>focus</b>() : Ext.Element            <div class="mdesc">
                         <div class="short">Tries to focus the element. Any exceptions are caught and ignored.</div>
@@ -963,6 +944,33 @@ showing through.    <div class="mdetail-params">
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
+        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="method-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-get"></a>
+            <b>get</b>(&nbsp;<code>Mixed el</code>&nbsp;) : Element            <div class="mdesc">
+                        <div class="short">&lt;static&gt; Retrieves Ext.Element objects.
+This method does not retrieve Components. This method
+retrieves Ext.Ele...</div>
+            <div class="long">
+                &lt;static&gt; Retrieves Ext.Element objects.
+<p><b>This method does not retrieve <a ext:cls="Ext.Component" href="output/Ext.Component.html">Component</a>s.</b> This method
+retrieves Ext.Element objects which encapsulate DOM elements. To retrieve a Component by
+its ID, use <a ext:cls="Ext.ComponentMgr" ext:member="get" href="output/Ext.ComponentMgr.html#get">Ext.ComponentMgr.get</a>.</p>
+<p>Uses simple caching to consistently return the same object. Automatically fixes if an
+object was recreated with the same id via AJAX or DOM.</p>    <div class="mdetail-params">
+        <strong>Parameters:</strong>
+        <ul><li><code>el</code> : Mixed<div class="sub-desc">The id of the node, a DOM Node or an existing Element.</div></li>        </ul>
+        <strong>Returns:</strong>
+        <ul>
+            <li><code>Element</code><div class="sub-desc">The Element object (or null if no matching element was found)</div></li>
         </ul>
     </div>
                 </div>
@@ -1682,17 +1690,15 @@ For example, el.getStyles('color', 'font-size', 'width') might return
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-hover"></a>
-            <b>hover</b>(&nbsp;<code>Function overFn</code>, <code>Function outFn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Sets up event handlers to call the passed functions when the mouse is over this element. Automatically
-filters child ...</div>
+            <b>hover</b>(&nbsp;<code>Function overFn</code>, <code>Function outFn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : void            <div class="mdesc">
+                        <div class="short">Sets up event handlers to call the passed functions when the mouse is moved into and out of the Element.</div>
             <div class="long">
-                Sets up event handlers to call the passed functions when the mouse is over this element. Automatically
-filters child element mouse events.    <div class="mdetail-params">
+                Sets up event handlers to call the passed functions when the mouse is moved into and out of the Element.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>overFn</code> : Function<div class="sub-desc"></div></li><li><code>outFn</code> : Function<div class="sub-desc"></div></li><li><code>scope</code> : Object<div class="sub-desc">(optional)</div></li>        </ul>
+        <ul><li><code>overFn</code> : Function<div class="sub-desc">The function to call when the mouse enters the Element.</div></li><li><code>outFn</code> : Function<div class="sub-desc">The function to call when the mouse leaves the Element.</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (<tt>this</tt> reference) in which the functions are executed. Defaults to this Element.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
-            <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
+            <li><code>void</code></li>
         </ul>
     </div>
                 </div>
@@ -2447,7 +2453,7 @@ within this element's scrollable range.    <div class="mdetail-params">
             <div class="long">
                 Scrolls this element into view within the passed container.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>container</code> : Mixed<div class="sub-desc">(optional) The container element to scroll (defaults to document.body). Should be a 
+        <ul><li><code>container</code> : Mixed<div class="sub-desc">(optional) The container element to scroll (defaults to document.body). Should be a
 string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Boolean<div class="sub-desc">(optional) False to disable horizontal scroll (defaults to true)</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
@@ -2543,12 +2549,18 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-setBounds"></a>
-            <b>setBounds</b>(&nbsp;<code>Number x</code>, <code>Number y</code>, <code>Number width</code>, <code>Number height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+            <b>setBounds</b>(&nbsp;<code>Number x</code>, <code>Number y</code>, <code>Mixed width</code>, <code>Mixed height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
                         <div class="short">Sets the element's position and size in one shot. If animation is true then width, height, x and y will be animated c...</div>
             <div class="long">
                 Sets the element's position and size in one shot. If animation is true then width, height, x and y will be animated concurrently.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>x</code> : Number<div class="sub-desc">X value for new position (coordinates are page-based)</div></li><li><code>y</code> : Number<div class="sub-desc">Y value for new position (coordinates are page-based)</div></li><li><code>width</code> : Number<div class="sub-desc">The new width</div></li><li><code>height</code> : Number<div class="sub-desc">The new height</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>x</code> : Number<div class="sub-desc">X value for new position (coordinates are page-based)</div></li><li><code>y</code> : Number<div class="sub-desc">Y value for new position (coordinates are page-based)</div></li><li><code>width</code> : Mixed<div class="sub-desc">The new width. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels)</li>
+<li>A String used to set the CSS width style. Animation may <b>not</b> be used.
+</ul></div></div></li><li><code>height</code> : Mixed<div class="sub-desc">The new height. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels)</li>
+<li>A String used to set the CSS height style. Animation may <b>not</b> be used.</li>
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2603,12 +2615,15 @@ string (id), dom node, or Ext.Element.</div></li><li><code>hscroll</code> : Bool
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-setHeight"></a>
-            <b>setHeight</b>(&nbsp;<code>Number height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Set the height of the element</div>
+            <b>setHeight</b>(&nbsp;<code>Mixed height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Set the height of this Element.</div>
             <div class="long">
-                Set the height of the element    <div class="mdetail-params">
+                Set the height of this Element.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>height</code> : Number<div class="sub-desc">The new height</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>height</code> : Mixed<div class="sub-desc">The new height. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels.)</li>
+<li>A String used to set the CSS height style. Animation may <b>not</b> be used.</li>
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2765,12 +2780,19 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-setSize"></a>
-            <b>setSize</b>(&nbsp;<code>Number width</code>, <code>Number height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Set the size of the element. If animation is true, both width an height will be animated concurrently.</div>
+            <b>setSize</b>(&nbsp;<code>Mixed width</code>, <code>Mixed height</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Set the size of this Element. If animation is true, both width an height will be animated concurrently.</div>
             <div class="long">
-                Set the size of the element. If animation is true, both width an height will be animated concurrently.    <div class="mdetail-params">
+                Set the size of this Element. If animation is true, both width an height will be animated concurrently.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>width</code> : Number<div class="sub-desc">The new width</div></li><li><code>height</code> : Number<div class="sub-desc">The new height</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>width</code> : Mixed<div class="sub-desc">The new width. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS width style. Animation may <b>not</b> be used.
+<li>A size object in the format <code>{width: widthValue, height: heightValue}</code>.</li>
+</ul></div></div></li><li><code>height</code> : Mixed<div class="sub-desc">The new height. This may be one of:<div class="mdetail-params"><ul>
+<li>A Number specifying the new height in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS height style. Animation may <b>not</b> be used.</li>
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2825,14 +2847,14 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-setVisibilityMode"></a>
-            <b>setVisibilityMode</b>(&nbsp;<code>visMode Element.VISIBILITY</code>&nbsp;) : Ext.Element            <div class="mdesc">
+            <b>setVisibilityMode</b>(&nbsp;<code>visMode Ext.Element.VISIBILITY</code>&nbsp;) : Ext.Element            <div class="mdesc">
                         <div class="short">Sets the element's visibility mode. When setVisible() is called it
 will use this to determine whether to set the visi...</div>
             <div class="long">
                 Sets the element's visibility mode. When setVisible() is called it
 will use this to determine whether to set the visibility or the display property.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>Element.VISIBILITY</code> : visMode<div class="sub-desc">or Element.DISPLAY</div></li>        </ul>
+        <ul><li><code>Ext.Element.VISIBILITY</code> : visMode<div class="sub-desc">or Ext.Element.DISPLAY</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2869,12 +2891,15 @@ the display property to hide the element, otherwise it uses visibility. The defa
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-setWidth"></a>
-            <b>setWidth</b>(&nbsp;<code>Number width</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Set the width of the element</div>
+            <b>setWidth</b>(&nbsp;<code>Mixed width</code>, <span class="optional" title="Optional">[<code>Boolean/Object animate</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Set the width of this Element.</div>
             <div class="long">
-                Set the width of the element    <div class="mdetail-params">
+                Set the width of this Element.    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>width</code> : Number<div class="sub-desc">The new width</div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
+        <ul><li><code>width</code> : Mixed<div class="sub-desc">The new width. This may be one of<div class="mdetail-params"><ul>
+<li>A Number specifying the new width in this Element's <a ext:cls="Ext.Element" ext:member="defaultUnit" href="output/Ext.Element.html#defaultUnit">defaultUnit</a>s (by default, pixels).</li>
+<li>A String used to set the CSS width style. Animation may <b>not</b> be used.
+</ul></div></div></li><li><code>animate</code> : Boolean/Object<div class="sub-desc">(optional) true for the default animation or a standard Element animation config object</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -2971,12 +2996,12 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-swallowEvent"></a>
-            <b>swallowEvent</b>(&nbsp;<code>String eventName</code>, <span class="optional" title="Optional">[<code>Boolean preventDefault</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
-                        <div class="short">Stops the specified event from bubbling and optionally prevents the default action</div>
+            <b>swallowEvent</b>(&nbsp;<code>String/Array eventName</code>, <span class="optional" title="Optional">[<code>Boolean preventDefault</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
+                        <div class="short">Stops the specified event(s) from bubbling and optionally prevents the default action</div>
             <div class="long">
-                Stops the specified event from bubbling and optionally prevents the default action    <div class="mdetail-params">
+                Stops the specified event(s) from bubbling and optionally prevents the default action    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc"></div></li><li><code>preventDefault</code> : Boolean<div class="sub-desc">(optional) true to prevent the default action too</div></li>        </ul>
+        <ul><li><code>eventName</code> : String/Array<div class="sub-desc">an event / array of events to stop from bubbling</div></li><li><code>preventDefault</code> : Boolean<div class="sub-desc">(optional) true to prevent the default action too</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -3051,12 +3076,13 @@ The element must be part of the DOM tree to have page coordinates (display:none 
         <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
         <td class="sig">
         <a id="Ext.Element-un"></a>
-            <b>un</b>(&nbsp;<code>String eventName</code>, <code>Function fn</code>&nbsp;) : Ext.Element            <div class="mdesc">
+            <b>un</b>(&nbsp;<code>String eventName</code>, <code>Function fn</code>, <span class="optional" title="Optional">[<code>Object scope</code>]</span>&nbsp;) : Ext.Element            <div class="mdesc">
                         <div class="short">Removes an event handler from this element (shorthand for <a ext:cls="Ext.Element" ext:member="removeListener" href="output/Ext.Element.html#removeListener">removeListener</a>).</div>
             <div class="long">
                 Removes an event handler from this element (shorthand for <a ext:cls="Ext.Element" ext:member="removeListener" href="output/Ext.Element.html#removeListener">removeListener</a>).    <div class="mdetail-params">
         <strong>Parameters:</strong>
-        <ul><li><code>eventName</code> : String<div class="sub-desc">the type of event to remove</div></li><li><code>fn</code> : Function<div class="sub-desc">the method the event invokes</div></li>        </ul>
+        <ul><li><code>eventName</code> : String<div class="sub-desc">the type of event to remove</div></li><li><code>fn</code> : Function<div class="sub-desc">the method the event invokes</div></li><li><code>scope</code> : Object<div class="sub-desc">(optional) The scope (The <tt>this</tt> reference) of the handler function. Defaults
+to this Element.</div></li>        </ul>
         <strong>Returns:</strong>
         <ul>
             <li><code>Ext.Element</code><div class="sub-desc">this</div></li>
@@ -3192,5 +3218,575 @@ This is a shortcut for findParentNode() that always returns an Ext.Element.    <
             </table>
                 <a id="Ext.Element-events"></a>
         <h2>Public Events</h2>
-        <div class="no-members">This class has no public events.</div>
+                <table cellspacing="0" class="member-table">
+            <tr>
+                <th class="sig-header" colspan="2">Event</th>
+                <th class="msource-header">Defined By</th>
+            </tr>
+                <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMActivate"></a>
+            <b>DOMActivate</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when an element is activated, for instance, through a mouse click or a keypress.</div>
+            <div class="long">
+                
+Where supported. Fires when an element is activated, for instance, through a mouse click or a keypress.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMAttrModified"></a>
+            <b>DOMAttrModified</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when an attribute has been modified.</div>
+            <div class="long">
+                
+Where supported. Fires when an attribute has been modified.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMCharacterDataModified"></a>
+            <b>DOMCharacterDataModified</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when the character data has been modified.</div>
+            <div class="long">
+                
+Where supported. Fires when the character data has been modified.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMFocusIn"></a>
+            <b>DOMFocusIn</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Where supported. Similar to HTML focus event, but can be applied to any focusable element.</div>
+            <div class="long">
+                Where supported. Similar to HTML focus event, but can be applied to any focusable element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event.</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMFocusOut"></a>
+            <b>DOMFocusOut</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Similar to HTML blur event, but can be applied to any focusable element.</div>
+            <div class="long">
+                
+Where supported. Similar to HTML blur event, but can be applied to any focusable element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMNodeInserted"></a>
+            <b>DOMNodeInserted</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a node has been added as a child of another node.</div>
+            <div class="long">
+                
+Where supported. Fires when a node has been added as a child of another node.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMNodeInsertedIntoDocument"></a>
+            <b>DOMNodeInsertedIntoDocument</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a node is being inserted into a document.</div>
+            <div class="long">
+                
+Where supported. Fires when a node is being inserted into a document.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMNodeRemoved"></a>
+            <b>DOMNodeRemoved</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a descendant node of the element is removed.</div>
+            <div class="long">
+                
+Where supported. Fires when a descendant node of the element is removed.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMNodeRemovedFromDocument"></a>
+            <b>DOMNodeRemovedFromDocument</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Where supported. Fires when a node is being removed from a document.</div>
+            <div class="long">
+                
+Where supported. Fires when a node is being removed from a document.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-DOMSubtreeModified"></a>
+            <b>DOMSubtreeModified</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Where supported. Fires when the subtree is modified.</div>
+            <div class="long">
+                Where supported. Fires when the subtree is modified.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-abort"></a>
+            <b>abort</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an object/image is stopped from loading before completely loaded.</div>
+            <div class="long">
+                
+Fires when an object/image is stopped from loading before completely loaded.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-blur"></a>
+            <b>blur</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an element loses focus either via the pointing device or by tabbing navigation.</div>
+            <div class="long">
+                
+Fires when an element loses focus either via the pointing device or by tabbing navigation.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-change"></a>
+            <b>change</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a control loses the input focus and its value has been modified since gaining focus.</div>
+            <div class="long">
+                
+Fires when a control loses the input focus and its value has been modified since gaining focus.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-click"></a>
+            <b>click</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a mouse click is detected with the element.</div>
+            <div class="long">
+                Fires when a mouse click is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-dblclick"></a>
+            <b>dblclick</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouse double click is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouse double click is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-error"></a>
+            <b>error</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an object/image/frame cannot be loaded properly.</div>
+            <div class="long">
+                
+Fires when an object/image/frame cannot be loaded properly.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-focus"></a>
+            <b>focus</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when an element receives focus either via the pointing device or by tab navigation.</div>
+            <div class="long">
+                
+Fires when an element receives focus either via the pointing device or by tab navigation.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-keydown"></a>
+            <b>keydown</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a keydown is detected with the element.</div>
+            <div class="long">
+                
+Fires when a keydown is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-keypress"></a>
+            <b>keypress</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a keypress is detected with the element.</div>
+            <div class="long">
+                Fires when a keypress is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-keyup"></a>
+            <b>keyup</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a keyup is detected with the element.</div>
+            <div class="long">
+                
+Fires when a keyup is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-load"></a>
+            <b>load</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when the user agent finishes loading all content within the element. Only supported by window, frames, objects ...</div>
+            <div class="long">
+                Fires when the user agent finishes loading all content within the element. Only supported by window, frames, objects and images.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-mousedown"></a>
+            <b>mousedown</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mousedown is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mousedown is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-mousemove"></a>
+            <b>mousemove</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mousemove is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mousemove is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-mouseout"></a>
+            <b>mouseout</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouseout is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouseout is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-mouseover"></a>
+            <b>mouseover</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouseover is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouseover is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-mouseup"></a>
+            <b>mouseup</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a mouseup is detected with the element.</div>
+            <div class="long">
+                
+Fires when a mouseup is detected with the element.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-reset"></a>
+            <b>reset</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a form is reset.</div>
+            <div class="long">
+                
+Fires when a form is reset.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-resize"></a>
+            <b>resize</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a document view is resized.</div>
+            <div class="long">
+                
+Fires when a document view is resized.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-scroll"></a>
+            <b>scroll</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a document view is scrolled.</div>
+            <div class="long">
+                
+Fires when a document view is scrolled.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-select"></a>
+            <b>select</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">Fires when a user selects some text in a text field, including input and textarea.</div>
+            <div class="long">
+                Fires when a user selects some text in a text field, including input and textarea.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-submit"></a>
+            <b>submit</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when a form is submitted.</div>
+            <div class="long">
+                
+Fires when a form is submitted.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+        <tr class="event-row alt expandable">
+        <td class="micon"><a class="exi" href="#expand">&nbsp;</a></td>
+        <td class="sig">
+        <a id="Ext.Element-unload"></a>
+            <b>unload</b> : (&nbsp;<code>Ext.EventObject e</code>&nbsp;)            <div class="mdesc">
+                        <div class="short">
+Fires when the user agent removes all content from a window or frame. For elements, it fires when the target element...</div>
+            <div class="long">
+                
+Fires when the user agent removes all content from a window or frame. For elements, it fires when the target element or any of its content has been removed.    <div class="mdetail-params">
+        <strong style="font-weight:normal;">Listeners will be called with the following arguments:</strong>
+        <ul><li><code>e</code> : Ext.EventObject<div class="sub-desc">The <a ext:cls="Ext.EventObject" href="output/Ext.EventObject.html">Ext.EventObject</a> encapsulating the DOM event</div></li>        </ul>
+    </div>
+                </div>
+                        </div>
+        </td>
+        <td class="msource">Element</td>
+    </tr>
+            </table>
+        
         </div>

@@ -13,11 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
-import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.Position;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifEquipierIdAndRoleRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifTicketRowMapper;
 import fr.croixrouge.rdp.services.JDBCHelper;
@@ -121,16 +119,16 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String queryForUnAffectEquipierToDispositif = 
-    "DELETE `dispositif_equipiers` \n"+  
-    "WHERE  `id_dispositif` = ?    \n"+  
-    "AND    `id_equipier`   = ?    \n";  
+    "DELETE FROM  `dispositif_equipiers` \n"+  
+    "WHERE        `id_dispositif` = ?    \n"+  
+    "AND          `id_equipier`   = ?    \n";  
 
 
   private final static String queryForUnAffectEquipierToDispositif2 = 
     "UPDATE `dispositif_equipiers_log` \n"+  
     "SET    `DH_fin`        = NOW()    \n"+
-    "WHERE  `id_dispositif` = ?   ,    \n"+  
-    "AND    `id_equipier`   = ?   ,    \n"+  
+    "WHERE  `id_dispositif` = ?        \n"+  
+    "AND    `id_equipier`   = ?        \n"+  
     "AND    `DH_fin`        IS NULL    \n";    
   
   public void unaffectEquipierToDispositif(int idDispositif, int idEquipier) throws Exception
@@ -409,25 +407,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
   }
   
-  
-  private final static String queryForGetEquipierIdAndRoleOfDispositif=
-    "SELECT  `equipier_1_id`     , `equipier_2_id`     , `equipier_3_id`     , `equipier_4_id`  , `equipier_5_id`  ,\n" +
-    "        `equipier_1_role`   , `equipier_2_role`   , `equipier_3_role`   , `equipier_4_role`, `equipier_5_role` \n" +
-    "FROM    dispositif d\n"    +
-    "WHERE   id_dispositif=?\n" +
-    "AND     id_regulation=?\n";
-  
-  @SuppressWarnings("unchecked")
-  public List<Equipier> getEquipierIdAndRoleOfDispositif(int idRegulation, int idDispositif) throws Exception
-  {
-    if(logger.isDebugEnabled())
-      logger.debug("getEquipierIdAndRoleOfDispositif idRegulation="+idRegulation+" idDispositif="+idDispositif);
-    
-    return (List<Equipier>)this.jdbcTemplate.queryForObject(queryForGetEquipierIdAndRoleOfDispositif, 
-        new Object[]{idDispositif , idRegulation },
-        new int   []{Types.INTEGER, Types.INTEGER},
-        new DispositifEquipierIdAndRoleRowMapper());
-  }
   
   private final static String queryForGetIdTypeDispositif=
     "SELECT  `id_type_dispositif`\n" +

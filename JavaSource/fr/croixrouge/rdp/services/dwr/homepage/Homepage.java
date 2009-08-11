@@ -17,15 +17,16 @@ import fr.croixrouge.rdp.services.regulation.RegulationService;
 
 public class Homepage extends DWRUtils
 {
-  private RegulationService regulationService;
-  private EquipierService   equipierService;
-  
   private static Log          logger              = LogFactory.getLog(Homepage.class);
   
-  public Homepage(RegulationService regulationService, EquipierService equipierService)
+  private RegulationService                       regulationService             = null;
+  private EquipierService                         equipierService               = null;
+  
+  public Homepage(RegulationService                       regulationService             , 
+                  EquipierService                         equipierService               )
   {
-    this.regulationService = regulationService;
-    this.equipierService = equipierService;
+    this.regulationService             = regulationService            ;
+    this.equipierService               = equipierService              ; 
 
     if(logger.isDebugEnabled())
       logger.debug("constructor called");

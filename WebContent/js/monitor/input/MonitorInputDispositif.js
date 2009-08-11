@@ -133,7 +133,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   
   /*Combo box pour selectionner le type de role a ajouter*/
   var roleToSearchComboBox =  new Ext.form.ComboBox({
-                  store: new Ext.data.SimpleStore({
+                  store: new Ext.data.ArrayStore({
                     fields: ['id_role', 'label_role']
                   }),
                   displayField  : 'role',
@@ -204,22 +204,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
     });
   /* FIN Combo Box de recherche d'équipier*/
   
-    
-    
   
-  var DELGToolbar = new Ext.Toolbar({
-    id     : 'DELGToolbar', 
-    hidden : true,
-    items  :[ roleToSearchComboBox  ,
-              searchEquipierComboBox]//fin tableau d'item
-  });
-  
-  
-  
-  
-  
-  
-  var dataStoreForEquipierList = new Ext.data.SimpleStore({
+  var dataStoreForEquipierList = new Ext.data.ArrayStore({
       fields: [
          {name: 'id_equipier'               , type: 'int'     },
          {name: 'nivol'                                       },
@@ -245,8 +231,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             {id:'DELG_role'        , header: "Role"       , width: 150, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
             {id:'DELG_evalutation' , header: "En Eval?"   , width: 50 , sortable: true , dataIndex: 'enEvaluationDansDispositif', renderer:miDispositifCs.DELGEvalCellRenderer        },
             {id:'DELG_delete'      , header: "Suppresion" , width: 80 , sortable: false, dataIndex: 'id_equipier'               , renderer:miDispositifCs.DELGSuppressionCellRenderer ,menuDisabled:true}
-        ]),
-        tbar        : DELGToolbar,  
+        ]), 
         collapsible : false,
         animCollapse: false,
         height      : 400,

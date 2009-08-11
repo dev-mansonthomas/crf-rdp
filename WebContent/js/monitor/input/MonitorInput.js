@@ -330,7 +330,7 @@ function initLayout()
     id            : 'monitorInputCenterRegion',
     region        : 'center',
     deferredRender: false   ,
-    activeTab     : 0       ,
+    activeTab     : 2       ,
     items         : [
       interventionPanel,
       bilanPanel       ,

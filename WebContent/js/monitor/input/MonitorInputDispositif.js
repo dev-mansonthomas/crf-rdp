@@ -216,7 +216,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
          {name: 'idRoleDansDispositif'      , type: 'int'     },
          {name: 'enEvaluationDansDispositif', type: 'boolean' }
       ]
-  });
+  }); 
 
   
   

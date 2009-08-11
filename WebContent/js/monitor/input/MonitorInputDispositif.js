@@ -183,7 +183,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             '<h3><span>{numNivol}</span> {prenom} {nom}</h3>',//{delegation.idDelegation}
             '{idRoleDansDispositif} - {enEvaluationDansDispositif}',
         '</div></tpl>'
-    );
+    ); 
     
     var searchEquipierComboBox = new Ext.form.ComboBox({
         id          : 'DispositifEquipierSearch', 

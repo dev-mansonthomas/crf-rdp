@@ -108,7 +108,7 @@ Ext.ux.Utils.CreditsAndChangeLog = function() {
                 buttons: [{
                     text: 'Close',
                     handler: function(button, event){
-                        button.ownerCt.hide();
+                        Ext.getCmp('CreditWindow').hide();
                     }
                 }]
             });
@@ -219,7 +219,7 @@ ApplicationVersionChangeLog
                 buttons: [{
                     text: 'Close',
                     handler: function(button, event){
-                        button.ownerCt.hide();
+                        Ext.getCmp('ChangeLogWindow').hide();
                     }
                 }]
             });

@@ -99,7 +99,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "AND      id_etat       = ?\n";
   
   @SuppressWarnings("unchecked")
-  public ListRange getInterventionTicketWithStatus(int idRegulation, int status, int index, int limit) throws Exception
+  public ListRange<InterventionTicket> getInterventionTicketWithStatus(int idRegulation, int status, int index, int limit) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("getting internvetion ticket for regulation id='"+idRegulation+"' with status status='"+status+"' from index='"+index+"' with limit='"+limit+"'");
@@ -114,7 +114,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
         new InterventionTicketRowMapper      ()); 
     
     
-    return new ListRange(totalCount, list); 
+    return new ListRange<InterventionTicket>(totalCount, list); 
   }
   
   @SuppressWarnings("unchecked")

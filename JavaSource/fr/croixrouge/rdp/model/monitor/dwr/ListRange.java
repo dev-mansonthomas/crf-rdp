@@ -3,13 +3,13 @@ package fr.croixrouge.rdp.model.monitor.dwr;
 import java.io.Serializable;
 import java.util.List;
 
-public class ListRange implements Serializable
+public class ListRange<T> implements Serializable
 {
   private static final long serialVersionUID = 8384259935841191902L;
 
   private int totalCount;
   
-  private List<?> data;
+  private List<T> data;
 
   public ListRange()
   {
@@ -17,7 +17,7 @@ public class ListRange implements Serializable
     this.totalCount = 0;
   }
   
-  public ListRange(int totalCount, List<?> data)
+  public ListRange(int totalCount, List<T> data)
   {
     this.data       = data;
     this.totalCount = totalCount;
@@ -31,12 +31,12 @@ public class ListRange implements Serializable
   {
     this.totalCount = totalCount;
   }
-  public List<?> getData()
+  public List<T> getData()
   {
     return data;
   }
 
-  public void setData(List<?> data)
+  public void setData(List<T> data)
   {
     this.data = data;
   }

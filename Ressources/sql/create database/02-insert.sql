@@ -107,7 +107,9 @@ ALTER TABLE equipier_role AUTO_INCREMENT = 12;
 
 INSERT INTO `dispositif_type_definition` (`id_dispositif_type`, `id_role`, `nombre_min`, `nombre_max`) VALUES 
 (1,5,1,1),(1,7,1,1),(1,9,2,3),(1,10,0,1),(1,11,0,1), -- alpha
-(2,5,1,1),(2,7,1,1),(2,9,2,3),(2,10,0,1),(2,11,0,1); -- BSPP
+(2,6,1,1),(2,7,1,1),(2,9,2,3),(2,10,0,1),(2,11,0,1), -- BSPP
+(3,6,1,1),(3,9,2,3),(3,10,0,1),(3,11,0,1), -- Poste de secours
+(4,9,2,3),(4,10,0,1),(4,11,0,1); -- Point d'alerte
 
 insert into user_role (label_role, code_role)
 values

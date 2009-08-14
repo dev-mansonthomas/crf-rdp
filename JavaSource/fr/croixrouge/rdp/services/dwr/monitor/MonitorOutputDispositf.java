@@ -30,7 +30,7 @@ public class MonitorOutputDispositf  extends DWRUtils
       logger.debug("constructor called");
   }
 
-  public ListRange getAllDispositif() throws Exception
+  public ListRange<Dispositif> getAllDispositif() throws Exception
   {
     int  currentUserRegulationId = this.validateSessionAndGetRegulationId();
     return this.dispositifService.getAllDispositif(currentUserRegulationId);

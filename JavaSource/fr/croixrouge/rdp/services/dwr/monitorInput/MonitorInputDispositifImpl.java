@@ -1,14 +1,17 @@
 package fr.croixrouge.rdp.services.dwr.monitorInput;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
+import fr.croixrouge.rdp.model.monitor.DispositifTicket;
+import fr.croixrouge.rdp.model.monitor.DispositifTypeDefinition;
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
@@ -26,8 +29,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   private DispositifInterventionDelegate  dispositifInterventionDelegate  = null;
   private EquipierService                 equipierService                 = null;
   private MonitorInputImpl                monitorInputImpl                = null;
-  
-  private Hashtable<String, int[]> bsppSamuEquiperMap = new Hashtable<String, int[]>();
+ 
 
   public MonitorInputDispositifImpl(DispositifService               dispositifService, 
                                     EquipierService                 equipierService  ,
@@ -39,36 +41,25 @@ public class MonitorInputDispositifImpl extends DWRUtils
     this.equipierService                = equipierService  ;
     this.dispositifInterventionDelegate = dispositifInterventionDelegate;
 
-    bsppSamuEquiperMap.put("1", new int[] { 4 });
-    bsppSamuEquiperMap.put("2", new int[] { 7 });
-    bsppSamuEquiperMap.put("3", new int[] { 9, 4 });
-    bsppSamuEquiperMap.put("4", new int[] { 9 });
-    bsppSamuEquiperMap.put("5", new int[] { 9, 10, 11 });
     
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
   
-  
-  public Hashtable<String, Hashtable<String, int[]>> getMappingPossibilities()
+  public Map<String, List<DispositifTypeDefinition>> getDispositifTypeDefinition() throws Exception
   {
-    Hashtable<String, Hashtable<String, int[]>> hash = new Hashtable<String, Hashtable<String, int[]>>();
-    
-    hash.put("1", bsppSamuEquiperMap);
-    hash.put("2", bsppSamuEquiperMap);
-    
-    return hash;
-    
+    return this.dispositifService.getDispositifTypeDefinition();
   }
+
   
-  public ListRange searchEquipier(GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
+  public ListRange<Equipier> searchEquipier(GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
   {
     this.validateSession();
     
     FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("idRole");
     
     if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-      throw new Exception("Veuillez choisir un role");
+      return new ListRange<Equipier>(0, new ArrayList<Equipier>());
     
     int idRole = 0;
     try
@@ -77,13 +68,13 @@ public class MonitorInputDispositifImpl extends DWRUtils
     }
     catch(NumberFormatException e)
     {
-      throw new Exception("idRole n'est pas un entier '"+filterObject.getValue()+"'");
+      return new ListRange<Equipier>(0, new ArrayList<Equipier>());
     }
     
     String searchString = null;
     filterObject = gridSearchFilterAndSortObject.getFilterObject("search");
     if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-      throw new Exception("Recherche nulle");
+      return new ListRange<Equipier>(0, new ArrayList<Equipier>());
     
     searchString = filterObject.getValue();
     
@@ -91,7 +82,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     {
       return this.equipierService.searchEquipier(
           idRole, 
-          searchString,
+          searchString+"%",
           gridSearchFilterAndSortObject.getStart(),
           gridSearchFilterAndSortObject.getLimit()
           );      
@@ -182,7 +173,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
   }
   
-  public ListRange getActiveDispositifList(int index, int limit) throws Exception
+  public ListRange<DispositifTicket> getActiveDispositifList(int index, int limit) throws Exception
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     return this.dispositifService.getActiveDispositif(currentUserRegulationId, index, limit);

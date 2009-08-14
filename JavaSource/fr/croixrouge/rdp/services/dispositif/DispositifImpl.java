@@ -1,9 +1,12 @@
 package fr.croixrouge.rdp.services.dispositif;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,11 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
+import fr.croixrouge.rdp.model.monitor.DispositifTypeDefinition;
 import fr.croixrouge.rdp.model.monitor.Position;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifTicketRowMapper;
+import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifTypeDefinitionRowMapper;
 import fr.croixrouge.rdp.services.JDBCHelper;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
@@ -348,6 +353,38 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   }
   
+  private final static String queryForGetDispositifTypeDefinition =
+  		"SELECT   id_dispositif_type, id_role, nombre_min, nombre_max \n"+
+  		"FROM     dispositif_type_definition d                        \n"+
+  		"ORDER BY id_dispositif_type  ASC,                            \n"+
+  		"         id_role             ASC                             \n";
+  
+  @SuppressWarnings("unchecked")
+  public Map<String, List<DispositifTypeDefinition>> getDispositifTypeDefinition() throws Exception
+  {
+    Map<String, List<DispositifTypeDefinition>> dispositifTypeDefinition = new HashMap<String, List<DispositifTypeDefinition>>();
+    
+    List<DispositifTypeDefinition> definitionList = this.jdbcTemplate.query(queryForGetDispositifTypeDefinition, 
+                                                                            new DispositifTypeDefinitionRowMapper());
+    
+    
+    for (DispositifTypeDefinition dtd : definitionList)
+    {
+      List<DispositifTypeDefinition> dtdList = dispositifTypeDefinition.get(dtd.getIdTypeDispositif()+"");
+      if(dtdList == null)
+      {
+        dtdList = new ArrayList<DispositifTypeDefinition>();
+        dispositifTypeDefinition.put(dtd.getIdTypeDispositif()+"", dtdList);
+      }
+      
+      dtdList.add(dtd);
+    }
+    
+    
+    return dispositifTypeDefinition;
+  }
+  
+  
   private final static String queryForUpdateDispositifCurrentPosition=
     "UPDATE dispositif                        \n" +
     "SET    current_addresse_rue          = ?,\n" +
@@ -446,7 +483,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   "ORDER BY indicatif_vehicule ASC  \n";
 
   @SuppressWarnings("unchecked")
-  public ListRange getAllDispositif(int regulationId) throws Exception
+  public ListRange<Dispositif> getAllDispositif(int regulationId) throws Exception
   {
     
     List <Dispositif> dispositifs = this.jdbcTemplate.query(queryForGetAllDispositif, 
@@ -462,7 +499,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
     }
     
-    return new ListRange(dispositifs.size(), dispositifs);
+    return new ListRange<Dispositif>(dispositifs.size(), dispositifs);
   }
   
   private final static String queryForGetDispositif = dispositifSelectQuery + 
@@ -515,8 +552,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "AND      creation_terminee = true\n"+
     "AND      actif             = true\n";
   
+
   @SuppressWarnings("unchecked")
-  public ListRange getActiveDispositif(int idRegulation, int index, int limit) throws Exception
+  public ListRange<DispositifTicket> getActiveDispositif(int idRegulation, int index, int limit) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("getting dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"'");
@@ -533,7 +571,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(logger.isDebugEnabled())
       logger.debug("Dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"' (total count = '"+totalCount+"', numberOfResult in List : '"+list.size()+"')");
     
-    return new ListRange(totalCount, list); 
+    return new ListRange<DispositifTicket>(totalCount, list); 
   }
   
   

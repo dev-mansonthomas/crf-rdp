@@ -1988,7 +1988,7 @@ Ville
           <legend>Identification</legend>
           <table>
             <tr>
-              <td style="width:135px;">Type :<br/> <select id="DispositifType" name="DispositifType" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_type_dispositif')"><option value=" "> </option></select></td>
+              <td style="width:135px;">Type :<br/> <select id="DispositifType" name="DispositifType" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_type_dispositif');miDispositifCs.setRoles(this.value);"><option value=" "> </option></select></td>
               <td>Indicatif :<br/> <input type="text" id="DispositifIndicatif"  name="DispositifIndicatif"  value="" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifStringField(this.id, 'indicatif_vehicule')"/></td>
               <td>
                 Delegation :<br/>
@@ -2025,13 +2025,18 @@ Ville
           <legend>Liste Des Equipiers Du Dispositif</legend>
             
 <!-- The box wrap markup embedded instead of using Element.boxWrap() -->
-<div style="width:600px;">
+<div style="width:550px;">
     <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
     <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-        <h3 style="margin-bottom:5px;">Chercher un équipier</h3>
-        <input type="text" size="40" name="search" id="search" />
+        <h3 style="margin-bottom:5px;">Ajouter un équipier au Dispositif</h3>
+        <table style="width:100%">
+          <tr>
+            <td style="width:200px;"><input type="text" size="10" name="DispositifEquipierSearchRoleInput" id="DispositifEquipierSearchRoleInput"  /></td>
+            <td><input type="text" size="40" name="DispositifEquipierSearchInput"     id="DispositifEquipierSearchInput"      /></td>
+          </tr>
+        </table>
         <div style="padding-top:4px;">
-            Recherche par Nivol ou Nom.
+            Recherche par Nivol ou Nom, sélectionnez un Role avant d'effectuer une recherche
         </div>
 
     </div></div></div>

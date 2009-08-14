@@ -168,13 +168,13 @@ public class EquipierServiceImpl implements EquipierService
     "AND                                            \n"+
     "(                                              \n"+
     "       e.num_nivol         LIKE ?              \n" +
-    " OR    e.nom               LIKE ?              \n" +
+    " OR    e.nom               LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
     ")\n";
 
   
   
   @SuppressWarnings("unchecked")
-  public ListRange searchEquipier(int idRole, String searchString, int start, int limit) throws Exception
+  public ListRange<Equipier> searchEquipier(int idRole, String searchString, int start, int limit) throws Exception
   {
     
     Object [] os    =  new Object[]{idRole       , searchString , searchString };
@@ -201,7 +201,7 @@ public class EquipierServiceImpl implements EquipierService
                                                       new EquipierRowMapper(true));
     
     
-    return new ListRange(totalCount, equipierList);
+    return new ListRange<Equipier>(totalCount, equipierList);
   }
   
   

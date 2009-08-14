@@ -6,7 +6,7 @@ MonitorInputDispositifCs.prototype.initialize=function()
 {
 //  MonitorInputDispositif.initScriptSession();
 
-  this.getDispositifMaps ();
+  this.getDispositifTypeDefinition ();
       /*Selection de la délégation*/  
   new Autocompleter.DWR( 'DispositifDelegation', 
                          'DispositifDelegation_SelectList', 
@@ -133,14 +133,19 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   
   /*Combo box pour selectionner le type de role a ajouter*/
   var roleToSearchComboBox =  new Ext.form.ComboBox({
+                  id:'dispositifRoleList',
                   store: new Ext.data.ArrayStore({
+                    id:0,
                     fields: ['id_role', 'label_role']
                   }),
-                  displayField  : 'role',
-                  typeAhead     : true,
+                  valueField    : 'id_role',
+                  displayField  : 'label_role',
                   mode          : 'local',
                   triggerAction : 'all',
                   emptyText     : 'Selectionner un role...',
+                  applyTo       : 'DispositifEquipierSearchRoleInput',
+                  width         : 170,
+                  listWidth     : 170,
                   selectOnFocus : true
               })
 
@@ -153,8 +158,15 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
              proxyConfig    : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
              filterCallBack : function()
              {
-                return [new Ext.ux.rs.data.FilterObject('idRole',7,'='),
-                        new Ext.ux.rs.data.FilterObject('search','M%','=')]
+              
+                var role   = Ext.getCmp('dispositifRoleList'      ).getValue();
+                var search = Ext.getCmp('DispositifEquipierSearch').getValue();
+                
+                if(role =='')
+                  return [];
+                
+                return [new Ext.ux.rs.data.FilterObject('idRole',role  ,'='),
+                        new Ext.ux.rs.data.FilterObject('search',search,'=')]
              }
         }),
         reader: new Ext.ux.rs.data.JsonReader({
@@ -189,15 +201,15 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         id          : 'DispositifEquipierSearch', 
         store       : equipierSearchDataStore,
         displayField: 'numNivol',
-        typeAhead   : false,
-        loadingText : 'Searching...',
-        width       : 570,
-        listWidth   : 570,
+        loadingText : 'Recherche en cours...',
+        width       : 300,
+        listWidth   : 300,
         pageSize    : 10,
+        minChars    : 1,
         hideTrigger : true,
         tpl         : resultTpl,
         itemSelector: 'div.search-item',
-        applyTo     : 'search',
+        applyTo     : 'DispositifEquipierSearchInput',
         onSelect    : function(record){ // override default onSelect to do redirect
             alert(record.data.numNivol);
         }
@@ -420,14 +432,14 @@ MonitorInputDispositifCs.prototype.fieldList = [
     'dispositifPreviousAddressCoordinateLat' ,
     'dispositifPreviousAddressCoordinateLong'];
 
-MonitorInputDispositifCs.prototype.getDispositifMaps=function()
+MonitorInputDispositifCs.prototype.getDispositifTypeDefinition=function()
 {
-  MonitorInputDispositif.getMappingPossibilities(this.getDispositifMapsReturn);
+  MonitorInputDispositif.getDispositifTypeDefinition(this.getDispositifTypeDefinitionReturn);
 };
 
-MonitorInputDispositifCs.prototype.getDispositifMapsReturn=function(dispositifMaps)
+MonitorInputDispositifCs.prototype.getDispositifTypeDefinitionReturn=function(dispositifTypeDefinition)
 {
-  MonitorInputDispositifCs.prototype.dispositifMaps = dispositifMaps;
+  MonitorInputDispositifCs.prototype.dispositifTypeDefinition = dispositifTypeDefinition;
 };
 
 MonitorInputDispositifCs.prototype.initDispositif=function()
@@ -647,38 +659,31 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
     this.updateListEquipierReturn(dispositif.equipierList);
 };
 
-MonitorInputDispositifCs.prototype.displayCurrentEquipierRoleToAdd=function(equipierRank)
+MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
 {
-  if($('DispositifType').value == 0)
+  var store = Ext.getCmp('dispositifRoleList').getStore();
+  store.removeAll();
+  var dispositifTypeDefinition = MonitorInputDispositifCs.prototype.dispositifTypeDefinition[idTypeDispositif];
+  
+  if(dispositifTypeDefinition === null)
+    throw "Dispositif type definition is not known";
+  
+  var arrayOfRole = Array();
+  
+  for(i=0,count=dispositifTypeDefinition.length;i<count;i++)
   {
-    crfIrpUtils.error('DispositifType', 'Veuillez choisir le type de dispositif avant d\'ajouter des équipiers');
-    return;
-  }
-
-  //Vérifie qu'il n'y pas de trous du a une suppression
-  for(i=1;i<equipierRank;i++)
-  {
-    if( MonitorInputDispositifCs.prototype.equipageInformation['rankInfo'][i] == null)
-    {//Un role n'est pas rempli...
-      equipierRank = i;
-      break;
-    }
+    var def = dispositifTypeDefinition[i];
+    
+    var labelRole = crfIrpUtils.getLabelFor('RolesEquipier', def.idRole );
+    
+    arrayOfRole[i]=[def.idRole, ' ['+def.nombreMin+' à '+def.nombreMax+']  -  ' +labelRole ];
   }
   
-  currentMap = this.dispositifMaps[$('DispositifType').value][equipierRank];
- 
-  if(currentMap == null)
-  {//equipage complet
-    $('DispositifEquipierAddIHM').style.display="none";
-    return;
-  }
   
-  dwr.util.removeAllOptions('DispositifEquipierToAddRole');
-  for(i = 0; i< currentMap.length; i++)
-    dwr.util.addOptions('DispositifEquipierToAddRole', [{name:crfIrpUtils.getLabelFor('RolesEquipier',currentMap[i]), id:currentMap[i]}], 'id', 'name');
+  store.loadData(arrayOfRole);
 };
 
-MonitorInputDispositifCs.prototype.equipageInformation=Array();
+
 
 MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listEquipier)
 {

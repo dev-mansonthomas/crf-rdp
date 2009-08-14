@@ -64,7 +64,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   }
   
 
-  public ListRange getInterventionTicketList(int status, int index, int limit)throws Exception
+  public ListRange<InterventionTicket> getInterventionTicketList(int status, int index, int limit)throws Exception
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, status, index, limit);

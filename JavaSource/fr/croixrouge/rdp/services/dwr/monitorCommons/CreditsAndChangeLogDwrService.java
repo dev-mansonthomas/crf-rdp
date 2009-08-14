@@ -17,10 +17,10 @@ public class CreditsAndChangeLogDwrService extends DWRUtils
     this.creditsAndChangeLogService = creditsAndChangeLogService;
   }
   
-  public ListRange getCredits() throws Exception
+  public ListRange<Credit> getCredits() throws Exception
   {
     List<Credit> credits = this.creditsAndChangeLogService.getCredit();
-    return new ListRange(credits.size(),credits);
+    return new ListRange<Credit>(credits.size(),credits);
   }
   
   public List<ApplicationVersion> getApplicationVersions() throws Exception
@@ -28,9 +28,9 @@ public class CreditsAndChangeLogDwrService extends DWRUtils
     return this.creditsAndChangeLogService.getApplicationVersion();
   }
   
-  public ListRange getApplicationVersionChangeLogs() throws Exception
+  public ListRange<ApplicationVersionChangeLog> getApplicationVersionChangeLogs() throws Exception
   {
     List<ApplicationVersionChangeLog> changeLogs = this.creditsAndChangeLogService.getApplicationVersionChangeLog();
-    return new ListRange(changeLogs.size(), changeLogs);
+    return new ListRange<ApplicationVersionChangeLog>(changeLogs.size(), changeLogs);
   }
 }

@@ -32,15 +32,15 @@ public class Homepage extends DWRUtils
       logger.debug("constructor called");
   }
   
-  public ListRange getOpenRegulationList() throws Exception
+  public ListRange<Regulation>getOpenRegulationList() throws Exception
   {
     this.validateSession();
     List<Regulation> list = this.regulationService.getRegulations(true);
-    return  new ListRange(list.size(), list);
+    return  new ListRange<Regulation> (list.size(), list);
   }
 
   
-  public ListRange getRegulationList(GridSearchFilterAndSortObject gridSearchFilterAndSortObject ) throws Exception
+  public ListRange<Regulation>  getRegulationList(GridSearchFilterAndSortObject gridSearchFilterAndSortObject ) throws Exception
   {
     try
     {
@@ -51,7 +51,7 @@ public class Homepage extends DWRUtils
       
       
       List<Regulation> list = this.regulationService.getRegulations(true);
-      return  new ListRange(list.size(), list);      
+      return  new ListRange<Regulation> (list.size(), list);      
     }
     catch (Exception e)
     {
@@ -67,7 +67,7 @@ public class Homepage extends DWRUtils
     session.setAttribute("regulation", this.regulationService.getRegulation(regulationId));
   }
   
-  public ListRange getEquipierList(GridSearchFilterAndSortObject gsfaso) throws Exception
+  public ListRange<Equipier> getEquipierList(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
     try
     {
@@ -76,7 +76,7 @@ public class Homepage extends DWRUtils
       int nbEquipiers = this.equipierService.getNbEquipiers(gsfaso);
       
       List<Equipier> list = this.equipierService.getEquipiers(gsfaso);
-      return  new ListRange(nbEquipiers, list);      
+      return  new ListRange<Equipier>(nbEquipiers, list);      
     }
     catch (Exception e)
     {

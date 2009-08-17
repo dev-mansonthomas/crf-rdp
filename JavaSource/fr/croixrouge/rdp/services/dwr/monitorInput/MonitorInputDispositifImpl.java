@@ -179,13 +179,13 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return this.dispositifService.getActiveDispositif(currentUserRegulationId, index, limit);
   }
   
-  public List<Equipier> addEquipierToDispositif(int idDispositif, int equipierRank, int idRoleEquipier, int idEquipier) throws Exception
+  public List<Equipier> addEquipierToDispositif(int idDispositif, int idRoleEquipier, int idEquipier) throws Exception
   {
     this.validateSession();
     
     this.dispositifService.affectEquipierToDispositif  (idDispositif, idEquipier  , idRoleEquipier);
     this.equipierService  .setDispositifToEquipier     (idEquipier  , idDispositif                );
-//TODO voir pkoi il manque le equipierRank dans l'equipier.    
+    
     return this.equipierService.getEquipiersForDispositif(idDispositif);
   }
   

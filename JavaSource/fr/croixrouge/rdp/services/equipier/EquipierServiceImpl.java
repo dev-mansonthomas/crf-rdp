@@ -64,7 +64,7 @@ public class EquipierServiceImpl implements EquipierService
     ", de.id_role_equipier                     ,\n"+
     "de.en_evaluation                           \n"+
     equipierFrom+
-    ",      dispositif_equipiers de, delegation d    \n"+                 
+    ",      dispositif_equipiers de                  \n"+                 
     "WHERE  de.id_dispositif     = ?                 \n"+                 
     "AND    de.id_equipier       = e.id_equipier     \n"+                 
     "AND    e.id_delegation      = d.id_delegation   \n"+

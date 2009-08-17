@@ -41,6 +41,10 @@ function init()
   crfIrpUtils.getAllList();
   initLayout();
   initCirculationVue2Refresh();
+  
+  
+  //ouverture de la seconde fentre
+  //window.opener.openMonitorInput ();
 }
 
 function initCirculationVue2Refresh()

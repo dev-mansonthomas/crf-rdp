@@ -7,7 +7,6 @@ public class Equipier extends CrfDto
   private static final long serialVersionUID = -569522743428603329L;
  
   private int       idEquipier            ;
-  private int       equipierRank          ;
   private int       idDispositif          ;
   private boolean   homme                 ;
   private boolean   enabled               ;
@@ -100,14 +99,6 @@ public class Equipier extends CrfDto
   public void setHomme(boolean homme)
   {
     this.homme = homme;
-  }
-  public int getEquipierRank()
-  {
-    return equipierRank;
-  }
-  public void setEquipierRank(int equipierRank)
-  {
-    this.equipierRank = equipierRank;
   }
   public String getMobile()
   {

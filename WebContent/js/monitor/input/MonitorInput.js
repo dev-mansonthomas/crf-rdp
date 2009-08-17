@@ -366,4 +366,6 @@ function init()
   Ext.MessageBox.buttonText.yes = "Oui"; 
   Ext.MessageBox.buttonText.no  = "Non";
   
+  //ouverture de la fenetre de monitor
+  window.opener.openMonitorOutput();
 }

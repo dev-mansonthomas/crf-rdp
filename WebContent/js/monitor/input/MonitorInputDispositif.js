@@ -129,8 +129,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
     });
   grid1.getStore().load({params: {start:0, limit:5}});
   
-  
-  
+
   /*Combo box pour selectionner le type de role a ajouter*/
   var roleToSearchComboBox =  new Ext.form.ComboBox({
                   id:'dispositifRoleList',
@@ -210,39 +209,37 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         tpl         : resultTpl,
         itemSelector: 'div.search-item',
         applyTo     : 'DispositifEquipierSearchInput',
-        onSelect    : function(record){ // override default onSelect to do redirect
-            alert(record.data.numNivol);
-        }
+        onSelect    : MonitorInputDispositifCs.prototype.addEquipierConfirm
     });
   /* FIN Combo Box de recherche d'équipier*/
   
   
   var dataStoreForEquipierList = new Ext.data.ArrayStore({
+      id:0,
       fields: [
-         {name: 'id_equipier'               , type: 'int'     },
-         {name: 'nivol'                                       },
+         {name: 'idEquipier'                , type: 'int'     },
+         {name: 'numNivol'                                    },
          {name: 'nom'                                         },
          {name: 'prenom'                                      },
          {name: 'homme'                     , type: 'boolean' },
-         {name: 'mobile'                    , type: 'string'  },
+         {name: 'mobile'                                      },
          {name: 'idRoleDansDispositif'      , type: 'int'     },
          {name: 'enEvaluationDansDispositif', type: 'boolean' }
       ]
   }); 
 
   
-  
 
   var grid2 = new xg.GridPanel({
         id   :'DispositifEquipierListGrid',
         store: dataStoreForEquipierList,
         cm   : new xg.ColumnModel([
-            {id:'DELG_nivol'       , header: "Nivol"      , width: 80 , sortable: true , dataIndex: 'nivol'                                                                           },
+            {id:'DELG_nivol'       , header: "Nivol"      , width: 80 , sortable: true , dataIndex: 'numNivol'                                                                        },
             {id:'DELG_nomprenom'   , header: "Nom Prénom" , width: 200, sortable: true , dataIndex: 'nom'                       , renderer:miDispositifCs.DELGNomPrenomCellRenderer   },
             {id:'DELG_mobile'      , header: "Mobile"     , width: 120, sortable: true , dataIndex: 'mobile'                                                                          },
             {id:'DELG_role'        , header: "Role"       , width: 150, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
             {id:'DELG_evalutation' , header: "En Eval?"   , width: 50 , sortable: true , dataIndex: 'enEvaluationDansDispositif', renderer:miDispositifCs.DELGEvalCellRenderer        },
-            {id:'DELG_delete'      , header: "Suppresion" , width: 80 , sortable: false, dataIndex: 'id_equipier'               , renderer:miDispositifCs.DELGSuppressionCellRenderer ,menuDisabled:true}
+            {id:'DELG_delete'      , header: "Suppresion" , width: 80 , sortable: false, dataIndex: 'idEquipier'                , renderer:miDispositifCs.DELGSuppressionCellRenderer ,menuDisabled:true}
         ]), 
         collapsible : false,
         animCollapse: false,
@@ -379,6 +376,11 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   
   this.updateVolumeAndAutonomie();
   
+  Ext.getCmp('DispositifEquipierSearch'   ).getStore().removeAll();
+  Ext.getCmp('DispositifEquipierListGrid' ).getStore().removeAll();
+  Ext.getCmp('dispositifRoleList'         ).getStore().removeAll();
+  Ext.getCmp('DispositifEquipierSearch'   ).setValue('');
+  
   dwr.util.setValue('DispositifStatus',-1);
 };
 
@@ -441,6 +443,62 @@ MonitorInputDispositifCs.prototype.getDispositifTypeDefinitionReturn=function(di
 {
   MonitorInputDispositifCs.prototype.dispositifTypeDefinition = dispositifTypeDefinition;
 };
+
+
+MonitorInputDispositifCs.prototype.addEquipierConfirm=function(record)
+{
+  Ext.Msg.confirm('Veuillez confirmer l\'ajout de l\'équiper',
+  'Etes vous sur de vouloir ajouter l\'équipier : <br/><br/>"<b>'+record.data.nom+' '+record.data.prenom+'</b>" <br/> N°"<b>'+record.data.numNivol+'</b>"<br/> délégation de "<b>'+crfIrpUtils.getLabelFor('Delegations', record.data['delegation.idDelegation'])+'</b>" <br/><br/>au dispositif ?',
+  function(btn){
+    if(btn == 'yes')
+    {
+      miDispositifCs.addEquipier(this);//this == record
+    }
+    else
+    {
+      Ext.getCmp('DispositifEquipierSearch').setValue('');
+    }
+  },
+  record
+  )
+  
+  
+//   {name: 'idEquipier' , type: 'int' },
+//179 {name: 'homme' , type: 'boolean' },
+//180 {name: 'numNivol' , type: 'string' },
+//181 {name: 'nom' , type: 'string' },
+//182 {name: 'prenom' , type: 'string' },
+//183 {name: 'mobile' , type: 'string' },
+//184 {name: 'email' , type: 'string' },
+//185 {name: 'delegation.idDelegation' , type: 'int' },
+//186 {name: 'idRoleDansDispositif' , type: 'int' },
+//187 {name: 'enEvaluationDansDispositif', type: 'boolean' }
+//188 ]
+//189 }) 
+  
+};
+
+
+MonitorInputDispositifCs.prototype.addEquipier=function(record)
+{
+  var idRole = Ext.getCmp('dispositifRoleList'      ).getValue();
+  
+  MonitorInputDispositif.addEquipierToDispositif( $('dispositif_id_field'           ).value, 
+                                                  idRole, 
+                                                  record.data.idEquipier,
+                                                  miDispositifCs.addEquipierReturn
+                                                );
+
+};
+
+MonitorInputDispositifCs.prototype.addEquipierReturn=function(equipierList)
+{
+  Ext.getCmp('DispositifEquipierListGrid').getStore().loadData(equipierList);
+};
+
+
+
+
 
 MonitorInputDispositifCs.prototype.initDispositif=function()
 {

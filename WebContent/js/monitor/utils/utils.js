@@ -47,32 +47,32 @@ CrfIrpUtils.prototype.initialize=function()
 
 
 CrfIrpUtils.prototype.radioAlphabet = {A:"ALPHA"
-      ,B:"BRAVO"
-      ,C:"CHARLIE"
-      ,D:"DELTA"
-      ,E:"ECHO"
-      ,F:"FOXTROT"
-      ,G:"GOLF"
-      ,H:"HOTEL"
-      ,I:"INDIA"
-      ,J:"JULIET"
-      ,K:"KILO"
-      ,L:"LIMA"
-      ,M:"MIKE"
-      ,N:"NOVEMBER"
-      ,O:"OSCAR"
-      ,P:"PAPA"
-      ,Q:"QUEBEC"
-      ,R:"ROMEO"
-      ,S:"SIERRA"
-      ,T:"TANGO"
-      ,U:"UNIFORM"
-      ,V:"VICTOR"
-      ,W:"WHISKY"
-      ,X:"X-RAY"
-      ,Y:"YANKEE"
-      ,Z:"ZULU"
-      ," ":" "};
+                                      ,B:"BRAVO"
+                                      ,C:"CHARLIE"
+                                      ,D:"DELTA"
+                                      ,E:"ECHO"
+                                      ,F:"FOXTROT"
+                                      ,G:"GOLF"
+                                      ,H:"HOTEL"
+                                      ,I:"INDIA"
+                                      ,J:"JULIET"
+                                      ,K:"KILO"
+                                      ,L:"LIMA"
+                                      ,M:"MIKE"
+                                      ,N:"NOVEMBER"
+                                      ,O:"OSCAR"
+                                      ,P:"PAPA"
+                                      ,Q:"QUEBEC"
+                                      ,R:"ROMEO"
+                                      ,S:"SIERRA"
+                                      ,T:"TANGO"
+                                      ,U:"UNIFORM"
+                                      ,V:"VICTOR"
+                                      ,W:"WHISKY"
+                                      ,X:"X-RAY"
+                                      ,Y:"YANKEE"
+                                      ,Z:"ZULU"
+                                      ," ":" "};
 
 
 CrfIrpUtils.prototype.toRadio=function(str)
@@ -137,6 +137,7 @@ CrfIrpUtils.prototype.allList=[];
 CrfIrpUtils.prototype.allLieu=[];
 CrfIrpUtils.prototype.allTypeLieuOrdered=[];//Type lieu dans l'ordre spécifié par numOrdre
 CrfIrpUtils.prototype.allTypeLieu=[];//Type lieu indexé par idTypeLieu
+CrfIrpUtils.prototype.typeDispositif=[];
 /***
  * Demande toute les listes statiques au serveur
  */
@@ -170,8 +171,23 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
     tmpList = allList[listList[z]];
     newList = Array();
     
-    for(var i=0, countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
-      newList[tmpList[i].id]={id:tmpList[i].id, label:tmpList[i].label};
+    if(listList[z]=='TypesDispositif')
+    {
+      for(var i=0, countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
+      {
+        CrfIrpUtils.prototype.typeDispositif[tmpList[i].id]=tmpList[i];
+        newList[tmpList[i].id]={id:tmpList[i].id, label:'['+(tmpList[i].nombreEquipierMax==0?'∞':tmpList[i].nombreEquipierMax)+'] - '+tmpList[i].label};
+      }
+    }
+    else
+    {
+      for(var i=0, countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
+      {
+        newList[tmpList[i].id]={id:tmpList[i].id, label:tmpList[i].label};
+      }
+      
+    }
+      
 
     CrfIrpUtils.prototype.allList[listList[z]]=newList;
   }

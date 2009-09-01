@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS `crfrdp`.`dispositif_type`;
 CREATE TABLE `dispositif_type` (
   `id_type` int(10) unsigned NOT NULL auto_increment,
   `label_type` varchar(45) NOT NULL,
-  `nb_equipier_max` int(10) default 0,
+  `nombre_equipier_max` int(10) default 0,
   PRIMARY KEY  (`id_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
@@ -235,13 +235,15 @@ CREATE TABLE `dispositif_equipiers` (
   `id_equipier`      int(10) unsigned NOT NULL,
   `id_role_equipier` int(10) unsigned NOT NULL,
   `en_evaluation`    boolean          NOT NULL,
+  `id_role_en_eval`  int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_dispositif`,`id_equipier`),
   KEY `FK_dispositif_equipiers-dispositif`    (`id_dispositif`      ),
   KEY `FK_dispositif_equipiers-equipier`      (`id_equipier`        ),
   KEY `FK_dispositif_equipiers-equipier_role` (`id_role_equipier`   ),
-  CONSTRAINT `FK_dispositif_equipiers-dispositif`    FOREIGN KEY (`id_dispositif`    ) REFERENCES `dispositif`    (`id_dispositif`),
-  CONSTRAINT `FK_dispositif_equipiers-equipier`      FOREIGN KEY (`id_equipier`      ) REFERENCES `equipier`      (`id_equipier`  ),
-  CONSTRAINT `FK_dispositif_equipiers-equipier_role` FOREIGN KEY (`id_role_equipier` ) REFERENCES `equipier_role` (`id_role`      )
+  CONSTRAINT `FK_dispositif_equipiers-dispositif`     FOREIGN KEY (`id_dispositif`    ) REFERENCES `dispositif`    (`id_dispositif`),
+  CONSTRAINT `FK_dispositif_equipiers-equipier`       FOREIGN KEY (`id_equipier`      ) REFERENCES `equipier`      (`id_equipier`  ),
+  CONSTRAINT `FK_dispositif_equipiers-equipier_role`  FOREIGN KEY (`id_role_equipier` ) REFERENCES `equipier_role` (`id_role`      ),
+  CONSTRAINT `FK_dispositif_equipiers-equipier_role2` FOREIGN KEY (`id_role_en_eval`  ) REFERENCES `equipier_role` (`id_role`      )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 

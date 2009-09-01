@@ -40,7 +40,7 @@ MonitorInputDispositifCs.prototype.initialize=function()
   crfIrpUtils.setFieldValidation('DispositifB5P', "#{value}>=20 && #{value}<=200", "200");
   
   
-  /*focus handling*/
+  /*focus handling
   UtilsFocusList['DispositifDHFin'] = function(){
     if($('DispositifEquipierAddIHM').style.display=='none')
       return "DispositifB1V";
@@ -56,7 +56,7 @@ MonitorInputDispositifCs.prototype.initialize=function()
   UtilsFocusList['DispositifB2P'  ] = 'DispositifB3V'                   ;   
   UtilsFocusList['DispositifB3P'  ] = 'DispositifB4V'                   ;   
   UtilsFocusList['DispositifB4P'  ] = 'DispositifB5V'                   ;   
-  UtilsFocusList['DispositifB5P'  ] = 'DispositifDefibrilateurTypeAUCUN';   
+  UtilsFocusList['DispositifB5P'  ] = 'DispositifDefibrilateurTypeAUCUN';   */
 
   /*event handling*/
   PageBus.subscribe("list.loaded",  this, this.initDispositif     , null, null);
@@ -214,7 +214,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   /* FIN Combo Box de recherche d'équipier*/
   
   
-  var dataStoreForEquipierList = new Ext.data.ArrayStore({
+/*  var dataStoreForEquipierList = new Ext.data.ArrayStore({
       id:0,
       fields: [
          {name: 'idEquipier'                , type: 'int'     },
@@ -226,11 +226,47 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
          {name: 'idRoleDansDispositif'      , type: 'int'     },
          {name: 'enEvaluationDansDispositif', type: 'boolean' }
       ]
-  }); 
+  }); */
 
-  
+ var dataStoreForEquipierList = new Ext.data.Store({
+      proxy: new Ext.ux.rs.data.DwrProxy({
+             call           : MonitorInputDispositif.searchEquipier,
+             args           : [],
+             proxyConfig    : Ext.ux.rs.data.NO_PAGING,
+             filterCallBack : Ext.EmptyFn,
+             api            :{
+                //read  :MonitorInputDispositif.getItemsList,
+                //create:MonitorInputDispositif.save,
+                update :MonitorInputDispositif.updateEquipierInDispositif,
+                destroy:MonitorInputDispositif.deleteEquipierInDispositif
+             },
+             paramNames     :{
+                read  :['filters','start','limit','sort','dir','query'],
+                create:['data'],
+                update:['data']
+             }
+        }),  
+          reader: new Ext.ux.rs.data.JsonReader({
+                 root: 'data',
+        totalProperty: 'totalCount',
+                   id: 'idEquipier',
+               fields:
+                   [
+                       {name: 'idEquipier'                , type: 'int'     },
+                       {name: 'homme'                     , type: 'boolean' },
+                       {name: 'numNivol'                  , type: 'string'  },
+                       {name: 'nom'                       , type: 'string'  },
+                       {name: 'prenom'                    , type: 'string'  },
+                       {name: 'mobile'                    , type: 'string'  },
+                       {name: 'email'                     , type: 'string'  },
+                       {name: 'delegation.idDelegation'   , type: 'int'     },
+                       {name: 'idRoleDansDispositif'      , type: 'int'     },
+                       {name: 'enEvaluationDansDispositif', type: 'boolean' }
+                   ]
+               })
+    });  
 
-  var grid2 = new xg.GridPanel({
+  var grid2 = new xg.EditorGridPanel({
         id   :'DispositifEquipierListGrid',
         store: dataStoreForEquipierList,
         cm   : new xg.ColumnModel([
@@ -238,7 +274,14 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             {id:'DELG_nomprenom'   , header: "Nom Prénom" , width: 200, sortable: true , dataIndex: 'nom'                       , renderer:miDispositifCs.DELGNomPrenomCellRenderer   },
             {id:'DELG_mobile'      , header: "Mobile"     , width: 120, sortable: true , dataIndex: 'mobile'                                                                          },
             {id:'DELG_role'        , header: "Role"       , width: 150, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
-            {id:'DELG_evalutation' , header: "En Eval?"   , width: 50 , sortable: true , dataIndex: 'enEvaluationDansDispositif', renderer:miDispositifCs.DELGEvalCellRenderer        },
+            {id:'DELG_evalutation' , header: "En Eval?"   , width: 50 , sortable: true , dataIndex: 'enEvaluationDansDispositif',
+              xtype: 'booleancolumn',
+           trueText: 'Oui',
+          falseText: 'Non',
+             editor: {
+                      xtype: 'checkbox'
+                     }
+          },
             {id:'DELG_delete'      , header: "Suppresion" , width: 80 , sortable: false, dataIndex: 'idEquipier'                , renderer:miDispositifCs.DELGSuppressionCellRenderer ,menuDisabled:true}
         ]), 
         collapsible : false,
@@ -275,7 +318,7 @@ MonitorInputDispositifCs.prototype.reloadDispositifLists=function(data)
 
 MonitorInputDispositifCs.prototype.DELGNomPrenomCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
-  return '<img src="'+contextPath+'/img/monitorInput/user'+(record.homme?'':'_female')+'.png" alt="'+(record.homme?'Homme':'Femme')+'"/> '+record.nom+' '+record.prenom;
+  return '<img src="'+contextPath+'/img/monitorInput/user'+(record.data.homme?'':'_female')+'.png" alt="'+(record.data.homme?'Homme':'Femme')+'"/> '+record.data.nom+' '+record.data.prenom;
 };
 
 MonitorInputDispositifCs.prototype.DELGRoleCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
@@ -283,16 +326,11 @@ MonitorInputDispositifCs.prototype.DELGRoleCellRenderer=function(value, metadata
   return crfIrpUtils.getLabelFor('RolesEquipier', value );
 };
 
-MonitorInputDispositifCs.prototype.DELGEvalCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
-{
-  return value;
-};
-
 MonitorInputDispositifCs.prototype.DELGSuppressionCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
   return '<img src="'+contextPath+'/img/monitorInput/user_delete.png" ' +
-         'id="CoRegulateurDel_Button_'+record.numNivol+'" alt="Supprimer l\'équipier '+record.nom+' '+record.prenom+'"  ' +
-         'onClick="miDispositifCs.removeEquipierFromDispositif(\''+record.idEquipier+'\', \''+record.equipierRank+'\', \''+record.numNivol+'\',\''+record.nom+' '+record.prenom+'\');"/>';
+         'id="CoRegulateurDel_Button_'+record.data.numNivol+'" alt="Supprimer l\'équipier '+record.data.nom+' '+record.data.prenom+'"  ' +
+         'onClick="miDispositifCs.removeEquipierFromDispositif(\''+record.data.idEquipier+'\', \''+record.data.numNivol+'\',\''+record.data.nom+' '+record.data.prenom+'\');"/>';
 };
 
 
@@ -323,32 +361,196 @@ MonitorInputDispositifCs.prototype.typeCellRenderer=function(value, metadata, re
 
 MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 {
-  var displayWarningMsg = false;
-  var warningMsg = 'Attention, le dispositif ne respecte pas certains pré-requis :<br/> <ul>';
-  
-  if(this.equipageInformation['onlyGirlInBack'])
+  if(this.dispositifCheckWindow == null)
   {
-    displayWarningMsg = true;
-    warningMsg += '<li> le véhicule n\'a pas d\'homme dans la cellule arrière</li>';
-  }
+     var dataStore = new Ext.data.ArrayStore({
+            fields: [
+               {name: 'testName'  },
+               {name: 'testResult', type:'int'}
+            ]
+        });
 
-  if(MonitorInputDispositifCs.prototype.updateVolumeAndAutonomie() < 3)
-  {
-    displayWarningMsg = true;
-    warningMsg += '<li> le véhicule n\'a pas le volume réglementaire requis pour un réseau de secours</li>';
-  }  
-  warningMsg += '</ul><br/><br/>Etes vous sur de vouloir passer ce dispositif comme disponible ?<br/><br/>Cliquez sur OK pour ajouter le dispositif comme disponible, annulez pour ajouter le dispositif comme indisponible.';
-  
-  if(displayWarningMsg)
-  {
-//    if(crfIrpUtils.pleaseConfirm(warningMsg, 'Disponible','Indisponible'))
-
-//    else
     
+    
+    var grid = new Ext.grid.GridPanel({
+          id      :'DispositifCheckGrid',
+        store     : dataStore,
+        cm: new Ext.grid.ColumnModel([
+            {     id: 'testName' ,
+              header: "Vérification en échec",
+               width: 500     ,
+            sortable: true    ,
+           dataIndex: 'testName'
+           },
+           {      id: 'testResult' ,
+              header: "Résultat",
+               width: 60     ,
+            sortable: true    ,
+           dataIndex: 'testResult'   ,
+           renderer : function(value, metadata, record, rowIndex, colIndex, store)
+             {
+               return '<img src="'+contextPath+'/img/famfamfam/'+(value==1?'exclamation.png':'error.png')+'" />';
+             }
+           }
+        ]),
+        viewConfig: {
+            forceFit      :true
+        },
+        width   : 600,
+        height  : 450,
+        title   : 'Vérification du dispositif',
+        iconCls : 'icon-grid'
+    });
+    
+    
+    
+    
+    this.dispositifCheckWindow = new Ext.Window({
+                id         : 'DispositifCheckWindow',
+                layout     : 'fit',
+                width      : 600,
+                height     : 450,
+                closeAction: 'hide',
+                plain      : true,
+                items      : [grid],
+                buttons: [{
+                    text: 'Corriger',
+                    handler: function(button, event){
+                        Ext.getCmp('DispositifCheckWindow').hide();
+                    }
+                },
+                {
+                    text: 'Valider',
+                    handler: function(button, event){
+                        miDispositifCs.doEndOfEditionEvent();
+                    }
+                }]
+            });
   }
+  
+  var hasErrorOrWarning = false;
+  var messageList       = [];
+  var typeDispositif    = Ext.get('DispositifType').dom.value;
+  
+  Ext.get('DispositifIdentification').dom.style.backgroundColor='#FFFFFF';
+  
+  
+  if(typeDispositif == 0)
+  {
+    Ext.get('DispositifIdentification').dom.style.backgroundColor='#FF0000';
+    messageList.push(['Veuillez définir le type de dispositif',1]);
+    hasErrorOrWarning=true;
+  }
+  
+  if( Ext.get('DispositifIndicatif').dom.value =='')
+  {
+    Ext.get('DispositifIdentification').dom.style.backgroundColor='#FF0000';
+    messageList.push(['Veuillez définir l\'indicatif du dispositif',1]);
+    hasErrorOrWarning=true;
+  }
+  
+  if(Ext.get('DispositifDelegation_id').dom.value =='')
+  {
+    Ext.get('DispositifIdentification').dom.style.backgroundColor='#FF0000';
+    messageList.push(['Veuillez définir la délégation responsable du dispositif',1]);
+    hasErrorOrWarning=true;
+  }
+  
+  var typeDispositifInfo = CrfIrpUtils.prototype.typeDispositif[typeDispositif];
+
+
+  var equipierStore = Ext.getCmp('DispositifEquipierListGrid').getStore();
+  
+  var nbHommeArriere  = 0 ;
+  var countByRole     = []; 
+  var nbEquipier      = 0 ;
+  
+  equipierStore.each(function(record){
+    //compte total 
+    nbEquipier++;
+    
+    //compte par role
+    if(countByRole[record.data.idRoleDansDispositif]==null)
+      countByRole[record.data.idRoleDansDispositif]=1;
+    else
+      countByRole[record.data.idRoleDansDispositif]=countByRole[record.data.idRoleDansDispositif]+1;
+    //compte nombre d'homme a l'arriere du camion
+    if( (record.data.idRoleDansDispositif == 9   ||
+         record.data.idRoleDansDispositif == 10  ||
+         record.data.idRoleDansDispositif == 11) &&
+         record.data.homme                == true
+        )
+    {
+      nbHommeArriere++;
+    }
+    
+  });
+  if(typeDispositif!="0")
+  {
+    MonitorInputDispositifCs.prototype.dispositifTypeDefinition[typeDispositif].each(function(roleDef){
+      
+       var count = countByRole[roleDef.idRole];
+       if(count == null)
+        count = 0;
+       var nombreMin = roleDef.nombreMin;
+       var nombreMax = roleDef.nombreMax
+       
+       if(count < nombreMin)
+       { 
+         messageList.push(['le dispositif n\'a pas sufisament ('+count+'<'+nombreMin+') d\'equipier dont le role est "'+crfIrpUtils.getLabelFor('RolesEquipier',roleDef.idRole)+'"',1]);
+         hasErrorOrWarning=true;
+       }
+       
+       if(count > nombreMax)
+       {
+         messageList.push(['le dispositif a trop ('+count+'>'+nombreMax+') d\'equipier dont le role est "'+crfIrpUtils.getLabelFor('RolesEquipier',roleDef.idRole)+'"',1]);
+         hasErrorOrWarning=true;
+       }
+    });
+    if(nbEquipier > typeDispositifInfo.nombreEquipierMax)
+    {
+      messageList.push(['Le nombre d\'équipier est supérieur au nombre maximum d\'équipier',1]);
+      hasErrorOrWarning=true;
+    }
+   
+    if(nbHommeArriere == 0)
+    {
+      messageList.push(['le véhicule n\'a pas d\'homme dans la cellule arrière',2]);
+      hasErrorOrWarning=true;
+    }
+    
+    if(MonitorInputDispositifCs.prototype.updateVolumeAndAutonomie() < 3)
+    {
+      messageList.push(['le véhicule n\'a pas le volume réglementaire requis pour un réseau de secours',2]);
+      hasErrorOrWarning=true;
+    } 
+  }
+  
+ 
+  
+  if(hasErrorOrWarning == true)
+  {
+    Ext.getCmp('DispositifCheckGrid').getStore().loadData(messageList); 
+    this.dispositifCheckWindow.show();
+  }
+};
+
+MonitorInputDispositifCs.prototype.doEndOfEditionEvent=function()
+{
+  var numberOfMandatoryItems = Ext.getCmp('DispositifCheckGrid').getStore().query('testResult',1).getCount();
+  if(numberOfMandatoryItems>0)
+  {
+    Ext.Msg.alert('Le dispositif ne peut être ajouté','Des conditions nécessaires ne sont pas remplies, veuillez les corriger');
+    return false;
+  }
+  
   var isCreation = Ext.get('dispositif_isCreation_field').getValue();
   MonitorInputDispositif.endOfEditionEvent($('dispositif_id_field').value, $('DispositifStatus').value, isCreation, this.endOfEditionEventReturn);
 };
+
+
+
+
 
 MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 {
@@ -359,13 +561,15 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
   Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
   Ext.get   ('DispositifEdit'         		 ).slideOut	 ();
   Ext.getCmp('DispositifListEastPanel'		 ).expand  	 ();
-  
+  Ext.getCmp('DispositifCheckWindow'       ).hide      ();
   PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
   
 };
 
 MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 {
+
+
   for(i=0,count=this.fieldList.length;i<count;i++)
     dwr.util.setValue(this.fieldList[i], '');
 
@@ -380,6 +584,10 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   Ext.getCmp('DispositifEquipierListGrid' ).getStore().removeAll();
   Ext.getCmp('dispositifRoleList'         ).getStore().removeAll();
   Ext.getCmp('DispositifEquipierSearch'   ).setValue('');
+  
+  var dispositifCheckGrid = Ext.getCmp('DispositifCheckGrid');
+  if(dispositifCheckGrid!=null)
+    dispositifCheckGrid.removeAll();
   
   dwr.util.setValue('DispositifStatus',-1);
 };
@@ -453,29 +661,11 @@ MonitorInputDispositifCs.prototype.addEquipierConfirm=function(record)
     if(btn == 'yes')
     {
       miDispositifCs.addEquipier(this);//this == record
-    }
-    else
-    {
-      Ext.getCmp('DispositifEquipierSearch').setValue('');
+      Ext.getCmp('DispositifEquipierSearch'   ).setValue('');
     }
   },
   record
   )
-  
-  
-//   {name: 'idEquipier' , type: 'int' },
-//179 {name: 'homme' , type: 'boolean' },
-//180 {name: 'numNivol' , type: 'string' },
-//181 {name: 'nom' , type: 'string' },
-//182 {name: 'prenom' , type: 'string' },
-//183 {name: 'mobile' , type: 'string' },
-//184 {name: 'email' , type: 'string' },
-//185 {name: 'delegation.idDelegation' , type: 'int' },
-//186 {name: 'idRoleDansDispositif' , type: 'int' },
-//187 {name: 'enEvaluationDansDispositif', type: 'boolean' }
-//188 ]
-//189 }) 
-  
 };
 
 
@@ -493,7 +683,12 @@ MonitorInputDispositifCs.prototype.addEquipier=function(record)
 
 MonitorInputDispositifCs.prototype.addEquipierReturn=function(equipierList)
 {
-  Ext.getCmp('DispositifEquipierListGrid').getStore().loadData(equipierList);
+  var data = {
+    totalCount:equipierList.length,
+    data :equipierList
+  };
+
+  Ext.getCmp('DispositifEquipierListGrid').getStore().loadData(data);
 };
 
 

@@ -42,6 +42,7 @@ public class EquipierRowMapper extends RowMapperHelper implements RowMapper
     {
       equipier.setIdRoleDansDispositif      (rs.getInt    ("id_role_equipier"));
       equipier.setEnEvaluationDansDispositif(rs.getBoolean("en_evaluation"   ));
+      //equipier.setIdRoleEnEval              (rs.getInt    ("id_role_en_eval"  ));
     }
     return equipier;
   }

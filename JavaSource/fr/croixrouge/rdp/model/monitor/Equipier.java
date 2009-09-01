@@ -20,11 +20,31 @@ public class Equipier extends CrfDto
   private String      autreDelegation     = null;
   
   //données récupéré de la table dispositif_equipiers
-  private int         idRoleDansDispositif= 0;
+  private int         idRoleDansDispositif       = 0;
   private boolean     enEvaluationDansDispositif = false;
-  
+  private int         idRoleEnEval               = 0;
   
   private List<EquipierRole> roles;
+  
+  
+  public String toString()
+  {
+    return 
+    "idEquipier                :"+idEquipier                 +"\n"+
+    "idDispositif              :"+idDispositif               +"\n"+
+    "homme                     :"+homme                      +"\n"+
+    "enabled                   :"+enabled                    +"\n"+
+    "numNivol                  :"+numNivol                   +"\n"+
+    "nom                       :"+nom                        +"\n"+
+    "prenom                    :"+prenom                     +"\n"+
+    "mobile                    :"+mobile                     +"\n"+
+    "email                     :"+email                      +"\n"+
+    "delegation                :"+delegation                 +"\n"+
+    "autreDelegation           :"+autreDelegation            +"\n"+
+    "idRoleDansDispositif      :"+idRoleDansDispositif       +"\n"+
+    "enEvaluationDansDispositif:"+enEvaluationDansDispositif +"\n"+
+    "idRoleEnEval              :"+idRoleEnEval               +"\n";
+  }
   
   
   public String getAutreDelegation()
@@ -139,6 +159,14 @@ public class Equipier extends CrfDto
   public void setEnabled(boolean enabled)
   {
     this.enabled = enabled;
+  }
+  public int getIdRoleEnEval()
+  {
+    return idRoleEnEval;
+  }
+  public void setIdRoleEnEval(int idRoleEnEval)
+  {
+    this.idRoleEnEval = idRoleEnEval;
   }
  
       

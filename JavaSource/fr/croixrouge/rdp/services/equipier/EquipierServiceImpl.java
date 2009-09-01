@@ -62,7 +62,8 @@ public class EquipierServiceImpl implements EquipierService
   private final static  String queryForGetEquipiersForDispositif = 
     equipierSelect+
     ", de.id_role_equipier                     ,\n"+
-    "de.en_evaluation                           \n"+
+    "de.en_evaluation                          ,\n"+
+    "de.id_role_en_eval                         \n"+
     equipierFrom+
     ",      dispositif_equipiers de                  \n"+                 
     "WHERE  de.id_dispositif     = ?                 \n"+                 

@@ -224,6 +224,15 @@ public class MonitorInputDispositifImpl extends DWRUtils
     
   }
   
+  public void updateEquipierInDispositif(Equipier equipier) throws Exception
+  {
+    logger.error("UPDATE : "+equipier.toString());
+  }
+  
+  public void deleteEquipierInDispositif(Equipier equipier) throws Exception
+  {
+    logger.error("DELETE : "+equipier.toString());
+  }
   
   public void updateDispositifIntegerField(int idDispositif, String fieldName, int      fieldValue) throws Exception
   {

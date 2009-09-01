@@ -62,6 +62,9 @@ Ext.ux.rs.data.DwrProxy = function(config){
       else
        throw "With proxyConfig == Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER, you need to specify a filterCallBack, a function that return an array of Ext.ux.rs.data.FilterObject (or an empty arry)";
     }
+    /*
+    this.paramNames = config.paramNames || [];
+    this.api        = config.api;*/
 };
 
 Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
@@ -172,6 +175,58 @@ Ext.extend(Ext.ux.rs.data.DwrProxy, Ext.data.DataProxy, {
   updateResponse : function(dataSet)
   {
   }
+/*
+  ,
+  doRequest : function(action, records, params, reader, callback, scope, options) {
+        var dwrFunctionArgs = []; // the arguments that will be passed to the dwrFunction
+        Ext.each(this.paramNames[action],function(paramName){
+            var param = params[paramName];
+            if (action == Ext.data.Api.actions.create)//TODO need to fix... occures because DataWriter adds generated id.
+                delete param.id;
+            dwrFunctionArgs.push(param);
+        });
+        dwrFunctionArgs.push(this.createCallback(action,records,reader, callback, scope,options));
+        
+        var call = this.api[action];
+        if (call)
+            call.apply(Object, dwrFunctionArgs); // the scope for calling the dwrFunction doesn't matter, so we simply set it to Object.
+    },
+  
+  
+    createCallback : function(action,records,reader, callback, scope,options) {
+        return {
+            callback: function(response){
+                if (action == Ext.data.Api.actions.read)
+                    this.onRead(action, reader,records, response,callback, scope,options)
+                else
+                    this.onWrite(action,reader,records, response,callback, scope,options )
+            }.createDelegate(this),
+            exceptionHandler : function(message, exception) {
+                this.fireEvent("exception", this, 'remote', action, options, message, exception);
+                callback.call(scope, null, options, false);
+            }.createDelegate(this)
+        };
+    },
+
+
+    onRead : function(action, reader,records, response,callback, scope,options) {
+        var rs;
+        try {
+            rs = reader.readRecords(response);
+        } catch(e) {
+            this.fireEvent('exception', this, 'response', action, options, response, e);
+            callback.call(scope, null, options, false);
+            return;
+        }
+        this.fireEvent("load", this, rs, options);
+        callback.call(scope, rs, options, true);
+    },
+  
+    onWrite: function(action,reader,records, response,callback, scope,options) {
+        reader.update(records, response);
+        this.fireEvent('write', this, action, response,records,options);
+        callback.call(scope, response);
+    }*/
 });
 
 

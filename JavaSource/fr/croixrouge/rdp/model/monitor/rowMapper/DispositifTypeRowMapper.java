@@ -13,8 +13,9 @@ public class DispositifTypeRowMapper extends RowMapperHelper implements RowMappe
   {
     DispositifType typeDispositif = new DispositifType();
     
-    typeDispositif.setId    (resultSet.getInt   ("id_type"   ));
-    typeDispositif.setLabel (resultSet.getString("label_type"));        
+    typeDispositif.setId                (resultSet.getInt   ("id_type"            ));
+    typeDispositif.setLabel             (resultSet.getString("label_type"         ));
+    typeDispositif.setNombreEquipierMax (resultSet.getInt   ("nombre_equipier_max"));  
 
     return typeDispositif;
   }

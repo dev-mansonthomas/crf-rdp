@@ -75,7 +75,7 @@ update dispositif_etat set id_etat = -2 where id_etat = 12;
 update dispositif_etat set id_etat = -3 where id_etat = 11;
 ALTER TABLE dispositif_etat AUTO_INCREMENT = 14;
 
-insert into dispositif_type (label_type, nb_equipier_max)
+insert into dispositif_type (label_type, nombre_equipier_max)
 values
 ('ALPHA'            ,5),
 ('BSPP'             ,5),

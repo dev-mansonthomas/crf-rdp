@@ -9,6 +9,7 @@ public class DispositifType implements Serializable, ListItemInterface
   private static final long serialVersionUID = 5472546213352116331L;
   private int               id;
   private String            label;
+  private int               nombreEquipierMax = 0;
 
   public int getId()
   {
@@ -28,5 +29,15 @@ public class DispositifType implements Serializable, ListItemInterface
   public void setLabel(String label)
   {
     this.label = label;
+  }
+
+  public int getNombreEquipierMax()
+  {
+    return nombreEquipierMax;
+  }
+
+  public void setNombreEquipierMax(int nombreEquipierMax)
+  {
+    this.nombreEquipierMax = nombreEquipierMax;
   }
 }

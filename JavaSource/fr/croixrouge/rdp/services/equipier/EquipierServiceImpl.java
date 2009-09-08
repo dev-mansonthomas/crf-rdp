@@ -85,7 +85,7 @@ public class EquipierServiceImpl implements EquipierService
     List<Equipier> equiperList= (List<Equipier>)jdbcTemplate.query(  queryForGetEquipiersForDispositif , 
                                                                      os    , 
                                                                      types , 
-                                                                     new EquipierRowMapper(true));
+                                                                     new EquipierRowMapper(true, true));
     
   
     
@@ -165,6 +165,7 @@ public class EquipierServiceImpl implements EquipierService
     "AND    e.id_equipier       = er.id_equipier    \n"+
     "AND    e.enabled           = true              \n"+
     "AND    er.id_role_equipier = ?                 \n"+
+    "AND    er.en_evaluation    = false             \n"+
     "AND    e.id_delegation     = d.id_delegation   \n"+
     "AND                                            \n"+
     "(                                              \n"+
@@ -172,7 +173,8 @@ public class EquipierServiceImpl implements EquipierService
     " OR    e.nom               LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
     ")\n";
 
-  
+  //NOTE:  on n'ajoute que des équipiers qui ne sont PAS en évaluation.
+  //Si on veut évaluer un chauffeur, on l'ajoute au dispositif en tant que PSE2, puis on choisi de le mettre en évaluation sur le role chauffeur.
   
   @SuppressWarnings("unchecked")
   public ListRange<Equipier> searchEquipier(int idRole, String searchString, int start, int limit) throws Exception
@@ -199,7 +201,7 @@ public class EquipierServiceImpl implements EquipierService
     List<Equipier> equipierList = jdbcTemplate.query( query , 
                                                       os    , 
                                                       types , 
-                                                      new EquipierRowMapper(true));
+                                                      new EquipierRowMapper(false, true));
     
     
     return new ListRange<Equipier>(totalCount, equipierList);

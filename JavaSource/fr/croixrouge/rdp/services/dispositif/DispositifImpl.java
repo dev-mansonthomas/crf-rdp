@@ -460,31 +460,38 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String dispositifSelectQuery = 
-    "SELECT  `id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`, 0 as 'id_equipier_responsable',                                                  \n" +
-    "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                                 \n" +
-    "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                                 \n" +
-    "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`,                                                               \n" +
-    "        `dispositif_comment`, `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,                              \n" +
-    "        `dsa_type`          , `dsa_complet`       , `observation`       ,                                                                                 \n" +
-    "        `DH_debut`          , `DH_fin`            , `id_delegation_responsable`, `autre_delegation`,                                                      \n" +
-    "        `contact_radio`     , `contact_tel1`      , `contact_tel2`      ,                                                                                 \n" +
-    "        `contact_alphapage` , `identite_medecin`  , `id_etat_dispositif`, `id_current_intervention`, `display_state`,                                     \n" +
-    "        `current_addresse_rue` , `current_addresse_code_postal` , `current_addresse_ville` , `current_google_coords_lat` , `current_google_coords_long` , \n" +
-    "        `previous_addresse_rue`, `previous_addresse_code_postal`, `previous_addresse_ville`, `previous_google_coords_lat`, `previous_google_coords_long`, \n" +
-    "        `DH_reception`      , `DH_depart`, `DH_sur_place`, `DH_bilan_primaire`       , `DH_bilan_secondaire`, `DH_quitte_les_lieux`,                      \n" +
-    "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee`, `actif`         \n" +
-    "FROM    dispositif d             \n";  
-  
+    "SELECT  d.`id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`,                                                                                    \n"+
+    "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                                      \n"+
+    "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                                      \n"+
+    "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`,                                                                    \n"+
+    "        `dispositif_comment`, `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,                                   \n"+
+    "        `dsa_type`          , `dsa_complet`       , `observation`       ,                                                                                      \n"+
+    "        `DH_debut`          , `DH_fin`            , `id_delegation_responsable`, d.`autre_delegation`,                                                         \n"+
+    "        `contact_radio`     , `contact_tel1`      , `contact_tel2`      ,                                                                                      \n"+
+    "        `contact_alphapage` , `identite_medecin`  , `id_etat_dispositif`, `id_current_intervention`, `display_state`,                                          \n"+
+    "        `current_addresse_rue` , `current_addresse_code_postal` , `current_addresse_ville` , `current_google_coords_lat` , `current_google_coords_long` ,      \n"+
+    "        `previous_addresse_rue`, `previous_addresse_code_postal`, `previous_addresse_ville`, `previous_google_coords_lat`, `previous_google_coords_long`,      \n"+
+    "        `DH_reception`      , `DH_depart`, `DH_sur_place`, `DH_bilan_primaire`       , `DH_bilan_secondaire`, `DH_quitte_les_lieux`,                           \n"+
+    "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee`, `actif`,             \n"+
+    "        e.`id_equipier`, e.`num_nivol`, e.`equipier_is_male`, e.`enabled`, e.`nom`, e.`prenom`, e.`mobile`, e.`email`, e.`id_delegation`, e.`autre_delegation` \n"+
+    "FROM    dispositif d, dispositif_equipiers de, equipier e, dispositif_type dt                                                                                  \n";  
   
   private final static String queryForGetAllDispositif = dispositifSelectQuery + 
-  "WHERE   id_regulation=?          \n"+
-  "AND     creation_terminee = true \n"+
-  "AND     actif             = true \n"+
-  "ORDER BY indicatif_vehicule ASC  \n";
+  "WHERE   id_regulation         = ?                  \n"+
+  "AND     creation_terminee     = true               \n"+
+  "AND     actif                 = true               \n"+
+  "AND     d.id_type_dispositif  = dt.id_type         \n"+
+  "AND     d.id_dispositif       = de.id_dispositif   \n"+
+  "AND     de.id_role_equipier   = dt.id_role_leader  \n"+
+  "AND     de.id_equipier        = e.id_equipier      \n"+
+  "ORDER BY indicatif_vehicule ASC                    \n";
+
 
   @SuppressWarnings("unchecked")
   public ListRange<Dispositif> getAllDispositif(int regulationId) throws Exception
   {
+    if(logger.isDebugEnabled())
+      logger.debug(queryForGetAllDispositif);
     
     List <Dispositif> dispositifs = this.jdbcTemplate.query(queryForGetAllDispositif, 
                                                             new Object[]{new Integer(regulationId)},
@@ -493,8 +500,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     for (Dispositif dispositif : dispositifs)
     {
-      if(dispositif.getEquipierCi().getIdEquipier() != 0)
-        dispositif.setEquipierCi(this.equipierService.getEquipier(dispositif.getEquipierCi().getIdEquipier()));
+      if(dispositif.getEquipierLeader().getIdEquipier() != 0)
+        dispositif.setEquipierLeader(this.equipierService.getEquipier(dispositif.getEquipierLeader().getIdEquipier()));
       
       dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
     }
@@ -503,8 +510,12 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
   
   private final static String queryForGetDispositif = dispositifSelectQuery + 
-  "WHERE   id_dispositif=?\n" +
-  "AND     id_regulation=?\n";
+  "WHERE   d.id_dispositif       = ?                  \n"+
+  "AND     d.id_regulation       = ?                  \n"+
+  "AND     d.id_type_dispositif  = dt.id_type         \n"+
+  "AND     d.id_dispositif       = de.id_dispositif   \n"+
+  "AND     de.id_role_equipier   = dt.id_role_leader  \n"+
+  "AND     de.id_equipier        = e.id_equipier      \n";//TODO Jointure externe a faire
   
 
   public Dispositif getDispositif(int idRegulation, int disposifitId) throws Exception
@@ -519,9 +530,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
                                                     new Object[]{disposifitId , idRegulation},
                                                     new int   []{Types.INTEGER, Types.INTEGER},
                                                     new DispositifRowMapper());
-    
-    if(dispositif.getEquipierCi().getIdEquipier() != 0)
-      dispositif.setEquipierCi(this.equipierService.getEquipier(dispositif.getEquipierCi().getIdEquipier()));
     
     dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
  
@@ -538,32 +546,34 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "        `DH_debut`     , `DH_fin`            , `id_delegation_responsable`, `autre_delegation`  , `display_state`     \n" +
     "FROM    dispositif\n";  
   
-  private final static String queryForActiveDispositif = dispositifTicketSelectQuery + 
-  "WHERE    id_regulation     = ?    \n" +
-  "AND      creation_terminee = true \n" +
-  "AND      actif             = true \n" +
+  
+  private final static String whereForRecentDispositif = 
+    "WHERE    id_regulation     = ?    \n" +
+    "AND TIMESTAMPDIFF(HOUR, DH_DEBUT, CURRENT_TIMESTAMP) < 18 \n";
+  
+  
+  private final static String queryForRecentDispositif = dispositifTicketSelectQuery + 
+  whereForRecentDispositif +
   "ORDER BY indicatif_vehicule ASC   \n";
   
   
-  private final static String queryForGetActiveDispositifCount =
+  private final static String queryForGetRecentDispositifCount =
     "SELECT   count(1)                \n"+
     "FROM     dispositif              \n"+
-    "WHERE    id_regulation     = ?   \n"+
-    "AND      creation_terminee = true\n"+
-    "AND      actif             = true\n";
+    whereForRecentDispositif;
   
 
   @SuppressWarnings("unchecked")
-  public ListRange<DispositifTicket> getActiveDispositif(int idRegulation, int index, int limit) throws Exception
+  public ListRange<DispositifTicket> getRecentDispositif(int idRegulation, int index, int limit) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("getting dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"'");
     
-    int totalCount = this.jdbcTemplate.queryForInt(queryForGetActiveDispositifCount,
+    int totalCount = this.jdbcTemplate.queryForInt(queryForGetRecentDispositifCount,
         new Object[]{idRegulation  },
         new int   []{Types.INTEGER });
     
-    List<DispositifTicket> list = this.jdbcTemplate.query( queryForActiveDispositif + "LIMIT    ?,?              \n", 
+    List<DispositifTicket> list = this.jdbcTemplate.query( queryForRecentDispositif + "LIMIT    ?,?              \n", 
         new Object[]{idRegulation , index        , limit        },
         new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER},
         new DispositifTicketRowMapper      ()); 

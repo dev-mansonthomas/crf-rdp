@@ -42,7 +42,7 @@ public interface DispositifService
   public void       attachInterventionToDispositif          (int idDispositif  , int idIntervention                                 ) throws Exception;
   public void       actionOnDispositif                      (int idDispositif  , int newIdEtat           , Date actionDate          ) throws Exception;
   public void       updateDispositifPosition                (int idDispositif  , Position currentPosition, Position previousPosition) throws Exception;
-  public ListRange<DispositifTicket>  getActiveDispositif                     (int idRegulation  , int index, int limit                               ) throws Exception;
+  public ListRange<DispositifTicket>  getRecentDispositif                     (int idRegulation  , int index, int limit                               ) throws Exception;
   
   public void       updateActifValueOfDispositif            (int idDispositif, boolean actif                                        ) throws Exception;
   public void       deleteDispositif                        (int idDispositif                                                       ) throws Exception;

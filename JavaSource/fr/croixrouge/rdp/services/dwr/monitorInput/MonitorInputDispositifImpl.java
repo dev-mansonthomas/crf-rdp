@@ -173,30 +173,35 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
   }
   
-  public ListRange<DispositifTicket> getActiveDispositifList(int index, int limit) throws Exception
+  public ListRange<DispositifTicket> getRecentDispositifList(int index, int limit) throws Exception
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
-    return this.dispositifService.getActiveDispositif(currentUserRegulationId, index, limit);
+    return this.dispositifService.getRecentDispositif(currentUserRegulationId, index, limit);
   }
   
-  public List<Equipier> addEquipierToDispositif(int idDispositif, int idRoleEquipier, int idEquipier) throws Exception
+  public ListRange<Equipier> addEquipierToDispositif(int idDispositif, int idRoleEquipier, int idEquipier) throws Exception
   {
     this.validateSession();
     
     this.dispositifService.affectEquipierToDispositif  (idDispositif, idEquipier  , idRoleEquipier);
     this.equipierService  .setDispositifToEquipier     (idEquipier  , idDispositif                );
     
-    return this.equipierService.getEquipiersForDispositif(idDispositif);
+    List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
+    
+    return new ListRange<Equipier>(listEquipier.size(), listEquipier);
   }
   
-  public List<Equipier> removeEquipierFromDispositif(int idDispositif, int equipierRank, int idEquipier) throws Exception
+  public ListRange<Equipier> removeEquipierFromDispositif(int idDispositif, int idEquipier) throws Exception
   {
     this.validateSession();
     
     this.dispositifService.unaffectEquipierToDispositif(idDispositif, idEquipier);
     this.equipierService  .setDispositifToEquipier     (idEquipier  , 0);
     
-    return this.equipierService.getEquipiersForDispositif(idDispositif);
+    
+    List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
+    
+    return new ListRange<Equipier>(listEquipier.size(), listEquipier);
   }
   
   public boolean updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception

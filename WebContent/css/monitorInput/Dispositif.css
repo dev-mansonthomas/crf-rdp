@@ -207,4 +207,13 @@ CHARSET "ISO-8859-1";
     display:block;
     clear:none;
 }
-
+.evaluation
+{
+  background-image: url("../../img/famfamfam/book_edit.png") !important;
+  background-repeat:no-repeat;
+}
+.removeEquipier
+{
+  background-image: url("../../img/famfamfam/user_delete.png") !important;
+  background-repeat:no-repeat;
+}

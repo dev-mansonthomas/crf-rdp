@@ -69,10 +69,9 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper
     previousPosition.setVille           (rs.getString("previous_addresse_ville"      ));
     
     
-    Equipier equipierCi = dispositif.getEquipierCi();
-    equipierCi.setIdEquipier(rs.getInt    ("id_equipier_responsable"            ));
+    Equipier equipierLeader = (Equipier)(new EquipierRowMapper(false, false)).mapRow(rs, rowNum);
     
-    dispositif.setEquipierCi                (equipierCi);
+    dispositif.setEquipierLeader            (equipierLeader);
     dispositif.setIdDispositif              (rs.getInt    ("id_dispositif"            ));
     dispositif.setIdDelegation              (rs.getInt    ("id_delegation_responsable"));
     

@@ -1141,7 +1141,7 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
   var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
 '  <tr>',
 '    <td style="height:11px;font-size:14px;">',
-'      <div><span>CI : </span><span>', record.json.equipierCi.nom+' '+record.json.equipierCi.prenom ,'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Intervention en cours :</span></div>',
+'      <div><span>CI : </span><span>', record.json.equipierLeader.nom+' '+record.json.equipierLeader.prenom ,'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Intervention en cours :</span></div>',
 '    </td>',
 '    <td rowspan="2" style="width:130px;">',
 '      <input id="DispositifActionButton_',record.data.idDispositif,'|',record.id,'" type="button" ' +

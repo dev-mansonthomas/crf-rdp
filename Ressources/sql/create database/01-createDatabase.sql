@@ -7,16 +7,17 @@ use crfrdp;
 
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_etat`;
 CREATE TABLE `dispositif_etat` (
-  `id_etat` int(10) NOT NULL auto_increment,
-  `label_etat` varchar(45) NOT NULL,
+  `id_etat`     int    (10) NOT NULL auto_increment,
+  `label_etat`  varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_type`;
 CREATE TABLE `dispositif_type` (
-  `id_type` int(10) unsigned NOT NULL auto_increment,
-  `label_type` varchar(45) NOT NULL,
-  `nombre_equipier_max` int(10) default 0,
+  `id_type`             int     (10) unsigned NOT NULL auto_increment,
+  `label_type`          varchar (45) NOT NULL,
+  `nombre_equipier_max` int     (10) unsigned default 0,
+  `id_role_leader`      int     (10) unsigned default 0,
   PRIMARY KEY  (`id_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 

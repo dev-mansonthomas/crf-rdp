@@ -54,7 +54,7 @@ ALTER TABLE delegation AUTO_INCREMENT = 142;
 
 insert into dispositif_etat (label_etat)
 values
-('Dispo'),
+('Disponible'),
 ('Intervention Affectée'),
 ('Parti'),
 ('Sur Place'),
@@ -64,8 +64,8 @@ values
 ('Arrivé à l''Hopital'),
 ('Intervention Terminée'),
 ('A sa base'),
-('Indispo - Equipage incomplet'),
-('Indispo - Matériel incomplet'),
+('Indisponible - Equipage incomplet'),
+('Indisponible - Matériel incomplet'),
 ('Indisponible'),
 ('N/A');
 
@@ -75,13 +75,13 @@ update dispositif_etat set id_etat = -2 where id_etat = 12;
 update dispositif_etat set id_etat = -3 where id_etat = 11;
 ALTER TABLE dispositif_etat AUTO_INCREMENT = 14;
 
-insert into dispositif_type (label_type, nombre_equipier_max)
+insert into dispositif_type (label_type, nombre_equipier_max, id_role_leader)
 values
-('ALPHA'            ,5),
-('BSPP'             ,5),
-('Poste de Secours' ,0),
-('Point d''Alerte'  ,0),
-('N/A'              ,0);
+('ALPHA'            ,5,7),
+('BSPP'             ,5,6),
+('Poste de Secours' ,0,4),
+('Point d''Alerte'  ,0,9),
+('N/A'              ,0,0);
 
 update dispositif_type set id_type = 0 where id_type = 5;
 ALTER TABLE dispositif_type AUTO_INCREMENT = 5;

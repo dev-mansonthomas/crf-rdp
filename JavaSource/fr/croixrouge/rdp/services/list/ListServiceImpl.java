@@ -47,7 +47,7 @@ public class ListServiceImpl implements ListService, InitializingBean
   }
 
   private final static String queryForGetTypesDispositif =
-    "SELECT id_type, label_type, nombre_equipier_max \n"+
+    "SELECT id_type, label_type, nombre_equipier_max, id_role_leader \n"+
     "FROM   dispositif_type d   \n"+
     "ORDER BY id_type ASC       \n";
   @SuppressWarnings("unchecked")

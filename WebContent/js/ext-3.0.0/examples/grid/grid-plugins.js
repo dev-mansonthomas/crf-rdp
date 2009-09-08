@@ -164,8 +164,8 @@ Ext.onReady(function(){
         columnLines: true,
 
         // inline buttons
-        buttons: [{text:'Save'},{text:'Cancel'}],
-        buttonAlign:'center',
+        buttons    : [{text:'Save'},{text:'Cancel'}],
+        buttonAlign: 'center',
 
         // inline toolbars
         tbar:[{

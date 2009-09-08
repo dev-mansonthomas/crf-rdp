@@ -14,7 +14,7 @@ public class Dispositif implements Serializable
   {
     this.currentPosition  = new Position();
     this.previousPosition = new Position();
-    this.equipierCi       = new Equipier();
+    this.equipierLeader   = new Equipier();
     this.interventions    = new ArrayList<InterventionTicket>();
   }
   
@@ -75,16 +75,16 @@ public class Dispositif implements Serializable
 
   private List<Equipier> equipierList = null;
   
-  private Equipier                 equipierCi   ;
+  private Equipier                 equipierLeader   ;
   private List<InterventionTicket> interventions;
  
-  public Equipier getEquipierCi()
+  public Equipier getEquipierLeader()
   {
-    return equipierCi;
+    return equipierLeader;
   }
-  public void setEquipierCi(Equipier equipierCi)
+  public void setEquipierLeader(Equipier equipierCi)
   {
-    this.equipierCi = equipierCi;
+    this.equipierLeader = equipierCi;
   }
   public String getContactAlphapage()
   {

@@ -70,7 +70,7 @@ function initHomeTab()
 {
 	 var xg = Ext.grid;
 	  
-	  var dataStore = new Ext.data.Store({
+	  var regulationStore = new Ext.data.Store({
 	           proxy: new Ext.ux.rs.data.DwrProxy({
 	               call       : Homepage.getOpenRegulationList,
 	               args       : [],
@@ -99,43 +99,48 @@ function initHomeTab()
 	        )
 	    });
 
-	  var grid1 = new xg.GridPanel({
-	        id:'home-list-regulation-grid',
-	        store: dataStore,
-	        listeners :{ rowdblclick : function(theGrid, rowIndex, e ){
+	  var regulationGrid = new xg.GridPanel({
+	        id         : 'home-list-regulation-grid',
+	        store      : regulationStore,
+	        listeners  : { rowdblclick : function(theGrid, rowIndex, e ){
 	            openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId);
 	        }},
 	        cm: new xg.ColumnModel([
 	            expander,
-	            {id:'labelCol'            , header: "Intitulé"      , width: 150, sortable: true, dataIndex: 'label'},
-	            {id:'startDateCol'        , header: "Date de Début" , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'},
-	            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 80 , sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
-	            {id:'nomCol'              , header: "Régulateur"    , width: 150, sortable: true, dataIndex: 'regulateur.nom'}
+	            {id:'labelCol'            , header: "Intitulé"      , width: 222, sortable: true, dataIndex: 'label'},
+	            {id:'startDateCol'        , header: "Date de Début" , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'      },
+	            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
+	            {id:'nomCol'              , header: "Régulateur"    , width: 222, sortable: true, renderer :regulationListRegulateurCellRenderer        , dataIndex: 'regulateur.nom' }
 	        ]),
 	        viewConfig: {
 	            forceFit:false
 	        },
 	        
 	        tbar:[{
-	            text:'Ajouter une régulation',
-	            tooltip:'Déclarer une nouvelle régulation',
-	            iconCls:'addButton',
-	            handler:function(){alert('click')}
+	            text   : 'Ajouter une régulation',
+	            tooltip: 'Déclarer une nouvelle régulation',
+	            iconCls: 'addButton',
+	            handler: function(){alert('click')}
 	        }],
 	        
-	        width: 600,
-	        height: 300,
-	        plugins: expander,
-	        collapsible: false,
-	        animCollapse: false,
-	        title: 'Liste des Régulations en cours',
-	        iconCls: 'icon-grid',
-	        renderTo: 'RegulationList'
+	        width        : 700,
+	        height       : 300,
+	        plugins      : expander,
+	        collapsible  : false,
+	        animCollapse : false,
+	        title        : 'Liste des Régulations en cours',
+	        iconCls      : 'icon-grid',
+	        renderTo     : 'RegulationList'
 	    });
 	  
-	  grid1.getStore().load();
+	  regulationGrid.getStore().load();
+    regulationGrid.getEl().center();
 }
 
+function regulationListRegulateurCellRenderer(value, metadata, record, rowIndex, colIndex, store)
+{
+  return record.json.regulateur.nivol +' - '+value+' '+ record.json.regulateur.prenom;
+}
 
 
 var windowReferences = Array();

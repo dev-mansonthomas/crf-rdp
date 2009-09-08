@@ -4,10 +4,8 @@ var MonitorInputDispositifCs = Class.create();
 
 MonitorInputDispositifCs.prototype.initialize=function()
 {
-//  MonitorInputDispositif.initScriptSession();
-
   this.getDispositifTypeDefinition ();
-      /*Selection de la délégation*/  
+  /*Selection de la délégation*/  
   new Autocompleter.DWR( 'DispositifDelegation', 
                          'DispositifDelegation_SelectList', 
                          this.updateListDelegation, 
@@ -70,9 +68,9 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
 {
   var xg = Ext.grid;
   
-  var dataStore1 = new Ext.data.Store({
+  var dispositifListCurrentStore = new Ext.data.Store({
            proxy: new Ext.ux.rs.data.DwrProxy({
-               call       : MonitorInputDispositif.getActiveDispositifList,
+               call       : MonitorInputDispositif.getRecentDispositifList,
                args       : [],
                proxyConfig: Ext.ux.rs.data.SIMPLE_PAGING
                }),
@@ -98,7 +96,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
 
   var grid1 = new xg.GridPanel({
         id   :'DispositifListCurrentGrid',
-        store: dataStore1,
+        store: dispositifListCurrentStore,
         cm   : new xg.ColumnModel([
             {id:'idDCurrentCol'                 , header: "Id"              , width: 30 , sortable: true, dataIndex: 'idDispositif'     },
             {id:'idTypeDispositifDCurrentCol'   , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif' , renderer:miDispositifCs.typeCellRenderer},
@@ -121,7 +119,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         },
         bbar:new Ext.PagingToolbar({
           pageSize   : 5,
-          store      : dataStore1,
+          store      : dispositifListCurrentStore,
           displayInfo: true,
           displayMsg : 'Dispositifs(s) {0} à {1} de {2}',
           emptyMsg   : 'aucun dispositif actif'
@@ -140,6 +138,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
                   valueField    : 'id_role',
                   displayField  : 'label_role',
                   mode          : 'local',
+                  editable      : false,
                   triggerAction : 'all',
                   emptyText     : 'Selectionner un role...',
                   applyTo       : 'DispositifEquipierSearchRoleInput',
@@ -188,14 +187,23 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
                })
     });
 
-    // Custom rendering Template
     var resultTpl = new Ext.XTemplate(
         '<tpl for="."><div class="search-item">',
-            '<h3><span>{numNivol}</span> {prenom} {nom}</h3>',//{delegation.idDelegation}
-            '{idRoleDansDispositif} - {enEvaluationDansDispositif}',
-        '</div></tpl>'
+            '<h3><span>{numNivol}</span>{[this.getSexImg(values)]} {prenom} {nom}</h3>',//{delegation.idDelegation}
+            '{[this.getDelegation(values)]}',
+        '</div></tpl>',
+        {
+          getDelegation:function(values)
+          {
+            return crfIrpUtils.getLabelFor("Delegations", values["delegation.idDelegation"]);
+          },
+          getSexImg:function(values)
+          {
+            return '<img src="'+contextPath+'/img/monitorInput/user'+(values.homme?'':'_female')+'.png" alt="'+(values.homme?'Homme':'Femme')+'"/> ';
+          }
+        }
     ); 
-    
+
     var searchEquipierComboBox = new Ext.form.ComboBox({
         id          : 'DispositifEquipierSearch', 
         store       : equipierSearchDataStore,
@@ -266,43 +274,86 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
                })
     });  
 
-  var grid2 = new xg.EditorGridPanel({
+    
+  var checkboxSelectionModel = new xg.CheckboxSelectionModel({
+      singleSelect: true,
+      listeners   : {
+          // On selection change, set enabled state of the removeButton
+          // which was placed into the GridPanel using the ref config
+          selectionchange: function(sm) {
+              if (sm.getCount()) 
+              {
+                dispositifEquipierListGrid.evaluationButton.enable();
+                dispositifEquipierListGrid.removeButton    .enable();    
+              } 
+              else 
+              {
+                dispositifEquipierListGrid.evaluationButton.disable();
+                dispositifEquipierListGrid.removeButton    .disable();
+              }
+          }
+      }
+  });
+    
+    
+  var dispositifEquipierListGrid = new xg.GridPanel({
         id   :'DispositifEquipierListGrid',
         store: dataStoreForEquipierList,
         cm   : new xg.ColumnModel([
-            {id:'DELG_nivol'       , header: "Nivol"      , width: 80 , sortable: true , dataIndex: 'numNivol'                                                                        },
-            {id:'DELG_nomprenom'   , header: "Nom Prénom" , width: 200, sortable: true , dataIndex: 'nom'                       , renderer:miDispositifCs.DELGNomPrenomCellRenderer   },
-            {id:'DELG_mobile'      , header: "Mobile"     , width: 120, sortable: true , dataIndex: 'mobile'                                                                          },
-            {id:'DELG_role'        , header: "Role"       , width: 150, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
+            checkboxSelectionModel,
+            {id:'DELG_nivol'       , header: "Nivol"      , width: 70 , sortable: true , dataIndex: 'numNivol'                                                                        },
+            {id:'DELG_nomprenom'   , header: "Nom Prénom" , width: 290, sortable: true , dataIndex: 'nom'                       , renderer:miDispositifCs.DELGNomPrenomCellRenderer   },
+            {id:'DELG_mobile'      , header: "Mobile"     , width: 80 , sortable: true , dataIndex: 'mobile'                                                                          },
+            {id:'DELG_role'        , header: "Role"       , width: 100, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
             {id:'DELG_evalutation' , header: "En Eval?"   , width: 50 , sortable: true , dataIndex: 'enEvaluationDansDispositif',
               xtype: 'booleancolumn',
            trueText: 'Oui',
-          falseText: 'Non',
-             editor: {
-                      xtype: 'checkbox'
-                     }
+          falseText: 'Non'
           },
             {id:'DELG_delete'      , header: "Suppresion" , width: 80 , sortable: false, dataIndex: 'idEquipier'                , renderer:miDispositifCs.DELGSuppressionCellRenderer ,menuDisabled:true}
-        ]), 
+        ]),
+        sm          : checkboxSelectionModel,
         collapsible : false,
         animCollapse: false,
         height      : 400,
         width       : 700,
         iconCls     : 'icon-grid',
-        renderTo    : 'DispositifEquipierList'
- /*     view: new Ext.grid.GroupingView({
-           forceFit:true,
-           groupRenderer: function(value, unused, record, rowIndex, colIndex, dataStore)
-           {            
-             return value;
-           },
-           groupTextTpl: '{group}'
+        renderTo    : 'DispositifEquipierList',
+        tbar        : [{
+            text    : 'Retirer l\'équipier',
+            tooltip : 'Retirer l\'équipier du dispositif',
+            iconCls : 'removeEquipier',
+            handler : MonitorInputDispositifCs.prototype.removeEquipierFromDispositif,
+            //Place a reference in the GridPanel
+            ref     : '../removeButton',
+            disabled: true
+        },{
+            text    : 'Option d\'évaluation',
+            tooltip : 'Cocher un équipier puis cliquer sur ce bouton pour mettre l\'équipier en évaluation',
+            iconCls : 'evaluation',
+            handler : MonitorInputDispositifCs.prototype.evaluationButtonHandler,
 
-        })*/
+            // Place a reference in the GridPanel
+            ref     : '../evaluationButton',
+            disabled: true
+        }]
     });
 };
 
-
+MonitorInputDispositifCs.prototype.evaluationButtonHandler=function(button, event)
+{
+  var sm     = Ext.getCmp('DispositifEquipierListGrid').getSelectionModel();
+  var record = sm.getSelected();
+  
+  if(record.data.idRoleDansDispositif != 9)
+  {
+    Ext.Msg.alert('Sélection invalide','Seul un PSE2 peut etre mise en évaluation pour un role supérieur (Chauffeur, CI).<br/><br/>Ex: Un CI A gère le dispositif. Le PSE2 B est en évaluation pour devenir CI. A est ajouter en tant que CI, B en tant que PSE2, évaluer en tant que CI');
+    sm.clearSelections();
+    return;
+  }
+  //TODO : window qui propose de cocher en evalution et de choisir le role avec deux bouton, sauver et annuler
+  //sur sauvegarde, update en DB et reload de la grid
+};
 
 MonitorInputDispositifCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
 {
@@ -323,6 +374,8 @@ MonitorInputDispositifCs.prototype.DELGNomPrenomCellRenderer=function(value, met
 
 MonitorInputDispositifCs.prototype.DELGRoleCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
+  
+  //TODO 'award_star_gold_1.png'
   return crfIrpUtils.getLabelFor('RolesEquipier', value );
 };
 
@@ -432,8 +485,9 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
   var messageList       = [];
   var typeDispositif    = Ext.get('DispositifType').dom.value;
   
+  //Clean old validation
   Ext.get('DispositifIdentification').dom.style.backgroundColor='#FFFFFF';
-  
+  this.emptyDispositifCheckGrid();
   
   if(typeDispositif == 0)
   {
@@ -455,6 +509,28 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
     messageList.push(['Veuillez définir la délégation responsable du dispositif',1]);
     hasErrorOrWarning=true;
   }
+  
+  if(
+      Ext.get('DispositifDefibrilateurTypeDSA').dom.checked == false &&
+      Ext.get('DispositifDefibrilateurTypeDEA').dom.checked == false ||
+  
+      Ext.get('DispositifDefibrilateurCompletOui').dom.checked == false
+    )
+  {
+    messageList.push(['Votre dispositif n\'a pas de DSA ou DEA Complet, <br/>veuiller faire corriger la situation au dispositif avant de passer le dispositif comme "Disponible"',2]);
+    hasErrorOrWarning=true;  
+  }
+  
+  
+  
+  if(Ext.get('dispositifCurrentAddressRue').dom.value =='')
+  {
+    messageList.push(['Veuillez définir la position actuelle du dispositif (pour l\'affichage sur la carte)',2]);
+    hasErrorOrWarning=true;
+  }
+  
+
+  
   
   var typeDispositifInfo = CrfIrpUtils.prototype.typeDispositif[typeDispositif];
 
@@ -533,6 +609,8 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
     Ext.getCmp('DispositifCheckGrid').getStore().loadData(messageList); 
     this.dispositifCheckWindow.show();
   }
+  else
+    this.doEndOfEditionEvent();
 };
 
 MonitorInputDispositifCs.prototype.doEndOfEditionEvent=function()
@@ -555,8 +633,6 @@ MonitorInputDispositifCs.prototype.doEndOfEditionEvent=function()
 MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 {
   miDispositifCs.resetDispositifForm();
-  
-  $('DispositifEquipierRoleToChoose').equipierRankToChoose=1;
   
   Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
   Ext.get   ('DispositifEdit'         		 ).slideOut	 ();
@@ -584,15 +660,18 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   Ext.getCmp('DispositifEquipierListGrid' ).getStore().removeAll();
   Ext.getCmp('dispositifRoleList'         ).getStore().removeAll();
   Ext.getCmp('DispositifEquipierSearch'   ).setValue('');
-  
-  var dispositifCheckGrid = Ext.getCmp('DispositifCheckGrid');
-  if(dispositifCheckGrid!=null)
-    dispositifCheckGrid.removeAll();
+  this.emptyDispositifCheckGrid();
   
   dwr.util.setValue('DispositifStatus',-1);
 };
 
+MonitorInputDispositifCs.prototype.emptyDispositifCheckGrid=function()
+{
+  var dispositifCheckGrid = Ext.getCmp('DispositifCheckGrid');
+  if(dispositifCheckGrid!=null)
+    dispositifCheckGrid.removeAll();
 
+}
 
 MonitorInputDispositifCs.prototype.fieldList = [ 
     'dispositif_id_field',
@@ -661,7 +740,8 @@ MonitorInputDispositifCs.prototype.addEquipierConfirm=function(record)
     if(btn == 'yes')
     {
       miDispositifCs.addEquipier(this);//this == record
-      Ext.getCmp('DispositifEquipierSearch'   ).setValue('');
+      Ext.getCmp('DispositifEquipierSearch').setValue('');
+      Ext.getCmp('DispositifEquipierSearch').getStore().reload();//Si on refait une recherche avec le meme critere, Ext ne rappel pas le serveur alors que l'équipier n'est plus séléctionnable (puisque ajouté)
     }
   },
   record
@@ -676,23 +756,10 @@ MonitorInputDispositifCs.prototype.addEquipier=function(record)
   MonitorInputDispositif.addEquipierToDispositif( $('dispositif_id_field'           ).value, 
                                                   idRole, 
                                                   record.data.idEquipier,
-                                                  miDispositifCs.addEquipierReturn
+                                                  miDispositifCs.updateListEquipierReturn
                                                 );
 
 };
-
-MonitorInputDispositifCs.prototype.addEquipierReturn=function(equipierList)
-{
-  var data = {
-    totalCount:equipierList.length,
-    data :equipierList
-  };
-
-  Ext.getCmp('DispositifEquipierListGrid').getStore().loadData(data);
-};
-
-
-
 
 
 MonitorInputDispositifCs.prototype.initDispositif=function()
@@ -938,10 +1005,9 @@ MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
 
 
 
-MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listEquipier)
+MonitorInputDispositifCs.prototype.updateListEquipierReturn=function(listRangeOfEquipier)
 {
- 
-  
+  Ext.getCmp('DispositifEquipierListGrid').getStore().loadData(listRangeOfEquipier);
 }
 
 
@@ -977,21 +1043,22 @@ MonitorInputDispositifCs.prototype.updateVolumeAndAutonomie=function()
 };
 
 //removeEquipierFromDispositif(int idDispositif, int equipierRank, int equipierId) 
-MonitorInputDispositifCs.prototype.removeEquipierFromDispositif=function(equipierId, equipierRank, numNivol, nom, prenom)
+MonitorInputDispositifCs.prototype.removeEquipierFromDispositif=function(button, event)
 {
+  var sm     = Ext.getCmp('DispositifEquipierListGrid').getSelectionModel();
+  var record = sm.getSelected();
 
+  var idEquipier = record.data.idEquipier , 
+      numNivol   = record.data.nivol      , 
+      nom        = record.data.nom        , 
+      prenom     = record.data.prenom     ;
+      
   if(crfIrpUtils.pleaseConfirm('Confirmez vous la suppression de '+nom+' '+prenom+' ('+numNivol+') ?'))
   {
     MonitorInputDispositif.removeEquipierFromDispositif( $('dispositif_id_field').value,
-                                                         equipierRank                  ,
-                                                         equipierId                    ,
+                                                         idEquipier                    ,
                                                          miDispositifCs.updateListEquipierReturn
                                                        );
-                                                       
-    $('DispositifEquipierAddIHM'      ).style.display="block";
-    $('DispositifEquipierAddIHM'      ).style.width  = "100%";
-    $('DispositifEquipierAddIHMHeader').style.width  = "100%";
-    $('DispositifEquipierAddIHMInput' ).style.width  = "100%";
   }
 };
 

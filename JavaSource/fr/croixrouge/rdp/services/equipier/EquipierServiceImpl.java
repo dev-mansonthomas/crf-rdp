@@ -1,41 +1,60 @@
 package fr.croixrouge.rdp.services.equipier;
 
 import java.sql.Types;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
+import fr.croixrouge.rdp.model.monitor.EquipierRole;
+import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
+import fr.croixrouge.rdp.model.monitor.rowMapper.EquipierRolesRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.EquipierRowMapper;
+import fr.croixrouge.rdp.services.JDBCHelper;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 
-public class EquipierServiceImpl implements EquipierService 
+public class EquipierServiceImpl extends JDBCHelper implements EquipierService 
 {
   private JdbcTemplate      jdbcTemplate;
   private static Logger     logger = Logger.getLogger(EquipierServiceImpl.class);
-  private Hashtable<String, String> sortMap = new Hashtable<String, String>();
+  private HashMap<String, String> sortMapForGetEquipierList  = new HashMap<String, String>();
+  private HashMap<String, String> whereMapForGetEquipierList = new HashMap<String, String>();
   
   public EquipierServiceImpl(JdbcTemplate jdbcTemplate, DispositifService dispositifService)
   {
     this.jdbcTemplate      = jdbcTemplate;
     
-    sortMap.put("nom"                       , "nom");
-    sortMap.put("prenom"                    , "prenom");
-    sortMap.put("homme"                     , "equipier_is_male");
-    sortMap.put("delegation.idDelegation"   , "nom_delegation");
-    sortMap.put("numNivol"                  , "num_nivol");
+    sortMapForGetEquipierList.put("nom"                       , "nom"             );
+    sortMapForGetEquipierList.put("prenom"                    , "prenom"          );
+    sortMapForGetEquipierList.put("homme"                     , "equipier_is_male");
+    sortMapForGetEquipierList.put("delegation.idDelegation"   , "nom_delegation"  );
+    sortMapForGetEquipierList.put("numNivol"                  , "num_nivol"       );
+    
+    whereMapForGetEquipierList.put("NOM"              , "E.NOM"              );
+    whereMapForGetEquipierList.put("PRENOM"           , "E.PRENOM"           );
+    whereMapForGetEquipierList.put("NUM_NIVOL"        , "E.NUM_NIVOL"        );
+    whereMapForGetEquipierList.put("EQUIPIER_IS_MALE" , "E.EQUIPIER_IS_MALE" );
+    whereMapForGetEquipierList.put("ID_ROLE_EQUIPIER" , "ER.ID_ROLE_EQUIPIER"); 
+    whereMapForGetEquipierList.put("EMAIL"            , "E.EMAIL"            );
+    whereMapForGetEquipierList.put("MOBILE"           , "E.MOBILE"           );
+    whereMapForGetEquipierList.put("ENABLED"          , "E.ENABLED"          );
+    whereMapForGetEquipierList.put("ID_DELEGATION"    , "E.ID_DELEGATION"    );
     
 
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
   
-  
+  private int getLastInsertedId()
+  {
+    return this.getLastInsertedId(jdbcTemplate, "equipier");
+  }  
   
   private final static String equipierSelect =     
   "SELECT e.id_equipier         ,                  \n"+
@@ -118,7 +137,7 @@ public class EquipierServiceImpl implements EquipierService
   
   
   private final static String queryForGetNbEquipiers = 
-	  "SELECT count(1) FROM equipier e, delegation d WHERE e.id_delegation = d.id_delegation"; 
+	  "SELECT count(1) FROM equipier e, delegation d WHERE e.id_delegation = d.id_delegation \n"; 
 	  
   public int getNbEquipiers(GridSearchFilterAndSortObject gsfaso)
   {
@@ -130,35 +149,135 @@ public class EquipierServiceImpl implements EquipierService
 	  "WHERE  e.id_delegation      = d.id_delegation   \n"; 
 	  
   @SuppressWarnings("unchecked")  
-  public List<Equipier> getEquipiers(GridSearchFilterAndSortObject gsfaso)
+  public ListRange<Equipier> getEquipiers(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-	String queryForGetEquipiersCustom = queryForGetEquipiers;
-	String orders = "ORDER BY ";
-	
-	if (gsfaso.getSorts()!= null && gsfaso.getSorts().length>0){
-		for (int i = 0; i < gsfaso.getSorts().length; i++) {
-			SortObject so = gsfaso.getSorts()[i];
-			orders += sortMap.get(so.getName()) + (so.isAscending()?" ASC":" DESC");
-			if(i<gsfaso.getSorts().length-1){
-				orders += ", ";
-			}
-		}
-	}
-	
-	queryForGetEquipiersCustom += orders + "\n";
-	queryForGetEquipiersCustom += "LIMIT "+gsfaso.getStart()+", "+gsfaso.getLimit()+" \n";
-	
-	System.out.println("queryForGetEquipiersCustom="+queryForGetEquipiersCustom);
-	
+    StringBuffer whereClause   = new StringBuffer();
+
+    String orderBy = "ORDER BY ";
+  
+    SortObject[] sortObjects = gsfaso.getSorts();
+    
+    if(sortObjects!= null && sortObjects.length>0 && sortObjects[0] != null)
+    {
+      SortObject so = sortObjects[0];
+      String orderByField = sortMapForGetEquipierList.get(so.getName());
+      
+      if(orderByField == null)
+        throw new Exception("Invalid sort column '"+so.getName()+"'");
+      
+      orderBy+=orderByField;
+      orderBy+=" "+(so.isAscending()?" ASC":" DESC");
+    }
+
     Object [] os    = {};
     int    [] types = {};
+  
+
+    FilterObject[] filters = gsfaso.getFilters();
+    
+    if(filters!= null && filters.length>0)
+    {  
+      os    = new Object[filters.length];
+      types = new int   [filters.length];
+      
+      for (int i = 0; i < filters.length; i++)
+      {
+        FilterObject currentFilter = filters[i];
+        whereClause.append( "AND ");
+        if("=".equals(currentFilter.getComparator()))
+        {
+          
+          if ("ID_ROLE_EQUIPIER".equals(currentFilter.getName()))
+          {
+            whereClause.append("EXISTS (SELECT ER.ID_EQUIPIER FROM EQUIPIER_ROLES ER WHERE ER.ID_EQUIPIER = E.ID_EQUIPIER AND ER.ID_ROLE_EQUIPIER = ?)\n");
+          }
+          else
+          {
+            String filterFieldName = whereMapForGetEquipierList.get(currentFilter.getName());
+            if(filterFieldName == null)
+              throw new Exception("Invalid filter field '"+currentFilter.getName()+"");
+            
+            whereClause.append( filterFieldName);
+            whereClause.append( " = ? \n");
+          }
+          os   [i] = new Integer(currentFilter.getValue());
+          types[i] = Types.INTEGER;
+        }
+        else if ("LIKE".equals(currentFilter.getComparator()))
+        {
+          String filterFieldName = whereMapForGetEquipierList.get(currentFilter.getName());
+          if(filterFieldName == null)
+            throw new Exception("Invalid filter field '"+currentFilter.getName()+"");
+          
+          whereClause.append( filterFieldName);
+          
+          whereClause.append( " LIKE ? \n");
+  
+          String filterValue = currentFilter.getValue();
+          if(filterValue.indexOf("*")>-1)
+            filterValue = filterValue.replaceAll("*", "%");
+          else
+            filterValue += "%";
+          
+          os   [i] = filterValue;
+          types[i] = Types.VARCHAR;
+        }
+      }
+    }
+    
+    String queryCount = queryForGetNbEquipiers + whereClause;
+    String query      = queryForGetEquipiers   + whereClause + orderBy + "\nLIMIT "+gsfaso.getStart()+", "+gsfaso.getLimit()+" \n";
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("queryCount :\n"+queryCount+"\n\nquery :\n"+query);
+    }
+    
+    int nbEquipiers = jdbcTemplate.queryForInt( queryCount, 
+                                                os        , 
+                                                types     );
+    
+    
+
    
-    List<Equipier> equipierList = jdbcTemplate.query( queryForGetEquipiersCustom , 
+    List<Equipier> equipierList = jdbcTemplate.query( query , 
                                                       os    , 
                                                       types , 
-                                                      new EquipierRowMapper());
-    return equipierList;
+                                                      new EquipierRowMapper(false,true));
+
+    
+    return  new ListRange<Equipier>(nbEquipiers, equipierList);
   }
+  
+  private final static String queryForGetRoles = 
+  "SELECT er.id_equipier     ,           \n"+
+  "       er.id_role_equipier,           \n"+
+  "       er.en_evaluation   ,           \n"+
+  "       e.label_role                   \n"+
+  "FROM   equipier_roles er  ,           \n"+
+  "       equipier_role  e               \n"+
+  "WHERE  er.id_role_equipier = e.id_role\n"+
+  "AND    er.id_equipier      = ?        \n";
+  
+  @SuppressWarnings("unchecked")
+  public List<EquipierRole> getEquipierRoles(int idEquipier)
+  {
+    Object [] os    = {idEquipier};
+    int    [] types = {Types.INTEGER};
+    
+    List<EquipierRole> roleList = jdbcTemplate.query( queryForGetRoles , 
+        os    , 
+        types , 
+        new EquipierRolesRowMapper());
+    
+    if (roleList==null)
+      roleList = new ArrayList<EquipierRole>();
+    
+    return roleList;
+  }
+  
+  
+  
   
   private final static String queryForSearchEquipierWhere =
     "WHERE  e.id_dispositif     = 0                 \n"+
@@ -293,4 +412,107 @@ public class EquipierServiceImpl implements EquipierService
       logger.debug("setDispositifToEquipier line updated = "+nbLineUpdated);
 
   }
+  
+    
+
+  
+  private final static String queryForEnableDisableEquipier =
+    "UPDATE equipier         \n" +
+    "SET    enabled     = ?  \n" +
+    "WHERE  id_equipier = ?  \n";
+  
+  public void                 setEnableDisableEquipier(int idEquipier   , boolean enable) throws Exception
+  {
+
+    Object [] os     = new Object[]{enable        , idEquipier   };
+    int    [] types  = new int   []{Types.BOOLEAN , Types.INTEGER};
+    
+    int nbLineUpdated = jdbcTemplate.update(queryForEnableDisableEquipier, os, types);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("setEnableDisableEquipier line updated = "+nbLineUpdated);
+
+  }
+  
+  private final static String queryForCreateEquipier =
+    "INSERT INTO equipier         \n" +
+    "(nom, prenom, num_nivol, equipier_is_male, email, mobile, enabled, id_delegation)  \n" +
+    "VALUES (?,?,?,?,?,?,?,?)  \n";
+  
+  public int                 createEquipier            (Equipier equipier) throws Exception
+  {
+
+    Object [] os    = new Object[]{ 
+        equipier.getNom(), 
+        equipier.getPrenom(), 
+        equipier.getNumNivol(), 
+        equipier.isHomme()?new Integer(1):new Integer(0), 
+        equipier.getEmail(), 
+        equipier.getMobile(), 
+        equipier.isEnabled()?new Integer(1):new Integer(0), 
+        equipier.getDelegation().getIdDelegation()
+        };
+    int    [] types = new int   []{ 
+        Types.VARCHAR                 , 
+        Types.VARCHAR                 , 
+        Types.VARCHAR                 , 
+        Types.INTEGER                 , 
+        Types.VARCHAR                 , 
+        Types.VARCHAR                 , 
+        Types.INTEGER                 , 
+        Types.VARCHAR
+        };
+    
+    jdbcTemplate.update(queryForCreateEquipier, os, types);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Equiper inserted with id="+equipier.getIdEquipier());
+ 
+    return this.getLastInsertedId();
+  }
+  
+  private final static String queryForModifyEquipier =
+    "UPDATE equipier         \n" +
+    "SET    nom               = ?, \n" +
+    "       prenom            = ?, \n" +
+    "       num_nivol         = ?, \n" +
+    "       equipier_is_male  = ?, \n" +
+    "       email             = ?, \n" +
+    "       mobile            = ?, \n" +
+    "       enabled           = ?, \n" +
+    "       id_delegation     = ?  \n" +
+    "WHERE  id_equipier       = ?  \n";
+  
+  public void                 modifyEquipier            (Equipier equipier) throws Exception
+  {
+
+    Object [] os    = new Object[]{ 
+        equipier.getNom(), 
+        equipier.getPrenom(), 
+        equipier.getNumNivol(), 
+        equipier.isHomme()?new Integer(1):new Integer(0), 
+        equipier.getEmail(), 
+        equipier.getMobile(), 
+        equipier.isEnabled()?new Integer(1):new Integer(0), 
+        equipier.getDelegation().getIdDelegation(), 
+        equipier.getIdEquipier()
+        };
+    int    [] types = new int   []{ 
+        Types.VARCHAR                 , 
+        Types.VARCHAR                 , 
+        Types.VARCHAR                 , 
+        Types.INTEGER                 , 
+        Types.VARCHAR                 , 
+        Types.VARCHAR                 , 
+        Types.INTEGER                 , 
+        Types.VARCHAR                 , 
+        Types.INTEGER
+        };
+    
+    jdbcTemplate.update(queryForModifyEquipier, os, types);
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Equiper updated with id="+equipier.getIdEquipier());
+  }
+  
 }

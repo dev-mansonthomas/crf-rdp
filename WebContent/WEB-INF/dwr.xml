@@ -26,6 +26,12 @@
         <param name="beanName" value="creditsAndChangeLogDwrService"/>
     </create>
 
+    <create
+         creator="spring"
+           scope="application"
+      javascript="EquipiersGestionService">
+        <param name="beanName" value="equipiersGestion"/>
+    </create>
     
     <!--  Output -->    
     <create

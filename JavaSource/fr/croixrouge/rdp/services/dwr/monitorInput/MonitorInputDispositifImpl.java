@@ -184,7 +184,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     this.validateSession();
     
     this.dispositifService.affectEquipierToDispositif  (idDispositif, idEquipier  , idRoleEquipier);
-    this.equipierService  .setDispositifToEquipier     (idEquipier  , idDispositif                );
+    this.equipierService  .setDispositifToEquipier(idEquipier  , idDispositif                );
     
     List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
     

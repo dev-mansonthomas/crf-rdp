@@ -71,9 +71,9 @@ public class ListServiceImpl implements ListService, InitializingBean
   
   
   private final static String queryForGetRolesEquipier =
-    "SELECT id_role, label_role \n" +
-    "FROM   equipier_role       \n" +
-    "ORDER BY id_role ASC       \n";
+    "SELECT id_role, label_role, evaluable \n" +
+    "FROM   equipier_role                  \n" +
+    "ORDER BY id_role ASC                  \n";
   @SuppressWarnings("unchecked")
   public List<EquipierRole> getRolesEquipier()
   {

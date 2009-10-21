@@ -777,8 +777,34 @@ Ext.ux.GMapAddressResolver = function()
               {
                 if(response.Placemark.length > 1)
                 {
-                  alert('Warning more than one couple of coordinates recieved for adress \''+address+'\'');
-                  return;
+                  var chooseAddressWindow = Ext.getCmp('ChooseAddressWindow');
+                  
+                  if(chooseAddressWindow ==null)
+                  {
+                   
+                    chooseAddressWindow = new Ext.Window({
+                        id         : 'ChooseAddressWindow',
+                        layout     : 'fit',
+                        width      : 600,
+                        height     : 450,
+                        closeAction: 'hide',
+                        plain      : true,
+                        html       : 'Coucou'
+                    });
+                    
+                    
+                  }//fin if chooseAddressWindow == null
+                  
+                  chooseAddressWindow.googleResponse  = response.Placemark;
+                  chooseAddressWindow.callBackFunction=callBackFunction;
+
+                  chooseAddressWindow.body.replaceWith('Coucou 2');
+                  
+                  
+                    
+                  
+                  chooseAddressWindow.show();
+                  
                 }
                 callBackFunction(response.Placemark[0]);
               }

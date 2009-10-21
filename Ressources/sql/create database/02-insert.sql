@@ -86,20 +86,20 @@ values
 update dispositif_type set id_type = 0 where id_type = 5;
 ALTER TABLE dispositif_type AUTO_INCREMENT = 5;
 
-insert into equipier_role (label_role)
+insert into equipier_role (label_role, evaluable)
 values                     /*RDP - SIORD */
-('Chef de Dispositif'   ), /*01  - 61*/
-('Chef de Poste'        ), /*02  - 62*/
-('Chef de Section'      ), /*03  - 60*/
-('CI'                   ), /*04  - 2 */
-('CI Réseau (Alpha)'    ), /*05  - 45*/
-('CI CS     (BSPP)'     ), /*06  - 54*/
-('Chauffeur ASM'        ), /*07  - 4 */
-('Chauffeur VL'         ), /*08  - 5 */
-('PSE2'                 ), /*09  - 3 */
-('PSE1'                 ), /*10  - 53*/
-('PSC1'                 ), /*11  - 33*/
-('N/A'                  ); /*00  - */
+('Chef de Dispositif'   ,false), /*01  - 61*/
+('Chef de Poste'        ,false), /*02  - 62*/
+('Chef de Section'      ,false), /*03  - 60*/
+('CI'                   ,false), /*04  - 2 */
+('CI Réseau (Alpha)'    ,true ), /*05  - 45*/
+('CI CS     (BSPP)'     ,true ), /*06  - 54*/
+('Chauffeur ASM'        ,true ), /*07  - 4 */
+('Chauffeur VL'         ,false), /*08  - 5 */
+('PSE2'                 ,false), /*09  - 3 */
+('PSE1'                 ,false), /*10  - 53*/
+('PSC1'                 ,false), /*11  - 33*/
+('N/A'                  ,false); /*00  - */
 
 update equipier_role set id_role = 0 where id_role = 12;
 ALTER TABLE equipier_role AUTO_INCREMENT = 12;
@@ -220,6 +220,7 @@ ALTER TABLE `intervention_etat` AUTO_INCREMENT = 11;
 
 insert into credits (`presentation_order`, `name`, `version`, `url`, `description`)
 values
+(0 , 'Thomas Manson'     , '1.0 (beta version ;)', 'http://blog.mansonthomas.com'                    , ''),
 (1 , 'DWR'               , '3.0 RC1(build113)'   , 'http://www.directwebremoting.org'                , 'a Java integrated Ajax Framework that allow you to call java methods from javascript'),
 (18, 'Jakarta Commons'   , '*'                   , 'http://commons.apache.org'                       , 'Very usefull Java libraries'),
 (6 , 'JAWR'              , '2.5.1'               , 'http://jawr.dev.java.net'                        , 'Performance Librairy that do the following to your css & js files : minify, put in one file, gzip, set far expiry date, i18n handling, load js & css from jar'),
@@ -266,7 +267,12 @@ values
 (4,'IRP-75', 'Bouton pour cloner une intervention'),
 (4,'IRP-73', 'Reprise des données du SIORD'),
 (4,'IRP-59', 'Affichage de l\'environnement sur lequel tourne l\'application '),
-(4,'IRP-27', 'Gestion de N victimes par dispositif');
+(4,'IRP-27', 'Gestion de N victimes par dispositif'),
+(4,'IRP-79', 'Déclaration CNIL'),
+(4,'IRP-83', 'Changement d\'implémentation de la gestion des roles des équipiers'),
+(4,'IRP-82', 'Changment d\'implémentation de l\'affectation des équipiers'),
+(4,'IRP-59', 'Affichage de l\'environnement (dev, recette, production)'),
+(4,'IRP-49', 'Interface d\'éditions des bénévoles');
   
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values

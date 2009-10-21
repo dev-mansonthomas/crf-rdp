@@ -41,6 +41,8 @@ public class EquipierRowMapper extends RowMapperHelper implements RowMapper
     
     if(this.fetchDelegation)
       equipier.setDelegation      ((Delegation  )(new DelegationRowMapper("_delegation")).mapRow(rs, rowNum));
+    else
+      equipier.setDelegation      (new Delegation());
     
     equipier.setAutreDelegation (rs.getString ("autre_delegation"));
     

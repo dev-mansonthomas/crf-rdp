@@ -34,10 +34,55 @@
 	left:0px;
 	width:100%;
 }
+.x-grid3-col-indicatifVehiculeDCol
+{
+  font-size:30px;
+}
+.alphaRow, .bsppRow
+{
+  margin-bottom:3px;
+}
 
-#clock{
-	font: 25px Georgia, "Times New Roman" Georgia Times serif;
-	color:black;
+.alphaRow
+{
+  background-color:#F1F2FE;
+}
+
+.alphaRow .x-grid3-col-indicatifVehiculeDCol
+{
+  color:#060A7D ;
+}
+
+.bsppRow
+{
+  background-color:#FFECEC;
+
+}
+.bsppRow .x-grid3-col-indicatifVehiculeDCol
+{
+  color:#620000 ;
+}
+
+
+#clock
+{
+  border: 1px solid #D3D3D3;
+  background-color: #FFF;
+  margin:3px 3px 3px 8px;
+  padding:1px 4px 1px 4px;
+  height:40px;
+}
+#clockDate{
+  font-family: Georgia, "Times New Roman" Georgia Times serif;
+  font-size: 25px;
+  color:#DF0029;
+}
+
+#clockTime{
+	font-family: Georgia, "Times New Roman" Georgia Times serif;
+	font-size: 35px;
+	color:#DF0029;
+	margin-left:10px;
 }
 .crfIcon
 {

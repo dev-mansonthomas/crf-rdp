@@ -41,6 +41,13 @@ MonitorOutputDispositifCs.prototype.boutonActionLabel[6 ]="Transport H."      ; 
 MonitorOutputDispositifCs.prototype.boutonActionLabel[7 ]="Arrivé H."         ; //transport
 MonitorOutputDispositifCs.prototype.boutonActionLabel[8 ]="Inter. Terminée"   ; //Arrivé hopital
 
+MonitorOutputDispositifCs.prototype.dispositifRowCss=[];
+MonitorOutputDispositifCs.prototype.dispositifRowCss[1]='alphaRow';
+MonitorOutputDispositifCs.prototype.dispositifRowCss[2]='bsppRow';
+MonitorOutputDispositifCs.prototype.dispositifRowCss[3]='paRow';
+MonitorOutputDispositifCs.prototype.dispositifRowCss[4]='psRow';
+
+
 /**
  * Initialisation des composants lié aux dispositifs
  * */
@@ -695,7 +702,7 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
                
         var category = 'lieu_cat_'+8;
         var dhSaisie = crfIrpUtils.getFullDate(intervention.dhSaisie);
-        var title    = 'Né'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
+        var title    = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
         var html     = title +'<br/>'+
                        intervention.position.rue          +', '+
                        intervention.position.codePostal   +", "+
@@ -1190,7 +1197,7 @@ detailIntervention,
   
   moDispositifCs.displayDispositifOnMap(record.json);
   
-  return 'x-grid3-row-expanded';
+  return 'x-grid3-row-expanded '+MonitorOutputDispositifCs.prototype.dispositifRowCss[record.data.idTypeDispositif];
 };
 
 /**

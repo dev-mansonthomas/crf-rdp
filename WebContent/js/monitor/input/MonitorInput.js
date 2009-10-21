@@ -45,14 +45,40 @@ function initLayout()
   Ext.apply(Ext.QuickTips.getQuickTip(), { trackMouse: true});
   
 /****************INTERVENTION*TICKET*************************/
+
+    var interventionEditorToolbar = new Ext.Toolbar({ id     : 'InterventionPanelTopToolbar', 
+                            hidden : true,
+                            items  :[{
+                                text   : 'Terminer',
+                                handler: function()
+                                {
+                                  miInterventionCs.endOfEditionEvent(); 
+                                },
+                                iconCls: 'validateButton',
+                                xtype  : 'tbbutton'
+                              },
+                              {
+                                 text   : 'Supprimer',
+                                 handler: function()
+                                 {
+                                  miInterventionCs.deleteInterventionTicket(false);
+                                 },
+                                 iconCls: 'deleteButton'
+                              }]//fin tableau d'item
+                            });
+  
+  
+  
   
   var interventionEditor={
-    region        : 'center',
-    split         : true,
-    contentEl     : 'InterventionPanel',
-    title         : 'Editeur d\'Intervention',
-    deferredRender: false,
-    xtype         : 'panel'
+    region        : 'center'                  ,
+    split         : true                      ,
+    contentEl     : 'InterventionPanel'       ,
+    title         : 'Editeur d\'Intervention' ,
+    deferredRender: false                     ,
+    autoScroll    : true                      ,
+    xtype         : 'panel'                   ,
+    tbar          : interventionEditorToolbar
     
   };
   var interventionList={
@@ -185,16 +211,16 @@ function initLayout()
         
     
 /****************DISPOSITIF*EDITOR*************************/
-  var dispositifEditorToolbar = new Ext.Toolbar({	id     : 'DispositifPanelBottomToolbar', 
+  var dispositifEditorToolbar = new Ext.Toolbar({	id     : 'DispositifPanelTopToolbar', 
 	  												hidden : true,
 	  												items  :[{
-	  													text   : 'Terminer',
-	  													handler: function()
-	  													{
-	  														miDispositifCs.endOfEditionEvent();
-	  													},
-	  													iconCls: 'validateButton',
-	  													xtype  : 'tbbutton'
+  	  													text   : 'Terminer',
+  	  													handler: function()
+  	  													{
+  	  														miDispositifCs.endOfEditionEvent();
+  	  													},
+  	  													iconCls: 'validateButton',
+  	  													xtype  : 'tbbutton'
 	  											    },
 	  											    {
 	  											       text   : 'Supprimer',

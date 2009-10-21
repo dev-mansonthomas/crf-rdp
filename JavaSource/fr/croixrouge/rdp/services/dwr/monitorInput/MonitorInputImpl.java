@@ -1,5 +1,6 @@
 package fr.croixrouge.rdp.services.dwr.monitorInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,6 +11,9 @@ import org.apache.commons.logging.LogFactory;
 import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.User;
+import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
+import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
+import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.regulation.RegulationService;
 
@@ -67,11 +71,20 @@ public class MonitorInputImpl extends DWRUtils
     return regulation.getCoRegulateurs();
   }
   
-  public List<Delegation> getDelegationByZipCode(String zip) throws Exception
+  public ListRange<Delegation> searchDelegation(GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
   {
-    if(zip.length()<3)
-      return null;
     this.validateSession();
-    return this.regulationService.getDelegationsByZipCode(zip);
+    
+    FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("search");
+    
+    if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
+      return new ListRange<Delegation>(0, new ArrayList<Delegation>());
+ 
+    String search = filterObject.getValue();
+    
+    
+    return this.regulationService.searchDelegation(search, 
+                                                   gridSearchFilterAndSortObject.getStart(),
+                                                   gridSearchFilterAndSortObject.getLimit());
   }
 }

@@ -22,7 +22,10 @@
 
 <!-- north -->
 <div id="north" class="x-layout-inactive-content">
-  <div id="clock" style="float:left">${currentDate}</div>
+  <div id="clock" style="float:left">
+    <span id="clockDate">${currentDate}</span>
+    <span id="clockTime">${currentTime}</span>
+  </div>
   <div style="float:right;margin-right:5px"><img src="../../img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
 </div>
 <jsp:include page="../versionAndChangelog.jsp"/>
@@ -235,7 +238,7 @@ Age Approximatif :
 
 <!-- Include JS -->
   <!-- google map -->
-  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${googleMapsKey}" type="text/javascript"> </script>
+  <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapsKey}" type="text/javascript"> </script>
 
   <jwr:script src="/jsBundle/extJs.js"/>
   <script type="text/javascript">

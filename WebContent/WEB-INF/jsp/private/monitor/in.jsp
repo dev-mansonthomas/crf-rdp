@@ -1996,8 +1996,7 @@ Ville
               <td>Indicatif :<br/> <input type="text" id="DispositifIndicatif"  name="DispositifIndicatif"  value="" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifStringField(this.id, 'indicatif_vehicule')"/></td>
               <td>
                 Delegation :<br/>
-                <input type="text"    id="DispositifDelegation"           name="DispositifDelegation" onFocus="crfIrpUtils.fieldEdit(this.id)" />
-                <div id="DispositifDelegation_SelectList" class="auto_complete"></div>
+                <input type="text"    id="DispositifDelegation"           name="DispositifDelegation" />
                 <input type="hidden"  id="DispositifDelegation_id"        name="DispositifDelegation_id"/>
                 <input type="hidden"  id="DispositifDelegation_autreNom"  name="DispositifDelegation_autreNom"/>
               </td>

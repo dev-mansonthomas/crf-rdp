@@ -179,6 +179,13 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
         newList[tmpList[i].id]={id:tmpList[i].id, label:'['+(tmpList[i].nombreEquipierMax==0?'∞':tmpList[i].nombreEquipierMax)+'] - '+tmpList[i].label};
       }
     }
+    else  if(listList[z]=='RolesEquipier')
+    {
+      for(var i=0, countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
+      {
+        newList[tmpList[i].id]={id:tmpList[i].id, label:tmpList[i].label, evaluable:tmpList[i].evaluable};
+      }
+    }
     else
     {
       for(var i=0, countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
@@ -420,6 +427,16 @@ CrfIrpUtils.prototype.getTime=function(dateObject)
 
   return this.padLeft(dateObject.getHours   (), 2, '0')+':'+
          this.padLeft(dateObject.getMinutes (), 2, '0');
+};
+
+CrfIrpUtils.prototype.getTimeWithSeconds=function(dateObject)
+{
+  if(dateObject == null)
+    return '';
+  
+  return this.padLeft(dateObject.getHours   (), 2, '0')+':'+
+         this.padLeft(dateObject.getMinutes (), 2, '0')+':'+
+         this.padLeft(dateObject.getSeconds (), 2, '0');
 };
 
 /*Rang :

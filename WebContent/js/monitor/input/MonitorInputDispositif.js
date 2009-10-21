@@ -5,17 +5,7 @@ var MonitorInputDispositifCs = Class.create();
 MonitorInputDispositifCs.prototype.initialize=function()
 {
   this.getDispositifTypeDefinition ();
-  /*Selection de la délégation*/  
-  new Autocompleter.DWR( 'DispositifDelegation', 
-                         'DispositifDelegation_SelectList', 
-                         this.updateListDelegation, 
-                         {
-                           afterUpdateElement: this.delegationSelected, 
-                           valueSelector     : this.delegationValueSelector,
-                           displayItemsThatDontMatchInput:true
-                         }
-                       );
-
+  
   crfIrpUtils.setupCalendar("DispositifDHDebut", function(event){
       miDispositifCs.updateDispositifDateField(event.id, 'DH_debut');
    });
@@ -128,7 +118,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   grid1.getStore().load({params: {start:0, limit:5}});
   
 
-  /*Combo box pour selectionner le type de role a ajouter*/
+  /*Combo box pour selectionner le type de role a ajouter   Ext.getCmp('dispositifRoleList').selectByValue(9);*/
   var roleToSearchComboBox =  new Ext.form.ComboBox({
                   id:'dispositifRoleList',
                   store: new Ext.data.ArrayStore({
@@ -148,6 +138,57 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
               })
 
   
+/* *************** recherche délégation ***********************/             
+              
+  var delegationSearchDataStore = new Ext.data.Store({
+      proxy: new Ext.ux.rs.data.DwrProxy({
+             call           : MonitorInput.searchDelegation,
+             args           : [],
+             proxyConfig    : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
+             filterCallBack : function()
+             {
+                var search = Ext.getCmp('DelegationSearch').getValue();
+                
+                return [new Ext.ux.rs.data.FilterObject('search',search,'=')]
+             }
+        }),
+        reader: new Ext.ux.rs.data.JsonReader({
+                 root: 'data',
+        totalProperty: 'totalCount'  ,
+                   id: 'idDelegation',
+               fields:
+                   [
+                       {name: 'idDelegation'              , type: 'int'     },
+                       {name: 'nom'                       , type: 'string'  },
+                       {name: 'departement'               , type: 'string'  }
+                       
+                   ]
+               })
+    });
+
+    var resultTplDelegation = new Ext.XTemplate(
+        '<tpl for="."><div class="search-item">',
+            '<h3><span>{nom}</span>{departement}</h3>',
+        '</div></tpl>'
+    ); 
+
+    var searchDelegationComboBox = new Ext.form.ComboBox({
+        id          : 'DelegationSearch', 
+        store       : delegationSearchDataStore,
+        displayField: 'nom',
+        loadingText : 'Recherche en cours...',
+        width       : 200,
+        listWidth   : 300,
+        pageSize    : 10,
+        minChars    : 1,
+        hideTrigger : true,
+        tpl         : resultTplDelegation,
+        itemSelector: 'div.search-item',
+        applyTo     : 'DispositifDelegation',
+        onSelect    : MonitorInputDispositifCs.prototype.selectDelegation
+    });            
+              
+              
  /* Combo Box de recherche d'équipier*/ 
   var equipierSearchDataStore = new Ext.data.Store({
       proxy: new Ext.ux.rs.data.DwrProxy({
@@ -634,7 +675,7 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 {
   miDispositifCs.resetDispositifForm();
   
-  Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
+  Ext.getCmp('DispositifPanelTopToolbar'   ).setVisible(false);
   Ext.get   ('DispositifEdit'         		 ).slideOut	 ();
   Ext.getCmp('DispositifListEastPanel'		 ).expand  	 ();
   Ext.getCmp('DispositifCheckWindow'       ).hide      ();
@@ -800,7 +841,7 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispo
   $('DispositifDHFin'  ).value=dispositif.dhFinStr;
   
   Ext.get('DispositifEdit').slideIn();
-  Ext.getCmp('DispositifPanelBottomToolbar').setVisible(true);
+  Ext.getCmp('DispositifPanelTopToolbar').setVisible(true);
 };
 
 MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
@@ -812,7 +853,6 @@ MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
 MonitorInputDispositifCs.prototype.editDispositifReturn=function(dispositif)
 {
   miDispositifCs.initDispositifForm(dispositif);
-  $('DispositifEquipierRoleToChoose').equipierRankToChoose=dispositif.equipierList.length+1;
   var centerRegion = Ext.getCmp('monitorInputCenterRegion');
   var currentPanel = centerRegion.getActiveTab();
 
@@ -826,7 +866,7 @@ MonitorInputDispositifCs.prototype.editDispositifReturn=function(dispositif)
   var dispositifForm = Ext.get('DispositifEdit');
   if(!dispositifForm.isVisible())
     dispositifForm.slideIn();
-  Ext.getCmp('DispositifPanelBottomToolbar').setVisible(true);
+  Ext.getCmp('DispositifPanelTopToolbar').setVisible(true);
 };
 
 
@@ -856,7 +896,7 @@ MonitorInputDispositifCs.prototype.deleteDispositif=function()
 
 MonitorInputDispositifCs.prototype.deleteDispositifReturn=function()
 {
-	Ext.getCmp('DispositifPanelBottomToolbar').setVisible(false);
+	Ext.getCmp('DispositifPanelTopToolbar').setVisible(false);
 	PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
 };
 
@@ -909,6 +949,7 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('dispositif_title_indicatif'    , dispositif.indicatifVehicule);
   dwr.util.setValue('DispositifIndicatif'           , dispositif.indicatifVehicule);
   dwr.util.setValue('DispositifType'                , dispositif.idTypeDispositif);
+  miDispositifCs.setRoles(dispositif.idTypeDispositif);
   dwr.util.setValue('DispositifDelegation'          , dispositif.idDelegation!=0?crfIrpUtils.getLabelFor('Delegations',dispositif.idDelegation):'N/A');
   dwr.util.setValue('DispositifDelegation_id'       , dispositif.idDelegation);
   dwr.util.setValue('DispositifDelegation_autreNom' , dispositif.autreDelegation);
@@ -976,12 +1017,17 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   
   this.updateVolumeAndAutonomie();
   if(dispositif.idTypeDispositif!=0)// si pas de type de dispositif, aucun équipier ne  peut etre saisie.
-    this.updateListEquipierReturn(dispositif.equipierList);
+  {
+    var listRangeOfEquipier={totalCount:dispositif.equipierList.length, data:dispositif.equipierList};
+    this.updateListEquipierReturn(listRangeOfEquipier);
+  }
+    
 };
 
 MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
 {
-  var store = Ext.getCmp('dispositifRoleList').getStore();
+  var roleListCombo = Ext.getCmp('dispositifRoleList');
+  var store         = roleListCombo.getStore();
   store.removeAll();
   var dispositifTypeDefinition = MonitorInputDispositifCs.prototype.dispositifTypeDefinition[idTypeDispositif];
   
@@ -1001,6 +1047,7 @@ MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
   
   
   store.loadData(arrayOfRole);
+  roleListCombo.select(1,true);
 };
 
 
@@ -1335,73 +1382,20 @@ MonitorInputDispositifCs.prototype.dispositifSetAutreDelegation=function()
   $($('DispositifAutreDelegationIdToUpdate').value).value='';
 };
 
-  /*****************************AUTOCOMPLETE*FUNCTIONS*********************************************************************/
-  //AutoComplete : update list functions, fired when the input of the autoComplete Field is changed
-MonitorInputDispositifCs.prototype.updateListEquipierNivol=function(autocompleter, token) 
-{
-  if(token.length>2 && $('DispositifEquipierToAddRole') != null)
-    MonitorInputDispositif.getEquipierByNivol( 
-                                     $('DispositifType').value,
-                                     $('DispositifEquipierToAddRole').value,
-                                      token, 
-                                      function(data)
-                                      {
-                                        autocompleter.setChoices(data)
-                                      }
-                                    );
-};
-  
-MonitorInputDispositifCs.prototype.updateListEquipierNom=function(autocompleter, token) 
-{
-  if(token.length>2 && $('DispositifEquipierToAddRole') != null)
-    MonitorInputDispositif.getEquipierByNom  ( 
-                                     $('DispositifType').value,
-                                     $('DispositifEquipierToAddRole').value,
-                                     token,
-                                     function(data)
-                                     {
-                                       autocompleter.setChoices(data)
-                                     }
-                                    );
-};
-  //Fonction pour l'autocomplete du choix de la délégation
-MonitorInputDispositifCs.prototype.updateListDelegation=function(autocompleter, token) 
-{
-  MonitorInput.getDelegationByZipCode  (  token, 
-                                          function(data)
-                                          {
-                                            autocompleter.setChoices(data)
-                                          }
-                                        );
-};
-  //End of autoComplete updateList functions  
-  
-  //AutoComplete : selection Function => these function are fired when users selects an item from an autocomplete list
-MonitorInputDispositifCs.prototype.equipierSelected=function(inputElement, selectedElement, selectedUserObject)
-{
-  MonitorInputDispositif.addEquipierToDispositif(	$('dispositif_id_field'           ).value, 
-                                                  $('DispositifEquipierRoleToChoose').equipierRankToChoose, 
-                                                  $('DispositifEquipierToAddRole'   ).value, 
-                                                  selectedUserObject.idEquipier,
-                                                  miDispositifCs.updateListEquipierReturn
-                                                );
-};
  
-MonitorInputDispositifCs.prototype.delegationSelected=function(inputElement, selectedElement, selectedDelegationObject)
+ 
+MonitorInputDispositifCs.prototype.selectDelegation=function(record)
 {
-  $('DispositifDelegation_id').value = selectedDelegationObject.idDelegation;
-  $('DispositifDelegation'   ).value = selectedDelegationObject.nom+' ('+ selectedDelegationObject.departement +')';
+  $('DispositifDelegation_id').value = record.data.idDelegation;
+  $('DispositifDelegation'   ).value = record.data.nom+' ('+ record.data.departement +')';
 
-  if(selectedDelegationObject.idDelegation==0)
+  if(record.data.idDelegation==0)
   {
     $('DispositifAutreDelegationIdToUpdate').value='DispositifDelegation';
     alert('Todo : saisie autre delegation');
   }
   else
-  {
-    crfIrpUtils.checkField ('DispositifDelegation');
-    crfIrpUtils.fieldSaving('DispositifDelegation');
-    
+  {   
     fieldValue = $('DispositifDelegation_id').value;
     if(fieldValue!='' && $('DispositifDelegation').value != $('DispositifDelegation').oldValue)
     {
@@ -1411,24 +1405,9 @@ MonitorInputDispositifCs.prototype.delegationSelected=function(inputElement, sel
                                                 fieldValue, 
                                                 function()
                                                 {
-                                                  crfIrpUtils.defaultBackgroundColorForField('DispositifDelegation');
                                                 });
     }
-    else
-      crfIrpUtils.defaultBackgroundColorForField('DispositifDelegation');
   }
 };
-  //End of AutoComplete selection function
-  
-  //AutoComplete valueSelector function : these function extract the string from one object for display.
-  //Objects comes from the updateList function returns...
-MonitorInputDispositifCs.prototype.equipierValueSelector=function(userObj)
-{
-  return userObj.numNivol+' - '+ userObj.prenom +' '+ userObj.nom +' ('+userObj.delegation.departement+')';
-};
-MonitorInputDispositifCs.prototype.delegationValueSelector=function(delegationObject)
-{
-  return delegationObject.departement +' - ' + delegationObject.nom;
-};
-  //End of AutoComplete valueSelector function :
+
 

@@ -25,12 +25,17 @@ public class MonitorOutController  extends AbstractController
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
   {
-    SimpleDateFormat    sdf   = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    SimpleDateFormat  sdf         = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat  sdf2        = new SimpleDateFormat("hh:mm:ss");
+    
+    Date              currentDate = new Date();
+    
     Map<String, Object> model = new HashMap<String, Object>();
     
     model.put("applicationVersion", this.propertyPlaceholderConfigurer.getPropertyValue("application.version"));
     model.put("googleMapsKey"     , this.propertyPlaceholderConfigurer.getPropertyValue("google.maps.key"    ));
-    model.put("currentDate"       , sdf.format(new Date()));
+    model.put("currentDate"       , sdf.format (currentDate));
+    model.put("currentTime"       , sdf2.format(currentDate));
     model.put("environment"       , this.propertyPlaceholderConfigurer.getPropertyValue("application.environment"));
     
     SecurityPrincipal securityPrincipal = (SecurityPrincipal)request.getUserPrincipal();

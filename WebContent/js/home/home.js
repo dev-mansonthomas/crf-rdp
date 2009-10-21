@@ -6,8 +6,8 @@ Ext.onReady(function()
   
   initLayout ();
   initHomeTab();
-  EquipierEditor = Ext.ux.Home.EquipierEditor;
-  EquipierEditor.init();
+  EquipiersGestion = Ext.ux.Home.EquipiersGestion;
+  EquipiersGestion.init();
   crfIrpUtils.getAllList();
 });
 
@@ -50,13 +50,6 @@ function initLayout()
 			            title     : 'Liste des régulations ouvertes',
 			            closable  : false,
 			            autoScroll: true
-			        },
-			        {
-			            id        : 'home_center_equipier_tab',
-			            contentEl : 'equipier',
-			            title     : 'Gestion des Equipiers',
-			            closable  : false,
-			            autoScroll: true
 			        }
 			        ]
 			      })
@@ -67,9 +60,7 @@ function initLayout()
 }
 
 function initHomeTab()
-{
-	 var xg = Ext.grid;
-	  
+{  
 	  var regulationStore = new Ext.data.Store({
 	           proxy: new Ext.ux.rs.data.DwrProxy({
 	               call       : Homepage.getOpenRegulationList,
@@ -92,20 +83,20 @@ function initHomeTab()
 	           });
 	           
 	      // row expander
-	  var expander = new xg.RowExpander({
+	  var expander = new Ext.grid.RowExpander({
 	        tpl : new Ext.Template(
 	            '<p><b>id:</b> {regulationId}<br>',
 	            '<p><b>comments:</b> {comment}</p>'
 	        )
 	    });
 
-	  var regulationGrid = new xg.GridPanel({
+	  var regulationGrid = new Ext.grid.GridPanel({
 	        id         : 'home-list-regulation-grid',
 	        store      : regulationStore,
 	        listeners  : { rowdblclick : function(theGrid, rowIndex, e ){
 	            openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId);
 	        }},
-	        cm: new xg.ColumnModel([
+	        cm: new Ext.grid.ColumnModel([
 	            expander,
 	            {id:'labelCol'            , header: "Intitulé"      , width: 222, sortable: true, dataIndex: 'label'},
 	            {id:'startDateCol'        , header: "Date de Début" , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'      },

@@ -17,6 +17,7 @@
     <bean id="monitorInputBilan"              class="fr.croixrouge.rdp.services.dwr.monitorInput.MonitorInputBilanImpl"            autowire="constructor" />
     <bean id="monitorCommons"                 class="fr.croixrouge.rdp.services.dwr.monitorCommons.MonitorCommonsImpl"             autowire="constructor" />
     <bean id="homepage"                       class="fr.croixrouge.rdp.services.dwr.homepage.Homepage"                             autowire="constructor" />
+    <bean id="equipiersGestion"               class="fr.croixrouge.rdp.services.dwr.homepage.EquipiersGestion"                     autowire="constructor" />
     <bean id="creditsAndChangeLogDwrService"  class="fr.croixrouge.rdp.services.dwr.monitorCommons.CreditsAndChangeLogDwrService"  autowire="constructor" />
     
     

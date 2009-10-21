@@ -124,7 +124,7 @@ MonitorInputInterventionCs.prototype.createNewEmptyInterventionReturn=function(i
   $('interventionTicketId'         ).value=intervention.idIntervention;
   $('AddInterventionDelete'        ).style.display="block";
   $('AddInterventionClose'         ).style.display="none";
-
+  Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(true);
   Ext.get('InterventionTicket').slideIn();
 };
 
@@ -169,8 +169,9 @@ MonitorInputInterventionCs.prototype.endOfEditionEventReturn=function()
 {
   miInterventionCs.resetInterventionForm();
   
-  Ext.get   ('InterventionTicket'       ).slideOut();
-  Ext.getCmp('InterventionListEastPanel').expand  ();
+  Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(false);
+  Ext.get   ('InterventionTicket'            ).slideOut();
+  Ext.getCmp('InterventionListEastPanel'     ).expand  ();
   
   PageBus.publish("monitorInput.intervention.ticket.endOfEditionEvent", null);
 };
@@ -244,6 +245,7 @@ MonitorInputInterventionCs.prototype.editInterventionTicketReturn=function(inter
   $('interventionTicketCancelButton').style.display="none";
 
   Ext.get('InterventionTicket').slideIn();
+  Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(true);
 };
 
 MonitorInputInterventionCs.prototype.cancelInterventionTicket=function(idIntervention)
@@ -274,6 +276,7 @@ MonitorInputInterventionCs.prototype.deleteInterventionTicketReturn=function()
 MonitorInputInterventionCs.prototype.hideInterventionTicket=function()
 {
   Ext.get('InterventionTicket').slideOut();
+  Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(false);
   Ext.getCmp('InterventionListEastPanel').expand();
   miInterventionCs.resetInterventionForm();
 };

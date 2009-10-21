@@ -11,6 +11,8 @@
 
   <link rel="shortcut icon" href="../../img/famfamfam/table_edit.png" type="image/png">
  
+ <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAA5WgPOr7f6qTWKh4L_FtBlxRZToBgTL8795eWPGANN-eVsPt3iBRHbtkDa1gCbaK3_A9lx0TF9lV05g" type="text/javascript"> </script>
+ 
 </head>
 <body id="MonitorInputBody">
 

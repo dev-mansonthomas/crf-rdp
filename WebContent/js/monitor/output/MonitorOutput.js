@@ -14,7 +14,12 @@ MonitorOutputCs.prototype.initialize=function()
 
 MonitorOutputCs.prototype.updateClock = function (clockTime)
 {
-  dwr.util.setValue('clock', clockTime);
+  var datePart = crfIrpUtils.getDate           (clockTime);
+  var timePart = crfIrpUtils.getTimeWithSeconds(clockTime);
+  
+  dwr.util.setValue('clockDate', datePart);
+  dwr.util.setValue('clockTime', timePart);
+  Ext.get('clockTime').highlight();
 };
 
 

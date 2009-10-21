@@ -1,6 +1,5 @@
 package fr.croixrouge.rdp.scheduler;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.servlet.ServletContext;
@@ -17,9 +16,8 @@ import fr.croixrouge.rdp.services.dwr.reverseAjax.AddScript;
 public class ClockJob implements ServletContextAware
 {
   private ServletContext          servletContext   = null;
-  private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
   private static Log              logger           = LogFactory.getLog(ClockJob.class);  
-  public  static boolean          firstAjaxCallDone=false;
+  public  static boolean          firstAjaxCallDone= false;
   
   
   public ClockJob()
@@ -41,12 +39,9 @@ public class ClockJob implements ServletContextAware
   {
     if(!firstAjaxCallDone)
       return;
-   
-    String timeIs = simpleDateFormat.format(new Date());
-    
-    
+
     Browser.withPage(DWRUtils.outPageName, 
-        new AddScript(new ScriptBuffer().appendCall("monitorOutputCs.updateClock", timeIs), 
+        new AddScript(new ScriptBuffer().appendCall("monitorOutputCs.updateClock", new Date()), 
                       this.getClass()));
   }
 }

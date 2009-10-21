@@ -10,5 +10,5 @@ source 02-insert.sql;
 select "inserting private data";
 source 03-insert-private-data.sql;
 select "inserting test data";
--- source 04-insert-test-data.sql;
+source 04-insert-test-data.sql;
 select "End of import";

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.User;
+import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DelegationRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.RegulationRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.UserRowMapper;
@@ -308,25 +309,53 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
 
 
   private final static String queryForGetDelegationsByZipCode = 
-    "SELECT  id_delegation, nom, departement \n"+
+    "SELECT  id_delegation, nom, departement \n";
+    
+    
+  private final static String whereForSearchDelegation =
+    
     "FROM    delegation                      \n"+
-    "WHERE   departement like ?              \n"+
+    "WHERE   departement         LIKE ?      \n" +
+    "OR      nom                 LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n";
+    
+  private final static String secondPartForSearchDelegation =
     "UNION                                   \n"+
-    "SELECT  id_delegation, nom, departement \n"+
+    "SELECT  id_delegation, 'Autre délégation' as nom, departement \n"+
     "FROM    delegation                      \n"+
-    "WHERE   departement = '{N/A}'           \n"+
+    "WHERE   id_delegation = 0               \n"+
     "ORDER BY departement ASC                \n";
+  
+  
   @SuppressWarnings("unchecked")
-  public List<Delegation> getDelegationsByZipCode(String zip)
+  public ListRange<Delegation> searchDelegation(String search, int start, int limit)
   {
-    List<Delegation> delegations = null;
+    search+="%";
     
+    Object [] os    =  new Object[]{search       , search       };
+    int    [] types =  new int   []{Types.VARCHAR, Types.VARCHAR};
+    
+    
+    int totalCount = this.jdbcTemplate.queryForInt(
+                      "SELECT COUNT(1)+1 \n" +whereForSearchDelegation, 
+                      os, types);
+    
+
+    String query = queryForGetDelegationsByZipCode + "from (\n"+
+    queryForGetDelegationsByZipCode +
+    whereForSearchDelegation        +
+    secondPartForSearchDelegation   + "\n) uniontable\n"+
+    "order by departement asc\n"+
+    "LIMIT "+start+", "+limit;
+
     if(logger.isDebugEnabled())
-      logger.debug("Getting delegations with this parameter : zip='"+zip+"%'");
+      logger.debug("Searching delegations with this parameter : search='"+search+"%', start='"+start+"', limit='"+limit+"', totalCout='"+totalCount+"', query=\n"+query);
+
     
-    delegations = jdbcTemplate.query(queryForGetDelegationsByZipCode, new Object[]{zip+"%"}, new int[]{Types.VARCHAR}, new DelegationRowMapper());
+    List<Delegation> delegations = jdbcTemplate.query(query
+                                                      , os, types, new DelegationRowMapper());
     
-    return delegations;
+    
+    return new ListRange<Delegation>(totalCount, delegations);
   }
   
 

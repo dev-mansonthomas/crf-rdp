@@ -5,6 +5,7 @@ import java.util.List;
 import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.User;
+import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 
 public interface RegulationService
 {
@@ -20,6 +21,6 @@ public interface RegulationService
   public void             changeRegulationState (int        idRegulation, boolean open    );
   public Regulation       getRegulation         (int        idRegulation                  );
   
-  public List<Delegation> getDelegationsByZipCode (String zip           );
-  public void             createDelegation        (Delegation delegation);
+  public ListRange<Delegation>  searchDelegation (String     search     , int start, int limit);
+  public void                   createDelegation (Delegation delegation);
 }

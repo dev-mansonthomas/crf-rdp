@@ -32,3 +32,34 @@
 {
   background-image:url(../../img/famfamfam/add.png) !important;
 }
+
+.findButton
+{
+   background-image:url(../../img/famfamfam/magnifier.png) !important;
+}
+
+
+#equipierDetails_fieldset, #equipierSearch_fieldset
+{
+  width:90%;
+}
+
+#equipierDetails_table td
+{
+  padding:2px;
+}
+
+#edit_role_table
+{
+  border:1px solid grey;
+  border-collapse: collapse;
+  width:100%;
+  
+}
+#edit_role_table td
+{
+  border:1px solid grey;  
+  margin:0px;
+  padding:3px;
+  width:200px;
+}

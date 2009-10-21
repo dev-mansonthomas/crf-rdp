@@ -23,11 +23,11 @@ CREATE TABLE `dispositif_type` (
 
 DROP TABLE IF EXISTS `crfrdp`.`equipier_role`;
 CREATE TABLE `equipier_role` (
-  `id_role` int(10) unsigned NOT NULL auto_increment,
-  `label_role` varchar(45) NOT NULL,
+  `id_role`     int     (10) unsigned NOT NULL auto_increment,
+  `label_role`  varchar (45)          NOT NULL,
+  `evaluable`   BOOLEAN               NOT NULL DEFAULT false,
   PRIMARY KEY  (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
-
 
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_type_definition`;
 CREATE TABLE `dispositif_type_definition` (

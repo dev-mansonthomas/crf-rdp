@@ -9,6 +9,7 @@ public class EquipierRole extends CrfDto  implements ListItemInterface
   private int     id;
   private String  label;
   private boolean enEvalution=false;
+  private boolean evaluable  =false;
   
   public int getId()
   {
@@ -33,6 +34,14 @@ public class EquipierRole extends CrfDto  implements ListItemInterface
   public void setEnEvalution(boolean enEvalution)
   {
     this.enEvalution = enEvalution;
+  }
+  public boolean isEvaluable()
+  {
+    return evaluable;
+  }
+  public void setEvaluable(boolean evaluable)
+  {
+    this.evaluable = evaluable;
   }
   
    

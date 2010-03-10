@@ -26,7 +26,7 @@ public class MonitorOutController  extends AbstractController
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
   {
     SimpleDateFormat  sdf         = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat  sdf2        = new SimpleDateFormat("hh:mm:ss");
+    SimpleDateFormat  sdf2        = new SimpleDateFormat("HH:mm:ss");
     
     Date              currentDate = new Date();
     

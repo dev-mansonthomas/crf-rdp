@@ -7,9 +7,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.DispositifEtat;
 
-public class DispositifEtatRowMapper extends RowMapperHelper implements RowMapper
+public class DispositifEtatRowMapper extends RowMapperHelper implements RowMapper<DispositifEtat>
 {
-  public Object mapRow(ResultSet resultSet, int rowNum) throws SQLException
+  public DispositifEtat mapRow(ResultSet resultSet, int rowNum) throws SQLException
   {
     DispositifEtat dispositifEtat = new DispositifEtat();
     

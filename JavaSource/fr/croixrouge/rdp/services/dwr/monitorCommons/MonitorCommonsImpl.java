@@ -47,7 +47,17 @@ public class MonitorCommonsImpl  extends DWRUtils implements MonitorCommonsServi
   public Hashtable<String, List<Lieu>> getAllLieu() throws Exception
   {
     this.validateSession();
+    Hashtable<String, List<Lieu>> lieux =null;
+    try
+    {
+      lieux = this.lieuService.getLieuSorted();
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while getting all Lieux",e);
+      throw e;
+    }
     
-    return this.lieuService.getLieuSorted();
+    return lieux;
   }
 }

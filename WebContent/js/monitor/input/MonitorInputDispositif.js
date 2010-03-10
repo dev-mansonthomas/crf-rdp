@@ -356,7 +356,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         sm          : checkboxSelectionModel,
         collapsible : false,
         animCollapse: false,
-        height      : 400,
+        height      : 200,
         width       : 700,
         iconCls     : 'icon-grid',
         renderTo    : 'DispositifEquipierList',
@@ -1408,6 +1408,7 @@ MonitorInputDispositifCs.prototype.selectDelegation=function(record)
                                                 });
     }
   }
+  Ext.getCmp('DelegationSearch').collapse();
 };
 
 

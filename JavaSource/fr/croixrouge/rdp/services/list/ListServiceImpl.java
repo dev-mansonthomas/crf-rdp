@@ -12,7 +12,9 @@ import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.DispositifEtat;
 import fr.croixrouge.rdp.model.monitor.DispositifType;
 import fr.croixrouge.rdp.model.monitor.EquipierRole;
+import fr.croixrouge.rdp.model.monitor.InterventionEtat;
 import fr.croixrouge.rdp.model.monitor.InterventionMotif;
+import fr.croixrouge.rdp.model.monitor.InterventionMotifAnnulation;
 import fr.croixrouge.rdp.model.monitor.InterventionOrigine;
 import fr.croixrouge.rdp.model.monitor.UserRole;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DelegationRowMapper;
@@ -50,7 +52,7 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT id_type, label_type, nombre_equipier_max, id_role_leader \n"+
     "FROM   dispositif_type d   \n"+
     "ORDER BY id_type ASC       \n";
-  @SuppressWarnings("unchecked")
+
   public List<DispositifType> getTypesDispositif()
   {
     return this.jdbcTemplate.query(queryForGetTypesDispositif, new Object[]{}, new int[]{}, new DispositifTypeRowMapper());
@@ -62,7 +64,6 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT id_etat, label_etat \n" +
     "FROM   dispositif_etat d   \n" +
     "ORDER BY id_etat ASC       \n";
-  @SuppressWarnings("unchecked")
   public List<DispositifEtat> getEtatsDispositif()
   {
     return this.jdbcTemplate.query(queryForGetEtatsDispositif,new Object[]{}, new int[]{}, new DispositifEtatRowMapper());
@@ -74,7 +75,6 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT id_role, label_role, evaluable \n" +
     "FROM   equipier_role                  \n" +
     "ORDER BY id_role ASC                  \n";
-  @SuppressWarnings("unchecked")
   public List<EquipierRole> getRolesEquipier()
   {
     return this.jdbcTemplate.query(queryForGetRolesEquipier,new Object[]{}, new int[]{}, new EquipierRoleRowMapper());
@@ -86,7 +86,6 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT id_role, label_role, code_role  \n" +
     "FROM   user_role                       \n" +
     "ORDER BY id_role ASC                   \n";
-  @SuppressWarnings("unchecked")
   public List<UserRole> getRolesUser()
   {
     return this.jdbcTemplate.query(queryForGetRolesUser,new Object[]{}, new int[]{}, new UserRoleRowMapper(true));
@@ -98,7 +97,6 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT id_motif, label_motif \n" +
     "FROM   intervention_motif    \n" +
     "ORDER BY id_motif ASC        \n";
-  @SuppressWarnings("unchecked")
   public List<InterventionMotif> getMotifsIntervention()
   {
     return this.jdbcTemplate.query(queryForGetMotifsIntervention,new Object[]{}, new int[]{}, new InterventionMotifRowMapper());
@@ -108,8 +106,7 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT id_motif_annulation, label_motif_annulation \n" +
     "FROM   intervention_motif_annulation    \n" +
     "ORDER BY id_motif_annulation ASC        \n";
-  @SuppressWarnings("unchecked")
-  public List<InterventionMotif> getMotifsAnnulationIntervention()
+  public List<InterventionMotifAnnulation> getMotifsAnnulationIntervention()
   {
     return this.jdbcTemplate.query(queryForGetMotifsAnnulationIntervention,new Object[]{}, new int[]{}, new InterventionMotifAnnulationRowMapper());
   }
@@ -118,7 +115,6 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT   id_origine, label_origine \n" +
     "FROM     intervention_origine      \n" +
     "ORDER BY id_origine ASC            \n";
-  @SuppressWarnings("unchecked")
   public List<InterventionOrigine> getOriginesIntervention()
   {
     return this.jdbcTemplate.query(queryForGetOriginesIntervention,new Object[]{}, new int[]{}, new InterventionOrigineRowMapper());
@@ -130,7 +126,6 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT   id_delegation, nom, departement \n" +
     "FROM     delegation d                    \n" +
     "ORDER BY id_delegation ASC               \n";
-  @SuppressWarnings("unchecked")
   public List<Delegation> getDelegations()
   {
     return this.jdbcTemplate.query(queryForGetDelegations,new Object[]{}, new int[]{}, new DelegationRowMapper());
@@ -140,8 +135,7 @@ public class ListServiceImpl implements ListService, InitializingBean
     "SELECT   id_etat, label_etat\n" +
     "FROM     intervention_etat  \n" +
     "ORDER BY id_etat ASC        \n";
-  @SuppressWarnings("unchecked")
-  public List<Delegation> getEtatsIntervention()
+  public List<InterventionEtat> getEtatsIntervention()
   {
     return this.jdbcTemplate.query(queryForGetEtatsIntervention,new Object[]{}, new int[]{}, new InterventionEtatRowMapper());
   }

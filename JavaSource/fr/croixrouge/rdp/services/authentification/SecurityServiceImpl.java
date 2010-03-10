@@ -88,7 +88,6 @@ public class SecurityServiceImpl implements SecurityRealm, InitializingBean
     "SELECT r.code_role, r.id_role\n" +
     "FROM   user_role r\n";
   
-	@SuppressWarnings("unchecked")
 	public void afterPropertiesSet() throws Exception 
 	{
 		List <UserRole> rolesList = jdbcTemplate.query(queryForAfterPropertiesSet, null, null, new UserRoleRowMapper(false));

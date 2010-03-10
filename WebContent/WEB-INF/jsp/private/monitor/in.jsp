@@ -1993,7 +1993,7 @@ Ville
           <table>
             <tr>
               <td style="width:135px;">Type :<br/> <select id="DispositifType" name="DispositifType" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_type_dispositif');miDispositifCs.setRoles(this.value);"><option value=" "> </option></select></td>
-              <td>Indicatif :<br/> <input type="text" id="DispositifIndicatif"  name="DispositifIndicatif"  value="" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifStringField(this.id, 'indicatif_vehicule')"/></td>
+              <td style="width:200px;">Indicatif :<br/> <input type="text" id="DispositifIndicatif"  name="DispositifIndicatif"  value="" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifStringField(this.id, 'indicatif_vehicule')"/></td>
               <td>
                 Delegation :<br/>
                 <input type="text"    id="DispositifDelegation"           name="DispositifDelegation" />
@@ -2382,7 +2382,7 @@ Ville
   <script type="text/javascript">
     var contextPath="../..";
     var iconPath = '../img/famfamfam/';
-    Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+    Ext.BLANK_IMAGE_URL = contextPath+'/js/ext-3.1.1/resources/images/default/s.gif';
   </script>
   <jwr:script src="/jsBundle/baseApp.js"/>
   <jwr:script src="/jsBundle/monitorInput.js"/>

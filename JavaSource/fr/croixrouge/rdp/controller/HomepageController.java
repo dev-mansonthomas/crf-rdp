@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -15,7 +16,7 @@ import fr.croixrouge.rdp.services.authentification.SecurityPrincipal;
 import fr.croixrouge.rdp.services.regulation.RegulationService;
 import fr.croixrouge.utilities.web.conf.PerMachinePropertyPlaceholderConfigurer;
 
-public class HomepageController extends AbstractController
+public class HomepageController extends AbstractController implements InitializingBean
 {
   private RegulationService                       regulationService;
   private PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer = null;
@@ -45,5 +46,19 @@ public class HomepageController extends AbstractController
     model.put("currentUser"       , securityPrincipal.getUser());
     
     return new ModelAndView("private/home", model);
+  }
+
+
+  @Override
+  public void afterPropertiesSet() throws Exception
+  {
+    logger.warn("application version          is "+this.propertyPlaceholderConfigurer.getPropertyValue("application.version"         ));
+    
+    
+    logger.warn("Environment                  is "+this.propertyPlaceholderConfigurer.getPropertyValue("application.environment"     ));
+    logger.warn("EnvironmentCode              is "+this.propertyPlaceholderConfigurer.getPropertyValue("application.environment.code"));
+    logger.warn("ApplicationDeclarationCnil   is "+this.propertyPlaceholderConfigurer.getPropertyValue("application.declarationCnil" )); 
+    
+    
   }
 }

@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.LieuType;
 
-public class LieuTypeRowMapper implements RowMapper
+public class LieuTypeRowMapper implements RowMapper<LieuType>
 {
 
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public LieuType mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     LieuType lieuType = new LieuType();
     

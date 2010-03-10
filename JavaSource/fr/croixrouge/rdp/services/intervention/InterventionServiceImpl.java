@@ -58,7 +58,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
 
   public InterventionTicket getInterventionTicket(int idIntervention) throws Exception
   {
-    return (InterventionTicket)this.jdbcTemplate.queryForObject(queryForGetInterventionTicket   , 
+    return this.jdbcTemplate.queryForObject(queryForGetInterventionTicket   , 
                                                                 new Object[]{idIntervention}    ,
                                                                 new int   []{Types.INTEGER}     ,
                                                                 new InterventionTicketRowMapper());
@@ -71,14 +71,12 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "AND      di.id_dispositif  = ?                             \n" +
     "ORDER BY i.id_intervention ASC                             \n" ;
 
-  
-  @SuppressWarnings("unchecked")
   public List<InterventionTicket> getInterventionsTicketFromDispositif(int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("getting internvetion ticket for dispositif id='"+idDispositif+"'");
     
-    return (List<InterventionTicket>) this.jdbcTemplate.query(queryForGetInterventionsTicketFromDispositif   , 
+    return this.jdbcTemplate.query(queryForGetInterventionsTicketFromDispositif   , 
         new Object[]{idDispositif}      ,
         new int   []{Types.INTEGER}     ,
         new InterventionTicketRowMapper());
@@ -97,8 +95,6 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "FROM     intervention     \n"+
     "WHERE    id_regulation = ?\n"+
     "AND      id_etat       = ?\n";
-  
-  @SuppressWarnings("unchecked")
   public ListRange<InterventionTicket> getInterventionTicketWithStatus(int idRegulation, int status, int index, int limit) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -117,7 +113,6 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     return new ListRange<InterventionTicket>(totalCount, list); 
   }
   
-  @SuppressWarnings("unchecked")
   public List<InterventionTicket> getAllInterventionTicketWithStatus(int idRegulation, int status) throws Exception
   {
     return this.jdbcTemplate.query( queryForGetInterventionTicketWithStatus , 

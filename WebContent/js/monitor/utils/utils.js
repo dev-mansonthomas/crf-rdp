@@ -133,11 +133,11 @@ CrfIrpUtils.prototype.focusHandling=function(currentFieldId)
 
 /* ===================== List Handling ============================== */
 
-CrfIrpUtils.prototype.allList=[];
-CrfIrpUtils.prototype.allLieu=[];
+CrfIrpUtils.prototype.allList           =[];
+CrfIrpUtils.prototype.allLieu           =[];
 CrfIrpUtils.prototype.allTypeLieuOrdered=[];//Type lieu dans l'ordre spécifié par numOrdre
-CrfIrpUtils.prototype.allTypeLieu=[];//Type lieu indexé par idTypeLieu
-CrfIrpUtils.prototype.typeDispositif=[];
+CrfIrpUtils.prototype.allTypeLieu       =[];//Type lieu indexé par idTypeLieu
+CrfIrpUtils.prototype.typeDispositif    =[];
 /***
  * Demande toute les listes statiques au serveur
  */
@@ -192,9 +192,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
       {
         newList[tmpList[i].id]={id:tmpList[i].id, label:tmpList[i].label};
       }
-      
     }
-      
 
     CrfIrpUtils.prototype.allList[listList[z]]=newList;
   }

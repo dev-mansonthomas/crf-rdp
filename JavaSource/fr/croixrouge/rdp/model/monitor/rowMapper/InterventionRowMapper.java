@@ -8,10 +8,10 @@ import org.springframework.jdbc.core.RowMapper;
 import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.Position;
 
-public class InterventionRowMapper extends RowMapperHelper implements RowMapper
+public class InterventionRowMapper extends RowMapperHelper implements RowMapper<Intervention>
 {
 
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public Intervention mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     Intervention intervention = new Intervention();
     

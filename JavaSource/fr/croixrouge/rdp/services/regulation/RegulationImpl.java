@@ -141,7 +141,6 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   /**
    * Méthode utilisé pour l'autocomplete pour rechercer un co régulateur par nom ou n° nivol
    * */
-  @SuppressWarnings("unchecked")
   public List<User> getCoRegulateurs(String numNivol, String nom)
   { 
     if(logger.isDebugEnabled())
@@ -209,11 +208,11 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     if(logger.isDebugEnabled())
       logger.debug("Getting regulation with id="+idRegulation);
 
-    return (Regulation)jdbcTemplate.queryForObject 
-                              ( queryForGetRegulation,
-                                new Object[]{idRegulation},
-                                new int []{Types.INTEGER},
-                                new RegulationRowMapper() );
+    return jdbcTemplate.queryForObject 
+                          ( queryForGetRegulation,
+                            new Object[]{idRegulation},
+                            new int []{Types.INTEGER},
+                            new RegulationRowMapper() );
   }
 
   private final static String queryForGetRegulateur = 
@@ -223,7 +222,6 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     "AND    u.id_delegation =  d.id_delegation \n"+
     "ORDER BY nom ASC\n";
   
-  @SuppressWarnings("unchecked")
   public List<User> getRegulateur()
   {
     return this.jdbcTemplate.query( queryForGetRegulateur, 
@@ -243,7 +241,6 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     "ORDER BY nom ASC\n";
 
   
-  @SuppressWarnings("unchecked")
   public void getCoRegulateurs(Regulation regulation)
   {
     List<User> coRegulateurs = this.jdbcTemplate.query( queryForGetCoRegulateurs, 
@@ -326,7 +323,6 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     "ORDER BY departement ASC                \n";
   
   
-  @SuppressWarnings("unchecked")
   public ListRange<Delegation> searchDelegation(String search, int start, int limit)
   {
     search+="%";

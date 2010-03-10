@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
 
-public class DispositifTicketRowMapper extends RowMapperHelper implements RowMapper
+public class DispositifTicketRowMapper extends RowMapperHelper implements RowMapper<DispositifTicket>
 {
 
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public DispositifTicket mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     DispositifTicket    dispositif      = new DispositifTicket();
     

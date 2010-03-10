@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 public class JDBCHelper
 {
-  protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+  protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
   
   protected int getLastInsertedId(JdbcTemplate jdbcTemplate, String tableName)
   {

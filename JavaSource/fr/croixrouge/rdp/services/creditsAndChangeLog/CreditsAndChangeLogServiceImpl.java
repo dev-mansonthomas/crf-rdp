@@ -24,14 +24,13 @@ public class CreditsAndChangeLogServiceImpl implements CreditsAndChangeLogServic
     "FROM credits c                                                 \n"+
     "ORDER BY presentation_order ASC                                \n"; 
   
-  @SuppressWarnings("unchecked")
   public List<Credit> getCredit() throws Exception
   {
     
-    return (List<Credit>)this.jdbcTemplate.query(queryForGetCredits,
-                            new Object[]{},
-                            new int   []{},
-                            new CreditRowMapper());
+    return this.jdbcTemplate.query(queryForGetCredits,
+                                    new Object[]{},
+                                    new int   []{},
+                                    new CreditRowMapper());
   }
   
   
@@ -41,10 +40,9 @@ public class CreditsAndChangeLogServiceImpl implements CreditsAndChangeLogServic
     "FROM   application_version a                \n" +
     "order by id asc                             \n";
    
-  @SuppressWarnings("unchecked")
   public List<ApplicationVersion> getApplicationVersion() throws Exception
   {
-    return (List<ApplicationVersion>)this.jdbcTemplate.query(queryForGetApplicationVersion,
+    return this.jdbcTemplate.query(queryForGetApplicationVersion,
         new Object[]{},
         new int   []{},
         new ApplicationVersionRowMapper());
@@ -54,11 +52,10 @@ public class CreditsAndChangeLogServiceImpl implements CreditsAndChangeLogServic
     "SELECT id, id_application_version, id_jira, description \n" +
     "FROM application_version_changelog a                    \n" +
     "ORDER BY id_application_version asc, id asc             \n";
-   
-  @SuppressWarnings("unchecked")
+
   public List<ApplicationVersionChangeLog> getApplicationVersionChangeLog() throws Exception
   {
-    return (List<ApplicationVersionChangeLog>)this.jdbcTemplate.query(queryForGetApplicationVersionChangeLog,
+    return this.jdbcTemplate.query(queryForGetApplicationVersionChangeLog,
         new Object[]{},
         new int   []{},
         new ApplicationVersionChangeLogRowMapper());

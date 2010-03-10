@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.UserRole;
 
-public class UserRoleRowMapper extends RowMapperHelper implements RowMapper
+public class UserRoleRowMapper extends RowMapperHelper implements RowMapper<UserRole>
 {
 	
 	private boolean withLabel = false;
@@ -17,7 +17,7 @@ public class UserRoleRowMapper extends RowMapperHelper implements RowMapper
 	}
 	
 	
-  public Object mapRow(ResultSet resultSet, int rowNum) throws SQLException
+  public UserRole mapRow(ResultSet resultSet, int rowNum) throws SQLException
   {
     UserRole    userRole    = new UserRole  ();
     

@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.User;
 
-public class UserRowMapper extends RowMapperHelper implements RowMapper
+public class UserRowMapper extends RowMapperHelper implements RowMapper<User>
 {
 	
 	private boolean withPassword = false;
@@ -18,7 +18,7 @@ public class UserRowMapper extends RowMapperHelper implements RowMapper
 	}
 	
 	
-  public Object mapRow(ResultSet resultSet, int rowNum) throws SQLException
+  public User mapRow(ResultSet resultSet, int rowNum) throws SQLException
   {
     User        user        = new User      ();
     Delegation  delegation  = new Delegation();

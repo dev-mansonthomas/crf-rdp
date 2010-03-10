@@ -9,10 +9,10 @@ import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.Position;
 
-public class DispositifRowMapper extends RowMapperHelper implements RowMapper
+public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Dispositif>
 {
 
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public Dispositif mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     Dispositif      dispositif      = new Dispositif    ();
     

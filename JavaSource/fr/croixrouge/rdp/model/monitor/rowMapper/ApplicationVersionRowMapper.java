@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.ApplicationVersion;
 
-public class ApplicationVersionRowMapper extends RowMapperHelper implements RowMapper 
+public class ApplicationVersionRowMapper extends RowMapperHelper implements RowMapper<ApplicationVersion> 
 {
   
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public ApplicationVersion mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     ApplicationVersion applicationVersion = new ApplicationVersion();
     

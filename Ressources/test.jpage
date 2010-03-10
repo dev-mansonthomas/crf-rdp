@@ -1,0 +1,42 @@
+System.out.println("**************************************");
+Date currentDate  = new Date();
+Date dateDebut    = null;
+Date dateFin      = null;
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+Calendar gregorianCalendar = GregorianCalendar.getInstance();
+
+
+	gregorianCalendar.setTime( new Date());
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 13);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+  gregorianCalendar.set(Calendar.MINUTE, 59);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 11);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 21);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 19);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+  gregorianCalendar.set(Calendar.MINUTE, 30);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));

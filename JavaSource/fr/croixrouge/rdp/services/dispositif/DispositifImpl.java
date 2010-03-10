@@ -2,7 +2,9 @@ package fr.croixrouge.rdp.services.dispositif;
 
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -359,7 +361,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   		"ORDER BY id_dispositif_type  ASC,                            \n"+
   		"         id_role             ASC                             \n";
   
-  @SuppressWarnings("unchecked")
   public Map<String, List<DispositifTypeDefinition>> getDispositifTypeDefinition() throws Exception
   {
     Map<String, List<DispositifTypeDefinition>> dispositifTypeDefinition = new HashMap<String, List<DispositifTypeDefinition>>();
@@ -487,7 +488,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   "ORDER BY indicatif_vehicule ASC                    \n";
 
 
-  @SuppressWarnings("unchecked")
   public ListRange<Dispositif> getAllDispositif(int regulationId) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -563,7 +563,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     whereForRecentDispositif;
   
 
-  @SuppressWarnings("unchecked")
   public ListRange<DispositifTicket> getRecentDispositif(int idRegulation, int index, int limit) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -573,7 +572,13 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
         new Object[]{idRegulation  },
         new int   []{Types.INTEGER });
     
-    List<DispositifTicket> list = this.jdbcTemplate.query( queryForRecentDispositif + "LIMIT    ?,?              \n", 
+    String query = queryForRecentDispositif + "LIMIT    ?,?              \n";
+
+    if(logger.isDebugEnabled())
+      logger.debug("getting dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"', totalCount='"+totalCount +"', query=\n"+query);
+
+    
+    List<DispositifTicket> list = this.jdbcTemplate.query( query, 
         new Object[]{idRegulation , index        , limit        },
         new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER},
         new DispositifTicketRowMapper      ()); 
@@ -623,9 +628,45 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     Dispositif dispositif  = new Dispositif();
     
+    Date currentDate  = new Date();
+    Date dateDebut    = null;
+    Date dateFin      = null;
+    
+    Calendar gregorianCalendar = GregorianCalendar.getInstance();
+    gregorianCalendar.setTime(currentDate);
+    
+    int dayOfWeek = gregorianCalendar.get(Calendar.DAY_OF_WEEK);
+    if(dayOfWeek  == Calendar.SATURDAY)
+    {//13h=>23h59
+      gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 13);
+      gregorianCalendar.set(Calendar.MINUTE       , 00);
+      dateDebut    = gregorianCalendar.getTime();
+      gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+      gregorianCalendar.set(Calendar.MINUTE       , 59);
+      dateFin      = gregorianCalendar.getTime();
+    }
+    else if(dayOfWeek == Calendar.SUNDAY)
+    {//11h00=>21h00
+      gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 11);
+      gregorianCalendar.set(Calendar.MINUTE       , 00);
+      dateDebut    = gregorianCalendar.getTime();
+      gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 21);
+      gregorianCalendar.set(Calendar.MINUTE       , 00);
+      dateFin      = gregorianCalendar.getTime();
+    }
+    else
+    {//19h=>23h30
+      gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 19);
+      gregorianCalendar.set(Calendar.MINUTE       , 00);
+      dateDebut    = gregorianCalendar.getTime();
+      gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+      gregorianCalendar.set(Calendar.MINUTE       , 30);
+      dateFin      = gregorianCalendar.getTime();
+    }
+ 
     
     this.jdbcTemplate.update(queryForCreateEmptyDispositif, 
-                             new Object[]{regulation.getRegulationId(), regulation.getStartDate(), regulation.getExpectedEndDate()}, 
+                             new Object[]{regulation.getRegulationId(), dateDebut, dateFin}, 
                              new int[]{Types.INTEGER, Types.TIMESTAMP, Types.TIMESTAMP});
     
     int idDispositif = this.getLastInsertedId();
@@ -633,12 +674,12 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(logger.isDebugEnabled())
       logger.debug("new empty dispositif created with id='"+idDispositif+"'for regulation id='"+regulation.getRegulationId()+"'");
 
-    dispositif.setIdDispositif(idDispositif                   );
-    dispositif.setDhDebut     (regulation.getStartDate      ());
-    dispositif.setDhFin       (regulation.getExpectedEndDate());
+    dispositif.setIdDispositif(idDispositif );
+    dispositif.setDhDebut     (dateDebut    );
+    dispositif.setDhFin       (dateFin      );
     
-    dispositif.setDhDebutStr  (dateFormat.format(regulation.getStartDate      ()));
-    dispositif.setDhFinStr    (dateFormat.format(regulation.getExpectedEndDate()));
+    dispositif.setDhDebutStr  (dateFormat.format(dateDebut));
+    dispositif.setDhFinStr    (dateFormat.format(dateFin  ));
 
     return dispositif;
   }

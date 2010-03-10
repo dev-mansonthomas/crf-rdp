@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.Credit;
 
-public class CreditRowMapper extends RowMapperHelper implements RowMapper 
+public class CreditRowMapper extends RowMapperHelper implements RowMapper <Credit>
 {
   
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public Credit mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     Credit credit = new Credit();
 

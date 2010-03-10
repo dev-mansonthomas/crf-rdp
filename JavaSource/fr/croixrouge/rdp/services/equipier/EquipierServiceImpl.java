@@ -91,8 +91,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "AND    e.enabled            = true              \n"+
     "ORDER BY de.id_role_equipier ASC                \n";  
 
-  
-  @SuppressWarnings("unchecked")  
+   
   public List<Equipier> getEquipiersForDispositif(int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -101,7 +100,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     Object [] os    = {idDispositif};
     int    [] types = {Types.INTEGER};
    
-    List<Equipier> equiperList= (List<Equipier>)jdbcTemplate.query(  queryForGetEquipiersForDispositif , 
+    List<Equipier> equiperList= jdbcTemplate.query(  queryForGetEquipiersForDispositif , 
                                                                      os    , 
                                                                      types , 
                                                                      new EquipierRowMapper(true, true));
@@ -127,11 +126,11 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     Object [] os    = {idEquipier};
     int    [] types = {Types.INTEGER};
    
-    Equipier equipier = (Equipier)jdbcTemplate.queryForObject( queryForGetEquipier , 
-                                                               os    , 
-                                                               types , 
-                                                               new EquipierRowMapper());
-    
+    Equipier equipier = jdbcTemplate.queryForObject( queryForGetEquipier , 
+                                                     os    , 
+                                                     types , 
+                                                     new EquipierRowMapper());
+
     return equipier;
   }
   
@@ -147,8 +146,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   private final static String queryForGetEquipiers = 
 	  selectForEquipier+
 	  "WHERE  e.id_delegation      = d.id_delegation   \n"; 
-	  
-  @SuppressWarnings("unchecked")  
+	    
   public ListRange<Equipier> getEquipiers(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
     StringBuffer whereClause   = new StringBuffer();
@@ -259,7 +257,6 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   "WHERE  er.id_role_equipier = e.id_role\n"+
   "AND    er.id_equipier      = ?        \n";
   
-  @SuppressWarnings("unchecked")
   public List<EquipierRole> getEquipierRoles(int idEquipier)
   {
     Object [] os    = {idEquipier};
@@ -295,7 +292,6 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   //NOTE:  on n'ajoute que des équipiers qui ne sont PAS en évaluation.
   //Si on veut évaluer un chauffeur, on l'ajoute au dispositif en tant que PSE2, puis on choisi de le mettre en évaluation sur le role chauffeur.
   
-  @SuppressWarnings("unchecked")
   public ListRange<Equipier> searchEquipier(int idRole, String searchString, int start, int limit) throws Exception
   {
     
@@ -336,8 +332,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "AND    er.id_role_equipier = ?                 \n"+
     "AND    e.id_delegation     = d.id_delegation   \n"+
     "AND    e.num_nivol         LIKE ?              \n";
-  
-  @SuppressWarnings("unchecked")  
+    
   public List<Equipier> getEquipiersByNivol(String nivol, int equipierRole) 
   {
     if(nivol.indexOf("*")>-1)
@@ -369,8 +364,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "AND    er.id_role_equipier = ?                 \n"+
     "AND    e.id_delegation     = d.id_delegation   \n"+
     "AND    e.nom               LIKE ?              \n";
-  
-  @SuppressWarnings("unchecked")  
+    
   public List<Equipier> getEquipiersByNom(String nom, int equipierRole)
   {
     if(nom.indexOf("*")>-1)
@@ -443,36 +437,41 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   {
 
     Object [] os    = new Object[]{ 
-        equipier.getNom(), 
-        equipier.getPrenom(), 
+        equipier.getNom     (), 
+        equipier.getPrenom  (), 
         equipier.getNumNivol(), 
-        equipier.isHomme()?new Integer(1):new Integer(0), 
-        equipier.getEmail(), 
-        equipier.getMobile(), 
-        equipier.isEnabled()?new Integer(1):new Integer(0), 
+        equipier.isHomme    (), 
+        equipier.getEmail   (), 
+        equipier.getMobile  (), 
+        equipier.isEnabled  (), 
         equipier.getDelegation().getIdDelegation()
         };
     int    [] types = new int   []{ 
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
-        Types.INTEGER                 , 
+        Types.BOOLEAN                 , 
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
-        Types.INTEGER                 , 
+        Types.BOOLEAN                 , 
         Types.VARCHAR
         };
     
     jdbcTemplate.update(queryForCreateEquipier, os, types);
+ 
+    int idEquipier =  this.getLastInsertedId();
+    equipier.setIdEquipier(idEquipier);
+    
+    this.updateEquipierRoles(equipier, true);
     
     if(logger.isDebugEnabled())
       logger.debug("Equiper inserted with id="+equipier.getIdEquipier());
  
-    return this.getLastInsertedId();
+    return idEquipier;
   }
   
   private final static String queryForModifyEquipier =
-    "UPDATE equipier         \n" +
+    "UPDATE equipier               \n" +
     "SET    nom               = ?, \n" +
     "       prenom            = ?, \n" +
     "       num_nivol         = ?, \n" +
@@ -481,19 +480,19 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "       mobile            = ?, \n" +
     "       enabled           = ?, \n" +
     "       id_delegation     = ?  \n" +
-    "WHERE  id_equipier       = ?  \n";
+    "WHERE  id_equipier       = ?  \n" ;
   
   public void                 modifyEquipier            (Equipier equipier) throws Exception
   {
 
     Object [] os    = new Object[]{ 
-        equipier.getNom(), 
-        equipier.getPrenom(), 
-        equipier.getNumNivol(), 
-        equipier.isHomme()?new Integer(1):new Integer(0), 
-        equipier.getEmail(), 
-        equipier.getMobile(), 
-        equipier.isEnabled()?new Integer(1):new Integer(0), 
+        equipier.getNom       (), 
+        equipier.getPrenom    (), 
+        equipier.getNumNivol  (), 
+        equipier.isHomme      (), 
+        equipier.getEmail     (), 
+        equipier.getMobile    (), 
+        equipier.isEnabled    (), 
         equipier.getDelegation().getIdDelegation(), 
         equipier.getIdEquipier()
         };
@@ -501,18 +500,65 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
-        Types.INTEGER                 , 
+        Types.BOOLEAN                 , 
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
-        Types.INTEGER                 , 
+        Types.BOOLEAN                 , 
         Types.VARCHAR                 , 
         Types.INTEGER
         };
     
     jdbcTemplate.update(queryForModifyEquipier, os, types);
     
+ 
+    this.updateEquipierRoles(equipier,false);
+    
     if(logger.isDebugEnabled())
       logger.debug("Equiper updated with id="+equipier.getIdEquipier());
+  }
+  
+  
+  private final static String queryForDeleteAllRolesFromEquipier=
+    "DELETE FROM equipier_roles   \n" +
+    "WHERE       id_equipier = ?  \n" ;
+  
+  private final static String queryForInsertRolesForEquipier=
+    "INSERT INTO equipier_roles                      \n" +
+    "  (id_equipier, id_role_equipier, en_evaluation)\n" +
+    "VALUES                                          \n" +
+    "  (?          , ?               , ?            )\n" ;
+  
+  public void updateEquipierRoles(Equipier equipier, boolean creation) throws Exception
+  {
+    Object [] os              = null;
+    int    [] types           = null;
+    int       nbLigneUpdated  = 0;
+    if(!creation)
+    {
+      os              = new Object[]{equipier.getIdEquipier() };
+      types           = new int   []{Types.INTEGER            };
+      
+      nbLigneUpdated  = jdbcTemplate.update(queryForDeleteAllRolesFromEquipier, os, types);
+      
+      if(logger.isDebugEnabled())
+        logger.debug("EquiperRoles deleted, nbLine deleted="+nbLigneUpdated);  
+    }
+    
+    nbLigneUpdated = 0;
+    List<EquipierRole> roles = equipier.getRoles();
+    
+    if( roles != null && roles.size()>0)
+    {
+      for (EquipierRole equipierRole : roles)
+      {
+        os    = new Object[]{equipier.getIdEquipier(), equipierRole.getId(), equipierRole.isEnEvalution() };
+        types = new int   []{Types.INTEGER           , Types.INTEGER       , Types.BOOLEAN                };
+        
+        nbLigneUpdated+= jdbcTemplate.update(queryForInsertRolesForEquipier, os, types);
+      }
+      if(logger.isDebugEnabled())
+        logger.debug("EquiperRoles inserted, nbLine inserted="+nbLigneUpdated);
+    }
   }
   
 }

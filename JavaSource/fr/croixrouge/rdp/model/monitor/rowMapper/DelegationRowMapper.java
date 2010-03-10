@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.Delegation;
 
-public class DelegationRowMapper extends RowMapperHelper implements RowMapper 
+public class DelegationRowMapper extends RowMapperHelper implements RowMapper <Delegation>
 {
   private String suffix = "";
   public DelegationRowMapper()
@@ -19,7 +19,7 @@ public class DelegationRowMapper extends RowMapperHelper implements RowMapper
     this.suffix = suffix;
   }
   
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public Delegation mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     Delegation delegation = new Delegation();
     

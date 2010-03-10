@@ -9,10 +9,10 @@ import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.User;
 
-public class RegulationRowMapper extends RowMapperHelper implements RowMapper
+public class RegulationRowMapper extends RowMapperHelper implements RowMapper<Regulation>
 {
 
-  public Object mapRow(ResultSet resultSet, int i) throws SQLException
+  public Regulation mapRow(ResultSet resultSet, int i) throws SQLException
   {
     Regulation regulation = new Regulation  ();
     User       regulateur = new User        ();

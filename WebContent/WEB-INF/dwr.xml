@@ -33,6 +33,15 @@
         <param name="beanName" value="equipiersGestion"/>
     </create>
     
+    <create
+         creator="spring"
+           scope="application"
+      javascript="LieuEditorService">
+        <param name="beanName" value="lieuEditorDwrService"/>
+    </create>
+    
+    
+    
     <!--  Output -->    
     <create
          creator="spring"

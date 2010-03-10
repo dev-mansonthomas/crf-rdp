@@ -244,7 +244,7 @@ Age Approximatif :
   <script type="text/javascript">
     var contextPath="../..";
     var iconPath = '../img/famfamfam/';
-    Ext.BLANK_IMAGE_URL = contextPath+'/js/extjs-2/resources/images/default/s.gif';
+    Ext.BLANK_IMAGE_URL = contextPath+'/js/ext-3.1.1/resources/images/default/s.gif';
   </script>
   <jwr:script src="/jsBundle/baseApp.js"/>
   <jwr:script src="/jsBundle/monitorOutput.js"/>

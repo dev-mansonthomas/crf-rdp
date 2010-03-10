@@ -323,6 +323,10 @@ MonitorInputInterventionCs.prototype.updateAddressReturn=function(place)
   $('interventionTicketCoordinateLat' ).value=coordinates[1];
   $('interventionTicketCoordinateLong').value=coordinates[0];
 
+  if(consoleEnabled)
+    console.log("coordinates for intervention id='"+$('interventionTicketId').value+"' are : '"+coordinates[1]+"', '"+coordinates[0]+"'");
+
+  
   MonitorInputIntervention.updateGoogleCoordinates(coordinates[1], coordinates[0], $('interventionTicketId').value, miInterventionCs.updateAddressSaveReturn);
 
   $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/cog.png";

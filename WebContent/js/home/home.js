@@ -8,6 +8,10 @@ Ext.onReady(function()
   initHomeTab();
   EquipiersGestion = Ext.ux.Home.EquipiersGestion;
   EquipiersGestion.init();
+  /*
+  LieuEditor = Ext.ux.Home.LieuEditor;
+  LieuEditor.init();
+ */ 
   crfIrpUtils.getAllList();
 });
 

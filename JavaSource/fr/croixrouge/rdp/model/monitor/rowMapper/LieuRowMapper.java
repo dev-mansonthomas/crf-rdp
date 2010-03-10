@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.Lieu;
 
-public class LieuRowMapper implements RowMapper
+public class LieuRowMapper implements RowMapper<Lieu>
 {
 
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public Lieu mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     Lieu lieu = new Lieu();
     

@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.InterventionMotif;
 
-public class InterventionMotifRowMapper extends RowMapperHelper implements RowMapper
+public class InterventionMotifRowMapper extends RowMapperHelper implements RowMapper<InterventionMotif>
 {
 
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public InterventionMotif mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     InterventionMotif interventionMotif = new InterventionMotif();
     interventionMotif.setId   (rs.getInt("id_motif"));

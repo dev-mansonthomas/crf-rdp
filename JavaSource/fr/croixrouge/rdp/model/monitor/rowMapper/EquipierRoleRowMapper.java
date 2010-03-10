@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.EquipierRole;
 
-public class EquipierRoleRowMapper extends RowMapperHelper implements RowMapper
+public class EquipierRoleRowMapper extends RowMapperHelper implements RowMapper<EquipierRole>
 {
   private String suffix="";
   
@@ -22,7 +22,7 @@ public class EquipierRoleRowMapper extends RowMapperHelper implements RowMapper
   }
 
   
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public EquipierRole mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     EquipierRole equipierRole = new EquipierRole();
     

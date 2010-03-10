@@ -8,7 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Equipier;
 
-public class EquipierRowMapper extends RowMapperHelper implements RowMapper
+public class EquipierRowMapper extends RowMapperHelper implements RowMapper<Equipier>
 {
   private boolean fetchRoleInDispositif = false;
   private boolean fetchDelegation       = false;
@@ -23,7 +23,7 @@ public class EquipierRowMapper extends RowMapperHelper implements RowMapper
     this.fetchDelegation       = fetchDelegation;
   }
 
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public Equipier mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     Equipier equipier = new Equipier();
     

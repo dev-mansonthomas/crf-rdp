@@ -11,7 +11,10 @@ Ext.ux.Home.EquipiersGestion = function() {
   var allDelegations = null;
   var allRoles       = null;
   var equipierData   = null;
-       
+  
+  var defautlHtmlNoUserSelected ='<br/><br/><br/><br/><br/><span style="margin-left:230px;color:#B9B9B9;">Aucun équipier sélectionné</span>';
+  var defautlHtmlNoUserSelectedTmpl = new Ext.XTemplate(defautlHtmlNoUserSelected);
+   
   var   equipierTemplate = new Ext.XTemplate(
       '<fieldset id="{prefixHtmlId}_fieldset">',
         '<legend>{title}</legend>',
@@ -23,11 +26,12 @@ Ext.ux.Home.EquipiersGestion = function() {
                   '<span>{label}</span>', 
                   '</td><td{[values.colspan!=-1?" colspan=\'"+values.colspan+"\'":""]}>',
                     '<tpl if="type == \'textInput\'">',
-                      '<input style="width:99%" type     ="text" ', 
+                      '<input type     ="text" ', 
                              'class    ="x-form-text x-form-field" ',
                              'id       ="{htmlId}" ',
                              'value    ="{value}", ', 
                              '{[values.readOnly?"readOnly":""]} ',
+                             'style=\'width:99%;{[values.readOnly?"color:#B9B9B9;\'":"\'"]}', 
                              'mandatory="{mandatory}"', 
                              ' />', 
                     '</tpl>', 
@@ -47,7 +51,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                     '<table id="edit_role_table">',
                          '<tpl for="options">',
                             '{[(xindex % 3 === 1) ? "<tr>" : ""]}',
-                            '<td><input type="checkbox" id="{parent.htmlId}_{id}" value="{id}" {[parent.readOnly?"readOnly":""]}/> {label}  </td>',
+                            '<td><input type="checkbox" id="{parent.htmlId}_{id}" value="{id}" {[parent.readOnly?"disabled":""]}/> {label}  </td>',
                             '{[(xindex % 3 === 0 || xindex === xcount) ? "</tr>" : ""]}',
                          '</tpl>',
                     '</table>',
@@ -183,24 +187,21 @@ Ext.ux.Home.EquipiersGestion = function() {
       
           
     equipierListGrid = new Ext.grid.GridPanel({
-        id    : 'home-list-equipier-grid-test',
+        id    : 'home-list-equipier-grid',
         store : equipierGridDataStore,
         cm    : new Ext.grid.ColumnModel([
             {id:'nomCol'              , header: 'Nom'        , width: 100 , sortable: true, dataIndex: 'nom'},
             {id:'prenomCol'           , header: 'Prénom'     , width: 100 , sortable: true, dataIndex: 'prenom'},
             {id:'sexeCol'             , header: 'Sexe'       , width: 40 , sortable: true, dataIndex: 'homme', align:'center', 
               renderer:function(isHomme){
-                var image = '<img style="vertical-align:bottom;" src="../img/famfamfam/user.png" alt="Homme" />';
-                if(!isHomme) {
-                  image = '<img style="vertical-align:bottom;" src="../img/famfamfam/user_female.png" alt="Femme" />';
-                }
-                return image;
+                return '<img style="vertical-align:bottom;" src="../img/famfamfam/user'+(!isHomme?'_female':'')+'.png" alt="'+(isHomme?'Homme':'Femme')+'" />';
               }
             },
             {id:'delegationCol'       , header: 'Délégation' , sortable: true, dataIndex: 'delegation', 
-                renderer:function(idDelegation){
-                return crfIrpUtils.getLabelFor('Delegations',idDelegation);
-              }
+                renderer:function(idDelegation)
+                {
+                  return crfIrpUtils.getLabelFor('Delegations',idDelegation);
+                }
             },
             {id:'numNivolCol'         , header: 'Nivol'      , width: 90 ,sortable: true, dataIndex: 'numNivol'}
         ]),
@@ -214,13 +215,13 @@ Ext.ux.Home.EquipiersGestion = function() {
             iconCls:'addButton',
             handler:function(){
                 Ext.ux.Home.EquipiersGestion.equipierData = null;
-                Ext.ux.Home.EquipiersGestion.initEquipierForm(true);
+                Ext.ux.Home.EquipiersGestion.initEquipierForm();
               }
         }],
         listeners:{ 
           rowdblclick : function(theGrid, rowIndex, e ){
               Ext.ux.Home.EquipiersGestion.equipierData = theGrid.store.getAt(rowIndex).data;
-              Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
+              Ext.ux.Home.EquipiersGestion.initEquipierForm();
           }
         },
         
@@ -258,36 +259,7 @@ Ext.ux.Home.EquipiersGestion = function() {
 				xtype           : 'panel',
         width           : 670,
 				collapsible     : true,
-        tbar: new Ext.Toolbar([
-        {
-          id      :'editBtn',
-          text    :'Editer',
-          hidden  :true,
-          handler : function()
-          {
-            Ext.ux.Home.EquipiersGestion.initEquipierForm(true);
-          }
-        },
-        {
-          id      : 'disableBtn',
-          text    : 'Désactiver',
-          hidden  : true,
-          handler : function()
-          {
-            Ext.ux.Home.EquipiersGestion.confirmDisableEquipier();
-          }
-        },
-        {
-          id      :'enableBtn',
-          text    :'Activer',
-          hidden  :true,
-          handler : function()
-          {
-            Ext.ux.Home.EquipiersGestion.confirmEnableEquipier();
-          }
-        }
-      ]),
-			html : '<span>Aucun équipier sélectionné</span>'
+			  html            : defautlHtmlNoUserSelected
 
 		};
 
@@ -309,7 +281,7 @@ Ext.ux.Home.EquipiersGestion = function() {
 		},
     searchEquipier:function()
     {
-      Ext.getCmp('home-list-equipier-grid-test').getStore().load({params:{start:0, limit:10}});
+      Ext.getCmp('home-list-equipier-grid').getStore().load({params:{start:0, limit:10}});
     },
     initSearch : function() {
 			var fieldsetData = {
@@ -405,12 +377,8 @@ Ext.ux.Home.EquipiersGestion = function() {
 			return equipierTemplate.apply(fieldsetData);
 		},
     
-    initEquipierForm : function(edition) {
-      
-      var editBtn    = Ext.getCmp('editBtn'   );
-      var disableBtn = Ext.getCmp('disableBtn');
-      var enableBtn  = Ext.getCmp('enableBtn' );
-        
+    initEquipierForm : function() 
+    {
       if (this.equipierData==null)
       {
         this.equipierData = {
@@ -425,28 +393,8 @@ Ext.ux.Home.EquipiersGestion = function() {
           delegation: 0,
           roles:[]
         };
-        editBtn   .hide();
-        disableBtn.hide();
-        enableBtn .hide();
       }
-      else if (!edition && this.equipierData.enabled)
-      {
-        editBtn   .show();
-        disableBtn.show();
-        enableBtn .hide();
-      }
-      else if (!this.equipierData.enabled)
-      {
-        editBtn   .hide();
-        disableBtn.hide();
-        enableBtn .show();
-      }
-      else if (edition)
-      {
-        editBtn   .hide();
-        disableBtn.hide();
-        enableBtn .hide();
-      }
+     
       var fieldsetData = {
         title         : 'Détails de l\'Equipier',
         prefixHtmlId  : 'equipierDetails',
@@ -455,9 +403,9 @@ Ext.ux.Home.EquipiersGestion = function() {
                   label       : 'Nivol',
                   value       : this.equipierData.numNivol,
                   type        : 'textInput',
-                  readOnly    : !edition,
+                  readOnly    : false,
                   mandatory   : true,
-                  colspan     :-1
+                  colspan     : -1
                 }, {
                   htmlId      : 'edit_idEquipier',
                   label       : 'ID Equipier',
@@ -472,7 +420,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                   label       : 'Nom',
                   value       : this.equipierData.nom,
                   type        : 'textInput',
-                  readOnly    : !edition,
+                  readOnly    : false,
                   mandatory   : true,
                   colspan     : -1
                 }, 
@@ -481,9 +429,9 @@ Ext.ux.Home.EquipiersGestion = function() {
                   label       : 'Prénom',
                   value       : this.equipierData.prenom,
                   type        : 'textInput',
-                  readOnly    : !edition,
+                  readOnly    : false,
                   mandatory   : true,
-                  colspan     :-1
+                  colspan     : -1
                 }], 
                 [
                 {
@@ -492,7 +440,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                   value     : this.equipierData.homme,
                   type      : 'select',
                   options   : [{id:'', label:''}, {id:'1', label:'Homme'}, {id:'0', label:'Femme'}],
-                  readOnly  : !edition,
+                  readOnly  : false,
                   mandatory : false,
                   colspan   : -1
                 }], 
@@ -501,7 +449,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                   label     : 'Email',
                   value     : this.equipierData.email,
                   type      : 'textInput',
-                  readOnly  : !edition,
+                  readOnly  : false,
                   mandatory : false,
                   colspan   : -1
                 }, 
@@ -510,7 +458,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                   label     : 'Mobile',
                   value     : this.equipierData.mobile,
                   type      : 'textInput',
-                  readOnly  : !edition,
+                  readOnly  : false,
                   mandatory : false,
                   colspan   : -1
                 }], 
@@ -520,7 +468,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                   value     : this.equipierData.enabled,
                   type      : 'select',
                   options   : [{id:'', label:''}, {id:'1', label:'Oui'}, {id:'0', label:'Non'}],
-                  readOnly  : true,
+                  readOnly  : false,
                   mandatory : false,
                   colspan   : -1
                 }], 
@@ -530,7 +478,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                   value     : this.equipierData.delegation,
                   type      : 'select',
                   options   : Ext.ux.Home.EquipiersGestion.allDelegations,
-                  readOnly  : !edition,
+                  readOnly  : false,
                   mandatory : false,
                   colspan   :3
                 }], 
@@ -540,13 +488,13 @@ Ext.ux.Home.EquipiersGestion = function() {
                   value     : 0,//Value setter en ajax
                   type      : 'checkbox',
                   options   : Ext.ux.Home.EquipiersGestion.allRoles,
-                  readOnly  : !edition,
+                  readOnly  : false,
                   mandatory : false,
                   colspan   : 3
                 }]],
           buttons: []
       };
-      if (edition && this.equipierData.idEquipier == -1)
+      if(this.equipierData.idEquipier == -1)
       {
         fieldsetData.buttons = [
           {
@@ -557,11 +505,11 @@ Ext.ux.Home.EquipiersGestion = function() {
           {
             htmlId  : 'annuler',
             label   : 'Annuler',
-            onClick : 'Ext.ux.Home.EquipiersGestion.initEquipierForm(false);'
+            onClick : 'Ext.ux.Home.EquipiersGestion.initEquipierForm();'
           }
         ]
       }
-      else if (edition && this.equipierData.idEquipier != -1)
+      else if(this.equipierData.idEquipier != -1)
       {
         fieldsetData.buttons = [
           {
@@ -572,7 +520,7 @@ Ext.ux.Home.EquipiersGestion = function() {
           {
             htmlId  : 'annuler',
             label   : 'Annuler',
-            onClick : 'Ext.ux.Home.EquipiersGestion.initEquipierForm(false);'
+            onClick : 'Ext.ux.Home.EquipiersGestion.initEquipierForm();'
           }
         ]
       }
@@ -580,63 +528,15 @@ Ext.ux.Home.EquipiersGestion = function() {
       equipierTemplate.overwrite(Ext.getCmp('EquipierEditorPanel').body, fieldsetData);
       
       if(this.equipierData.idEquipier!=-1)
-        EquipiersGestionService.getEquipierRoles(this.equipierData.idEquipier, function(listRole){
+      {
+        EquipiersGestionService.getEquipierRoles(this.equipierData.idEquipier, 
+        function(listRole){
           for(i=0,count=listRole.length;i<count;i++)
           {
             Ext.getDom('edit_role_'+listRole[i].id).checked=true;
           }
         });
-      
-    },
-    confirmEnableEquipier : function() {
-      Ext.MessageBox.confirm( 'Confirmation activation equipier',
-                              'Confirmez-vous l\'activation de cet équipier',
-                              function(btn)
-                              {
-                                if (btn=='yes')
-                                  Ext.ux.Home.EquipiersGestion.enableEquipier();
-                                else
-                                  Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-                              },
-                              true);
-    },
-    enableEquipier : function() {
-        EquipiersGestionService.enableEquipier(
-          Ext.getDom('edit_idEquipier').value,
-          true,
-          {
-            callback: function(dataFromBrowser)
-            {
-              Ext.ux.Home.EquipiersGestion.equipierData.enabled = dataFromBrowser;
-              Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-              Ext.ux.Home.EquipiersGestion.searchEquipier();
-            }
-          });
-    },
-    confirmDisableEquipier : function() {
-      Ext.MessageBox.confirm( 'Confirmation désactivation equipier',
-                              'Confirmez-vous la désactivation de cet équipier',
-                              function(btn)
-                              {
-                                if (btn=='yes')
-                                  Ext.ux.Home.EquipiersGestion.disableEquipier();
-                                else
-                                  Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-                              },
-                              true);
-    },
-    disableEquipier : function() {
-        EquipiersGestionService.disableEquipier(
-          Ext.getDom('edit_idEquipier').value,
-          false,
-          {
-            callback: function(dataFromBrowser)
-            {
-              Ext.ux.Home.EquipiersGestion.equipierData.enabled = dataFromBrowser;
-              Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-              Ext.ux.Home.EquipiersGestion.searchEquipier();
-            }
-          });
+      }
     },
     confirmCreateEquipier : function() {
       var error = Ext.ux.Home.EquipiersGestion.checkEquipierForm();
@@ -653,27 +553,14 @@ Ext.ux.Home.EquipiersGestion = function() {
                                 true);
     },
     createEquipier : function() {
-        EquipiersGestionService.createEquipier(
-          Ext.getDom('edit_nom').value,
-          Ext.getDom('edit_prenom').value,
-          Ext.getDom('edit_numNivol').value,
-          Ext.getDom('edit_homme').value,
-          Ext.getDom('edit_email').value,
-          Ext.getDom('edit_mobile').value,
-          Ext.getDom('edit_enabled').value,
-          Ext.getDom('edit_delegation').value,
+      var equipier = this.buildEquipierFromForm();
+        EquipiersGestionService.createEquipier(equipier,
           {
             callback: function(dataFromBrowser)
             {
-              Ext.ux.Home.EquipiersGestion.equipierData.nom       = dataFromBrowser.nom;
-              Ext.ux.Home.EquipiersGestion.equipierData.prenom    = dataFromBrowser.prenom;
-              Ext.ux.Home.EquipiersGestion.equipierData.email     = dataFromBrowser.email;
-              Ext.ux.Home.EquipiersGestion.equipierData.mobile    = dataFromBrowser.mobile;
-              Ext.ux.Home.EquipiersGestion.equipierData.numNivol  = dataFromBrowser.numNivol;
-              Ext.ux.Home.EquipiersGestion.equipierData.homme     = dataFromBrowser.homme;
-              Ext.ux.Home.EquipiersGestion.equipierData.delegation= dataFromBrowser.delegation.idDelegation+'';
-              Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-              Ext.ux.Home.EquipiersGestion.searchEquipier();
+              Ext.ux.Home.EquipiersGestion.equipierData      = null;
+              Ext.ux.Home.EquipiersGestion.initEquipierForm ();
+              Ext.ux.Home.EquipiersGestion.searchEquipier   ();
             }
           });
     },
@@ -691,32 +578,61 @@ Ext.ux.Home.EquipiersGestion = function() {
                                 },
                                 true);
     },
-    modifyEquipier : function() {
+    buildEquipierFromForm:function()
+    {
+      
+      var equipier = {
+        idEquipier          : Ext.getDom('edit_idEquipier').value,
+        idDispositif        : 0,
+        homme               : Ext.getDom('edit_homme'     ).value,
+        enabled             : Ext.getDom('edit_enabled'   ).value==1,
+        numNivol            : Ext.getDom('edit_numNivol'  ).value,
+        nom                 : Ext.getDom('edit_nom'       ).value,
+        prenom              : Ext.getDom('edit_prenom'    ).value,
+        mobile              : Ext.getDom('edit_mobile'    ).value,
+        email               : Ext.getDom('edit_email'     ).value,
+        autreDelegation     : '',
+        delegation          :{idDelegation:Ext.getDom('edit_delegation').value},
+        
+        idRoleDansDispositif       : 0,
+        enEvaluationDansDispositif : false,
+        idRoleEnEval               : 0,
+        roles                      :[]
+      };
+ 
+      var rolesDef = Ext.ux.Home.EquipiersGestion.allRoles;
+      var roles    = [];
+      var i=0,counti=0;
+      for(i=0,counti=rolesDef.length;i<counti;i++)
       {
-        EquipiersGestionService.modifyEquipier(
-          Ext.getDom('edit_idEquipier').value,
-          Ext.getDom('edit_nom').value,
-          Ext.getDom('edit_prenom').value,
-          Ext.getDom('edit_numNivol').value,
-          Ext.getDom('edit_homme').value,
-          Ext.getDom('edit_email').value,
-          Ext.getDom('edit_mobile').value,
-          Ext.getDom('edit_enabled').value,
-          Ext.getDom('edit_delegation').value,
+        if(Ext.getDom('edit_role_'+rolesDef[i].id).checked)
+        {//todo faire les en evaluation
+          var oneRole = {id:rolesDef[i].id, enEvaluation:false};
+          if(rolesDef[i].evaluable)
+          {//Todo, ajouter en evaluation dans le formulaire
+            //oneRole.enEvaluation=Ext.getDom('edit_role_'+rolesDef[i].id+'_eval').checked;
+          }
+          roles.push(oneRole);
+        }
+      }
+      
+      equipier.roles = roles;
+      
+      return equipier;
+    },
+    
+    modifyEquipier : function() {
+    {
+      var equipier = this.buildEquipierFromForm();
+        EquipiersGestionService.modifyEquipier(equipier,
           {
-            callback: function(dataFromBrowser)
+            callback: function()
             { 
-              Ext.ux.Home.EquipiersGestion.equipierData.idEquipier= dataFromBrowser.idEquipier;
-              Ext.ux.Home.EquipiersGestion.equipierData.nom       = dataFromBrowser.nom;
-              Ext.ux.Home.EquipiersGestion.equipierData.prenom    = dataFromBrowser.prenom;
-              Ext.ux.Home.EquipiersGestion.equipierData.email     = dataFromBrowser.email;
-              Ext.ux.Home.EquipiersGestion.equipierData.mobile    = dataFromBrowser.mobile;
-              Ext.ux.Home.EquipiersGestion.equipierData.numNivol  = dataFromBrowser.numNivol;
-              Ext.ux.Home.EquipiersGestion.equipierData.homme     = dataFromBrowser.homme;
-              Ext.ux.Home.EquipiersGestion.equipierData.enable    = dataFromBrowser.enable;
-              Ext.ux.Home.EquipiersGestion.equipierData.delegation= dataFromBrowser.delegation.idDelegation;
-              Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-              Ext.ux.Home.EquipiersGestion.searchEquipier();
+              
+              Ext.ux.Home.EquipiersGestion.equipierData      = null;
+              //Ext.ux.Home.EquipiersGestion.initEquipierForm ();
+              defautlHtmlNoUserSelectedTmpl.overwrite(Ext.getCmp('EquipierEditorPanel').body, {});
+              Ext.ux.Home.EquipiersGestion.searchEquipier   ();
             }
           });
       }
@@ -724,7 +640,7 @@ Ext.ux.Home.EquipiersGestion = function() {
     checkEquipierForm : function() {
       
       var error = false;
-      var msg = ['Des Informations sont mal remplies:'];
+      var msg = ['Certaines données saisies sont incorrectes :'];
       if (Ext.getDom('edit_nom').value == '')
       {
         msg.push('<br/>- Nom');

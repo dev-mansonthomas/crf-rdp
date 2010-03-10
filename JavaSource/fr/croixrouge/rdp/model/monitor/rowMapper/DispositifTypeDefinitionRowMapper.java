@@ -7,9 +7,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.DispositifTypeDefinition;
 
-public class DispositifTypeDefinitionRowMapper extends RowMapperHelper implements RowMapper
+public class DispositifTypeDefinitionRowMapper extends RowMapperHelper implements RowMapper<DispositifTypeDefinition>
 {
-  public Object mapRow(ResultSet rs, int rowNum) throws SQLException
+  public DispositifTypeDefinition mapRow(ResultSet rs, int rowNum) throws SQLException
   {
     DispositifTypeDefinition dispositifTypeDefinition = new DispositifTypeDefinition();
 

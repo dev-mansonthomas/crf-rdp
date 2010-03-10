@@ -51,9 +51,9 @@ public class Equipier extends CrfDto
   {
     return autreDelegation;
   }
-  public void setAutreDelegation(String autre_delegation)
+  public void setAutreDelegation(String autreDelegation)
   {
-    this.autreDelegation = autre_delegation;
+    this.autreDelegation = autreDelegation;
   }
   public Delegation getDelegation()
   {
@@ -68,17 +68,17 @@ public class Equipier extends CrfDto
   {
     return idDispositif;
   }
-  public void setIdDispositif(int id_dispositif)
+  public void setIdDispositif(int idDispositif)
   {
-    this.idDispositif = id_dispositif;
+    this.idDispositif = idDispositif;
   }
   public int getIdEquipier()
   {
     return idEquipier;
   }
-  public void setIdEquipier(int id_equipier)
+  public void setIdEquipier(int idEquipier)
   {
-    this.idEquipier = id_equipier;
+    this.idEquipier = idEquipier;
   }
   public String getNom()
   {
@@ -92,9 +92,9 @@ public class Equipier extends CrfDto
   {
     return numNivol;
   }
-  public void setNumNivol(String num_nivol)
+  public void setNumNivol(String numNivol)
   {
-    this.numNivol = num_nivol;
+    this.numNivol = numNivol;
   }
   public String getPrenom()
   {

@@ -92,6 +92,8 @@ public class PerMachineLog4JConfigurer
       }
       this.log4jFileUsed = destinationFile.getAbsolutePath();
     }
+    
+    //DOMConfigurator.configure(new URL)
     if(this.refreshInterval == 0)
       Log4jConfigurer.initLogging(log4jFileUsed);
     else

@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.EquipierRole;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
@@ -77,30 +76,9 @@ public class EquipiersGestion extends DWRUtils
   
 
   
-  public Equipier createEquipier(
-                                  String nom,
-                                  String prenom,
-                                  String numNivol,
-                                  int homme,
-                                  String email,
-                                  String mobile,
-                                  int enabled,
-                                  int idDelegation) throws Exception
+  public void createEquipier(Equipier equipier) throws Exception
   {
     this.validateSession();
-    
-    Equipier equipier = new Equipier();
-    equipier.setNom(nom);
-    equipier.setPrenom(prenom);
-    equipier.setNumNivol(numNivol);
-    equipier.setHomme(homme==1);
-    equipier.setEmail(email);
-    equipier.setMobile(mobile);
-    equipier.setEnabled(enabled==1);
-    Delegation delegation = new Delegation();
-    delegation.setIdDelegation(idDelegation);
-    equipier.setDelegation(delegation);
-    
     try
     {
       int idEquipier = this.equipierService.createEquipier(equipier);
@@ -108,36 +86,13 @@ public class EquipiersGestion extends DWRUtils
     }
     catch (Exception e)
     {
-      e.printStackTrace();
+      logger.error("Error while creating an equipier",e);
+      throw e;
     }
-    
-    return equipier;
   }
   
-  public Equipier modifyEquipier(
-      int idEquipier,
-      String nom,
-      String prenom,
-      String numNivol,
-      int homme,
-      String email,
-      String mobile,
-      int enabled,
-      int idDelegation) throws Exception
+  public void modifyEquipier(Equipier equipier) throws Exception
   {
-    Equipier equipier = new Equipier();
-    equipier.setIdEquipier(idEquipier);
-    equipier.setNom(nom);
-    equipier.setPrenom(prenom);
-    equipier.setNumNivol(numNivol);
-    equipier.setHomme(homme==1);
-    equipier.setEmail(email);
-    equipier.setMobile(mobile);
-    equipier.setEnabled(enabled==1);
-    Delegation delegation = new Delegation();
-    delegation.setIdDelegation(idDelegation);
-    equipier.setDelegation(delegation);
-    
     try
     {
       this.validateSession();
@@ -146,8 +101,8 @@ public class EquipiersGestion extends DWRUtils
     }
     catch (Exception e)
     {
-      e.printStackTrace();
+      logger.error("Error while updating equipier",e);
+      throw e;
     }
-    return equipier;
   }
 }

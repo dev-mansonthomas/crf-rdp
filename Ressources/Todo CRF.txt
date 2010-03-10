@@ -1,10 +1,4 @@
 + Gerer l'auto désaffectation du dispositif après X heure d'inactivité d'un dispositif.
-+ gerer l'import des données
-+ gerer la multi affecation de victime a un dispositif [en cours]
-
-  currentInterId, on le dégage, tout dans la table d'association
-  sur une intervention, un bouton clone, fait apparaitre une fenetre demandant le nom/prénom de la nouvelle victime et on clone les reste des infos
-  sur le bouton action, si action == primaire ou secondaire et qu'il existe plus d'une intervention, lorsqu'on clic de nouveau sur  le bouton action : 'Etes vous sur d'avoir rempli le primaire de toutes les vicitimes'?
   
 
 <a href="http://icanhascheezburger.com/2008/09/09/funny-pictures-kitteh-cheks-fr-breethin-furst/"><img class="mine_1760499" title="funny-pictures-cat-tries-to-save-your-life" src="http://icanhascheezburger.wordpress.com/files/2008/09/funny-pictures-cat-tries-to-save-your-life.jpg" alt="cat" /></a><br />more <a href="http://icanhascheezburger.com">animals</a>
@@ -15,19 +9,11 @@ TODO :
 
 Application : 
   + Ajouter une fonctionnalité qui permet d'annulé une intervention sur l'intervention
-  
-  
-  + Ajouter un bouton 'Fin de vacation' pour sortir un véhicule de la régulation.
-  + Ajouter la version radio du nom de la victime
   + gestion du focus sur bilan
-  
   + Gestion des Equipiers (avec bouton : Ajout comme utilisateur de l'application)
-  + Gestion des Users
-  
+  + linker la table user à la table equipier et virer les colonnes en trop dans user
   + Confirmer les descriptions d'AR, UMH, Myosis, Mydryase
   + debugger l'adresse d'evac
-
-
   + implementer l'historisation des changements des interventions et dispositifs dans mysql 
       Soit sous forme de trigger avec historisation systématique, mais volume de données trop important, peu exploitable
       Soit sous la forme d'une table d'historique avec les évenements marquants + zone de données XML
@@ -37,14 +23,12 @@ Application :
   + Ré intégrer le code pour la gestion des régulateurs sur in.jsp
     
   
-  + BILAN : Date de naissance
+  + BILAN : Date de naissance Ext
  
   + Dispositif : gestion du focus sur ajout de dispositif : skip des dates, après saisie équipier donner le focus aux premier volume d'O2, faire volume/pression/volume/pression plutot que volume/volume/pression/pression
   + Dispositif : Arrondi a l'entier près pour l'autonomie, un chiffre après la virgule pour le volume
   + Dispositif : Drop down pour le volume des bouteilles
  
-  + Ajout de la possiblité de transferer une vicitime d'un dispositif a un autre (PAPS -> dispositif, dispositif->dispositif)
-  + Ajout de la possiblité de mettre plus d'une victime dans un dispositif : PAPS, transport exceptionnel de N victime. Via une table d'association
   + init drop zone : gestion des couleurs de la dropzone : vert :droppable, rouge : qqn a bord ajout impossible dans un premier temps, gris : indisponible
   + Input , Dispositif : Ajout d'une référence à sa base. Référence a un lieu + adresse complete (cas ou la base est un point d'alerte par exemple)
   + Output, Dispositif, ajout d'un bouton "A sa base" en forme de maison  
@@ -56,7 +40,7 @@ Application :
   + Ajouter le N° d'inter dans l'affichage du Ticket
                
 Technique : 
-  + Spring 3 + dependencies                                               
+                                                
   + build my own Ext  
   + Mise en place YUI Compressor  (intégré dans jawr)        
   + Mode Admin : vider les caches.
@@ -160,6 +144,20 @@ DONE :
   - BILAN : Pupille réactive & Non réactive impossible
   - BILAN : Médicalisé Par UMH et AR en meme temps, impossible
 
+  - gerer l'import des données
+  - gerer la multi affecation de victime a un dispositif [en cours]
+
+  currentInterId, on le dégage, tout dans la table d'association
+  sur une intervention, un bouton clone, fait apparaitre une fenetre demandant le nom/prénom de la nouvelle victime et on clone les reste des infos
+  sur le bouton action, si action == primaire ou secondaire et qu'il existe plus d'une intervention, lorsqu'on clic de nouveau sur  le bouton action : 'Etes vous sur d'avoir rempli le primaire de toutes les vicitimes'?
+
+  - Ajouter un bouton 'Fin de vacation' pour sortir un véhicule de la régulation.
+  - Ajouter la version radio du nom de la victime
+  - Gestion des Users
+  - Ajout de la possiblité de transferer une vicitime d'un dispositif a un autre (PAPS -> dispositif, dispositif->dispositif)  
+  - Ajout de la possiblité de mettre plus d'une victime dans un dispositif : PAPS, transport exceptionnel de N victime. Via une table d'association
+  - Ext 3.1.1
+  - Spring 3.0.1 + dependencies 
 
 
 station service : 

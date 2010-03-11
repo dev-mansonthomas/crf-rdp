@@ -597,7 +597,8 @@ values
 ('0.1.0','milieu 2008'  ,'No production release','Première version mise à disposition pour présentation'),
 ('0.2.0','fin 2008'     ,'No production release','Bug fix release'),
 ('0.3.0','2009-03-13'   ,'No production release','Google Maps Traffic et Street View'),
-('0.4.0','2009-06-01'   ,'No production release','Ré implémentation du Drag & Drop, affectation de plusieurs victime à un dispositif')
+('0.4.0','2009-06-01'   ,'No production release','Ré implémentation du Drag & Drop, affectation de plusieurs victime à un dispositif'),
+('0.4.2','2010-03-11'   ,'No production release','Mise a jours de composants techniques')
 ;
 
 insert into application_version_changelog(`id_application_version`, `id_jira`, `description`)
@@ -622,7 +623,10 @@ values
 (4,'IRP-83', 'Changement d\'implémentation de la gestion des roles des équipiers'),
 (4,'IRP-82', 'Changment d\'implémentation de l\'affectation des équipiers'),
 (4,'IRP-59', 'Affichage de l\'environnement (dev, recette, production)'),
-(4,'IRP-49', 'Interface d\'éditions des bénévoles');
+(4,'IRP-49', 'Interface d\'éditions des bénévoles'),
+(5,'IRP-36', 'Utilisation de YUI Compressor'),
+(5,'IRP-34', 'Upgrade vers Spring 3+dependencies'),
+(5,'IRP-86', 'Interface d\'éditions des bénévoles');
   
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values

@@ -626,7 +626,7 @@ values
 (4,'IRP-49', 'Interface d\'éditions des bénévoles'),
 (5,'IRP-36', 'Utilisation de YUI Compressor'),
 (5,'IRP-34', 'Upgrade vers Spring 3+dependencies'),
-(5,'IRP-86', 'Interface d\'éditions des bénévoles');
+(5,'IRP-86', 'Upgrade dwr, jawr');
   
 insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
 values

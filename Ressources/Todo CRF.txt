@@ -8,6 +8,8 @@
 TODO :      
 
 Application : 
+  + addresse habitation de la victime :bouton pour initiliser a l'adresse d'intervention
+  + Ajouter département/ville dans le nom des hopitaux pour la médicalisation de l'intervention (classé par département pour que 75 soit en premier)
   + Ajouter une fonctionnalité qui permet d'annulé une intervention sur l'intervention
   + gestion du focus sur bilan
   + Gestion des Equipiers (avec bouton : Ajout comme utilisateur de l'application)

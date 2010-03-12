@@ -26,7 +26,7 @@ if(error)
 %>
 
     <div id="footer">
-       Copyright © 2009 - Croix Rouge Française
+       Copyright © 2010 - Croix Rouge Française
     </div>
     <jwr:script src="/jsBundle/extJs.js"/>
     <jwr:script src="/jsBundle/login.js"/> 

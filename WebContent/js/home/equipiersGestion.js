@@ -584,7 +584,7 @@ Ext.ux.Home.EquipiersGestion = function() {
       var equipier = {
         idEquipier          : Ext.getDom('edit_idEquipier').value,
         idDispositif        : 0,
-        homme               : Ext.getDom('edit_homme'     ).value,
+        homme               : Ext.getDom('edit_homme'     ).value==1,
         enabled             : Ext.getDom('edit_enabled'   ).value==1,
         numNivol            : Ext.getDom('edit_numNivol'  ).value,
         nom                 : Ext.getDom('edit_nom'       ).value,

@@ -20,9 +20,9 @@ public class CreditsAndChangeLogServiceImpl implements CreditsAndChangeLogServic
   }
 
   private static String queryForGetCredits = 
-    "SELECT id, presentation_order, name, version, url, description \n"+
-    "FROM credits c                                                 \n"+
-    "ORDER BY presentation_order ASC                                \n"; 
+    "SELECT   id, presentation_order, name, version, url, description \n"+
+    "FROM     credits c                                               \n"+
+    "ORDER BY presentation_order ASC                                  \n"; 
   
   public List<Credit> getCredit() throws Exception
   {
@@ -38,7 +38,7 @@ public class CreditsAndChangeLogServiceImpl implements CreditsAndChangeLogServic
     "SELECT id, version_name, dev_release_date,  \n" +
     "       production_release_date, description \n" +
     "FROM   application_version a                \n" +
-    "order by id asc                             \n";
+    "ORDER BY id ASC                             \n";
    
   public List<ApplicationVersion> getApplicationVersion() throws Exception
   {
@@ -51,7 +51,7 @@ public class CreditsAndChangeLogServiceImpl implements CreditsAndChangeLogServic
   private static String queryForGetApplicationVersionChangeLog = 
     "SELECT id, id_application_version, id_jira, description \n" +
     "FROM application_version_changelog a                    \n" +
-    "ORDER BY id_application_version asc, id asc             \n";
+    "ORDER BY id_application_version ASC, id ASC             \n";
 
   public List<ApplicationVersionChangeLog> getApplicationVersionChangeLog() throws Exception
   {

@@ -36,16 +36,16 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     sortMapForGetEquipierList.put("delegation.idDelegation"   , "nom_delegation"  );
     sortMapForGetEquipierList.put("numNivol"                  , "num_nivol"       );
     
-    whereMapForGetEquipierList.put("NOM"              , "E.NOM"              );
-    whereMapForGetEquipierList.put("PRENOM"           , "E.PRENOM"           );
-    whereMapForGetEquipierList.put("NUM_NIVOL"        , "E.NUM_NIVOL"        );
-    whereMapForGetEquipierList.put("EQUIPIER_IS_MALE" , "E.EQUIPIER_IS_MALE" );
-    whereMapForGetEquipierList.put("ID_ROLE_EQUIPIER" , "ER.ID_ROLE_EQUIPIER"); 
-    whereMapForGetEquipierList.put("EMAIL"            , "E.EMAIL"            );
-    whereMapForGetEquipierList.put("MOBILE"           , "E.MOBILE"           );
-    whereMapForGetEquipierList.put("ENABLED"          , "E.ENABLED"          );
-    whereMapForGetEquipierList.put("ID_DELEGATION"    , "E.ID_DELEGATION"    );
-    
+    whereMapForGetEquipierList.put("NOM"              , "e.nom"              );
+    whereMapForGetEquipierList.put("PRENOM"           , "e.prenom"           );
+    whereMapForGetEquipierList.put("NUM_NIVOL"        , "e.num_nivol"        );
+    whereMapForGetEquipierList.put("EQUIPIER_IS_MALE" , "e.equipier_is_male" );
+    whereMapForGetEquipierList.put("ID_ROLE_EQUIPIER" , "er.id_role_equipier"); 
+    whereMapForGetEquipierList.put("EMAIL"            , "e.email"            );
+    whereMapForGetEquipierList.put("MOBILE"           , "e.mobile"           );
+    whereMapForGetEquipierList.put("ENABLED"          , "e.enabled"          );
+    whereMapForGetEquipierList.put("ID_DELEGATION"    , "e.id_delegation"    );
+
 
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -67,8 +67,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   "       e.mobile              ,                  \n"+
   "       e.email               ,                  \n"+
   "       d.id_delegation       ,                  \n"+
-  "       d.nom         as nom_delegation         ,\n"+
-  "       d.departement as departement_delegation ,\n"+
+  "       d.nom         AS nom_delegation         ,\n"+
+  "       d.departement AS departement_delegation ,\n"+
   "       e.autre_delegation                       \n";
   
   private final static String equipierFrom =
@@ -187,7 +187,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
           
           if ("ID_ROLE_EQUIPIER".equals(currentFilter.getName()))
           {
-            whereClause.append("EXISTS (SELECT ER.ID_EQUIPIER FROM EQUIPIER_ROLES ER WHERE ER.ID_EQUIPIER = E.ID_EQUIPIER AND ER.ID_ROLE_EQUIPIER = ?)\n");
+            whereClause.append("EXISTS (SELECT er.id_equipier FROM equipier_roles er WHERE er.id_equipier = e.id_equipier AND er.id_role_equipier = ?)\n");
           }
           else
           {

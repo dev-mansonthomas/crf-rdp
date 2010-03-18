@@ -1047,7 +1047,20 @@ MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
   
   
   store.loadData(arrayOfRole);
-  roleListCombo.select(1,true);
+  
+  try
+  {
+    roleListCombo.select(1,true);  
+  }
+  catch(ex)
+  {
+    if(consoleEnabled)
+    {
+      console.log("Error while setting default role (equipier on dispositif",ex);
+    }
+  }
+  
+  
 };
 
 

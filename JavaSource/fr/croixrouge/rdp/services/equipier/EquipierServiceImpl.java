@@ -287,6 +287,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "(                                              \n"+
     "       e.num_nivol         LIKE ?              \n" +
     " OR    e.nom               LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
+    " OR    e.prenom            LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
     ")\n";
 
   //NOTE:  on n'ajoute que des équipiers qui ne sont PAS en évaluation.
@@ -295,8 +296,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   public ListRange<Equipier> searchEquipier(int idRole, String searchString, int start, int limit) throws Exception
   {
     
-    Object [] os    =  new Object[]{idRole       , searchString , searchString };
-    int    [] types =  new int   []{Types.INTEGER, Types.CHAR   , Types.CHAR   };
+    Object [] os    =  new Object[]{idRole       , searchString , searchString , searchString };
+    int    [] types =  new int   []{Types.INTEGER, Types.CHAR   , Types.CHAR   , Types.CHAR   };
    
     
     int totalCount = this.jdbcTemplate.queryForInt(
@@ -320,74 +321,6 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     
     
     return new ListRange<Equipier>(totalCount, equipierList);
-  }
-  
-  
-  private final static String queryForGetEquipiersByNivol = 
-    selectForEquipier+
-    ", equipier_roles er                            \n"+
-    "WHERE  e.id_dispositif     = 0                 \n"+
-    "AND    e.id_equipier       = er.id_equipier    \n"+
-    "AND    e.enabled           = true              \n"+
-    "AND    er.id_role_equipier = ?                 \n"+
-    "AND    e.id_delegation     = d.id_delegation   \n"+
-    "AND    e.num_nivol         LIKE ?              \n";
-    
-  public List<Equipier> getEquipiersByNivol(String nivol, int equipierRole) 
-  {
-    if(nivol.indexOf("*")>-1)
-      nivol = nivol.replaceAll("*", "%");
-    else
-      nivol += "%";
-    
-    if(logger.isDebugEnabled())
-      logger.debug("Getting EquipiersByNivol '"+nivol+"' query : \n"+queryForGetEquipiersByNivol);
-
-    Object [] os    =  new Object[]{equipierRole , nivol     };
-    int    [] types =  new int   []{Types.INTEGER, Types.CHAR};
-   
-    List<Equipier> equipierList = jdbcTemplate.query( queryForGetEquipiersByNivol , 
-                                                      os    , 
-                                                      types , 
-                                                      new EquipierRowMapper());
-    
-    return equipierList;
-  }
-  
-  
-  private final static String queryForGetEquipiersByNom = 
-    selectForEquipier+
-    ", equipier_roles er                           \n"+
-    "WHERE  e.id_dispositif     = 0                 \n"+
-    "AND    e.id_equipier       = er.id_equipier    \n"+
-    "AND    e.enabled           = true              \n"+
-    "AND    er.id_role_equipier = ?                 \n"+
-    "AND    e.id_delegation     = d.id_delegation   \n"+
-    "AND    e.nom               LIKE ?              \n";
-    
-  public List<Equipier> getEquipiersByNom(String nom, int equipierRole)
-  {
-    if(nom.indexOf("*")>-1)
-      nom = nom.replaceAll("*", "%");
-    else
-      nom += "%";
-    
-    if(logger.isDebugEnabled())
-      logger.debug("Getting EquipiersByNom '"+nom+"', equipierRole='"+equipierRole+"'");
-
-    
-
-    
-    Object [] os    = new Object[]{ equipierRole , nom       };
-    int    [] types = new int   []{ Types.INTEGER, Types.CHAR};
-
-   
-    List<Equipier> equipierList = jdbcTemplate.query( queryForGetEquipiersByNom , 
-                                                      os    , 
-                                                      types , 
-                                                      new EquipierRowMapper());
-    
-    return equipierList;
   }
   
   private final static String queryForSetDispositifToEquipier =

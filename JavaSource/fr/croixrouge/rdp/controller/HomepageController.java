@@ -58,6 +58,7 @@ public class HomepageController extends AbstractController implements Initializi
     logger.warn("Environment                  is "+this.propertyPlaceholderConfigurer.getPropertyValue("application.environment"     ));
     logger.warn("EnvironmentCode              is "+this.propertyPlaceholderConfigurer.getPropertyValue("application.environment.code"));
     logger.warn("ApplicationDeclarationCnil   is "+this.propertyPlaceholderConfigurer.getPropertyValue("application.declarationCnil" )); 
+    logger.warn("GoogleMaps API Key           is "+this.propertyPlaceholderConfigurer.getPropertyValue("google.maps.key"             ));
     
     
   }

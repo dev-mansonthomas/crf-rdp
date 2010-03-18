@@ -812,11 +812,11 @@ MonitorOutputDispositifCs.prototype.cloneIntervention=function(idDispositif, idI
 
 MonitorOutputDispositifCs.prototype.doCloneIntervention=function()
 {
-  if(Ext.get('cloneInterventionNomVictime'   ).getValue().trim() == '' ||
-     Ext.get('cloneInterventionPrenomVictime').getValue().trim() == '' ||
-     !Ext.get('cloneInterventionSexeVictimeFemme').dom.checked && !Ext.get('cloneInterventionSexeVictimeHomme').dom.checked ||
-     Ext.get('cloneInterventionAgeVictime').getValue().trim() == '' ||
-     isNaN(Ext.get('cloneInterventionAgeVictime').getValue().trim()))
+  if(      Ext.get('cloneInterventionNomVictime'      ).getValue().trim() == '' ||
+           Ext.get('cloneInterventionPrenomVictime'   ).getValue().trim() == '' ||
+          !Ext.get('cloneInterventionSexeVictimeFemme').dom.checked && !Ext.get('cloneInterventionSexeVictimeHomme').dom.checked ||
+           Ext.get('cloneInterventionAgeVictime'      ).getValue().trim() == '' ||
+     isNaN(Ext.get('cloneInterventionAgeVictime'      ).getValue().trim()))
   {
     Ext.Msg.alert('Champ manquant', 'Veuillez saisir tous les champs');
     return;
@@ -826,10 +826,10 @@ MonitorOutputDispositifCs.prototype.doCloneIntervention=function()
   MonitorOutputDispositif.cloneIntervention({
     idDispositif          : MonitorOutputDispositifCs.prototype.cloneInterventionWindow.idDispositif,
     idInterventionOrigine : MonitorOutputDispositifCs.prototype.cloneInterventionWindow.idIntervention,
-    nom                   : Ext.get('cloneInterventionNomVictime'   ).getValue().trim(),
-    prenom                : Ext.get('cloneInterventionPrenomVictime').getValue().trim(),
+    nom                   : Ext.get('cloneInterventionNomVictime'      ).getValue().trim(),
+    prenom                : Ext.get('cloneInterventionPrenomVictime'   ).getValue().trim(),
     hommeVictime          : Ext.get('cloneInterventionSexeVictimeHomme').dom.checked, 
-    age                   : Ext.get('cloneInterventionAgeVictime').getValue().trim()
+    age                   : Ext.get('cloneInterventionAgeVictime'      ).getValue().trim()
   },
   MonitorOutputDispositifCs.prototype.doCloneInterventionReturn);
 };

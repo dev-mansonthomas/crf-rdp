@@ -18,7 +18,7 @@ public class Equipier extends CrfDto
   
   private Delegation  delegation          = null;
   private String      autreDelegation     = null;
-  
+
   //données récupéré de la table dispositif_equipiers
   private int         idRoleDansDispositif       = 0;
   private boolean     enEvaluationDansDispositif = false;
@@ -167,7 +167,5 @@ public class Equipier extends CrfDto
   public void setIdRoleEnEval(int idRoleEnEval)
   {
     this.idRoleEnEval = idRoleEnEval;
-  }
- 
-      
+  }    
 }

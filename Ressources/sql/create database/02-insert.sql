@@ -427,7 +427,7 @@ ALTER TABLE dispositif_etat AUTO_INCREMENT = 14;
 
 insert into dispositif_type (label_type, nombre_equipier_max, id_role_leader)
 values
-('ALPHA'            ,5,7),
+('ALPHA'            ,5,5),
 ('BSPP'             ,5,6),
 ('Poste de Secours' ,0,4),
 ('Point d''Alerte'  ,0,9),
@@ -473,9 +473,16 @@ update user_role set id_role = 0 where id_role = 5;
 ALTER TABLE user_role AUTO_INCREMENT = 5;
 
 
-insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`, `email` ,`id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
+INSERT INTO `equipier` (`id_equipier`, `id_dispositif`, `num_nivol`, `equipier_is_male`, `enabled`, `nom`, `prenom`, `mobile`, `email`, `id_delegation`, `autre_delegation`) 
+VALUES                 (0,0,'N/A',1,0,'NA','NA','NA','na@na.na',0,NULL);
+
+update `equipier` set id_equipier = 0 where id_equipier = 1;
+ALTER TABLE `equipier` AUTO_INCREMENT = 1;
+
+
+insert into `user` ( `id_equipier`, `password`, `enabled`, `id_regulation` )
 values
-('NA', true, '0','N/A'     , 'N/A'    , '0', 't@t.com', 0, '', 0, 0 );
+(0, '*********',true,  0 );
 
 update `user` set id_user = 0 where id_user = 1;
 ALTER TABLE `user` AUTO_INCREMENT = 1;
@@ -598,7 +605,8 @@ values
 ('0.2.0','fin 2008'     ,'No production release','Bug fix release'),
 ('0.3.0','2009-03-13'   ,'No production release','Google Maps Traffic et Street View'),
 ('0.4.0','2009-06-01'   ,'No production release','Ré implémentation du Drag & Drop, affectation de plusieurs victime à un dispositif'),
-('0.4.2','2010-03-11'   ,'No production release','Mise a jours de composants techniques')
+('0.4.2','2010-03-11'   ,'No production release','Mise a jours de composants techniques'),
+('0.4.3','2010-03-18'   ,'No production release','Ajout d\'une interface d\'edition des utilisateur de l\'application + Bug Fix')
 ;
 
 insert into application_version_changelog(`id_application_version`, `id_jira`, `description`)
@@ -627,11 +635,22 @@ values
 (5,'IRP-36', 'Utilisation de YUI Compressor'),
 (5,'IRP-34', 'Upgrade vers Spring 3+dependencies'),
 (5,'IRP-86', 'Upgrade dwr, jawr'),
-(5,'IRP-87', 'Ajout de 140 hopitaux et 67 délégations avec coordonnées et géoloc');
-  
-insert into `user` ( `num_nivol`, `user_is_male`, `password`,`nom`,`prenom`,`mobile`,`email`, `id_delegation`, `autre_delegation`, `id_role`, `id_regulation` )
+(5,'IRP-87', 'Ajout de 140 hopitaux et 67 délégations avec coordonnées et géoloc'),
+(6,'IRP-89', 'Début d\'implémentation de la gestion des utilisateurs et des droits');
+
+
+
+INSERT INTO `equipier` (`id_equipier`, `id_dispositif`, `num_nivol`, `equipier_is_male`, `enabled`, `nom`, `prenom`, `mobile`, `email`, `id_delegation`, `autre_delegation`) 
+VALUES (1,0,'75233A',1,0,'Manson','Thomas','0664664296','mt@mansonthomas.com',42,NULL);
+
+insert into `user` ( `id_equipier`, `password`,`enabled`, `id_regulation` )
 values
-('75233A' , true , md5('TEST'      ),'Manson'     , 'Thomas'         ,'0', 'toto@toto.com'            , 42 , '', 2, 0 );
+(1  ,md5('TEST'  ), true,0 );    
+-- '75233A'      'Manson'    , 'Thomas');
+
+insert into `user_roles` ( `id_user`, `id_role`)
+values
+(1  ,1 );  
 
 insert into regulation (`start_date` ,`expected_end_date` ,`open`,`id_regulateur`,`label` ,`comment` )
 values

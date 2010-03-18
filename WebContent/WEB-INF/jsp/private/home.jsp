@@ -34,6 +34,41 @@
   </div>  
 </div>
 
+<div id="edit-user-window" style="display:none;">
+  <div class="x-window-header">Edition d'un Utilisateur</div>
+  <div id="edit-user-window-tabs">
+    <div id="edit-user-window-user-details" class="x-tab" title="Détails de l'utilisateur">
+      <fieldset>
+        <legend><input type="checkbox" id="edit-user-active-user" name="edit-user-active-user" onChange="EquipiersGestion.editUserStatus();"/> Utilisateur <b>Actif</b> de l'application ?</legend>
+        <input type="hidden" id="edit-user-userId" name="edit-user-userId"/>
+        
+        <div id="edit-user-interface" style="display:none;">
+          <div style="text-align:center;margin-top:15px;margin-bottom:15px;">
+            <input type="button" id="edit-user-generate-password" value="Générer un nouveau mot de passe" onClick="EquipiersGestion.generateNewPassword();"/>
+            
+            <div id="edit-user-generated-password"></div>
+          </div>
+          <div id="edit-user-generate-password-confirmation-message"></div>
+          <fieldset>
+            <legend>Roles dans l'application</legend>
+            <table id="edit-user-role-list">
+              <tr><td><i>Chargement en cours</i></td></tr>
+            </table>
+          </fieldset> 
+        </div>
+        <div id="edit-user-not-user" style="text-align:center;font-style:italic;">
+          L'équipier n'est pas un utilisateur de l'application "Régulation De Paris".
+        </div>       
+      </fieldset>
+    
+    </div>
+    <div id="edit-user-window-user-logs"    class="x-tab" title="Activité de l'utilisateur">
+    </div>
+  </div>
+</div>
+
+
+
 <div id="south">
   <p>N° de Déclaration à la CNIL : ${applicationDeclarationCnil}</p>
 

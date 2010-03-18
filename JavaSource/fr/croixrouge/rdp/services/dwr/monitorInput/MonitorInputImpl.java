@@ -16,15 +16,19 @@ import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.regulation.RegulationService;
+import fr.croixrouge.rdp.services.user.UserService;
 
 public class MonitorInputImpl extends DWRUtils
 {
   private static Log logger           = LogFactory.getLog(MonitorInputImpl.class);
   private RegulationService   regulationService   = null;
+  private UserService         userService         = null;
     
-  public MonitorInputImpl(RegulationService   regulationService)
+  public MonitorInputImpl(RegulationService   regulationService,
+                          UserService         userService      )
   {
     this.regulationService = regulationService ;
+    this.userService       = userService       ;
     
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -42,7 +46,7 @@ public class MonitorInputImpl extends DWRUtils
   {
     Regulation regulation = this.getRegulation();
     
-    this.regulationService.getCoRegulateurs(regulation);
+    this.userService.getCoRegulateurs(regulation);
     
     return regulation.getCoRegulateurs();
     
@@ -51,13 +55,13 @@ public class MonitorInputImpl extends DWRUtils
   public List<User> getAvailableCoRegulateur(String numNivol, String nom) throws Exception
   {
     this.validateSession();
-    return this.regulationService.getCoRegulateurs(numNivol, nom);
+    return this.userService.getCoRegulateurs(numNivol, nom);
   }
   
   public String removeCoRegulateur(int userId, String numNivol) throws Exception
   {
     this.validateSession();
-    this.regulationService.setRegulationToUser(userId, 0);
+    this.userService.setRegulationToUser(userId, 0);
     return numNivol;
   }
 
@@ -65,8 +69,8 @@ public class MonitorInputImpl extends DWRUtils
   {
     Regulation regulation = this.getRegulation();
     
-    this.regulationService.setRegulationToUser(userId, regulation.getRegulationId());
-    this.regulationService.getCoRegulateurs(regulation);
+    this.userService.setRegulationToUser(userId, regulation.getRegulationId());
+    this.userService.getCoRegulateurs(regulation);
 
     return regulation.getCoRegulateurs();
   }

@@ -16,8 +16,6 @@ public interface EquipierService
   
   public ListRange<Equipier>  searchEquipier            (int idRole, String searchString, int start, int limit) throws Exception;
   
-  public List<Equipier>       getEquipiersByNivol       (String nivol     , int equipierType) throws Exception;
-  public List<Equipier>       getEquipiersByNom         (String nom       , int equipierType) throws Exception;
   public void                 setDispositifToEquipier   (int idEquipier   , int idDispositif) throws Exception;
   
   public void                 setEnableDisableEquipier  (int idEquipier   , boolean enable) throws Exception;

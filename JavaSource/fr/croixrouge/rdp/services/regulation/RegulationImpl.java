@@ -10,21 +10,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Regulation;
-import fr.croixrouge.rdp.model.monitor.User;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DelegationRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.RegulationRowMapper;
-import fr.croixrouge.rdp.model.monitor.rowMapper.UserRowMapper;
 import fr.croixrouge.rdp.services.JDBCHelper;
+import fr.croixrouge.rdp.services.user.UserService;
 
 public class RegulationImpl extends JDBCHelper implements RegulationService
 {
   private static Logger logger = Logger.getLogger(RegulationImpl.class);
-  private JdbcTemplate jdbcTemplate;
   
-  public RegulationImpl(JdbcTemplate jdbcTemplate)
+  private JdbcTemplate jdbcTemplate;
+  private UserService  userService;
+  
+  public RegulationImpl(JdbcTemplate jdbcTemplate, UserService  userService)
   {
-    this.jdbcTemplate=jdbcTemplate;
+    this.jdbcTemplate= jdbcTemplate;
+    this.userService = userService ;
+    
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
@@ -36,16 +39,17 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   
   private final static String selectForRegulation = 
     "SELECT r.id_regulation, r.start_date, r.expected_end_date, r.open, r.id_regulateur, r.label, r.comment,\n" +
-    "       u.id_user, u.nom, u.prenom, u.num_nivol, u.autre_delegation, u.id_role, \n" +
+    "       u.id_user, u.id_equipier, e.nom, e.prenom, e.num_nivol, e.autre_delegation, \n" +
     "       d.nom, d.departement\n" +
-    "FROM   regulation r, user u, delegation d\n" ;
+    "FROM   regulation r, user u, equipier e, delegation d\n" ;
   
   private final static String queryForGetRegulations =
     selectForRegulation+
-    "WHERE  r.id_regulateur = u.id_user\n" +
-    "AND    u.id_delegation = d.id_delegation\n" +
-    "AND    r.open          = ?\n" +
-    "ORDER BY r.expected_end_date DESC\n";
+    "WHERE  r.id_regulateur = u.id_user       \n" +
+    "AND    u.id_equipier   = e.id_equipier   \n" +
+    "AND    e.id_delegation = d.id_delegation \n" +
+    "AND    r.open          = ?               \n" +
+    "ORDER BY r.expected_end_date DESC        \n";
   
   @SuppressWarnings("unchecked")
   public List getRegulations(boolean open)
@@ -101,87 +105,12 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     logger.debug("regulation created with id="+regulation.getRegulationId());
 
     //Affecte le régulateur à la régulation
-    this.setRegulationToUser(regulation.getRegulateur().getIdUser(), regulation.getRegulationId());
+    this.userService.setRegulationToUser(regulation.getRegulateur().getIdUser(), regulation.getRegulationId());
     
   }
   
   
-  private final static String selectForUser = 
-    "SELECT   u.id_user, u.num_nivol, u.user_is_male, u.nom, u.prenom, u.mobile, u.email, u.autre_delegation, u.id_delegation, \n" +
-    "         d.nom AS delegation_nom, u.id_role\n"+
-    "FROM     `user` u, `delegation` d\n";
-    
-  
-  private final static String queryWithNivolAndName = 
-    selectForUser+
-    "WHERE    u.id_role         <= 3            \n"+
-    "AND      u.id_regulation    = 0            \n"+
-    "AND      u.num_nivol       like ?          \n"+
-    "AND      u.nom             like ?          \n"+
-    "AND      u.id_delegation = d.id_delegation \n"+
-    "ORDER BY id_role DESC, num_nivol ASC       \n";  
 
-  private final static String queryWithName =
-    selectForUser+
-  "WHERE    u.id_role         <= 3            \n"+
-  "AND      u.id_regulation    = 0            \n"+
-  "AND      u.nom             like ?          \n"+
-  "AND      u.id_delegation = d.id_delegation \n"+
-  "ORDER BY id_role DESC, num_nivol ASC       \n";
-  
-  private final static String queryWithNivol =
-    selectForUser+
-  "WHERE    u.id_role         <= 3            \n"+
-  "AND      u.id_regulation    = 0            \n"+
-  "AND      u.num_nivol       like ?          \n"+
-  "AND      u.id_delegation = d.id_delegation \n"+
-  "ORDER BY id_role DESC, num_nivol ASC       \n"; 
-
-  
-  /**
-   * Méthode utilisé pour l'autocomplete pour rechercer un co régulateur par nom ou n° nivol
-   * */
-  public List<User> getCoRegulateurs(String numNivol, String nom)
-  { 
-    if(logger.isDebugEnabled())
-      logger.debug("Getting CoRegulateur with these parameters : numNivol='"+numNivol+"%' nom='"+nom+"%'");
-    
-    boolean nivolNull = numNivol == null || numNivol.equals(""); 
-    boolean nameNull  = nom      == null || nom.equals     ("");
-    
-    if(nivolNull && nameNull)
-    {
-      nivolNull = false;
-      numNivol="";
-    }
-    
-    String    query   = null;
-    Object [] objects = null;
-    int    [] types   = null;
-    
-    if(!nameNull && !nivolNull)
-    {
-      query   = queryWithNivolAndName;
-      objects = new Object[]{numNivol+"%", nom+"%"};
-      types   = new int   []{Types.VARCHAR,Types.VARCHAR};
-    }
-    else if(!nameNull)
-    {
-      query   = queryWithName;
-      objects = new Object[]{nom+"%"};
-      types   = new int   []{Types.VARCHAR};
-    }
-    else
-    {
-      query   = queryWithNivol;
-      objects = new Object[]{numNivol+"%"};
-      types   = new int   []{Types.VARCHAR};
-    }
-
-    List<User> coRegulateurList = jdbcTemplate.query( query, objects, types, new UserRowMapper(false));
-    
-    return coRegulateurList;
-  }
   
   
   private final static String queryForChangeRegulationState = "UPDATE regulation SET open=? WHERE id_regulation=?";
@@ -198,10 +127,11 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   
   private final static String queryForGetRegulation = 
   selectForRegulation+
-  "WHERE  r.id_regulateur = u.id_user\n" +
-  "AND    u.id_delegation = d.id_delegation\n" +
-  "AND    r.id_regulation = ?\n" +
-  "ORDER BY r.expected_end_date DESC\n";
+  
+  "WHERE  r.id_regulateur = u.id_user       \n" +
+  "AND    u.id_equipier   = e.id_equipier   \n" +
+  "AND    e.id_delegation = d.id_delegation \n" +
+  "AND    r.id_regulation = ?               \n" ;
   
   public Regulation getRegulation(int idRegulation)
   {
@@ -215,93 +145,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
                             new RegulationRowMapper() );
   }
 
-  private final static String queryForGetRegulateur = 
-    selectForUser + 
-    "WHERE  u.id_regulation =  0               \n"+
-    "AND    u.id_role       <= 2               \n"+
-    "AND    u.id_delegation =  d.id_delegation \n"+
-    "ORDER BY nom ASC\n";
-  
-  public List<User> getRegulateur()
-  {
-    return this.jdbcTemplate.query( queryForGetRegulateur, 
-                                                null, 
-                                                null, 
-                                                new UserRowMapper(false));
-  }
-
-  private final static String queryForGetCoRegulateurs = 
-    "SELECT u.id_user       , u.num_nivol, u.user_is_male, u.nom     , u.prenom          , u.mobile, u.email, \n" +
-    "       u.id_delegation , u.autre_delegation, u.id_role ,\n" +
-    "       d.nom as delegation_nom\n" +
-    "FROM   `user` u, `delegation` d\n"+
-    "WHERE  u.id_regulation =  ?               \n"+
-    "AND    u.id_role       <= 3               \n"+
-    "AND    u.id_delegation =  d.id_delegation \n"+
-    "ORDER BY nom ASC\n";
-
-  
-  public void getCoRegulateurs(Regulation regulation)
-  {
-    List<User> coRegulateurs = this.jdbcTemplate.query( queryForGetCoRegulateurs, 
-                                                new Object[]{regulation.getRegulationId()}, 
-                                                new int[]{Types.INTEGER}, 
-                                                new UserRowMapper(false));
-    regulation.setCoRegulateurs(coRegulateurs);
-  }
-
-  private final static String queryForSetRegulationToUser = 
-    "UPDATE user \n" +
-    "SET    id_regulation = ?\n" +
-    "WHERE  id_user       = ?\n";
-  
-  public void setRegulationToUser(int idUser, int idRegulation)
-  {
-    this.jdbcTemplate.update(queryForSetRegulationToUser, new Object[]{idRegulation, idUser}, new int[]{Types.INTEGER, Types.INTEGER});
-  }
-
-  private final static String queryForCreateUser =
-    "INSERT INTO `user`\n"+
-    " ( `num_nivol`     , `user_is_male`    , `nom`    , `prenom` ,\n"+
-    "   `id_delegation` , `autre_delegation`, `id_role`,\n"+
-    "   `id_regulation` \n"+
-    " )\n"+
-    "VALUES\n"+
-    " (?, ?, ?, ?, ?, ?, 0 )\n";
-
-  
-  public void createUser(User user)
-  {
-    
-    Object[] os = new Object[]
-               {
-                 user.getNivol(),
-                 user.isHomme(),
-                 user.getNom(),
-                 user.getPrenom(),
-                 user.getDelegation().getIdDelegation(),
-                 user.getAutreDelegation(),
-                 user.getIdRole()
-              };  
-    int  [] types = new int[]
-                   {
-                     Types.VARCHAR,
-                     Types.BIT,
-                     Types.VARCHAR,
-                     Types.VARCHAR,
-                     Types.INTEGER,
-                     Types.VARCHAR,
-                     Types.INTEGER
-                   };
-    jdbcTemplate.update(queryForCreateUser, os, types);
-    
-    int lastInsertId = this.getLastInsertedId();
-    
-    user.setIdUser(lastInsertId);
-    
-    if(logger.isDebugEnabled())
-      logger.debug("user created with id="+lastInsertId);
-  }
+ 
 
 
 

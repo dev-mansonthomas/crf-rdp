@@ -10,11 +10,11 @@
     <div id="AppVersion" onclick="Ext.ux.Utils.CreditsAndChangeLog.displayChangeLog ();" style="cursor:pointer;width:210px;float:left;text-decoration: underline;">v ${applicationVersion}</div>
     <div id="AppEnv"  style="float:left;width:60px;">${environment}</div>
     <div id="UserId"   style="width:430px;float:left;"  >
-      <img style="vertical-align:bottom;" src="<%=contextPath%>/img/famfamfam/user${currentUser.homme?'':'_female'}.png" alt="" ext:qtip="idUser: ${currentUser.idUser}. Role : ${currentUser.idRole}. - Délégation : ${currentUser.delegation.nom} - ${currentUser.delegation.departement}"/>
+      <img style="vertical-align:bottom;" src="<%=contextPath%>/img/famfamfam/user${currentUser.equipier.homme?'':'_female'}.png" alt="" ext:qtip="idUser: ${currentUser.idUser}. Role : TODO - Délégation : ${currentUser.equipier.delegation.nom} - ${currentUser.equipier.delegation.departement}"/>
       
-      ${currentUser.nivol} - 
-      ${currentUser.nom}
-      ${currentUser.prenom} - 
+      ${currentUser.equipier.numNivol} - 
+      ${currentUser.equipier.nom}
+      ${currentUser.equipier.prenom} - 
       
       <a href="../">
       <img src="<%=contextPath%>/img/famfamfam/door_in.png" alt="Déconnexion de l'applicaiton"/>

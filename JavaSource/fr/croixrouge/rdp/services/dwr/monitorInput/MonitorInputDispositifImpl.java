@@ -94,24 +94,6 @@ public class MonitorInputDispositifImpl extends DWRUtils
     }
   }
   
-  public List<Equipier> getEquipierByNivol(int type, int equipierRole, String numNivol) throws Exception
-  {
-    if(numNivol.length()<3)
-      return null;
-    this.validateSession();
-    
-    return this.equipierService.getEquipiersByNivol(numNivol, equipierRole);
-  }
-
-  public List<Equipier> getEquipierByNom(int type, int equipierRole, String nom) throws Exception
-  {
-    if(nom.length()<3)
-      return null;
-    this.validateSession();
-
-    return this.equipierService.getEquipiersByNom(nom, equipierRole);
-  }
-  
   public Dispositif createEmptyDispositif() throws Exception
   {
     Regulation regulation = this.monitorInputImpl.getRegulation();

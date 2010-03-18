@@ -43,9 +43,9 @@ CREATE TABLE `dispositif_type_definition` (
 
 DROP TABLE IF EXISTS `crfrdp`.`user_role`;
 CREATE TABLE `user_role` (
-  `id_role` int(10) unsigned NOT NULL auto_increment,
-  `label_role` varchar(45) NOT NULL,
-  `code_role` varchar(45) NOT NULL,
+  `id_role`     int    (10) unsigned NOT NULL auto_increment,
+  `label_role`  varchar(45)          NOT NULL,
+  `code_role`   varchar(45)          NOT NULL,
   PRIMARY KEY  (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
@@ -99,27 +99,6 @@ CREATE TABLE `delegation` (
   CONSTRAINT `FK_delegation_lieu` FOREIGN KEY (`id_lieu`) REFERENCES `lieu`(`id_lieu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-
-DROP TABLE IF EXISTS `crfrdp`.`user`;
-CREATE TABLE `user` (
-  `id_user` int(10) unsigned NOT NULL auto_increment,
-  `num_nivol` varchar(16) NOT NULL,
-  `user_is_male` boolean NOT NULL,
-  `password` varchar(32) NOT NULL,
-  `nom` varchar(45) NOT NULL,
-  `prenom` varchar(45) NOT NULL,
-  `mobile` varchar(15) NOT NULL, 
-  `email` varchar(255) NOT NULL,
-  `id_delegation` int(10) unsigned NOT NULL,
-  `autre_delegation` varchar(45) NOT NULL,
-  `id_role` int(10) unsigned NOT NULL,
-  `id_regulation` int(10) unsigned NOT NULL,
-  PRIMARY KEY  (`id_user`),
-  KEY `FK_user_role` (`id_role`),
-  CONSTRAINT `FK_user_role` FOREIGN KEY (`id_role`) REFERENCES `user_role` (`id_role`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
-
-
 DROP TABLE IF EXISTS `crfrdp`.`regulation`;
 CREATE TABLE `regulation` (
 `id_regulation` int(10) unsigned NOT NULL auto_increment,
@@ -130,8 +109,7 @@ CREATE TABLE `regulation` (
 `label` varchar(45) NOT NULL,
 `comment` varchar(45) NULL,
  PRIMARY KEY  (`id_regulation`),
- KEY `FK_regulation_regulateur` (`id_regulateur`),
- CONSTRAINT `FK_regulation_regulateur` FOREIGN KEY (`id_regulateur`) REFERENCES `user` (`id_user`)
+ KEY `FK_regulation_regulateur` (`id_regulateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
@@ -231,7 +209,38 @@ CREATE TABLE `equipier` (
   KEY `FK_equipier_delegation` (`id_delegation`    ),
   CONSTRAINT `FK_equipier_delegation` FOREIGN KEY (`id_delegation`     ) REFERENCES `delegation`    (`id_delegation`)
 )  ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
-  
+
+
+
+DROP TABLE IF EXISTS `crfrdp`.`user`;
+CREATE TABLE `user` (
+  `id_user`       int(10)     unsigned  NOT NULL auto_increment,
+  `id_equipier`   int(10)     unsigned  NOT NULL,
+  `password`      varchar(32)           NOT NULL,
+  `enabled`       boolean               NOT NULL,
+  `id_regulation` int(10)     unsigned  NOT NULL,
+  PRIMARY KEY  (`id_user`),
+  KEY `FK_user_equipier` (`id_equipier`),
+  CONSTRAINT `FK_user_equipier` FOREIGN KEY (`id_equipier`) REFERENCES `equipier` (`id_equipier`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+alter table `regulation` add CONSTRAINT `FK_regulation_regulateur` FOREIGN KEY (`id_regulateur`) REFERENCES `user` (`id_user`);
+
+
+
+DROP TABLE IF EXISTS `crfrdp`.`user_roles`;
+CREATE TABLE `user_roles` (
+  `id_user` int(10) unsigned NOT NULL,
+  `id_role` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_user`, `id_role`),
+  KEY `FK_user_roles_user`      (`id_user`),
+  KEY `FK_user_roles_user_role` (`id_role`),
+  CONSTRAINT `FK_user_roles_user`      FOREIGN KEY (`id_user`) REFERENCES `user`      (`id_user`),
+  CONSTRAINT `FK_user_roles_user_role` FOREIGN KEY (`id_role`) REFERENCES `user_role` (`id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
   
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_equipiers`;
 CREATE TABLE `dispositif_equipiers` (

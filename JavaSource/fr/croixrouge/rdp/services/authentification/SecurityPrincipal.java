@@ -15,7 +15,7 @@ public class SecurityPrincipal implements Principal
 
   public String getName()
   {
-    return user.getNivol();
+    return user.getEquipier().getNumNivol();
   }
 
   public User getUser()

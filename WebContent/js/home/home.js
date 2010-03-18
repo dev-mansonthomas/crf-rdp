@@ -105,7 +105,7 @@ function initHomeTab()
 	            {id:'labelCol'            , header: "Intitulé"      , width: 222, sortable: true, dataIndex: 'label'},
 	            {id:'startDateCol'        , header: "Date de Début" , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'      },
 	            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
-	            {id:'nomCol'              , header: "Régulateur"    , width: 222, sortable: true, renderer :regulationListRegulateurCellRenderer        , dataIndex: 'regulateur.nom' }
+	            {id:'nomCol'              , header: "Régulateur"    , width: 222, sortable: true, renderer : regulationListRegulateurCellRenderer       , dataIndex: 'regulateur.equipier.nom' }
 	        ]),
 	        viewConfig: {
 	            forceFit:false
@@ -134,7 +134,7 @@ function initHomeTab()
 
 function regulationListRegulateurCellRenderer(value, metadata, record, rowIndex, colIndex, store)
 {
-  return record.json.regulateur.nivol +' - '+value+' '+ record.json.regulateur.prenom;
+  return record.json.regulateur.equipier.numNivol +' - '+record.json.regulateur.equipier.nom+' '+ record.json.regulateur.equipier.prenom;
 }
 
 

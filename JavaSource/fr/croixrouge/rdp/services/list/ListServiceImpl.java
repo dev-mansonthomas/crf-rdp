@@ -88,7 +88,7 @@ public class ListServiceImpl implements ListService, InitializingBean
     "ORDER BY id_role ASC                   \n";
   public List<UserRole> getRolesUser()
   {
-    return this.jdbcTemplate.query(queryForGetRolesUser,new Object[]{}, new int[]{}, new UserRoleRowMapper(true));
+    return this.jdbcTemplate.query(queryForGetRolesUser,new Object[]{}, new int[]{}, new UserRoleRowMapper(true,true));
   }
   
   
@@ -139,6 +139,9 @@ public class ListServiceImpl implements ListService, InitializingBean
   {
     return this.jdbcTemplate.query(queryForGetEtatsIntervention,new Object[]{}, new int[]{}, new InterventionEtatRowMapper());
   }
+  
+  
+  
   
   
   @SuppressWarnings("unchecked")

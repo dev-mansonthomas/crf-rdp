@@ -11,9 +11,12 @@ public class UserRoleRowMapper extends RowMapperHelper implements RowMapper<User
 {
 	
 	private boolean withLabel = false;
-	public UserRoleRowMapper(boolean withLabel)
+	private boolean withCode  = false;
+	
+	public UserRoleRowMapper(boolean withLabel, boolean withCode)
 	{
 		this.withLabel= withLabel;
+		this.withCode = withCode;
 	}
 	
 	
@@ -22,7 +25,8 @@ public class UserRoleRowMapper extends RowMapperHelper implements RowMapper<User
     UserRole    userRole    = new UserRole  ();
     
     userRole.setId(resultSet.getInt   ("id_role"  ));
-    userRole.setCode      (resultSet.getString("code_role"));   
+    if(withCode)
+      userRole.setCode      (resultSet.getString("code_role"));   
     
     if(withLabel)
     	userRole.setLabel     (resultSet.getString("label_role"));

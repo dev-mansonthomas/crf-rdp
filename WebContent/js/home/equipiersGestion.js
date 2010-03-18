@@ -5,11 +5,16 @@ Ext.ux.Home.EquipiersGestion = function() {
 	// do NOT access DOM from here; elements don't exist yet
 
 	// private variables
+  
+  var editUserWindow = null;
+  
+  
 	var equipierSearch = null;
 	var equipierEditor = null;
 	var equipierList   = null;
   var allDelegations = null;
   var allRoles       = null;
+  var allRolesUser   = null;
   var equipierData   = null;
   
   var defautlHtmlNoUserSelected ='<br/><br/><br/><br/><br/><span style="margin-left:230px;color:#B9B9B9;">Aucun équipier sélectionné</span>';
@@ -29,12 +34,22 @@ Ext.ux.Home.EquipiersGestion = function() {
                       '<input type     ="text" ', 
                              'class    ="x-form-text x-form-field" ',
                              'id       ="{htmlId}" ',
-                             'value    ="{value}", ', 
+                             'value    ="{value}"  ', 
                              '{[values.readOnly?"readOnly":""]} ',
                              'style=\'width:99%;{[values.readOnly?"color:#B9B9B9;\'":"\'"]}', 
                              'mandatory="{mandatory}"', 
                              ' />', 
-                    '</tpl>', 
+                    '</tpl>',
+                    '<tpl if="type == \'button\'">',
+                      '<input type     ="button" ', 
+                             'class    ="" ',
+                             'id       ="{htmlId}" ',
+                             'value    ="{value}"  ', 
+                             '{[values.readOnly?"disabled":""]} ',
+                             'onClick  ="{onClick}" ',
+                             'style=\'width:99%;{[values.readOnly?"color:#B9B9B9;\'":"\'"]}', 
+                             ' />', 
+                    '</tpl>',                     
                     '<tpl if="type == \'select\'">',
                       '<select ',
                              'id       ="{htmlId}" ',
@@ -102,7 +117,8 @@ Ext.ux.Home.EquipiersGestion = function() {
 		},
     dataInitComplete : function(){
       Ext.ux.Home.EquipiersGestion.allDelegations = crfIrpUtils.allList['Delegations'  ];
-      Ext.ux.Home.EquipiersGestion.allRoles       = crfIrpUtils.allList['RolesEquipier'];
+      Ext.ux.Home.EquipiersGestion.allRoles       = crfIrpUtils.allList['RolesEquipier'];//retire NA
+      Ext.ux.Home.EquipiersGestion.allRolesUser   = crfIrpUtils.allList['RolesUser'    ].slice(1,crfIrpUtils.allList['RolesUser'    ].length);//retire NA
       Ext.ux.Home.EquipiersGestion.initLayout    ();      
     },
     
@@ -190,9 +206,9 @@ Ext.ux.Home.EquipiersGestion = function() {
         id    : 'home-list-equipier-grid',
         store : equipierGridDataStore,
         cm    : new Ext.grid.ColumnModel([
-            {id:'nomCol'              , header: 'Nom'        , width: 100 , sortable: true, dataIndex: 'nom'},
-            {id:'prenomCol'           , header: 'Prénom'     , width: 100 , sortable: true, dataIndex: 'prenom'},
-            {id:'sexeCol'             , header: 'Sexe'       , width: 40 , sortable: true, dataIndex: 'homme', align:'center', 
+            {id:'nomCol'              , header: 'Nom'        , width: 100 , sortable: true, dataIndex: 'nom'    },
+            {id:'prenomCol'           , header: 'Prénom'     , width: 100 , sortable: true, dataIndex: 'prenom' },
+            {id:'sexeCol'             , header: 'Sexe'       , width: 40  , sortable: true, dataIndex: 'homme'   , align:'center', 
               renderer:function(isHomme){
                 return '<img style="vertical-align:bottom;" src="../img/famfamfam/user'+(!isHomme?'_female':'')+'.png" alt="'+(isHomme?'Homme':'Femme')+'" />';
               }
@@ -276,6 +292,41 @@ Ext.ux.Home.EquipiersGestion = function() {
                         equipierSearch, 
                         equipierEditor]
 			};
+      
+      editUserWindow = new Ext.Window({
+        id          : 'edit-user-windowCmp',
+        applyTo     : 'edit-user-window',
+        layout      : 'fit'             ,
+        width       : 300               ,
+        height      : 500               ,
+        modal       : true              ,
+        closeAction : 'hide'            ,
+        plain       : true              ,
+        items       : new Ext.TabPanel({
+            id             : 'edit-user-window-tabsCmp' ,
+            applyTo        : 'edit-user-window-tabs'    ,
+            autoTabs       : true                       ,
+            activeTab      : 0                          ,
+            enableTabScroll: true                       ,
+            defaults       : {autoScroll:true}          ,
+            deferredRender : false                      ,
+            border         : false
+        })
+      });
+
+
+
+      var rolesUser = Ext.ux.Home.EquipiersGestion.allRolesUser;
+      
+
+      var cellFuncs = [
+        function(oneRole) { return "<input id='edit-user-role_"+oneRole.id+"' type='checkbox' value='"+oneRole.id+"' onclick='EquipiersGestion.editUserRole("+oneRole.id+");'/>"; },
+        function(oneRole) { return oneRole.label; }
+      ];
+      dwr.util.removeAllRows("edit-user-role-list");
+      dwr.util.addRows("edit-user-role-list", rolesUser , cellFuncs, { escapeHtml:false });
+      
+      
 			var tabPanelComp = Ext.getCmp('home_center');
 			tabPanelComp.add(equipierPanel);
 		},
@@ -471,7 +522,19 @@ Ext.ux.Home.EquipiersGestion = function() {
                   readOnly  : false,
                   mandatory : false,
                   colspan   : -1
-                }], 
+                },
+                {
+                  htmlId    : 'user_button',
+                  label     : 'Utilisateur RDP',
+                  value     : 'Editer',
+                  type      : 'button',
+                  readOnly  : false,
+                  mandatory : false,
+                  onClick   : "EquipiersGestion.editUser();",
+                  colspan   : -1
+                }
+                
+                ], 
                 [{
                   htmlId    : 'edit_delegation',
                   label     : 'Delegation',
@@ -606,10 +669,10 @@ Ext.ux.Home.EquipiersGestion = function() {
       for(i=0,counti=rolesDef.length;i<counti;i++)
       {
         if(Ext.getDom('edit_role_'+rolesDef[i].id).checked)
-        {//todo faire les en evaluation
+        {//TODO faire les en evaluation
           var oneRole = {id:rolesDef[i].id, enEvaluation:false};
           if(rolesDef[i].evaluable)
-          {//Todo, ajouter en evaluation dans le formulaire
+          {//TODO, ajouter en evaluation dans le formulaire
             //oneRole.enEvaluation=Ext.getDom('edit_role_'+rolesDef[i].id+'_eval').checked;
           }
           roles.push(oneRole);
@@ -675,6 +738,69 @@ Ext.ux.Home.EquipiersGestion = function() {
         Ext.MessageBox.alert('Erreur Saisie', msg.join(''));
         
       return error;
+    },
+    editUser:function()
+    {
+      //get the user from database to get it's id, status, roles
+      EquipiersGestionService.getEquipierUserFromIdEquipier (Ext.get('edit_idEquipier').getValue(),
+                                                             EquipiersGestion.editUserReturn
+                                                             );
+    },
+    editUserReturn:function(user)
+    {
+      
+      Ext.get('edit-user-userId'     ).dom.value  =user.idUser;
+      Ext.get('edit-user-active-user').dom.checked=user.enabled;
+      
+      var rolesDefs = Ext.ux.Home.EquipiersGestion.allRolesUser;
+      for(i=0,counti =rolesDefs.length;i<counti;i++)
+        Ext.get('edit-user-role_'+rolesDefs[i].id).dom.checked = false;
+      
+      var roles = user.roles;
+      for(i=0,counti =roles.length;i<counti;i++)
+        Ext.get('edit-user-role_'+roles[i].id    ).dom.checked = true;
+      
+      
+      if(user.password != null && user.password != '')
+      {
+        Ext.get('edit-user-generated-password').update('Le nouveau password est \''+user.password+'\'');
+        Ext.get('edit-user-generated-password').dom.style.display="block";
+      }
+      
+      if(user.enabled)
+      {
+        Ext.get('edit-user-interface').dom.style.display="block";
+        Ext.get('edit-user-not-user' ).dom.style.display="none";
+      }
+      else
+      {
+        Ext.get('edit-user-interface').dom.style.display="none";
+        Ext.get('edit-user-not-user' ).dom.style.display="block";
+      }
+      
+      editUserWindow.show();
+    },    
+    editUserStatus:function()
+    {
+      EquipiersGestionService.changeStatus( Ext.get('edit_idEquipier' ).getValue(),
+                                            Ext.get('edit-user-userId').getValue(),
+                                            Ext.get('edit-user-active-user').dom.checked,
+                                            EquipiersGestion.editUserReturn
+                                          )
+    },
+    editUserRole:function(idRole)
+    {
+      EquipiersGestionService.updateRoleForUser(Ext.get('edit-user-userId').getValue(),
+                                                idRole,
+                                                Ext.get('edit-user-role_'+idRole).dom.checked,
+                                                EquipiersGestion.editUserReturn
+                                               );  
+    },
+    generateNewPassword:function()
+    {
+      EquipiersGestionService.generateNewPassword(Ext.get('edit-user-userId').getValue(),
+                                                  EquipiersGestion.editUserReturn);
+      
     }
 	};
 }();

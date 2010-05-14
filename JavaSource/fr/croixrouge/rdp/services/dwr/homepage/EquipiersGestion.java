@@ -117,7 +117,8 @@ public class EquipiersGestion extends DWRUtils
     this.validateSession();
     try
     {
-      return this.userService.getUserFromIdEquipier(idEquipier);
+      User user = this.userService.getUserFromIdEquipier(idEquipier); 
+      return user;
     }
     catch (Exception e)
     {

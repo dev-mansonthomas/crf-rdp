@@ -33,6 +33,12 @@
   background-image:url(../../img/famfamfam/add.png) !important;
 }
 
+.editButton
+{
+  background-image:url(../../img/famfamfam/book_edit.png) !important;
+}
+
+
 .findButton
 {
    background-image:url(../../img/famfamfam/magnifier.png) !important;

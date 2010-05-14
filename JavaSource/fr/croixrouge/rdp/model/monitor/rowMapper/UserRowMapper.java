@@ -23,9 +23,12 @@ public class UserRowMapper extends RowMapperHelper implements RowMapper<User>
   {
     User        user        = new User      ();
     
-    user.setIdUser          	(resultSet.getInt     ("id_user"          ));
-    user.setIdEquipier        (resultSet.getInt     ("id_equipier"      ));
-    user.setEnabled           (resultSet.getBoolean ("enabled"          ));
+    user.setIdUser          	(resultSet.getInt     ("id_user"                ));
+    user.setIdEquipier        (resultSet.getInt     ("id_equipier"            ));
+    user.setEnabled           (resultSet.getBoolean ("enabled"                ));
+    user.setIdRegulation      (resultSet.getInt     ("id_regulation"          ));
+    user.setIdRoleInRegulation(resultSet.getInt     ("id_role_in_regulation"  ));
+    
     if(this.withEquipier)
     {
       Equipier equipier = new EquipierRowMapper(false, true).mapRow(resultSet, rowNum);

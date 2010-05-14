@@ -86,41 +86,64 @@ function initHomeTab()
 	               })
 	           });
 	           
-	      // row expander
-	  var expander = new Ext.grid.RowExpander({
-	        tpl : new Ext.Template(
-	            '<p><b>id:</b> {regulationId}<br>',
-	            '<p><b>comments:</b> {comment}</p>'
-	        )
-	    });
-
+	  
+  var checkboxSelectionModel = new Ext.grid.CheckboxSelectionModel({
+      singleSelect: true,
+      listeners   : {
+          // On selection change, set enabled state of the removeButton
+          // which was placed into the GridPanel using the ref config
+          selectionchange: function(sm) {
+              if (sm.getCount()) 
+              {
+                regulationGrid.editButton    .enable();    
+              } 
+              else 
+              {
+                regulationGrid.editButton    .disable();
+              }
+          }
+      }
+  });
+             
+             
 	  var regulationGrid = new Ext.grid.GridPanel({
 	        id         : 'home-list-regulation-grid',
 	        store      : regulationStore,
 	        listeners  : { rowdblclick : function(theGrid, rowIndex, e ){
 	            openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId);
 	        }},
+          sm: checkboxSelectionModel,
 	        cm: new Ext.grid.ColumnModel([
-	            expander,
-	            {id:'labelCol'            , header: "Intitulé"      , width: 222, sortable: true, dataIndex: 'label'},
-	            {id:'startDateCol'        , header: "Date de Début" , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'      },
-	            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},
-	            {id:'nomCol'              , header: "Régulateur"    , width: 222, sortable: true, renderer : regulationListRegulateurCellRenderer       , dataIndex: 'regulateur.equipier.nom' }
+          
+	            checkboxSelectionModel,
+	            {id:'labelCol'            , header: "Intitulé"      , width: 340, sortable: true, dataIndex: 'label'},
+/*	            {id:'startDateCol'        , header: "Date de Début" , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'startDate'      },
+	            {id:'expectedEndDateCol'  , header: "Date de Fin"   , width: 116, sortable: true, renderer : Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'expectedEndDate'},*/
+	            {id:'nomCol'              , header: "Régulateur"    , width: 340, sortable: true, renderer : regulationListRegulateurCellRenderer       , dataIndex: 'regulateur.equipier.nom' }
 	        ]),
 	        viewConfig: {
 	            forceFit:false
 	        },
 	        
 	        tbar:[{
-	            text   : 'Ajouter une régulation',
-	            tooltip: 'Déclarer une nouvelle régulation',
-	            iconCls: 'addButton',
-	            handler: function(){alert('click')}
-	        }],
+	          text   : 'Ajouter une régulation',
+	          tooltip: 'Déclarer une nouvelle régulation',
+	          iconCls: 'addButton',
+	          handler: function(){alert('click')}
+	        },
+          {
+            text   : 'Editer les régulateurs/co-régulateurs',
+            tooltip: '',
+            iconCls: 'editButton',
+            handler: function(){alert('click')},
+            //Place a reference in the GridPanel
+            ref     : '../editButton',
+            disabled: true
+          }],
 	        
 	        width        : 700,
 	        height       : 300,
-	        plugins      : expander,
+	        //plugins      : expander,
 	        collapsible  : false,
 	        animCollapse : false,
 	        title        : 'Liste des Régulations en cours',

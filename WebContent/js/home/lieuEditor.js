@@ -47,7 +47,7 @@ Ext.ux.Home.LieuEditor = function() {
     initLayout : function() 
     {
 
-
+/*
       var lieuGridDataStore = new Ext.data.Store({
          proxy: new Ext.ux.rs.data.DwrProxy({
            call          : LieuEditorService.getLieux,
@@ -139,7 +139,7 @@ Ext.ux.Home.LieuEditor = function() {
           emptyMsg   : 'aucun lieu'
         })
     });    
-
+*/
       lieuList = {
         id          : 'LieuListPanel',
         region      : 'center',

@@ -214,11 +214,12 @@ CREATE TABLE `equipier` (
 
 DROP TABLE IF EXISTS `crfrdp`.`user`;
 CREATE TABLE `user` (
-  `id_user`       int(10)     unsigned  NOT NULL auto_increment,
-  `id_equipier`   int(10)     unsigned  NOT NULL,
-  `password`      varchar(32)           NOT NULL,
-  `enabled`       boolean               NOT NULL,
-  `id_regulation` int(10)     unsigned  NOT NULL,
+  `id_user`               int(10)     unsigned  NOT NULL auto_increment,
+  `id_equipier`           int(10)     unsigned  NOT NULL,
+  `password`              varchar(32)           NOT NULL,
+  `enabled`               boolean               NOT NULL,
+  `id_regulation`         int(10)     unsigned  NOT NULL default 0,
+  `id_role_in_regulation` int(10)     unsigned  NOT NULL default 0,
   PRIMARY KEY  (`id_user`),
   KEY `FK_user_equipier` (`id_equipier`),
   CONSTRAINT `FK_user_equipier` FOREIGN KEY (`id_equipier`) REFERENCES `equipier` (`id_equipier`)

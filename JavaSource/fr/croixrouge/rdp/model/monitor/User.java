@@ -11,6 +11,9 @@ public class User implements Serializable
   private String            password, challengePassword;
   private boolean           enabled = false;
   private Equipier          equipier;
+  private int               idRegulation;
+  private int               idRoleInRegulation;
+  
   private List<UserRole>    roles;
   
   public String toString()
@@ -93,6 +96,26 @@ public class User implements Serializable
   public void setRoles(List<UserRole> roles)
   {
     this.roles = roles;
+  }
+
+  public int getIdRegulation()
+  {
+    return idRegulation;
+  }
+
+  public void setIdRegulation(int idRegulation)
+  {
+    this.idRegulation = idRegulation;
+  }
+
+  public int getIdRoleInRegulation()
+  {
+    return idRoleInRegulation;
+  }
+
+  public void setIdRoleInRegulation(int idRoleInRegulation)
+  {
+    this.idRoleInRegulation = idRoleInRegulation;
   }
  
   

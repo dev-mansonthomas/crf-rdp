@@ -1,6 +1,7 @@
 package fr.croixrouge.rdp.services.user;
 
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -33,7 +34,7 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   
   private final static String queryForAuthenticate = 
     "SELECT   u.id_user, e.id_equipier, e.id_dispositif, u.enabled, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.email, e.mobile, e.autre_delegation, e.id_delegation, \n" +
-    "         d.nom AS nom_delegation, d.departement AS departement_delegation, u.password, md5(?) as challenge_password                          \n" +
+    "         d.nom AS nom_delegation, d.departement AS departement_delegation, u.password, md5(?) as challenge_password, u.id_regulation, u.id_role_in_regulation            \n" +
     "FROM     `user` u, `delegation` d, `equipier` e \n"+
     "WHERE    e.num_nivol        = ?                 \n"+
     "AND      u.id_equipier      = e.id_equipier     \n"+
@@ -66,12 +67,12 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   
   private final static String selectForUserWithEquipier = 
     "SELECT   u.id_user, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.mobile, e.email, e.autre_delegation, e.id_delegation, \n" +
-    "         d.nom AS delegation_nom\n"+
+    "         d.nom AS delegation_nom, u.id_regulation, u.id_role_in_regulation\n"+
     "FROM     `user` u, `equipier` e, delegation` d\n";
   
   
   private final static String selectForUser = 
-    "SELECT u.id_user, u.id_equipier, u.enabled, u.id_regulation\n" +
+    "SELECT u.id_user, u.id_equipier, u.enabled, u.id_regulation, u.id_role_in_regulation\n" +
     "FROM `user`  u                                             \n";
   
   
@@ -96,7 +97,12 @@ public class UserServiceImpl extends JDBCHelper implements UserService
     }
     catch(EmptyResultDataAccessException e)
     {
+      if(logger.isDebugEnabled())
+        logger.debug("idEquipier='"+idEquipier+"' is not a RDP User");
+      
       user = new User();
+      user.setIdEquipier(idEquipier);
+      user.setRoles(new ArrayList<UserRole>());
     }
     return user;
   }
@@ -176,11 +182,17 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   
   public List<UserRole> getUserRoles(int idUser)
   {
-    return this.jdbcTemplate.query(  queryForGetUserRoles,  
-        new Object[]      {idUser},
-        new int   []      {Types.INTEGER}, 
-        new UserRoleRowMapper(false, false));
+    List<UserRole> roles = this.jdbcTemplate.query(  queryForGetUserRoles,  
+                                                      new Object[]      {idUser},
+                                                      new int   []      {Types.INTEGER}, 
+                                                      new UserRoleRowMapper(false, false)); 
+  
     
+    if(roles != null)
+      return roles;
+    
+    return new ArrayList<UserRole>();
+
   }
   
   

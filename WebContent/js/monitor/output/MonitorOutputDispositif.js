@@ -691,7 +691,7 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
         var origine   = crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine);
         var motif     = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif );
   
-        currentInterHtml = ['<br/><br/>Intervention en cours : ',intervention.idIntervention,'<br/> Origine : ',origine,'<br/>',
+        currentInterHtml = ['<br/><br/>Intervention en cours : ',crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId),'<sub>(',intervention.idIntervention,')</sub><br/> Origine : ',origine,'<br/>',
                'Motif   : ',motif                                       ,'<br/>',
                'Adresse : ',intervention.position.rue                   ,', '   ,
                             intervention.position.codePostal            ,', '   ,
@@ -702,7 +702,7 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
                
         var category = 'lieu_cat_'+8;
         var dhSaisie = crfIrpUtils.getFullDate(intervention.dhSaisie);
-        var title    = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
+        var title    = 'N°'+crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId)+'<sub>('+intervention.idIntervention+')</sub> - '+dhSaisie+' - '+origine+' - '+motif;
         var html     = title +'<br/>'+
                        intervention.position.rue          +', '+
                        intervention.position.codePostal   +", "+
@@ -1230,17 +1230,19 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
   
     
     var detailIntervention = [
-      '<div class="DispositifInterDetail" id="DispositifInterDetail_',
+      '<fieldset class="DispositifInterDetail" id="DispositifInterDetail_',
       dispositif.idDispositif, 
       '-', 
       intervention.idIntervention,
       '|',
       record.id,
-      '"><div class="DispositifInterOrigineMotif"><span class="DispositifInterNomVictimeOrigine">',
+      '"><legend>',
+      crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId),
+      '</legend><div class="DispositifInterOrigineMotif><span class="DispositifInterNomVictimeOrigine">',
       crfIrpUtils.getLabelFor('OriginesIntervention',intervention.idOrigine),
       '</span> - <span class="DispositifInterMotif">',
       crfIrpUtils.getLabelFor('MotifsIntervention'  ,intervention.idMotif),
-      '</span> </div><div class="DispositifInterVictime"><span class="DispositifInterNomVictime">',
+      '</span></div><div class="DispositifInterVictime"><span class="DispositifInterNomVictime">',
       (intervention.victimeHomme?'Mr ':'Mme '),
        intervention.nomVictime, 
       '</span> - <span class="DispositifInterRue">',
@@ -1257,7 +1259,7 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
       '<input type="button" value="Editer"    onClick="moDispositifCs.editIntervention (',intervention.idIntervention,');" style="width:85px;height:24px;"/>',
       '<input id="DispositifInterDetail_CloneInterButton-', dispositif.idDispositif,'-',intervention.idIntervention,'" type="button" value="Dupliquer" onClick="moDispositifCs.cloneIntervention(',dispositif.idDispositif,',', intervention.idIntervention,');" style="width:85px;height:24px;"/>',
       etat,
-      '</div>'
+      '</fieldset>'
       ].join('');
     html.push(detailIntervention);
   }

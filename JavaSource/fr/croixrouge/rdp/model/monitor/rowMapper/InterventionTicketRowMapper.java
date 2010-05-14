@@ -43,6 +43,7 @@ public class InterventionTicketRowMapper extends RowMapperHelper implements RowM
     interventionTicket.setNomContactSurPlace        (rs.getString ("nom_contact_sur_place" ));
     interventionTicket.setCoordonneesContactSurPlace(rs.getString ("coordonnees_contact"   ));
     
+    interventionTicket.setInterventionBusinessId    (rs.getString ("num_inter"             ));
     
     return interventionTicket;
   }

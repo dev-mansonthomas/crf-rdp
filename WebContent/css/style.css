@@ -43,3 +43,9 @@ TEXTAREA
 {
   -moz-border-radius:6px;
 }
+
+.idInterventionNumber
+{
+	font-weight: bold; 
+	background-color: rgb(245, 255, 53); 
+}

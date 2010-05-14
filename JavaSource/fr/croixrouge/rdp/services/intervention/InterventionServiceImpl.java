@@ -1,14 +1,22 @@
 package fr.croixrouge.rdp.services.intervention;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +32,21 @@ import fr.croixrouge.rdp.services.dispositif.DispositifService;
 
 public class InterventionServiceImpl extends JDBCHelper implements InterventionService
 {
+  
+  private static  Log           logger             = LogFactory.getLog(InterventionServiceImpl.class);
+  private final static int ETAT_INTER_AFFECTEE     = 2;
+  private final static int ETAT_INTER_NON_AFFECTEE = 1;
+  
   private         JdbcTemplate  jdbcTemplate      = null;
-  private static  Log           logger            = LogFactory.getLog(InterventionServiceImpl.class);
   private DispositifService     dispositifService = null;
-
+  private InterventionBusinessIdStoredProcedure interventionIdStoredProcedure = null;
   
   public InterventionServiceImpl(JdbcTemplate jdbcTemplate, DispositifService     dispositifService)
   {
     this.jdbcTemplate       = jdbcTemplate;
     this.dispositifService  = dispositifService;
+    
+    this.interventionIdStoredProcedure = new InterventionBusinessIdStoredProcedure(this.jdbcTemplate);
     
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -48,8 +62,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "        i.`id_motif`          , i.`DH_saisie`       , i.`rue`                  , i.`code_postal`         ,             \n" +
     "        i.`ville`             , i.`batiment`        , i.`etage`                , i.`porte`               ,             \n" +
     "        i.`complement_adresse`, i.`complement_motif`, i.`google_coords_lat`    , i.`google_coords_long`  ,             \n" +
-    "        i.`nom_victime`       , i.`homme_victime`   , i.`nom_contact_sur_place`, i.`coordonnees_contact`               \n" +
-    "FROM     intervention i                                                                                                \n";
+    "        i.`nom_victime`       , i.`homme_victime`   , i.`nom_contact_sur_place`, i.`coordonnees_contact` ,i.`num_inter`\n" +
+    "FROM    intervention i                                                                                                \n";
   
   private final static String queryForGetInterventionTicket =
     selectForInteventionTicket +
@@ -324,34 +338,91 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "UPDATE intervention        \n" +
     "SET    id_dispositif   = ?,\n" +
     "       DH_reception    = ?,\n" +
-    "       id_etat         = ? \n" +
+    "       id_etat         = ?,\n" +
+    "       num_inter       = ? \n" +
     "WHERE  id_intervention = ? \n";
   
   
   public void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception
   {
-    this.affectInterventionToDispositif(idIntervention, idDispositif, dateAffectation, 2);
+    this.affectInterventionToDispositif(idIntervention, idDispositif, dateAffectation, ETAT_INTER_AFFECTEE);
   }
  
   public void unAffectInterventionToDispositif(int idIntervention, Date dateAffectation) throws Exception
   {
-    this.affectInterventionToDispositif(idIntervention, 0, dateAffectation, 1);
+    this.affectInterventionToDispositif(idIntervention, 0, dateAffectation, ETAT_INTER_NON_AFFECTEE);
   }
   
   private void affectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation, int idEtat) throws Exception
   {
+    String idMetierIntervention = null;
+    
+    if(idEtat == ETAT_INTER_AFFECTEE)
+      idMetierIntervention = this.interventionIdStoredProcedure.execute(idDispositif);
+    else
+      idMetierIntervention = "";
+    
 
     if(logger.isDebugEnabled())
-      logger.debug("Intervention with id='"+idIntervention+"' has been assigned to dispositif "+idDispositif+"");
+      logger.debug("Intervention with id='"+idIntervention+"' idDispositif='"+idDispositif+"', dateAffectation='"+dateAffectation+"', idMetierIntervention='"+idMetierIntervention+"'");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
-        new Object[]{idDispositif , dateAffectation, idEtat        , idIntervention}, 
-        new int   []{Types.INTEGER, Types.TIMESTAMP, Types.INTEGER , Types.INTEGER }
+        new Object[]{idDispositif , dateAffectation, idEtat        , idMetierIntervention, idIntervention}, 
+        new int   []{Types.INTEGER, Types.TIMESTAMP, Types.INTEGER , Types.CHAR          , Types.INTEGER }
       );
     
     if(logger.isDebugEnabled())
-      logger.debug("Intervention with id='"+idIntervention+"' has been assigned to dispositif "+idDispositif+" (line updated = '"+nbLineUpdated+"')");
+      logger.debug("Intervention with id='"+idIntervention+"' idDispositif='"+idDispositif+"', dateAffectation='"+dateAffectation+"', idMetierIntervention='"+idMetierIntervention+"' (line updated = '"+nbLineUpdated+"')");
+    
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  class InterventionBusinessIdRowMapper implements RowMapper<String>
+  {
+    @Override
+    public String mapRow(ResultSet rs, int rowNum) throws SQLException
+    {
+      return rs.getString(0);
+    }
+  }
+  
+  
+  class InterventionBusinessIdStoredProcedure extends StoredProcedure 
+  {
+
+    private static final String STORED_PROCEDURE_NAME = "GetInterventionBusinessId";
+    private static final String TYPE_PARAM = "v_type";
+    private static final String ID_OUT_PARAM = "o_BusinessId";
+
+    public InterventionBusinessIdStoredProcedure(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate, STORED_PROCEDURE_NAME);
+        
+        declareParameter(new SqlParameter   (TYPE_PARAM  , Types.CHAR));
+        declareParameter(new SqlOutParameter(ID_OUT_PARAM, Types.CHAR, new InterventionBusinessIdRowMapper()));
+        
+        compile();
+    }
+
+    public String execute(int idDispositif) {
+        Map<String, Integer> inputs = new HashMap<String, Integer>();
+        inputs.put(TYPE_PARAM, idDispositif);
+        Map<String, Object> result =  super.execute(inputs);
+        
+        return (String)result.get(ID_OUT_PARAM) ;
+        
+    }
+  }
+  
+  
+  
   
   private final static Hashtable <Integer,String> idEtatDateFieldMapping = new Hashtable<Integer,String>();
   {

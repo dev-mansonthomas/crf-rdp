@@ -64,6 +64,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   "       e.enabled             ,                  \n"+
   "       e.nom                 ,                  \n"+
   "       e.prenom              ,                  \n"+
+  "       e.indicatif           ,                  \n"+
   "       e.mobile              ,                  \n"+
   "       e.email               ,                  \n"+
   "       d.id_delegation       ,                  \n"+
@@ -363,25 +364,27 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   
   private final static String queryForCreateEquipier =
     "INSERT INTO equipier         \n" +
-    "(nom, prenom, num_nivol, equipier_is_male, email, mobile, enabled, id_delegation)  \n" +
-    "VALUES (?,?,?,?,?,?,?,?)  \n";
+    "(nom, prenom,indicatif, num_nivol, equipier_is_male, email, mobile, enabled, id_delegation)  \n" +
+    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  \n";
   
   public int                 createEquipier            (Equipier equipier) throws Exception
   {
 
     Object [] os    = new Object[]{ 
-        equipier.getNom     (), 
-        equipier.getPrenom  (), 
-        equipier.getNumNivol(), 
-        equipier.isHomme    (), 
-        equipier.getEmail   (), 
-        equipier.getMobile  (), 
-        equipier.isEnabled  (), 
+        equipier.getNom       (), 
+        equipier.getPrenom    (),
+        equipier.getIndicatif (),
+        equipier.getNumNivol  (), 
+        equipier.isHomme      (), 
+        equipier.getEmail     (), 
+        equipier.getMobile    (), 
+        equipier.isEnabled    (), 
         equipier.getDelegation().getIdDelegation()
         };
     int    [] types = new int   []{ 
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
+        Types.VARCHAR                 ,
         Types.VARCHAR                 , 
         Types.BOOLEAN                 , 
         Types.VARCHAR                 , 
@@ -407,6 +410,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "UPDATE equipier               \n" +
     "SET    nom               = ?, \n" +
     "       prenom            = ?, \n" +
+    "       indicatif         = ?, \n" +
     "       num_nivol         = ?, \n" +
     "       equipier_is_male  = ?, \n" +
     "       email             = ?, \n" +
@@ -420,7 +424,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
 
     Object [] os    = new Object[]{ 
         equipier.getNom       (), 
-        equipier.getPrenom    (), 
+        equipier.getPrenom    (),
+        equipier.getIndicatif (), 
         equipier.getNumNivol  (), 
         equipier.isHomme      (), 
         equipier.getEmail     (), 
@@ -432,6 +437,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     int    [] types = new int   []{ 
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
+        Types.VARCHAR                 ,
         Types.VARCHAR                 , 
         Types.BOOLEAN                 , 
         Types.VARCHAR                 , 
@@ -484,7 +490,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     {
       for (EquipierRole equipierRole : roles)
       {
-        os    = new Object[]{equipier.getIdEquipier(), equipierRole.getId(), equipierRole.isEnEvalution() };
+        os    = new Object[]{equipier.getIdEquipier(), equipierRole.getId(), equipierRole.isEnEvaluation() };
         types = new int   []{Types.INTEGER           , Types.INTEGER       , Types.BOOLEAN                };
         
         nbLigneUpdated+= jdbcTemplate.update(queryForInsertRolesForEquipier, os, types);

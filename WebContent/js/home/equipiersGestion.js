@@ -187,6 +187,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                  {name: 'idEquipier'  , type: 'int'     },
                  {name: 'nom'         , type: 'string'  },
                  {name: 'prenom'      , type: 'string'  },
+                 {name: 'indicatif'   , type: 'string'  },
                  {name: 'mobile'      , type: 'string'  },
                  {name: 'email'       , type: 'string'  },
                  {name: 'homme'       , type: 'boolean' },
@@ -436,6 +437,7 @@ Ext.ux.Home.EquipiersGestion = function() {
           idEquipier: -1,
           nom       : '',
           prenom    : '',
+          indicatif : '',
           email     : '',
           mobile    : '',
           numNivol  : '',
@@ -494,7 +496,16 @@ Ext.ux.Home.EquipiersGestion = function() {
                   readOnly  : false,
                   mandatory : false,
                   colspan   : -1
-                }], 
+                }, 
+                {
+                    htmlId      : 'edit_indicatif',
+                    label       : 'Indicatif',
+                    value       : this.equipierData.indicatif,
+                    type        : 'textInput',
+                    readOnly    : false,
+                    mandatory   : false,
+                    colspan     : -1
+                  }], 
                 [{
                   htmlId    : 'edit_email',
                   label     : 'Email',
@@ -652,6 +663,7 @@ Ext.ux.Home.EquipiersGestion = function() {
         numNivol            : Ext.getDom('edit_numNivol'  ).value,
         nom                 : Ext.getDom('edit_nom'       ).value,
         prenom              : Ext.getDom('edit_prenom'    ).value,
+        indicatif           : Ext.getDom('edit_indicatif' ).value,
         mobile              : Ext.getDom('edit_mobile'    ).value,
         email               : Ext.getDom('edit_email'     ).value,
         autreDelegation     : '',
@@ -757,8 +769,12 @@ Ext.ux.Home.EquipiersGestion = function() {
         Ext.get('edit-user-role_'+rolesDefs[i].id).dom.checked = false;
       
       var roles = user.roles;
-      for(i=0,counti =roles.length;i<counti;i++)
-        Ext.get('edit-user-role_'+roles[i].id    ).dom.checked = true;
+      
+      if(roles != null)
+      {
+        for(i=0,counti =roles.length;i<counti;i++)
+          Ext.get('edit-user-role_'+roles[i].id    ).dom.checked = true;
+      }
       
       
       if(user.password != null && user.password != '')

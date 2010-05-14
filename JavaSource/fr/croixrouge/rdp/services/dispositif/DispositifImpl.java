@@ -51,11 +51,13 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private JdbcTemplate        jdbcTemplate        = null;
   private EquipierService     equipierService     = null;
   private InterventionService interventionService = null;
+
+ 
   
   public DispositifImpl(JdbcTemplate  jdbcTemplate)
   {
     this.jdbcTemplate        = jdbcTemplate       ;
-
+    
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
@@ -178,16 +180,17 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
     //met a jour status, date 
     if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has its status and DH_RECEPTION updated");
+      logger.debug("Dispositif with id='"+idDispositif+"' updating status='"+STATUS_INTERVENTION_AFFECTEE+"' and DH_RECEPTION='"+dateAffectation+"'");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForAffectInterventionToDispositif, 
         new Object[]{STATUS_INTERVENTION_AFFECTEE, dateAffectation, idDispositif }, 
         new int   []{Types.INTEGER               , Types.TIMESTAMP, Types.INTEGER}
       );
-    
     if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has its status and DH_RECEPTION updated (line updated = '"+nbLineUpdated+"')");
+      logger.debug("Dispositif with id='"+idDispositif+"' updating status='"+STATUS_INTERVENTION_AFFECTEE+"' and DH_RECEPTION='"+dateAffectation+"' (line updated = '"+nbLineUpdated+"')");
+
   }
+  
   
   private final static String queryForAttachInterventionToDispositif=
     "INSERT INTO dispositif_interventions \n" +
@@ -474,7 +477,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "        `previous_addresse_rue`, `previous_addresse_code_postal`, `previous_addresse_ville`, `previous_google_coords_lat`, `previous_google_coords_long`,      \n"+
     "        `DH_reception`      , `DH_depart`, `DH_sur_place`, `DH_bilan_primaire`       , `DH_bilan_secondaire`, `DH_quitte_les_lieux`,                           \n"+
     "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee`, `actif`,             \n"+
-    "        e.`id_equipier`, e.`num_nivol`, e.`equipier_is_male`, e.`enabled`, e.`nom`, e.`prenom`, e.`mobile`, e.`email`, e.`id_delegation`, e.`autre_delegation` \n"+
+    "        e.`id_equipier`, e.`num_nivol`, e.`equipier_is_male`, e.`enabled`, e.`nom`, e.`prenom`, e.`indicatif`, e.`mobile`, e.`email`, e.`id_delegation`, e.`autre_delegation` \n"+
     "FROM    dispositif d, dispositif_equipiers de, equipier e, dispositif_type dt                                                                                  \n";  
   
   private final static String queryForGetAllDispositif = dispositifSelectQuery + 

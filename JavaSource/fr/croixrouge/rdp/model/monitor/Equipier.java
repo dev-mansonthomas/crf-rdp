@@ -13,6 +13,7 @@ public class Equipier extends CrfDto
   private String    numNivol               = null;
   private String    nom                    = null;
   private String    prenom                 = null;
+  private String    indicatif              = null;
   private String    mobile                 = null;
   private String    email                  = null;
   
@@ -37,6 +38,7 @@ public class Equipier extends CrfDto
     "numNivol                  :"+numNivol                   +"\n"+
     "nom                       :"+nom                        +"\n"+
     "prenom                    :"+prenom                     +"\n"+
+    "indicatif                 :"+indicatif                     +"\n"+
     "mobile                    :"+mobile                     +"\n"+
     "email                     :"+email                      +"\n"+
     "delegation                :"+delegation                 +"\n"+
@@ -167,5 +169,13 @@ public class Equipier extends CrfDto
   public void setIdRoleEnEval(int idRoleEnEval)
   {
     this.idRoleEnEval = idRoleEnEval;
-  }    
+  }
+  public String getIndicatif()
+  {
+    return indicatif;
+  }
+  public void setIndicatif(String indicatif)
+  {
+    this.indicatif = indicatif;
+  }
 }

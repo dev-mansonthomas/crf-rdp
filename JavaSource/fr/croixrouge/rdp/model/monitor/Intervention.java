@@ -63,7 +63,7 @@ public class Intervention implements Serializable
 
   private String  annulationCommentaires             ;
   private String  complementMotif                    ;
-  private String  numInter                           ;
+  private String  interventionBusinessId             ;
   private String  refNumInter                        ;
   private String  nomVictime                         ;
   private String  nomJfVictime                       ;
@@ -571,14 +571,14 @@ public class Intervention implements Serializable
     this.complementMotif = complementMotif;
   }
 
-  public String getNumInter()
+  public String getInterventionBusinessId()
   {
-    return numInter;
+    return interventionBusinessId;
   }
 
-  public void setNumInter(String numInter)
+  public void setInterventionBusinessId(String numInter)
   {
-    this.numInter = numInter;
+    this.interventionBusinessId = numInter;
   }
 
   public String getRefNumInter()

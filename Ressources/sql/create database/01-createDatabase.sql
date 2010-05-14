@@ -1,4 +1,4 @@
-﻿DROP DATABASE IF EXISTS `crfrdp`;
+DROP DATABASE IF EXISTS `crfrdp`;
 CREATE DATABASE `crfrdp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 use crfrdp;
@@ -18,6 +18,7 @@ CREATE TABLE `dispositif_type` (
   `label_type`          varchar (45) NOT NULL,
   `nombre_equipier_max` int     (10) unsigned default 0,
   `id_role_leader`      int     (10) unsigned default 0,
+  `code_type`           varchar (4 ) NOT NULL,
   PRIMARY KEY  (`id_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
@@ -201,6 +202,7 @@ CREATE TABLE `equipier` (
   `enabled`                 boolean                 NOT NULL,
   `nom`                     varchar (45)            NOT NULL,
   `prenom`                  varchar (45)            NOT NULL, 
+  `indicatif`               varchar (45)            NOT NULL,
   `mobile`                  varchar (15)            NOT NULL,
   `email`                   varchar (255)           NOT NULL,
   `id_delegation`           int     (10) unsigned   NOT NULL,
@@ -326,10 +328,12 @@ CREATE TABLE `intervention_etat` (
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-DROP TABLE IF EXISTS `crfrdp`.`intervention_seq`;
-CREATE TABLE `intervention_seq` (
+DROP TABLE IF EXISTS `crfrdp`.`intervention_id`;
+CREATE TABLE `intervention_id` (
   `year`                 varchar(4) NOT NULL,
-  `number`               int(10) unsigned NOT NULL
+  `type`                 varchar(4) NOT NULL,
+  `number`               int(10) unsigned NOT NULL,
+   PRIMARY KEY (`year`, `type`, `number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 

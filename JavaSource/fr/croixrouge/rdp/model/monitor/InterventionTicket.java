@@ -15,21 +15,21 @@ public class InterventionTicket
   private int idOrigine     ;
   private int idMotif       ;
   private int idEtat        ;
-
-  private Date dhSaisie;
-  private boolean victimeHomme;
-  private String nomVictime;
-  private String prenomVictime;
-  private String nomContactSurPlace;
-  private String coordonneesContactSurPlace;
-  private String batiment;
-  private String etage;
-  private String porte;
-  private String complementAdresse;
-  private String complementMotif;
- 
   
-  private Position position;
+  private String  interventionBusinessId    ;
+  private Date    dhSaisie                  ;
+  private boolean victimeHomme              ;
+  private String  nomVictime                ;
+  private String  prenomVictime             ;
+  private String  nomContactSurPlace        ;
+  private String  coordonneesContactSurPlace;
+  private String  batiment                  ;
+  private String  etage                     ;
+  private String  porte                     ;
+  private String  complementAdresse         ;
+  private String  complementMotif           ;
+  
+  private Position position                 ;
   
   
 
@@ -177,6 +177,14 @@ public class InterventionTicket
   public void setIdEtat(int idEtat)
   {
     this.idEtat = idEtat;
+  }
+  public String getInterventionBusinessId()
+  {
+    return interventionBusinessId;
+  }
+  public void setInterventionBusinessId(String interventionBusinessId)
+  {
+    this.interventionBusinessId = interventionBusinessId;
   }
 
 }

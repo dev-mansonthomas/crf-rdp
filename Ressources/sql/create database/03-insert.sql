@@ -425,13 +425,13 @@ update dispositif_etat set id_etat = -2 where id_etat = 12;
 update dispositif_etat set id_etat = -3 where id_etat = 11;
 ALTER TABLE dispositif_etat AUTO_INCREMENT = 14;
 
-insert into dispositif_type (label_type, nombre_equipier_max, id_role_leader)
+insert into dispositif_type (label_type, nombre_equipier_max, id_role_leader, code_type)
 values
-('ALPHA'            ,5,5),
-('BSPP'             ,5,6),
-('Poste de Secours' ,0,4),
-('Point d''Alerte'  ,0,9),
-('N/A'              ,0,0);
+('ALPHA'            ,5,5,'SAMU'),
+('BSPP'             ,5,6,'BSPP'),
+('Poste de Secours' ,0,4,'POSE'),
+('Point d''Alerte'  ,0,9,'POAL'),
+('N/A'              ,0,0,'----');
 
 update dispositif_type set id_type = 0 where id_type = 5;
 ALTER TABLE dispositif_type AUTO_INCREMENT = 5;

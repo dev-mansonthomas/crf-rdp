@@ -219,6 +219,17 @@ MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventio
   dwr.util.setValue('interventionNomVictime'                ,interventionTicket.nomVictime                           );
   dwr.util.setValue('interventionNomContactSurPlace'        ,interventionTicket.nomContactSurPlace                   );
   dwr.util.setValue('interventionCoordonneesContactSurPlace',interventionTicket.coordonneesContactSurPlace           );
+  
+  if(interventionTicket.interventionBusinessId!='')
+  {
+	Ext.get("InterventionTicket_id_intervention" ).update('('+interventionTicket.idIntervention+')'           );
+	Ext.get('InterventionTicketBusinessId'		 ).update(crfIrpUtils.formatInterventionBusinessId(interventionTicket.interventionBusinessId));
+	$('InterventionTicketBusinessIdDiv').style.display='block';
+  }
+	  
+  
+  
+  
   if(interventionTicket.position.googleCoordsLat != 0)
     Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
   else

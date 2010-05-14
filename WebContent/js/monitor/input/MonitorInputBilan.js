@@ -124,10 +124,12 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       {
 
         Ext.get("bilan_id_intervention"                          ).dom.setValue(intervention.idIntervention                   );
-        Ext.get("BilanHelper_id_intervention"                    ).update      (intervention.idIntervention                   );
-        Ext.get("BilanHelper_nom_victime"                        ).update      (intervention.nomVictime  +" "+intervention.prenomVictime);
         Ext.get("bilan_id_dispositif"                            ).dom.setValue(intervention.idDispositif                     );
         Ext.get("bilan_id_regulation"                            ).dom.setValue(intervention.idRegulation                     );
+        
+        Ext.get("BilanHelper_intervention_business_id"           ).update	   (crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId));
+        Ext.get("BilanHelper_id_intervention"                    ).update      ('('+intervention.idIntervention+')'           );
+        Ext.get("BilanHelper_nom_victime"                        ).update      (intervention.nomVictime  +" "+intervention.prenomVictime);
         Ext.get("BilanHelper_id_origine"                         ).update      (crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine));
         Ext.get("BilanHelper_id_motif"                           ).update      (crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  ));
         Ext.get("BilanHelper_id_etat"                            ).update      (crfIrpUtils.getLabelFor('EtatsIntervention'   , intervention.idEtat   ));

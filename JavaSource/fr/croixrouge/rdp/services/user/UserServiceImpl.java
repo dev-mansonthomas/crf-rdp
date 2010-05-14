@@ -33,8 +33,8 @@ public class UserServiceImpl extends JDBCHelper implements UserService
 
   
   private final static String queryForAuthenticate = 
-    "SELECT   u.id_user, e.id_equipier, e.id_dispositif, u.enabled, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.email, e.mobile, e.autre_delegation, e.id_delegation, \n" +
-    "         d.nom AS nom_delegation, d.departement AS departement_delegation, u.password, md5(?) as challenge_password, u.id_regulation, u.id_role_in_regulation            \n" +
+    "SELECT   u.id_user, e.id_equipier, e.id_dispositif, u.enabled, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.indicatif, e.email, e.mobile, e.autre_delegation, e.id_delegation, \n" +
+    "         d.nom AS nom_delegation, d.departement AS departement_delegation, u.password, md5(?) as challenge_password, u.id_regulation, u.id_role_in_regulation                         \n" +
     "FROM     `user` u, `delegation` d, `equipier` e \n"+
     "WHERE    e.num_nivol        = ?                 \n"+
     "AND      u.id_equipier      = e.id_equipier     \n"+
@@ -66,7 +66,7 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   
   
   private final static String selectForUserWithEquipier = 
-    "SELECT   u.id_user, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.mobile, e.email, e.autre_delegation, e.id_delegation, \n" +
+    "SELECT   u.id_user, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.indicatif, e.mobile, e.email, e.autre_delegation, e.id_delegation, \n" +
     "         d.nom AS delegation_nom, u.id_regulation, u.id_role_in_regulation\n"+
     "FROM     `user` u, `equipier` e, delegation` d\n";
   
@@ -304,7 +304,7 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   }
 
   private final static String queryForSetRegulationToUser = 
-    "UPDATE user \n" +
+    "UPDATE user             \n" +
     "SET    id_regulation = ?\n" +
     "WHERE  id_user       = ?\n";
   
@@ -327,27 +327,18 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   public void createUser(User user)
   {
 
-    Object[] os = new Object[]
-               {
-                user.getIdEquipier(),
-                user.getPassword  ()
-              };  
-    int  [] types = new int[]
-                   {
-                     Types.INTEGER,
-                     Types.VARCHAR
-                   };
+    Object[] os   = new Object[]{ user.getIdEquipier(), user.getPassword  ()};  
+    int  [] types = new int   []{ Types.INTEGER       , Types.VARCHAR       };
+    
     jdbcTemplate.update(queryForCreateUser, os, types);
     
     int lastInsertId = this.getLastInsertedId(this.jdbcTemplate, tableName);
     
-    user.setIdUser(lastInsertId);
+    user.setEnabled(true);
+    user.setIdUser (lastInsertId);
     
     if(logger.isDebugEnabled())
       logger.debug("user created with id="+lastInsertId);
   }
-  
-  
-
   
 }

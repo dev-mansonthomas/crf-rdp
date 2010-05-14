@@ -193,7 +193,7 @@ function initLayout()
     contentEl   : 'BilanHelper',
     title       : 'Résumé',
     xtype       : 'panel',
-    width       : 200
+    width       : 230
   };
   
   

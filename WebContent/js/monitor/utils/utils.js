@@ -131,6 +131,16 @@ CrfIrpUtils.prototype.focusHandling=function(currentFieldId)
 };
 
 
+CrfIrpUtils.prototype.formatInterventionBusinessId=function(interventionBusinessId)
+{
+  var businessIdElements 	= interventionBusinessId.split('-');
+  var businessId 			= businessIdElements[0]+'-'+businessIdElements[1]+'-<span class="idInterventionNumber">'+businessIdElements[2]+'</span>'; 
+
+  return businessId;
+};
+
+
+
 /* ===================== List Handling ============================== */
 
 CrfIrpUtils.prototype.allList           =[];

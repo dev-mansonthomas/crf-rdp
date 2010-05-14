@@ -36,6 +36,7 @@ public class EquipierRowMapper extends RowMapperHelper implements RowMapper<Equi
     equipier.setNumNivol        (rs.getString ("num_nivol"    ));
     equipier.setNom             (rs.getString ("nom"          ));
     equipier.setPrenom          (rs.getString ("prenom"       ));
+    equipier.setIndicatif       (rs.getString ("indicatif"    ));
     equipier.setMobile          (rs.getString ("mobile"       ));
     equipier.setEmail           (rs.getString ("email"        ));
     

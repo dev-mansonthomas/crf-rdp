@@ -5,10 +5,12 @@
 -- 
 select "Creating database";
 source 01-createDatabase.sql;
+select "Creating stored procedure";
+source 02-stored-Procedure.sql;
 select "inserting initial data";
-source 02-insert.sql;
+source 03-insert.sql;
 select "inserting private data";
-source 03-insert-private-data.sql;
+source 04-insert-private-data.sql;
 select "inserting test data";
-source 04-insert-test-data.sql;
+source 05-insert-test-data.sql;
 select "End of import";

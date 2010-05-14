@@ -75,7 +75,7 @@ public class InterventionRowMapper extends RowMapperHelper implements RowMapper<
     intervention.setEvacAggravationContactRegulation   (rs.getTimestamp("evac_aggravation_contact_regulation"     ));
     intervention.setAnnulationCommentaires             (rs.getString   ("annulation_commentaires"                 ));
     intervention.setComplementMotif                    (rs.getString   ("complement_motif"                        ));
-    intervention.setNumInter                           (rs.getString   ("num_inter"                               ));
+    intervention.setInterventionBusinessId                           (rs.getString   ("num_inter"                               ));
     intervention.setRefNumInter                        (rs.getString   ("ref_num_inter"                           ));
     intervention.setNomVictime                         (rs.getString   ("nom_victime"                             ));
     intervention.setNomJfVictime                       (rs.getString   ("nom_jf_victime"                          ));

@@ -327,8 +327,8 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   public void createUser(User user)
   {
 
-    Object[] os   = new Object[]{ user.getIdEquipier(), user.getPassword  ()};  
-    int  [] types = new int   []{ Types.INTEGER       , Types.VARCHAR       };
+    Object[] os    = new Object[]{ user.getIdEquipier(), user.getPassword  ()};  
+    int   [] types = new int   []{ Types.INTEGER       , Types.VARCHAR       };
     
     jdbcTemplate.update(queryForCreateUser, os, types);
     

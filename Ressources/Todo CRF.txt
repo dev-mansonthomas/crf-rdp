@@ -8,12 +8,11 @@
 TODO :      
 
 Application : 
-  + addresse habitation de la victime :bouton pour initiliser a l'adresse d'intervention
+
+  + barre de bouton dynamique pour les dispositifs (input)
   + Ajouter département/ville dans le nom des hopitaux pour la médicalisation de l'intervention (classé par département pour que 75 soit en premier)
   + Ajouter une fonctionnalité qui permet d'annulé une intervention sur l'intervention
   + gestion du focus sur bilan
-  + Gestion des Equipiers (avec bouton : Ajout comme utilisateur de l'application)
-  + linker la table user à la table equipier et virer les colonnes en trop dans user
   + Confirmer les descriptions d'AR, UMH, Myosis, Mydryase
   + debugger l'adresse d'evac
   + implementer l'historisation des changements des interventions et dispositifs dans mysql 
@@ -29,7 +28,7 @@ Application :
  
   + Dispositif : gestion du focus sur ajout de dispositif : skip des dates, après saisie équipier donner le focus aux premier volume d'O2, faire volume/pression/volume/pression plutot que volume/volume/pression/pression
   + Dispositif : Arrondi a l'entier près pour l'autonomie, un chiffre après la virgule pour le volume
-  + Dispositif : Drop down pour le volume des bouteilles
+
  
   + init drop zone : gestion des couleurs de la dropzone : vert :droppable, rouge : qqn a bord ajout impossible dans un premier temps, gris : indisponible
   + Input , Dispositif : Ajout d'une référence à sa base. Référence a un lieu + adresse complete (cas ou la base est un point d'alerte par exemple)
@@ -37,14 +36,13 @@ Application :
   
   + BILAN : Gestion de la mise a jours des Dates avec Gestion du +1J par rapport a la date de saisie de l'inter
   + BILAN : Controle sur les dates : controle d'antériorité
-  + Page pour les crédits des produits opensources utilisé.             
+            
   + Gestion des lieux : Interface de saisie dans Input   
-  + Ajouter le N° d'inter dans l'affichage du Ticket
+
                
 Technique : 
                                                 
-  + build my own Ext  
-  + Mise en place YUI Compressor  (intégré dans jawr)        
+  + utiliser le system de package          
   + Mode Admin : vider les caches.
   
 Déploiement : 
@@ -55,6 +53,12 @@ Déploiement :
 
   
 GOOGLE MAPS     
+  + vue de la circulation, caché les éléments google : 
+  
+document.getElementById('header').style.display='none';
+document.getElementById('gbar').parentNode.style.display='none';
+
+  + google maps api V3 upgrade
   + Avoir une version d'icone par dispositif pour un repérage plus facile sur la carte. Positionnement plus précis
   + Google Map : sur une intervetion qui est affecté a un dispositif, dans la bubble, afficher les références au dispositifi (id, indicatif),  ajouter bouton pour centrer sur dispositifi (et vice versa, bouton pour centré sur inter, pour un dispositif qui a une inter)
   + Google Map : voir pour changer les couleurs des gdirection
@@ -73,6 +77,14 @@ GOOGLE MAPS
   
   
 DONE :
+  - Page pour les crédits des produits opensources utilisé. 
+  - Ajouter le N° d'inter dans l'affichage du Ticket
+  - Dispositif : Drop down pour le volume des bouteilles
+  - Mise en place YUI Compressor  (intégré dans jawr)
+  - addresse habitation de la victime :bouton pour initiliser a l'adresse d'intervention (ticket jira)
+  - linker la table user à la table equipier et virer les colonnes en trop dans user
+  - Gestion des Equipiers (avec bouton : Ajout comme utilisateur de l'application)
+  - controle des formulaires, mutualiser la fenetre qui a été écrite pour les dispositifs et l'utiliser pour les tickets d'interventions
   - un bouton pour visualiser l'intervention d'un dispositif depuis l'écran d'édition du dispositif
   - version de l'application "Majeur.Medium.Mineur, build yyyyMMdd HHmm"
   - Gestion de la console, firebug désactivé

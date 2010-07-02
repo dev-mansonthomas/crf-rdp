@@ -24,10 +24,10 @@ Ext.ux.crf.Login = function() {
     Ext.QuickTips.init();
 
     var logoPanel = new Ext.Panel({
-      baseCls: 'x-plain',
+      baseCls  : 'x-plain',
       bodyStyle: 'background:#'+logoBgColor+' url('+logoUrl+') no-repeat center center;',
-      id: 'login-logo',
-      region: 'center'
+      id       : 'login-logo',
+      region   : 'center'
     });
     
     
@@ -35,6 +35,7 @@ Ext.ux.crf.Login = function() {
           baseCls         : 'x-plain',
           standardSubmit  : true,
           url             : submitUrl,
+          method          : 'POST',
           bodyStyle       : 'background:#f9f9f9 none; color:#222; padding:5px 35px;',
           defaults        : {
             width: 200
@@ -45,6 +46,7 @@ Ext.ux.crf.Login = function() {
           id              : 'login-form',
           labelWidth      : 120         ,
           region          : 'south'     ,
+          
           buttons         : [{
             handler: function(){
               this.login();

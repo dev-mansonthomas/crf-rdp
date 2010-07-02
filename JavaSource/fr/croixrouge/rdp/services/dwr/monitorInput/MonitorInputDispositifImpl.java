@@ -122,7 +122,20 @@ public class MonitorInputDispositifImpl extends DWRUtils
     int currentInterventionId = this.dispositifService.getCurrentInterventionId(idDispositif);
     
     if(currentInterventionId == 0)
+    {
       this.dispositifService.updateActifValueOfDispositif(idDispositif, false);
+      this.dispositifService.updateEtatDispositif        (idDispositif, DispositifService.STATUS_FIN_VACATION);
+    }
+      
+    List<Equipier> equipiers = this.equipierService.getEquipiersForDispositif(idDispositif);
+   
+    for (Equipier equipier : equipiers)
+    {
+      this.dispositifService.unaffectEquipierToDispositif(idDispositif            , equipier.getIdEquipier());
+      this.equipierService  .setDispositifToEquipier     (equipier.getIdEquipier(), 0                       );
+    }
+    
+    
 
     return currentInterventionId;
   }
@@ -151,8 +164,16 @@ public class MonitorInputDispositifImpl extends DWRUtils
   public Dispositif getDispositif(int idDispositif)throws Exception
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    try
+    {
+      return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);  
+    }
+    catch(Exception e)
+    {
+      logger.error("error while getting dispositif with id='"+idDispositif+"'",e);
+      throw e;
+    }
     
-    return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
   }
   
   public ListRange<DispositifTicket> getRecentDispositifList(int index, int limit) throws Exception

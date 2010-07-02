@@ -185,13 +185,15 @@ function initLayout()
                           }
                         }
                     }
-                    /*,{
-                        id:'center-circulation1-panel',
-                        contentEl:'center-circulation1',
-                        title: 'Circulation vue 1',
-                        closable:false,
-                        autoScroll:true
-                    }*/,{
+                    ,{
+                        id        : 'center-circulation1-panel',
+                        /*url       : 'http://maps.google.fr/?ie=UTF8&amp;ll=48.879393,2.332535&amp;spn=0.036126,0.21698&amp;z=13&amp;layer=t',
+                        scripts   : true,*/
+                        contentEl : 'center-circulation1',
+                        title     : 'Circulation vue 1',
+                        closable  : false,
+                        autoScroll: true
+                    },{
                         id        : 'center-circulation2-panel',
                         contentEl : 'center-circulation2',
                         title     : 'Circulation vue simple',

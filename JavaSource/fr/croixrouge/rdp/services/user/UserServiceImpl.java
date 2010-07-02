@@ -332,13 +332,18 @@ public class UserServiceImpl extends JDBCHelper implements UserService
     
     jdbcTemplate.update(queryForCreateUser, os, types);
     
-    int lastInsertId = this.getLastInsertedId(this.jdbcTemplate, tableName);
+    int lastInsertId = this.getLastInsertedId();
     
     user.setEnabled(true);
     user.setIdUser (lastInsertId);
     
     if(logger.isDebugEnabled())
       logger.debug("user created with id="+lastInsertId);
+  }
+  
+  protected int getLastInsertedId()
+  {
+    return this.getLastInsertedId(jdbcTemplate, tableName);
   }
   
 }

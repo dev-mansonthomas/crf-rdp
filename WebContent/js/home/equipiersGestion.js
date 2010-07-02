@@ -120,24 +120,7 @@ Ext.ux.Home.EquipiersGestion = function() {
       Ext.ux.Home.EquipiersGestion.allRoles       = crfIrpUtils.allList['RolesEquipier'];//retire NA
       Ext.ux.Home.EquipiersGestion.allRolesUser   = crfIrpUtils.allList['RolesUser'    ].slice(1,crfIrpUtils.allList['RolesUser'    ].length);//retire NA
       Ext.ux.Home.EquipiersGestion.initLayout    ();      
-    },
-    
-    addFilter:function(objectFilter, domFieldName, fieldName, comparator, nullValue)
-    {
-      var domObj = Ext.getDom(domFieldName);
-      if(domObj != null)
-      {
-        var value  = domObj.value;
-        if (value!=null && value!=nullValue)
-          objectFilter.push(new Ext.ux.rs.data.FilterObject(fieldName , value ,comparator));        
-      }
-      else
-      {
-        alert('DOM object "'+domFieldName+'" not found for grid filter object');
-      }
-      
-    },
-    
+    }, 
 		initLayout : function() 
     {
 			equipierSearch = {
@@ -167,15 +150,15 @@ Ext.ux.Home.EquipiersGestion = function() {
            
               var objectFilter = new Array();
               
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_nom'       , 'NOM'              ,'LIKE' , '');
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_prenom'    , 'PRENOM'           ,'LIKE' , ''); 
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_numNivol'  , 'NUM_NIVOL'        ,'LIKE' , ''); 
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_homme'     , 'EQUIPIER_IS_MALE' ,'='    , ''); 
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_role'      , 'ID_ROLE_EQUIPIER' ,'='    , '0');
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_email'     , 'EMAIL'            ,'LIKE' , ''); 
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_mobile'    , 'MOBILE'           ,'LIKE' , ''); 
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_enabled'   , 'ENABLED'          ,'='    , ''); 
-              Ext.ux.Home.EquipiersGestion.addFilter(objectFilter, 'search_delegation', 'ID_DELEGATION'    ,'='    , '0');
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_nom'       , 'NOM'              ,'LIKE' , '');
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_prenom'    , 'PRENOM'           ,'LIKE' , ''); 
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_numNivol'  , 'NUM_NIVOL'        ,'LIKE' , ''); 
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_homme'     , 'EQUIPIER_IS_MALE' ,'='    , ''); 
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_role'      , 'ID_ROLE_EQUIPIER' ,'='    , '0');
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_email'     , 'EMAIL'            ,'LIKE' , ''); 
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_mobile'    , 'MOBILE'           ,'LIKE' , ''); 
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_enabled'   , 'ENABLED'          ,'='    , ''); 
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_delegation', 'ID_DELEGATION'    ,'='    , '0');
 
               return objectFilter;
           }
@@ -595,6 +578,11 @@ Ext.ux.Home.EquipiersGestion = function() {
             htmlId  : 'annuler',
             label   : 'Annuler',
             onClick : 'Ext.ux.Home.EquipiersGestion.initEquipierForm();'
+          },
+          {
+            htmlId  : 'interventions',
+            label   : 'interventions',
+            onClick : 'Ext.ux.Home.EquipiersGestion.displayInterventionList();'
           }
         ]
       }
@@ -611,6 +599,14 @@ Ext.ux.Home.EquipiersGestion = function() {
           }
         });
       }
+    },
+    displayInterventionList:function()
+    {
+      Ext.ux.Utils.InterventionList.displayInterventionList('EQUIPIER', Ext.get('edit_idEquipier').getValue(),
+        function(rowData){
+          openCrfIrp(rowData.idRegulation, rowData.idIntervention);
+        }
+      );
     },
     confirmCreateEquipier : function() {
       var error = Ext.ux.Home.EquipiersGestion.checkEquipierForm();

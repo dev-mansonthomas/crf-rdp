@@ -9,6 +9,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Lieu;
 import fr.croixrouge.rdp.model.monitor.LieuType;
@@ -18,9 +20,10 @@ import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import fr.croixrouge.rdp.model.monitor.rowMapper.LieuRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.LieuTypeRowMapper;
+import fr.croixrouge.rdp.services.JDBCHelper;
 import fr.croixrouge.rdp.services.cache.CacheService;
 
-public class LieuServiceImpl implements LieuService
+public class LieuServiceImpl  extends JDBCHelper implements LieuService
 {
   private static  Log           logger            = LogFactory.getLog(LieuServiceImpl.class);
   
@@ -52,44 +55,54 @@ public class LieuServiceImpl implements LieuService
         new LieuTypeRowMapper());
   }
   
-  private final static String selectForGetLieu = 
-    "SELECT    `id_lieu`,`id_type_lieu`, `icon`, `icon_gmap_init`, `nom`,`addresse`, \n" +
-    "          `code_postal`, `ville`, `google_coords_lat`, `google_coords_long`, `info_complementaire`\n" +
+  private final static String selectForGetLieux = 
+    "SELECT    `id_lieu`    , `id_type_lieu`, `icon`              , `icon_gmap_init`    , `nom`      ,`addresse`, \n" +
+    "          `code_postal`, `ville`       , `google_coords_lat` , `google_coords_long`, `telephone`, `mail`   , \n" +
+    "          `url`        , `info_complementaire`, `actif`                                                      \n" +
     "FROM      `lieu`           \n" ;
-  private final static String whereClauseForGetLieu =
+  private final static String whereClauseForGetLieux =
     "WHERE     `id_lieu` > 0    \n" +
+    "AND       `actif`   = 1    \n" +
     "ORDER BY `id_type_lieu` ASC\n";
   
-  public List<Lieu> getLieu() throws Exception
+  public List<Lieu> getLieux() throws Exception
   {
     if(logger.isDebugEnabled())
-      logger.debug("getting lieu");
+      logger.debug("getting lieux");
     
-    return this.jdbcTemplate.query(selectForGetLieu + whereClauseForGetLieu   , 
+    return this.jdbcTemplate.query(selectForGetLieux + whereClauseForGetLieux   , 
         new Object[]{}    ,
         new int   []{}     ,
+        new LieuRowMapper());
+  }
+  
+  private final static String whereClauseForGetLieu =
+    "WHERE     `id_lieu` = ?    \n" ;
+  public Lieu getLieu(int idLieu) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("getting lieux");
+    
+    return this.jdbcTemplate.queryForObject(selectForGetLieux + whereClauseForGetLieu   , 
+        new Object[]{idLieu       },
+        new int   []{Types.INTEGER},
         new LieuRowMapper());
   }
   
   
   private HashMap<String, String> whereMapForGetLieu = new HashMap<String, String>();
   {
-    whereMapForGetLieu.put("NOM"              , "E.NOM"              );
-    whereMapForGetLieu.put("PRENOM"           , "E.PRENOM"           );
-    whereMapForGetLieu.put("NUM_NIVOL"        , "E.NUM_NIVOL"        );
-    whereMapForGetLieu.put("EQUIPIER_IS_MALE" , "E.EQUIPIER_IS_MALE" );
-    whereMapForGetLieu.put("ID_ROLE_EQUIPIER" , "ER.ID_ROLE_EQUIPIER"); 
-    whereMapForGetLieu.put("EMAIL"            , "E.EMAIL"            );
-    whereMapForGetLieu.put("MOBILE"           , "E.MOBILE"           );
-    whereMapForGetLieu.put("ENABLED"          , "E.ENABLED"          );
-    whereMapForGetLieu.put("ID_DELEGATION"    , "E.ID_DELEGATION"    );
+    whereMapForGetLieu.put("idTypeLieu"       , "id_type_lieu" );
+    whereMapForGetLieu.put("nom"              , "nom"          );
+    whereMapForGetLieu.put("codePostal"       , "code_postal"  );
+    whereMapForGetLieu.put("id"               , "id_lieu"  );
   }
   
   
   public ListRange<Lieu> getLieux(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
     String queryForCountLieu  = "SELECT COUNT(1) \nFROM lieu\n";
-    String queryForGetLieu    = selectForGetLieu;
+    String queryForGetLieu    = selectForGetLieux;
     Object [] os    = {};
     int    [] types = {};
  
@@ -105,7 +118,16 @@ public class LieuServiceImpl implements LieuService
       for (int i = 0; i < filters.length; i++)
       {
         FilterObject currentFilter = filters[i];
-        whereClause.append( "AND ");
+        
+        if(whereClause.indexOf("WHERE")<0)
+        {
+          whereClause.append( "WHERE ");
+        }
+        else
+        {
+          whereClause.append( "AND ");  
+        }
+        
         if("=".equals(currentFilter.getComparator()))
         {          
           String filterFieldName = whereMapForGetLieu.get(currentFilter.getName());
@@ -155,6 +177,10 @@ public class LieuServiceImpl implements LieuService
       orderBy+=orderByField;
       orderBy+=" "+(so.isAscending()?" ASC":" DESC");
     }
+    else
+    {
+      orderBy+=" id_lieu ASC ";
+    }
 
     
     String queryCount = queryForCountLieu + whereClause;
@@ -201,7 +227,7 @@ public class LieuServiceImpl implements LieuService
     for (LieuType lieuType : typeLieu)//initialise de cette facon, pour que les catégories vides (intevention/ambulance) soit quand meme initialisé, sinon ca a des effets de bords.
       lieuSorted.put(lieuType.getIdTypeLieu()+"", new ArrayList<Lieu> ());
     
-    List<Lieu> allLieu = this.getLieu();
+    List<Lieu> allLieu = this.getLieux();
     
     for (Lieu lieu : allLieu)
       lieuSorted.get(lieu.getIdTypeLieu()+"").add(lieu);
@@ -212,6 +238,62 @@ public class LieuServiceImpl implements LieuService
       logger.debug("getLieuSorted - added to cache");
      
     return lieuSorted;
+  }
+  
+  public static final String queryForSetEnableStatusOnLieu =
+    "UPDATE lieu      \n" +
+    "SET    actif  = ?\n" +
+    "WHERE  idLieu = ?\n";
+  
+  public void setEnableStatusOnLieu(int idLieu, boolean enabled) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("set enable='"+enabled+"' to lieu id='"+idLieu+"'");
+    
+    int nbRowUpdated = this.jdbcTemplate.update(queryForSetEnableStatusOnLieu , 
+        new Object[]{enabled      , idLieu       },
+        new int   []{Types.BOOLEAN, Types.INTEGER});
+    
+    if(logger.isDebugEnabled())
+      logger.debug("set enable='"+enabled+"' to lieu id='"+idLieu+"' (nbRowUpdated='"+nbRowUpdated+"'");
+  }
+  
+  /*
+   * 
+   *   private final static String selectForGetLieux = 
+    "SELECT    `id_lieu`    , `id_type_lieu`, `icon`              , `icon_gmap_init`    , `nom`      ,`addresse`, \n" +
+    "          `code_postal`, `ville`       , `google_coords_lat` , `google_coords_long`, `telephone`, `mail`   , \n" +
+    "          `url`        , `info_complementaire`, `actif`                                                      \n" +
+    "FROM      `lieu`           \n" ;
+   * 
+   * */
+  
+  
+  private final static String queryForCreateNewEmptyLieu = 
+    "INSERT INTO `lieu`\n"+
+    "  ( `id_type_lieu`, `nom`              , `addresse`          , `code_postal`,\n"+
+    "    `ville`       , `google_coords_lat`, `google_coords_long`, `actif`       \n"+
+    "  )\n"+
+    "VALUES (0, '', '', '', '', 0, 0, 0)\n";
+  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
+  public int createNewEmptyLieu() throws Exception
+  {
+    this.jdbcTemplate.update(queryForCreateNewEmptyLieu, 
+        new Object[]{}, 
+        new int   []{});
+
+    int idLieu = this.getLastInsertedId();
+    
+    if(logger.isDebugEnabled())
+      logger.debug("new empty lieu created with id='"+idLieu+"'");
+    
+    return idLieu;
+  }
+  
+  protected int getLastInsertedId()
+  {
+    return this.getLastInsertedId(jdbcTemplate, "lieu");
   }
   
 }

@@ -161,7 +161,7 @@
               <div class="BilanFieldInputLabel">Ville :</div>
             </td>
             <td>
-                <input style="width:90px;"
+                <input style="width:190px;"
                         type="text"
                           id="bilan_ville_victime"
                         name="bilan_ville_victime"
@@ -182,6 +182,11 @@
                    maxlength="60"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
                       onBlur="miBilanCs.updateStringField(this.id, 'pays_victime')"/>
+                      
+                      
+              <input type="button" 
+                    value="Domicile = Adresse Inter"
+                  onclick="miBilanCs.setAdresseDomicilToAdressIntervention();"/>
             </td>
           </tr>
         </tbody>

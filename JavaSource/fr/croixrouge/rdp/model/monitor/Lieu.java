@@ -6,17 +6,21 @@ public class Lieu implements Serializable
 {
   private static final long serialVersionUID = -7990736631867351632L;
   
-  private int    idLieu            ;  
-  private int    idTypeLieu        ;
-  private String icon              ;
-  private String iconGmapInit      ;
-  private String nom               ;
-  private String addresse          ;
-  private String codePostal        ;
-  private String ville             ;
-  private float  googleCoordsLat   ;
-  private float  googleCoordsLong  ;
-  private String infoComplementaire;
+  private int     idLieu            ;  
+  private int     idTypeLieu        ;
+  private String  icon              ;
+  private String  iconGmapInit      ;
+  private String  nom               ;
+  private String  addresse          ;
+  private String  codePostal        ;
+  private String  ville             ;
+  private float   googleCoordsLat   ;
+  private float   googleCoordsLong  ;
+  private String  telephone         ;
+  private String  mail              ;
+  private String  url               ;
+  private String  infoComplementaire;
+  private boolean actif             ;
   
   public int getIdLieu()
   {
@@ -105,5 +109,37 @@ public class Lieu implements Serializable
   public void setInfoComplementaire(String infoComplementaire)
   {
     this.infoComplementaire = infoComplementaire;
+  }
+  public String getTelephone()
+  {
+    return telephone;
+  }
+  public void setTelephone(String telephone)
+  {
+    this.telephone = telephone;
+  }
+  public String getUrl()
+  {
+    return url;
+  }
+  public void setUrl(String url)
+  {
+    this.url = url;
+  }
+  public String getMail()
+  {
+    return mail;
+  }
+  public void setMail(String mail)
+  {
+    this.mail = mail;
+  }
+  public boolean isActif()
+  {
+    return actif;
+  }
+  public void setActif(boolean actif)
+  {
+    this.actif = actif;
   }
 }

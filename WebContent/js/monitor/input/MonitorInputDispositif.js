@@ -416,7 +416,7 @@ MonitorInputDispositifCs.prototype.DELGNomPrenomCellRenderer=function(value, met
 MonitorInputDispositifCs.prototype.DELGRoleCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
   
-  //TODO 'award_star_gold_1.png'
+  //TODO pour le CI 'award_star_gold_1.png'
   return crfIrpUtils.getLabelFor('RolesEquipier', value );
 };
 
@@ -455,71 +455,13 @@ MonitorInputDispositifCs.prototype.typeCellRenderer=function(value, metadata, re
 
 MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 {
-  if(this.dispositifCheckWindow == null)
+  if(this.formValidationWindow == null)
   {
-     var dataStore = new Ext.data.ArrayStore({
-            fields: [
-               {name: 'testName'  },
-               {name: 'testResult', type:'int'}
-            ]
-        });
-
-    
-    
-    var grid = new Ext.grid.GridPanel({
-          id      :'DispositifCheckGrid',
-        store     : dataStore,
-        cm: new Ext.grid.ColumnModel([
-            {     id: 'testName' ,
-              header: "Vérification en échec",
-               width: 500     ,
-            sortable: true    ,
-           dataIndex: 'testName'
-           },
-           {      id: 'testResult' ,
-              header: "Résultat",
-               width: 60     ,
-            sortable: true    ,
-           dataIndex: 'testResult'   ,
-           renderer : function(value, metadata, record, rowIndex, colIndex, store)
-             {
-               return '<img src="'+contextPath+'/img/famfamfam/'+(value==1?'exclamation.png':'error.png')+'" />';
-             }
-           }
-        ]),
-        viewConfig: {
-            forceFit      :true
-        },
-        width   : 600,
-        height  : 450,
-        title   : 'Vérification du dispositif',
-        iconCls : 'icon-grid'
-    });
-    
-    
-    
-    
-    this.dispositifCheckWindow = new Ext.Window({
-                id         : 'DispositifCheckWindow',
-                layout     : 'fit',
-                width      : 600,
-                height     : 450,
-                closeAction: 'hide',
-                plain      : true,
-                items      : [grid],
-                buttons: [{
-                    text: 'Corriger',
-                    handler: function(button, event){
-                        Ext.getCmp('DispositifCheckWindow').hide();
-                    }
-                },
-                {
-                    text: 'Valider',
-                    handler: function(button, event){
-                        miDispositifCs.doEndOfEditionEvent();
-                    }
-                }]
-            });
+    this.formValidationWindow = new Ext.ux.Utils.FormValidationWindow({
+       validateFunction: function(){miDispositifCs.doEndOfEditionEvent();},
+       gridTitle       : 'Vérification du dispositif'
+     }
+    );
   }
   
   var hasErrorOrWarning = false;
@@ -528,7 +470,6 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
   
   //Clean old validation
   Ext.get('DispositifIdentification').dom.style.backgroundColor='#FFFFFF';
-  this.emptyDispositifCheckGrid();
   
   if(typeDispositif == 0)
   {
@@ -645,23 +586,31 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
   
  
   
-  if(hasErrorOrWarning == true)
+  if( Ext.get('DispositifStatus').dom.value =='11' || Ext.get('dispositifActif').dom.value!='true' && Ext.get('DispositifStatus').dom.value != -1)
   {
-    Ext.getCmp('DispositifCheckGrid').getStore().loadData(messageList); 
-    this.dispositifCheckWindow.show();
+    Ext.Msg.alert('Publication Impossible', 'Vous ne pouvez plus publier de modification sur ce dispositif car il a fini sa vacation.');
   }
   else
-    this.doEndOfEditionEvent();
+  {
+    if(hasErrorOrWarning == true)
+    { 
+      this.formValidationWindow.display(messageList);
+    }
+    else
+      this.doEndOfEditionEvent();    
+  }
 };
 
 MonitorInputDispositifCs.prototype.doEndOfEditionEvent=function()
 {
-  var numberOfMandatoryItems = Ext.getCmp('DispositifCheckGrid').getStore().query('testResult',1).getCount();
+  var numberOfMandatoryItems = Ext.getCmp('FormValidationWindow').getStore().query('testResult',1).getCount();
   if(numberOfMandatoryItems>0)
   {
     Ext.Msg.alert('Le dispositif ne peut être ajouté','Des conditions nécessaires ne sont pas remplies, veuillez les corriger');
     return false;
   }
+  else
+    Ext.getCmp('FormValidationWindow').hide();
   
   var isCreation = Ext.get('dispositif_isCreation_field').getValue();
   MonitorInputDispositif.endOfEditionEvent($('dispositif_id_field').value, $('DispositifStatus').value, isCreation, this.endOfEditionEventReturn);
@@ -674,11 +623,7 @@ MonitorInputDispositifCs.prototype.doEndOfEditionEvent=function()
 MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 {
   miDispositifCs.resetDispositifForm();
-  
-  Ext.getCmp('DispositifPanelTopToolbar'   ).setVisible(false);
-  Ext.get   ('DispositifEdit'         		 ).slideOut	 ();
-  Ext.getCmp('DispositifListEastPanel'		 ).expand  	 ();
-  Ext.getCmp('DispositifCheckWindow'       ).hide      ();
+  miDispositifCs.hideDispositif();
   PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
   
 };
@@ -701,23 +646,16 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   Ext.getCmp('DispositifEquipierListGrid' ).getStore().removeAll();
   Ext.getCmp('dispositifRoleList'         ).getStore().removeAll();
   Ext.getCmp('DispositifEquipierSearch'   ).setValue('');
-  this.emptyDispositifCheckGrid();
   
   dwr.util.setValue('DispositifStatus',-1);
 };
 
-MonitorInputDispositifCs.prototype.emptyDispositifCheckGrid=function()
-{
-  var dispositifCheckGrid = Ext.getCmp('DispositifCheckGrid');
-  if(dispositifCheckGrid!=null)
-    dispositifCheckGrid.removeAll();
-
-}
 
 MonitorInputDispositifCs.prototype.fieldList = [ 
     'dispositif_id_field',
     'dispositif_isCreation_field',
     'DispositifType',
+    'dispositifActif',
     'DispositifIndicatif',
     'DispositifDelegation',
     'DispositifDelegation_id', 
@@ -844,6 +782,17 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispo
   Ext.getCmp('DispositifPanelTopToolbar').setVisible(true);
 };
 
+MonitorInputDispositifCs.prototype.displayInterventionsList=function()
+{
+   Ext.ux.Utils.InterventionList.displayInterventionList('DISPOSITIF', $('dispositif_id_field').value,
+        function(rowData){
+          miBilanCs.editBilan(rowData.idIntervention);
+          Ext.getCmp('InterventListWindow').hide();
+        }
+      );
+};
+
+
 MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
 {
   this.resetDispositifForm();
@@ -895,10 +844,24 @@ MonitorInputDispositifCs.prototype.deleteDispositif=function()
 };
 
 MonitorInputDispositifCs.prototype.deleteDispositifReturn=function()
-{
-	Ext.getCmp('DispositifPanelTopToolbar').setVisible(false);
+{  
+  miDispositifCs.hideDispositif();
 	PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
 };
+
+MonitorInputDispositifCs.prototype.hideDispositif=function()
+{
+  Ext.getCmp('DispositifPanelTopToolbar'   ).setVisible(false);
+  Ext.get   ('DispositifEdit'              ).slideOut  ();
+  Ext.getCmp('DispositifListEastPanel'     ).expand    ();
+  
+  var dispositifCheckWindow = Ext.getCmp('DispositifCheckWindow'       );
+  if(dispositifCheckWindow!=null)
+  {
+    dispositifCheckWindow.hide      ();  
+  }
+};
+
 
 MonitorInputDispositifCs.prototype.endOfVacationConfirm=function()
 {
@@ -949,7 +912,11 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('dispositif_title_indicatif'    , dispositif.indicatifVehicule);
   dwr.util.setValue('DispositifIndicatif'           , dispositif.indicatifVehicule);
   dwr.util.setValue('DispositifType'                , dispositif.idTypeDispositif);
-  miDispositifCs.setRoles(dispositif.idTypeDispositif);
+  dwr.util.setValue('dispositifActif'               , dispositif.actif);
+  if(dispositif.idTypeDispositif!=0)
+  {
+    miDispositifCs.setRoles(dispositif.idTypeDispositif);
+  }
   dwr.util.setValue('DispositifDelegation'          , dispositif.idDelegation!=0?crfIrpUtils.getLabelFor('Delegations',dispositif.idDelegation):'N/A');
   dwr.util.setValue('DispositifDelegation_id'       , dispositif.idDelegation);
   dwr.util.setValue('DispositifDelegation_autreNom' , dispositif.autreDelegation);
@@ -1031,7 +998,7 @@ MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
   store.removeAll();
   var dispositifTypeDefinition = MonitorInputDispositifCs.prototype.dispositifTypeDefinition[idTypeDispositif];
   
-  if(dispositifTypeDefinition === null)
+  if(dispositifTypeDefinition == null)
     throw "Dispositif type definition is not known";
   
   var arrayOfRole = Array();

@@ -3,6 +3,8 @@ package fr.croixrouge.rdp.services.intervention;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,7 +26,10 @@ import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Position;
 import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
+import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
+import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
+import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionTicketRowMapper;
 import fr.croixrouge.rdp.services.JDBCHelper;
@@ -41,6 +46,14 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   private DispositifService     dispositifService = null;
   private InterventionBusinessIdStoredProcedure interventionIdStoredProcedure = null;
   
+  private HashMap<String, String> sortMapForGetEquipierList      = new HashMap<String, String>();
+  private HashMap<String, String> whereMapForGetEquipierList     = new HashMap<String, String>();
+  
+  private HashMap<String, String> sortMapForGetInterventionList  = new HashMap<String, String>();
+  private HashMap<String, String> whereMapForGetInterventionList = new HashMap<String, String>();
+  
+  private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+  
   public InterventionServiceImpl(JdbcTemplate jdbcTemplate, DispositifService     dispositifService)
   {
     this.jdbcTemplate       = jdbcTemplate;
@@ -48,21 +61,70 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     this.interventionIdStoredProcedure = new InterventionBusinessIdStoredProcedure(this.jdbcTemplate);
     
+    
+    sortMapForGetEquipierList.put("nom"                       , "nom"             );
+    sortMapForGetEquipierList.put("prenom"                    , "prenom"          );
+    sortMapForGetEquipierList.put("homme"                     , "equipier_is_male");
+    sortMapForGetEquipierList.put("delegation.idDelegation"   , "nom_delegation"  );
+    sortMapForGetEquipierList.put("numNivol"                  , "num_nivol"       );
+    
+    whereMapForGetEquipierList.put("VICTIME_NOM"      , "i.nom"              );
+    whereMapForGetEquipierList.put("VICTIME_PRENOM"   , "i.prenom"           );
+    whereMapForGetEquipierList.put("VICTIME_IS_HOMME" , "i.homme_victime"    );
+    whereMapForGetEquipierList.put("VICTIME_AGE"      , "i.date_naissance"   );    
+    whereMapForGetEquipierList.put("ID_TECHNIQUE"     , "i.id_intervention"  );
+    whereMapForGetEquipierList.put("ID_METIER"        , "i.num_inter"        );    
+    whereMapForGetEquipierList.put("RUE"              , "i.rue"              );
+    whereMapForGetEquipierList.put("CODE_POSTAL"      , "i.code_postal"      );
+    whereMapForGetEquipierList.put("VILLE"            , "i.ville"            );
+    whereMapForGetEquipierList.put("ORIGINE"          , "i.id_origine"       );
+    whereMapForGetEquipierList.put("MOTIF"            , "i.id_motif"         );
+    
+    whereMapForGetInterventionList.put("DISPOSITIF"   ,"i.id_dispositif");
+    whereMapForGetInterventionList.put("DATE_ENTRE"   ,"i.DH_saisie");
+    whereMapForGetInterventionList.put("DATE_ET"      ,"i.DH_saisie");
+    whereMapForGetInterventionList.put("motif"        ,"i.id_motif");
+    whereMapForGetInterventionList.put("origine"      ,"i.id_origine");
+    whereMapForGetInterventionList.put("nom"          ,"i.nom_victime");
+    whereMapForGetInterventionList.put("sex"          ,"i.homme_victime");
+    whereMapForGetInterventionList.put("age"          ,"i.age_approx_victime");
+    whereMapForGetInterventionList.put("codePostal"   ,"i.code_postal");
+    whereMapForGetInterventionList.put("RoleEquipier" ,"NA");
+    
+    sortMapForGetInterventionList.put("idIntervention"        , "i.id_intervention"    );
+    sortMapForGetInterventionList.put("interventionBusinessId", "i.num_inter"          );
+    sortMapForGetInterventionList.put("dhSaisie"              , "i.DH_saisie"          );
+    sortMapForGetInterventionList.put("idDispositif"          , "i.id_dispositif"      );
+    sortMapForGetInterventionList.put("idMotif"               , "i.id_motif"           );
+    sortMapForGetInterventionList.put("idOrigine"             , "i.id_origine"         );
+    sortMapForGetInterventionList.put("nomVictime"            , "i.nom_victime"        );
+    sortMapForGetInterventionList.put("victimeHomme"          , "i.homme_victime"      );
+    sortMapForGetInterventionList.put("ageApproxVictime"      , "i.age_approx_victime" );
+    sortMapForGetInterventionList.put("rue"                   , "i.code_postal"        );
+    
+    
+    
+    
+    
+    
+    
+    
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
   
-  private int getLastInsertedId()
+  protected int getLastInsertedId()
   {
     return this.getLastInsertedId(jdbcTemplate, "intervention");
   }
   
   private final static String selectForInteventionTicket = 
-    "SELECT  i.`id_intervention`   , i.`id_regulation`   , i.`id_dispositif`        , i.`id_origine`          ,i.`id_etat`, \n" +
-    "        i.`id_motif`          , i.`DH_saisie`       , i.`rue`                  , i.`code_postal`         ,             \n" +
-    "        i.`ville`             , i.`batiment`        , i.`etage`                , i.`porte`               ,             \n" +
-    "        i.`complement_adresse`, i.`complement_motif`, i.`google_coords_lat`    , i.`google_coords_long`  ,             \n" +
-    "        i.`nom_victime`       , i.`homme_victime`   , i.`nom_contact_sur_place`, i.`coordonnees_contact` ,i.`num_inter`\n" +
+    "SELECT  i.`id_intervention`   , i.`id_regulation`   , i.`id_dispositif`        , i.`id_origine`          ,i.`id_etat`,  \n" +
+    "        i.`id_motif`          , i.`DH_saisie`       , i.`rue`                  , i.`code_postal`         ,              \n" +
+    "        i.`ville`             , i.`batiment`        , i.`etage`                , i.`porte`               ,              \n" +
+    "        i.`complement_adresse`, i.`complement_motif`, i.`google_coords_lat`    , i.`google_coords_long`  ,              \n" +
+    "        i.`nom_victime`       , i.`homme_victime`   , i.`nom_contact_sur_place`, i.`coordonnees_contact` ,i.`num_inter`,\n" +
+    "        i.`age_approx_victime`\n" +
     "FROM    intervention i                                                                                                \n";
   
   private final static String queryForGetInterventionTicket =
@@ -1136,6 +1198,231 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
       		"cloned :  new id='"+idIntervention+"'");
     
    return idIntervention;
+  }
+
+  private static final String queryForCountSearchIntervention = 
+    "SELECT count(1) \n" +
+    "FROM   intervention as i \n";
+  
+  private static final String queryForSearchInterventions = 
+    selectForInteventionTicket +
+    "";
+  
+  public ListRange<InterventionTicket> searchInterventions(GridSearchFilterAndSortObject gsfaso) throws Exception
+  {
+    StringBuffer whereClause   = new StringBuffer();
+
+    String orderBy = "ORDER BY ";
+  
+    SortObject[] sortObjects = gsfaso.getSorts();
+    
+    if(sortObjects!= null && sortObjects.length>0 && sortObjects[0] != null)
+    {
+      SortObject so = sortObjects[0];
+      String orderByField = sortMapForGetInterventionList.get(so.getName());
+      
+      if(orderByField == null)
+        throw new Exception("Invalid sort column '"+so.getName()+"'");
+      
+      orderBy+=orderByField;
+      orderBy+=" "+(so.isAscending()?" ASC":" DESC");
+    }
+    else
+    {
+      orderBy+=" id_intervention  ASC";
+    }
+
+    
+    
+
+    FilterObject[] filters = gsfaso.getFilters();
+ 
+    ArrayList<Object > osAL    = new ArrayList<Object>(10);
+    ArrayList<Integer> typesAL = new ArrayList<Integer>(10);
+
+    
+    if(filters!= null && filters.length>0)
+    {  
+      FilterObject roleFilter = null;
+      
+      for(int j = 0;j<filters.length;j++)
+      {
+        if("ROLE_EQUIPIER".equals(filters[j].getName()))
+        {
+          roleFilter = filters[j];  
+        }
+      }
+      
+      for (int i = 0; i < filters.length; i++)
+      {
+        FilterObject currentFilter = filters[i];
+        
+        if("ROLE_EQUIPIER".equals(currentFilter.getName()))
+        {
+          continue;
+        }
+        
+        if(whereClause.indexOf("WHERE")<0)
+        {
+          whereClause.append( "WHERE ");
+        }
+        else
+        {
+          whereClause.append( "AND ");  
+        }
+        
+        
+        if("=".equals(currentFilter.getComparator()))
+        {
+          
+          if ("EQUIPIER".equals(currentFilter.getName()))
+          {
+            whereClause.append("" +
+" EXISTS (                                           \n"+
+"     SELECT 1                                       \n"+
+"     FROM   `dispositif_equipiers_log` as del ,     \n"+ 
+"            `intervention`             as ii        \n"+
+"     WHERE  ii.id_intervention   = i.id_intervention\n"+
+"     AND    del.id_equipier      = ?                \n"+
+"     AND    del.id_dispositif    = ii.id_dispositif \n"+
+(roleFilter != null?"     AND    del.id_role_equipier = ?                \n":"")+
+"\n"+
+")");
+            
+            osAL   .add(currentFilter.getValue());
+            typesAL.add(Types.INTEGER);
+            
+            if(roleFilter!=null)
+            {
+              osAL   .add(roleFilter.getValue());
+              typesAL.add(Types.INTEGER);
+            }
+          }
+          else
+          {
+            String filterFieldName = whereMapForGetInterventionList.get(currentFilter.getName());
+            if(filterFieldName == null)
+              throw new Exception("Invalid filter field '"+currentFilter.getName()+"'");
+            
+            whereClause.append( filterFieldName);
+            whereClause.append( " = ? \n");
+            
+            osAL   .add(currentFilter.getValue());
+            typesAL.add(Types.INTEGER);
+          }
+        }
+        else if ("LIKE".equals(currentFilter.getComparator()))
+        {
+          String filterFieldName = whereMapForGetInterventionList.get(currentFilter.getName());
+          if(filterFieldName == null)
+            throw new Exception("Invalid filter field '"+currentFilter.getName()+"");
+          
+          whereClause.append( filterFieldName);
+          
+          whereClause.append( " LIKE ? \n");
+  
+          String filterValue = currentFilter.getValue();
+          if(filterValue.indexOf("*")>-1)
+            filterValue = filterValue.replaceAll("\\*", "%");
+          else
+            filterValue += "%";
+          
+          osAL   .add(filterValue);
+          typesAL.add(Types.VARCHAR);
+        }
+        else if ("<=".equals(currentFilter.getComparator()) || ">=".equals(currentFilter.getComparator()))
+        {
+          String filterFieldName = whereMapForGetInterventionList.get(currentFilter.getName());
+          if(filterFieldName == null)
+            throw new Exception("Invalid filter field '"+currentFilter.getName()+"");
+          
+
+  
+          String filterValue = currentFilter.getValue();
+          
+          Date dateValue = null;
+          try
+          {
+            dateValue = sdf.parse(filterValue);  
+          }
+          catch(ParseException e)
+          {
+            logger.error("invalid date '"+filterValue+"'", e);
+          }
+          
+          
+          whereClause.append( filterFieldName               );
+          whereClause.append( currentFilter.getComparator() );
+          whereClause.append( " ? \n"                       );
+          
+          osAL   .add(dateValue);
+          typesAL.add(Types.DATE);
+        }
+        else if ("~".equals(currentFilter.getComparator()))
+        {
+          String filterFieldName = whereMapForGetInterventionList.get(currentFilter.getName());
+          if(filterFieldName == null)
+            throw new Exception("Invalid filter field '"+currentFilter.getName()+"");
+          
+
+  
+          String filterValue = currentFilter.getValue();
+          
+          int intValue = 0;
+          try
+          {
+            intValue = Integer.valueOf(filterValue);  
+          }
+          catch(NumberFormatException e)
+          {
+            logger.error("invalid date '"+filterValue+"'", e);
+          }
+          
+          
+          whereClause.append( filterFieldName               );
+          whereClause.append( " BETWEEN ? - 10 AND ? + 10 " );
+          
+          osAL   .add(intValue);
+          typesAL.add(Types.INTEGER);
+          osAL   .add(intValue);
+          typesAL.add(Types.INTEGER);
+        }
+      }
+    }
+    
+    String queryCount = queryForCountSearchIntervention + whereClause;
+    String query      = queryForSearchInterventions     + whereClause + orderBy + "\nLIMIT "+gsfaso.getStart()+", "+gsfaso.getLimit()+" \n";
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("queryCount :\n"+queryCount+"\n\nquery :\n"+query);
+    }
+    
+    Object [] os    = osAL   .toArray(new Object [osAL.size()]);
+    Integer[] typesI= typesAL.toArray(new Integer[typesAL.size()]);
+    int    [] types = new int[typesI.length];
+    
+    for(int i=0,counti=typesI.length;i<counti;i++)
+      types[i]=typesI[i];
+    
+    
+    int nbIntervention = jdbcTemplate.queryForInt(  queryCount, 
+                                                    os        , 
+                                                    types     );
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("nbIntervention="+nbIntervention);
+    }
+
+   
+    List<InterventionTicket> interventionList = jdbcTemplate.query( query , 
+                                                                    os    , 
+                                                                    types , 
+                                                                    new InterventionTicketRowMapper());
+
+    
+    return  new ListRange<InterventionTicket>(nbIntervention, interventionList);
   }
   
 }

@@ -37,7 +37,6 @@ public class TestController extends AbstractController
     
     
     Map<String, Object> model = new HashMap<String, Object>();
-    // TODO Auto-generated method stub
     return new ModelAndView("private/test/testThomas", model);
   }
 

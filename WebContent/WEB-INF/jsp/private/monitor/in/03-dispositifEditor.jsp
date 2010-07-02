@@ -6,6 +6,7 @@
 
 <div id="DispositifEdit" style="display:none;width:600px;">
   <input type="hidden" id="dispositif_id_field"         name="dispositif_id_field"         value=""/>
+  <input type="hidden" id="dispositifActif"             name="dispositifActif"             value=""/>
   <input type="hidden" id="dispositifCurrentInterId"    name="dispositifCurrentInterId"    value=""/>
   <input type="hidden" id="dispositif_isCreation_field" name="dispositif_isCreation_field" value=""/>
 
@@ -82,58 +83,78 @@
           <legend>Materiel</legend>
 
 
-<table id="DispositifO2Table" cellspacing="0" style="width:200px;float:left;">
+<table id="DispositifO2Table" cellspacing="0" style="width:300px;float:left;margin-right:15px;">
   <tr>
     <th rowspan="2" style="font-size:14px;width:20px;">
       O<sub>2</sub>
     </th>
     <th class="DispositifO2TableRowTitle" ext:qtip="Volume en litre des bouteilles">V <sub>(l)</sub></th>
     <td><!-- B1 -->
-<input type="text"
+      <select
          id="DispositifB1V"
        name="DispositifB1V"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B1_volume');miDispositifCs.updateVolumeAndAutonomie();"
-/>
+      >
+        <option value=""></option>
+        <option value="5">5  </option>
+        <option value="15">15  </option>
+      </select>
     </td>
     <td><!-- B2 -->
-<input type="text"
+      <select
          id="DispositifB2V"
        name="DispositifB2V"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B2_volume');miDispositifCs.updateVolumeAndAutonomie();"
-/>
+      >
+        <option value=""></option>
+        <option value="5">5  </option>
+        <option value="15">15  </option>
+      </select>
     </td>
     <td><!-- B3 -->
-<input type="text"
+      <select
          id="DispositifB3V"
        name="DispositifB3V"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B3_volume');miDispositifCs.updateVolumeAndAutonomie();"
-/>
+      >
+        <option value=""></option>
+        <option value="5">5  </option>
+        <option value="15">15  </option>
+      </select>
     </td>
     <td><!-- B4 -->
-<input type="text"
+      <select
          id="DispositifB4V"
        name="DispositifB4V"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B4_volume');miDispositifCs.updateVolumeAndAutonomie();"
-/>
+      >
+        <option value=""></option>
+        <option value="5">5  </option>
+        <option value="15">15  </option>
+      </select>
     </td>
     <td><!-- B5 -->
-<input type="text"
+      <select
          id="DispositifB5V"
        name="DispositifB5V"
       class="DispositifO2Input"
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifIntField(this.id, 'O2_B5_volume');miDispositifCs.updateVolumeAndAutonomie();"
-/>
+      >
+        <option value=""></option>
+        <option value="5">5  </option>
+        <option value="15">15  </option>
+      </select>
     </td>
-    <td id="DispositifVolumeTotal" style="width:30px;"><!-- Volume Total -->
+    <td id="DispositifVolumeTotal" style="width:50px;"><!-- Volume Total -->
     </td>
   </tr>
   <tr>
@@ -179,13 +200,13 @@
     onFocus="crfIrpUtils.fieldEdit(this.id)"
      onBlur="miDispositifCs.updateDispositifFloatField(this.id, 'O2_B5_pression');miDispositifCs.updateVolumeAndAutonomie();"/>
     </td>
-    <td id="DispositifAutonomieTotal" style="width:30px;"><!-- Autonomie Total -->
+    <td id="DispositifAutonomieTotal" style="width:50px;"><!-- Autonomie Total -->
     </td>
   </tr>
 </table>
 
 
-          <table id="DispositifDefibrilateurTable" style="width:49%;">
+          <table id="DispositifDefibrilateurTable" style="width:250px;">
             <tr>
               <th>Défibrillateur</th>
               <td id="dsa_td">

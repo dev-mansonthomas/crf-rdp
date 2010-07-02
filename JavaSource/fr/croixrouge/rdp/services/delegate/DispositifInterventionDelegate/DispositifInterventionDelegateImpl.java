@@ -344,6 +344,8 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
   public void cloneIntervention(int idRegulation, DataForCloneIntervention dataForCloneIntervention) throws Exception
   {
     int idClonedIntervention = this.interventionService.cloneIntervention(dataForCloneIntervention);
+    //on affecte l'intervention pour avoir l'id metier
+    this.interventionService.affectInterventionToDispositif(idClonedIntervention, dataForCloneIntervention.getIdDispositif(), new Date());
     
     if(logger.isDebugEnabled())
       logger.debug("Attaching new intervention with id='"+idClonedIntervention+"' at dispositif id='"+dataForCloneIntervention.getIdDispositif()+"'");

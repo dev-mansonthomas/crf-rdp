@@ -127,62 +127,105 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         Ext.get("bilan_id_dispositif"                            ).dom.setValue(intervention.idDispositif                     );
         Ext.get("bilan_id_regulation"                            ).dom.setValue(intervention.idRegulation                     );
         
-        Ext.get("BilanHelper_intervention_business_id"           ).update	   (crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId));
+        Ext.get("BilanHelper_intervention_business_id"           ).update	     (crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId));
         Ext.get("BilanHelper_id_intervention"                    ).update      ('('+intervention.idIntervention+')'           );
         Ext.get("BilanHelper_nom_victime"                        ).update      (intervention.nomVictime  +" "+intervention.prenomVictime);
         Ext.get("BilanHelper_id_origine"                         ).update      (crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine));
         Ext.get("BilanHelper_id_motif"                           ).update      (crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  ));
         Ext.get("BilanHelper_id_etat"                            ).update      (crfIrpUtils.getLabelFor('EtatsIntervention'   , intervention.idEtat   ));
+        
         if(intervention.idRefNumInter!=0)
-          Ext.get("BilanHelper_ref_inter_ori"                      ).update      (intervention.idRefNumInter                    );
+          Ext.get("BilanHelper_ref_inter_ori"                    ).update      (intervention.idRefNumInter                    );
+        else
+          Ext.get("BilanHelper_ref_inter_ori"                    ).update      ("");
+          
         Ext.get("BilanHelper_indicatif_dispositif"               ).update      (intervention.dispositifTicket.indicatifVehicule);
         
         
         Ext.get("bilan_douleur_"+intervention.douleur            ).dom.checked = true;
         
         if(intervention.ageApproxVictime!=0)
-          Ext.get("bilan_age_approx_victime"                       ).dom.setValue(intervention.ageApproxVictime                 );
-      
+          Ext.get("bilan_age_approx_victime"                     ).dom.setValue(intervention.ageApproxVictime                 );
+        else
+          Ext.get("bilan_age_approx_victime"                     ).dom.setValue("");
+          
         if(intervention.ventilChiffre!=0)
-          Ext.get("bilan_ventil_chiffre"                           ).dom.setValue(intervention.ventilChiffre                    );
-        
+          Ext.get("bilan_ventil_chiffre"                         ).dom.setValue(intervention.ventilChiffre                    );
+        else
+          Ext.get("bilan_ventil_chiffre"                         ).dom.setValue("");
+          
         if(intervention.ventilSaturationO2!=0)
-          Ext.get("bilan_ventil_saturation_o2"                     ).dom.setValue(intervention.ventilSaturationO2               );
+          Ext.get("bilan_ventil_saturation_o2"                   ).dom.setValue(intervention.ventilSaturationO2               );
+        else
+          Ext.get("bilan_ventil_saturation_o2"                   ).dom.setValue("");
         
         if(intervention.circulPoulsChiffre!=0)
-          Ext.get("bilan_circul_pouls_chiffre"                     ).dom.setValue(intervention.circulPoulsChiffre               );
+          Ext.get("bilan_circul_pouls_chiffre"                   ).dom.setValue(intervention.circulPoulsChiffre               );
+        else
+          Ext.get("bilan_circul_pouls_chiffre"                   ).dom.setValue("");
+          
         if(intervention.circulTensionRefBasse!=0)
-          Ext.get("bilan_circul_tension_ref_basse"                 ).dom.setValue(intervention.circulTensionRefBasse            );
+          Ext.get("bilan_circul_tension_ref_basse"               ).dom.setValue(intervention.circulTensionRefBasse            );
+        else
+          Ext.get("bilan_circul_tension_ref_basse"               ).dom.setValue("");
+          
         if(intervention.circulTensionRefHaute!=0)
-          Ext.get("bilan_circul_tension_ref_haute"                 ).dom.setValue(intervention.circulTensionRefHaute            );
+          Ext.get("bilan_circul_tension_ref_haute"               ).dom.setValue(intervention.circulTensionRefHaute            );
+        else
+          Ext.get("bilan_circul_tension_ref_haute"               ).dom.setValue("");
         
         
         
         if(intervention.gestesDsaNbChocs!=0)
-          Ext.get("bilan_gestes_dsa_nb_chocs"                      ).dom.setValue(intervention.gestesDsaNbChocs                 );
+          Ext.get("bilan_gestes_dsa_nb_chocs"                    ).dom.setValue(intervention.gestesDsaNbChocs                 );
+        else
+          Ext.get("bilan_gestes_dsa_nb_chocs"                    ).dom.setValue("");
+          
         if(intervention.gestesInhalationO2LitreMin!=0)
-          Ext.get("bilan_gestes_inhalation_o2_litre_min"           ).dom.setValue(intervention.gestesInhalationO2LitreMin       );
+          Ext.get("bilan_gestes_inhalation_o2_litre_min"         ).dom.setValue(intervention.gestesInhalationO2LitreMin       );
+        else
+          Ext.get("bilan_gestes_inhalation_o2_litre_min"         ).dom.setValue("");
+          
         if(intervention.evacAggravationVentilation!=0)
-          Ext.get("bilan_evac_aggravation_ventilation"             ).dom.setValue(intervention.evacAggravationVentilation       );
+          Ext.get("bilan_evac_aggravation_ventilation"           ).dom.setValue(intervention.evacAggravationVentilation       );
+        else
+          Ext.get("bilan_evac_aggravation_ventilation"           ).dom.setValue("");
+          
         if(intervention.evacAggravationCirculation!=0)
-          Ext.get("bilan_evac_aggravation_circulation"             ).dom.setValue(intervention.evacAggravationCirculation       );
+          Ext.get("bilan_evac_aggravation_circulation"           ).dom.setValue(intervention.evacAggravationCirculation       );
+        else
+          Ext.get("bilan_evac_aggravation_circulation"           ).dom.setValue("");
+          
         if(intervention.evacAggravationDouleur!=0)
-          Ext.get("bilan_evac_aggravation_douleur"                 ).dom.setValue(intervention.evacAggravationDouleur           );
+          Ext.get("bilan_evac_aggravation_douleur"               ).dom.setValue(intervention.evacAggravationDouleur           );
+        else
+          Ext.get("bilan_evac_aggravation_douleur"               ).dom.setValue("");
         
         if(intervention.evacPar != 0)
           Ext.get("bilan_evac_par_"+intervention.evacPar         ).dom.checked=true;
-          
+         
         Ext.get("bilan_transport_medicalisee_de"                 ).dom.setValue(intervention.transportMedicaliseeDe           );
         Ext.get("bilan_evac_hopital_destination"                 ).dom.setValue(intervention.evacHopitalDestination           );
       
         if(intervention.circulTensionBasse != 0)
-          Ext.get("bilan_circul_tension_basse"                     ).dom.setValue(intervention.circulTensionBasse               );
+          Ext.get("bilan_circul_tension_basse"                   ).dom.setValue(intervention.circulTensionBasse               );
+        else
+          Ext.get("bilan_circul_tension_basse"                   ).dom.setValue("");
+          
         if(intervention.circulTensionHaute != 0)
-          Ext.get("bilan_circul_tension_haute"                     ).dom.setValue(intervention.circulTensionHaute               );
+          Ext.get("bilan_circul_tension_haute"                   ).dom.setValue(intervention.circulTensionHaute               );
+        else
+          Ext.get("bilan_circul_tension_haute"                   ).dom.setValue("");
+          
         if(intervention.gestesGlycemieGrammeLitre != 0)
-          Ext.get("bilan_gestes_glycemie_gramme_litre"             ).dom.setValue(intervention.gestesGlycemieGrammeLitre        );
+          Ext.get("bilan_gestes_glycemie_gramme_litre"           ).dom.setValue(intervention.gestesGlycemieGrammeLitre        );
+        else
+          Ext.get("bilan_gestes_glycemie_gramme_litre"           ).dom.setValue("");
+          
         if(intervention.gestesTemperature != 0)
-          Ext.get("bilan_gestes_temperature"                       ).dom.setValue(intervention.gestesTemperature                );
+          Ext.get("bilan_gestes_temperature"                     ).dom.setValue(intervention.gestesTemperature                );
+        else
+          Ext.get("bilan_gestes_temperature"                     ).dom.setValue("");
       
         Ext.get("BilanHelper_google_coords_lat"                  ).dom.setValue(intervention.position.googleCoordsLat         );
         Ext.get("BilanHelper_google_coords_long"                 ).dom.setValue(intervention.position.googleCoordsLong        );
@@ -355,6 +398,18 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       resetBilanForm:function()
       {
       
+      },
+      setAdresseDomicilToAdressIntervention:function()
+      {
+        Ext.get("bilan_adresse_victime"    ).dom.setValue(Ext.get("BilanHelper_rue"         ).dom.innerHTML);
+        Ext.get("bilan_code_postal_victime").dom.setValue(Ext.get("BilanHelper_code_postal" ).dom.innerHTML);
+        Ext.get("bilan_ville_victime"      ).dom.setValue(Ext.get("BilanHelper_ville"       ).dom.innerHTML);
+        Ext.get("bilan_pays_victime"       ).dom.setValue("France");
+        
+        miBilanCs.updateStringField("bilan_adresse_victime"     , 'adresse_victime'     );
+        miBilanCs.updateStringField("bilan_code_postal_victime" , 'code_postal_victime' );        
+        miBilanCs.updateStringField("bilan_ville_victime"       , 'ville_victime'       );        
+        miBilanCs.updateStringField("bilan_pays_victime"        , 'pays_victime'        );
       },
       openTicket:function()
       {

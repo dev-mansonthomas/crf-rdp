@@ -48,23 +48,7 @@ function initLayout()
 
     var interventionEditorToolbar = new Ext.Toolbar({ id     : 'InterventionPanelTopToolbar', 
                             hidden : true,
-                            items  :[{
-                                text   : 'Terminer',
-                                handler: function()
-                                {
-                                  miInterventionCs.endOfEditionEvent(); 
-                                },
-                                iconCls: 'validateButton',
-                                xtype  : 'tbbutton'
-                              },
-                              {
-                                 text   : 'Supprimer',
-                                 handler: function()
-                                 {
-                                  miInterventionCs.deleteInterventionTicket(false);
-                                 },
-                                 iconCls: 'deleteButton'
-                              }]//fin tableau d'item
+                            items  :[]//fin tableau d'item
                             });
   
   
@@ -144,6 +128,7 @@ function initLayout()
     id            : 'monitorInputBilanEditorCenterPanel',
     region        : 'center',
     split         : true,
+    autoScroll    : true,
     contentEl     : 'BilanPanel',
     title         : 'Editeur de Bilan',
     deferredRender: false,
@@ -158,6 +143,7 @@ function initLayout()
             id       : 'monitorInputBilanEditorCenterPanelIdentite',
             title    : 'Identité',
             contentEl: 'BilanIdentite',
+            autoScroll: true,
             border   : false,
             iconCls  : 'settings'
           },
@@ -165,6 +151,7 @@ function initLayout()
             id       : 'monitorInputBilanEditorCenterPanelBilanSecouristeInitial',
             title    : 'Bilan Secouriste Initial',
             contentEl: 'BilanBilanSecouristeInitial',
+            autoScroll: true,
             border   : false,
             iconCls  : 'settings'
           },
@@ -172,6 +159,7 @@ function initLayout()
             id       : 'monitorInputBilanEditorCenterPanelGesteEtObservation',
             title    : 'Gestes Et Observations',
             contentEl: 'BilanGestEtObservation',
+            autoScroll: true,
             border   : false,
             iconCls  : 'settings'
           },
@@ -179,6 +167,7 @@ function initLayout()
             id       : 'monitorInputBilanEditorCenterPanelEvacuation',
             title    : 'Evacuation',
             contentEl: 'BilanEvacuation',
+            autoScroll: true,
             border   : false,
             iconCls  : 'settings'
           }]
@@ -190,6 +179,7 @@ function initLayout()
     split       : true,
     collapsible : true,
     collapsed   : true,
+    autoScroll  : true,
     contentEl   : 'BilanHelper',
     title       : 'Résumé',
     xtype       : 'panel',
@@ -214,7 +204,7 @@ function initLayout()
   var dispositifEditorToolbar = new Ext.Toolbar({	id     : 'DispositifPanelTopToolbar', 
 	  												hidden : true,
 	  												items  :[{
-  	  													text   : 'Terminer',
+  	  													text   : 'Publier',
   	  													handler: function()
   	  													{
   	  														miDispositifCs.endOfEditionEvent();
@@ -222,6 +212,7 @@ function initLayout()
   	  													iconCls: 'validateButton',
   	  													xtype  : 'tbbutton'
 	  											    },
+                              '-',
 	  											    {
 	  											       text   : 'Supprimer',
 	  											       handler: function()
@@ -253,7 +244,16 @@ function initLayout()
   	  											    	    miBilanCs.editBilan(currentInterventionId);
 	  											        },
 	  											        iconCls: 'editInterButton'
-	  											    }
+	  											    },
+                              '-',
+                              {
+                                  text   : 'Liste des Interventions traitées',
+                                  handler: function()
+                                  {
+                                    miDispositifCs.displayInterventionsList();
+                                  },
+                                  iconCls: 'editInterButton'
+                              }
 	  											    ]//fin tableau d'item
 	  										    });
   
@@ -386,12 +386,27 @@ function init()
   googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
   googleMapAdressResolver.init();
  
+    /* init de la liste des interventions*/
+  PageBus.subscribe("list.loaded"     ,  this,
+    function(){
+      InterventionList = Ext.ux.Utils.InterventionList
+      InterventionList.init();    
+    }
+    , null, null);
+  
   initLayout();
   monitorInputCs.initRegulation();
   
   Ext.MessageBox.buttonText.yes = "Oui"; 
   Ext.MessageBox.buttonText.no  = "Non";
   
-  //ouverture de la fenetre de monitor
-  window.opener.openMonitorOutput();
+  if(idInterventionToOpen!= 0)
+  {
+    miBilanCs.editBilan(idInterventionToOpen);
+    //ouverture de la fenetre de monitor
+  }
+  else
+  {
+    window.opener.openMonitorOutput();
+  }
 }

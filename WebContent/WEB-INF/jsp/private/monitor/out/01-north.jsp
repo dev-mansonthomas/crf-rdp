@@ -6,4 +6,4 @@
   </div>
   <div style="float:right;margin-right:5px"><img src="../../img/logo-crf-small.png" alt="Régulation de la Croix Rouge de Paris"/></div>
 </div>
-<jsp:include page="../../versionAndChangelog.jsp"/>
+<jsp:include page="../../../versionAndChangelog.jsp"/>

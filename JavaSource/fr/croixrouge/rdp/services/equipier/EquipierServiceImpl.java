@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
@@ -21,8 +22,8 @@ import fr.croixrouge.rdp.services.dispositif.DispositifService;
 
 public class EquipierServiceImpl extends JDBCHelper implements EquipierService 
 {
-  private JdbcTemplate      jdbcTemplate;
-  private static Logger     logger = Logger.getLogger(EquipierServiceImpl.class);
+  private JdbcTemplate            jdbcTemplate;
+  private static Logger           logger                     = Logger.getLogger(EquipierServiceImpl.class);
   private HashMap<String, String> sortMapForGetEquipierList  = new HashMap<String, String>();
   private HashMap<String, String> whereMapForGetEquipierList = new HashMap<String, String>();
   
@@ -51,7 +52,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
       logger.debug("constructor called");
   }
   
-  private int getLastInsertedId()
+  protected int getLastInsertedId()
   {
     return this.getLastInsertedId(jdbcTemplate, "equipier");
   }  
@@ -96,15 +97,15 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   public List<Equipier> getEquipiersForDispositif(int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
-      logger.debug("Getting EquipiersForDispositif '"+idDispositif+"'");
+      logger.debug("Getting EquipiersForDispositif '"+idDispositif+"' with query \n"+queryForGetEquipiersForDispositif);
 
     Object [] os    = {idDispositif};
     int    [] types = {Types.INTEGER};
    
     List<Equipier> equiperList= jdbcTemplate.query(  queryForGetEquipiersForDispositif , 
-                                                                     os    , 
-                                                                     types , 
-                                                                     new EquipierRowMapper(true, true));
+                                                     os    , 
+                                                     types , 
+                                                     new EquipierRowMapper(true, true));
     
   
     
@@ -112,6 +113,54 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     
     return equiperList;
   }
+  
+  
+  private final static String queryForGetEquipierLeaderOfDispositif = 
+    equipierSelect+
+    ",      de.id_role_equipier                     ,\n"+
+    "       de.en_evaluation                        ,\n"+
+    "       de.id_role_en_eval                       \n"+
+    equipierFrom+
+    ",      dispositif_equipiers de           ,      \n" +
+    "       dispositif_type      dt           ,      \n" +
+    "       dispositif           di                  \n"+
+    "WHERE  di.id_dispositif      = ?                     \n"+
+    "AND    di.id_dispositif      = de.id_dispositif      \n"+
+    "AND    di.id_type_dispositif = dt.id_type            \n"+
+    "AND    de.id_role_equipier   = dt.id_role_leader     \n"+
+    "AND    de.id_equipier        = e.id_equipier         \n"+
+    "AND    e.id_delegation       = d.id_delegation       \n"+
+    "AND    e.enabled             = true                  \n"; 
+  
+  public Equipier getEquipierLeaderOfDispositif(int idDispositif)
+  {
+
+    if(logger.isDebugEnabled())
+      logger.debug("Getting Equipier leader of dispositif '"+idDispositif+"' with Query \n"+queryForGetEquipierLeaderOfDispositif);
+    
+    Object [] os    = {idDispositif };
+    int    [] types = {Types.INTEGER};
+   
+    Equipier equipier = null;
+    
+    try
+    {
+      equipier = jdbcTemplate.queryForObject(  queryForGetEquipierLeaderOfDispositif , 
+                                               os    , 
+                                               types , 
+                                               new EquipierRowMapper());
+    }
+    catch(EmptyResultDataAccessException e)
+    {
+      Equipier eq = new Equipier();
+      eq.setIdEquipier(0);
+      eq.setNom       ("N/A");
+      return eq;// pas de leader défini... on retourne null
+    }
+
+    return equipier;
+  }
+  
   
   private final static String queryForGetEquipier = 
     selectForEquipier+

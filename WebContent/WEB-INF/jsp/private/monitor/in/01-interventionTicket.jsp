@@ -249,21 +249,6 @@ Age Approximatif :
           </fieldset>
         </td>
       </tr>
-      <tr>
-        <td>
-            <fieldset id="interventionTicketEditButton">
-              <legend>Action</legend>
-              <input type="button" id="AddIntervention"       value="Terminer"  onclick="miInterventionCs.endOfEditionEvent       ();"/>
-              <input type="button" id="AddInterventionDelete" value="Supprimer" onclick="miInterventionCs.deleteInterventionTicket(false);"/>
-              <input type="button" id="AddInterventionClose"  value="Fermer"    onclick="miInterventionCs.hideInterventionTicket  ();" style="display:none;"/>
-            </fieldset>
-            <fieldset id="interventionTicketCancelButton" style="display:none;">
-              <legend>Annulation de l'intervention</legend>
-              <input type="button" id="AddInterventionDeleteConfirm" value="Annuler l'Intervention"  onclick="miInterventionCs.deleteInterventionTicket(true);"/>
-              <input type="button" id="AddInterventionCancel"        value="Non, je me suis trompé"  onclick="miInterventionCs.hideInterventionTicket();"/>
-            </fieldset>
-        </td>
-      </tr>
     </tbody>
   </table>
 </div>

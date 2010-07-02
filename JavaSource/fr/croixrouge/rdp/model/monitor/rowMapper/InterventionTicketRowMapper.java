@@ -40,6 +40,7 @@ public class InterventionTicketRowMapper extends RowMapperHelper implements RowM
     
     interventionTicket.setVictimeHomme              (rs.getBoolean("homme_victime"         ));
     interventionTicket.setNomVictime                (rs.getString ("nom_victime"           ));
+    interventionTicket.setAgeApproxVictime          (rs.getInt    ("age_approx_victime"    ));
     interventionTicket.setNomContactSurPlace        (rs.getString ("nom_contact_sur_place" ));
     interventionTicket.setCoordonneesContactSurPlace(rs.getString ("coordonnees_contact"   ));
     

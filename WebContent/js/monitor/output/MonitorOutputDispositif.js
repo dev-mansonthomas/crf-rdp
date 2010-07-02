@@ -784,6 +784,8 @@ MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif)
   this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
   this.monitorInputWindow.miDispositifCs.editDispositif(idDispositif);
 };
+
+
 /**
  * Ouvre l'intervention (BILAN) dans in.jsp
  * */
@@ -1157,7 +1159,7 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
 (interventions.length>1?' ('+interventions.length+')':''),
 
 '"   style="width:130px;height:60px;" onClick="moDispositifCs.action(this.id)"/><br/>',
-'      <input type="button" value="Editer Dispositif"    onClick="moDispositifCs.editDispositif(', record.data.idDispositif,')" style="width:130px;height:27px;margin-top:5px;"/>',
+'      <input type="button" value="Editer Dispositif"    onClick="moDispositifCs.editDispositif(', record.data.idDispositif,')" style="width:130px;height:27px;margin-top:3px;"/>',
 '    </td>',
 '  </tr>',
 '  <tr>',

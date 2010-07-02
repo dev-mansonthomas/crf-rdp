@@ -15,6 +15,7 @@ public class InterventionTicket
   private int idOrigine     ;
   private int idMotif       ;
   private int idEtat        ;
+  private int ageApproxVictime;
   
   private String  interventionBusinessId    ;
   private Date    dhSaisie                  ;
@@ -185,6 +186,14 @@ public class InterventionTicket
   public void setInterventionBusinessId(String interventionBusinessId)
   {
     this.interventionBusinessId = interventionBusinessId;
+  }
+  public int getAgeApproxVictime()
+  {
+    return ageApproxVictime;
+  }
+  public void setAgeApproxVictime(int ageApproxVictime)
+  {
+    this.ageApproxVictime = ageApproxVictime;
   }
 
 }

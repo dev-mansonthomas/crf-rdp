@@ -20,6 +20,8 @@
     <bean id="equipiersGestion"               class="fr.croixrouge.rdp.services.dwr.homepage.EquipiersGestion"                     autowire="constructor" />
     <bean id="creditsAndChangeLogDwrService"  class="fr.croixrouge.rdp.services.dwr.monitorCommons.CreditsAndChangeLogDwrService"  autowire="constructor" />
     <bean id="lieuEditorDwrService"           class="fr.croixrouge.rdp.services.dwr.homepage.LieuEditor"                           autowire="constructor" />
+    <bean id="InterventionListService"        class="fr.croixrouge.rdp.services.dwr.monitorCommons.InterventionListService"        autowire="constructor" />
+    
     
     
     

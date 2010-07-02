@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
-import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.Position;
 
 public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Dispositif>
@@ -69,9 +68,6 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Di
     previousPosition.setVille           (rs.getString("previous_addresse_ville"      ));
     
     
-    Equipier equipierLeader = (Equipier)(new EquipierRowMapper(false, false)).mapRow(rs, rowNum);
-    
-    dispositif.setEquipierLeader            (equipierLeader);
     dispositif.setIdDispositif              (rs.getInt    ("id_dispositif"            ));
     dispositif.setIdDelegation              (rs.getInt    ("id_delegation_responsable"));
     

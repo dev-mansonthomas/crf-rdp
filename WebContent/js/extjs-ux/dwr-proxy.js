@@ -27,6 +27,59 @@ Ext.ux.rs.data.FilterObject=function(name, value, comparator)
     this.comparator=comparator;
 };
 
+Ext.ux.rs.addFilterFromField=function(objectFilter, domFieldName, fieldName, comparator, nullValue)
+{
+  var domObj = Ext.getDom(domFieldName);
+  if(domObj != null)
+  {
+    var value  = domObj.value;
+    if (value!=null && value!=nullValue)
+      objectFilter.push(new Ext.ux.rs.data.FilterObject(fieldName , value ,comparator));        
+  }
+  else
+  {
+    alert('DOM object "'+domFieldName+'" not found for grid filter object');
+  }  
+};
+
+
+Ext.ux.rs.addFilterFromExtField=function(objectFilter, cmpFieldName, fieldName, comparator, nullValue)
+{
+  var cmpObj = Ext.getCmp(cmpFieldName);
+  if(cmpObj != null)
+  {
+    var value  = null;
+    
+    if(cmpObj.initialConfig.xtype=='combo' || cmpObj.xtype=='combo' && cmpObj.initialConfig.xtype!='datefield')
+    {
+      var record = cmpObj.getStore().getAt(cmpObj.selectedIndex);
+      value = record != null ? record.id : null;   
+    } 
+    else
+      value = cmpObj.getValue();
+    
+    if(cmpObj.initialConfig.xtype=='datefield' && value instanceof Date)
+    {
+      value = crfIrpUtils.getFullDate(value);
+    }
+      
+    
+    
+    if (value!=null && value!=nullValue)
+      objectFilter.push(new Ext.ux.rs.data.FilterObject(fieldName , value ,comparator));        
+  }
+  else
+  {
+    alert('CMP object "'+cmpFieldName+'" not found for grid filter object');
+  }  
+};
+
+Ext.ux.rs.addFilterFromValue=function(objectFilter, fieldValue, fieldName, comparator, nullValue)
+{
+  if (fieldValue!=null && fieldValue!=nullValue)
+    objectFilter.push(new Ext.ux.rs.data.FilterObject(fieldName , fieldValue,comparator));
+};
+
 
 /*valeur que peut prendre la variable de configuration proxyConfig*/
 Ext.ux.rs.data.NO_PAGING                  =0;

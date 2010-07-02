@@ -6,8 +6,35 @@ Ext.onReady(function()
   
   initLayout ();
   initHomeTab();
+  
   EquipiersGestion = Ext.ux.Home.EquipiersGestion;
   EquipiersGestion.init();
+  
+  /* init de la liste des interventions*/
+  PageBus.subscribe("list.loaded"     ,  this,
+    function(){
+      InterventionList = Ext.ux.Utils.InterventionList
+      InterventionList.init();
+      
+    }
+    , null, null);
+  
+      /* init de la liste des interventions*/
+  PageBus.subscribe("listTypeLieu.loaded"     ,  this,
+    function(){
+      try
+      {
+        lieuEditor = new Ext.ux.Home.LieuEditorUi();  
+      }
+      catch(e)
+      {
+        console.log('erreur chargement interface edition leiu',e);
+      }
+    }
+    , null, null);
+    
+    
+    
   /*
   LieuEditor = Ext.ux.Home.LieuEditor;
   LieuEditor.init();
@@ -110,7 +137,7 @@ function initHomeTab()
 	        id         : 'home-list-regulation-grid',
 	        store      : regulationStore,
 	        listeners  : { rowdblclick : function(theGrid, rowIndex, e ){
-	            openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId);
+	            openCrfIrp(theGrid.store.getAt(rowIndex).data.regulationId, 0);
 	        }},
           sm: checkboxSelectionModel,
 	        cm: new Ext.grid.ColumnModel([
@@ -151,8 +178,8 @@ function initHomeTab()
 	        renderTo     : 'RegulationList'
 	    });
 	  
-	  regulationGrid.getStore().load();
-    regulationGrid.getEl().center();
+	  regulationGrid.getStore().load  ();
+    regulationGrid.getEl   ().center();
 }
 
 function regulationListRegulateurCellRenderer(value, metadata, record, rowIndex, colIndex, store)
@@ -192,9 +219,9 @@ function openMonitorOutput()
   return windowReferences['monitorOutpuWindow'];
 }
 
-function openCrfIrp(regulationId)
+function openCrfIrp(idRegulation, idIntervention)
 {
-	Homepage.setRegulation(regulationId, openCrfIrpReturn);
+	Homepage.setRegulation(idRegulation, idIntervention, openCrfIrpReturn);
 }
 
 function openCrfIrpReturn()

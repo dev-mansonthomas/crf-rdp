@@ -7,20 +7,20 @@ import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Position;
 import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
+import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 
 public interface InterventionService
 {
-  public String generateIdsList(List<InterventionTicket> interventions) throws Exception;
-  
-  public Intervention             createEmptyIntervention             (int idRegulation  ) throws Exception;
-  public Intervention             getIntervention                     (int idIntervention) throws Exception;
-  public InterventionTicket       getInterventionTicket               (int idIntervention) throws Exception;
-  public List<InterventionTicket>       getInterventionsTicketFromDispositif(int idDispositif  ) throws Exception;
-  public ListRange<InterventionTicket>  getInterventionTicketWithStatus     (int idRegulation, int status, int index, int limit) throws Exception; 
-  public List<InterventionTicket>       getAllInterventionTicketWithStatus  (int idRegulation, int status) throws Exception;
-  
-  public void updateGoogleCoordinates       (float latitude, float longitude, int idIntervention      ) throws Exception;
+  public String                         generateIdsList                     (List<InterventionTicket> interventions             ) throws Exception;
+  public Intervention                   createEmptyIntervention             (int idRegulation                                   ) throws Exception;
+  public Intervention                   getIntervention                     (int idIntervention                                 ) throws Exception;
+  public InterventionTicket             getInterventionTicket               (int idIntervention                                 ) throws Exception;
+  public List<InterventionTicket>       getInterventionsTicketFromDispositif(int idDispositif                                   ) throws Exception;
+  public ListRange<InterventionTicket>  getInterventionTicketWithStatus     (int idRegulation, int status, int index, int limit ) throws Exception; 
+  public List<InterventionTicket>       getAllInterventionTicketWithStatus  (int idRegulation, int status                       ) throws Exception;
+  public ListRange<InterventionTicket>  searchInterventions                 (GridSearchFilterAndSortObject gsfaso               ) throws Exception;
+  public void                           updateGoogleCoordinates             (float latitude, float longitude, int idIntervention) throws Exception;
   
   
   public void affectInterventionToDispositif  (int idIntervention, int idDispositif, Date dateAffectation ) throws Exception;
@@ -37,4 +37,5 @@ public interface InterventionService
   
   public void chooseEvacDestination           (int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception;
   public int  cloneIntervention               (DataForCloneIntervention dataForCloneIntervention) throws Exception;
+  
 }

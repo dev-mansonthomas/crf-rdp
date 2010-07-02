@@ -9,7 +9,9 @@ import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 
 public interface EquipierService
 {
-  public List<Equipier>       getEquipiersForDispositif (int idDispositif ) throws Exception;
+  public List<Equipier>       getEquipiersForDispositif     (int idDispositif ) throws Exception;
+  public Equipier             getEquipierLeaderOfDispositif (int idDispositif ) throws Exception;
+  
   public Equipier             getEquipier               (int idEquipier   ) throws Exception;
   public int                  getNbEquipiers            (GridSearchFilterAndSortObject gsfaso);
   public ListRange<Equipier>  getEquipiers              (GridSearchFilterAndSortObject gsfaso) throws Exception;

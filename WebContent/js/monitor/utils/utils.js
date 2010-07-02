@@ -133,8 +133,13 @@ CrfIrpUtils.prototype.focusHandling=function(currentFieldId)
 
 CrfIrpUtils.prototype.formatInterventionBusinessId=function(interventionBusinessId)
 {
+  if(interventionBusinessId == null  || interventionBusinessId == '' || interventionBusinessId == 0)
+  {
+    return '';
+  }
+  
   var businessIdElements 	= interventionBusinessId.split('-');
-  var businessId 			= businessIdElements[0]+'-'+businessIdElements[1]+'-<span class="idInterventionNumber">'+businessIdElements[2]+'</span>'; 
+  var businessId 			    = businessIdElements[0]+'-'+businessIdElements[1]+'-<span class="idInterventionNumber">'+businessIdElements[2]+'</span>'; 
 
   return businessId;
 };
@@ -267,7 +272,32 @@ CrfIrpUtils.prototype.getLabelFor=function(listId, id)
   }
   
   return listObject.label;
-}
+};
+CrfIrpUtils.prototype.getListForSimpleStore=function(listId)
+{
+  var array = new Array();
+  var i=0;
+  array[0]=[0,'N/A'];
+  
+  if(listId == 'allTypeLieuOrdered')
+  {
+    var list = CrfIrpUtils.prototype.allTypeLieuOrdered;
+    for(i=0;i<list.length;i++)
+    {
+      array[i+1]=[list[i].idTypeLieu,list[i].labelTypeLieu];
+    }
+    return array;
+  }
+  else
+  {
+    var list = CrfIrpUtils.prototype.allList[listId];
+    for(i=0;i<list.length;i++)
+    {
+      array[i+1]=[list[i].id,list[i].label];
+    }
+    return array;
+  }
+};
 
 /* ===================== Field Handling ============================== */
 
@@ -361,12 +391,12 @@ CrfIrpUtils.prototype.checkField=function(fieldId)
  * Vérifie que le champ fieldId est renseigné (!= '' pour les input, !=0 pour les selects)
  * Si le champ est vide, retourn false, et met la couleur de fond à la couleur signifiant, erreur de saisie.
  * */
-CrfIrpUtils.prototype.checkMandatoryField=function(fieldId)
+CrfIrpUtils.prototype.checkMandatoryField=function(fieldId, displayError)
 {
   var currentField = $(fieldId);
  	if(currentField.tagName == 'SELECT' && currentField.value == 0 || currentField.value == '')
  	{
- 		this.error(fieldId,'Ce champ est obligatoire!');
+ 		this.errorBackgroundColorForField(fieldId);
  		return false;
  	}
 	return true;
@@ -480,7 +510,7 @@ CrfIrpUtils.prototype.parseDate=function(dateString)
 {
   var dateArray = dateString.split("/");
   if(dateArray.length != 3)  
-    throw new ParseDateException('CrfIrpUtils.prototype.parseDate',dateTimeString, "dd/MM/yyyy");
+    throw new ParseDateException('CrfIrpUtils.prototype.parseDate',dateString, "dd/MM/yyyy");
     
   var newDate = new Date();
   newDate.setFullYear (dateArray[2]  );

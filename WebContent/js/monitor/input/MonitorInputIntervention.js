@@ -20,28 +20,100 @@ MonitorInputInterventionCs.prototype.initialize=function()
 };
 
 MonitorInputInterventionCs.prototype.fieldList = [
- 'interventionTicketId',
- 'interventionTicketOrigine',
- 'interventionTicketDHReception',
- 'interventionTicketRue',
- 'interventionTicketCodePostal',
- 'interventionTicketVille',
- 'interventionTicketBatiment',
- 'interventionTicketEtage',
- 'interventionTicketPorte',
+ 'interventionTicketId'          ,
+ 'interventionTicketOrigine'     ,
+ 'interventionTicketDHReception' ,
+ 'interventionTicketRue'         ,
+ 'interventionTicketCodePostal'  ,
+ 'interventionTicketVille'       ,
+ 'interventionTicketBatiment'    ,
+ 'interventionTicketEtage'       ,
+ 'interventionTicketPorte'       ,
  'interventionTicketComplementAdresse',
- 'interventionTicketMotif',
+ 'interventionTicketMotif'       ,
  'interventionTicketComplementMotif',
- 'interventionNomVictime',
- 'interventionPrenomVictime',
- 'interventionSexeVictimeFemme',
- 'interventionSexeVictimeHomme',
- 'interventionAgeVictime',
+ 'interventionNomVictime'        ,
+ 'interventionPrenomVictime'     ,
+ 'interventionSexeVictimeFemme'  ,
+ 'interventionSexeVictimeHomme'  ,
+ 'interventionAgeVictime'        ,
  'interventionNomContactSurPlace',
  'interventionCoordonneesContactSurPlace'];
 
+ MonitorInputInterventionCs.prototype.CreateInterButtons= [{
+      text   : 'Publier',
+      handler: function()
+      {
+        miInterventionCs.endOfEditionEvent(); 
+      },
+      iconCls: 'validateButton',
+      xtype  : 'tbbutton'
+    },
+    {
+       text   : 'Supprimer',
+       handler: function()
+       {
+        miInterventionCs.deleteInterventionTicket(false);
+       },
+       iconCls: 'deleteButton'
+    }];
+    
+    
+
+ MonitorInputInterventionCs.prototype.EditInterAnUnPublishedButton= [{
+      text   : 'Publier',
+      handler: function()
+      {
+        miInterventionCs.endOfEditionEvent(); 
+      },
+      iconCls: 'validateButton',
+      xtype  : 'tbbutton'
+    },
+    {
+       text   : 'Supprimer',
+       handler: function()
+       {
+         miInterventionCs.deleteInterventionTicket(true);
+       },
+       iconCls: 'deleteButton'
+    },
+    {
+       text   : 'Fermer',
+       handler: function()
+       {
+         miInterventionCs.hideInterventionTicket  ();
+       },
+       iconCls: 'deleteButton'
+    }];
+    
+ MonitorInputInterventionCs.prototype.EditInterAPublishedButton= [
+    {
+       text   : 'Fermer',
+       handler: function()
+       {
+         miInterventionCs.hideInterventionTicket  ();
+       },
+       iconCls: 'deleteButton'
+    }];
  
- 
+ MonitorInputInterventionCs.prototype.CancelInterButtons= [{
+      text   : 'Annuler l\'Intervention',
+      handler: function()
+      {
+        miInterventionCs.deleteInterventionTicket(true); 
+      },
+      iconCls: 'validateButton',
+      xtype  : 'tbbutton'
+    },
+    {
+       text   : 'Non, je me suis trompé',
+       handler: function()
+       {
+         miInterventionCs.hideInterventionTicket();
+       },
+       iconCls: 'deleteButton'
+    }]; 
+    
  
 MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
 {
@@ -107,8 +179,8 @@ MonitorInputInterventionCs.prototype.gridRowDoubleClickHandler=function(grid, ro
 
 MonitorInputInterventionCs.prototype.reloadInterventionTicketLists=function(data)
 {
-  Ext.getCmp('InterventionListNonAffecteeEditionGrid').getStore().reload();
   Ext.getCmp('InterventionListEncoursEditionGrid'    ).getStore().reload();
+  Ext.getCmp('InterventionListNonAffecteeEditionGrid').getStore().reload();
 }
 
 MonitorInputInterventionCs.prototype.addIntervention=function()
@@ -122,8 +194,9 @@ MonitorInputInterventionCs.prototype.createNewEmptyInterventionReturn=function(i
 {
   $('interventionTicketDHReception').value=crfIrpUtils.getFullDate(intervention.dhReception);
   $('interventionTicketId'         ).value=intervention.idIntervention;
-  $('AddInterventionDelete'        ).style.display="block";
-  $('AddInterventionClose'         ).style.display="none";
+
+  miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.CreateInterButtons);
+  
   Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(true);
   Ext.get('InterventionTicket').slideIn();
 };
@@ -147,23 +220,65 @@ MonitorInputInterventionCs.prototype.initOriginesIntervention=function()
 
 MonitorInputInterventionCs.prototype.endOfEditionEvent=function()
 {
+  if(this.formValidationWindow == null)
+  {
+    this.formValidationWindow = new Ext.ux.Utils.FormValidationWindow({
+       validateFunction: function(){miInterventionCs.doEndOfEditionEvent();},
+       gridTitle       : 'Vérification du Ticket d\'Intervention'
+     }
+    );
+  }
+  
   var mandatoryFields=[
-'interventionTicketOrigine',
-'interventionTicketDHReception',
-'interventionTicketRue',
-'interventionTicketCodePostal',
-'interventionTicketVille',
-'interventionTicketMotif'];
+      ['interventionTicketOrigine'    ,'L\'origine du ticket est obligatoire'],
+      ['interventionTicketDHReception','La date/heure de réception est obligatoire'],
+      ['interventionTicketRue'        ,'La rue de l\'intervention est obligatoire'],
+      ['interventionTicketCodePostal' ,'Le code postal de l\'intervention est obligatoire'],
+      ['interventionTicketVille'      ,'La ville de l\'intervention est obligatoire'],
+      ['interventionTicketMotif'      ,'Le motif de l\'intervention est obligatoire']
+    ];
+    
+  var messageList       = [];  
   var fieldInputError = false;
+  
   for(var i=0, count=mandatoryFields.length;i<count;i++)
-    fieldInputError = !crfIrpUtils.checkMandatoryField(mandatoryFields[i]) || fieldInputError;
+  {
+    
+    var error = !crfIrpUtils.checkMandatoryField(mandatoryFields[i][0]);
+    
+    if(error)
+    {
+      messageList.push([mandatoryFields[i][1],1]);
+    }
+    
+    fieldInputError =  error || fieldInputError;
+  }
+    
 
   if(fieldInputError)
+  {
+    this.formValidationWindow.display(messageList);
+    return false;  
+  }
+  else
+  {
+    this.doEndOfEditionEvent();  
+  }
+};
+
+MonitorInputInterventionCs.prototype.doEndOfEditionEvent=function()
+{
+  
+  var numberOfMandatoryItems = Ext.getCmp('FormValidationWindow').getStore().query('testResult',1).getCount();
+  if(numberOfMandatoryItems>0)
+  {
+    Ext.Msg.alert('L\'intervention ne peut pas être publiée','Des conditions nécessaires ne sont pas remplies, veuillez les corriger');
     return false;
-
-
+  }
+  
   MonitorInputIntervention.endOfEditionEvent($('interventionTicketId').value, this.endOfEditionEventReturn);
 };
+
 
 MonitorInputInterventionCs.prototype.endOfEditionEventReturn=function()
 {
@@ -188,6 +303,10 @@ MonitorInputInterventionCs.prototype.resetInterventionForm=function()
     else
       $(fieldId).value='';
   }
+  
+  Ext.get('InterventionTicketBusinessId'      ).update("");
+  Ext.get('InterventionTicket_id_intervention').update("");
+  
   $('googleAdressCheckStatus').src=contextPath+'/img/pix.png';
 };
 
@@ -222,13 +341,10 @@ MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventio
   
   if(interventionTicket.interventionBusinessId!='')
   {
-	Ext.get("InterventionTicket_id_intervention" ).update('('+interventionTicket.idIntervention+')'           );
-	Ext.get('InterventionTicketBusinessId'		 ).update(crfIrpUtils.formatInterventionBusinessId(interventionTicket.interventionBusinessId));
-	$('InterventionTicketBusinessIdDiv').style.display='block';
+  	Ext.get("InterventionTicket_id_intervention" ).update('('+interventionTicket.idIntervention+')'           );
+  	Ext.get('InterventionTicketBusinessId'		   ).update(crfIrpUtils.formatInterventionBusinessId(interventionTicket.interventionBusinessId));
+  	$('InterventionTicketBusinessIdDiv').style.display='block';
   }
-	  
-  
-  
   
   if(interventionTicket.position.googleCoordsLat != 0)
     Ext.get('googleAdressCheckStatus').dom.src=contextPath+"/img/famfamfam/accept.png";
@@ -249,12 +365,15 @@ MonitorInputInterventionCs.prototype.editInterventionTicketReturn=function(inter
 {
   miInterventionCs.initInterventionTicket(interventionTicket);
 
-  $('AddInterventionDelete').style.display="none";
-  $('AddInterventionClose' ).style.display="block";
-
-  $('interventionTicketEditButton'  ).style.display="block";
-  $('interventionTicketCancelButton').style.display="none";
-
+  if(interventionTicket.idEtat == 0)
+  {
+    miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.EditInterAnUnPublishedButton);    
+  }
+  else
+  {
+    miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.EditInterAPublishedButton);
+  }
+  
   Ext.get('InterventionTicket').slideIn();
   Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(true);
 };
@@ -267,29 +386,44 @@ MonitorInputInterventionCs.prototype.cancelInterventionTicket=function(idInterve
 MonitorInputInterventionCs.prototype.cancelInterventionTicketReturn=function(interventionTicket)
 {
   miInterventionCs.initInterventionTicket(interventionTicket);
-  $('interventionTicketEditButton'  ).style.display="none";
-  $('interventionTicketCancelButton').style.display="block";
+  miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.CancelInterButtons);
 };
 
+MonitorInputInterventionCs.prototype.resetToolbar=function(toolbarId, buttons)
+{
+  var toolbar = Ext.getCmp(toolbarId);
+  toolbar.removeAll();
+  var i=0;
+  for(i=0;i<buttons.length;i++)
+  {
+    toolbar.addItem(buttons[i]); 
+  }
+};
 
 MonitorInputInterventionCs.prototype.deleteInterventionTicket=function(notifyOthers)
 {
-  //if confirm
-
-  MonitorInputIntervention.deleteIntervention($('interventionTicketId').value, notifyOthers, this.deleteInterventionTicketReturn);
+  Ext.Msg.confirm('Suppression d\'un ticket d\'Intervention', 
+                  'Etes vous sur de vouloir supprimer ce ticket d\'intervention ?', 
+                  function(btn){
+      if(btn == 'yes')
+      {
+        MonitorInputIntervention.deleteIntervention($('interventionTicketId').value, notifyOthers, miInterventionCs.deleteInterventionTicketReturn);
+      }
+    });
 };
 
 MonitorInputInterventionCs.prototype.deleteInterventionTicketReturn=function()
 {
-  miInterventionCs.hideInterventionTicket();
+  miInterventionCs.hideInterventionTicket       ();
+  miInterventionCs.reloadInterventionTicketLists();
 };
 
 MonitorInputInterventionCs.prototype.hideInterventionTicket=function()
 {
-  Ext.get('InterventionTicket').slideOut();
-  Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(false);
-  Ext.getCmp('InterventionListEastPanel').expand();
-  miInterventionCs.resetInterventionForm();
+  Ext.get   ('InterventionTicket'         ).slideOut();
+  Ext.getCmp('InterventionPanelTopToolbar').setVisible(false);
+  Ext.getCmp('InterventionListEastPanel'  ).expand();
+  miInterventionCs.resetInterventionForm ();
 };
 
 

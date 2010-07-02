@@ -58,9 +58,10 @@ public class Homepage extends DWRUtils
     
   }
   
-  public void setRegulation(int regulationId) throws Exception
+  public void setRegulation(int regulationId, int idIntervention) throws Exception
   {
     HttpSession session = this.validateSession();
-    session.setAttribute("regulation", this.regulationService.getRegulation(regulationId));
+    session.setAttribute("regulation"          , this.regulationService.getRegulation(regulationId));
+    session.setAttribute("idInterventionToOpen", idIntervention);
   }
 }

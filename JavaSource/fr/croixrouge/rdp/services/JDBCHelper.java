@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class JDBCHelper
+public abstract class JDBCHelper
 {
   protected SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
   
@@ -15,4 +15,6 @@ public class JDBCHelper
         tableName
         +"` LIMIT 1", null, null); 
   }
+  
+  protected abstract int getLastInsertedId();
 }

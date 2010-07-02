@@ -71,7 +71,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   {
     this.interventionService = interventionService;
   }
-  private int getLastInsertedId()
+  protected int getLastInsertedId()
   {
     return this.getLastInsertedId(jdbcTemplate, "dispositif");
   }
@@ -476,18 +476,13 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "        `current_addresse_rue` , `current_addresse_code_postal` , `current_addresse_ville` , `current_google_coords_lat` , `current_google_coords_long` ,      \n"+
     "        `previous_addresse_rue`, `previous_addresse_code_postal`, `previous_addresse_ville`, `previous_google_coords_lat`, `previous_google_coords_long`,      \n"+
     "        `DH_reception`      , `DH_depart`, `DH_sur_place`, `DH_bilan_primaire`       , `DH_bilan_secondaire`, `DH_quitte_les_lieux`,                           \n"+
-    "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee`, `actif`,             \n"+
-    "        e.`id_equipier`, e.`num_nivol`, e.`equipier_is_male`, e.`enabled`, e.`nom`, e.`prenom`, e.`indicatif`, e.`mobile`, e.`email`, e.`id_delegation`, e.`autre_delegation` \n"+
-    "FROM    dispositif d, dispositif_equipiers de, equipier e, dispositif_type dt                                                                                  \n";  
+    "        `DH_arrivee_hopital`, `DH_dispo` , `DH_a_sa_base`, `DH_appel_renfort_medical`, `DH_arrivee_renfort_medical`, `creation_terminee`, `actif`              \n"+
+    "FROM    dispositif d                                                                                                                                           \n";  
   
   private final static String queryForGetAllDispositif = dispositifSelectQuery + 
   "WHERE   id_regulation         = ?                  \n"+
   "AND     creation_terminee     = true               \n"+
   "AND     actif                 = true               \n"+
-  "AND     d.id_type_dispositif  = dt.id_type         \n"+
-  "AND     d.id_dispositif       = de.id_dispositif   \n"+
-  "AND     de.id_role_equipier   = dt.id_role_leader  \n"+
-  "AND     de.id_equipier        = e.id_equipier      \n"+
   "ORDER BY indicatif_vehicule ASC                    \n";
 
 
@@ -496,29 +491,32 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(logger.isDebugEnabled())
       logger.debug(queryForGetAllDispositif);
     
-    List <Dispositif> dispositifs = this.jdbcTemplate.query(queryForGetAllDispositif, 
-                                                            new Object[]{new Integer(regulationId)},
-                                                            new int   []{Types.INTEGER},
-                                                            new DispositifRowMapper()); 
-    
-    for (Dispositif dispositif : dispositifs)
+    try
     {
-      if(dispositif.getEquipierLeader().getIdEquipier() != 0)
-        dispositif.setEquipierLeader(this.equipierService.getEquipier(dispositif.getEquipierLeader().getIdEquipier()));
+      List <Dispositif> dispositifs = this.jdbcTemplate.query(queryForGetAllDispositif, 
+          new Object[]{new Integer(regulationId)},
+          new int   []{Types.INTEGER},
+          new DispositifRowMapper()); 
+
+      for (Dispositif dispositif : dispositifs)
+      {
+      dispositif.setEquipierLeader(this.equipierService    .getEquipierLeaderOfDispositif       (dispositif.getIdDispositif()));
+      dispositif.setInterventions (this.interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
+      }
       
-      dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
+      return new ListRange<Dispositif>(dispositifs.size(), dispositifs);
+    }
+    catch(Exception e)
+    {
+      logger.error("error while getAllDispositif for regulation id='"+regulationId+"'",e);
+      throw e;
     }
     
-    return new ListRange<Dispositif>(dispositifs.size(), dispositifs);
   }
   
   private final static String queryForGetDispositif = dispositifSelectQuery + 
   "WHERE   d.id_dispositif       = ?                  \n"+
-  "AND     d.id_regulation       = ?                  \n"+
-  "AND     d.id_type_dispositif  = dt.id_type         \n"+
-  "AND     d.id_dispositif       = de.id_dispositif   \n"+
-  "AND     de.id_role_equipier   = dt.id_role_leader  \n"+
-  "AND     de.id_equipier        = e.id_equipier      \n";//TODO Jointure externe a faire
+  "AND     d.id_regulation       = ?                  \n";
   
 
   public Dispositif getDispositif(int idRegulation, int disposifitId) throws Exception
@@ -529,12 +527,18 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
 
   public Dispositif getDispositif(int idRegulation, int disposifitId, boolean withEquipierList) throws Exception
   {
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("get dispositif id='"+disposifitId+"', regulationId='"+idRegulation+"' withEquipierList='"+withEquipierList+"' withQuery \n"+queryForGetDispositif);
+    }
+    
     Dispositif dispositif = (Dispositif)this.jdbcTemplate.queryForObject(queryForGetDispositif, 
                                                     new Object[]{disposifitId , idRegulation},
                                                     new int   []{Types.INTEGER, Types.INTEGER},
                                                     new DispositifRowMapper());
     
-    dispositif.setInterventions(interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
+    dispositif.setEquipierLeader(this.equipierService    .getEquipierLeaderOfDispositif       (dispositif.getIdDispositif()));
+    dispositif.setInterventions (this.interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
  
     if(withEquipierList)
       dispositif.setEquipierList(this.equipierService.getEquipiersForDispositif(disposifitId));
@@ -669,13 +673,13 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
  
     
     this.jdbcTemplate.update(queryForCreateEmptyDispositif, 
-                             new Object[]{regulation.getRegulationId(), dateDebut, dateFin}, 
-                             new int[]{Types.INTEGER, Types.TIMESTAMP, Types.TIMESTAMP});
+                             new Object[]{regulation.getRegulationId(), dateDebut       , dateFin        }, 
+                             new int   []{Types.INTEGER               , Types.TIMESTAMP , Types.TIMESTAMP});
     
     int idDispositif = this.getLastInsertedId();
     
     if(logger.isDebugEnabled())
-      logger.debug("new empty dispositif created with id='"+idDispositif+"'for regulation id='"+regulation.getRegulationId()+"'");
+      logger.debug("new empty dispositif created with id='"+idDispositif+"' for regulation id='"+regulation.getRegulationId()+"'");
 
     dispositif.setIdDispositif(idDispositif );
     dispositif.setDhDebut     (dateDebut    );

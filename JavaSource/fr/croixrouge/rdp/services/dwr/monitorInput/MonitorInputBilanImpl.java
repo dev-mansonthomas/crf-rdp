@@ -64,7 +64,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
     
   }
   
-  
+  //TODO supprimer la ligne de dispositif_interventions, voir pour mettre ce code dans le delegate, gerer  le commentaire d'annulation
   public void       cancelIntervention(int idIntervention, int idDispositif, int idMotifAnnulation) throws Exception
   {
     if(logger.isDebugEnabled())

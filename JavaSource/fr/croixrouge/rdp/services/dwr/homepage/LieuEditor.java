@@ -38,14 +38,68 @@ public class LieuEditor extends DWRUtils
     }
     
   }
+
   
-  public void createLieu(Lieu lieu)
+  public Lieu getLieu(int idLieu) throws Exception
   {
-    
+    this.validateSession();
+    try
+    {  
+      return  this.lieuService.getLieu(idLieu);    
+    }
+    catch (Exception e)
+    {
+      logger.error("Erreur lors de la récupération du lieu '"+idLieu+"'", e);
+      throw e;
+    }
   }
   
-  public void updateLieu(Lieu lieu)
+  public void enableLieu (int idLieu) throws Exception
   {
-    
+    this.validateSession();
+    try
+    {  
+      this.lieuService.setEnableStatusOnLieu(idLieu, true);    
+    }
+    catch (Exception e)
+    {
+      logger.error("Erreur lors de l'activation du lieu '"+idLieu+"'", e);
+      throw e;
+    }
   }
+  
+  public void disableLieu(int idLieu) throws Exception
+  {
+    this.validateSession();
+    try
+    {  
+      this.lieuService.setEnableStatusOnLieu(idLieu, true);  
+    }
+    catch (Exception e)
+    {
+      logger.error("Erreur lors de l'activation du lieu '"+idLieu+"'", e);
+      throw e;
+    }
+  }
+  
+  
+  
+  public int createNewEmptyLieu() throws Exception
+  {
+    this.validateSession();
+    try
+    {  
+      return this.lieuService.createNewEmptyLieu();  
+    }
+    catch (Exception e)
+    {
+      logger.error("Erreur lors de la création d'un nouveau lieu", e);
+      throw e;
+    }
+  }
+  
+  
+  
+  
+  
 }

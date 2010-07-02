@@ -1,0 +1,29 @@
+.lieuNewButton
+{
+  background-image:url(../../img/famfamfam/world_add.png) !important;
+}
+
+.lieuWatchOnGoogleMapsButton
+{
+  background-image:url(../../img/famfamfam/map_go.png) !important;
+}
+
+.lieuDisableButton
+{
+  background-image:url(../../img/famfamfam/world_disabled.png) !important;
+}
+
+.lieuEnableButton
+{
+  background-image:url(../../img/famfamfam/world.png) !important;
+}
+
+.lieuDeleteButton
+{
+  background-image:url(../../img/famfamfam/world_delete.png) !important;
+}
+
+.lieuSearchButton
+{
+  background-image:url(../../img/famfamfam/find.png) !important;
+}

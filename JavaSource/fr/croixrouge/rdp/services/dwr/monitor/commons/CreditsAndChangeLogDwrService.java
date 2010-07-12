@@ -1,4 +1,4 @@
-package fr.croixrouge.rdp.services.dwr.monitorCommons;
+package fr.croixrouge.rdp.services.dwr.monitor.commons;
 
 import java.util.List;
 

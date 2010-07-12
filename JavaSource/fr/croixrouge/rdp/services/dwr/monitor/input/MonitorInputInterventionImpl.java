@@ -1,4 +1,4 @@
-package fr.croixrouge.rdp.services.dwr.monitorInput;
+package fr.croixrouge.rdp.services.dwr.monitor.input;
 
 import java.util.Date;
 
@@ -76,27 +76,61 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   public void updateInterventionIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception
   {
     this.validateSession();
-    this.interventionService.updateInterventionIntegerField(idIntervention, fieldName, fieldValue);
+    try
+    {
+      this.interventionService.updateInterventionIntegerField(idIntervention, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating integer field on intervention id='"+idIntervention+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
   public void updateInterventionFloatField  (int idIntervention, String fieldName, float    fieldValue) throws Exception
   {
-    this.validateSession();
-    this.interventionService.updateInterventionFloatField(idIntervention, fieldName, fieldValue);
+    this.validateSession();try
+    {
+      this.interventionService.updateInterventionFloatField(idIntervention, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating String field on intervention id='"+idIntervention+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
   public void updateInterventionStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception
   {
     this.validateSession();
-    this.interventionService.updateInterventionStringField(idIntervention, fieldName, fieldValue);
+    try
+    {
+      this.interventionService.updateInterventionStringField(idIntervention, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating String field on intervention id='"+idIntervention+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
   
   public void updateInterventionDateField   (int idIntervention, String fieldName, Date     fieldValue) throws Exception
   {
     this.validateSession();
-    this.interventionService.updateInterventionDateField(idIntervention, fieldName, fieldValue);
+    try
+    {
+      this.interventionService.updateInterventionDateField(idIntervention, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating date field on intervention id='"+idIntervention+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
   public void updateInterventionBooleanField(int idIntervention, String fieldName, boolean  fieldValue) throws Exception
   {
     this.validateSession();
-    this.interventionService.updateInterventionBooleanField(idIntervention, fieldName, fieldValue);
+    try
+    {
+      this.interventionService.updateInterventionBooleanField(idIntervention, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating boolean field on intervention id='"+idIntervention+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
 }

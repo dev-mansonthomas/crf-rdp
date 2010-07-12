@@ -299,6 +299,18 @@ CrfIrpUtils.prototype.getListForSimpleStore=function(listId)
   }
 };
 
+CrfIrpUtils.prototype.resetToolbar=function(toolbarId, buttons)
+{
+  var toolbar = Ext.getCmp(toolbarId);
+  toolbar.removeAll();
+  var i=0;
+  for(i=0;i<buttons.length;i++)
+  {
+    toolbar.addItem(buttons[i]); 
+  }
+  toolbar.doLayout();
+};
+
 /* ===================== Field Handling ============================== */
 
 /***
@@ -345,7 +357,7 @@ CrfIrpUtils.prototype.errorBackgroundColorForField=function(fieldId)
 /**
  * Initialise les propriétées valueMatch, defaultOnError de l'objet d'id fieldId
  * Permet à la fonction CrfIrpUtils.prototype.checkField de vérifier la valeur du champ fieldId
- * est correct. (voir la fonction checkFielf)
+ * est correct. (voir la fonction checkField)
  * 
  * */
 CrfIrpUtils.prototype.setFieldValidation=function(fieldId, valueMatch, defaultOnError)

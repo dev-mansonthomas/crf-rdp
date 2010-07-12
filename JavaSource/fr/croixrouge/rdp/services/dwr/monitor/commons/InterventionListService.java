@@ -1,4 +1,4 @@
-package fr.croixrouge.rdp.services.dwr.monitorCommons;
+package fr.croixrouge.rdp.services.dwr.monitor.commons;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

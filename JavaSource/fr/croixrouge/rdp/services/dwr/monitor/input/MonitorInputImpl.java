@@ -1,4 +1,4 @@
-package fr.croixrouge.rdp.services.dwr.monitorInput;
+package fr.croixrouge.rdp.services.dwr.monitor.input;
 
 import java.util.ArrayList;
 import java.util.List;

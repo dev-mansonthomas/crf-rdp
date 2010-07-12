@@ -195,7 +195,7 @@ MonitorInputInterventionCs.prototype.createNewEmptyInterventionReturn=function(i
   $('interventionTicketDHReception').value=crfIrpUtils.getFullDate(intervention.dhReception);
   $('interventionTicketId'         ).value=intervention.idIntervention;
 
-  miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.CreateInterButtons);
+  crfIrpUtils.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.CreateInterButtons);
   
   Ext.getCmp('InterventionPanelTopToolbar'   ).setVisible(true);
   Ext.get('InterventionTicket').slideIn();
@@ -367,11 +367,11 @@ MonitorInputInterventionCs.prototype.editInterventionTicketReturn=function(inter
 
   if(interventionTicket.idEtat == 0)
   {
-    miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.EditInterAnUnPublishedButton);    
+    crfIrpUtils.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.EditInterAnUnPublishedButton);    
   }
   else
   {
-    miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.EditInterAPublishedButton);
+    crfIrpUtils.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.EditInterAPublishedButton);
   }
   
   Ext.get('InterventionTicket').slideIn();
@@ -386,19 +386,10 @@ MonitorInputInterventionCs.prototype.cancelInterventionTicket=function(idInterve
 MonitorInputInterventionCs.prototype.cancelInterventionTicketReturn=function(interventionTicket)
 {
   miInterventionCs.initInterventionTicket(interventionTicket);
-  miInterventionCs.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.CancelInterButtons);
+  crfIrpUtils.resetToolbar('InterventionPanelTopToolbar', MonitorInputInterventionCs.prototype.CancelInterButtons);
 };
 
-MonitorInputInterventionCs.prototype.resetToolbar=function(toolbarId, buttons)
-{
-  var toolbar = Ext.getCmp(toolbarId);
-  toolbar.removeAll();
-  var i=0;
-  for(i=0;i<buttons.length;i++)
-  {
-    toolbar.addItem(buttons[i]); 
-  }
-};
+
 
 MonitorInputInterventionCs.prototype.deleteInterventionTicket=function(notifyOthers)
 {

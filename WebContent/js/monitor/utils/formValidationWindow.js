@@ -20,6 +20,9 @@ Ext.namespace('Ext.ux.Utils.FormValidationWindow');
  * var formValidationWindow = new Ext.ux.Utils.FormValidationWindow({
  *    validateFunction: function(){alert('valider clicked');},
  *    gridTitle       : 'Vérification du dispositif',
+ *    mandatoryAlertBoxTitle:'L\'intervention ne peut pas être publiée'
+ *    mandatoryAlertBoxText : 'Des conditions nécessaires ne sont pas remplies, veuillez les corriger'
+ *    
  *  }
  * ); 
  * 
@@ -44,6 +47,17 @@ Ext.ux.Utils.FormValidationWindow=Ext.extend(Ext.Window, {
       {
           text: 'Valider',
           handler: function(button, event){
+
+            var numberOfMandatoryItems = Ext.getCmp('FormValidationWindow').getStore().query('testResult',1).getCount();
+            if(numberOfMandatoryItems>0)
+            {
+              Ext.Msg.alert(
+              Ext.getCmp('FormValidationWindow').getMandatoryAlertBoxTitle(),
+              Ext.getCmp('FormValidationWindow').getMandatoryAlertBoxText ());
+              return false;
+            }
+            
+            
             Ext.getCmp('FormValidationWindow').getValidateFunction()();//call the function returned by getValidateFunction()
           }
       }],
@@ -53,9 +67,18 @@ Ext.ux.Utils.FormValidationWindow=Ext.extend(Ext.Window, {
         {
           throw "validateFunction is undefined. See code comments of formValidationWindow";
         }
-        if(this.gridTitle==null)
+        if(this.gridTitle==null || this.gridTitle=="")
         {
           throw "gridTitle is undefined. See code comments of formValidationWindow";
+        }
+        
+        if(this.mandatoryAlertBoxTitle == null || this.mandatoryAlertBoxTitle == "")
+        {
+          throw "mandatoryAlertBoxTitle is undefined. See code comments of formValidationWindow";
+        }
+        if(this.mandatoryAlertBoxText == null || this.mandatoryAlertBoxText == "")
+        {
+          throw "mandatoryAlertBoxText is undefined. See code comments of formValidationWindow";
         }
         
         var dataStore = new Ext.data.ArrayStore({
@@ -110,6 +133,14 @@ Ext.ux.Utils.FormValidationWindow=Ext.extend(Ext.Window, {
       getValidateFunction:function()
       {
         return this.validateFunction;
+      },
+      getMandatoryAlertBoxTitle:function()
+      {
+        return this.mandatoryAlertBoxTitle;
+      },
+      getMandatoryAlertBoxText :function()
+      {
+        return this.mandatoryAlertBoxTitle;
       },
       getStore:function()
       {

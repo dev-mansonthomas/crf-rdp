@@ -99,7 +99,43 @@ public class LieuEditor extends DWRUtils
   }
   
   
-  
+  public void updateIntegerField(int idLieu, String fieldName, int      fieldValue) throws Exception
+  {
+    this.validateSession();
+    try
+    {
+      this.lieuService.updateIntegerField(idLieu, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating integer field on lieu id='"+idLieu+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
+    
+  }
+  public void updateFloatField  (int idLieu, String fieldName, float    fieldValue) throws Exception
+  {
+    this.validateSession();
+    try
+    {
+      this.lieuService.updateFloatField(idLieu, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating float field on lieu id='"+idLieu+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
+  }
+  public void updateStringField (int idLieu, String fieldName, String   fieldValue) throws Exception
+  {
+    this.validateSession();
+    try
+    {
+      this.lieuService.updateStringField(idLieu, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating String field on lieu id='"+idLieu+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
+  }
   
   
 }

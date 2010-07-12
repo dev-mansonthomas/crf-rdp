@@ -33,7 +33,7 @@
 
     <init-param>
       <param-name>login-error-page</param-name>
-      <param-value>/index.jsp?error=true</param-value>
+      <param-value>/login.jsp?error=true</param-value>
     </init-param>
 
     <init-param>

@@ -296,4 +296,118 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     return this.getLastInsertedId(jdbcTemplate, "lieu");
   }
   
+  
+  public static String[]stringField = { 
+    "icon"              ,   
+    "iconGmapInit"      ,   
+    "nom"               ,   
+    "addresse"          ,   
+    "codePostal"        ,   
+    "ville"             ,   
+    "telephone"         ,
+    "mail"              ,
+    "url"               ,
+    "infoComplementaire",
+
+};
+  private static Hashtable<String, String> stringFieldMatching = new Hashtable<String, String>(stringField.length);
+  {
+    stringFieldMatching.put("icon"              , "icon"               );
+    stringFieldMatching.put("iconGmapInit"      , "icon_gmap_init"     );
+    stringFieldMatching.put("nom"               , "nom"                );
+    stringFieldMatching.put("addresse"          , "addresse"           );
+    stringFieldMatching.put("codePostal"        , "code_postal"        );
+    stringFieldMatching.put("ville"             , "ville"              );
+    stringFieldMatching.put("telephone"         , "telephone"          );
+    stringFieldMatching.put("mail"              , "mail"               );
+    stringFieldMatching.put("url"               , "url"                );
+    stringFieldMatching.put("infoComplementaire", "info_complementaire");
+  }
+  
+  public void updateStringField   (int idLieu, String fieldName, String   fieldValue  ) throws Exception
+  {
+    String realFieldName = stringFieldMatching.get(fieldName);
+    
+    if(realFieldName == null)
+      throw new Exception("Unknown string field '"+fieldName+"' for lieu update");
+
+    String query = 
+      "UPDATE lieu                  \n"+
+      "SET    "+realFieldName+" = ? \n"+
+      "WHERE  id_lieu   = ?         \n";
+    
+    int nbLineUpdated = this.jdbcTemplate.update( query, 
+                                                  new Object[]{fieldValue   , idLieu}, 
+                                                  new int   []{Types.VARCHAR, Types.INTEGER}
+                                                );
+    if(logger.isDebugEnabled())
+      logger.debug("Lieu with id='"+idLieu+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
+
+  }
+  
+  public static String[]intField = {  
+    "idTypeLieu"
+  };
+  private static Hashtable<String, String> intFieldMatching = new Hashtable<String, String>(intField.length);
+  {
+    intFieldMatching.put("idTypeLieu"          , "id_type_lieu"           );
+   
+  }
+  
+  
+  public void updateIntegerField  (int idLieu, String fieldName, int      fieldValue  ) throws Exception
+  {
+    String realFieldName = intFieldMatching.get(fieldName);
+    
+    if(realFieldName == null)
+      throw new Exception("Unknown int field '"+fieldName+"' for lieu update");
+
+    String query = 
+      "UPDATE lieu                 \n"+
+      "SET    "+realFieldName+" = ?\n"+
+      "WHERE  id_lieu           = ?\n";
+    
+    int nbLineUpdated = this.jdbcTemplate.update( query, 
+                                                  new Object[]{fieldValue   , idLieu}, 
+                                                  new int   []{Types.VARCHAR, Types.INTEGER}
+                                                );
+    if(logger.isDebugEnabled())
+      logger.debug("Lieu with id='"+idLieu+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
+
+  }
+  
+  
+  public static String[]floatField = {           
+    "googleCoordsLat",          
+    "googleCoordsLong"                 
+  };
+  private static Hashtable<String, String> floatFieldMatching = new Hashtable<String, String>(floatField.length);
+  {
+    floatFieldMatching.put("googleCoordsLat"                    , "google_coords_lat"                 );
+    floatFieldMatching.put("googleCoordsLong"                   , "google_coords_long"                );
+  }
+  
+  
+  public void updateFloatField    (int idLieu, String fieldName, float    fieldValue  ) throws Exception
+  {
+    String realFieldName = floatFieldMatching.get(fieldName);
+    
+    if(realFieldName == null)
+      throw new Exception("Unknown float field '"+fieldName+"' for lieu update");
+
+    String query = 
+      "UPDATE lieu                 \n"+
+      "SET    "+realFieldName+" = ?\n"+
+      "WHERE  id_lieu           = ?\n";
+    
+    int nbLineUpdated = this.jdbcTemplate.update( query, 
+                                                  new Object[]{fieldValue   , idLieu}, 
+                                                  new int   []{Types.VARCHAR, Types.INTEGER}
+                                                );
+    if(logger.isDebugEnabled())
+      logger.debug("Lieu with id='"+idLieu+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
+
+  }
+
+  
 }

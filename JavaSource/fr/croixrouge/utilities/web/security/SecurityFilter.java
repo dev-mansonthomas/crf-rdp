@@ -143,7 +143,7 @@ public class SecurityFilter implements Filter
       else
       {
         if(logger.isDebugEnabled())
-          logger.debug("continueUrl=error");
+          logger.debug("continueUrl="+loginErrorPage);
         
         httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         request.getRequestDispatcher(loginErrorPage).forward(wrappedRequest, response);

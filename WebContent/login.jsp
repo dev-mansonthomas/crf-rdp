@@ -16,11 +16,23 @@
       <img src="<%=contextPath%>/img/logo-crf-small.png"  class="imgLoginRight" alt="Croix Rouge Francaise"/>
     </div>
 
+<script type="text/javascript">
+var loginError   =false;
+var userName='';
+</script>
 <%
 if(error)
 {
 %>
-  <font color="red">Utilisateur inconnu ou mot de passe invalide !</font>
+<script type="text/javascript">
+loginError = true;
+userName='<%=request.getParameter("j_username") %>';
+</script>
+  <div id="errorMessage" style="display:none;">
+    <img   src="img/login/error.gif" alt="login error"/>
+  
+    <div style="vertical-align:top;padding-top:10px;">Utilisateur inconnu ou mot de passe invalide !</div>
+   </div>
 <% 
 }
 %>
@@ -30,5 +42,8 @@ if(error)
     </div>
     <jwr:script src="/jsBundle/extJs.js"/>
     <jwr:script src="/jsBundle/login.js"/> 
+    <script type="text/javascript">
+      Ext.onReady(init);
+    </script>
 	</body>
 </html>

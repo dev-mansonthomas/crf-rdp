@@ -586,7 +586,7 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
   
  
   
-  if( Ext.get('DispositifStatus').dom.value =='11' || Ext.get('dispositifActif').dom.value!='true' && Ext.get('DispositifStatus').dom.value != -1)
+  if( Ext.get('DispositifStatus').dom.value =='11' || Ext.get('dispositifActif').dom.value!='' && Ext.get('dispositifActif').dom.value!='true' && Ext.get('DispositifStatus').dom.value != -1)
   {
     Ext.Msg.alert('Publication Impossible', 'Vous ne pouvez plus publier de modification sur ce dispositif car il a fini sa vacation.');
   }
@@ -1192,47 +1192,24 @@ MonitorInputDispositifCs.prototype.updateAddressErrorReturn=function(response, c
 
 MonitorInputDispositifCs.prototype.updateDispositifEtat=function(fieldId)
 {
-  if(consoleEnabled)
-    console.log("Starting updating status");
   crfIrpUtils.checkField (fieldId);
-  
-    if(consoleEnabled)
-    console.log("check field");
-
   crfIrpUtils.fieldSaving(fieldId);
-  if(consoleEnabled)
-    console.log("fieldSaving");
-  
   fieldValue = $(fieldId).value;
-    if(consoleEnabled)
-    console.log("getting current value");
 
   if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
   {
-    if(consoleEnabled)
-      console.log("current value is not equals to old value");
-
     MonitorInputDispositif.updateDispositifEtat(
                                               $('dispositif_id_field').value, 
                                               fieldValue, 
                                               function()
                                               {
-                                                  if(consoleEnabled)
-                                                    console.log("end of update");
-
                                                 crfIrpUtils.defaultBackgroundColorForField(fieldId);
                                               });
   }
   else
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
-    
-  if(consoleEnabled)
-    console.log("before focus");
-
+   
    crfIrpUtils.focusHandling(fieldId);
-     if(consoleEnabled)
-    console.log("after focus");
-
 };
 
 /************************Méthode*d'update*****************************************/
@@ -1241,7 +1218,7 @@ MonitorInputDispositifCs.prototype.updateDispositifIntField=function(fieldId, fi
   crfIrpUtils.checkField (fieldId);
   crfIrpUtils.fieldSaving(fieldId);
   
-  fieldValue = $(fieldId).value;
+  var fieldValue = $(fieldId).value;
   if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
   {
     MonitorInputDispositif.updateDispositifIntegerField(
@@ -1263,7 +1240,7 @@ MonitorInputDispositifCs.prototype.updateDispositifDateField=function(fieldId, f
   crfIrpUtils.checkField (fieldId);
   crfIrpUtils.fieldSaving(fieldId);
   
-  fieldValue = $(fieldId).value;
+  var fieldValue = $(fieldId).value;
   if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
   {
     MonitorInputDispositif.updateDispositifDateField(
@@ -1285,7 +1262,7 @@ MonitorInputDispositifCs.prototype.updateDispositifFloatField=function(fieldId, 
 {
   crfIrpUtils.checkField (fieldId);
   crfIrpUtils.fieldSaving(fieldId);
-  fieldValue = $(fieldId).value;
+  var fieldValue = $(fieldId).value;
   if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
   {
     MonitorInputDispositif.updateDispositifFloatField(
@@ -1309,7 +1286,7 @@ MonitorInputDispositifCs.prototype.updateDispositifStringField=function(fieldId,
     
   crfIrpUtils.checkField (fieldId);
   crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
-  fieldValue = $(fieldId).value;
+  var fieldValue = $(fieldId).value;
   if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
   {
     MonitorInputDispositif.updateDispositifStringField(
@@ -1333,7 +1310,7 @@ MonitorInputDispositifCs.prototype.updateDispositifBooleanField=function(fieldId
     
   crfIrpUtils.checkField (fieldId);
   crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
-  fieldValue = $(fieldId).value;
+  var fieldValue = $(fieldId).value;
   if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
   {
     MonitorInputDispositif.updateDispositifBooleanField(

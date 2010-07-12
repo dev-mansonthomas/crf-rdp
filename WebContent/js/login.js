@@ -58,14 +58,14 @@ Ext.ux.crf.Login = function() {
               id        : 'j_username',
               fieldLabel: 'NIVOL'     ,
               name      : 'j_username',
-              value     : ''
+              value     : userName//défini dans le corp de la jsp avec la valeur entrée précédement
           },{
               id        : 'j_password',
               fieldLabel: 'Password'  ,
               inputType : 'password'  ,
               name      : 'j_password',
               value     : '',
-              fireKey:function(e) {
+              fireKey   : function(e) {
                 if(e.getKey()==e.ENTER && formPanel.getForm().isValid()){
                 	loginCs.login();
                 }
@@ -83,7 +83,7 @@ Ext.ux.crf.Login = function() {
           minHeight   : 250,
           minWidth    : 530,
           plain       : false,
-          resizable   : true,
+          resizable   : false,
           items       : [
             logoPanel,
             formPanel
@@ -95,18 +95,31 @@ Ext.ux.crf.Login = function() {
     form = formPanel.getForm();
 
     dialog.show();
+    
+    
+    if(loginError)
+    {
+      Ext.get('errorMessage').anchorTo('login-win', 'bl').highlight("#FFFF00", {
+        attr    : "background-color",
+        endColor: "#FF9595",
+        easing  : 'easeIn',
+        duration: 1
+      });
+    }
+    
     },
-    login: function() {
+    login: function() 
+    {
       
-    form.getEl().dom.action=form.url;
-
-    form.submit({
-              url     : 'j_security_check',
-              waitMsg : 'Veuillez Patienter...',
-              //reset   : true,
-             // success : loginCs.Success,
-              scope   : this
-            });
+      form.getEl().dom.action=form.url;
+  
+      form.submit({
+                url     : 'j_security_check',
+                waitMsg : 'Veuillez Patienter...',
+                //reset   : true,
+               // success : loginCs.Success,
+                scope   : this
+              });
     }
     ,
     success: function(f,a){
@@ -115,20 +128,15 @@ Ext.ux.crf.Login = function() {
         
         // get the path
         var path = window.location.pathname,
-          path = path.substring(0, path.lastIndexOf('/') + 1);
+        path = path.substring(0, path.lastIndexOf('/') + 1);
           
-        // set the cookie
-        //set_cookie('key', a.result.key, '', path, '', '' );
-        //set_cookie('memberName', a.result.name, '', path, '', '' );
-        //set_cookie('memberType', a.result.type, '', path, '', '' );
-        
-        // redirect the window
-        //window.location = path;
       }
     }
 
   };
 }(); // end of app
-
-loginCs = Ext.ux.crf.Login;
-loginCs.init();
+function init()
+{
+  loginCs = Ext.ux.crf.Login;
+  loginCs.init();
+}

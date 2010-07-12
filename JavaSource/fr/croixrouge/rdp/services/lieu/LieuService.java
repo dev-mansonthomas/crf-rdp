@@ -19,4 +19,10 @@ public interface LieuService
   public void                          setEnableStatusOnLieu(int idLieu, boolean enabled) throws Exception;
   
   public int createNewEmptyLieu() throws Exception;
+  
+  
+  public void updateIntegerField  (int idLieu, String fieldName, int      fieldValue  ) throws Exception;
+  public void updateFloatField    (int idLieu, String fieldName, float    fieldValue  ) throws Exception;
+  public void updateStringField   (int idLieu, String fieldName, String   fieldValue  ) throws Exception;
+
 }

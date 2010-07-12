@@ -1,4 +1,4 @@
-package fr.croixrouge.rdp.services.dwr.monitor;
+package fr.croixrouge.rdp.services.dwr.monitor.output;
 
 import java.util.Date;
 

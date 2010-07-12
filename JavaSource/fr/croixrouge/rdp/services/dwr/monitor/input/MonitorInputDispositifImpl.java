@@ -1,4 +1,4 @@
-package fr.croixrouge.rdp.services.dwr.monitorInput;
+package fr.croixrouge.rdp.services.dwr.monitor.input;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -245,30 +245,67 @@ public class MonitorInputDispositifImpl extends DWRUtils
   public void updateDispositifIntegerField(int idDispositif, String fieldName, int      fieldValue) throws Exception
   {
     this.validateSession();
-    this.dispositifService.updateDispositifIntegerField(idDispositif, fieldName, fieldValue);
+    try
+    {
+      this.dispositifService.updateDispositifIntegerField(idDispositif, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating integer field on dispositif id='"+idDispositif+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
 
   public void updateDispositifFloatField  (int idDispositif, String fieldName, float    fieldValue) throws Exception
   {
     this.validateSession();
-    this.dispositifService.updateDispositifFloatField(idDispositif, fieldName, fieldValue);
+    try
+    {
+      this.dispositifService.updateDispositifFloatField(idDispositif, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating float field on dispositif id='"+idDispositif+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
   
   public void updateDispositifStringField (int idDispositif, String fieldName, String   fieldValue) throws Exception
   {
     this.validateSession();
-    this.dispositifService.updateDispositifStringField(idDispositif, fieldName, fieldValue);
+    try
+    {
+      this.dispositifService.updateDispositifStringField(idDispositif, fieldName, fieldValue);
+
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating String field on dispositif id='"+idDispositif+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
   
   public void updateDispositifDateField   (int idDispositif, String fieldName, Date     fieldValue) throws Exception
   {
     this.validateSession();
-    this.dispositifService.updateDispositifDateField(idDispositif, fieldName, fieldValue);
+    try
+    {
+      this.dispositifService.updateDispositifDateField(idDispositif, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating date field on dispositif id='"+idDispositif+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
   }
   public void updateDispositifBooleanField(int idDispositif, String fieldName, boolean  fieldValue) throws Exception
   {
     this.validateSession();
-    this.dispositifService.updateDispositifBooleanField(idDispositif, fieldName, fieldValue);
+    try
+    {
+      this.dispositifService.updateDispositifBooleanField(idDispositif, fieldName, fieldValue);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating boolean field on dispositif id='"+idDispositif+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+    }
+      
   }  
   
 }

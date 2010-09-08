@@ -82,7 +82,22 @@ public class LieuEditor extends DWRUtils
     }
   }
   
-  
+  public void deleteLieu(int idLieu) throws Exception
+  {
+    this.validateSession();
+    try
+    {  
+      this.lieuService.deleteLieu(idLieu);  
+    }
+    catch (Exception e)
+    {
+      String msg = "Erreur lors de la suppression du lieu '"+idLieu+"'. Ce lieu a peut etre été référencé dans l'application, vous ne pouvez que le désactiver";
+      logger.error(msg, e);
+
+
+      throw new Exception(msg + "\n\n" +e.getMessage());
+    }
+  }
   
   public int createNewEmptyLieu() throws Exception
   {
@@ -99,6 +114,19 @@ public class LieuEditor extends DWRUtils
   }
   
   
+  public void updateGoogleCoordinates(float latitude, float longitude, int idLieu) throws Exception
+  {
+    this.validateSession();
+    try
+    {
+      this.lieuService.updateGoogleCoordinates(latitude, longitude, idLieu);
+    }
+    catch(Exception e)
+    {
+      throw e;
+    }
+  }
+  
   public void updateIntegerField(int idLieu, String fieldName, int      fieldValue) throws Exception
   {
     this.validateSession();
@@ -109,6 +137,7 @@ public class LieuEditor extends DWRUtils
     catch(Exception e)
     {
       logger.error("Error while updating integer field on lieu id='"+idLieu+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+      throw e;
     }
     
   }
@@ -122,6 +151,7 @@ public class LieuEditor extends DWRUtils
     catch(Exception e)
     {
       logger.error("Error while updating float field on lieu id='"+idLieu+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+      throw e;
     }
   }
   public void updateStringField (int idLieu, String fieldName, String   fieldValue) throws Exception
@@ -134,6 +164,7 @@ public class LieuEditor extends DWRUtils
     catch(Exception e)
     {
       logger.error("Error while updating String field on lieu id='"+idLieu+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
+      throw e;
     }
   }
   

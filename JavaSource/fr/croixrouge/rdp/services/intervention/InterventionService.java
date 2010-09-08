@@ -24,6 +24,7 @@ public interface InterventionService
   
   
   public void affectInterventionToDispositif  (int idIntervention, int idDispositif, Date dateAffectation ) throws Exception;
+  public void reAffectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation ) throws Exception;
   public void unAffectInterventionToDispositif(int idIntervention, Date dateAffectation                   ) throws Exception;
   public void actionOnIntervention            (int idIntervention, int newIdEtat   , Date actionDate      ) throws Exception;
   public void actionOnInterventions           (List<InterventionTicket> interventions, int newIdEtat   , Date actionDate      ) throws Exception;

@@ -58,12 +58,14 @@ Ext.ux.crf.Login = function() {
               id        : 'j_username',
               fieldLabel: 'NIVOL'     ,
               name      : 'j_username',
+              defaultAutoCreate:{tag:'input',type:'text',autocomplete:'on'},
               value     : userName//défini dans le corp de la jsp avec la valeur entrée précédement
           },{
               id        : 'j_password',
               fieldLabel: 'Password'  ,
               inputType : 'password'  ,
               name      : 'j_password',
+              defaultAutoCreate:{tag:'input',type:'password',autocomplete:'on'},
               value     : '',
               fireKey   : function(e) {
                 if(e.getKey()==e.ENTER && formPanel.getForm().isValid()){

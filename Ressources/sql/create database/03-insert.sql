@@ -11,7 +11,7 @@ INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`,`label_type_lieu`,`icon_clas
  (7,7,'Police'                         ,'policeIcon'          ,'gmap/police.png'           ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/police.png\";\r\nicon.shadow=contextPath+\"/img/gmap/police-s.png\";\r\nicon.iconSize=new GSize(26.0, 26.0);\r\nicon.shadowSize=new GSize(40.0, 26.0);\r\nicon.iconAnchor=new GPoint(13.0, 13.0);\r\nicon.infoWindowAnchor=new GPoint(13.0, 13.0);'),
  (8,8,'Intervention'                   ,'interventionIcon'    ,'gmap/intervention.png'     ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/intervention.png\";\r\nicon.shadow=contextPath+\"/img/gmap/intervention-s.png\";\r\nicon.iconSize=new GSize(16.0, 16.0);\r\nicon.shadowSize=new GSize(25.0, 16.0);\r\nicon.iconAnchor=new GPoint(8.0, 8.0);\r\nicon.infoWindowAnchor=new GPoint(8.0, 8.0);'),
  (9,9,'Ambulance'                      ,'ambulanceIcon'       ,'gmap/ambulance.png'        ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/ambulance.png\";\r\nicon.shadow=contextPath+\"/img/gmap/ambulance-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);'),
- (10,0,'N/A'                      ,'N/A'       ,'N/A'        ,'');
+ (10,0,'Sans Catégorie'                ,'N/A'                 ,'N/A'                       ,'');
 
 UPDATE `lieu_type` SET `id_type_lieu` = 0 WHERE `id_type_lieu` = 10;
 ALTER TABLE `lieu_type` AUTO_INCREMENT = 10;
@@ -245,8 +245,6 @@ VALUES
 UPDATE `lieu` SET `id_lieu` = 0 WHERE `id_lieu` = 221;
 ALTER TABLE `lieu` AUTO_INCREMENT = 221;
 
-
-
 INSERT INTO `delegation` 
   (`id_delegation`, `nom`, `departement`, `telephone`, `mobile`, `mail`, `web`, `id_lieu`) 
 VALUES 
@@ -401,6 +399,25 @@ INSERT INTO `delegation` ( `nom`, `departement`, `telephone`, `mobile`, `mail`, 
 update delegation set id_delegation=0 where id_delegation = 142;
 ALTER TABLE delegation AUTO_INCREMENT = 142;
 
+
+-- par défaut on met le sort_order au code postal
+update delegation 
+set    sort_order = cast( departement as unsigned)
+where id_delegation >0;
+
+
+
+-- pour celle qu'on veut voir après paris et département limitrophe on refait le truc a préfixant par 1 (pour faire fois 10)
+update delegation 
+set    sort_order = cast( concat("1",departement) as unsigned)
+where departement not like '75%'
+AND   departement not like '92%'
+AND   departement not like '93%'
+AND   departement not like '94%'
+AND   id_delegation >0;
+
+
+
 insert into dispositif_etat (label_etat)
 values
 ('Disponible'),
@@ -412,18 +429,11 @@ values
 ('Transport'),
 ('Arrivé à l''Hopital'),
 ('Intervention Terminée'),
-('A sa base'),
 ('Vacation Terminée'),
-('Indisponible - Equipage incomplet'),
-('Indisponible - Matériel incomplet'),
-('Indisponible'),
-('N/A');
+('Indisponible');
 
-update dispositif_etat set id_etat = 0  where id_etat = 15;
-update dispositif_etat set id_etat = -1 where id_etat = 14;
-update dispositif_etat set id_etat = -2 where id_etat = 13;
-update dispositif_etat set id_etat = -3 where id_etat = 12;
-ALTER TABLE dispositif_etat AUTO_INCREMENT = 12;
+update dispositif_etat set id_etat = 0  where id_etat = 11;
+ALTER TABLE dispositif_etat AUTO_INCREMENT = 11;
 
 insert into dispositif_type (label_type, nombre_equipier_max, id_role_leader, code_type)
 values
@@ -606,7 +616,8 @@ values
 ('0.3.0','2009-03-13'   ,'No production release','Google Maps Traffic et Street View'),
 ('0.4.0','2009-06-01'   ,'No production release','Ré implémentation du Drag & Drop, affectation de plusieurs victime à un dispositif'),
 ('0.4.2','2010-03-11'   ,'No production release','Mise a jours de composants techniques'),
-('0.4.3','2010-03-18'   ,'No production release','Ajout d\'une interface d\'edition des utilisateur de l\'application + Bug Fix')
+('0.4.3','2010-03-18'   ,'No production release','Ajout d\'une interface d\'edition des utilisateur de l\'application + Bug Fix'),
+('0.4.4','2010-09-04'   ,'No production release','Gestion des Lieux, ID Métier pour les inters, Affichage des inters d\'un bénévole, + bug fix')
 ;
 
 insert into application_version_changelog(`id_application_version`, `id_jira`, `description`)
@@ -636,8 +647,21 @@ values
 (5,'IRP-34', 'Upgrade vers Spring 3+dependencies'),
 (5,'IRP-86', 'Upgrade dwr, jawr'),
 (5,'IRP-87', 'Ajout de 140 hopitaux et 67 délégations avec coordonnées et géoloc'),
-(6,'IRP-89', 'Début d\'implémentation de la gestion des utilisateurs et des droits');
-
+(6,'IRP-89', 'Début d\'implémentation de la gestion des utilisateurs et des droits'),
+(7,'IRP-120', 'Implémenter le choix de l\'état du dispositif lorsque l\'état est \'disponible\' ou qu\'il y a une désynchro entre inter et dispositif'),
+(7,'IRP-119', 'Amélioration des idEtatInterventions'),
+(7,'IRP-112', 'Création d\'une interface de gestion des lieux'),
+(7,'IRP-111', 'Mutualiser la fenetre de controle d\'ajout de dispositif et la mettre sur la gestion de ticket'),
+(7,'IRP-110', 'Spliter in.jsp et out.jsp afin d\'améliorer la maintenabilité et les performances d\'éditions'),
+(7,'IRP-108', 'Afficher un bouton dans la partie gestion des utilisateurs, qui permet d\'afficher toutes les inters auquel il a participer'),
+(7,'IRP-107', 'Afficher un bouton sur la partie IN pour afficher toutes les inters traitées par le dispositif'),
+(7,'IRP-106', 'une fois un dispositif sorti du réseau (fin de vacation), si on clic sur terminer, il réapparait dans monitor OUT'),
+(7,'IRP-105', 'Edition du ticket d\'inter puis valider d\'une inter déjà affecté => l\'inter est représenté pour affectation'),
+(7,'IRP-99' , 'Afficher un message d\'erreur lors d\'une erreur d\'authentificaiton'),
+(7,'IRP-68' , 'Bug sur la gestion de certaine checkbox'),
+(7,'IRP-48' , 'Attribution d\'un ID Métier par intervention'),
+(7,'IRP-25' , 'Drop down pour le volume des bouteilles'),
+(7,'IRP-7'  , 'Bouton de visualisation du dispositif sur la google map');
 
 
 INSERT INTO `equipier` (`id_equipier`, `id_dispositif`, `num_nivol`, `equipier_is_male`, `enabled`, `nom`, `prenom`, `mobile`, `email`, `id_delegation`, `autre_delegation`) 

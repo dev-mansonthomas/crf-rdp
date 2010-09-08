@@ -358,7 +358,7 @@
              id="bilan_pupille_reactive"
            name="bilan_pupille_reactive"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_reactive', 'bilanPupilleReactiveP');miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
+       onChange="miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
      Réactives
       </td>
       <td style="text-align:right;" id="bilanPupilleMyosisGaucheP" ext:qtip="Myosis: pupille de ma taille d'une tete d'aiguille en l'abscence de lumière">
@@ -368,7 +368,7 @@
              id="bilan_pupille_myosis_gauche"
            name="bilan_pupille_myosis_gauche"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_gauche', 'bilanPupilleMyosisGaucheP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
+       onChange="miBilanCs.pupilleCheckMyosisMydriaseGauche(this.id);"/>
      
       </td>
       <td id="bilanPupilleMyosisDroiteP">
@@ -376,7 +376,7 @@
              id="bilan_pupille_myosis_droite"
            name="bilan_pupille_myosis_droite"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_myosis_droite', 'bilanPupilleMyosisDroiteP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
+       onChange="miBilanCs.pupilleCheckMyosisMydriaseDroite(this.id);"/>
         Droite
       </td>
     </tr>
@@ -386,7 +386,7 @@
              id="bilan_pupille_non_reactive"
            name="bilan_pupille_non_reactive"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_non_reactive', 'bilanPupilleNonReactiveP');miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
+       onChange="miBilanCs.pupilleCheckPupilleReactive(this.id);"/>
      Non Réactives
       </td>
       <td style="text-align:right;" id="bilanPupilleMydriaseGaucheP" ext:qtip="Mydriase: pupille complétement dilaté en présence d'une source de lumière">
@@ -395,7 +395,7 @@
              id="bilan_pupille_mydriase_gauche"
            name="bilan_pupille_mydriase_gauche"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_gauche', 'bilanPupilleMydriaseGaucheP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
+       onChange="miBilanCs.pupilleCheckMyosisMydriaseGauche(this.id);"/>
      
       </td>
       <td id="bilanPupilleMydriaseDroiteP">
@@ -403,7 +403,7 @@
              id="bilan_pupille_mydriase_droite"
            name="bilan_pupille_mydriase_droite"
         onFocus="crfIrpUtils.fieldEdit(this.id)"
-       onChange="miBilanCs.updateBooleanField(this.id, 'pupille_mydriase_droite', 'bilanPupilleMydriaseDroiteP');miBilanCs.pupilleCheckMyosisMydriase(this.id);"/>
+       onChange="miBilanCs.pupilleCheckMyosisMydriaseDroite(this.id);"/>
        Droite
       </td>
     </tr>

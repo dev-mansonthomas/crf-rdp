@@ -110,9 +110,8 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
   },
   addStreetView:function(){
     
-    if(this.streetView === null)
+    if(this.streetView == null)
     {
-      alert('StreetView Not properly configured !');
       return;
     }      
     this.streetViewPanoramaTab= new GStreetviewPanorama(document.getElementById(this.streetView.panoramaId));  
@@ -234,7 +233,15 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       return;
     this.gmap.removeOverlay(marker);
   },
-  addMarker: function(latitude, longitude, specificIconScript, category, center, title, html, businessId, iconCategory)
+  addMarker: function(latitude, 
+                      longitude, 
+                      specificIconScript, 
+                      category, 
+                      center, 
+                      title, 
+                      html, 
+                      businessId, 
+                      iconCategory)
   {
     if(this.googleMapAvailable!= true || this.gmap === undefined)
       return;
@@ -314,6 +321,29 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
         var marker = markers[i];
         if(marker.isHidden())
           marker.show();
+
+        this.gmap.panTo(marker.getLatLng());
+        GEvent.trigger(marker,"click");
+        return;
+      }
+    }
+  },
+  removeMarkerById:function(category, businessId)
+  {
+    if(this.googleMapAvailable!= true)
+      return;
+    var markers = this.markerCategories[category];
+    if(markers == null)
+    {
+      return;
+    }
+
+    for(var i=0, count=markers.size();i<count;i++)
+    {
+      if(markers[i] != null && markers[i].customId==category+'_'+businessId)
+      {
+        var marker = markers[i];
+        this.gmap.removeOverlay(marker);
 
         this.gmap.panTo(marker.getLatLng());
         GEvent.trigger(marker,"click");

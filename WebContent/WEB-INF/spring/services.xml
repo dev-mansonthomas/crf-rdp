@@ -35,6 +35,11 @@
     <bean id="creditsAndChangeLogService"  class="fr.croixrouge.rdp.services.creditsAndChangeLog.CreditsAndChangeLogServiceImpl" autowire="constructor" />
     
 
+    <!-- SMS Service
+    
+    <bean id="SFRMobileService" class="fr.croixrouge.rdp.services.mobile.SFRMobileServiceImpl" autowire="constructor"/>
+-->
+
     <!-- Delegate -->
     <bean id="dispositifInterventionDelegate"                  class="fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegateImpl"                         autowire="constructor" />
 </beans>

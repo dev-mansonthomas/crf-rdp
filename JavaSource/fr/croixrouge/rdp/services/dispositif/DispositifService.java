@@ -13,7 +13,18 @@ import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 
 public interface DispositifService
 { 
-  public static final int STATUS_FIN_VACATION = 11;
+  public final static int STATUS_INDISPO                    = 0; //indispo
+  public final static int STATUS_DISPO                      = 1 ; //dispo
+  public final static int STATUS_INTERVENTION_AFFECTEE      = 2 ; //intervention affecté
+  public final static int STATUS_PARTI                      = 3 ; //Parti
+  public final static int STATUS_SUR_PLACE                  = 4 ; //Sur place
+  public final static int STATUS_PRIMAIRE                   = 5 ; //Primaire
+  public final static int STATUS_SECONDAIRE                 = 6 ; //Secondaire
+  public final static int STATUS_TRANSPORT                  = 7 ; //transport
+  public final static int STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
+  public final static int STATUS_INTER_TERMINEE             = 9 ; //Intervention Terminée
+  public final static int STATUS_VACATION_TERMINEE          = 10; //Vacation Terminée
+  
   
   public ListRange<Dispositif>  getAllDispositif        (int regulationId                                                       ) throws Exception;
   public Dispositif             getDispositif           (int idRegulation       , int idDispositif                              ) throws Exception;

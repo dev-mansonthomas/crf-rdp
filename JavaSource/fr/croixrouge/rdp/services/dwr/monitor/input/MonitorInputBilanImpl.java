@@ -178,4 +178,18 @@ public class MonitorInputBilanImpl  extends DWRUtils
       logger.error("Error while updating boolean field on intervention id='"+idIntervention+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
     }
   }
+
+  public void updateDoubleBooleanField(int idIntervention, String fieldName1, boolean  fieldValue1, String fieldName2, boolean  fieldValue2) throws Exception
+  {
+    this.validateSession();
+    try
+    {
+      this.interventionService.updateInterventionBooleanField(idIntervention, fieldName1, fieldValue1);
+      this.interventionService.updateInterventionBooleanField(idIntervention, fieldName2, fieldValue2);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while updating boolean field on intervention id='"+idIntervention+"' fieldName1='"+fieldName1+"' fieldValue1='"+fieldValue1+"' fieldName2='"+fieldName2+"' fieldValue2='"+fieldValue2+"'",e);
+    }
+  }
 }

@@ -1,15 +1,57 @@
 Ext.namespace('Ext.ux.Home.LieuEditorUi');
+//id           : 'LieuGridToolbar-idTypeLieu',
 
-
-
+Ext.ux.Home.TypeLieuCombo = Ext.extend(Ext.form.ComboBox,{
+  fieldLabel   : 'Type Lieu',
+  anchor       : '100%',
+  mode         : 'local',
+  typeAhead    : true,
+  editable     : false,
+  triggerAction: 'all',
+  displayField : 'labelTypeLieu',
+  valueField   : 'idTypeLieu',
+  selectOnFocus: true
+}
+);
+Ext.reg('TypeLieuCombo', Ext.ux.Home.TypeLieuCombo);
 
 
 Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
   title        : 'Editeur de Lieu',
+  layout       : 'fit',
   initComponent: function() 
   {
+    /***************************Google Maps Window**************************************************/
+    var gmapPanel = {
+                        id         : 'lieu-editor-gmap-panel',
+                        xtype      : 'gmappanel',
+                        gmapType   : 'map',
+                        zoomLevel  : 14,
+                        mapConfOpts: ['enableScrollWheelZoom','enableDoubleClickZoom','enableDragging'],
+                        mapControls: ['GLargeMapControl','GMapTypeControl', 'GOverviewMapControl', 'NonExistantControl' ],
+                        title      : 'Carte de Paris',
+                        closable   : false,
+                        setCenter: {//paris
+                            lat: 48.85436, 
+                            lng: 2.348156
+                        }                        
+                    };
     
-    
+    this.gmapWindow = new Ext.Window({
+        id         : 'lieu-editor-gmap-window',
+        layout     : 'fit',
+        width      : 900,
+        height     : 650,
+        closeAction: 'hide',
+        plain      : true,
+        items      : [gmapPanel],
+        buttons: [{
+            text: 'Close',
+            handler: function(button, event){
+                Ext.getCmp('lieu-editor-gmap-window').hide();
+            }
+        }]
+    });
     
 /***************************STORE**************************************************/    
     var lieuGridDataStore = new Ext.data.Store({
@@ -65,6 +107,11 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
               rowdblclick : function(theGrid, rowIndex, e )
               {
                 var rowData = theGrid.store.getAt(rowIndex).data;
+                if(rowData.idLieu == 0)
+                {
+                  alert('Cette ligne n\'est pas modifiable et est présente pour des raisons techniques.');
+                  return;
+                }
                 lieuEditor.editLieu(rowData.idLieu)
               }
             },
@@ -147,6 +194,7 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                }
             ],
             bbar: {
+                   id: 'lieuEditorGridPagingToolbar',
                 xtype: 'paging',
           pageSize   : 10,
           store      : lieuGridDataStore,
@@ -176,20 +224,13 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                      style :'padding-right:15px;padding-left:5px;'
                   },
                   {
-                    id           :'LieuGridToolbar-idTypeLieu',
-                    xtype        : 'combo',
-                    fieldLabel   : 'Type Lieu',
-                    anchor       : '100%',
-                    mode         : 'local',
-                    typeAhead    : true,
-                    editable     : false,
-                    triggerAction: 'all',
-                    displayField : 'labelTypeLieu',
-                    valueField   : 'idTypeLieu',
+                    id           : 'LieuGridToolbar-idTypeLieu',
+                    xtype        : 'TypeLieuCombo',
                     store        : new Ext.data.ArrayStore({
-                        fields  : ['idTypeLieu', 'labelTypeLieu'],
-                        data    : crfIrpUtils.getListForSimpleStore('allTypeLieuOrdered'),
-                        idIndex : 0
+                        fields    : ['idTypeLieu', 'labelTypeLieu'],
+                        data      : crfIrpUtils.getListForSimpleStore('allTypeLieuOrdered'),
+                        idIndex   : 0,
+                        idProperty: 'idTypeLieu'
                     })
                   },
                   {
@@ -222,6 +263,17 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                      xtype  : 'tbfill'
                   },
                   {
+                     xtype     : 'button',
+                     text      : 'Effacer Critères',
+                     iconCls   : 'lieuEraseButton',
+                     handler    : function(){
+                      lieuEditor.eraseSearchCriteria();
+                     }
+                  },
+                  {
+                     xtype     : 'tbseparator'
+                  },
+                  {
                      xtype  : 'button',
                      text   : 'Rechercher',
                      iconCls: 'lieuSearchButton',
@@ -238,11 +290,20 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
 /***************************FORMULAIRE**************************************************/    
       this.items = [
          {
-            xtype       : 'panel' ,
-            height      : 175     ,
-            layout      : 'border',
-            hideBorders : false   ,
-            items       : [
+            id            : 'LieuEditorFormPanel',
+            xtype         : 'panel' ,
+            height        : 175     ,
+            layout        : 'border',
+            listeners    : {
+              render:function()
+              {
+                Ext.getCmp('LieuEditorFormPanel').collapse();
+              }
+            },            
+            hideBorders   : false   ,
+            collapseFirst : true    ,
+            collapsible   : true    ,
+            items         : [
                {
                   xtype       : 'form',
                   labelWidth  : 100   ,
@@ -263,18 +324,12 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                      },
                      {
                         id           : 'LieuEditor-idTypeLieu',
-                        xtype        : 'combo',
-                        fieldLabel   : 'Type Lieu',
-                        anchor       : '100%',
-                        mode         : 'local',
-                        typeAhead    : true,
-                        editable     : false,
-                        triggerAction: 'all',
-                        displayField : 'labelTypeLieu',
+                        xtype        : 'TypeLieuCombo',
                         store        : new Ext.data.ArrayStore({
-                            fields  : ['idTypeLieu', 'labelTypeLieu'],
-                            data    : crfIrpUtils.getListForSimpleStore('allTypeLieuOrdered'),
-                            idIndex : 0
+                           fields    : ['idTypeLieu', 'labelTypeLieu'],
+                           data      : crfIrpUtils.getListForSimpleStore('allTypeLieuOrdered'),
+                           idIndex   : 0,
+                           idProperty: 'idTypeLieu'
                         }),
                         listeners : {
                           focus:function()
@@ -292,6 +347,8 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         xtype     : 'textfield',
                         fieldLabel: 'Nom',
                         anchor    : '100%',
+                        maxLength : 100,
+                        defaultAutoCreate:{tag:'input',type:'text',autocomplete:'off', maxLength:100},
                         listeners : {
                           focus:function()
                           {
@@ -307,7 +364,10 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         id        : 'LieuEditor-telephone',
                         xtype     : 'textfield',
                         fieldLabel: 'Téléphone',
+                        defaultAutoCreate:{tag:'input',type:'text',autocomplete:'off', maxLength:10},
+                        maxLength : 10,
                         anchor    : '100%',
+                        maskRe    : /[0-9_]/i,
                         listeners : {
                           focus:function()
                           {
@@ -323,7 +383,10 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         id        : 'LieuEditor-mail',
                         xtype     : 'textfield',
                         fieldLabel: 'Mail',
+                        defaultAutoCreate:{tag:'input',type:'text',autocomplete:'off', maxLength:100},
+                        maxLength : 100,
                         anchor    : '100%',
+                        maskRe    : Ext.form.VTypes.emailMask,
                         listeners : {
                           focus:function()
                           {
@@ -340,6 +403,8 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         xtype     : 'textfield',
                         fieldLabel: 'web',
                         anchor    : '100%',
+                        defaultAutoCreate:{tag:'input',type:'text',autocomplete:'off', maxLength:300},
+                        maxLength : 300,
                         emptyText :'http://',
                         listeners : {
                           focus:function()
@@ -368,6 +433,8 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         id        : 'LieuEditor-address',
                         xtype     : 'textfield'         ,
                         fieldLabel: 'Adresse'           ,
+                        defaultAutoCreate:{tag:'input',type:'text',autocomplete:'off', maxLength:100},
+                        maxLength : 100,
                         anchor    : '100%',
                         listeners : {
                           focus:function()
@@ -376,7 +443,7 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                           },
                           blur:function()
                           {
-                            lieuEditor.updateStringField(this.id, 'addresse');
+                            lieuEditor.updateAddress(this.id, 'addresse');
                           }
                         }
                      },
@@ -384,6 +451,8 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         id        : 'LieuEditor-codePostal' ,
                         xtype     : 'textfield'             ,
                         fieldLabel: 'Code Postal'           ,
+                        defaultAutoCreate:{tag:'input',type:'text',autocomplete:'off', maxLength:5},
+                        maxLength : 5,
                         anchor    : '100%',
                         listeners : {
                           focus:function()
@@ -392,15 +461,17 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                           },
                           blur:function()
                           {
-                            lieuEditor.updateStringField(this.id, 'codePostal');
+                            lieuEditor.updateAddress(this.id, 'codePostal');
                           }
                         }
                      },
                      {
                         id        : 'LieuEditor-ville'      ,
                         xtype     : 'textfield'             ,
-                        fieldLabel: 'Ville'                 ,
+                        fieldLabel: 'Ville <img style="height: 16px; width: 16px;" alt="pix" src="../img/pix.png" id="googleAdressCheckStatus">'                 ,
                         anchor    : '100%',
+                        defaultAutoCreate:{tag:'input',type:'text',autocomplete:'off', maxLength:100},
+                        maxLength : 100,
                         listeners : {
                           focus:function()
                           {
@@ -408,7 +479,7 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                           },
                           blur:function()
                           {
-                            lieuEditor.updateStringField(this.id, 'ville');
+                            lieuEditor.updateAddress(this.id, 'ville');
                           }
                         }
                      },
@@ -424,6 +495,7 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         xtype     : 'textarea'                      ,
                         fieldLabel: 'Info Complémentaires'          ,
                         anchor    : '100%',
+                        maxLength : 1000,
                         listeners : {
                           focus:function()
                           {
@@ -462,7 +534,8 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
    },
    rechercher:function()
    {
-     Ext.getCmp('LieuGrid').getStore().reload();
+     Ext.getCmp('lieuEditorGridPagingToolbar').moveFirst();
+     Ext.getCmp('LieuGrid'                   ).getStore ().reload();
    },
    resetForm:function()
    {
@@ -488,6 +561,7 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
      Ext.get('LieuEditor-id').highlight();
      Ext.get('LieuEditor-id').dom.value=idLieu;
      crfIrpUtils.resetToolbar('lieuEditorToolbar', Ext.ux.Home.LieuEditorUi.toolbars.createToolbar);
+     Ext.getCmp('LieuEditorFormPanel').expand();
    },
    editLieu:function(idLieu)
    {
@@ -515,12 +589,10 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
      {
         crfIrpUtils.resetToolbar('lieuEditorToolbar', Ext.ux.Home.LieuEditorUi.toolbars.toolbarForDisabledLieu);
      }
-     
-   },
-   enableLieu:function()
-   {
-                    
-                    
+     Ext.getCmp('LieuEditorFormPanel').expand();
+  },
+  enableLieu:function()
+  {
     if(this.formValidationWindow == null)
     {
       this.formValidationWindow = new Ext.ux.Utils.FormValidationWindow({
@@ -555,9 +627,6 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
       
       fieldInputError =  error || fieldInputError;
     }
-    
-    
-      
   
     if(fieldInputError)
     {
@@ -570,38 +639,122 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
     }                  
                     
   
+  },
+  doEnableLieu:function()
+  {
+    LieuEditorService.enableLieu (Ext.get('LieuEditor-id'                ).dom.value, this.enableLieuReturn);
+  },
+  enableLieuReturn:function()
+  {
+    crfIrpUtils.resetToolbar('lieuEditorToolbar', Ext.ux.Home.LieuEditorUi.toolbars.toolbarForEnabledLieu);
+    lieuEditor.rechercher();
+  },
+  disableLieu:function()
+  {
+    LieuEditorService.disableLieu(Ext.get('LieuEditor-id'                ).dom.value, this.disableLieuReturn);
+  },
+  disableLieuReturn:function()
+  {
+    crfIrpUtils.resetToolbar('lieuEditorToolbar', Ext.ux.Home.LieuEditorUi.toolbars.toolbarForDisabledLieu);
+    lieuEditor.rechercher();
+  },
+  deleteLieu:function()
+  {
+    LieuEditorService.deleteLieu(Ext.get('LieuEditor-id'                ).dom.value, this.deleteLieuReturn);
+  },
+  deleteLieuReturn:function()
+  {
+    lieuEditor.resetForm ();
+    lieuEditor.eraseSearchCriteria();
+    lieuEditor.rechercher();
+    lieuEditor.closeLieu ();
+  },
+  closeLieu:function()
+  {
+    this.resetForm();
+    Ext.getCmp('LieuEditorFormPanel').collapse();
+     crfIrpUtils.resetToolbar('lieuEditorToolbar',[]);
+  },
+  eraseSearchCriteria:function()
+  {
+    Ext.getCmp('LieuGridToolbar-idTypeLieu').setValue(0);
+    Ext.getCmp('LieuGridToolbar-nom'       ).setValue('');
+    Ext.getCmp('LieuGridToolbar-codePostal').setValue('');
+
+  },
+  watchOnGoogleMaps:function()
+  {
+    var gps = $('LieuEditor-gps').value;
+    
+    if(gps == null || gps == "" || gps ==","|| gps =="0,0")
+    {
+      alert('Afin de pouvoir visualiser l\'adresse sur google maps, il faut des coordonnées GPS valides');
+      return false;
+    }
+    var gpsArray = gps.split(',');
+    
+    this.gmapWindow.show  ();
+    this.gmapWindow.center();
+    var map = Ext.getCmp('lieu-editor-gmap-panel');
+    map.goTo(gpsArray[0], gpsArray[1]);
+    map.addMarker(gpsArray[0], 
+                  gpsArray[1], 
+                  null, 
+                  'lieu_cat_'+$('LieuEditor-idTypeLieu').value, 
+                  true,
+                  $('LieuEditor-nom').value, 
+                  $('LieuEditor-codePostal').value+' '+$('LieuEditor-address').value, 
+                  $('LieuEditor-id').value);
+    
    },
-   doEnableLieu:function()
+   updateAddress:function(fieldId, fieldName)
    {
-      LieuEditorService.enableLieu (Ext.get('LieuEditor-id'                ).dom.value, this.enableLieuReturn);
-   },
-   enableLieuReturn:function()
-   {
-     crfIrpUtils.resetToolbar('lieuEditorToolbar', Ext.ux.Home.LieuEditorUi.toolbars.toolbarForEnabledLieu);
-     this.rechercher();
-   },
-   disableLieu:function()
-   {
-     LieuEditorService.disableLieu(Ext.get('LieuEditor-id'                ).dom.value, this.disableLieuReturn);
-   },
-   disableLieuReturn:function()
-   {
-      crfIrpUtils.resetToolbar('lieuEditorToolbar', Ext.ux.Home.LieuEditorUi.toolbars.toolbarForDisabledLieu);
-      this.rechercher();
-   },
-   deleteLieu:function()
-   {
-     LieuEditorService.deleteLieu(Ext.get('LieuEditor-id'                ).dom.value, this.deleteLieuReturn);
-   },
-   deleteLieuReturn:function(deleteStatus)
-   {
-     this.resetForm();
-     this.rechercher();
-   },
-   watchOnGoogleMaps:function()
-   {
-     alert('Todo');
-   },
+    var rue       =$('LieuEditor-address'   );
+    var codePostal=$('LieuEditor-codePostal');
+    var ville     =$('LieuEditor-ville'     );
+  
+    rue       .value=rue       .value.strip();
+    codePostal.value=codePostal.value.strip();
+    ville     .value=ville     .value.strip();
+  
+    this.updateStringField(fieldId, fieldName);
+    
+    if( rue       .value != '' && rue       .oldValue != rue       .value &&
+        codePostal.value != '' && codePostal.oldValue != codePostal.value &&
+        ville     .value != '' && ville     .oldValue != ville     .value   )
+    {// valeur non vide et non différente de la précédente valeur
+      googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
+                                                          codePostal.value +', '+
+                                                          ville     .value,
+                                                          this.updateAddressReturn,
+                                                          this.updateAddressErrorReturn);
+    }
+  },
+  updateAddressReturn:function(place)
+  {
+    var coordinates = place.Point.coordinates;
+    //ATTENTION, visiblement, les coordonnées google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisé partout ailleurs dans l'ordre (Latitude,Longitude)
+    $('LieuEditor-gps').value=coordinates[1]+','+coordinates[0];
+    if(consoleEnabled)
+      console.log("coordinates for intervention id='"+$('LieuEditor-id').value+"' are : '"+coordinates[1]+"', '"+coordinates[0]+"'");
+  
+    
+    LieuEditorService.updateGoogleCoordinates(coordinates[1], coordinates[0], $('LieuEditor-id').value, lieuEditor.updateAddressSaveReturn);
+  
+    $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/cog.png";
+  },
+  updateAddressSaveReturn:function()
+  {
+    $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/accept.png";
+  },
+  updateAddressErrorReturn:function(response)
+  {
+    if(consoleEnabled)
+      console.log("Google Maps error",response);
+    
+    var icon = response.Status.code=='GoogleMapsUnavailable'?'disconnect':'exclamation';
+    $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/"+icon+".png";
+  },
    updateStringField:function(fieldId, fieldName, objectIdForGraphicalEffect){
       if(!objectIdForGraphicalEffect)
         objectIdForGraphicalEffect = fieldId;
@@ -719,6 +872,19 @@ Ext.ux.Home.LieuEditorUi.toolbars     = {
     },
     {
        xtype  : 'button',
+       text   : 'Fermer',
+       iconCls: 'lieuCloseButton',
+       handler: function()
+       {
+        lieuEditor.closeLieu();
+       }
+       
+    },
+    {
+       xtype: 'tbseparator'
+    },
+    {
+       xtype  : 'button',
        text   : 'Supprimer',
        iconCls: 'lieuDeleteButton',
        handler: function()
@@ -757,6 +923,19 @@ toolbarForEnabledLieu : [
   },
   {
      xtype  : 'button',
+     text   : 'Fermer',
+     iconCls: 'lieuCloseButton',
+     handler: function()
+     {
+      lieuEditor.closeLieu();
+     }
+     
+  },
+  {
+     xtype: 'tbseparator'
+  },
+  {
+     xtype  : 'button',
      text   : 'Supprimer',
      iconCls: 'lieuDeleteButton',
        handler: function()
@@ -791,6 +970,19 @@ toolbarForDisabledLieu : [
   },
   {
      xtype: 'tbfill'
+  },
+  {
+     xtype  : 'button',
+     text   : 'Fermer',
+     iconCls: 'lieuCloseButton',
+     handler: function()
+     {
+      lieuEditor.closeLieu();
+     }
+     
+  },
+  {
+     xtype: 'tbseparator'
   },
   {
      xtype  : 'button',

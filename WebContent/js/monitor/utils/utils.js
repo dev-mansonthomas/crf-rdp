@@ -213,11 +213,20 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   }
   
   tmpList = allList['Delegations'];
-  newList = Array();
+  newList       = Array();
+  newListIndexed= Array();
   for(var i=0,countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
-    newList[tmpList[i].idDelegation]={id:tmpList[i].idDelegation, label:tmpList[i].nom+' ('+tmpList[i].departement+')'};
+  {
+    var oneItem      = tmpList[i];
+    var idDelegation = oneItem.idDelegation;
+    
+    newList       [i           ]={id:idDelegation, label:oneItem.departement+' - '+oneItem.nom};
+    newListIndexed[idDelegation]={id:idDelegation, label:oneItem.departement+' - '+oneItem.nom};
+  }
+    
 
-  CrfIrpUtils.prototype.allList['Delegations']=newList; 
+  CrfIrpUtils.prototype.allList['DelegationsSorted']=newList       ; 
+  CrfIrpUtils.prototype.allList['Delegations'      ]=newListIndexed;
   
   PageBus.publish("list.loaded", null);
 };
@@ -293,7 +302,7 @@ CrfIrpUtils.prototype.getListForSimpleStore=function(listId)
     var list = CrfIrpUtils.prototype.allList[listId];
     for(i=0;i<list.length;i++)
     {
-      array[i+1]=[list[i].id,list[i].label];
+      array[i]=[list[i].id,list[i].label];
     }
     return array;
   }

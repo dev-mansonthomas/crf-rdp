@@ -8,7 +8,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
   <title>Saisie - CRF - Régulation De Paris</title>
-
+  <link rel="icon" href="<%=contextPath%>/img/favicon-crf.png" type="image/png"/> 
   <jwr:style src="/cssBundle/monitorInput.css"/>
 
   <link rel="shortcut icon" href="../../img/famfamfam/table_edit.png" type="image/png">

@@ -18,11 +18,19 @@
   background-image:url(../../img/famfamfam/world.png) !important;
 }
 
+.lieuCloseButton
+{
+  background-image:url(../../img/famfamfam/cross.png) !important;
+}
+  
 .lieuDeleteButton
 {
   background-image:url(../../img/famfamfam/world_delete.png) !important;
 }
-
+.lieuEraseButton
+{
+  background-image:url(../../img/famfamfam/page_white.png) !important;
+}
 .lieuSearchButton
 {
   background-image:url(../../img/famfamfam/find.png) !important;

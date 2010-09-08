@@ -8,7 +8,8 @@
 <html>
 	<head>
 	  <title>Croix Rouge Française - Régulation de Paris - Login</title>
-    <jwr:style src="/cssBundle/login.css"/>
+    <link rel="icon" href="<%=contextPath%>/img/favicon-crf.png" type="image/png"/> 
+    <jwr:style src="/cssBundle/login.css"/>    
 	</head>
 	<body>
     <div id="RegulationParis">
@@ -20,6 +21,8 @@
 var loginError   =false;
 var userName='';
 </script>
+
+
 <%
 if(error)
 {

@@ -31,22 +31,6 @@ import fr.croixrouge.rdp.services.intervention.InterventionService;
 
 public class DispositifImpl extends JDBCHelper implements DispositifService
 {
-  public final static int STATUS_INDISPO_EQUIPAGE_INCOMPLET = -3; //indispo equipage incomplet
-  public final static int STATUS_INDISPO_MATERIEL_INCOMPLET = -2; //indispo materiel incomplet
-  public final static int STATUS_INDISPO                    = -1; //indispo
-  public final static int STATUS_NA                         = 0 ; //N/A
-  public final static int STATUS_DISPO                      = 1 ; //dispo
-  public final static int STATUS_INTERVENTION_AFFECTEE      = 2 ; //intervention affecté
-  public final static int STATUS_PARTI                      = 3 ; //Parti
-  public final static int STATUS_SUR_PLACE                  = 4 ; //Sur place
-  public final static int STATUS_PRIMAIRE                   = 5 ; //Primaire
-  public final static int STATUS_SECONDAIRE                 = 6 ; //Secondaire
-  public final static int STATUS_TRANSPORT                  = 7 ; //transport
-  public final static int STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
-  
-  
-  
-  
   private static Log          logger              = LogFactory.getLog(DispositifImpl.class);
   private JdbcTemplate        jdbcTemplate        = null;
   private EquipierService     equipierService     = null;
@@ -293,7 +277,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
    
   public void actionOnDispositif(int idDispositif, int newIdEtat, Date actionDate) throws Exception
   {
-    if((newIdEtat<3  || newIdEtat>9) && newIdEtat != 1)
+    if((newIdEtat<STATUS_PARTI  || newIdEtat>STATUS_INTER_TERMINEE) && newIdEtat != STATUS_DISPO)
       throw new Exception("Cette action n'est pas gérée par la méthode DispositifImpl.actionOnDispositif. idDispositif="+idDispositif+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
    
     String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
@@ -313,7 +297,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   private final static String queryForActionEndOfIntervention = 
     "UPDATE dispositif                            \n" +
-    "SET    id_etat_dispositif             = -1,  \n" +
+    "SET    id_etat_dispositif             = "+STATUS_INDISPO+",  \n" +
     "       `DH_reception`                 = NULL,\n" +
     "       `DH_depart`                    = NULL,\n" +
     "       `DH_sur_place`                 = NULL,\n" +
@@ -625,7 +609,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "    `contact_alphapage`          , `identite_medecin`      , `id_etat_dispositif`, `id_current_intervention` , `display_state`    ,\n"+
     "    `creation_terminee`\n"+
     "  )\n"+
-    "VALUES (0, ?, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,'', false, false, false, 'N/A', 0, '', ?, ?, 0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', -1, 0, 0, false)\n";
+    "VALUES (0, ?, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,'', false, false, false, 'N/A', 0, '', ?, ?, 0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', "+STATUS_INDISPO+", 0, 0, false)\n";
   
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public Dispositif createEmptyDispositif(Regulation regulation) throws Exception

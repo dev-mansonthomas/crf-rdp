@@ -1,4 +1,19 @@
- var DispositifRecord = Ext.data.Record.create(
+var STATUS_INDISPO                    = 0; //indispo
+var STATUS_DISPO                      = 1 ; //dispo
+var STATUS_INTERVENTION_AFFECTEE      = 2 ; //intervention affecté
+var STATUS_PARTI                      = 3 ; //Parti
+var STATUS_SUR_PLACE                  = 4 ; //Sur place
+var STATUS_PRIMAIRE                   = 5 ; //Primaire
+var STATUS_SECONDAIRE                 = 6 ; //Secondaire
+var STATUS_TRANSPORT                  = 7 ; //transport
+var STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
+var STATUS_INTER_TERMINEE             = 9 ; //Intervention Terminée
+var STATUS_VACATION_TERMINEE          = 10; //Vacation Terminée
+
+
+
+
+var DispositifRecord = Ext.data.Record.create(
                          {name: 'idDispositif'                                  , mapping: 'idDispositif'                                  },
                          {name: 'idTypeDispositif'                              , mapping: 'idTypeDispositif'                              },
                          {name: 'idEtatDispositif'                              , mapping: 'idEtatDispositif'                              },
@@ -28,10 +43,7 @@
 var MonitorOutputDispositifCs = Class.create();
 
 MonitorOutputDispositifCs.prototype.boutonActionLabel=[];//next state             current state         
-MonitorOutputDispositifCs.prototype.boutonActionLabel[-3]="Disponible"        ; //indispo equipage incomplet
-MonitorOutputDispositifCs.prototype.boutonActionLabel[-2]="Disponible"        ; //indispo materiel incomplet
-MonitorOutputDispositifCs.prototype.boutonActionLabel[-1]="Disponible"        ; //indispo
-MonitorOutputDispositifCs.prototype.boutonActionLabel[0 ]="Disponible"        ; //N/A
+MonitorOutputDispositifCs.prototype.boutonActionLabel[0 ]="Disponible"        ; //Indisponible
 MonitorOutputDispositifCs.prototype.boutonActionLabel[1 ]="Changer de statut" ; //dispo
 MonitorOutputDispositifCs.prototype.boutonActionLabel[2 ]="Départ"            ; //intervention affecté
 MonitorOutputDispositifCs.prototype.boutonActionLabel[3 ]="Arrivé sur place"  ; //Parti
@@ -147,6 +159,8 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
         }
     });
   dispositifGrid.getStore().load();
+  
+  
 };
 
 /**
@@ -707,15 +721,33 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
                        intervention.position.rue          +', '+
                        intervention.position.codePostal   +", "+
                        intervention.position.ville        ;
-      //Ajout du marker représentant la victime
-        map.addMarker(intervention.position.googleCoordsLat , 
-                      intervention.position.googleCoordsLong, 
-                      null, 
-                      category, 
-                      false, 
-                      title, 
-                      html,
-                      intervention.idIntervention);
+                       
+        
+  
+        if(dispositif.idEtatDispositif >= STATUS_TRANSPORT)
+        {//Transport et ultérieurs => on retire la victime de google maps
+          var map           = Ext.getCmp('center-carte-paris-panel');
+          var category      = 'lieu_cat_'+8;
+          var interventions = dispositif.interventions;
+          
+          for(var i=0,counti =interventions.length;i<counti;i++)
+          {
+            map.removeMarkerById(category,  interventions[i].idIntervention);
+          }
+        }
+        else
+        {
+          //Avant le transport on doit afficher la victime sur la carte.
+          map.addMarker(intervention.position.googleCoordsLat , 
+                        intervention.position.googleCoordsLong, 
+                        null, 
+                        category, 
+                        false, 
+                        title, 
+                        html,
+                        intervention.idIntervention);
+          
+        }
         
         
       }       
@@ -846,6 +878,20 @@ MonitorOutputDispositifCs.prototype.doCloneInterventionReturn=function()
  * 
  * Gere le clique sur le bouton Action
  * Le libellé du bouton n'est pas changé par cette méthode, mais lors de la mise a jours du dispositif par reverse Ajax
+ * 
+ * 
+ * 
+var STATUS_INDISPO                    = 0; //indispo
+var STATUS_DISPO                      = 1 ; //dispo
+var STATUS_INTERVENTION_AFFECTEE      = 2 ; //intervention affecté
+var STATUS_PARTI                      = 3 ; //Parti
+var STATUS_SUR_PLACE                  = 4 ; //Sur place
+var STATUS_PRIMAIRE                   = 5 ; //Primaire
+var STATUS_SECONDAIRE                 = 6 ; //Secondaire
+var STATUS_TRANSPORT                  = 7 ; //transport
+var STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
+var STATUS_INTER_TERMINEE             = 9 ; //Intervention Terminée
+var STATUS_VACATION_TERMINEE          = 10; //Vacation Terminée
  * */
 MonitorOutputDispositifCs.prototype.action          =function(buttonId)
 {
@@ -858,14 +904,14 @@ MonitorOutputDispositifCs.prototype.action          =function(buttonId)
   var idDispositif      = dispositifRecord.json.idDispositif;
 
   var sendActionToServerNow = true;
-  if     (currentState == 4)//Etat : Sur Place, doit afficher le formulaire de primaire
+  if     (currentState == STATUS_SUR_PLACE)//Etat : Sur Place, doit afficher le formulaire de primaire
   {
     if(interventionsCount == 1)
       MonitorOutputDispositifCs.prototype.editIntervention(interventions[0].idIntervention);
     else
     {//on va faire saisir les bilans les uns à la suite des autres. Une fois que tout les bilans sont passé, on change le status du dispositif
     
-      var inter = this.findInterWithEtat(interventions, 4);
+      var inter = this.findInterWithEtat(interventions, STATUS_SUR_PLACE);
       
       if(inter == null)
       {// toutes les inters ont leur primaire de passé, on change le status du dispositif
@@ -876,13 +922,13 @@ MonitorOutputDispositifCs.prototype.action          =function(buttonId)
       MonitorOutputDispositifCs.prototype.editIntervention(inter.idIntervention);
     }
   }
-  else if(currentState == 5)//Etat : Primaire, doit afficher le formulaire de primaire
+  else if(currentState == STATUS_PRIMAIRE)//Etat : Primaire, doit afficher le formulaire de primaire
   {
     if(interventionsCount == 1)
       MonitorOutputDispositifCs.prototype.editIntervention(interventions[0].idIntervention, 'BilanSecouristInitial');
     else
     {
-      var inter = this.findInterWithEtat(interventions, 5);
+      var inter = this.findInterWithEtat(interventions, STATUS_PRIMAIRE);
       
       if(inter == null)
       {// toutes les inters ont leur secondaire de passé, on change le status du dispositif
@@ -894,7 +940,7 @@ MonitorOutputDispositifCs.prototype.action          =function(buttonId)
       MonitorOutputDispositifCs.prototype.editIntervention(inter.idIntervention, 'BilanSecouristInitial');
     }
   }
-  else if(currentState == 6)//Etat : Secondaire Passé, quand on appuie sur le bouton action, on doit choisir l'hopital destination
+  else if(currentState == STATUS_SECONDAIRE)//Etat : Secondaire Passé, quand on appuie sur le bouton action, on doit choisir l'hopital destination
   {
     $('choose-hopital-window-current-dispositif'  ).value=idDispositif;
 //    $('choose-hopital-window-current-intervention').value=interventions[0].idIntervention;//TODO supprimer cette donnée, inutile toutes les victimes evacué sur le meme hopital
@@ -914,34 +960,88 @@ MonitorOutputDispositifCs.prototype.action          =function(buttonId)
   
   var callMetaData = {
     callback:MonitorOutputDispositifCs.prototype.actionReturn,
-    arg :{idDispositif    : idDispositif }
+    arg :{
+      idDispositif    : idDispositif, 
+      interventions   : interventions, 
+      currentState    : currentState
+     }
   };
   
   if(sendActionToServerNow == true)//on n'envoie pas dans les cas suivant:  choix de l'hopital, et si plus d'une intervention lors du primaire et secondaire
   {
-    if(currentState != 8 && interventions.length != 0)
+    if(currentState != STATUS_ARRIVE_HOSPITAL && interventions.length != 0 || currentState == STATUS_INDISPO)
     {
       MonitorOutputDispositif.actionOnDispositif(idDispositif, callMetaData);
     }
-    else if(currentState == 8)
-    {
+    else if(currentState == STATUS_ARRIVE_HOSPITAL)
+    {// etat actuel : arrivée  à l'hopital => prochaine état :inter terminée
       MonitorOutputDispositif.endOfIntervention (idDispositif, callMetaData);
     }
-    else if(currentState <= 0)
+    else if(currentState > STATUS_INTER_TERMINEE)
     {
-      MonitorOutputDispositif.actionOnDispositif(idDispositif, callMetaData);
+      if(consoleEnabled)
+        console.log("currentState='"+currentState+"' => bizarre");
     }
     else if(interventions.length == 0)
     {
-      alert('TODO : presenter le liste des options possible');
-      //TODO : présenter liste d'option possible
+      moDispositifCs.displayChooseEtatWindow(idDispositif, interventions, currentState,'Veuillez choisir un nouvel état pour le dispositif:');
     }
   }
 };
 
-MonitorOutputDispositifCs.prototype.actionReturn     =function(newIdEtatDispositif, metaData)
+MonitorOutputDispositifCs.prototype.displayChooseEtatWindow=function(idDispositif, interventions, currentState, message)
 {
-  //alert('New Etat ' + newIdEtatDispositif + ' for dispositif : '+metaData.idDispositif+' intervention : '+metaData.idIntervention);
+    //choix de l'état
+  if( MonitorOutputDispositifCs.prototype.chooseEtatWindow == null)
+  {
+     MonitorOutputDispositifCs.prototype.chooseEtatWindow = new Ext.ux.Monitor.Out.ChangeDispositifStatusWindow();
+  }
+  
+  MonitorOutputDispositifCs.prototype.chooseEtatWindow.showChangeStatus(idDispositif, interventions, currentState, message);
+};
+
+
+MonitorOutputDispositifCs.prototype.actionReturn     =function(data, metaData)
+{
+  /*
+   * l'eval initialise une variable 
+   * actionReturnStatus
+   * avec
+   * actionReturnStatus.status  : etat de l'action 0 : ok, >0 erreur de status d'intervention/dispo <0 erreur inconnue
+   * actionReturnStatus.message : message d'erreur
+   * */
+  try
+  {
+    eval(data);
+  }
+  catch(e)
+  {
+    if(consoleEnabled)
+      console.log("erreur lors du parse de la réponse a la méthode action data=¤"+data+"¤",e);
+  }
+
+  if(actionReturnStatus != null)//initialisé dans le eval.
+  {
+    if(actionReturnStatus.status > 0)
+    {
+      var message = 'Ooopppsss, un problème est survenue. Si vous savez comment reproduire le problème merci de le signaler.<br/><br/>'+actionReturnStatus.message+'<br/><br/>Veuilez choisir l\'état aproprié pour le dispositif et ses interventions:';
+      moDispositifCs.displayChooseEtatWindow(metaData.idDispositif, metaData.interventions, metaData.currentState, message);
+    }
+    else if(actionReturnStatus.status < 0)
+    {
+      Ext.Msg.alert('Erreur Inconnue =&gt; Merci de signaler l\'incident', "L'erreur suivante est survenue : "+actionReturnStatus.message);
+    }
+    else
+    {//status == 0 => OK
+      
+    }
+  }
+  else
+  {
+    if(consoleEnabled)
+      console.log("Status is null : data=¤"+data+"¤");
+  }
+  
 };
 
 MonitorOutputDispositifCs.prototype.findInterWithEtat=function(interventions, idEtat)
@@ -1008,12 +1108,15 @@ MonitorOutputDispositifCs.prototype.chooseEvacDestination=function(idLieu, label
   MonitorOutputDispositifCs.prototype.chooseHopitalWindow.hide('DispositifActionButton_'+idDispositif);
 };
 
-MonitorOutputDispositifCs.prototype.showDispositif  =function(idDispositif, latitude, longitude){
-  alert(idDispositif+' '+latitude+' '+longitude);
-};
-
-MonitorOutputDispositifCs.prototype.showItinary  =function(idDispositif, latitudeStart, longitudeStart, latitudeEnd, longitudeEnd){
-  alert(idDispositif+' '+latitudeStart+' '+longitudeStart+' '+latitudeEnd+' '+longitudeEnd);
+MonitorOutputDispositifCs.prototype.showDispositif  =function(recordId, googleCoordsLat, googleCoordsLong)
+{
+  var dispositifRecord  = Ext.getCmp('DispositifListGrid').getStore().getById(recordId);
+  
+  Ext.getCmp('monitorOutputCenterRegion').activate(1);
+  
+  var map               = Ext.getCmp('center-carte-paris-panel');
+  map.focusMarker('lieu_cat_'+9, dispositifRecord.data.idDispositif);
+  
 };
 
 
@@ -1079,11 +1182,11 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
   var recordIndex = 0;
   if(queryResult!= null && queryResult.length > 0 && queryResult.get(0).data.idDispositif == dispositif.idDispositif)
   {
-    var record = queryResult.get(0);
+    var record  = queryResult.get(0);
     recordIndex = store.indexOfId(record.id);
     store.remove(record);
   }
-  store.insert(recordIndex, newDispositif);
+  store.insert(recordIndex, newDispositif);  
 };
 
 
@@ -1175,7 +1278,7 @@ detailIntervention,
 
 (!record.json.currentPosition.empty?
   ['            <span><b>Adresse Courante/Destination :</b> </span><span>',record.json.currentPosition.rue ,', '+record.json.currentPosition.codePostal ,', '+record.json.currentPosition.ville ,'</span>',
-   '            <img src="',contextPath,'/img/famfamfam/map_magnify.png" class="crfIcon" onClick="moDispositifCs.showDispositif(',record.data.idDispositif,',',record.json.currentPosition.googleCoordsLat ,',',record.json.currentPosition.googleCoordsLong ,')"/>'].join('')
+   '            <img src="',contextPath,'/img/famfamfam/map_magnify.png" class="crfIcon" onClick="moDispositifCs.showDispositif(\'',record.id,'\',',record.json.currentPosition.googleCoordsLat ,',',record.json.currentPosition.googleCoordsLong ,')"/>'].join('')
   :''),
 
 '          </td>',
@@ -1183,7 +1286,7 @@ detailIntervention,
 
 (!record.json.previousPosition.empty?
  ['            <span><b>Adresse Précédente  :</b> </span><span>',record.json.previousPosition.rue,', '+record.json.previousPosition.codePostal,', '+record.json.previousPosition.ville,'</span>',
-  '            <img src="',contextPath,'/img/famfamfam/map_magnify.png" class="crfIcon" onClick="moDispositifCs.showDispositif(',record.data.idDispositif,',',record.json.previousPosition.googleCoordsLat,',',record.json.previousPosition.googleCoordsLong,')"/>'].join('')
+  '            <img src="',contextPath,'/img/famfamfam/map_magnify.png" class="crfIcon" onClick="moDispositifCs.showDispositif(\'',record.id,'\',',record.json.previousPosition.googleCoordsLat,',',record.json.previousPosition.googleCoordsLong,')"/>'].join('')
   :''),
 
 '          </td>',
@@ -1191,7 +1294,7 @@ detailIntervention,
 '      </table>',
 '    </td>',
 '    <td style="border-top:solid #9D9D9D 1px;">',
-'      <b>Itinéraire Google :</b> <img src="',contextPath,'/img/famfamfam/map_go.png" class="crfIcon"  onClick="moDispositifCs.showItinary(',record.data.idDispositif,',',record.json.previousPosition.googleCoordsLat,',',record.json.previousPosition.googleCoordsLong,',',record.json.currentPosition.googleCoordsLat ,',',record.json.currentPosition.googleCoordsLong,')"/>',
+'',//TODO : bouton d'option diverse a implémenter
 '    </td>',
 '  </tr>',
 '</table>'];
@@ -1220,12 +1323,12 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
     var intervention       = interventions[i];
     var etat = '';
     
-    if(intervention.idEtat==4 || intervention.idEtat==5)
+    if(intervention.idEtat==STATUS_SUR_PLACE || intervention.idEtat==STATUS_PRIMAIRE)
     {
       etat = '<div>';
-      if(intervention.idEtat==4)
+      if(intervention.idEtat==STATUS_SUR_PLACE)
         etat += 'Primaire à Passer';
-      else if(intervention.idEtat==5)
+      else if(intervention.idEtat==STATUS_PRIMAIRE)
         etat += 'Secondaire à Passer';
       etat += '</div>';    
     }
@@ -1268,3 +1371,140 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
 
   return html.join('');
 };
+
+
+
+Ext.namespace('Ext.ux.Monitor.Out.ChangeDispositifStatusWindow');
+
+Ext.ux.Monitor.Out.ChangeDispositifStatusWindow = Ext.extend(Ext.Window,
+    {
+      id          : 'choose-etat-windowCmp',
+      layout      : 'border'             ,
+      title       : 'Changer l\'état du Dispositif',
+      width       : 500               ,
+      height      : 220               ,
+      x           : 300               ,
+      y           : 35                ,
+      closeAction : 'hide'            ,
+      plain       : true              ,
+      buttons     : [{
+          text: 'Annuler',
+          handler: function(button, event){
+              Ext.getCmp('choose-etat-windowCmp').hide();
+          }
+      },
+        {
+          text: 'Valider',
+          handler: function(button, event){
+
+            MonitorOutputDispositif.updateEtatDispositif( Ext.getCmp('choose-etat-windowCmp').idDispositif,
+                                                          Ext.getCmp('DispositifNewState'   ).getValue(),
+                                                          function()
+                                                          {
+                                                            Ext.getCmp('choose-etat-windowCmp').hide();
+                                                          });
+          }
+      }],
+      initComponent:function()
+      {
+        var messagePanel = {
+          id              : 'choose-etat-window-message-panel',
+          xtype           : 'panel',
+          baseCls         : 'x-plain',
+          region          : 'north',
+          html            : 'Loading...',
+          height          : 95,
+          minSize         : 95
+        };
+        var formPanel =
+        {
+          baseCls         : 'x-plain',
+          xtype           : 'form',
+          standardSubmit  : true,
+          bodyStyle       : 'background:#f9f9f9 none; color:#222; padding:5px 35px;',
+          defaults        : {
+            width: 200
+          },
+          defaultType     : 'textfield' ,
+          frame           : false       ,
+          labelWidth      : 120         ,
+          region          : 'center'     ,
+          items           : [{
+              id            : 'DispositifNewState',
+              fieldLabel    : 'Nouvel Etat'       ,
+              name          : 'DispositifNewState',
+              xtype         : 'combo',
+              anchor        : '100%',
+              mode          : 'local',
+              typeAhead     : true,
+              editable      : false,
+              triggerAction : 'all',
+              displayField  : 'label',
+              valueField    : 'id',
+              selectOnFocus : true,
+              store         : new Ext.data.ArrayStore({
+                  fields    : ['id', 'label'],
+                  idIndex   : 0,
+                  idProperty: 'id'
+              })
+          }]
+        };
+        
+        Ext.apply(this, {
+          items: [messagePanel, formPanel]
+        });
+        Ext.ux.Monitor.Out.ChangeDispositifStatusWindow.superclass.initComponent.call(this);
+      },
+      showChangeStatus:function(idDispositif, interventions, currentState, message)
+      {
+        this.idDispositif  = idDispositif ;
+        this.interventions = interventions;
+        
+        this.lazyInit();
+        
+        var etatDispositifList = null;
+        
+        if(interventions == null || interventions.length==0)
+        {
+          etatDispositifList =this.etatDispositifWithoutIntervention;
+        }
+        else
+        {
+          etatDispositifList =this.etatDispositifWithIntervention;
+        }
+        
+        Ext.getCmp('DispositifNewState').getStore().loadData(etatDispositifList);
+        Ext.getCmp('DispositifNewState').setValue(currentState);        
+        this.show();
+        Ext.getCmp('choose-etat-window-message-panel').update(message);
+      },
+      lazyInit:function()
+      {
+        if(this.etatDispositifWithIntervention == null)
+        {
+          var etatDispositifList = crfIrpUtils.getListForSimpleStore('EtatsDispositif');
+          
+          this.etatDispositifWithIntervention   =[];
+          this.etatDispositifWithoutIntervention=[];
+          
+          var j=0;
+          var z=0;
+          
+          for(var i=0, count=etatDispositifList.length;i<count;i++)
+          {
+            if(i>=STATUS_INTERVENTION_AFFECTEE && i<STATUS_ARRIVE_HOSPITAL) // de inter affecté a transport (arrivé hopital pas possible, on pourrait passer de dispo a arriver a l'hopital sans avoir choisi l'hopital) 
+            {
+              this.etatDispositifWithIntervention[j++]=etatDispositifList[i];
+            }
+            
+            if(i==STATUS_INDISPO || i==STATUS_DISPO)
+            {//dispo, a sa base, ou indispo pour les dispositifs sans inter
+              this.etatDispositifWithoutIntervention[z++]=etatDispositifList[i];
+            }
+            
+          }
+        }
+      }
+    });
+
+Ext.reg('ChangeDispositifStatusWindow', Ext.ux.Monitor.Out.ChangeDispositifStatusWindow);

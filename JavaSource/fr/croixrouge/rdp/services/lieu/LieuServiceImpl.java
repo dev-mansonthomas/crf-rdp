@@ -42,7 +42,6 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
   private final static String selectForGetLieuType = 
     "SELECT   `id_type_lieu`,`num_ordre`, `label_type_lieu`,`icon_class_lieu`,`icon_lieu`,`icon_gmap_init`\n" +
     "FROM     `lieu_type`       \n" +
-    "WHERE    `id_type_lieu` > 0\n" +
     "ORDER BY `num_ordre` ASC   \n";
   
   public List<LieuType> getLieuType() throws Exception
@@ -92,13 +91,23 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
   
   private HashMap<String, String> whereMapForGetLieu = new HashMap<String, String>();
   {
+
     whereMapForGetLieu.put("idTypeLieu"       , "id_type_lieu" );
     whereMapForGetLieu.put("nom"              , "nom"          );
     whereMapForGetLieu.put("codePostal"       , "code_postal"  );
-    whereMapForGetLieu.put("id"               , "id_lieu"  );
   }
   
-  
+  private HashMap<String, String> sortMapForGetLieu = new HashMap<String, String>();
+  {
+    sortMapForGetLieu.put("idLieu"           , "id_lieu"      );
+    sortMapForGetLieu.put("idTypeLieu"       , "id_type_lieu" );
+    sortMapForGetLieu.put("nom"              , "nom"          );
+    sortMapForGetLieu.put("addresse"         , "addresse"     );
+    sortMapForGetLieu.put("ville"            , "ville"        );
+    sortMapForGetLieu.put("codePostal"       , "code_postal"  );
+    sortMapForGetLieu.put("id"               , "id_lieu"      );
+    sortMapForGetLieu.put("actif"            , "actif"        );
+  }
   public ListRange<Lieu> getLieux(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
     String queryForCountLieu  = "SELECT COUNT(1) \nFROM lieu\n";
@@ -169,7 +178,7 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     if(sortObjects!= null && sortObjects.length>0 && sortObjects[0] != null)
     {
       SortObject so = sortObjects[0];
-      String orderByField = whereMapForGetLieu.get(so.getName());
+      String orderByField = sortMapForGetLieu.get(so.getName());
       
       if(orderByField == null)
         throw new Exception("Invalid sort column '"+so.getName()+"'");
@@ -230,7 +239,12 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     List<Lieu> allLieu = this.getLieux();
     
     for (Lieu lieu : allLieu)
-      lieuSorted.get(lieu.getIdTypeLieu()+"").add(lieu);
+    {
+      List<Lieu> oneList = lieuSorted.get(lieu.getIdTypeLieu()+"");
+      if(oneList != null)
+        oneList.add(lieu);
+    }
+      
       
     this.cacheService.setObject("LieuSorted", lieuSorted);
  
@@ -241,9 +255,9 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
   }
   
   public static final String queryForSetEnableStatusOnLieu =
-    "UPDATE lieu      \n" +
-    "SET    actif  = ?\n" +
-    "WHERE  idLieu = ?\n";
+    "UPDATE lieu       \n" +
+    "SET    actif   = ?\n" +
+    "WHERE  id_lieu = ?\n";
   
   public void setEnableStatusOnLieu(int idLieu, boolean enabled) throws Exception
   {
@@ -257,6 +271,25 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     if(logger.isDebugEnabled())
       logger.debug("set enable='"+enabled+"' to lieu id='"+idLieu+"' (nbRowUpdated='"+nbRowUpdated+"'");
   }
+  
+  
+  public static final String queryForDeleteLieu =
+    "DELETE FROM lieu       \n" +
+    "WHERE  id_lieu = ?\n";
+  
+  public void deleteLieu(int idLieu) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("delete lieu id='"+idLieu+"'");
+    
+    int nbRowUpdated = this.jdbcTemplate.update(queryForDeleteLieu , 
+        new Object[]{idLieu       },
+        new int   []{Types.INTEGER});
+    
+    if(logger.isDebugEnabled())
+      logger.debug("delete lieu id='"+idLieu+"' (nbRowUpdated='"+nbRowUpdated+"'");
+  }
+  
   
   /*
    * 
@@ -407,6 +440,28 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     if(logger.isDebugEnabled())
       logger.debug("Lieu with id='"+idLieu+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
 
+  }
+  
+  
+  private final static String queryForUpdateGoogleCoordinates = 
+    "UPDATE lieu                   \n"+
+    "SET    google_coords_lat  = ?,\n"+
+    "       google_coords_long =?  \n"+
+    "WHERE  id_lieu            = ? \n";
+  
+  public void updateGoogleCoordinates(float latitude, float longitude, int idLieu) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Lieu with id='"+idLieu+"' has its coordinates (lat,long) beeing udpdated with values ('"+latitude+"','"+longitude+"')");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForUpdateGoogleCoordinates, 
+        new Object[]{latitude   , longitude  , idLieu}, 
+        new int   []{Types.FLOAT, Types.FLOAT, Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Lieu with id='"+idLieu+"' has its coordinates (lat,long) udpdated with values ('"+latitude+"','"+longitude+"') (line updated = '"+nbLineUpdated+"')");
+  
   }
 
   

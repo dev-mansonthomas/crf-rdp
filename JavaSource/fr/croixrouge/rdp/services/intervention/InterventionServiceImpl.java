@@ -435,10 +435,30 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     if(logger.isDebugEnabled())
       logger.debug("Intervention with id='"+idIntervention+"' idDispositif='"+idDispositif+"', dateAffectation='"+dateAffectation+"', idMetierIntervention='"+idMetierIntervention+"' (line updated = '"+nbLineUpdated+"')");
+  }
+
+  
+  /*identique a la requete précédente, sauf qu'on ne recalcule pas d'idMetier, puisque c'est une réaffecation.*/  
+  private final static String queryForReAffectInterventionToDispositif =
+    "UPDATE intervention        \n" +
+    "SET    id_dispositif   = ?,\n" +
+    "       DH_reception    = ?,\n" +
+    "       id_etat         = ? \n" +
+    "WHERE  id_intervention = ? \n";
+  public void reAffectInterventionToDispositif(int idIntervention, int idDispositif, Date dateAffectation) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+idIntervention+"' idDispositif='"+idDispositif+"', dateAffectation='"+dateAffectation+"'");
+
+    int nbLineUpdated = this.jdbcTemplate.update( queryForReAffectInterventionToDispositif, 
+        new Object[]{idDispositif , dateAffectation, ETAT_INTER_AFFECTEE, idIntervention}, 
+        new int   []{Types.INTEGER, Types.TIMESTAMP, Types.INTEGER      ,  Types.INTEGER }
+      );
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention with id='"+idIntervention+"' idDispositif='"+idDispositif+"', dateAffectation='"+dateAffectation+"' (line updated = '"+nbLineUpdated+"')");
     
   }
-  
-  
   
   
   

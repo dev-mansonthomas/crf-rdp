@@ -33,6 +33,8 @@ Ext.onReady(function()
     }
     , null, null);
     
+    googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
+    googleMapAdressResolver.init();
     
     
   /*

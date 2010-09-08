@@ -483,16 +483,59 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           this.commentsAndEvalCiWindow.hide();
         }
       },
-      pupilleCheckMyosisMydriase:function(fieldId)
+      pupilleCheckMyosisMydriaseGauche:function(fieldId)
       {
         if(fieldId=='bilan_pupille_myosis_gauche' && Ext.get('bilan_pupille_myosis_gauche').dom.checked)
           Ext.get('bilan_pupille_mydriase_gauche').dom.checked=false;
-        else if(fieldId=='bilan_pupille_myosis_droite' && Ext.get('bilan_pupille_myosis_droite').dom.checked)
-          Ext.get('bilan_pupille_mydriase_droite').dom.checked=false;
         else if(fieldId=='bilan_pupille_mydriase_gauche' && Ext.get('bilan_pupille_mydriase_gauche').dom.checked)
           Ext.get('bilan_pupille_myosis_gauche').dom.checked=false;
+          
+
+        crfIrpUtils.fieldSaving('bilanPupilleMyosisGaucheP'  );
+        crfIrpUtils.fieldSaving('bilanPupilleMydriaseGaucheP');
+        
+
+        MonitorInputBilan.updateDoubleBooleanField(
+                                              $('bilan_id_intervention').value,
+                                              'pupille_myosis_gauche'                             ,
+                                              Ext.get('bilan_pupille_myosis_gauche').dom.checked  ,
+                                              'pupille_mydriase_gauche'                           ,
+                                              Ext.get('bilan_pupille_mydriase_gauche').dom.checked,
+                                              function()
+                                              {
+                                                crfIrpUtils.defaultBackgroundColorForField('bilanPupilleMyosisGaucheP'   );
+                                                crfIrpUtils.defaultBackgroundColorForField('bilanPupilleMydriaseGaucheP' );
+                                              });        
+          
+          
+          
+      },
+      pupilleCheckMyosisMydriaseDroite:function(fieldId)
+      {
+        if(fieldId=='bilan_pupille_myosis_droite' && Ext.get('bilan_pupille_myosis_droite').dom.checked)
+          Ext.get('bilan_pupille_mydriase_droite').dom.checked=false;
         else if(fieldId=='bilan_pupille_mydriase_droite' && Ext.get('bilan_pupille_mydriase_droite').dom.checked)
           Ext.get('bilan_pupille_myosis_droite').dom.checked=false;
+          
+          
+        crfIrpUtils.fieldSaving('bilanPupilleMyosisDroiteP'  );
+        crfIrpUtils.fieldSaving('bilanPupilleMydriaseDroiteP');
+        
+
+        MonitorInputBilan.updateDoubleBooleanField(
+                                              $('bilan_id_intervention').value,
+                                              'pupille_myosis_droite'                             ,
+                                              Ext.get('bilan_pupille_myosis_droite'  ).dom.checked,
+                                              'pupille_mydriase_droite'                           ,
+                                              Ext.get('bilan_pupille_mydriase_droite').dom.checked,
+                                              function()
+                                              {
+                                                crfIrpUtils.defaultBackgroundColorForField('bilanPupilleMyosisDroiteP'   );
+                                                crfIrpUtils.defaultBackgroundColorForField('bilanPupilleMydriaseDroiteP');
+                                              });        
+         
+          
+          
       },
       pupilleCheckPupilleReactive:function(fieldId)
       {
@@ -500,6 +543,24 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           Ext.get('bilan_pupille_non_reactive').dom.checked=false;
         else if(fieldId=='bilan_pupille_non_reactive' && Ext.get('bilan_pupille_non_reactive').dom.checked)
           Ext.get('bilan_pupille_reactive').dom.checked=false;
+
+          
+
+        crfIrpUtils.fieldSaving('bilanPupilleReactiveP'   );
+        crfIrpUtils.fieldSaving('bilanPupilleNonReactiveP');
+        
+
+        MonitorInputBilan.updateDoubleBooleanField(
+                                              $('bilan_id_intervention').value,
+                                              'pupille_reactive'                               ,
+                                              Ext.get('bilan_pupille_reactive'    ).dom.checked,
+                                              'pupille_non_reactive'                           ,
+                                              Ext.get('bilan_pupille_non_reactive').dom.checked,
+                                              function()
+                                              {
+                                                crfIrpUtils.defaultBackgroundColorForField('bilanPupilleReactiveP'   );
+                                                crfIrpUtils.defaultBackgroundColorForField('bilanPupilleNonReactiveP');
+                                              });        
       },
       medicaliseParCheck:function(fieldId)
       {
@@ -507,6 +568,22 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           Ext.get('bilan_transport_medicalisee_umh').dom.checked=false;
         else if(fieldId=='bilan_transport_medicalisee_umh' && Ext.get('bilan_transport_medicalisee_umh').dom.checked)
           Ext.get('bilan_transport_medicalisee_ar').dom.checked=false;
+
+        crfIrpUtils.fieldSaving('bilanRenfortMedicaliseeArP');
+
+        
+
+        MonitorInputBilan.updateDoubleBooleanField(
+                                              $('bilan_id_intervention').value,
+                                              'transport_medicalisee_ar'                                ,
+                                              Ext.get('bilan_transport_medicalisee_ar'    ).dom.checked ,
+                                              'transport_medicalisee_umh'                               ,
+                                              Ext.get('bilan_transport_medicalisee_umh').dom.checked    ,
+                                              function()
+                                              {
+                                                crfIrpUtils.defaultBackgroundColorForField('bilanRenfortMedicaliseeArP');
+                                              }); 
+          
       },
  
       /************************Gestion*de*l'adresse*****************************************/

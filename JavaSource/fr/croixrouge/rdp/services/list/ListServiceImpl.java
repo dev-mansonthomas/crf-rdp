@@ -125,7 +125,7 @@ public class ListServiceImpl implements ListService, InitializingBean
   private final static String queryForGetDelegations =
     "SELECT   id_delegation, nom, departement \n" +
     "FROM     delegation d                    \n" +
-    "ORDER BY id_delegation ASC               \n";
+    "ORDER BY sort_order ASC                  \n";
   public List<Delegation> getDelegations()
   {
     return this.jdbcTemplate.query(queryForGetDelegations,new Object[]{}, new int[]{}, new DelegationRowMapper());

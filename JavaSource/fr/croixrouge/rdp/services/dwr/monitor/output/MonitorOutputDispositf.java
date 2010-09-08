@@ -37,14 +37,14 @@ public class MonitorOutputDispositf  extends DWRUtils
   }
   
   
-  public int actionOnDispositif(int idDispositif) throws Exception
+  public String actionOnDispositif(int idDispositif) throws Exception
   {
+    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    String status = null;
     try
     {
-      int currentUserRegulationId = this.validateSessionAndGetRegulationId();
-      
       //Determine l'état suivant, met a jour la date de l'action courante.
-      this.dispositifInterventionDelegate.action(currentUserRegulationId, idDispositif);
+      status = this.dispositifInterventionDelegate.action(currentUserRegulationId, idDispositif);
       
       //Met a jour tous les navigateurs avec le nouvel état du dispositif
       Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
@@ -54,12 +54,12 @@ public class MonitorOutputDispositf  extends DWRUtils
       
       this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
       
-      return dispositif.getIdEtatDispositif();      
+      return status;      
     }
     catch(Exception e)
     {
       logger.error("error on actionOnDispositif",e);
-      throw e;
+      return "var actionReturnStatus={status:-1,message:'"+e.getMessage().replaceAll("'", "\\'")+"'};";
     }
   }
   
@@ -98,27 +98,34 @@ public class MonitorOutputDispositf  extends DWRUtils
     this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
   }
   
-  public int endOfIntervention(int idDispositif) throws Exception
+  public String endOfIntervention(int idDispositif) throws Exception
   {
     int currentUserRegulationId = this.validateSessionAndGetRegulationId();
-    
-    //Determine l'état suivant, met a jour la date de l'action courante.
-    this.dispositifInterventionDelegate.endOfIntervention(currentUserRegulationId, idDispositif);
-    
-    //Met a jour tous les navigateurs avec le nouvel état du dispositif
-    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
-    
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
-        outPageName);
-    
-    return dispositif.getIdEtatDispositif();
+    try
+    {
+      //Determine l'état suivant, met a jour la date de l'action courante.
+      String status = this.dispositifInterventionDelegate.endOfIntervention(currentUserRegulationId, idDispositif);
+      
+      //Met a jour tous les navigateurs avec le nouvel état du dispositif
+      Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
+      
+      this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
+          outPageName);
+      
+      return status;
+    }
+    catch(Exception e)
+    {
+      logger.error("error on endOfIntervention",e);
+      return "var actionReturnStatus={status:-1,message:'"+e.getMessage().replaceAll("'", "\\'")+"'};";
+    }
   }
   
   /**
    * Met a jour inter et dispositif
    * puis appel ActionOnDispositif
    * */
-  public int chooseEvacDestination(int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception
+  public String chooseEvacDestination(int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception
   {
     int currentUserRegulationId = this.validateSessionAndGetRegulationId();
     this.dispositifInterventionDelegate.chooseEvacDestination(currentUserRegulationId, idDispositif, idLieu, destinationLabel, position);
@@ -141,4 +148,18 @@ public class MonitorOutputDispositf  extends DWRUtils
     this.dispositifInterventionDelegate.handlePrimaireAndSecondaireOnIntervention(idDispositif, idIntervention, false);
   }
 
+  public void updateEtatDispositif(int idDispositif, int idNewEtat) throws Exception
+  {
+    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    
+    this.dispositifInterventionDelegate.changeDispositifStatus(currentUserRegulationId, idDispositif, idNewEtat);
+    
+    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
+    
+    ScriptBuffer scriptBuffer = new ScriptBuffer();
+    scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositif", dispositif);
+    
+    this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
+  }
+  
 }

@@ -39,8 +39,7 @@ public class HomepageController extends AbstractController implements Initializi
     model.put("environment"                 , this.propertyPlaceholderConfigurer.getPropertyValue("application.environment"     ));
     model.put("environmentCode"             , this.propertyPlaceholderConfigurer.getPropertyValue("application.environment.code"));
     model.put("applicationDeclarationCnil"  , this.propertyPlaceholderConfigurer.getPropertyValue("application.declarationCnil" ));    
-    
-    
+    model.put("googleMapsKey"               , this.propertyPlaceholderConfigurer.getPropertyValue("google.maps.key"    ));
     
     SecurityPrincipal securityPrincipal = (SecurityPrincipal)request.getUserPrincipal();
     model.put("currentUser"       , securityPrincipal.getUser());

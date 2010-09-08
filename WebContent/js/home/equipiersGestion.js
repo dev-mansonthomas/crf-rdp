@@ -116,9 +116,9 @@ Ext.ux.Home.EquipiersGestion = function() {
       PageBus.subscribe("list.loaded",  this, this.dataInitComplete , null, null);
 		},
     dataInitComplete : function(){
-      Ext.ux.Home.EquipiersGestion.allDelegations = crfIrpUtils.allList['Delegations'  ];
-      Ext.ux.Home.EquipiersGestion.allRoles       = crfIrpUtils.allList['RolesEquipier'];//retire NA
-      Ext.ux.Home.EquipiersGestion.allRolesUser   = crfIrpUtils.allList['RolesUser'    ].slice(1,crfIrpUtils.allList['RolesUser'    ].length);//retire NA
+      Ext.ux.Home.EquipiersGestion.allDelegations = crfIrpUtils.allList['DelegationsSorted'   ];
+      Ext.ux.Home.EquipiersGestion.allRoles       = crfIrpUtils.allList['RolesEquipier'       ];//retire NA
+      Ext.ux.Home.EquipiersGestion.allRolesUser   = crfIrpUtils.allList['RolesUser'           ].slice(1,crfIrpUtils.allList['RolesUser'    ].length);//retire NA
       Ext.ux.Home.EquipiersGestion.initLayout    ();      
     }, 
 		initLayout : function() 

@@ -124,7 +124,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     if(currentInterventionId == 0)
     {
       this.dispositifService.updateActifValueOfDispositif(idDispositif, false);
-      this.dispositifService.updateEtatDispositif        (idDispositif, DispositifService.STATUS_FIN_VACATION);
+      this.dispositifService.updateEtatDispositif        (idDispositif, DispositifService.STATUS_VACATION_TERMINEE);
     }
       
     List<Equipier> equipiers = this.equipierService.getEquipiersForDispositif(idDispositif);

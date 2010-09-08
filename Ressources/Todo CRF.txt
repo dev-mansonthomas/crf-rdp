@@ -1,14 +1,13 @@
 + Gerer l'auto désaffectation du dispositif après X heure d'inactivité d'un dispositif.
   
 
-<a href="http://icanhascheezburger.com/2008/09/09/funny-pictures-kitteh-cheks-fr-breethin-furst/"><img class="mine_1760499" title="funny-pictures-cat-tries-to-save-your-life" src="http://icanhascheezburger.wordpress.com/files/2008/09/funny-pictures-cat-tries-to-save-your-life.jpg" alt="cat" /></a><br />more <a href="http://icanhascheezburger.com">animals</a>
-<a href="http://icanhascheezburger.com/2008/09/08/funny-pictures-im-hit/"><img class="mine_1755357" title="funny-pictures-your-cat-is-hit" src="http://icanhascheezburger.wordpress.com/files/2008/09/funny-pictures-your-cat-is-hit.jpg" alt="cat" /></a><br />more <a href="http://icanhascheezburger.com">animals</a>
-
-
 TODO :      
 
 Application : 
 
+  + Etendre http://code.google.com/p/ext-ux-gmappanel/ pour avoir google maps v3
+  + Ajout d'un commentaire sur disponibilité dans la partie 'out'
+  + utiliser du json a mettre directement dans la page pour initiliser les listes afin de simplifier le code
   + barre de bouton dynamique pour les dispositifs (input)
   + Ajouter département/ville dans le nom des hopitaux pour la médicalisation de l'intervention (classé par département pour que 75 soit en premier)
   + Ajouter une fonctionnalité qui permet d'annulé une intervention sur l'intervention

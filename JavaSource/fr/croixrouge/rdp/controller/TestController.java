@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+//import fr.croixrouge.rdp.services.mobile.SFRMobileServiceImpl;
 import fr.croixrouge.utilities.web.conf.PerMachinePropertyPlaceholderConfigurer;
 
 public class TestController extends AbstractController
@@ -18,14 +19,20 @@ public class TestController extends AbstractController
   private static Log logger           = LogFactory.getLog(TestController.class);
   
   private PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer = null;
-  public TestController(PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer)
+ // private SFRMobileServiceImpl sfrMobileServiceImpl = null;
+  
+  public TestController(PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer/*,
+      SFRMobileServiceImpl sfrMobileServiceImpl*/)
   {
     this.propertyPlaceholderConfigurer = propertyPlaceholderConfigurer; 
+    //this.sfrMobileServiceImpl = sfrMobileServiceImpl;
   }
   
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest arg0, HttpServletResponse arg1) throws Exception
   {
+    //this.sfrMobileServiceImpl.sendSMS("0664664296", "Coucou");
+    
     
     String envCode = propertyPlaceholderConfigurer.get("application.environment.code");
     

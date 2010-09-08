@@ -71,7 +71,7 @@ CREATE TABLE `lieu` (
   `icon`                        VARCHAR(20)   NULL,
   `icon_gmap_init`              VARCHAR(500)  NULL,
   `nom`                         varchar(100)  NOT NULL,
-  `addresse`                    varchar(45)   NOT NULL,
+  `addresse`                    varchar(100)   NOT NULL,
   `code_postal`                 varchar(5 )   NOT NULL,
   `ville`                       varchar(100)  NOT NULL,
   `google_coords_lat`           float  (10,6) NOT NULL,
@@ -97,6 +97,7 @@ CREATE TABLE `delegation` (
   `mail`   varchar(255) NULL,
   `web`    varchar(255) NULL,
   `id_lieu` int(10) unsigned NOT NULL,
+  `sort_order` int(10) unsigned NOT NULL default 0,
   PRIMARY KEY  (`id_delegation`),
   CONSTRAINT `FK_delegation_lieu` FOREIGN KEY (`id_lieu`) REFERENCES `lieu`(`id_lieu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;

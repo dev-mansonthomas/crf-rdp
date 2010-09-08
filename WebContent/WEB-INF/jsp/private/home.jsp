@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Accueil de la Régulation de la Croix Rouge de Paris</title>
+<link rel="icon" href="<%=contextPath%>/img/favicon-crf.png" type="image/png"/> 
 <jwr:style src="/cssBundle/home.css" />
 </head>
 <body>
@@ -76,6 +77,9 @@
     <a href="test/testThomas.html">Page de Test Thomas</a>
   </c:if>
 </div>
+
+<!-- google maps -->
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${googleMapsKey}" type="text/javascript"> </script>
 
 
 <jwr:script src="/jsBundle/extJs.js" />

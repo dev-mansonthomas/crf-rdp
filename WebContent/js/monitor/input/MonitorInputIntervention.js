@@ -223,11 +223,19 @@ MonitorInputInterventionCs.prototype.endOfEditionEvent=function()
   if(this.formValidationWindow == null)
   {
     this.formValidationWindow = new Ext.ux.Utils.FormValidationWindow({
-       validateFunction: function(){miInterventionCs.doEndOfEditionEvent();},
-       gridTitle       : 'Vérification du Ticket d\'Intervention'
+       validateFunction       : function()
+                                {
+                                  miInterventionCs.doEndOfEditionEvent();
+                                },
+       gridTitle              : 'Vérification du Ticket d\'Intervention',
+       mandatoryAlertBoxTitle : 'L\'intervention ne peut pas etre publiée',
+       mandatoryAlertBoxText  : 'Des conditions nécessaires ne sont pas remplies, veuillez les corriger'
+
      }
     );
   }
+
+  
   
   var mandatoryFields=[
       ['interventionTicketOrigine'    ,'L\'origine du ticket est obligatoire'],

@@ -122,7 +122,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
   var roleToSearchComboBox =  new Ext.form.ComboBox({
                   id:'dispositifRoleList',
                   store: new Ext.data.ArrayStore({
-                    id:0,
+                    idIndex:0,
                     fields: ['id_role', 'label_role']
                   }),
                   valueField    : 'id_role',
@@ -458,8 +458,11 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
   if(this.formValidationWindow == null)
   {
     this.formValidationWindow = new Ext.ux.Utils.FormValidationWindow({
+      
        validateFunction: function(){miDispositifCs.doEndOfEditionEvent();},
-       gridTitle       : 'Vérification du dispositif'
+       gridTitle       : 'Vérification du dispositif',
+       mandatoryAlertBoxTitle : 'Le dispositif ne peut pas etre publié',
+       mandatoryAlertBoxText  : 'Des conditions nécessaires ne sont pas remplies, veuillez les corriger'
      }
     );
   }
@@ -749,15 +752,9 @@ MonitorInputDispositifCs.prototype.initDispositif=function()
                       crfIrpUtils.allList['TypesDispositif'],
                       'id',
                       'label');
-  var dispositifStatusOriginal = crfIrpUtils.allList['EtatsDispositif'];
-  var dispositifStatusNew      = Array();
-  var i = 0;
-  for(var j=-3,count=dispositifStatusOriginal.length;j<count;j++)
-    dispositifStatusNew[i++]=dispositifStatusOriginal[j];
-  
   
   dwr.util.addOptions( 'DispositifStatus', 
-                       dispositifStatusNew,
+                       crfIrpUtils.allList['EtatsDispositif'],
                        'id',
                        'label');
 };

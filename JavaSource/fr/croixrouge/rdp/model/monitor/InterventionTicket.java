@@ -19,6 +19,7 @@ public class InterventionTicket
   
   private String  interventionBusinessId    ;
   private Date    dhSaisie                  ;
+  private Date    dhReception               ;
   private boolean victimeHomme              ;
   private String  nomVictime                ;
   private String  prenomVictime             ;
@@ -194,6 +195,14 @@ public class InterventionTicket
   public void setAgeApproxVictime(int ageApproxVictime)
   {
     this.ageApproxVictime = ageApproxVictime;
+  }
+  public Date getDhReception()
+  {
+    return dhReception;
+  }
+  public void setDhReception(Date dhReception)
+  {
+    this.dhReception = dhReception;
   }
 
 }

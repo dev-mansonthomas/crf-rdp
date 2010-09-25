@@ -601,8 +601,36 @@ CREATE TABLE `crfrdp`.`application_version_changelog` (
   `id_jira` VARCHAR(45) NOT NULL,
   `description` TEXT NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_application_version_changelog-application_version` (`id_application_version`),
+  KEY        `FK_application_version_changelog-application_version` (`id_application_version`),
   CONSTRAINT `FK_application_version_changelog-application_version` FOREIGN KEY `FK_application_version_changelog-application_version` (`id_application_version`)
     REFERENCES `application_version` (`id`)
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+DROP TABLE IF EXISTS `crfrdp`.`sms_type`;
+CREATE TABLE `sms_type` (
+  `id_sms_type`     INTEGER UNSIGNED  NOT NULL AUTO_INCREMENT,
+  `label_sms_type`  varchar(45)       NOT NULL,
+  PRIMARY KEY (`id_sms_type`)
+) 
+ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+DROP TABLE IF EXISTS `crfrdp`.`sms_log`;
+CREATE TABLE `sms_log` (
+  `id_sms_log`    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_sms_type`   INTEGER UNSIGNED NOT NULL,
+  `id_dispositif` INTEGER UNSIGNED NOT NULL,
+  `id_user`       INTEGER UNSIGNED NOT NULL,
+  `to`            varchar(12  )    NOT NULL,
+  `message`       varchar(1024)    NOT NULL,
+  `send_date`     timestamp        NOT NULL,
+  PRIMARY KEY (`id_sms_log`),
+  KEY        `FK_sms_log-sms_type`   (`id_sms_type`  ),
+  KEY        `FK_sms_log-user`       (`id_user`      ),
+  KEY        `FK_sms_log-dispositif` (`id_dispositif`),
+  CONSTRAINT `FK_sms_log-sms_type`   FOREIGN KEY `FK_sms_log-sms_type`   (`id_sms_type`  ) REFERENCES `sms_type`   (`id_sms_type`   ),
+  CONSTRAINT `FK_sms_log-user`       FOREIGN KEY `FK_sms_log-user`       (`id_user`      ) REFERENCES `user`       (`id_user`       ),
+  CONSTRAINT `FK_sms_log-dispositif` FOREIGN KEY `FK_sms_log-dispositif` (`id_dispositif`) REFERENCES `dispositif` (`id_dispositif` )
+) 
+ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+

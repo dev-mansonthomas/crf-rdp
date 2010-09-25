@@ -1,5 +1,6 @@
 package fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,12 +9,20 @@ import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
+import fr.croixrouge.rdp.model.monitor.DispositifTicket;
+import fr.croixrouge.rdp.model.monitor.Equipier;
+import fr.croixrouge.rdp.model.monitor.Intervention;
+import fr.croixrouge.rdp.model.monitor.InterventionMotif;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Position;
+import fr.croixrouge.rdp.model.monitor.SMS;
 import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
+import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import fr.croixrouge.rdp.services.list.ListService;
+import fr.croixrouge.rdp.services.mobile.MobileService;
 
 public class DispositifInterventionDelegateImpl extends DWRUtils implements DispositifInterventionDelegate
 {
@@ -21,12 +30,31 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
   
   private DispositifService   dispositifService   = null;
   private InterventionService interventionService = null;
+  private MobileService       mobileService       = null;
+  private EquipierService     equipierService     = null;
+  private ListService         listService         = null;
   
-  public DispositifInterventionDelegateImpl(DispositifService dispositifService, InterventionService interventionService)
+  private final static int DISPOSITIF_TYPE_SAMU= 1;
+  private final static int CI_ALPHA_ROLE       = 5;
+  private final static int CI_CS_ROLE          = 6;
+  private final static int CHAUFFEUR_ROLE      = 7;
+  
+  private final static int SMS_TYPE_ENVOIE_OI  = 1;
+  
+  
+  public DispositifInterventionDelegateImpl(DispositifService   dispositifService  , 
+                                            InterventionService interventionService,
+                                            MobileService       mobileService      ,
+                                            EquipierService     equipierService    ,
+                                            ListService         listService        
+                                            )
   {
-    this.dispositifService  = dispositifService;
-    this.interventionService= interventionService;
-
+    this.dispositifService   = dispositifService  ;
+    this.interventionService = interventionService;
+    this.mobileService       = mobileService      ;
+    this.equipierService     = equipierService    ;
+    this.listService         = listService        ;
+   
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
@@ -277,13 +305,74 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
   }
 
   
-  public void affectInterventionToDispositif(int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception
+  public void affectInterventionToDispositif(int idCurrentUser, int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("Action is 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
 
     this.dispositifService  .affectInterventionToDispositif(idDispositif  , idIntervention, actionDate);
     this.interventionService.affectInterventionToDispositif(idIntervention, idDispositif  , actionDate);
+    
+    DispositifTicket   dispositif   = this.dispositifService  .getDispositifTicket  (idDispositif);
+    
+    
+    if(dispositif.getIdTypeDispositif() == DISPOSITIF_TYPE_SAMU)
+    {
+      Intervention    intervention = this.interventionService.getIntervention          (idIntervention);
+      ArrayList<SMS>  smss         = new ArrayList<SMS>(3);
+      List<Equipier>  equipiers    = this.equipierService    .getEquipiersForDispositif(idDispositif  );
+      
+      
+      
+      List<InterventionMotif> interventionMotifList = this.listService.getMotifsIntervention();
+      InterventionMotif motif = null;
+      
+      for (InterventionMotif interventionMotif : interventionMotifList)
+      {
+        if(intervention.getIdMotif() == interventionMotif.getId())
+        {
+          motif = interventionMotif;
+          break;
+        }
+      }
+      
+      /********
+       * Génération du message du SMS
+       * 
+       */
+      String detail = generateDataForSMS("Bat",intervention.getBatiment())+generateDataForSMS("Etage",intervention.getEtage())+generateDataForSMS("Porte",intervention.getPorte());
+      
+      String message = "Inter:"+getDataForSMS(intervention.getInterventionBusinessId(),false, false)+"\n"+
+      (motif != null ? motif.getLabel()+"\n":"")+
+      getDataForSMS(intervention.getComplementMotif(), true, false)+
+      (intervention.isHommeVictime()?"Mr":"Mme")+" "+getDataForSMS(intervention.getNomVictime(), false, true)+getDataForSMS(intervention.getPrenomVictime(), false, true)+getDataForSMS(intervention.getAgeApproxVictime()+"", true, false, "ans")+
+      getDataForSMS(intervention.getPosition().getRue(), false, true)+getDataForSMS(intervention.getPosition().getCodePostal(), false, true)+ getDataForSMS(intervention.getPosition().getVille(), true, false) +
+      getDataForSMS(detail, true, false)+
+      getDataForSMS(intervention.getComplementAdresse(), false, false);
+      
+      /* numéro de tel surchargé*/
+      SMS templateSMS = new SMS(SMS_TYPE_ENVOIE_OI, idDispositif, idCurrentUser, "0666666666", message );
+    
+      for (Equipier equipier : equipiers)
+      {
+        int idRoleDansDispositif = equipier.getIdRoleDansDispositif();
+        if( equipier.isEnEvaluationDansDispositif() || 
+            idRoleDansDispositif == CI_ALPHA_ROLE   || 
+            idRoleDansDispositif == CI_CS_ROLE      || 
+            idRoleDansDispositif == CHAUFFEUR_ROLE
+          )
+        {
+          String recipient = equipier.getMobile();
+          if(MobileService.validatePhoneNumber(recipient))
+          {
+            smss.add(templateSMS.clone(recipient));
+          }
+        }
+      }
+      
+      this.mobileService.sendSMS(smss);
+      
+    }
     
     if(logger.isDebugEnabled())
       logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -415,6 +504,29 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     
     this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
         outPageName);
+  }
+  
+  private String generateDataForSMS(String title, String value)
+  {
+    if( value == null || value.trim().length() == 0)
+    {
+      return "";
+    }
+    return title+":"+value.trim()+",";
+  }
+  
+  private String getDataForSMS(String value, boolean eol, boolean fieldNext)
+  {
+    return this.getDataForSMS(value, eol, fieldNext, "");
+  }
+  
+  private String getDataForSMS(String value, boolean eol, boolean fieldNext, String suffixToAppendIfNotNull)
+  {
+    if(value == null || value.trim().length() == 0 || value.trim().equals("0"))
+    {
+      return "";
+    }
+    return value + suffixToAppendIfNotNull + (eol?"\n":(fieldNext?" ":""));
   }
   
 }

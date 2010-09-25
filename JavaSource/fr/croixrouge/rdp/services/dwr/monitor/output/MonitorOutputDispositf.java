@@ -2,17 +2,22 @@ package fr.croixrouge.rdp.services.dwr.monitor.output;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.Position;
+import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
+import fr.croixrouge.rdp.services.authentification.SecurityPrincipal;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
+import fr.croixrouge.utilities.web.security.SecurityFilter;
 
 public class MonitorOutputDispositf  extends DWRUtils
 {
@@ -65,9 +70,15 @@ public class MonitorOutputDispositf  extends DWRUtils
   
   public void addInterventionToDispositif(int idIntervention, int idDispositif) throws Exception
   {
-    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+     this.validateSessionAndGetRegulationId();
     
-    this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserRegulationId, idIntervention, idDispositif, new Date());
+    HttpSession session         = this.validateSession();
+    Regulation  regulation      = (Regulation)session.getAttribute("regulation");
+    int currentUserRegulationId = regulation.getRegulationId();
+    
+    SecurityPrincipal principal = (SecurityPrincipal)session.getAttribute(SecurityFilter.PRINCIPAL);
+    
+    this.dispositifInterventionDelegate.affectInterventionToDispositif(principal.getUser().getIdUser(), currentUserRegulationId, idIntervention, idDispositif, new Date());
 
 
     //Met a jour tous les navigateurs avec le nouvel état du dispositif

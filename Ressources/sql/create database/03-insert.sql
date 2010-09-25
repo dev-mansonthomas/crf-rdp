@@ -664,6 +664,18 @@ values
 (7,'IRP-7'  , 'Bouton de visualisation du dispositif sur la google map');
 
 
+
+
+
+INSERT INTO `sms_type` (`label_sms_type`) VALUES ('Envoie Détails Intervention');
+INSERT INTO `sms_type` (`label_sms_type`) VALUES ('Message vers équipiers');
+INSERT INTO `sms_type` (`label_sms_type`) VALUES ('N/A');
+
+update sms_type set id_sms_type = 0 where id_sms_type = 3;
+ALTER TABLE `sms_type` AUTO_INCREMENT = 3;
+
+
+
 INSERT INTO `equipier` (`id_equipier`, `id_dispositif`, `num_nivol`, `equipier_is_male`, `enabled`, `nom`, `prenom`, `mobile`, `email`, `id_delegation`, `autre_delegation`) 
 VALUES (1,0,'75233A',1,0,'Manson','Thomas','0664664296','mt@mansonthomas.com',42,NULL);
 

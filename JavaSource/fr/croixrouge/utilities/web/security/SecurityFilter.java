@@ -38,7 +38,7 @@ public class SecurityFilter implements Filter
   private static final String LOGIN_USERNAME         = "j_username";
   private static final String LOGIN_PASSWORD         = "j_password";
 
-  private static final String PRINCIPAL              = SecurityFilter.class.getName() + ".principal";
+  public  static final String PRINCIPAL              = SecurityFilter.class.getName() + ".principal";
   private static final String CONTINUE_URL           = SecurityFilter.class.getName() + ".continueUrl";
 
   private String              beanName               = null;

@@ -23,11 +23,12 @@ public class InterventionTicketRowMapper extends RowMapperHelper implements RowM
     interventionTicket.setIdEtat                    (rs.getInt("id_etat"          )); 
     
     interventionTicket.setDhSaisie                  (rs.getTimestamp("DH_saisie"           ));
+    interventionTicket.setDhReception               (rs.getTimestamp("DH_reception"        ));
     
     Position position = interventionTicket.getPosition();
     
-    position.setGoogleCoordsLat                     (rs.getFloat("google_coords_lat"       ));
-    position.setGoogleCoordsLong                    (rs.getFloat("google_coords_long"      ));
+    position.setGoogleCoordsLat                     (rs.getFloat  ("google_coords_lat"     ));
+    position.setGoogleCoordsLong                    (rs.getFloat  ("google_coords_long"    ));
     position.setRue                                 (rs.getString ("rue"                   ));
     position.setCodePostal                          (rs.getString ("code_postal"           ));
     position.setVille                               (rs.getString ("ville"                 ));
@@ -40,6 +41,7 @@ public class InterventionTicketRowMapper extends RowMapperHelper implements RowM
     
     interventionTicket.setVictimeHomme              (rs.getBoolean("homme_victime"         ));
     interventionTicket.setNomVictime                (rs.getString ("nom_victime"           ));
+    interventionTicket.setPrenomVictime             (rs.getString ("prenom_victime"        ));
     interventionTicket.setAgeApproxVictime          (rs.getInt    ("age_approx_victime"    ));
     interventionTicket.setNomContactSurPlace        (rs.getString ("nom_contact_sur_place" ));
     interventionTicket.setCoordonneesContactSurPlace(rs.getString ("coordonnees_contact"   ));

@@ -7,8 +7,8 @@ import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 
 public interface DispositifInterventionDelegate
 {
-  public String   action                                    (int idRegulation, int idDispositif                 ) throws Exception;
-  public void     affectInterventionToDispositif            (int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception;
+  public String   action                                    (int idRegulation , int idDispositif                 ) throws Exception;
+  public void     affectInterventionToDispositif            (int idCurrentUser, int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception;
   public void     reAffectInterventionToDispositif          (int idRegulation, int idIntervention, int idDispositifOrigine, int idDispositifCible, Date actionDate) throws Exception;
   public void     chooseEvacDestination                     (int idRegulation, int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception;
   public String   endOfIntervention                         (int idRegulation, int idDispositif                 ) throws Exception;

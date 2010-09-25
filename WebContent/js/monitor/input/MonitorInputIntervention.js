@@ -327,11 +327,12 @@ MonitorInputInterventionCs.prototype.editInterventionTicket=function(idIntervent
 
 MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventionTicket)
 {
+  Ext.getCmp('interventionTicketDHReception').setValue        (crfIrpUtils.getFullDate(interventionTicket.dhReception));
+  
   dwr.util.setValue('interventionTicketBatiment'            , interventionTicket.batiment                            );
   dwr.util.setValue('interventionTicketCodePostal'          , interventionTicket.position.codePostal                 );
   dwr.util.setValue('interventionTicketComplementAdresse'   , interventionTicket.complementAdresse                   );
   dwr.util.setValue('interventionTicketComplementMotif'     , interventionTicket.complementMotif                     );
-  dwr.util.setValue('interventionTicketDHReception'         , crfIrpUtils.getFullDate(interventionTicket.dhReception));
   dwr.util.setValue('interventionTicketEtage'               , interventionTicket.etage                               );
   dwr.util.setValue('interventionTicketId'                  , interventionTicket.idIntervention                      );
   dwr.util.setValue('interventionTicketMotif'               , interventionTicket.idMotif                             );
@@ -341,9 +342,15 @@ MonitorInputInterventionCs.prototype.initInterventionTicket=function(interventio
   dwr.util.setValue('interventionTicketVille'               , interventionTicket.position.ville                      );
   dwr.util.setValue('interventionTicketCoordinateLat'       , interventionTicket.position.googleCoordsLat            );
   dwr.util.setValue('interventionTicketCoordinateLong'      , interventionTicket.position.googleCoordsLong           );
-
-
+  dwr.util.setValue('interventionAgeVictime'                , interventionTicket.ageApproxVictime                    );
+  
+  interventionTicket.victimeHomme ? $('interventionSexeVictimeHomme').checked=true:$('interventionSexeVictimeFemme').checked=true;
+  
   dwr.util.setValue('interventionNomVictime'                ,interventionTicket.nomVictime                           );
+  dwr.util.setValue('interventionPrenomVictime'             ,interventionTicket.prenomVictime                        );
+  
+  miInterventionCs.updateNomPrenomRadio();
+  
   dwr.util.setValue('interventionNomContactSurPlace'        ,interventionTicket.nomContactSurPlace                   );
   dwr.util.setValue('interventionCoordonneesContactSurPlace',interventionTicket.coordonneesContactSurPlace           );
   

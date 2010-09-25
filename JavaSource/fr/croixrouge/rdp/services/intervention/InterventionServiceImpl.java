@@ -124,8 +124,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "        i.`ville`             , i.`batiment`        , i.`etage`                , i.`porte`               ,              \n" +
     "        i.`complement_adresse`, i.`complement_motif`, i.`google_coords_lat`    , i.`google_coords_long`  ,              \n" +
     "        i.`nom_victime`       , i.`homme_victime`   , i.`nom_contact_sur_place`, i.`coordonnees_contact` ,i.`num_inter`,\n" +
-    "        i.`age_approx_victime`\n" +
-    "FROM    intervention i                                                                                                \n";
+    "        i.`age_approx_victime`, i.`prenom_victime`  , i.`DH_reception`                                                  \n" +
+    "FROM    intervention i                                                                                                  \n";
   
   private final static String queryForGetInterventionTicket =
     selectForInteventionTicket +

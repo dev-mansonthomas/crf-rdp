@@ -40,3 +40,11 @@ Calendar gregorianCalendar = GregorianCalendar.getInstance();
   dateFin      = gregorianCalendar.getTime();
 
   System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  
+  
+  
+  System.out.println(java.util.Arrays.toString("lskjhflkdfhlkdfldkfshgldkjhlkdfghi".split("(?<=\\G.{5})")));
+
+  
+  

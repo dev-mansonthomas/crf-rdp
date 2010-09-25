@@ -92,7 +92,7 @@
                       onBlur="miInterventionCs.updateInterventionStringField(this.id, 'prenom_victime');miInterventionCs.updateNomPrenomRadio();"/>                      
 <br/>
 Radio :
-                <input style="width:90%;"
+                <input style="width:90%;font-size:11px;height:16px;margin-top:2px;margin-bottom:2px;"
                         type="text"
                           id="interventionNomPrenomRadio"
                         name="interventionNomPrenomRadio"

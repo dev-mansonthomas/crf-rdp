@@ -873,6 +873,24 @@ MonitorOutputDispositifCs.prototype.doCloneInterventionReturn=function()
   MonitorOutputDispositifCs.prototype.cloneInterventionWindow.hide();
 };
 
+MonitorOutputDispositifCs.prototype.getDispositifRecordFromButtonId=function(buttonId)
+{
+  var dispositifGrid    = Ext.getCmp('DispositifListGrid');
+  var recordId          = buttonId.split('|')[1];
+  var dispositifRecord  = dispositifGrid.getStore().getById(recordId);
+
+  return dispositifRecord;
+};
+
+
+MonitorOutputDispositifCs.prototype.sendSMS=function(buttonId)
+{
+  var dispositifRecord  = MonitorOutputDispositifCs.prototype.getDispositifRecordFromButtonId(buttonId);
+  var idDispositif      = dispositifRecord.json.idDispositif;
+  var monitorInputWindowRef = MonitorOutputCs.prototype.getMonitorInputRef();
+  monitorInputWindowRef.miSMSCs.displaySendSMSForm(idDispositif);
+};
+
 
 /**
  * 
@@ -893,11 +911,9 @@ var STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
 var STATUS_INTER_TERMINEE             = 9 ; //Intervention Terminée
 var STATUS_VACATION_TERMINEE          = 10; //Vacation Terminée
  * */
-MonitorOutputDispositifCs.prototype.action          =function(buttonId)
+MonitorOutputDispositifCs.prototype.action=function(buttonId)
 {
-  var dispositifGrid    = Ext.getCmp('DispositifListGrid');
-  var recordId          = buttonId.split('|')[1];
-  var dispositifRecord  = dispositifGrid.getStore().getById(recordId);
+  var dispositifRecord  = MonitorOutputDispositifCs.prototype.getDispositifRecordFromButtonId(buttonId);
   var interventions     = dispositifRecord.json.interventions;
   var interventionsCount= interventions.length;
   var currentState      = dispositifRecord.json.idEtatDispositif;
@@ -1294,7 +1310,7 @@ detailIntervention,
 '      </table>',
 '    </td>',
 '    <td style="border-top:solid #9D9D9D 1px;">',
-'',//TODO : bouton d'option diverse a implémenter
+'<input id="DispositifSMSButton_',record.data.idDispositif,'|',record.id,'" type="button" style="width:130px;" onClick="moDispositifCs.sendSMS(this.id)" value="Envoyer un SMS"/>',
 '    </td>',
 '  </tr>',
 '</table>'];

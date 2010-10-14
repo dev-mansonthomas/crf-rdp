@@ -6,20 +6,22 @@
   
   
     <!-- bean dwr -->
-    <bean id="monitorOutputDispositif"        class="fr.croixrouge.rdp.services.dwr.monitor.output.MonitorOutputDispositf"                autowire="constructor"/>
-    <bean id="monitor"                        class="fr.croixrouge.rdp.services.dwr.monitor.output.MonitorImpl"                           autowire="constructor" />
+    <bean id="monitorOutputDispositif"        class="fr.croixrouge.rdp.services.dwr.monitor.output.MonitorOutputDispositf"          autowire="constructor"/>
+    <bean id="monitor"                        class="fr.croixrouge.rdp.services.dwr.monitor.output.MonitorImpl"                     autowire="constructor" />
     
-    <bean id="monitorOutputIntervention"      class="fr.croixrouge.rdp.services.dwr.monitor.output.MonitorOutputIntervention"             autowire="constructor" />
+    <bean id="monitorOutputIntervention"      class="fr.croixrouge.rdp.services.dwr.monitor.output.MonitorOutputIntervention"       autowire="constructor" />
 
     <bean id="monitorInput"                   class="fr.croixrouge.rdp.services.dwr.monitor.input.MonitorInputImpl"                 autowire="constructor" />
     <bean id="monitorInputDispositif"         class="fr.croixrouge.rdp.services.dwr.monitor.input.MonitorInputDispositifImpl"       autowire="constructor" />
     <bean id="monitorInputIntervention"       class="fr.croixrouge.rdp.services.dwr.monitor.input.MonitorInputInterventionImpl"     autowire="constructor" />
     <bean id="monitorInputBilan"              class="fr.croixrouge.rdp.services.dwr.monitor.input.MonitorInputBilanImpl"            autowire="constructor" />
+    <bean id="monitorInputSMS"                class="fr.croixrouge.rdp.services.dwr.monitor.input.MonitorInputSMS"                  autowire="constructor" />
+    
     <bean id="monitorCommons"                 class="fr.croixrouge.rdp.services.dwr.monitor.commons.MonitorCommonsImpl"             autowire="constructor" />
-    <bean id="homepage"                       class="fr.croixrouge.rdp.services.dwr.homepage.Homepage"                             autowire="constructor" />
-    <bean id="equipiersGestion"               class="fr.croixrouge.rdp.services.dwr.homepage.EquipiersGestion"                     autowire="constructor" />
+    <bean id="homepage"                       class="fr.croixrouge.rdp.services.dwr.homepage.Homepage"                              autowire="constructor" />
+    <bean id="equipiersGestion"               class="fr.croixrouge.rdp.services.dwr.homepage.EquipiersGestion"                      autowire="constructor" />
     <bean id="creditsAndChangeLogDwrService"  class="fr.croixrouge.rdp.services.dwr.monitor.commons.CreditsAndChangeLogDwrService"  autowire="constructor" />
-    <bean id="lieuEditorDwrService"           class="fr.croixrouge.rdp.services.dwr.homepage.LieuEditor"                           autowire="constructor" />
+    <bean id="lieuEditorDwrService"           class="fr.croixrouge.rdp.services.dwr.homepage.LieuEditor"                            autowire="constructor" />
     <bean id="InterventionListService"        class="fr.croixrouge.rdp.services.dwr.monitor.commons.InterventionListService"        autowire="constructor" />
     
     

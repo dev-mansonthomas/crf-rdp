@@ -13,11 +13,9 @@ import fr.croixrouge.rdp.model.monitor.Position;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.authentification.SecurityPrincipal;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
-import fr.croixrouge.utilities.web.security.SecurityFilter;
 
 public class MonitorOutputDispositf  extends DWRUtils
 {
@@ -70,19 +68,16 @@ public class MonitorOutputDispositf  extends DWRUtils
   
   public void addInterventionToDispositif(int idIntervention, int idDispositif) throws Exception
   {
-     this.validateSessionAndGetRegulationId();
-    
     HttpSession session         = this.validateSession();
     Regulation  regulation      = (Regulation)session.getAttribute("regulation");
-    int currentUserRegulationId = regulation.getRegulationId();
+    int regulationId            = regulation.getRegulationId();
+    int currentUserId           = this.getCurrentUserId();
     
-    SecurityPrincipal principal = (SecurityPrincipal)session.getAttribute(SecurityFilter.PRINCIPAL);
-    
-    this.dispositifInterventionDelegate.affectInterventionToDispositif(principal.getUser().getIdUser(), currentUserRegulationId, idIntervention, idDispositif, new Date());
+    this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserId, regulationId, idIntervention, idDispositif, new Date());
 
 
     //Met a jour tous les navigateurs avec le nouvel état du dispositif
-    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
+    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif, false);
     
     ScriptBuffer scriptBuffer = new ScriptBuffer();
     scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif, idIntervention);

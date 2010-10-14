@@ -8,6 +8,9 @@ public class SMS implements Serializable
 {
   private static final long serialVersionUID = 6576813250487563885L;
   
+  public static final int TYPE_DETAIL_INTERVENTION          = 1;
+  public static final int TYPE_MESSAGE_EQUIPIERS_DISPOSITIF = 2;
+  
   private int     smsType     ;
   private int     userId      ;
   private int     idDispositif;

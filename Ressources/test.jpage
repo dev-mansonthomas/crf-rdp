@@ -48,3 +48,28 @@ Calendar gregorianCalendar = GregorianCalendar.getInstance();
 
   
   
+  
+  
+  
+  
+  String message = 
+    "INSERT INTO `sms_log` " +
+    " (`id_sms_type`, `id_dispositif`, `id_user`, `to`, `message`, `send_date`)\n" +
+    "VALUES                                                   \n" +
+    " (?            , ?              , ?        , ?   , ?        , NOW()      )\n" ;
+  
+  
+  
+    Pattern p = Pattern.compile("\n");
+    Matcher m = p.matcher(message);
+    int count = 0;
+    while (m.find()) 
+    { 
+      count++; 
+    }
+    
+    System.out.println(message.length());
+    System.out.println(message.length()+ count);
+    System.out.println(count);
+
+  

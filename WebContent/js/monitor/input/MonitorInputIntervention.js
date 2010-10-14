@@ -248,6 +248,8 @@ MonitorInputInterventionCs.prototype.endOfEditionEvent=function()
     
   var messageList       = [];  
   var fieldInputError = false;
+  //on vide le store des éléments a corriger
+  Ext.getCmp('FormValidationWindow').getStore().removeAll();
   
   for(var i=0, count=mandatoryFields.length;i<count;i++)
   {
@@ -314,7 +316,7 @@ MonitorInputInterventionCs.prototype.resetInterventionForm=function()
   
   Ext.get('InterventionTicketBusinessId'      ).update("");
   Ext.get('InterventionTicket_id_intervention').update("");
-  
+  $('interventionNomPrenomRadio').value='';
   $('googleAdressCheckStatus').src=contextPath+'/img/pix.png';
 };
 

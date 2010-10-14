@@ -792,6 +792,7 @@ MonitorInputDispositifCs.prototype.displayInterventionsList=function()
 
 MonitorInputDispositifCs.prototype.editDispositif=function(idDispositif)
 {
+  window.focus();
   this.resetDispositifForm();
   MonitorInputDispositif.getDispositif(idDispositif, this.editDispositifReturn);
 };

@@ -108,6 +108,8 @@ Ext.ux.MonitorInput.BilanEditor = function() {
        * sinon, l'identité de la victime sera affiché*/
       editBilan:function(idIntervention, ongletToOpen)
       {
+        window.focus();
+        
         if(!ongletToOpen)
           ongletToOpen = "none";
         

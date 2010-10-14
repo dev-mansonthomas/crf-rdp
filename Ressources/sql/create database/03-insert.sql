@@ -617,7 +617,9 @@ values
 ('0.4.0','2009-06-01'   ,'No production release','Ré implémentation du Drag & Drop, affectation de plusieurs victime à un dispositif'),
 ('0.4.2','2010-03-11'   ,'No production release','Mise a jours de composants techniques'),
 ('0.4.3','2010-03-18'   ,'No production release','Ajout d\'une interface d\'edition des utilisateur de l\'application + Bug Fix'),
-('0.4.4','2010-09-04'   ,'No production release','Gestion des Lieux, ID Métier pour les inters, Affichage des inters d\'un bénévole, + bug fix')
+('0.4.4','2010-09-04'   ,'No production release','Gestion des Lieux, ID Métier pour les inters, Affichage des inters d\'un bénévole, + bug fix'),
+('0.4.5','2010-09-30'   ,'No production release','Gestion des SMS sur affecation à un alpha, envoie de SMS a un équipage, logging des echanges SMS'),
+('0.4.6','2010-10-07'   ,'No production release','Bug fix release + focus à la fenêtre de saisie lorsqu\'on doit saisir qqch dedans')
 ;
 
 insert into application_version_changelog(`id_application_version`, `id_jira`, `description`)
@@ -661,7 +663,17 @@ values
 (7,'IRP-68' , 'Bug sur la gestion de certaine checkbox'),
 (7,'IRP-48' , 'Attribution d\'un ID Métier par intervention'),
 (7,'IRP-25' , 'Drop down pour le volume des bouteilles'),
-(7,'IRP-7'  , 'Bouton de visualisation du dispositif sur la google map');
+(7,'IRP-7'  , 'Bouton de visualisation du dispositif sur la google map'),
+(8,'IRP-124', 'SMS : logging de l\'activité sms de l\'application '),
+(8,'IRP-126', 'Chargement du ticket d\'intervention incomplet'),
+(8,'IRP-122', 'Envoie de SMS au CI à l\'affectation d\'une intervention alpha'),
+(8,'IRP-123', 'Envoie de SMS à l\'équipage du dispositif avec message personnalisé'),
+(9,'IRP-134', 'Mise à jour de l\'heure du serveur automatique avec ntpd'),
+(9,'IRP-135', 'l\'application donne le focus a la fenetre de saisie lorsqu\'on doit saisir qqch'),
+(9,'IRP-133', 'Fix sur le découpage des sms en message de 160 char'),
+(9,'IRP-131', 'Fix : le nivol est une clé dans la base des équipiers (impossible de saisir 2 équipiers avec le meme nivol)'),
+(9,'IRP-130', 'Fix sur la publication d\'une intervention')
+;
 
 
 

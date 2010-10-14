@@ -104,7 +104,12 @@
         <param name="beanName" value="monitorInputBilan"/>
     </create>
 
-
+    <create
+         creator="spring"
+           scope="application"
+      javascript="MonitorInputSMS">
+        <param name="beanName" value="monitorInputSMS"/>
+    </create>
     
     <create
          creator="spring"

@@ -5,6 +5,7 @@ var miCoRegulateurListCs    = null;
 var miInterventionCs        = null;
 var googleMapAdressResolver = null;
 var miBilanCs               = null;
+var miSMSCs                 = null;
 
 var MonitorInputCs = Class.create();
 
@@ -386,6 +387,8 @@ function init()
   googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
   googleMapAdressResolver.init();
  
+  miSMSCs = new Ext.ux.monitor.input.SMS();
+  
     /* init de la liste des interventions*/
   PageBus.subscribe("list.loaded"     ,  this,
     function(){

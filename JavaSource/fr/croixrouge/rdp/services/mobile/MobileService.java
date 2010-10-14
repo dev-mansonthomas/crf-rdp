@@ -2,11 +2,19 @@ package fr.croixrouge.rdp.services.mobile;
 
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import fr.croixrouge.rdp.model.monitor.SMS;
 
@@ -22,14 +30,34 @@ public abstract class MobileService
   public final static int    SMS_ONE_MESSAGE_MAX_SIZE = 160;
   public final static String SMS_SUBJECT              = "[CRF-RDP X/Y]\n";
   public final static String SMS_SUBJECT_ONE_MESSAGE  = "[CRF-RDP]\n";
-  
+  public final static Map<String, String> caracterToReplace = new HashMap<String, String>(){
+    private static final long serialVersionUID = 1L;
+  {
+    put("œ","oe");
+  }
+  };
   public void sendSMS(SMS sms) throws Exception
   {
     //Ajout du code pays qui replace le 0 initial
     String myTo       = "33"+sms.getRecipient().substring(1);
     String myMessage  = sms.getMessage().trim();
     
-    if(myMessage.length()<=SMS_ONE_MESSAGE_MAX_SIZE-SMS_SUBJECT_ONE_MESSAGE.length())
+    for (Entry<String, String> element : caracterToReplace.entrySet())
+    {
+      if(logger.isDebugEnabled())
+      {
+        logger.debug("replacing '"+element.getKey()+"' by '"+element.getValue()+"' in message '"+myMessage+"'");
+      }
+      myMessage = myMessage.replaceAll(element.getKey(), element.getValue());
+      
+      if(logger.isDebugEnabled())
+      {
+        logger.debug("replacing '"+element.getKey()+"' by '"+element.getValue()+"' result: '"+myMessage+"'");
+      }
+
+    }
+    
+    if(myMessage.length()+SMS_SUBJECT_ONE_MESSAGE.length()<=SMS_ONE_MESSAGE_MAX_SIZE) //+1 pour \n, il n'est pas compté dans le length()
     {//Si short subject + message <= 160
       myMessage = SMS_SUBJECT_ONE_MESSAGE+myMessage;
       
@@ -49,6 +77,8 @@ public abstract class MobileService
                                         .replace("Y",counti+"")
                                         +messageParts[i];
         
+        System.err.println(oneMessage.length());
+        System.err.println((new String(oneMessage.getBytes(),"ISO-8859-1")).length());
         
         sms.setRecipient  (myTo      );
         sms.setMessage    (oneMessage);
@@ -74,19 +104,28 @@ public abstract class MobileService
       
   }
   
-  
+  /*
+   * 
+   * on doit avoir la longueur et le nombre de caractères comptant pour deux.
+   * et découper le message a 160-entete-caracteres comptant pour 2
+   * afin d'envoyer des sms de taille correct
+   */
+ 
   private String[] splitMessage(String message, int length)
   {
     ArrayList<String>parts = new ArrayList<String>(4);
-    int msgLength = message.length();
+    int numberOf2BytesChar = countCaractersThatUseTwoBytes(message);
+    int javaMsgLength      = message.length();
 
     while(true)
     {
-      if(msgLength>length)
+      if(javaMsgLength+numberOf2BytesChar>length)
       {
-        parts.add(message.substring(0,length));
-        message = message.substring(length);
-        msgLength = message.length();        
+        parts.add(message.substring(0,length-numberOf2BytesChar));
+        message = message.substring(length-numberOf2BytesChar);
+        
+        numberOf2BytesChar = countCaractersThatUseTwoBytes(message);
+        javaMsgLength      = message.length();        
       }
       else
       {
@@ -96,6 +135,21 @@ public abstract class MobileService
     }
     
     return parts.toArray(new String[parts.size()]);
+  }
+  
+  
+  private int countCaractersThatUseTwoBytes(String message)
+  {
+    Pattern p = Pattern.compile("\n");
+    Matcher m = p.matcher(message);
+    int count = 0;
+    while (m.find()) 
+    { 
+      count++; 
+    }
+    
+    return count;
+
   }
   
   private final static String queryForLogSmsTransmission = 

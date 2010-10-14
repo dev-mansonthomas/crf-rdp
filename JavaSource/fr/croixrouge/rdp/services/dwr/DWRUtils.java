@@ -10,8 +10,10 @@ import org.directwebremoting.WebContextFactory;
 
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.scheduler.ClockJob;
+import fr.croixrouge.rdp.services.authentification.SecurityPrincipal;
 import fr.croixrouge.rdp.services.dwr.reverseAjax.AddScript;
 import fr.croixrouge.rdp.services.dwr.reverseAjax.RegulationFilter;
+import fr.croixrouge.utilities.web.security.SecurityFilter;
 
 public class DWRUtils
 {
@@ -25,7 +27,7 @@ public class DWRUtils
     WebContext  webContext  = WebContextFactory.get();
     HttpSession session     = webContext.getSession(false);
     if(session == null)
-      throw new Exception("Votre Session a expirée, veuillez vous reconnecter");
+      throw new Exception("Votre Session a expirée, veuillez vous reconnecter (session is null)");
     return session;
   }
   
@@ -73,6 +75,21 @@ public class DWRUtils
     
     return regulation.getRegulationId();
   }
+  
+  protected int getCurrentUserId() throws Exception
+  {
+    HttpSession       session       = this.validateSession();
+    SecurityPrincipal principal     = (SecurityPrincipal)session.getAttribute(SecurityFilter.PRINCIPAL);
+    
+    if(principal == null)
+    {
+      throw new SecurityException("Votre Session a expirée, veuillez vous reconnecter (principal is null)");
+    }
+    return principal.getUser().getIdUser();
+  }
+  
+  
+  
  
   /**
    * Met l'id de la régulation sur laquelle on est connecté dans la scriptSession

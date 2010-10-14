@@ -209,6 +209,7 @@ CREATE TABLE `equipier` (
   `email`                   varchar (255)           NOT NULL,
   `id_delegation`           int     (10) unsigned   NOT NULL,
   `autre_delegation`        varchar (45)                NULL,
+  UNIQUE       (`num_nivol`  ),
   PRIMARY KEY  (`id_equipier`),
   KEY `FK_equipier_delegation` (`id_delegation`    ),
   CONSTRAINT `FK_equipier_delegation` FOREIGN KEY (`id_delegation`     ) REFERENCES `delegation`    (`id_delegation`)

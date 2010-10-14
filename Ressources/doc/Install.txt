@@ -1,9 +1,8 @@
 Connect to your MySQL server as root
  
-grant all on crfrdp.* to 'crfrdp'@'localhost' identified by 'CRFCRF';
-flush privileges;
+execute (don't forget to modify passwor) 
+	/crf-rdp/Ressources/sql/create database/__-createUser.sql
 
- 
 
 Tomcat Setup :
   * Tomcat 6

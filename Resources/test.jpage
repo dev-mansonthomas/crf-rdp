@@ -1,0 +1,93 @@
+System.out.println("**************************************");
+Date currentDate  = new Date();
+Date dateDebut    = null;
+Date dateFin      = null;
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+Calendar gregorianCalendar = GregorianCalendar.getInstance();
+
+
+	gregorianCalendar.setTime( new Date());
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 13);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+  gregorianCalendar.set(Calendar.MINUTE, 59);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 11);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 21);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 19);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+  gregorianCalendar.set(Calendar.MINUTE, 30);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  
+  
+  
+  System.out.println(java.util.Arrays.toString("lskjhflkdfhlkdfldkfshgldkjhlkdfghi".split("(?<=\\G.{5})")));
+
+  
+  
+  System.out.println(java.net.InetAddress.getByName("macif.fr"))
+  macif.fr/195.25.232.194
+  
+  
+  String message = 
+    "INSERT INTO `sms_log` " +
+    " (`id_sms_type`, `id_dispositif`, `id_user`, `to`, `message`, `send_date`)\n" +
+    "VALUES                                                   \n" +
+    " (?            , ?              , ?        , ?   , ?        , NOW()      )\n" ;
+  
+  
+  
+    Pattern p = Pattern.compile("\n");
+    Matcher m = p.matcher(message);
+    int count = 0;
+    while (m.find()) 
+    { 
+      count++; 
+    }
+    
+    System.out.println(message.length());
+    System.out.println(message.length()+ count);
+    System.out.println(count);
+
+    String str = "a {http://www.tibco.com/PSG/Services/Framework/XSD/ESB/1.0}ESBMsg  b";
+    String search = "\\{http:\\/\\/www\\.tibco\\.com\\/PSG\\/Services\\/Framework\\/XSD\\/ESB\\/1\\.0\\}ESBMsg";
+    String replace = "{http://sa1.allianz.fr/pivots/flux/SA1_GestionAbonnes/CreationAbonne/100}ESBMsg";
+    
+    System.out.println( str.replaceAll(search,replace));
+    
+    
+    
+    System.out.println("fdsdf 7782".matches(".*[0-9].*"))
+    
+    System.out.println("fdsdf ".matches(".*[0-9].*"))
+    
+    
+  
+    System.out.println("75233".matches("[0-9]{3,9}[A-Z]"))
+    System.out.println("mt@mansonthomas.com".matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$"));
+    
+    System.out.println(org.apache.commons.validator.EmailValidator.getInstance().isValid("mt@mansonthomas.com"));
+    

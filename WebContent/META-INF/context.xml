@@ -9,5 +9,16 @@
              url="jdbc:mysql://localhost/crfrdp?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
  validationQuery="Select 1"
   />
+  
+   <Resource name="jdbc/siordDS"
+            auth="Container"
+            type="javax.sql.DataSource"
+        username="siord"
+        password="siord"
+ driverClassName="com.mysql.jdbc.Driver"
+             url="jdbc:mysql://localhost/siord?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8"
+ validationQuery="Select 1"
+  />
 
 </Context>
+

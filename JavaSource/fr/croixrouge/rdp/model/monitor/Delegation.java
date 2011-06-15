@@ -10,6 +10,16 @@ public class Delegation implements Serializable
   private String  nom         ;
   private String  departement ;
   
+  public Delegation()
+  {
+    
+  }
+  
+  public Delegation(int idDelegation)
+  {
+    this.idDelegation = idDelegation;
+  }
+  
   public String getDepartement()
   {
     return departement;

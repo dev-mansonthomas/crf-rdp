@@ -9,9 +9,9 @@
                             http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
 
-
+<!--  CRF RDP DATASOURCE -->
 	<bean id="crfRdpDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="${jdbc.dataSourceJndiName}" />
+		<property name="jndiName" value="${jdbc.crfrdp.dataSourceJndiName}" />
 	</bean>
 
 <!--
@@ -33,6 +33,19 @@
   </bean>
 
   <tx:annotation-driven transaction-manager="txManager"/>
+<!--  FIN CRF RDP DATASOURCE -->
+
+
+<!--  SIORD DATASOURCE -->  
+  <bean id="siordDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    <property name="jndiName" value="${jdbc.siord.dataSourceJndiName}" />
+  </bean>
+  
+  
+  <bean id="siordJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
+    <property name="dataSource" ref="siordDataSource"/>  
+  </bean>
+<!-- FIN SIORD DATASOURCE -->
   	
 </beans>
 

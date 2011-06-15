@@ -14,6 +14,25 @@ MonitorInputDispositifCs.prototype.initialize=function()
        miDispositifCs.updateDispositifDateField(event.id, 'DH_fin');
        //crfIrpUtils.focusHandling('DispositifDHFin');
     });
+  
+  
+  crfIrpUtils.setupCalendar("DispositifDatePatchAdulte1", function(event){
+    miDispositifCs.updateDispositifDateField(event.id, 'dsa_date_adulte_1');
+    }, 
+    'd/m/Y');
+  
+  crfIrpUtils.setupCalendar("DispositifDatePatchAdulte2", function(event){
+    miDispositifCs.updateDispositifDateField(event.id, 'dsa_date_adulte_2');
+    }, 
+    'd/m/Y');
+  
+  crfIrpUtils.setupCalendar("DispositifDatePatchEnfant", function(event){
+    miDispositifCs.updateDispositifDateField(event.id, 'dsa_date_enfant');
+    }, 
+    'd/m/Y');
+  
+  
+  
     
   //initialisation des controles javascripts
   crfIrpUtils.setFieldValidation('DispositifB1V', "/3|5|15/.test(#{value})"      , "5"  );

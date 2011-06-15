@@ -9,12 +9,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import fr.croixrouge.rdp.model.monitor.SMS;
 

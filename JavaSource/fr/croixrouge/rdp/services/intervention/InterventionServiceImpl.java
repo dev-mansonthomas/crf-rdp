@@ -66,7 +66,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     sortMapForGetEquipierList.put("prenom"                    , "prenom"          );
     sortMapForGetEquipierList.put("homme"                     , "equipier_is_male");
     sortMapForGetEquipierList.put("delegation.idDelegation"   , "nom_delegation"  );
-    sortMapForGetEquipierList.put("numNivol"                  , "num_nivol"       );
+    sortMapForGetEquipierList.put("numNivol"                  , "nivol"       );
     
     whereMapForGetEquipierList.put("VICTIME_NOM"      , "i.nom"              );
     whereMapForGetEquipierList.put("VICTIME_PRENOM"   , "i.prenom"           );
@@ -484,7 +484,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     private static final String TYPE_PARAM = "v_type";
     private static final String ID_OUT_PARAM = "o_BusinessId";
 
-    public InterventionBusinessIdStoredProcedure(JdbcTemplate jdbcTemplate) {
+    public InterventionBusinessIdStoredProcedure(JdbcTemplate jdbcTemplate) 
+    {
         super(jdbcTemplate, STORED_PROCEDURE_NAME);
         
         declareParameter(new SqlParameter   (TYPE_PARAM  , Types.CHAR));
@@ -493,7 +494,8 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
         compile();
     }
 
-    public String execute(int idDispositif) {
+    public String execute(int idDispositif) 
+    {
         Map<String, Integer> inputs = new HashMap<String, Integer>();
         inputs.put(TYPE_PARAM, idDispositif);
         Map<String, Object> result =  super.execute(inputs);
@@ -546,8 +548,11 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   {
     String interventionsIds = this.generateIdsList(interventions);
     
-    if(newIdEtat<3  || newIdEtat>9)
+    if(newIdEtat < DispositifService.STATUS_PARTI  || newIdEtat > DispositifService.STATUS_INTER_TERMINEE)
+    {
       throw new Exception("Cette action n'est pas gérée par la méthode InterventionServiceImpl.actionOnIntervention. idIntervention="+interventionsIds+", newIdEtat="+newIdEtat+", actionDate="+actionDate);
+    }
+    
     String etatDateField = idEtatDateFieldMapping.get(newIdEtat);
     String query         = queryForActionOnIntervention.replaceAll("<<DateField>>", etatDateField);
     

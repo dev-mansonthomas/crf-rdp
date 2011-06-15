@@ -34,8 +34,15 @@
     </bean>
     
     <bean id="creditsAndChangeLogService"  class="fr.croixrouge.rdp.services.creditsAndChangeLog.CreditsAndChangeLogServiceImpl" autowire="constructor" />
+    <bean id="SiordService"                class="fr.croixrouge.rdp.services.siord.SiordServiceImpl">
+      <constructor-arg index="0" ref="jdbcTemplate"       />
+      <constructor-arg index="1" ref="siordJdbcTemplate"  />
+      <constructor-arg index="2" ref="siordMembreChecker" />
+    </bean>
+    <bean id="siordMembreChecker" class="fr.croixrouge.rdp.services.siord.SiordMembreCheckerImpl" autowire="constructor">
+      <constructor-arg index="0" ref="jdbcTemplate"/>
+    </bean>
     
-
     <!-- SMS Service -->
     <bean id="OrangeMobileService" class="fr.croixrouge.rdp.services.mobile.OrangeMobileServiceImpl" autowire="constructor">
       <constructor-arg index="0"  value="${sms.orange.url.protocol}"          />

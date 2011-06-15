@@ -45,27 +45,9 @@ function init()
   
   crfIrpUtils.getAllList();
   initLayout();
-  initCirculationVue2Refresh();
-  
-  
   //ouverture de la seconde fentre
   //window.opener.openMonitorInput ();
 }
-
-function initCirculationVue2Refresh()
-{
-    // Start a simple clock task that updates a div once per second
-  var task = {
-      run: function(){
-          var src = Ext.get('center-circulation2-img').dom.src;
-          Ext.get('center-circulation2-img').dom.src=src.substring(0,src.indexOf(".gif")+4)+'?time='+(new Date()).format('c');
-      },
-      interval: 4*60*1000 //toutes les 4 muinutes
-  }
-   
-  taskRunner.start(task);
-}
-
 
 
 function initLayout()
@@ -187,16 +169,14 @@ function initLayout()
                     }
                     ,{
                         id        : 'center-circulation1-panel',
-                        /*url       : 'http://maps.google.fr/?ie=UTF8&amp;ll=48.879393,2.332535&amp;spn=0.036126,0.21698&amp;z=13&amp;layer=t',
-                        scripts   : true,*/
                         contentEl : 'center-circulation1',
-                        title     : 'Circulation vue 1',
+                        title     : 'Circulation - Google Maps',
                         closable  : false,
                         autoScroll: true
                     },{
                         id        : 'center-circulation2-panel',
                         contentEl : 'center-circulation2',
-                        title     : 'Circulation vue simple',
+                        title     : 'Circulation Sytadin',
                         closable  : false,
                         autoScroll: true
                     }]
@@ -208,6 +188,12 @@ function initLayout()
    window.setTimeout(function(){
     var map = Ext.getCmp('center-carte-paris-panel');
     map.goTo(48.85436, 2.348156);
+    
+    $('crfrdp-googlemap-paris-trafic-iframe').src="http://maps.google.fr/?ie=UTF8&ll=48.863473,2.348156&spn=0.056464,0.227795&z=13&layer=t";
+    $('crfrdp-sytadin-paris-trafic-iframe'  ).src="http://www.sytadin.fr/opencms/sites/sytadin/sys/raster_fs.jsp.html_430821966.html";
+//TODO : améliorer la vue google maps circulation    
+    
+    
    }, 3000);
   
    unmask.defer(100);

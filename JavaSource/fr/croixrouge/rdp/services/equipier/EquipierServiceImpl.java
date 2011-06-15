@@ -8,6 +8,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.EquipierRole;
@@ -35,11 +37,11 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     sortMapForGetEquipierList.put("prenom"                    , "prenom"          );
     sortMapForGetEquipierList.put("homme"                     , "equipier_is_male");
     sortMapForGetEquipierList.put("delegation.idDelegation"   , "nom_delegation"  );
-    sortMapForGetEquipierList.put("numNivol"                  , "num_nivol"       );
+    sortMapForGetEquipierList.put("numNivol"                  , "nivol"       );
     
     whereMapForGetEquipierList.put("NOM"              , "e.nom"              );
     whereMapForGetEquipierList.put("PRENOM"           , "e.prenom"           );
-    whereMapForGetEquipierList.put("NUM_NIVOL"        , "e.num_nivol"        );
+    whereMapForGetEquipierList.put("nivol"        , "e.nivol"        );
     whereMapForGetEquipierList.put("EQUIPIER_IS_MALE" , "e.equipier_is_male" );
     whereMapForGetEquipierList.put("ID_ROLE_EQUIPIER" , "er.id_role_equipier"); 
     whereMapForGetEquipierList.put("EMAIL"            , "e.email"            );
@@ -60,7 +62,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   private final static String equipierSelect =     
   "SELECT e.id_equipier         ,                  \n"+
   "       e.id_dispositif       ,                  \n"+
-  "       e.num_nivol           ,                  \n"+
+  "       e.nivol           ,                  \n"+
   "       e.equipier_is_male    ,                  \n"+
   "       e.enabled             ,                  \n"+
   "       e.nom                 ,                  \n"+
@@ -335,7 +337,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "AND    e.id_delegation     = d.id_delegation   \n"+
     "AND                                            \n"+
     "(                                              \n"+
-    "       e.num_nivol         LIKE ?              \n" +
+    "       e.nivol         LIKE ?              \n" +
     " OR    e.nom               LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
     " OR    e.prenom            LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
     ")\n";
@@ -413,9 +415,10 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   
   private final static String queryForCreateEquipier =
     "INSERT INTO equipier         \n" +
-    "(nom, prenom,indicatif, num_nivol, equipier_is_male, email, mobile, enabled, id_delegation)  \n" +
+    "(nom, prenom,indicatif, nivol, equipier_is_male, email, mobile, enabled, id_delegation)  \n" +
     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  \n";
   
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public int                 createEquipier            (Equipier equipier) throws Exception
   {
 
@@ -460,7 +463,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "SET    nom               = ?, \n" +
     "       prenom            = ?, \n" +
     "       indicatif         = ?, \n" +
-    "       num_nivol         = ?, \n" +
+    "       nivol         = ?, \n" +
     "       equipier_is_male  = ?, \n" +
     "       email             = ?, \n" +
     "       mobile            = ?, \n" +

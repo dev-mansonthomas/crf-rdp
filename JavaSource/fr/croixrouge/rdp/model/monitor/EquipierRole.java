@@ -11,6 +11,17 @@ public class EquipierRole extends CrfDto  implements ListItemInterface
   private boolean enEvaluation=false;
   private boolean evaluable  =false;
   
+  public EquipierRole()
+  {
+    
+  }
+  
+  public EquipierRole(int id, boolean enEvaluation)
+  {
+    this.id           = id;
+    this.enEvaluation = enEvaluation;
+  }
+  
   public int getId()
   {
     return id;

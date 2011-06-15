@@ -726,14 +726,7 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
   
         if(dispositif.idEtatDispositif >= STATUS_TRANSPORT)
         {//Transport et ultérieurs => on retire la victime de google maps
-          var map           = Ext.getCmp('center-carte-paris-panel');
-          var category      = 'lieu_cat_'+8;
-          var interventions = dispositif.interventions;
-          
-          for(var i=0,counti =interventions.length;i<counti;i++)
-          {
-            map.removeMarkerById(category,  interventions[i].idIntervention);
-          }
+          map.removeMarkerById(category,  intervention.idIntervention);
         }
         else
         {
@@ -775,7 +768,9 @@ MonitorOutputDispositifCs.prototype.displayDispositifOnMap  =function(dispositif
      * directionInfo.title 
      * directionInfo.html
      * */
-      
+
+      //retire l'ambulance seule pour afficher la route
+      map.removeMarkerById(category,  dispositif.idDispositif);
       
       //Trajet a calculer
       map.displayRouteForDispositif({

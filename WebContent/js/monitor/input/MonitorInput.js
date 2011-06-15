@@ -410,6 +410,7 @@ function init()
   }
   else
   {
+    //TODO réactiver
     window.opener.openMonitorOutput();
   }
 }

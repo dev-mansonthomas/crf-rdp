@@ -9,7 +9,7 @@ public class AddScript implements Runnable
   private ScriptBuffer  scriptBuffer = null;
   private Logger        logger       = null;
   
-  @SuppressWarnings("unchecked")
+
   public AddScript(ScriptBuffer scriptBuffer, Class clazz)
   {
     this.scriptBuffer = scriptBuffer;

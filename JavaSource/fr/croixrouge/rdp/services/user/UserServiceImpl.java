@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.User;
@@ -33,10 +35,10 @@ public class UserServiceImpl extends JDBCHelper implements UserService
 
   
   private final static String queryForAuthenticate = 
-    "SELECT   u.id_user, e.id_equipier, e.id_dispositif, u.enabled, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.indicatif, e.email, e.mobile, e.autre_delegation, e.id_delegation, \n" +
+    "SELECT   u.id_user, e.id_equipier, e.id_dispositif, u.enabled, e.nivol, e.equipier_is_male, e.nom, e.prenom, e.indicatif, e.email, e.mobile, e.autre_delegation, e.id_delegation, \n" +
     "         d.nom AS nom_delegation, d.departement AS departement_delegation, u.password, md5(?) as challenge_password, u.id_regulation, u.id_role_in_regulation                         \n" +
     "FROM     `user` u, `delegation` d, `equipier` e \n"+
-    "WHERE    e.num_nivol        = ?                 \n"+
+    "WHERE    e.nivol        = ?                 \n"+
     "AND      u.id_equipier      = e.id_equipier     \n"+
     "AND      e.id_delegation    = d.id_delegation   \n";  
   
@@ -66,7 +68,7 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   
   
   private final static String selectForUserWithEquipier = 
-    "SELECT   u.id_user, e.num_nivol, e.equipier_is_male, e.nom, e.prenom, e.indicatif, e.mobile, e.email, e.autre_delegation, e.id_delegation, \n" +
+    "SELECT   u.id_user, e.nivol, e.equipier_is_male, e.nom, e.prenom, e.indicatif, e.mobile, e.email, e.autre_delegation, e.id_delegation, \n" +
     "         d.nom AS delegation_nom, u.id_regulation, u.id_role_in_regulation\n"+
     "FROM     `user` u, `equipier` e, delegation` d\n";
   
@@ -203,10 +205,10 @@ public class UserServiceImpl extends JDBCHelper implements UserService
     selectForUserWithEquipier+
     "WHERE    u.id_role         <= 3            \n"+//TODO changer l'implementation avec un where exist etc... pour checker le niveau de role
     "AND      u.id_regulation    = 0            \n"+
-    "AND      e.num_nivol       like ?          \n"+
+    "AND      e.nivol       like ?          \n"+
     "AND      e.nom             like ?          \n"+
     "AND      e.id_delegation   = d.id_delegation \n"+
-    "ORDER BY e.num_nivol ASC       \n";  
+    "ORDER BY e.nivol ASC       \n";  
 
   private final static String queryWithName =
     selectForUserWithEquipier+
@@ -214,15 +216,15 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   "AND      u.id_regulation    = 0              \n"+
   "AND      e.nom             like ?            \n"+
   "AND      e.id_delegation   = d.id_delegation \n"+
-  "ORDER BY num_nivol ASC                       \n";
+  "ORDER BY nivol ASC                       \n";
   
   private final static String queryWithNivol =
     selectForUserWithEquipier+
   "WHERE    u.id_role         <= 3              \n"+//TODO changer l'implementation avec un where exist etc... pour checker le niveau de role
   "AND      u.id_regulation    = 0              \n"+
-  "AND      e.num_nivol       like ?            \n"+
+  "AND      e.nivol       like ?            \n"+
   "AND      e.id_delegation   = d.id_delegation \n"+
-  "ORDER BY id_role DESC, num_nivol ASC         \n"; 
+  "ORDER BY id_role DESC, nivol ASC         \n"; 
 
   
   /**
@@ -323,7 +325,7 @@ public class UserServiceImpl extends JDBCHelper implements UserService
     "VALUES\n"+
     " (?, true, md5(?), 0 )\n";
 
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public void createUser(User user)
   {
 

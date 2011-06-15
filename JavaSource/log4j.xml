@@ -32,6 +32,21 @@
     <level value="info" />
     <appender-ref ref="STDOUT" />
   </logger>
+  
+  <logger name="fr.croixrouge.rdp.model.siord" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="STDOUT" />
+  </logger>
+  
+  <logger name="fr.croixrouge.rdp.scheduler" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="STDOUT" />
+  </logger>
+  
+  <logger name="fr.croixrouge.rdp.services.siord" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="STDOUT" />
+  </logger>
 
   <root>
     <priority value="error" />

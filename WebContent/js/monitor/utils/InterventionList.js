@@ -49,7 +49,7 @@ Ext.ux.Utils.InterventionList = function() {
                         Ext.ux.rs.addFilterFromExtField(objectFilter,'InterventionListForm-age'          , 'age'          , '~'    ,'');
                         Ext.ux.rs.addFilterFromExtField(objectFilter,'InterventionListForm-codePostal'   , 'codePostal'   , '='    ,'');
                         Ext.ux.rs.addFilterFromExtField(objectFilter,'InterventionListForm-RoleEquipier' , 'ROLE_EQUIPIER', '='    ,'');
-                        console.log(objectFilter);
+
                         return objectFilter;
                     }
                      }),

@@ -36,7 +36,7 @@ public class RegulationRowMapper extends RowMapperHelper implements RowMapper<Re
     regulation.setComment           (resultSet.getString   ("comment"          ));
     
     regulateur.setIdUser            (resultSet.getInt      ("id_user"          ));
-    equipier.setNumNivol            (resultSet.getString   ("num_nivol"        ));
+    equipier.setNumNivol            (resultSet.getString   ("nivol"        ));
     equipier.setNom                 (resultSet.getString   ("nom"              ));
     equipier.setPrenom              (resultSet.getString   ("prenom"           ));
     equipier.setAutreDelegation     (resultSet.getString   ("autre_delegation" ));

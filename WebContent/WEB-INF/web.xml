@@ -28,12 +28,12 @@
 
     <init-param>
       <param-name>login-page</param-name>
-      <param-value>/login.jsp</param-value>
+      <param-value>/login.html</param-value>
     </init-param>
 
     <init-param>
       <param-name>login-error-page</param-name>
-      <param-value>/login.jsp?error=true</param-value>
+      <param-value>/login.html?error=true</param-value>
     </init-param>
 
     <init-param>
@@ -90,7 +90,11 @@
     <description>Direct Web Remoter Servlet</description>
     <display-name>DWR Servlet</display-name>
     <servlet-name>dwr-invoker</servlet-name>
-    <servlet-class>org.directwebremoting.server.tomcat.DwrCometProcessor</servlet-class>
+    <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+    <!-- 
+    Ne fonctionne pas sur tomcat
+    http://directwebremoting.org/jira/browse/DWR-143
+    <servlet-class>org.directwebremoting.server.tomcat.DwrCometProcessor</servlet-class> -->
     <init-param>
       <param-name>scriptCompressed</param-name>
       <param-value>true</param-value>
@@ -107,6 +111,13 @@
       <param-name>allowScriptTagRemoting</param-name>
       <param-value>true</param-value>
     </init-param>
+    
+    <!-- Full Streaming Mode en attendant que l'implémentation COMET soit réparé sur tomcat... -->
+    <init-param>
+      <param-name>maxWaitAfterWrite</param-name>
+      <param-value>-1</param-value>
+    </init-param>
+    
     
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -176,6 +187,10 @@
     <servlet-name>CSSServlet</servlet-name>
     <url-pattern>/cssBundle/*</url-pattern>
   </servlet-mapping>
+  
+  <session-config>
+    <session-timeout>720</session-timeout><!-- 12heures de sessions -->
+  </session-config>
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

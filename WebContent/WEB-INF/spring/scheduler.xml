@@ -8,14 +8,16 @@
   <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     <property name="triggers">
       <list>
-        <ref bean="cronTrigger"/>
+        <ref bean="clockJobCronTrigger"/>
+        <ref bean="synchroActivitySIORDCronTrigger"/>
+        <ref bean="synchroEquipierSIORDCronTrigger"/>
       </list>
     </property>
   </bean>
-
-  <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+<!-- Clock Job -->
+  <bean id="clockJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="clockJob"/>
-    <property name="cronExpression" value="0,15,30,45 * * * * ?"/>
+    <property name="cronExpression" value="0,15,30,45 * * * * ?"/><!-- Toutes les 15secondes -->
   </bean>
 
 
@@ -25,5 +27,42 @@
   </bean>
   
   <bean id="clockJobExecuter" class="fr.croixrouge.rdp.scheduler.ClockJob"/>
+<!-- FIN Clock Job -->  
+  
+
+<!-- Synchro Equipier SIORD Job -->
+  <bean id="synchroEquipierSIORDCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="synchroEquipierSIORDJob"/>
+    <property name="cronExpression" value="0 07 * * * ?"/><!-- Toutes les heures -->
+  </bean>
+
+
+  <bean id="synchroEquipierSIORDJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject"   ref="synchroEquipierSIORDJobExecuter"/>
+    <property name="targetMethod" value="doSynchroEquipierSIORD"   />
+  </bean>
+  
+  <bean id="synchroEquipierSIORDJobExecuter" class="fr.croixrouge.rdp.scheduler.SynchroEquipierSIORD" autowire="constructor">
+
+
+
+  </bean>
+<!-- FIN Synchro SIORD Job -->   
+ 
+ 
+ <!-- Synchro Activity SIORD Job -->
+  <bean id="synchroActivitySIORDCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    <property name="jobDetail" ref="synchroActivitySIORDJob"/>
+    <property name="cronExpression" value="0 0 * * * ?"/><!-- Toutes les heures -->
+  </bean>
+
+
+  <bean id="synchroActivitySIORDJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+    <property name="targetObject"   ref="synchroActivitySIORDJobExecuter"/>
+    <property name="targetMethod" value="doSynchroActivitySIORD"   />
+  </bean>
+  
+  <bean id="synchroActivitySIORDJobExecuter" class="fr.croixrouge.rdp.scheduler.SynchroActivitySIORD" autowire="constructor"/>
+<!-- FIN Synchro SIORD Job -->   
  
 </beans>

@@ -40,7 +40,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
   
   private final static String selectForRegulation = 
     "SELECT r.id_regulation, r.start_date, r.expected_end_date, r.open, r.id_regulateur, r.label, r.comment,\n" +
-    "       u.id_user, u.id_equipier, e.nom, e.prenom, e.num_nivol, e.autre_delegation, \n" +
+    "       u.id_user, u.id_equipier, e.nom, e.prenom, e.nivol, e.autre_delegation, \n" +
     "       d.nom, d.departement\n" +
     "FROM   regulation r, user u, equipier e, delegation d\n" ;
   

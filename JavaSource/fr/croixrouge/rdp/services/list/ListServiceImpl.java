@@ -29,7 +29,6 @@ import fr.croixrouge.rdp.model.monitor.rowMapper.UserRoleRowMapper;
 
 public class ListServiceImpl implements ListService, InitializingBean
 {
-  @SuppressWarnings("unchecked")
   private Hashtable<String, List> allList = null;
   private JdbcTemplate jdbcTemplate;
   
@@ -144,7 +143,6 @@ public class ListServiceImpl implements ListService, InitializingBean
   
   
   
-  @SuppressWarnings("unchecked")
   public void getAllListInit()
   {
     this.allList = new Hashtable<String, List>(8)
@@ -164,7 +162,7 @@ public class ListServiceImpl implements ListService, InitializingBean
     };
   }
   
-  @SuppressWarnings("unchecked")
+  
   public Hashtable<String, List> getAllList()
   {
     return allList;

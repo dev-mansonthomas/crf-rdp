@@ -332,7 +332,9 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
   {
     if(this.googleMapAvailable!= true)
       return;
+    
     var markers = this.markerCategories[category];
+    
     if(markers == null)
     {
       return;
@@ -340,14 +342,26 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
 
     for(var i=0, count=markers.size();i<count;i++)
     {
-      if(markers[i] != null && markers[i].customId==category+'_'+businessId)
+      var marker = markers[i];
+     
+      if(marker != null)
       {
-        var marker = markers[i];
+        if(consoleEnabled)
+        {
+          console.log(marker.customId+"="+category+'_'+businessId, marker);
+        }
+       
+    	if(marker.customId==category+'_'+businessId)
+   		{
+        if(consoleEnabled)
+        {
+          console.log("removing marker with customId="+marker.customId,marker);
+        }
+    	  
         this.gmap.removeOverlay(marker);
-
-        this.gmap.panTo(marker.getLatLng());
-        GEvent.trigger(marker,"click");
-        return;
+        //return; <<<=== le marqueur de l'intervention est ajouté plusieurs fois, il faut donc retirer plusieurs marqueurs! (gestion des marqueurs a revoir dans l'idéal) 
+   		
+   		}
       }
     }
   },

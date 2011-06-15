@@ -10,7 +10,6 @@ Ext.ux.crf.Login = function() {
   var dialog          ,
       form          ,
       logoBgColor = 'f9f9f9',
-      logoUrl     = 'img/login/developpement.png',
       submitUrl   = 'j_security_check';
 
 

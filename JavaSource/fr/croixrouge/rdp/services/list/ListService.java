@@ -20,6 +20,5 @@ public interface ListService
   public List<InterventionOrigine > getOriginesIntervention ();
   
   public void                                       getAllListInit          ();
-  @SuppressWarnings("unchecked")
   public Hashtable<String, List> getAllList              ();
 }

@@ -1,5 +1,6 @@
 package fr.croixrouge.rdp.model.monitor;
 
+import java.util.Date;
 import java.util.List;
 
 public class Equipier extends CrfDto
@@ -25,6 +26,12 @@ public class Equipier extends CrfDto
   private boolean     enEvaluationDansDispositif = false;
   private int         idRoleEnEval               = 0;
   
+  private Date        dateCreation = null;
+  private Date        dateModification = null;
+  
+  private int         idSiord = 0;
+  private Date        dateLastSynchroSiord = null;
+  
   private List<EquipierRole> roles;
   
   
@@ -46,6 +53,8 @@ public class Equipier extends CrfDto
     "idRoleDansDispositif      :"+idRoleDansDispositif       +"\n"+
     "enEvaluationDansDispositif:"+enEvaluationDansDispositif +"\n"+
     "idRoleEnEval              :"+idRoleEnEval               +"\n";
+    
+    //TODO ajouter le reste des champs
   }
   
   
@@ -177,5 +186,53 @@ public class Equipier extends CrfDto
   public void setIndicatif(String indicatif)
   {
     this.indicatif = indicatif;
+  }
+
+
+  public Date getDateCreation()
+  {
+    return dateCreation;
+  }
+
+
+  public void setDateCreation(Date dateCreation)
+  {
+    this.dateCreation = dateCreation;
+  }
+
+
+  public Date getDateModification()
+  {
+    return dateModification;
+  }
+
+
+  public void setDateModification(Date dateModification)
+  {
+    this.dateModification = dateModification;
+  }
+
+
+  public int getIdSiord()
+  {
+    return idSiord;
+  }
+
+
+  public void setIdSiord(int idSiord)
+  {
+    this.idSiord = idSiord;
+  }
+
+
+  public Date getDateLastSynchroSiord()
+  {
+    return dateLastSynchroSiord;
+  }
+
+
+  public void setDateLastSynchroSiord(Date dateLastSynchroSiord)
+  {
+    this.dateLastSynchroSiord = dateLastSynchroSiord;
   }
 }

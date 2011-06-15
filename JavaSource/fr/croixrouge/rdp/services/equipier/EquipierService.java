@@ -22,6 +22,7 @@ public interface EquipierService
   
   public void                 setEnableDisableEquipier  (int idEquipier   , boolean enable) throws Exception;
   public int                  createEquipier            (Equipier equipier) throws Exception;
+  public void                 updateEquipierRoles       (Equipier equipier, boolean creation) throws Exception;
   public void                 modifyEquipier            (Equipier equipier) throws Exception;
   public List<EquipierRole>   getEquipierRoles          (int idEquipier);
 }

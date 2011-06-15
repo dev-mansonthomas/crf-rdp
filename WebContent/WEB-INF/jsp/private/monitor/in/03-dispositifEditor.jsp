@@ -79,11 +79,11 @@
           </fieldset>
          <!-- FIN Ajout/Suppression D'équipier-->
 
-        <fieldset>
+        <fieldset style="width:698px;">
           <legend>Materiel</legend>
 
 
-<table id="DispositifO2Table" cellspacing="0" style="width:300px;float:left;margin-right:15px;">
+<table id="DispositifO2Table" cellspacing="0" style="width:300px;float:left;margin-right:5px;">
   <tr>
     <th rowspan="2" style="font-size:14px;width:20px;">
       O<sub>2</sub>
@@ -206,65 +206,96 @@
 </table>
 
 
-          <table id="DispositifDefibrilateurTable" style="width:250px;">
-            <tr>
-              <th>Défibrillateur</th>
-              <td id="dsa_td">
-                <input type="hidden" id="dsa_td_value" name="dsa_td_value" value=""/>
+<table id="DispositifDefibrilateurTable" style="width:200px;float:left;margin-right:5px;">
+  <tr>
+    <th>Défibrillateur</th>
+    <td id="dsa_td">
+      <input type="hidden" id="dsa_td_value" name="dsa_td_value" value=""/>
 
-                <span ext:qtip="Pas de DSA sur la mission ou DSA non fonctionnel">Aucun</span>
-                <input type="radio"
-                       name="DispositifDefibrilateurType"
-                      class="DispositifDefibrilateurRadio"
-                         id="DispositifDefibrilateurTypeAUCUN"
-                      value="NO"
-                    onFocus="crfIrpUtils.fieldEdit('dsa_td')"
-                   onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
+      <span ext:qtip="Pas de DSA sur la mission ou DSA non fonctionnel">Aucun</span>
+      <input type="radio"
+             name="DispositifDefibrilateurType"
+            class="DispositifDefibrilateurRadio"
+               id="DispositifDefibrilateurTypeAUCUN"
+            value="NO"
+          onFocus="crfIrpUtils.fieldEdit('dsa_td')"
+         onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
 
-                <span ext:qtip="Défibrilateur Semi Automatique">DSA</span>
-                <input type="radio"
-                       name="DispositifDefibrilateurType"
-                      class="DispositifDefibrilateurRadio"
-                         id="DispositifDefibrilateurTypeDSA"
-                      value="DSA" onFocus="crfIrpUtils.fieldEdit('dsa_td')"
-                   onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
+      <span ext:qtip="Défibrilateur Semi Automatique">DSA</span>
+      <input type="radio"
+             name="DispositifDefibrilateurType"
+            class="DispositifDefibrilateurRadio"
+               id="DispositifDefibrilateurTypeDSA"
+            value="DSA" onFocus="crfIrpUtils.fieldEdit('dsa_td')"
+         onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
 
-                <span ext:qtip="Défibrilateur Entièrement Automatique">DEA</span>
-                <input type="radio"
-                       name="DispositifDefibrilateurType"
-                      class="DispositifDefibrilateurRadio"
-                         id="DispositifDefibrilateurTypeDEA"
-                      value="DEA"
-                    onFocus="crfIrpUtils.fieldEdit('dsa_td')"
-                   onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
-              </td>
-             </tr>
-             <tr>
-              <th>Complet</th>
-              <td id="dsa_complet_td">
-                <input type="hidden" id="dsa_complet_td_value" name="dsa_complet_td_value" value=""/>
+      <span ext:qtip="Défibrilateur Entièrement Automatique">DEA</span>
+      <input type="radio"
+             name="DispositifDefibrilateurType"
+            class="DispositifDefibrilateurRadio"
+               id="DispositifDefibrilateurTypeDEA"
+            value="DEA"
+          onFocus="crfIrpUtils.fieldEdit('dsa_td')"
+         onChange="miDispositifCs.updateDispositifRadioField('dsa_td')"/>
+    </td>
+   </tr>
+   <tr>
+    <th>Complet</th>
+    <td id="dsa_complet_td">
+      <input type="hidden" id="dsa_complet_td_value" name="dsa_complet_td_value" value=""/>
 
-                <span ext:qtip="2 jeux de patch non périmé, Rasoir, Carte Mémoire, à l'heure">Oui</span>
-                <input type="radio"
-                       name="DispositifDefibrilateurComplet"
-                      class="DispositifDefibrilateurRadio"
-                         id="DispositifDefibrilateurCompletOui"
-                      value="true"
-                    onFocus="crfIrpUtils.fieldEdit('dsa_complet_td')"
-                   onChange="miDispositifCs.updateDispositifRadioField('dsa_complet_td')"/>
+      <span ext:qtip="2 jeux de patch non périmé, Rasoir, Carte Mémoire, à l'heure">Oui</span>
+      <input type="radio"
+             name="DispositifDefibrilateurComplet"
+            class="DispositifDefibrilateurRadio"
+               id="DispositifDefibrilateurCompletOui"
+            value="true"
+          onFocus="crfIrpUtils.fieldEdit('dsa_complet_td')"
+         onChange="miDispositifCs.updateDispositifRadioField('dsa_complet_td')"/>
 
-                <span title="Un composant manquant">Non</span>
-                <input type="radio"
-                       name="DispositifDefibrilateurComplet"
-                      class="DispositifDefibrilateurRadio"
-                         id="DispositifDefibrilateurCompletNon"
-                      value="false"
-                    onFocus="crfIrpUtils.fieldEdit('dsa_complet_td')"
-                   onChange="miDispositifCs.updateDispositifRadioField('dsa_complet_td')"/>
-              </td>
-            </tr>
-          </table>
-        </fieldset>
+      <span title="Un composant manquant">Non</span>
+      <input type="radio"
+             name="DispositifDefibrilateurComplet"
+            class="DispositifDefibrilateurRadio"
+               id="DispositifDefibrilateurCompletNon"
+            value="false"
+          onFocus="crfIrpUtils.fieldEdit('dsa_complet_td')"
+         onChange="miDispositifCs.updateDispositifRadioField('dsa_complet_td')"/>
+    </td>
+  </tr>
+</table>
+
+
+                <div id="DispositifDHFin_divLabel">Fin   : </div>
+                
+
+
+<!-- patch -->
+<table id="DispositifPatchTable" style="width:180px;">
+  <tr>
+    <th>Date Adulte 1</th>
+    <td>
+      <div id="DispositifDatePatchAdulte1_div"></div>
+    </td>
+   </tr>
+   <tr>
+    <th>Date Adulte 2</th>
+    <td>
+      <div id="DispositifDatePatchAdulte2_div"></div>
+    </td>
+  </tr>
+  <tr>
+    <th  ext:qtip="Sur les WELCH ALLYN, on utilise des patchs adultes avec un adaptateur qui réduit l'intensité des chocs">Date Enfant</th>
+    <td>
+      <div id="DispositifDatePatchEnfant_div"></div>
+    </td>
+  </tr>
+  
+</table>
+
+
+
+        </fieldset><!-- fieldset : O2, DSA, patch -->
 
 
         <fieldset>

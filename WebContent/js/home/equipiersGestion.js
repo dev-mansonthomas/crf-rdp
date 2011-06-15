@@ -152,7 +152,7 @@ Ext.ux.Home.EquipiersGestion = function() {
               
               Ext.ux.rs.addFilterFromField(objectFilter, 'search_nom'       , 'NOM'              ,'LIKE' , '');
               Ext.ux.rs.addFilterFromField(objectFilter, 'search_prenom'    , 'PRENOM'           ,'LIKE' , ''); 
-              Ext.ux.rs.addFilterFromField(objectFilter, 'search_numNivol'  , 'NUM_NIVOL'        ,'LIKE' , ''); 
+              Ext.ux.rs.addFilterFromField(objectFilter, 'search_numNivol'  , 'nivol'        ,'LIKE' , ''); 
               Ext.ux.rs.addFilterFromField(objectFilter, 'search_homme'     , 'EQUIPIER_IS_MALE' ,'='    , ''); 
               Ext.ux.rs.addFilterFromField(objectFilter, 'search_role'      , 'ID_ROLE_EQUIPIER' ,'='    , '0');
               Ext.ux.rs.addFilterFromField(objectFilter, 'search_email'     , 'EMAIL'            ,'LIKE' , ''); 

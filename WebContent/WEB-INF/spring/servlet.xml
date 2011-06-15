@@ -10,9 +10,10 @@
        class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
        <property name="mappings">
           <props>
-            <prop  key="/private/Homepage.html"   >HomepageController</prop>
-            <prop  key="/private/monitor/in.html" >MonitorInController</prop>
-            <prop  key="/private/monitor/out.html">MonitorOutController</prop>
+            <prop  key="/login.html"                  >LoginController</prop>
+            <prop  key="/private/Homepage.html"       >HomepageController</prop>
+            <prop  key="/private/monitor/in.html"     >MonitorInController</prop>
+            <prop  key="/private/monitor/out.html"    >MonitorOutController</prop>
             <prop  key="/private/test/testThomas.html">TestController</prop>
           </props>
        </property>
@@ -20,6 +21,9 @@
 
 
   <!-- Controllers -->
+    <bean id="LoginController" name="LoginController"
+       class="fr.croixrouge.rdp.controller.LoginController" autowire="constructor"/>
+       
   <bean id="HomepageController" name="HomepageController"
        class="fr.croixrouge.rdp.controller.HomepageController" autowire="constructor"/>
 

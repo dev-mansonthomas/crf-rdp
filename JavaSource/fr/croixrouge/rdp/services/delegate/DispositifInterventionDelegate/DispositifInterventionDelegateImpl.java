@@ -160,7 +160,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     //on suppose que toutes les interventions sont au meme état
     int idEtatIntervention = firstIntervention.getIdEtat          ();
     
-    //ON vérifie que toutes les interventions sont dans le meme état
+    //On vérifie que toutes les interventions sont dans le meme état
     for (InterventionTicket interventionTicket : interventions)
     {
       if(interventionTicket.getIdEtat() != idEtatIntervention)
@@ -413,9 +413,11 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     Date actionDate = new Date();                                      //8=arrivé hopital => 8+1=9 : inter terminée
     
     Dispositif dispositif =  this.dispositifService.getDispositif(idRegulation, idDispositif);
-    
+    //met a jour la date de fin d'intervention
     for (InterventionTicket intervention : dispositif.getInterventions())
-      this.interventionService.actionOnIntervention     (intervention.getIdIntervention(), DispositifService.STATUS_INTER_TERMINEE, actionDate);  
+    {
+      this.interventionService.actionOnIntervention     (intervention.getIdIntervention(), DispositifService.STATUS_INTER_TERMINEE, actionDate);
+    }
     
     this.dispositifService  .actionOnDispositif       (idDispositif  , DispositifService.STATUS_INTER_TERMINEE, actionDate);//Pour l'historisation du changement d'état
     this.dispositifService  .actionEndOfIntervention  (idDispositif                   );

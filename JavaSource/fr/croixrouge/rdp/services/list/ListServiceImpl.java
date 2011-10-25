@@ -16,6 +16,7 @@ import fr.croixrouge.rdp.model.monitor.InterventionEtat;
 import fr.croixrouge.rdp.model.monitor.InterventionMotif;
 import fr.croixrouge.rdp.model.monitor.InterventionMotifAnnulation;
 import fr.croixrouge.rdp.model.monitor.InterventionOrigine;
+import fr.croixrouge.rdp.model.monitor.SMSType;
 import fr.croixrouge.rdp.model.monitor.UserRole;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DelegationRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifEtatRowMapper;
@@ -25,10 +26,12 @@ import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionEtatRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionMotifAnnulationRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionMotifRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.InterventionOrigineRowMapper;
+import fr.croixrouge.rdp.model.monitor.rowMapper.SMSTypeRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.UserRoleRowMapper;
 
 public class ListServiceImpl implements ListService, InitializingBean
 {
+  @SuppressWarnings("rawtypes")
   private Hashtable<String, List> allList = null;
   private JdbcTemplate jdbcTemplate;
   
@@ -140,12 +143,21 @@ public class ListServiceImpl implements ListService, InitializingBean
   }
   
   
+  private final static String queryForGetSMSType =
+      "SELECT id_sms_type, label_sms_type  \n"+
+      "FROM `sms_type`                     \n"+
+      "ORDER BY id_sms_type ASC            \n";
+  
+    public List<SMSType> getSMSType()
+    {
+      return this.jdbcTemplate.query(queryForGetSMSType,new Object[]{}, new int[]{}, new SMSTypeRowMapper());
+    }
   
   
-  
+  @SuppressWarnings("rawtypes")
   public void getAllListInit()
   {
-    this.allList = new Hashtable<String, List>(8)
+    this.allList = new Hashtable<String, List>(9)
     {
       private static final long serialVersionUID = 5456339591578590644L;
       {
@@ -158,11 +170,13 @@ public class ListServiceImpl implements ListService, InitializingBean
         this.put("TypesDispositif"       , getTypesDispositif             ());
         this.put("Delegations"           , getDelegations                 ());
         this.put("MotifsAnnulation"      , getMotifsAnnulationIntervention());
+        this.put("SMSType"               , getSMSType                     ());
       }
     };
   }
   
   
+  @SuppressWarnings("rawtypes")
   public Hashtable<String, List> getAllList()
   {
     return allList;

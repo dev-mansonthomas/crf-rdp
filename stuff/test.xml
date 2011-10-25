@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ap:Action xmlns:ap="http://tibco.com/bpm/actionprocessor"
+	xmlns:sso="http://tibco.com/bpm/sso/types">
+	<ap:EventCollectorQuery Id="_jsx_0_bm_XML_ap">
+		<ap:Query>
+			<ap:Correlate>false</ap:Correlate>
+			<ap:Filter>(managedObjectId=&apos;pvm:0a121&apos; AND
+				(messageId=&apos;BX_INSTANCE_PROCESS*&apos; OR
+				messageId=&apos;BX_INSTANCE_SUBPROCESS*&apos; OR
+				messageId=&apos;com.tibco.bx*&apos;)) OR
+				(managedObjectId=&apos;pvm:0a121&apos; AND managedObjectType
+				&lt;&gt; &apos;*Event&apos; AND managedObjectType &lt;&gt;
+				&apos;*Gateway&apos; AND managedObjectType &lt;&gt;
+				&apos;userTask&apos;) OR (messageCategory=&apos;WORK_ITEM&apos; AND
+				parentObjectId=&apos;pvm:0a121&apos;)</ap:Filter>
+			<ap:SortOrder>
+				<ap:SortElement>
+					<ap:Type>ASCENDING</ap:Type>
+					<ap:Attribute>creationTime</ap:Attribute>
+				</ap:SortElement>
+			</ap:SortOrder>
+			<ap:RequireAllAttributes>true</ap:RequireAllAttributes>
+		</ap:Query>
+		<ap:QueryOptions>
+			<ap:StartPosition>0</ap:StartPosition>
+			<ap:NumberOfItems>20</ap:NumberOfItems>
+		</ap:QueryOptions>
+	</ap:EventCollectorQuery>
+</ap:Action>

@@ -16,7 +16,6 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public class OrangeMobileServiceImpl extends MobileService
 {
@@ -52,7 +51,7 @@ public class OrangeMobileServiceImpl extends MobileService
                                   String        parameterNameMessage,
                                   int           executionMode       ,
                                   int           smsMaxSize          ,
-                                  JdbcTemplate  jdbcTemplate        )
+                                  SMSLogService smsLogService       )
   {
     this.protocol             = protocol            ;
     this.host                 = host                ;
@@ -67,7 +66,7 @@ public class OrangeMobileServiceImpl extends MobileService
     this.parameterNameMessage = parameterNameMessage;
     this.executionMode        = executionMode       ;
     this.smsMaxSize           = smsMaxSize          ;
-    this.jdbcTemplate         = jdbcTemplate        ;
+    this.smsLogService        = smsLogService        ;
   }
 
   @Override

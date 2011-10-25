@@ -60,10 +60,10 @@ function init()
         tpl         : resultTpl,
         itemSelector: 'div.search-item',
         applyTo     : 'search',
-        onSelect    : function(record){ // override default onSelect to do redirect
+        onSelect    : function(record){
             alert(record.data.numNivol);
         }
-    });
+    }); // override default onSelect to do redirect
   /* FIN Combo Box de recherche d'équipier*/
   
   

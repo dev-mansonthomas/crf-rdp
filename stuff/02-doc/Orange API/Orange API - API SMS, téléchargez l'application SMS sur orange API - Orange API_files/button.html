@@ -1,0 +1,127 @@
+
+
+/* $Id: button.jsp 1705 2010-05-28 07:53:14Z akav7375 $ */
+
+var c2cv = "";
+try { c2cv += "&v1="+v1; } catch (err) {}
+try { c2cv += "&v2="+v2; } catch (err) {}
+try { c2cv += "&v3="+v3; } catch (err) {}
+try { c2cv += "&v4="+v4; } catch (err) {}
+try { c2cv += "&v5="+v5; } catch (err) {}
+try { c2cv += "&v6="+v6; } catch (err) {}
+try { c2cv += "&v7="+v7; } catch (err) {}
+try { c2cv += "&v8="+v8; } catch (err) {}
+try { c2cv += "&v9="+v9; } catch (err) {}
+try { c2cv += "&v10="+v10; } catch (err) {}
+
+var c2cd = false;
+
+
+
+	
+
+
+	
+	
+	
+
+	
+	
+		
+	
+	
+
+  	function openLink() {
+		c2cd = true;
+		openPopup("https://c2cad1.internetpluspro.orange-business.com/c2call-frontend//call/click2call.html?s=9106332cer1290521&c=9106332rkm129052"+ c2cv + "&url="+window.location, "DIV");
+     }
+      
+      
+  	function openPopup(c2cu, c2cm) {
+	
+		
+
+		
+			if (c2cm == "DIV") {
+				closeDiv();
+			
+				var myDiv=document.createElement("div");
+			    myDiv.setAttribute("id","divC2cId");
+			    myDiv.setAttribute("name","divC2cId");
+			    myDiv.style.zIndex="1010";
+			    myDiv.style.position="absolute";
+			    myDiv.style.left="50px";
+			    myDiv.style.top="50px";		
+			    myDiv.style.border="0px";
+			    myDiv.style.width="430px";
+			    myDiv.style.height="430px";		    		      
+			    myDiv.style.backgroundColor="#FFFFFF";  
+			    if(document.body){
+			      document.body.appendChild(myDiv);
+			    } else{
+			      document.appendChild(myDiv);
+			    }				    
+						
+				var bIE=navigator.userAgent.indexOf("MSIE")!==-1&&navigator.userAgent.indexOf("Chrome")===-1;
+				var myIFrame;
+				if(bIE){
+			      	myIFrame=document.createElement("<iframe name=\"iframeC2cId\">");
+			    } else {
+			      	myIFrame=document.createElement("iframe");
+			    }
+				myIFrame.setAttribute("src",c2cu);
+			    myIFrame.setAttribute("scrolling","no");
+			    myIFrame.setAttribute("frameBorder","0");
+			    myIFrame.setAttribute("id","iframeC2cId");
+			    myIFrame.setAttribute("name","iframeC2cId");
+			    myIFrame.style.border="0px";
+			    myIFrame.style.width="410px";
+			    myIFrame.style.height="410px";		    
+			    myIFrame.style.position="absolute";
+			    myIFrame.style.left="10px";
+			    myIFrame.style.top="10px";	
+			    
+			    myDiv.appendChild(myIFrame);
+			    
+			    var myA=document.createElement("a");
+			    myA.setAttribute("href","javascript:closeDiv();");
+			    myDiv.appendChild(myA);
+			    
+			    var myImg=document.createElement("img");
+			    myImg.setAttribute("src","https://c2cad1.internetpluspro.orange-business.com/popImages/9106332rkm129052/9106332cer1290521/closePopup.gif");
+			    myImg.setAttribute("border","0");
+			    myImg.style.position="absolute";
+			    myImg.style.left="404px";
+			    myImg.style.top="5px";		   		     
+			    myA.appendChild(myImg);
+			}		
+		
+	}		
+
+	
+		function closeDiv(){
+			var myDiv=document.getElementById('divC2cId');
+			if (myDiv != null) {
+				if(document.body){
+					document.body.removeChild(myDiv);
+				}else{
+					document.removeChild(myDiv);
+				}
+			}
+		}
+	
+	
+	
+	
+		var c2ch =  
+			"<img src='https://c2cad1.internetpluspro.orange-business.com/popImages/9106332rkm129052/9106332cer1290521/bouton.gif' " 
+			+ "onmouseover=\"this.style.cursor='pointer'\" "
+			+ "onclick=\"c2cd = true;openPopup('https://c2cad1.internetpluspro.orange-business.com/c2call-frontend//call/click2call.html?s=9106332cer1290521&c=9106332rkm129052"
+			+ c2cv
+			+ "&url='+window.location, 'DIV');\"/>";
+		var myDiv = document.getElementById('buttonC2cId');
+		myDiv.innerHTML = c2ch;
+	
+
+	
+	

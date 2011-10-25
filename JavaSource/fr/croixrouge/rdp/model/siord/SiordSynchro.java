@@ -1,12 +1,14 @@
 package fr.croixrouge.rdp.model.siord;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SiordSynchro implements Serializable
 {
   private static final long serialVersionUID = 633701804197010060L;
-
+  private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+  
   private int  idSynchroSiord   ;
   private int  idSynchroType    ;
   private Date synchroDateStart ;
@@ -15,11 +17,32 @@ public class SiordSynchro implements Serializable
   private int  sucessfullImport ;
   private int  warningImport    ;
   private int  failedImport     ;
-  
+ 
   private int  previousIdSynchroSiord;
   private Date previousSynchroDateEnd;
   private Date previousSynchroDateStart;
   private int  previousLastImportedId;
+  
+  @Override
+  public String toString()
+  {
+    
+    
+    return  
+    "idSynchroSiord          :'"+    idSynchroSiord                         +"'\n"+  
+    "idSynchroType           :'"+    idSynchroType                          +"'\n"+  
+    "synchroDateStart        :'"+    (synchroDateStart         == null ?"":sdf.format(synchroDateStart))           +"'\n"+  
+    "synchroDateEnd          :'"+    (synchroDateEnd           == null ?"":sdf.format(synchroDateEnd  ))           +"'\n"+  
+    "lastImportedId          :'"+    lastImportedId                         +"'\n"+  
+    "sucessfullImport        :'"+    sucessfullImport                       +"'\n"+  
+    "warningImport           :'"+    warningImport                          +"'\n"+  
+    "failedImport            :'"+    failedImport                           +"'\n"+  
+    "previousIdSynchroSiord  :'"+    previousIdSynchroSiord                 +"'\n"+  
+    "previousSynchroDateEnd  :'"+    (previousSynchroDateEnd   == null ?"":sdf.format(previousSynchroDateEnd  ))   +"'\n"+  
+    "previousSynchroDateStart:'"+    (previousSynchroDateStart == null ?"":sdf.format(previousSynchroDateStart))   +"'\n"+  
+    "previousLastImportedId  :'"+    previousLastImportedId                 +"'\n";
+
+  }
   
   
   public int getIdSynchroSiord()

@@ -19,6 +19,7 @@ public interface SiordService
   public void                     processMembresImportedFromSiordDB   (SiordSynchro siordSynchro  ) throws Exception;
   public void                     cleanUpImportedMembreData           (SiordSynchro siordSynchro  ) throws Exception;
   public List<Integer>            getSiordCompetences                 (SiordSynchro siordSynchro  , Membre membre) throws Exception;
-  public int                      getDelegationIdFromSiordDelegationId(int idDelegationSiord      ) throws Exception; 
+  public int                      getDelegationIdFromSiordDelegationId(int idDelegationSiord      ) throws Exception;
+  public void                     storeLastImportedId                 (SiordSynchro siordSynchro  ) throws Exception;
 
 }

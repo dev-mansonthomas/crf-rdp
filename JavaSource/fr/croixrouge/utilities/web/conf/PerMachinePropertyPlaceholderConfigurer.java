@@ -222,7 +222,8 @@ public class PerMachinePropertyPlaceholderConfigurer extends PropertyPlaceholder
     return null;
   }
 
-  @SuppressWarnings("unchecked")
+  
+  @SuppressWarnings("rawtypes")
   public void putAll(Map arg0)
   {
   }

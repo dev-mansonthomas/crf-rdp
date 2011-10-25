@@ -40,6 +40,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   public DispositifImpl(JdbcTemplate  jdbcTemplate)
   {
+    
+    
     this.jdbcTemplate        = jdbcTemplate       ;
     
     if(logger.isDebugEnabled())

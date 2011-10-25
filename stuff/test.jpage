@@ -1,0 +1,105 @@
+System.out.println("**************************************");
+Date currentDate  = new Date();
+Date dateDebut    = null;
+Date dateFin      = null;
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
+
+System.out.println(dateFormat.format(new Date().setTime()));
+
+
+Calendar gregorianCalendar = GregorianCalendar.getInstance();
+
+
+	gregorianCalendar.setTime( new Date());
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 13);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+  gregorianCalendar.set(Calendar.MINUTE, 59);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 11);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 21);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 19);
+  gregorianCalendar.set(Calendar.MINUTE, 00);
+  dateDebut    = gregorianCalendar.getTime();
+  
+  gregorianCalendar.set(Calendar.HOUR_OF_DAY  , 23);
+  gregorianCalendar.set(Calendar.MINUTE, 30);
+  dateFin      = gregorianCalendar.getTime();
+
+  System.out.println("debut:"+dateFormat.format(dateDebut)+" fin:"+ dateFormat.format(dateFin  ));
+  
+  
+  
+  
+  System.out.println(java.util.Arrays.toString("lskjhflkdfhlkdfldkfshgldkjhlkdfghi".split("(?<=\\G.{5})")));
+
+  
+  
+  System.out.println(java.net.InetAddress.getByName("macif.fr"))
+  macif.fr/195.25.232.194
+  
+  
+  String message = 
+    "INSERT INTO `sms_log` " +
+    " (`id_sms_type`, `id_dispositif`, `id_user`, `to`, `message`, `send_date`)\n" +
+    "VALUES                                                   \n" +
+    " (?            , ?              , ?        , ?   , ?        , NOW()      )\n" ;
+  
+  
+  
+    Pattern p = Pattern.compile("\n");
+    Matcher m = p.matcher(message);
+    int count = 0;
+    while (m.find()) 
+    { 
+      count++; 
+    }
+    
+    System.out.println(message.length());
+    System.out.println(message.length()+ count);
+    System.out.println(count);
+
+    String str = "a {http://www.tibco.com/PSG/Services/Framework/XSD/ESB/1.0}ESBMsg  b";
+    String search = "\\{http:\\/\\/www\\.tibco\\.com\\/PSG\\/Services\\/Framework\\/XSD\\/ESB\\/1\\.0\\}ESBMsg";
+    String replace = "{http://sa1.allianz.fr/pivots/flux/SA1_GestionAbonnes/CreationAbonne/100}ESBMsg";
+    
+    System.out.println( str.replaceAll(search,replace));
+    
+    
+    
+    System.out.println("fdsdf 7782".matches(".*[0-9].*"))
+    
+    System.out.println("fdsdf ".matches(".*[0-9].*"))
+    
+    
+    System.out.println("05 00   5 05 05 ".matches("[0-9 ]*"))
+    
+  
+    System.out.println("75233".matches("[0-9]{3,9}[A-Z]"))
+    System.out.println("mt@mansonthomas.com".matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$"));
+    
+    System.out.println(org.apache.commons.validator.EmailValidator.getInstance().isValid("mt@mansonthomas.com"));
+    
+    
+    
+    String encoded = "action=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Cap%3AAction%20xmlns%3Aap%3D%22http%3A%2F%2Ftibco.com%2Fbpm%2Factionprocessor%22%20xmlns%3Asso%3D%22http%3A%2F%2Ftibco.com%2Fbpm%2Fsso%2Ftypes%22%3E%3Cap%3AEventCollectorQuery%20Id%3D%22_jsx_0_bm_XML_ap%22%3E%3Cap%3AQuery%3E%3Cap%3ACorrelate%3Efalse%3C%2Fap%3ACorrelate%3E%3Cap%3AFilter%3E(managedObjectId%3D%26apos%3Bpvm%3A0a121%26apos%3B%20AND%20(messageId%3D%26apos%3BBX_INSTANCE_PROCESS*%26apos%3B%20OR%20messageId%3D%26apos%3BBX_INSTANCE_SUBPROCESS*%26apos%3B%20OR%20messageId%3D%26apos%3Bcom.tibco.bx*%26apos%3B))%20OR%20(managedObjectId%3D%26apos%3Bpvm%3A0a121%26apos%3B%20AND%20managedObjectType%20%26lt%3B%26gt%3B%20%26apos%3B*Event%26apos%3B%20AND%20managedObjectType%20%26lt%3B%26gt%3B%20%26apos%3B*Gateway%26apos%3B%20AND%20managedObjectType%20%26lt%3B%26gt%3B%20%26apos%3BuserTask%26apos%3B)%20OR%20(messageCategory%3D%26apos%3BWORK_ITEM%26apos%3B%20AND%20parentObjectId%3D%26apos%3Bpvm%3A0a121%26apos%3B)%3C%2Fap%3AFilter%3E%3Cap%3ASortOrder%3E%3Cap%3ASortElement%3E%3Cap%3AType%3EASCENDING%3C%2Fap%3AType%3E%3Cap%3AAttribute%3EcreationTime%3C%2Fap%3AAttribute%3E%3C%2Fap%3ASortElement%3E%3C%2Fap%3ASortOrder%3E%3Cap%3ARequireAllAttributes%3Etrue%3C%2Fap%3ARequireAllAttributes%3E%3C%2Fap%3AQuery%3E%3Cap%3AQueryOptions%3E%3Cap%3AStartPosition%3E0%3C%2Fap%3AStartPosition%3E%3Cap%3ANumberOfItems%3E20%3C%2Fap%3ANumberOfItems%3E%3C%2Fap%3AQueryOptions%3E%3C%2Fap%3AEventCollectorQuery%3E%3C%2Fap%3AAction%3E&cachecircumvention=1316764333118POST /bpm/actionprocessor/actionprocessor.servlet HTTP/1.1";
+    System.out.println(java.net.URLDecoder.decode(encoded));
+    
+    
+    

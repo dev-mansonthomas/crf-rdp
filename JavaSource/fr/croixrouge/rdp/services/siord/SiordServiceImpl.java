@@ -115,12 +115,11 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
     this.crfrdpJdbcTemplate.update(queryStartNewSiordSynchro, os, types);
  
     int idSynchro = this.getLastInsertedId(this.crfrdpJdbcTemplate, "siord_synchro");
-    //TODO change
-    siordSynchro.setIdSynchroSiord(3/*idSynchro*/);
+    siordSynchro.setIdSynchroSiord(idSynchro);
     
     
-    if(logger.isDebugEnabled())
-      logger.debug("Synchro SIORD started with id="+idSynchro);
+    if(logger.isInfoEnabled())
+      logger.info("Synchro SIORD started with id="+idSynchro);
 
     return siordSynchro;
 
@@ -133,8 +132,8 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
    * Exclus les membres avec droits = 999 (c'est plus de la moitié de la base)
    * */
   private final static String queryForImportDataFromSiordDatabase = 
-    "SELECT m.id    , m.login       , m.pwd           , m.nom             , m.prenom    ,   \n"+
-    "       m.droits, m.telephone   , m.email         , m.nivol           , m.activation,   \n"+
+    "SELECT m.id    , m.login       , m.pwd           , m.nom             , m.prenom       ,\n"+
+    "       m.droits, m.telephone   , m.email         , m.nivol           , m.activation   ,\n"+
     "       m.sexe  , m.droits_cadre, m.id_del_urgence, md.id_delegation  , m.date_creation,\n" +
     "       m.date_modification                                                             \n"+
     "FROM   membres              as m,                                                      \n"+
@@ -188,6 +187,10 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
   
   public void insertMembreInCRFRDPDB(SiordSynchro siordSynchro, Membre membre) throws Exception
   {
+    String email  = "".equals(membre.getEmail    ())?null:membre.getEmail    ();
+    String mobile = "".equals(membre.getTelephone())?null:membre.getTelephone();
+    
+    
     Object [] os    = new Object[]{ 
         siordSynchro.getIdSynchroSiord(),
         membre.getId                  (),
@@ -196,8 +199,8 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
         membre.getNom                 (),
         membre.getPrenom              (),
         membre.getDroits              (),
-        membre.getTelephone           (),
-        membre.getEmail               (),
+        mobile                          ,
+        email                           ,
         membre.getNivol               (),
         membre.getActivation          (),
         membre.getSexe                (),
@@ -320,9 +323,9 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
   {
     if(logger.isDebugEnabled())
     {
-      logger.debug("cleaning data from membre imported on SiordSynchro ID="+siordSynchro.getLastImportedId());
+      logger.debug("cleaning data from membre imported on SiordSynchro ID="+siordSynchro.getIdSynchroSiord());
     }
-    this.cleanUpImportedMembreDataStoredProcedure.execute(siordSynchro.getLastImportedId());
+    this.cleanUpImportedMembreDataStoredProcedure.execute(siordSynchro.getIdSynchroSiord());
   }
   
   
@@ -335,6 +338,47 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
     return this.crfrdpJdbcTemplate.queryForInt(queryForGetDelegationIdFromSiordDelegationId,
         new Object[]{idDelegationSiord},
         new int   []{Types.INTEGER});
+  }
+  
+  
+  private final static String queryForStoreLastImportedId = 
+    "UPDATE `siord_synchro`        \n"+
+    "SET     sucessfull_import = ?,\n"+
+    "        last_imported_id  = ?,\n"+
+    "        warning_import    = ?,\n"+
+    "        failed_import     = ? \n"+
+    "WHERE   id_synchro_siord  = ? \n";
+
+  
+  public void storeLastImportedId(SiordSynchro siordSynchro) throws Exception
+  {
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("Storing lastImportedId and Statistics "+siordSynchro);
+    }
+    
+    Object [] os    = new Object[]
+                                 { 
+                                    siordSynchro.getSucessfullImport  (),
+                                    siordSynchro.getLastImportedId    (),
+                                    siordSynchro.getWarningImport     (),
+                                    siordSynchro.getFailedImport      (),
+                                    siordSynchro.getIdSynchroSiord    ()
+                                 };
+    int    [] types = new int   []
+                                 { 
+                                    Types.INTEGER,
+                                    Types.INTEGER,
+                                    Types.INTEGER,
+                                    Types.INTEGER,
+                                    Types.INTEGER
+                                 };
+    
+    int nbLineUpdated = this.crfrdpJdbcTemplate.update(queryForStoreLastImportedId, os, types);
+    if(logger.isDebugEnabled())
+    {
+      logger.debug(nbLineUpdated+" lines updated - Storing lastImportedId and Statistics "+siordSynchro);
+    }
   }
   
   

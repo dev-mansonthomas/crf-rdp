@@ -45,7 +45,7 @@ public class SynchroEquipierSIORD
     
     try
     { //TODO changer startNewSiordSynchro pour virer l'idSynchroSiord forcé.
-      //this.siordService.importDataFromSiordDatabase(siordSynchro);
+      this.siordService.importDataFromSiordDatabase(siordSynchro);
     }
     catch(Exception e)
     {
@@ -80,7 +80,17 @@ public class SynchroEquipierSIORD
     }
     
     
-
+    try
+    {
+      siordSynchro.setSucessfullImport(1);
+      
+      this.siordService.storeLastImportedId(siordSynchro);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while processing new membre in database on synchroSiord Session id="+siordSynchro.getIdSynchroSiord(),e);
+      return;
+    }
     
   }
 }

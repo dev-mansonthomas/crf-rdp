@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface MonitorCommonsService
 {
-  @SuppressWarnings("unchecked")
+
+  @SuppressWarnings("rawtypes")
   public Hashtable<String, List> getAllList() throws Exception;
 }

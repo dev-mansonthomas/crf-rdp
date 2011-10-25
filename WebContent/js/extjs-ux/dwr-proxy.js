@@ -52,8 +52,9 @@ Ext.ux.rs.addFilterFromExtField=function(objectFilter, cmpFieldName, fieldName, 
     
     if(cmpObj.initialConfig.xtype=='combo' || cmpObj.xtype=='combo' && cmpObj.initialConfig.xtype!='datefield')
     {
-      var record = cmpObj.getStore().getAt(cmpObj.selectedIndex);
-      value = record != null ? record.id : null;   
+      /*var record = cmpObj.getStore().getAt(cmpObj.selectedIndex);
+      value = record != null ? record.id : null;   */
+      value = cmpObj.getValue();
     } 
     else
       value = cmpObj.getValue();

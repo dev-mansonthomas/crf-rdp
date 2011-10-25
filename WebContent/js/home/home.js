@@ -28,7 +28,7 @@ Ext.onReady(function()
       }
       catch(e)
       {
-        console.log('erreur chargement interface edition leiu',e);
+        console.log('erreur chargement interface edition lieu',e);
       }
     }
     , null, null);
@@ -36,11 +36,17 @@ Ext.onReady(function()
     googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
     googleMapAdressResolver.init();
     
-    
-  /*
-  LieuEditor = Ext.ux.Home.LieuEditor;
-  LieuEditor.init();
- */ 
+
+    try
+    {
+    	smsManager = new Ext.ux.Home.SMSManagerUI();
+    	smsManager.initToolBar();
+    }
+    catch(e)
+    {
+    	console.log('erreur chargement interface SMS Manager',e);
+    }
+
   crfIrpUtils.getAllList();
 });
 

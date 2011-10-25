@@ -535,7 +535,7 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
    rechercher:function()
    {
      Ext.getCmp('lieuEditorGridPagingToolbar').moveFirst();
-     Ext.getCmp('LieuGrid'                   ).getStore ().reload();
+    // Ext.getCmp('LieuGrid'                   ).getStore ().reload();
    },
    resetForm:function()
    {

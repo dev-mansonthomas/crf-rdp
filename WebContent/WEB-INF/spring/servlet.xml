@@ -11,6 +11,7 @@
        <property name="mappings">
           <props>
             <prop  key="/login.html"                  >LoginController</prop>
+            <prop  key="/sms.html"                    >SmsController</prop>
             <prop  key="/private/Homepage.html"       >HomepageController</prop>
             <prop  key="/private/monitor/in.html"     >MonitorInController</prop>
             <prop  key="/private/monitor/out.html"    >MonitorOutController</prop>
@@ -21,7 +22,11 @@
 
 
   <!-- Controllers -->
-    <bean id="LoginController" name="LoginController"
+  <bean id="SmsController" name="SmsController"
+       class="fr.croixrouge.rdp.controller.SmsController" autowire="constructor"/>
+  
+  
+  <bean id="LoginController" name="LoginController"
        class="fr.croixrouge.rdp.controller.LoginController" autowire="constructor"/>
        
   <bean id="HomepageController" name="HomepageController"

@@ -28,7 +28,7 @@ public class ThreadedSMSSend extends Thread
   {
     if(logger.isDebugEnabled())
     {
-      logger.debug("Multithreaded send SMS["+this.sendOrder+"] smsType:'"+this.sms.getSmsType()+"' userId:'"+this.sms.getUserId()+"' to:'"+this.sms.getRecipient()+"' content:'"+this.sms.getMessage()+"'");
+      logger.debug("Multithreaded send SMS["+this.sendOrder+"] smsType:'"+this.sms.getSmsType()+"' userId:'"+this.sms.getEquipierId()+"' to:'"+this.sms.getRecipient()+"' content:'"+this.sms.getMessage()+"'");
     }
     
     try
@@ -37,13 +37,13 @@ public class ThreadedSMSSend extends Thread
     }
     catch(Exception e)
     {
-      logger.debug("ERROR Multithreaded send SMS["+this.sendOrder+"] smsType:'"+this.sms.getSmsType()+"' userId:'"+this.sms.getUserId()+"' to:'"+this.sms.getRecipient()+"' content:'"+this.sms.getMessage()+"'", e);
+      logger.debug("ERROR Multithreaded send SMS["+this.sendOrder+"] smsType:'"+this.sms.getSmsType()+"' userId:'"+this.sms.getEquipierId()+"' to:'"+this.sms.getRecipient()+"' content:'"+this.sms.getMessage()+"'", e);
     }
     
 
     if(logger.isDebugEnabled())
     {
-      logger.debug("Multithreaded send SMS["+this.sendOrder+"] smsType:'"+this.sms.getSmsType()+"' userId:'"+this.sms.getUserId()+"' to:'"+this.sms.getRecipient()+"' content:'"+this.sms.getMessage()+"' DONE");
+      logger.debug("Multithreaded send SMS["+this.sendOrder+"] smsType:'"+this.sms.getSmsType()+"' userId:'"+this.sms.getEquipierId()+"' to:'"+this.sms.getRecipient()+"' content:'"+this.sms.getMessage()+"' DONE");
     }
   }
 }

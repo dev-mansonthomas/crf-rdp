@@ -27,7 +27,11 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
     
     membre.setNom     (membre.getNom    ().trim());
     membre.setPrenom  (membre.getPrenom ().trim());
-    membre.setEmail   (membre.getEmail  ().trim());
+    
+    if(membre.getEmail  () != null)
+    {
+      membre.setEmail   (membre.getEmail  ().trim());
+    }
     
     if(membre.getDroits() == 999)
     {
@@ -83,17 +87,36 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
   { "test", "visit", "routier","missions", "reseau", "réseau", "crf", "rlms", "dlus", "psl", "formation", "maraude", "president", "telephone", 
     "equipe", "utilisateur", "generique","générique", "topaze","rdas", "action", "laser", "ide", "cd", "ddus", "opera", "format", 
     "invit", "action", "media", "edir", "vigie", "solidarit", "responsable", "...", "diamant", "autre", "bénévole", "equipier", "exterieur", 
-    "renfort","effectif","infirmier", "utilisateur", "admin", "local", "titane","radar", "onyx", "exterieur", "urgence", "volontaire","pse",
-    
+    "renfort","effectif","infirmier", "utilisateur", "admin", "local", "titane","radar", "onyx", "exterieur", "urgence", "volontaire","pse"
   };
 
+  private final static String[] fakeAccountsSearchedWordsEmail = 
+  { "test", "visit", "routier","reseau", "réseau", "psl", "telephone", 
+    "equipe", "utilisateur", "generique","générique", "topaze","action", "ide", "opera", 
+    "invit", "action", "media", "edir", "solidarit", "responsable", "...", "diamant", "autre", "bénévole", "equipier", "exterieur", 
+    "renfort","effectif","infirmier", "utilisateur", "admin", "local", "titane","radar", "onyx", "exterieur", "volontaire","pse"
+  };
   
   private void checkForFakeAccount(SiordSynchro siordSynchro ,Membre membre, List<MembreImportStatus> status)
   {
     
     String nom    = membre.getNom   ().toLowerCase();
     String prenom = membre.getPrenom().toLowerCase();
-    String email  = membre.getEmail ().toLowerCase();
+    String email  = membre.getEmail ()!=null?membre.getEmail ().toLowerCase():null;
+    
+    if(checkIfEmailExists(membre))
+    {
+      status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 2, ""));
+      status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 12, "email existant"));
+      return;
+    }
+
+    if(checkIfMobileExists(membre))
+    {
+      status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 2, ""));
+      status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 13, "mobile existant"));
+      return;
+    }
    
     if( nom.equals("") || prenom.equals(""))
     {
@@ -123,7 +146,11 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 6, "le prenom contient la chaine '"+fakeWord+"'"));
         return;
       }
-      if(email.indexOf(fakeWord)>0)
+    }
+    
+    for (String  fakeWord : fakeAccountsSearchedWordsEmail)
+    {
+      if(email != null && email.indexOf(fakeWord)>0)
       {
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 2, ""));
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 6, "le email contient la chaine '"+fakeWord+"'"));
@@ -135,6 +162,54 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
 
   }
   
+  private final static String queryForCheckIfEmailExists=
+    "SELECT count(1)            \n"+
+    "FROM   equipier            \n"+
+    "WHERE  email            = ?\n";
+  
+  private boolean checkIfEmailExists(Membre membre)
+  {
+    if(membre.getEmail() == null)
+    {
+      return false;
+    }
+    
+    Object[] objects = new Object[]{
+        membre.getEmail()
+      };
+    int[] types = new int   []
+      {
+        Types.CHAR
+      };
+    
+    
+    int count = this.crfrdpJdbcTemplate.queryForInt(queryForCheckIfEmailExists, objects, types);
+    return count > 0;
+  }
+  
+  private final static String queryForCheckIfMobileExists=
+    "SELECT count(1)             \n"+
+    "FROM   equipier             \n"+
+    "WHERE  mobile            = ?\n";
+  private boolean checkIfMobileExists(Membre membre)
+  {
+    if(membre.getTelephone() == null)
+    {
+      return false;
+    }
+    
+    Object[] objects = new Object[]{
+        membre.getTelephone()
+      };
+    int[] types = new int   []
+      {
+        Types.CHAR
+      };
+    
+    
+    int count = this.crfrdpJdbcTemplate.queryForInt(queryForCheckIfMobileExists, objects, types);
+    return count > 0;
+  }
   
   
   private final static String queryForCheckIfNivolExists=

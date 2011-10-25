@@ -305,7 +305,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
   }
 
   
-  public void affectInterventionToDispositif(int idCurrentUser, int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception
+  public void affectInterventionToDispositif(int idEquipierCurrentUser, int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("Action is 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
@@ -351,7 +351,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       getDataForSMS(intervention.getComplementAdresse(), false, false);
       
       /* numéro de tel surchargé*/
-      SMS templateSMS = new SMS(SMS_TYPE_ENVOIE_OI, idDispositif, idCurrentUser, "0666666666", message );
+      SMS templateSMS = new SMS(SMS_TYPE_ENVOIE_OI, idDispositif, idEquipierCurrentUser, "0666666666", message );
     
       for (Equipier equipier : equipiers)
       {

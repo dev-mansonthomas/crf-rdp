@@ -59,10 +59,10 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     return this.getLastInsertedId(jdbcTemplate, "equipier");
   }  
   
-  private final static String equipierSelect =     
+  private final static String equipierSelectWithDelegation =     
   "SELECT e.id_equipier         ,                  \n"+
   "       e.id_dispositif       ,                  \n"+
-  "       e.nivol           ,                  \n"+
+  "       e.nivol               ,                  \n"+
   "       e.equipier_is_male    ,                  \n"+
   "       e.enabled             ,                  \n"+
   "       e.nom                 ,                  \n"+
@@ -75,15 +75,30 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   "       d.departement AS departement_delegation ,\n"+
   "       e.autre_delegation                       \n";
   
+  
+  private final static String equipierSelect =     
+    "SELECT e.id_equipier         ,                  \n"+
+    "       e.id_dispositif       ,                  \n"+
+    "       e.nivol               ,                  \n"+
+    "       e.equipier_is_male    ,                  \n"+
+    "       e.enabled             ,                  \n"+
+    "       e.nom                 ,                  \n"+
+    "       e.prenom              ,                  \n"+
+    "       e.indicatif           ,                  \n"+
+    "       e.mobile              ,                  \n"+
+    "       e.email               ,                  \n"+
+    "       e.id_delegation       ,                  \n"+
+    "       e.autre_delegation                       \n";
+  
   private final static String equipierFrom =
     "FROM   equipier      e  ,                       \n"+
     "       delegation    d                          \n";
   
-  private final static String selectForEquipier = equipierSelect+equipierFrom;
+  private final static String selectForEquipier = equipierSelectWithDelegation+equipierFrom;
     
   
   private final static  String queryForGetEquipiersForDispositif = 
-    equipierSelect+
+    equipierSelectWithDelegation+
     ", de.id_role_equipier                     ,\n"+
     "de.en_evaluation                          ,\n"+
     "de.id_role_en_eval                         \n"+
@@ -118,7 +133,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   
   
   private final static String queryForGetEquipierLeaderOfDispositif = 
-    equipierSelect+
+    equipierSelectWithDelegation+
     ",      de.id_role_equipier                     ,\n"+
     "       de.en_evaluation                        ,\n"+
     "       de.id_role_en_eval                       \n"+
@@ -150,7 +165,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
       equipier = jdbcTemplate.queryForObject(  queryForGetEquipierLeaderOfDispositif , 
                                                os    , 
                                                types , 
-                                               new EquipierRowMapper());
+                                               new EquipierRowMapper(false, true));
     }
     catch(EmptyResultDataAccessException e)
     {
@@ -181,7 +196,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     Equipier equipier = jdbcTemplate.queryForObject( queryForGetEquipier , 
                                                      os    , 
                                                      types , 
-                                                     new EquipierRowMapper());
+                                                     new EquipierRowMapper(false, true));
 
     return equipier;
   }
@@ -328,7 +343,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   
   
   
-  private final static String queryForSearchEquipierWhere =
+  private final static String queryForSearchEquipierWithRoleWhere =
     "WHERE  e.id_dispositif     = 0                 \n"+
     "AND    e.id_equipier       = er.id_equipier    \n"+
     "AND    e.enabled           = true              \n"+
@@ -345,7 +360,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   //NOTE:  on n'ajoute que des équipiers qui ne sont PAS en évaluation.
   //Si on veut évaluer un chauffeur, on l'ajoute au dispositif en tant que PSE2, puis on choisi de le mettre en évaluation sur le role chauffeur.
   
-  public ListRange<Equipier> searchEquipier(int idRole, String searchString, int start, int limit) throws Exception
+  public ListRange<Equipier> searchEquipierWithRole(int idRole, String searchString, int start, int limit) throws Exception
   {
     
     Object [] os    =  new Object[]{idRole       , searchString , searchString , searchString };
@@ -355,12 +370,12 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     int totalCount = this.jdbcTemplate.queryForInt(
         "SELECT COUNT(1) \n" +
     		"FROM   equipier e, equipier_roles er, delegation d \n"
-        +queryForSearchEquipierWhere, os, types);
+        +queryForSearchEquipierWithRoleWhere, os, types);
     
     
-    String query = equipierSelect+ ", er.id_role_equipier, er.en_evaluation\n"
+    String query = equipierSelectWithDelegation+ ", er.id_role_equipier, er.en_evaluation\n"
     +equipierFrom + ", equipier_roles er\n"+
-    queryForSearchEquipierWhere 
+    queryForSearchEquipierWithRoleWhere 
     +"LIMIT "+start+", "+limit;
     
     if(logger.isDebugEnabled())
@@ -374,6 +389,58 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     
     return new ListRange<Equipier>(totalCount, equipierList);
   }
+  
+  
+  
+  
+  
+  private final static String queryForSearchEquipierWhere =
+    "WHERE  e.id_delegation     = d.id_delegation   \n"+
+    "AND                                            \n"+
+    "(                                              \n"+
+    "       e.nivol   LIKE ?                        \n"+
+    " OR    e.nom     LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
+    " OR    e.prenom  LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
+    " OR    e.mobile  LIKE ?                        \n"+    
+    ")\n";
+
+
+  /***
+   * Cherche sur nom/prénom/nivol/mobile  
+   */
+  public ListRange<Equipier> searchEquipier(String searchString, int start, int limit) throws Exception
+  {
+    
+    Object [] os    =  new Object[]{searchString , searchString , searchString , searchString };
+    int    [] types =  new int   []{Types.CHAR   , Types.CHAR   , Types.CHAR   , Types.CHAR   };
+   
+    
+    int totalCount = this.jdbcTemplate.queryForInt(
+        "SELECT COUNT(1) \n" +
+        "FROM   equipier e, delegation d \n"
+        +queryForSearchEquipierWhere, os, types);
+    
+    
+    String query = equipierSelect+"\n"
+    +equipierFrom +"\n"+
+    queryForSearchEquipierWhere 
+    +"LIMIT "+start+", "+limit;
+    
+    if(logger.isDebugEnabled())
+      logger.debug("searching for equipier : searchString='"+searchString+"', start='"+start+"', limit='"+limit+"' (totalCount='"+totalCount+"') with SQL query : \n"+query);
+    
+    List<Equipier> equipierList = jdbcTemplate.query( query , 
+                                                      os    , 
+                                                      types , 
+                                                      new EquipierRowMapper(false, false));
+    
+    
+    return new ListRange<Equipier>(totalCount, equipierList);
+  }
+  
+  
+  
+  
   
   private final static String queryForSetDispositifToEquipier =
     "UPDATE equipier                     \n" +
@@ -428,8 +495,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
         equipier.getIndicatif (),
         equipier.getNumNivol  (), 
         equipier.isHomme      (), 
-        equipier.getEmail     (), 
-        equipier.getMobile    (), 
+        "".equals(equipier.getEmail     ())?null:equipier.getEmail (), 
+        "".equals(equipier.getMobile    ())?null:equipier.getMobile(), 
         equipier.isEnabled    (), 
         equipier.getDelegation().getIdDelegation()
         };
@@ -550,6 +617,39 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
       if(logger.isDebugEnabled())
         logger.debug("EquiperRoles inserted, nbLine inserted="+nbLigneUpdated);
     }
+  }
+  
+  
+  private final static String queryForFindEquipierByMobile = selectForEquipier +
+  "WHERE  e.id_delegation = d.id_delegation \n" +
+  "AND e.mobile = ?\n";
+  
+  public Equipier findEquipierByMobile(String mobile) throws Exception
+  {
+      logger.warn("Getting Equipier by mobile='"+mobile+"' with Query \n"+queryForFindEquipierByMobile);
+    
+    Object [] os    = {mobile       };
+    int    [] types = {Types.VARCHAR};
+   
+    Equipier equipier = null;
+    
+    try
+    {
+      equipier = jdbcTemplate.queryForObject(  queryForFindEquipierByMobile , 
+                                               os    , 
+                                               types , 
+                                               new EquipierRowMapper(false, true));
+    }
+    catch(EmptyResultDataAccessException e)
+    {
+      Equipier eq = new Equipier();
+      eq.setIdEquipier(0);
+      eq.setNom       ("N/A");
+      logger.warn("no equipier found with mobile='"+mobile+"'");
+      return eq;// Non trouvé, on retourne un équipier vide avec 0 en IdEquipier pour satisfaire des contraintes d'intégritée
+    }
+
+    return equipier;
   }
   
 }

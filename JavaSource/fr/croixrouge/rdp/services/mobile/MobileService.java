@@ -1,6 +1,5 @@
 package fr.croixrouge.rdp.services.mobile;
 
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import fr.croixrouge.rdp.model.monitor.SMS;
 
@@ -20,19 +18,21 @@ public abstract class MobileService
   protected abstract void rawSendSMS(String   to, String message);
   
   private static  Log           logger             = LogFactory.getLog(MobileService.class);
+
+  protected int           smsMaxSize    = 0;
+  protected SMSLogService smsLogService = null;
   
-  protected JdbcTemplate jdbcTemplate = null;
-  protected int          smsMaxSize   = 0;
-  
-  public final static int    SMS_ONE_MESSAGE_MAX_SIZE = 160;
+  public final static int    SMS_ONE_MESSAGE_MAX_SIZE = 150; //MAX 140 8 bit char or 160 7 bit char.
   public final static String SMS_SUBJECT              = "[CRF-RDP X/Y]\n";
   public final static String SMS_SUBJECT_ONE_MESSAGE  = "[CRF-RDP]\n";
   public final static Map<String, String> caracterToReplace = new HashMap<String, String>(){
     private static final long serialVersionUID = 1L;
-  {
-    put("œ","oe");
-  }
+    {
+      put("œ","oe");
+    }
   };
+  
+  
   public void sendSMS(SMS sms) throws Exception
   {
     //Ajout du code pays qui replace le 0 initial
@@ -58,15 +58,16 @@ public abstract class MobileService
     {//Si short subject + message <= 160
       myMessage = SMS_SUBJECT_ONE_MESSAGE+myMessage;
       
-      sms.setRecipient  (myTo     );
       sms.setMessage    (myMessage);
-      
-      this.logSmsTransmission(sms);
+      /*NOTE : on log le SMS avec le numéro d'origine, si on ca pose un problème pour retrouver les SMS dans le log manager avec le 33 devant le numéro**/
+      smsLogService.logSentSMS(sms);
+
+      sms.setRecipient  (myTo     );
       this.rawSendSMS(myTo, myMessage);  
     }
     else
     {//Sinon on spilt en message de taille 160 - taille(sujet message long)
-      String[] messageParts = splitMessage(myMessage, SMS_ONE_MESSAGE_MAX_SIZE-SMS_SUBJECT.length());
+      String[] messageParts = splitMessage(new String(myMessage.getBytes(),"ISO-8859-1"), SMS_ONE_MESSAGE_MAX_SIZE-SMS_SUBJECT.length());
 
       for(int i=0, counti=messageParts.length; i<counti; i++)
       {
@@ -77,11 +78,13 @@ public abstract class MobileService
         System.err.println(oneMessage.length());
         System.err.println((new String(oneMessage.getBytes(),"ISO-8859-1")).length());
         
-        sms.setRecipient  (myTo      );
-        sms.setMessage    (oneMessage);
 
-        this.logSmsTransmission(sms);
-        this.rawSendSMS        (myTo, oneMessage);
+        sms.setMessage    (oneMessage);
+        /*NOTE : on log le SMS avec le numéro d'origine, si on ca pose un problème pour retrouver les SMS dans le log manager avec le 33 devant le numéro**/
+        smsLogService.logSentSMS(sms);
+        
+        sms.setRecipient  (myTo      );
+        this.rawSendSMS   (myTo, oneMessage);
       }
     }
   }
@@ -148,27 +151,10 @@ public abstract class MobileService
     return count;
 
   }
+
   
-  private final static String queryForLogSmsTransmission = 
-    "INSERT INTO `sms_log` " +
-    " (`id_sms_type`, `id_dispositif`, `id_user`, `to`, `message`, `send_date`)\n" +
-    "VALUES                                                   \n" +
-    " (?            , ?              , ?        , ?   , ?        , NOW()      )\n" ;
   
-  private void logSmsTransmission(SMS sms)
-  {
-    if(logger.isDebugEnabled())
-    {
-      logger.debug(sms); 
-    }
-     
-    this.jdbcTemplate.update(queryForLogSmsTransmission,
-        new Object[]{sms.getSmsType() , sms.getIdDispositif(), sms.getUserId(), sms.getRecipient(), sms.getMessage()   }, 
-        new int   []{Types.INTEGER    , Types.INTEGER        , Types.INTEGER  , Types.VARCHAR     , Types.VARCHAR      }
-    );
-    
-    
-  }
+  
   /**
    * Returns true if hte phone number is a mobile (starts with 06, 07)
    * 

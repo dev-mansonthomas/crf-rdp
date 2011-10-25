@@ -1,0 +1,40 @@
+editNewSMS(SMS/null) : envoie un nouvelle SMS au destinataire, avec le destinataire pré-remplie et la liste des message echangé au sud.
+
+viewSMSs(SMS) : alimenter le panel sud avec la liste des sms échangé avec le destinataire. Ne fait rien si le panel n'est pas visible.
+
+
+eraseSearchCriteria : efface les critères de recherche
+
+rechercher : recherche les sms correspondant à la recherche   
+
+
+
+
+
+
+0664664296 manson thomas 1
+0629226120 Antoine Dorian 2
+
+
+SELECT `id_sms_log`, `id_sms_type`, `id_dispositif`, `id_user`, `api`,`sender` , `to` , `message`, `evt_date` 
+FROM `crfrdp`.`sms_log`;
+
+
+{
+    id            : 'SMSManagerGridToolbar-allSMS',
+    xtype         : 'combo',
+    typeAhead     : true,
+    triggerAction : 'all',
+    lazyRender    : true,
+    mode          : 'local',
+    store         : new Ext.data.ArrayStore({
+        id    : 0,
+        fields: [
+            'SMSManagerGridToolbar-allSMS-value',
+            'displayText'
+        ],
+        data: [[0, 'Non'], [1, 'Oui']]
+    }),
+    valueField    : 'SMSManagerGridToolbar-allSMS-value',
+    displayField  : 'displayText'
+});

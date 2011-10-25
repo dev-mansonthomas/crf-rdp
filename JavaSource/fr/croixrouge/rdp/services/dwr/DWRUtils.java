@@ -88,7 +88,17 @@ public class DWRUtils
     return principal.getUser().getIdUser();
   }
   
-  
+  protected int getCurrentUserEquipierId() throws Exception
+  {
+    HttpSession       session       = this.validateSession();
+    SecurityPrincipal principal     = (SecurityPrincipal)session.getAttribute(SecurityFilter.PRINCIPAL);
+    
+    if(principal == null)
+    {
+      throw new SecurityException("Votre Session a expirée, veuillez vous reconnecter (principal is null)");
+    }
+    return principal.getUser().getEquipier().getIdEquipier();
+  }
   
  
   /**

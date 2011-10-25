@@ -80,7 +80,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     
     try
     {
-      return this.equipierService.searchEquipier(
+      return this.equipierService.searchEquipierWithRole(
           idRole, 
           searchString+"%",
           gridSearchFilterAndSortObject.getStart(),

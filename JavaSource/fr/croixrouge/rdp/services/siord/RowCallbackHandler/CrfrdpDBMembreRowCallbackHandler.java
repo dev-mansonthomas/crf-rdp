@@ -68,24 +68,7 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
       logger.error("Error while checking membre, row number="+rs.getRow(),e);
       return;
     }
-    
-    int idDelegation = 0;
-    
-    try
-    {
-      idDelegation = this.siordService.getDelegationIdFromSiordDelegationId(membre.getIdDelegation());  
-    }
-    catch(Exception e)
-    {
-      logger.error("Error while getting the delegationId idSiord = "+membre.getIdDelegation(),e);
-      status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(),9,"Delegation with ID(siord)='"+membre.getIdDelegation()+"' n'a pas de correspondance dans la base CRFRDP" ));
-    }
-    if(logger.isDebugEnabled())
-    {
-      logger.debug("idDelegation="+idDelegation+" pour idSiord="+membre.getIdDelegation());
-    }
-    
-    
+
     
     if(status.size()>0)
     {
@@ -111,6 +94,23 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
       }
       return;
     }
+    
+    int idDelegation = 0;
+    
+    try
+    {
+      idDelegation = this.siordService.getDelegationIdFromSiordDelegationId(membre.getIdDelegation());  
+    }
+    catch(Exception e)
+    {
+      logger.warn("Error while getting the delegationId idSiord = "+membre.getIdDelegation(),e);
+      status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(),5,"Delegation with ID(siord)='"+membre.getIdDelegation()+"' n'a pas de correspondance dans la base CRFRDP" ));
+    }
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("idDelegation="+idDelegation+" pour idSiord="+membre.getIdDelegation());
+    }
+    
     List<EquipierRole>        equipierRoles = null;
     
     //réinitialise pour n'inserer que les warning
@@ -135,26 +135,26 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
     equipier.setDateModification(dateCreation);
     
     equipier.setNumNivol    (membre.getNivol());
-    equipier.setHomme       ("1".equals(membre.getSexe()));
+    equipier.setHomme       ("M".equals(membre.getSexe()));
     equipier.setEnabled     (true);
     equipier.setNom         (membre.getNom());
     equipier.setPrenom      (membre.getPrenom());
     
     String telephone = membre.getTelephone();
-    if(!(telephone.startsWith("06") || telephone.startsWith("07")))
+    if(telephone != null && (!(telephone.startsWith("06") || telephone.startsWith("07")) || !telephone.matches("[0-9 ]*")))
     {
       telephone = "";
       status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(),8,"'"+membre.getTelephone()+"' n'est pas un portable" ));
     }
     equipier.setMobile  (telephone);
-    
     String email = membre.getEmail();
-    if(!emailValidator.isValid(email))
+    if(email != null && !emailValidator.isValid(email))
     {
       email = "";
       status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(),9,"'"+membre.getEmail()+"' n'est pas valide" ));
     }
     equipier.setEmail(email);
+    
     
     
     
@@ -172,7 +172,7 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
       }
       if(logger.isDebugEnabled())
       {
-        logger.debug("membre '"+membre.getId()+"' with row nubmer=:"+rs.getRow()+" has warnings :"+msg);  
+        logger.debug("membre '"+membre.getId()+"' with row nubmer=:"+rs.getRow()+(msg.length()>0?" has warnings :"+msg:""));  
       }
       
       

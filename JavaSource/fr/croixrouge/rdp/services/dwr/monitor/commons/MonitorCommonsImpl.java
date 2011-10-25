@@ -29,7 +29,8 @@ public class MonitorCommonsImpl  extends DWRUtils implements MonitorCommonsServi
   }
   
   
-  @SuppressWarnings("unchecked")
+
+  @SuppressWarnings("rawtypes")
   public Hashtable<String, List> getAllList() throws Exception
   {
     this.validateSession();

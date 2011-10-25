@@ -1,24 +1,76 @@
 package fr.croixrouge.rdp.model.monitor;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import fr.croixrouge.rdp.services.mobile.MobileService;
 
 public class SMS implements Serializable
 {
   private static final long serialVersionUID = 6576813250487563885L;
+  private static final Log  logger             = LogFactory.getLog(SMS.class);
+  
+  private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+  
   
   public static final int TYPE_DETAIL_INTERVENTION          = 1;
   public static final int TYPE_MESSAGE_EQUIPIERS_DISPOSITIF = 2;
+  public static final int TYPE_SENT_SMS_VIA_SMS_MANAGER     = 3;
+  public static final int TYPE_RECIEVED_SMS_VIA_SMS_MANAGER = 4;
   
+  public static final String API_RECIEVED_SMS               = "receiveSMS";
+  public static final String API_SEND_SMS                   = "sendSMS";
+  public static final String FROM_REGULATION                = "REGULATION75";
+  
+  private int     idSMS       ;
   private int     smsType     ;
-  private int     userId      ;
+  private int     equipierId  ;
+  private String  equipierDesc;
   private int     idDispositif;
+  private String  api         ;
+  private String  from        ;
   private String  recipient   ;
   private String  message     ;
+  private Date    eventDate   ;
   
   
-  public SMS(int smsType, int idDispositif, int userId, String recipient, String message)
+  /***
+   * Used for recieved SMS
+   * @param api
+   * @param from
+   * @param recipient
+   * @param message
+   */
+  
+  public SMS(String api, String from, String recipient, String message)
+  {
+    
+    if(!SMS.API_RECIEVED_SMS.equals(api))
+    {
+      if(logger.isWarnEnabled())
+      {
+        logger.warn("API code is not the one expected '"+api+"' from '"+from+"' message='"+message+"'");
+      }
+    }
+    
+    this.api            = SMS.API_RECIEVED_SMS  ;
+    this.from           = from                  ;
+    this.smsType        = SMS.TYPE_RECIEVED_SMS_VIA_SMS_MANAGER;
+    this.equipierId     = 0                     ;
+    this.idDispositif   = 0                     ;
+    this.recipient      = recipient             ;
+    this.message        = message               ;
+    this.eventDate      = new Date()            ;
+  }
+  
+  /**
+   * Used for send SMS
+   * */
+  public SMS(int smsType, int idDispositif, int idEquipierUser, String recipient, String message)
   {
     if(message == null || message.trim().length() == 0)
     {
@@ -31,7 +83,7 @@ public class SMS implements Serializable
     }
     
     
-    if( userId == 0)
+    if( idEquipierUser == 0)
     {
       throw new IllegalArgumentException("userId must not be equal recipient 0");
     }
@@ -40,33 +92,57 @@ public class SMS implements Serializable
       throw new IllegalArgumentException("smsType must not be equal recipient 0");
     }
     
-    
-    this.smsType      = smsType     ;
-    this.userId       = userId      ;
-    this.idDispositif = idDispositif;
-    this.recipient    = recipient   ;
-    this.message      = message     ;
+    this.api            = SMS.API_SEND_SMS      ;
+    this.from           = SMS.FROM_REGULATION   ;
+    this.smsType        = smsType               ;
+    this.equipierId     = idEquipierUser        ;
+    this.idDispositif   = idDispositif          ;
+    this.recipient      = recipient             ;
+    this.message        = message               ;
+    this.eventDate      = new Date()            ;
   }
+  
+  /**
+   * Used for JDBC Template rowMapper
+   * */
+  public SMS(int idSMS, int smsType, int idDispositif, int idEquipierUser, String api, String from, String recipient, String message, Date eventDate, String equipierDesc)
+  {
+    this.idSMS          = idSMS                 ;
+    this.smsType        = smsType               ;
+    this.idDispositif   = idDispositif          ;
+    this.equipierId     = idEquipierUser        ;
+    this.api            = api                   ;
+    this.from           = from                  ;
+    this.recipient      = recipient             ;
+    this.message        = message               ;
+    this.eventDate      = eventDate             ;
+    this.equipierDesc   = equipierDesc          ;
+  }
+  
   
   @Override
   public SMS clone() throws CloneNotSupportedException
   { 
-    return new SMS(this.smsType, this.idDispositif, this.userId, this.recipient+"", this.message+"");
+    return new SMS(this.smsType, this.idDispositif, this.equipierId, this.recipient+"", this.message+"");
   }
   
   public SMS clone(String newRecipient) throws CloneNotSupportedException
   { 
-    return new SMS(this.smsType, this.idDispositif, this.userId, newRecipient, this.message+"");
+    return new SMS(this.smsType, this.idDispositif, this.equipierId, newRecipient, this.message+"");
   }
   
   @Override
   public String toString()
   {
-    return  " smsType       = '"+this.smsType     +"'" +
-            " idDispositif  = '"+this.idDispositif+"'" +
-            " userId        = '"+this.userId      +"'" +
-            " recipient     = '"+this.recipient   +"'" +
-            " message       = '"+this.message     +"'" ;
+    return  "{ idSMS         : '"+this.idSMS         +"'" +
+            "  smsType       : '"+this.smsType       +"'" +
+            "  idDispositif  : '"+this.idDispositif  +"'" +
+            "  equipierId    : '"+this.equipierId    +"'" +
+            "  api           : '"+this.api           +"'" +
+            "  eventDate     : '"+dateFormat.format(this.eventDate)+"'" +
+            "  from          : '"+this.from          +"'" +
+            "  recipient     : '"+this.recipient     +"'" +
+            "  message       : '"+this.message       +"' }" ;
 
   }
   
@@ -81,9 +157,9 @@ public class SMS implements Serializable
   }
 
 
-  public int getUserId()
+  public int getEquipierId()
   {
-    return userId;
+    return equipierId;
   }
 
 
@@ -108,9 +184,9 @@ public class SMS implements Serializable
     this.smsType = smsType;
   }
 
-  public void setUserId(int userId)
+  public void setEquipierId(int userId)
   {
-    this.userId = userId;
+    this.equipierId = userId;
   }
 
   public void setRecipient(String recipient)
@@ -126,6 +202,56 @@ public class SMS implements Serializable
   public void setIdDispositif(int idDispositif)
   {
     this.idDispositif = idDispositif;
+  }
+
+  public String getApi()
+  {
+    return api;
+  }
+
+  public void setApi(String api)
+  {
+    this.api = api;
+  }
+
+  public String getFrom()
+  {
+    return from;
+  }
+
+  public void setFrom(String from)
+  {
+    this.from = from;
+  }
+
+  public Date getEventDate()
+  {
+    return eventDate;
+  }
+
+  public void setEventDate(Date recievedDate)
+  {
+    this.eventDate = recievedDate;
+  }
+
+  public int getIdSMS()
+  {
+    return idSMS;
+  }
+
+  public void setIdSMS(int idSMS)
+  {
+    this.idSMS = idSMS;
+  }
+
+  public String getEquipierDesc()
+  {
+    return equipierDesc;
+  }
+
+  public void setEquipierDesc(String equipierDesc)
+  {
+    this.equipierDesc = equipierDesc;
   }
 
 }

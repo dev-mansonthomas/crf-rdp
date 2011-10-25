@@ -48,6 +48,15 @@
       javascript="LieuEditorService">
         <param name="beanName" value="lieuEditorDwrService"/>
     </create>
+
+    <create
+         creator="spring"
+           scope="application"
+      javascript="SMSManagerService">
+        <param name="beanName" value="SMSManager"/>
+    </create>    
+    
+    
     
     
     

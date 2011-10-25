@@ -71,9 +71,9 @@ public class MonitorOutputDispositf  extends DWRUtils
     HttpSession session         = this.validateSession();
     Regulation  regulation      = (Regulation)session.getAttribute("regulation");
     int regulationId            = regulation.getRegulationId();
-    int currentUserId           = this.getCurrentUserId();
+    int currentUserEquipierId           = this.getCurrentUserEquipierId();
     
-    this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserId, regulationId, idIntervention, idDispositif, new Date());
+    this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserEquipierId, regulationId, idIntervention, idDispositif, new Date());
 
 
     //Met a jour tous les navigateurs avec le nouvel état du dispositif

@@ -9,7 +9,7 @@ public class RegulationFilter implements ScriptSessionFilter
   private int     regulationId = 0;
   private Logger  logger       = null;
   
-  @SuppressWarnings("unchecked")
+
   public RegulationFilter(int     regulationId, Class clazz)
   {
     this.regulationId = regulationId;

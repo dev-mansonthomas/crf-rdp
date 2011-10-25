@@ -172,6 +172,7 @@ CrfIrpUtils.prototype.getAllList=function()
  * "RolesUser"             
  * "TypesDispositif"       
  * "Delegations"           
+ * "SMSType"
  * 
  */
 CrfIrpUtils.prototype.getAllListReturn=function(allList)
@@ -179,7 +180,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
   var tmpList = Array();
   var newList = Array();
   
-  var listList = ['EtatsDispositif', 'MotifsIntervention', 'OriginesIntervention', 'RolesEquipier', 'RolesUser', 'TypesDispositif', 'EtatsIntervention', 'MotifsAnnulation'];
+  var listList = ['EtatsDispositif', 'MotifsIntervention', 'OriginesIntervention', 'RolesEquipier', 'RolesUser', 'TypesDispositif', 'EtatsIntervention', 'MotifsAnnulation', 'SMSType'];
   
   for(var z=0, listListCount=listList.length; z<listListCount;z++)
   {

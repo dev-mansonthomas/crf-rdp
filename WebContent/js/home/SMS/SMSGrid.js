@@ -23,7 +23,7 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
                  args          : []              ,
                  proxyConfig   : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
                  filterCallBack: function()
-                 {
+                 {//TODO : gérer le tri sur les colonnes
                     var objectFilter = new Array();
                     
                     Ext.ux.rs.addFilterFromExtField(objectFilter,gridId+'Toolbar-idEquipier', 'idEquipier', '='   ,'');
@@ -230,7 +230,8 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 	},
   handleRowDoubleClick:function(theGrid, rowIndex, e)
   {
-    
+    var rowData = theGrid.store.getAt(rowIndex).data;
+    alert("Sending new SMS to "+ rowData.idSMS);
   },
 	handleRowClick:function(theGrid, rowIndex, e)
 	{

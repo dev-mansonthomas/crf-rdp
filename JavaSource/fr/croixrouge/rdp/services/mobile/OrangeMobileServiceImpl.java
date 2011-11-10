@@ -39,9 +39,11 @@ public class OrangeMobileServiceImpl extends MobileService
   private int     executionMode       ;
   
   public OrangeMobileServiceImpl( String        protocol            ,
-                                  String        host                ,
+                                  String        productionHost      ,
+                                  String        testHost            ,
                                   int           port                ,
-                                  String        urlPath             ,
+                                  String        urlPathProduction   ,
+                                  String        urlPathTest         ,
                                   String        encoding            ,
                                   String        orangeAPIKey        ,
                                   String        fromNumber          ,
@@ -54,9 +56,9 @@ public class OrangeMobileServiceImpl extends MobileService
                                   SMSLogService smsLogService       )
   {
     this.protocol             = protocol            ;
-    this.host                 = host                ;
+    this.host                 = executionMode == 1 ? productionHost    : testHost    ;
     this.port                 = port                ;
-    this.urlPath              = urlPath             ;
+    this.urlPath              = executionMode == 1 ? urlPathProduction : urlPathTest ;
     this.encoding             = encoding            ; 
     this.orangeAPIKey         = orangeAPIKey        ;
     this.fromNumber           = fromNumber          ;
@@ -66,7 +68,7 @@ public class OrangeMobileServiceImpl extends MobileService
     this.parameterNameMessage = parameterNameMessage;
     this.executionMode        = executionMode       ;
     this.smsMaxSize           = smsMaxSize          ;
-    this.smsLogService        = smsLogService        ;
+    this.smsLogService        = smsLogService       ;
   }
 
   @Override

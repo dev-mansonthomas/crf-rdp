@@ -32,7 +32,7 @@ public abstract class MobileService
     }
   };
   
-  
+  //TODO : prendre en compte les nouveaux parametres, récupèrer la réponse et l'enregistrer en base
   public void sendSMS(SMS sms) throws Exception
   {
     //Ajout du code pays qui replace le 0 initial

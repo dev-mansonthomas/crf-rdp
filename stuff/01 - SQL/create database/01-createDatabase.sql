@@ -631,15 +631,26 @@ ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfrdp`.`sms_log`;
 CREATE TABLE `sms_log` (
-  `id_sms_log`    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_sms_type`   INTEGER UNSIGNED NOT NULL,
-  `id_dispositif` INTEGER UNSIGNED NOT NULL,
-  `id_equipier`   INTEGER UNSIGNED NOT NULL,
-  `api`           varchar(12  )    NOT NULL,
-  `sender`        varchar(12  )    NOT NULL,
-  `to`            varchar(12  )    NOT NULL,
-  `message`       varchar(2048)    NOT NULL,
-  `evt_date`      timestamp        NOT NULL,
+  `id_sms_log`      INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_sms_type`     INTEGER UNSIGNED NOT NULL,
+  `id_dispositif`   INTEGER UNSIGNED NOT NULL,
+  `id_equipier`     INTEGER UNSIGNED NOT NULL,
+  `api`             varchar(12  )    NOT NULL,
+  `sender`          varchar(12  )    NOT NULL,
+  `to`              varchar(12  )    NOT NULL,
+  `message`         varchar(2048)    NOT NULL,
+  `evt_date`        timestamp        NOT NULL,
+  
+  `raw_answer`      VARCHAR(2048)        NULL,
+  `status_code`     VARCHAR(6)           NULL, 
+  `status_message`  VARCHAR(255)         NULL,
+  `call_id`         VARCHAR(36)          NULL, 
+  `nbr_sms_sent`    INTEGER UNSIGNED     NULL,
+
+  
+  
+  
+  
   PRIMARY KEY (`id_sms_log`),
   KEY        `FK_sms_log-sms_type`   (`id_sms_type`  ),
   KEY        `FK_sms_log-equipier`   (`id_equipier`  ),

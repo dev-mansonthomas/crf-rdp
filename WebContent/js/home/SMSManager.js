@@ -4,7 +4,7 @@ Ext.namespace('Ext.ux.Home.SMSManagerUI');
 
 
 Ext.ux.Home.SMSManagerUI = Ext.extend(Ext.Panel, {
-  id		   : 'SMSManager',
+  id		       : 'SMSManager',
   title        : 'SMS Manager',
   layout       : 'border',
   initComponent: function()
@@ -25,8 +25,7 @@ Ext.ux.Home.SMSManagerUI = Ext.extend(Ext.Panel, {
 			  listeners : { 
           rowdblclick : function(theGrid, rowIndex, e )
           {
-            var rowData = theGrid.store.getAt(rowIndex).data;
-            Ext.getCmp(gridId).sendNewSMSTo(rowData.idSMS)
+            theGrid.handleRowDoubleClick(theGrid, rowIndex, e );
           },
           rowclick : function(theGrid, rowIndex, e )
           {           
@@ -45,7 +44,13 @@ Ext.ux.Home.SMSManagerUI = Ext.extend(Ext.Panel, {
 			  collapsed     : true,
 			  collapseFirst : true,
 		    minSize       : 100,
-		    maxSize       : 200
+		    maxSize       : 200,
+        listeners : { 
+          rowdblclick : function(theGrid, rowIndex, e )
+          {
+            theGrid.handleRowDoubleClick(theGrid, rowIndex, e );
+          }
+        }
 	  };
 
 	  

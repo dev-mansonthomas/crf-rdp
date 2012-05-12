@@ -39,6 +39,7 @@ public class MonitorOutputDispositf  extends DWRUtils
     return this.dispositifService.getAllDispositif(currentUserRegulationId);
   }
   
+
   
   public String actionOnDispositif(int idDispositif) throws Exception
   {
@@ -128,6 +129,7 @@ public class MonitorOutputDispositf  extends DWRUtils
   }
   
   /**
+   * Choix de l'hopital d'évac
    * Met a jour inter et dispositif
    * puis appel ActionOnDispositif
    * */
@@ -137,6 +139,22 @@ public class MonitorOutputDispositf  extends DWRUtils
     this.dispositifInterventionDelegate.chooseEvacDestination(currentUserRegulationId, idDispositif, idLieu, destinationLabel, position);
     return this.actionOnDispositif(idDispositif);
   }
+  /**
+   * Choix de l'hopital d'évac ==> cas d'un laissé sur place
+   * Met a jour inter et dispositif
+   * puis appel ActionOnDispositif
+   * 
+   * (idDispositif, decede, decharge, dcdADispoDe
+   * */
+  
+  public String laisseSurPlace(int idDispositif, boolean decede, boolean decharge, String dcdADispoDe) throws Exception
+  {
+    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    this.dispositifInterventionDelegate.laisseSurPlace(currentUserRegulationId, idDispositif, decede, decharge, dcdADispoDe);
+    return this.endOfIntervention(idDispositif);
+  }
+
+  
   
   public void cloneIntervention(DataForCloneIntervention dataForCloneIntervention) throws Exception
   {

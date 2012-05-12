@@ -618,7 +618,9 @@ values
 ('0.4.3','2010-03-18'   ,'No production release','Ajout d\'une interface d\'edition des utilisateur de l\'application + Bug Fix'),
 ('0.4.4','2010-09-04'   ,'No production release','Gestion des Lieux, ID Métier pour les inters, Affichage des inters d\'un bénévole, + bug fix'),
 ('0.4.5','2010-09-30'   ,'No production release','Gestion des SMS sur affecation à un alpha, envoie de SMS a un équipage, logging des echanges SMS'),
-('0.4.6','2010-10-07'   ,'No production release','Bug fix release + focus à la fenêtre de saisie lorsqu\'on doit saisir qqch dedans')
+('0.4.6','2010-10-07'   ,'No production release','Bug fix release + focus à la fenêtre de saisie lorsqu\'on doit saisir qqch dedans'),
+('0.5'  ,'2012-01-04'   ,'No production release','Bug fix + Envoie SMS équipage Alpha sur affectation + Synchro SIORD + SMS Manager + Traffic Sytadin new version + Gestion Laissé sur place'),
+('0.5.1','2012-04-27'   ,'No production release','Bug fix + Prise en compte de retours des test')
 ;
 
 insert into application_version_changelog(`id_application_version`, `id_jira`, `description`)
@@ -671,8 +673,47 @@ values
 (9,'IRP-135', 'l\'application donne le focus a la fenetre de saisie lorsqu\'on doit saisir qqch'),
 (9,'IRP-133', 'Fix sur le découpage des sms en message de 160 char'),
 (9,'IRP-131', 'Fix : le nivol est une clé dans la base des équipiers (impossible de saisir 2 équipiers avec le meme nivol)'),
-(9,'IRP-130', 'Fix sur la publication d\'une intervention')
-;
+(9,'IRP-130', 'Fix sur la publication d\'une intervention'),
+(10, "IRP-173", "Annulation de l'intervention : bugs"),
+(10, "IRP-172", "Bilan : si on déchoche une case a coché, l'information n'est pas sauvegardé en base de données"),
+(10, "IRP-171", "Gestion du 'Laissé Sur Place' d'une intervention"),
+(10, "IRP-158", "Remplacement de l'ancienne vue sytadin (gif) par la nouvelle"),
+(10, "IRP-126", "Chargement du ticket d'intervention incomplet"),
+(10, "IRP-124", "SMS : logging de l'activité sms de l'application"),
+(10, "IRP-122", "Envoie de SMS au CI à l'affectation d'une intervention alpha"),
+(10, "IRP-96" , "Ajouter l'indicatif dans la table équipier"),
+(10, "IRP-80" , "Afficher le n° de déclaration CNIL dans l'application"),
+
+(11,"IRP-221","Bilan et ticket: calcul des coordonnées GPS pas toujours déclenché"),
+(11,"IRP-220","Edition d'un ticket d'intervention, DH réception mal initialisé"),
+(11,"IRP-217","Msg d'erreur suppression de ticket d'inter"),
+(11,"IRP-213","Message d'erreur saisie t° ou glycémie"),
+(11,"IRP-212","Implémentation des évaluations : Ajout de la notion d'évaluateur (siord contient le role évaluateur et non le role évalué)"),
+(11,"IRP-211","RaZ affichage dates patch + Etat défibrillateur"),
+(11,"IRP-210","Pas de controle patch pédia"),
+(11,"IRP-204","Implémentation des évaluations : edition des équipiers, ajouter la case a cocher Evaluation"),
+(11,"IRP-202","Probleme d'highlight des champs dates sur l'écran dispositif"),
+(11,"IRP-201","Agrandissment de la zone de saisie pour la saisie des dispositif"),
+(11,"IRP-200","Recherche equipier : si on fait deux fois de suite la meme recherche, la seconde fois ne rammene aucun résultat"),
+(11,"IRP-199","Téléphone dispositif"),
+(11,"IRP-198","Recherche d'équipier"),
+(11,"IRP-196","Horaires des inters"),
+(11,"IRP-194","Enregistrement champ 'Ref Ext Inter'"),
+(11,"IRP-188","Enregistrement date patch DSA"),
+(11,"IRP-186","Bouton Edition de l'intervention depuis la page MonitorOut ne fonctionne pas lors du premier click. Au second click ca passe"),
+(11,"IRP-184","DIspositif : Ajouter une case pour indiqué la présence d'un adapteur pédiatrique"),
+(11,"IRP-183","Sauvegarde des horaires appels renforts médicalisé et arrivé renfort médicalisé, actuellement non sauvegardé"),
+(11,"IRP-182","Bilan : Séparé antécédant et traitement"),
+(11,"IRP-181","Glycémie et température, ajouter les décimales"),
+(11,"IRP-179","Saisie du sexe de la victime non effectif sur la fiche bilan"),
+(11,"IRP-178","Bug sur la restitution de la date de naissance sur la fiche bilan"),
+(11,"IRP-177","format du code postal non vérifié"),
+(11,"IRP-176","Suppression d'un dispositif sans inter"),
+(11,"IRP-174","Si Erreur de saisie sur dispositif (manque PSE2), correction.la validation échoue"),
+(11,"IRP-157","Monitor: Inter a affecter => permettre d'éditer le ticket directement."),
+(11,"IRP-155","Forcé input en majuscule"),
+(11,"IRP-116","bouton annuler une intervention"),
+(11,"IRP-101","Saisie dispositif : ajouter champ pour la validité des patch");
 
 
 
@@ -690,7 +731,7 @@ ALTER TABLE `sms_type` AUTO_INCREMENT = 5;
 
 
 INSERT INTO `equipier` (`id_equipier`, `id_dispositif`, `nivol`, `equipier_is_male`, `enabled`, `nom`, `prenom`, `mobile`, `email`, `id_delegation`, `autre_delegation`) 
-VALUES (1,0,'75233A',1,0,'Manson','Thomas','0664664296','mt@mansonthomas.com',42,NULL);
+VALUES (1,0,'75233A',1,1,'Manson','Thomas','0664664296','mt@mansonthomas.com',42,NULL);
 
 insert into `user` ( `id_equipier`, `password`,`enabled`, `id_regulation` )
 values
@@ -700,6 +741,15 @@ values
 insert into `user_roles` ( `id_user`, `id_role`)
 values
 (1  ,1 );  
+
+insert into `equipier_roles` ( `id_equipier`, `id_role_equipier`,`en_evaluation`, `evaluateur`)
+values
+(1  ,7 ,0 , 0),
+(1  ,8 ,0 , 0),
+(1  ,9 ,0 , 0),
+(1  ,10,0 , 0),
+(1  ,11,0 , 0);
+
 
 insert into regulation (`start_date` ,`expected_end_date` ,`open`,`id_regulateur`,`label` ,`comment` )
 values

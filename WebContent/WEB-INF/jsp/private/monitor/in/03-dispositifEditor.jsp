@@ -4,7 +4,7 @@
       <div id="DispositifEditor">
 
 
-<div id="DispositifEdit" style="display:none;width:600px;">
+<div id="DispositifEdit" style="display:none;width:850px;">
   <input type="hidden" id="dispositif_id_field"         name="dispositif_id_field"         value=""/>
   <input type="hidden" id="dispositifActif"             name="dispositifActif"             value=""/>
   <input type="hidden" id="dispositifCurrentInterId"    name="dispositifCurrentInterId"    value=""/>
@@ -18,11 +18,11 @@
           <legend>Identification</legend>
           <table>
             <tr>
-              <td style="width:135px;">Type :<br/> <select id="DispositifType" name="DispositifType" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_type_dispositif');miDispositifCs.setRoles(this.value);"><option value=" "> </option></select></td>
-              <td style="width:200px;">Indicatif :<br/> <input type="text" id="DispositifIndicatif"  name="DispositifIndicatif"  value="" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifStringField(this.id, 'indicatif_vehicule')"/></td>
+              <td style="width:250px;">Type      :<br/> <select            id="DispositifType"       name="DispositifType"                onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_type_dispositif');miDispositifCs.setRoles(this.value);"   style="width:95%;"><option value=" "> </option></select></td>
+              <td style="width:270px;">Indicatif :<br/> <input type="text" id="DispositifIndicatif"  name="DispositifIndicatif"  value="" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="this.value=this.value.toUpperCase();miDispositifCs.updateDispositifStringField(this.id, 'indicatif_vehicule')" style="width:95%;"/></td>
               <td>
                 Delegation :<br/>
-                <input type="text"    id="DispositifDelegation"           name="DispositifDelegation" />
+                <input type="text"    id="DispositifDelegation"           name="DispositifDelegation" style="width:95%;"/>
                 <input type="hidden"  id="DispositifDelegation_id"        name="DispositifDelegation_id"/>
                 <input type="hidden"  id="DispositifDelegation_autreNom"  name="DispositifDelegation_autreNom"/>
               </td>
@@ -54,18 +54,18 @@
           <legend>Liste Des Equipiers Du Dispositif</legend>
             
 <!-- The box wrap markup embedded instead of using Element.boxWrap() -->
-<div style="width:550px;">
+<div style="width:850px;">
     <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
     <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
         <h3 style="margin-bottom:5px;">Ajouter un équipier au Dispositif</h3>
         <table style="width:100%">
           <tr>
-            <td style="width:200px;"><input type="text" size="10" name="DispositifEquipierSearchRoleInput" id="DispositifEquipierSearchRoleInput"  /></td>
+            <td style="width:250px;"><input type="text" size="10" name="DispositifEquipierSearchRoleInput" id="DispositifEquipierSearchRoleInput"  /></td>
             <td><input type="text" size="40" name="DispositifEquipierSearchInput"     id="DispositifEquipierSearchInput"      /></td>
           </tr>
         </table>
         <div style="padding-top:4px;">
-            Recherche par Nivol ou Nom, sélectionnez un Role avant d'effectuer une recherche
+            Recherche par Nivol ou Nom, sélectionnez un Role avant d'effectuer une recherche <span id="WhyNotFound">Pourquoi l'équiper que je cherche n'apparait pas dans les résultats?</span>
         </div>
 
     </div></div></div>
@@ -79,7 +79,7 @@
           </fieldset>
          <!-- FIN Ajout/Suppression D'équipier-->
 
-        <fieldset style="width:698px;">
+        <fieldset>
           <legend>Materiel</legend>
 
 
@@ -206,7 +206,7 @@
 </table>
 
 
-<table id="DispositifDefibrilateurTable" style="width:200px;float:left;margin-right:5px;">
+<table id="DispositifDefibrilateurTable" style="width:270px;float:left;margin-right:5px;">
   <tr>
     <th>Défibrillateur</th>
     <td id="dsa_td">
@@ -263,6 +263,30 @@
          onChange="miDispositifCs.updateDispositifRadioField('dsa_complet_td')"/>
     </td>
   </tr>
+   <tr>
+    <th ext:qtip="Adaptateur Pédiatrique, pour les Welch Allyn uniquement.">Adaptateur Pédia.</th>
+    <td id="dsa_adaptateur_pedia_td">
+      <input type="hidden" id="dsa_adaptateur_pedia_td_value" name="dsa_adaptateur_pedia_td_value" value=""/>
+
+      <span>Oui</span>
+      <input type="radio"
+             name="DispositifAdaptateurPediatrique"
+            class="DispositifDefibrilateurRadio"
+               id="DispositifAdaptateurPediatriqueOui"
+            value="true"
+          onFocus="crfIrpUtils.fieldEdit('dsa_adaptateur_pedia_td')"
+         onChange="miDispositifCs.updateDispositifRadioField('dsa_adaptateur_pedia_td')"/>
+
+      <span>Non</span>
+      <input type="radio"
+             name="DispositifAdaptateurPediatrique"
+            class="DispositifDefibrilateurRadio"
+               id="DispositifAdaptateurPediatriqueNon"
+            value="false"
+          onFocus="crfIrpUtils.fieldEdit('dsa_adaptateur_pedia_td')"
+         onChange="miDispositifCs.updateDispositifRadioField('dsa_adaptateur_pedia_td')"/>
+    </td>
+  </tr>
 </table>
 
 
@@ -271,21 +295,21 @@
 
 
 <!-- patch -->
-<table id="DispositifPatchTable" style="width:180px;">
+<table id="DispositifPatchTable" style="width:110px;">
   <tr>
-    <th>Date Adulte 1</th>
+    <th id="DispositifDatePatchAdulte1_th">Date Adulte 1</th>
     <td>
       <div id="DispositifDatePatchAdulte1_div"></div>
     </td>
    </tr>
    <tr>
-    <th>Date Adulte 2</th>
+    <th id="DispositifDatePatchAdulte2_th">Date Adulte 2</th>
     <td>
       <div id="DispositifDatePatchAdulte2_div"></div>
     </td>
   </tr>
   <tr>
-    <th  ext:qtip="Sur les WELCH ALLYN, on utilise des patchs adultes avec un adaptateur qui réduit l'intensité des chocs">Date Enfant</th>
+    <th  id="DispositifDatePatchEnfant_th"  ext:qtip="Sur les WELCH ALLYN, on utilise des patchs adultes avec un adaptateur qui réduit l'intensité des chocs">Date Enfant</th>
     <td>
       <div id="DispositifDatePatchEnfant_div"></div>
     </td>
@@ -361,7 +385,7 @@
                     <img id="dispositifCurrentGoogleAdressCheckStatus" src="../../img/pix.png" alt="pix" style="height:16px;width:16px;"/>
                     <input type="hidden" id="dispositifCurrentAddressCoordinateLat"  name="dispositifCurrentAddressCoordinateLat" />
                     <input type="hidden" id="dispositifCurrentAddressCoordinateLong" name="dispositifCurrentAddressCoordinateLong"/>
-<br/>       
+<br/><br/>           
 <span class="fieldsetSubtitle"  ext:qtip="Adresse de départ de l'ASM en déplacement">Adresse Précédente</span><br/>
                   Rue :
                 <input style="width:93%;"

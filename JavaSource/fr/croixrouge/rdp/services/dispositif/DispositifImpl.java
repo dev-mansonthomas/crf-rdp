@@ -221,10 +221,18 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "AND   id_intervention = ?            \n";
   
   
+  private final static String queryForUnAffectInterventionToDispositif3 =
+      "SELECT COUNT(1) as numberOfIntervention\n" +
+      "FROM   dispositif_interventions        \n" +
+      "WHERE  id_dispositif   = ?             \n";
+  
   public void unAffectInterventionToDispositif(int idDispositif, int idIntervention, Date dateAffectation) throws Exception
   {
+    
+    int numberOfIntervention = this.jdbcTemplate.queryForInt(queryForUnAffectInterventionToDispositif3, new Object[]{idDispositif}, new int[]{Types.INTEGER});
+    
     if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected");
+      logger.debug("Dispositif with id='"+idDispositif+"' has "+numberOfIntervention+" intervention currently affected and "+idIntervention+" is being unaffected");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif2, 
         new Object[]{idDispositif   , idIntervention}, 
@@ -234,16 +242,21 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected (line updated = '"+nbLineUpdated+"')");
     
-    if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected");
+   
+    if(numberOfIntervention==1)
+    {
+      if(logger.isDebugEnabled())
+        logger.debug("Dispositif with id='"+idDispositif+"' has no more intervention affected, changing dispositif status to STATUS_INDISPO");
 
-    nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif, 
-        new Object[]{STATUS_DISPO  , idDispositif }, 
-        new int   []{Types.INTEGER , Types.INTEGER}
-      );
+      nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif, 
+          new Object[]{STATUS_INDISPO, idDispositif }, 
+          new int   []{Types.INTEGER , Types.INTEGER}
+        );
+      
+      if(logger.isDebugEnabled())
+        logger.debug("Dispositif with id='"+idDispositif+"' has no more intervention affected, changing dispositif status to STATUS_DISPO (line updated = '"+nbLineUpdated+"')");      
+    }
     
-    if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected (line updated = '"+nbLineUpdated+"')");
   }
 
 
@@ -262,14 +275,15 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   `DH_appel_renfort_medical`     datetime NULL,
   `DH_arrivee_renfort_medical`   datetime NULL, 
      * */
-    idEtatDateFieldMapping.put(1, "DH_dispo");
-    idEtatDateFieldMapping.put(3, "DH_depart");
-    idEtatDateFieldMapping.put(4, "DH_sur_place");
-    idEtatDateFieldMapping.put(5, "DH_bilan_primaire");
-    idEtatDateFieldMapping.put(6, "DH_bilan_secondaire");
-    idEtatDateFieldMapping.put(7, "DH_quitte_les_lieux");
-    idEtatDateFieldMapping.put(8, "DH_arrivee_hopital");
-    idEtatDateFieldMapping.put(9, "DH_fin_intervention");
+    idEtatDateFieldMapping.put(1 , "DH_dispo");
+    idEtatDateFieldMapping.put(3 , "DH_depart");
+    idEtatDateFieldMapping.put(4 , "DH_sur_place");
+    idEtatDateFieldMapping.put(5 , "DH_bilan_primaire");
+    idEtatDateFieldMapping.put(6 , "DH_bilan_secondaire");
+    idEtatDateFieldMapping.put(7 , "DH_quitte_les_lieux");
+    idEtatDateFieldMapping.put(8 , "DH_arrivee_hopital");
+    idEtatDateFieldMapping.put(9 , "DH_fin_intervention");
+     
   }
   private final static String queryForActionOnDispositif = 
     "UPDATE dispositif                    \n" +
@@ -450,12 +464,12 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String dispositifSelectQuery = 
-    "SELECT  d.`id_dispositif`     , `id_type_dispositif`, `indicatif_vehicule`,                                                                                    \n"+
+    "SELECT d.`id_dispositif`    , `id_type_dispositif`, `indicatif_vehicule`,                                                                                      \n"+
     "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                                      \n"+
     "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                                      \n"+
     "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`,                                                                    \n"+
-    "        `dispositif_comment`, `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,                                   \n"+
-    "        `dsa_type`          , `dsa_complet`       , `observation`       ,                                                                                      \n"+
+    "        `dispositif_comment`, `dispositif_comment_etat`, `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,        \n"+
+    "        `dsa_type`          , `dsa_complet`       , `dsa_adapteur_pediatrique` ,  `dsa_date_adulte_1`, `dsa_date_adulte_2`, `dsa_date_enfant`, `observation`,  \n"+
     "        `DH_debut`          , `DH_fin`            , `id_delegation_responsable`, d.`autre_delegation`,                                                         \n"+
     "        `contact_radio`     , `contact_tel1`      , `contact_tel2`      ,                                                                                      \n"+
     "        `contact_alphapage` , `identite_medecin`  , `id_etat_dispositif`, `id_current_intervention`, `display_state`,                                          \n"+
@@ -541,19 +555,21 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String whereForRecentDispositif = 
-    "WHERE    id_regulation     = ?    \n" +
-    "AND TIMESTAMPDIFF(HOUR, DH_DEBUT, CURRENT_TIMESTAMP) < 18 \n";
+    "WHERE    id_regulation     = ?    \n";
+  
+  private final static String whereForRecentDispositifTimeSearch =
+    "AND TIMESTAMPDIFF(HOUR, DH_DEBUT, CURRENT_TIMESTAMP) < 48 \n";
   
   
   private final static String queryForRecentDispositif = dispositifTicketSelectQuery + 
-  whereForRecentDispositif +
+  whereForRecentDispositif + whereForRecentDispositifTimeSearch +
   "ORDER BY indicatif_vehicule ASC   \n";
   
   
   private final static String queryForGetRecentDispositifCount =
     "SELECT   count(1)                \n"+
     "FROM     dispositif              \n"+
-    whereForRecentDispositif;
+    whereForRecentDispositif + whereForRecentDispositifTimeSearch;
   
 
   public ListRange<DispositifTicket> getRecentDispositif(int idRegulation, int index, int limit) throws Exception
@@ -802,7 +818,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
 
   
   public static String[]booleanField = {
-    "dsa_complet"                           , 
+    "dsa_complet"                           ,
+    "dsa_adapteur_pediatrique"              ,
     "dispositif_back_3_girl"                , 
     "dispositif_not_enough_O2"              , 
     "dispositif_set_available_with_warning" , 
@@ -811,6 +828,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private static Hashtable<String, String> booleanFieldMatching = new Hashtable<String, String>(booleanField.length);
   {
     booleanFieldMatching.put("dsa_complet"                          , "dsa_complet"                           );
+    booleanFieldMatching.put("dsa_adapteur_pediatrique"             , "dsa_adapteur_pediatrique"              );
     booleanFieldMatching.put("dispositif_back_3_girl"               , "dispositif_back_3_girl"                ); 
     booleanFieldMatching.put("dispositif_not_enough_O2"             , "dispositif_not_enough_O2"              );
     booleanFieldMatching.put("dispositif_set_available_with_warning", "dispositif_set_available_with_warning" );
@@ -849,7 +867,10 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "DH_dispo"                   ,
     "DH_a_sa_base"               ,
     "DH_appel_renfort_medical"   ,
-    "DH_arrivee_renfort_medical"
+    "DH_arrivee_renfort_medical" ,
+    "dsa_date_adulte_1"          ,
+    "dsa_date_adulte_2"          ,
+    "dsa_date_enfant"            
 };
   private static Hashtable<String, String> dateFieldMatching = new Hashtable<String, String>(dateField.length);
   {
@@ -865,6 +886,11 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     dateFieldMatching.put("DH_a_sa_base"               , "DH_a_sa_base"               );
     dateFieldMatching.put("DH_appel_renfort_medical"   , "DH_appel_renfort_medical"   );
     dateFieldMatching.put("DH_arrivee_renfort_medical" , "DH_arrivee_renfort_medical" );
+    
+    dateFieldMatching.put("dsa_date_adulte_1"          , "dsa_date_adulte_1"          );
+    dateFieldMatching.put("dsa_date_adulte_2"          , "dsa_date_adulte_2"          );
+    dateFieldMatching.put("dsa_date_enfant"            , "dsa_date_enfant"            );
+    
   }
   public void updateDispositifDateField   (int idDispositif, String fieldName, Date fieldValue) throws Exception
   {
@@ -977,6 +1003,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
 
   public static String[]stringField = { "indicatif_vehicule"           ,
                                         "dispositif_comment"           ,
+                                        "dispositif_comment_etat"      ,
                                         "dsa_type"                     ,
                                         "autre_delegation"             ,
                                         "contact_radio"                ,
@@ -995,6 +1022,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   {
     stringFieldMatching.put("indicatif_vehicule"           , "indicatif_vehicule"           );
     stringFieldMatching.put("dispositif_comment"           , "dispositif_comment"           );
+    stringFieldMatching.put("dispositif_comment_etat"      , "dispositif_comment_etat"      );
     stringFieldMatching.put("dsa_type"                     , "dsa_type"                     );
     stringFieldMatching.put("autre_delegation"             , "autre_delegation"             );
     stringFieldMatching.put("contact_radio"                , "contact_radio"                );

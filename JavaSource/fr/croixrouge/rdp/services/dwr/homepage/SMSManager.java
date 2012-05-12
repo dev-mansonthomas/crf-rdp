@@ -9,25 +9,87 @@ import org.apache.commons.logging.LogFactory;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.SMS;
+import fr.croixrouge.rdp.model.monitor.SMSTemplate;
 import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.mobile.SMSLogService;
+import fr.croixrouge.rdp.services.mobile.SMSTemplateService;
 
 public class SMSManager  extends DWRUtils
 {
-  private static  Log             logger          = LogFactory.getLog(SMSManager.class);
-  private         SMSLogService   smsLogService   = null;
-  private         EquipierService equipierService = null;
+  private static  Log                 logger              = LogFactory.getLog(SMSManager.class);
+  private         SMSLogService       smsLogService       = null;
+  private         EquipierService     equipierService     = null;
+  private         SMSTemplateService  smsTemplateService  = null;
   
   private final static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
   
-  public SMSManager(SMSLogService smsLogService, EquipierService equipierService)
+  public SMSManager(SMSLogService      smsLogService,
+                    SMSTemplateService smsTemplateService,
+                    EquipierService    equipierService)
   {
-    this.smsLogService   = smsLogService  ;
-    this.equipierService = equipierService;
+    this.smsLogService      = smsLogService     ;
+    this.smsTemplateService = smsTemplateService;
+    this.equipierService    = equipierService   ;
+  }
+  
+  public ListRange<SMSTemplate> getSMSTemplates(GridSearchFilterAndSortObject gsfaso) throws Exception
+  {
+    this.validateSession();
+    
+    FilterObject filterObject = gsfaso.getFilterObject("searchedString");
+    
+    String searchedString = null;
+    
+    if(!(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals("")))
+    {
+      searchedString = filterObject.getValue();
+    }
+    
+    try
+    {
+      return this.smsTemplateService.getSMSTemplate(searchedString, gsfaso.getStart(), gsfaso.getLimit());  
+    }
+    catch(Exception e)
+    {
+      logger.error("Erreur lors de la récupération des SMSTemplate "+gsfaso, e);
+      throw e;
+    }
+    
+  }
+  
+  public void                   changeTemplateEnableStatus(int idSMSTemplate, boolean enabled     ) throws Exception
+  {
+   
+    try
+    {
+      this.smsTemplateService.changeTemplateEnableStatus(idSMSTemplate, enabled);  
+    }
+    catch(Exception e)
+    {
+      logger.error("Erreur lors de la changeTemplateEnableStatus idSMSTemplate='"+idSMSTemplate+"' enabled='"+enabled+"'", e);
+      throw e;
+    }
+    
+  }
+  public void                   insertNewTemplate         (String template) throws Exception
+  {
+    this.validateSession();
+    try
+    {
+      this.smsTemplateService.insertNewTemplate(template);  
+    }
+    catch(Exception e)
+    {
+      logger.error("Erreur lors de la insertNewTemplate template='"+template+"'", e);
+      throw e;
+    }
+    
+    
+    
   }
   
   public ListRange<SMS> getSMS(GridSearchFilterAndSortObject gsfaso) throws Exception
@@ -47,7 +109,7 @@ public class SMSManager  extends DWRUtils
     'date'     
     'allSMS'   
 */
-    //TODO test & debug
+
     filterObject = gsfaso.getFilterObject("idEquipier");
     if(!(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals("")))
     {
@@ -103,7 +165,7 @@ public class SMSManager  extends DWRUtils
     }
     catch (Exception e)
     {
-      logger.error("Erreur lors de la récupération des SMS", e);
+      logger.error("Erreur lors de la récupération des SMS"+gsfaso, e);
       throw e;
     }
   }
@@ -128,7 +190,7 @@ public class SMSManager  extends DWRUtils
     }
     catch (Exception e)
     {
-      logger.error("Erreur lors de la récupération des SMS", e);
+      logger.error("Erreur lors de la récupération des Equipiers "+gsfaso, e);
       throw e;
     }
   }

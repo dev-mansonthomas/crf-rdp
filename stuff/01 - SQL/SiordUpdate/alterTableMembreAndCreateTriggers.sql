@@ -1,6 +1,6 @@
 delimiter //
 
-ALTER TABLE MEMBRES
+ALTER TABLE membres
 ADD COLUMN(
  date_creation      datetime not null default '1970-01-01 01:00:00',
  date_modification  datetime not null default '1970-01-01 01:00:00'

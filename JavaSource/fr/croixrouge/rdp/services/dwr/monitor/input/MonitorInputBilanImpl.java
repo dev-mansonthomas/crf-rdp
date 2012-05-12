@@ -64,18 +64,19 @@ public class MonitorInputBilanImpl  extends DWRUtils
     
   }
   
-  //TODO supprimer la ligne de dispositif_interventions, voir pour mettre ce code dans le delegate, gerer  le commentaire d'annulation
+  //TODO voir pour mettre ce code dans le delegate
   public void       cancelIntervention(int idIntervention, int idDispositif, int idMotifAnnulation) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("cancelling intervention "+idIntervention+" of dispositif "+idDispositif+" with motif "+idMotifAnnulation);
     
     int regulationId = this.validateSessionAndGetRegulationId();
-
-    this.interventionService.updateEtatIntervention         (idIntervention, 10);//inter annulée
-    this.interventionService.updateInterventionIntegerField (idIntervention, "id_motif_annulation", idMotifAnnulation);// set le motif annulation (commentaires sauvegarder normalement)
-    this.dispositifService  .updateDispositifSetIntervention(idDispositif  , 0 );//désaffecte l'intervention au dispositif
-    this.dispositifService  .updateEtatDispositif           (idDispositif  , -1);
+    Date dateAffectation = new Date();
+    this.interventionService.unAffectInterventionToDispositif (idIntervention, dateAffectation);
+    this.interventionService.updateEtatIntervention           (idIntervention, 10);//inter annulée
+    this.interventionService.updateInterventionIntegerField   (idIntervention, "id_motif_annulation", idMotifAnnulation);// set le motif annulation (commentaires sauvegarder normalement)
+    this.dispositifService  .updateDispositifSetIntervention  (idDispositif  , 0 );//désaffecte l'intervention au dispositif
+    this.dispositifService  .unAffectInterventionToDispositif (idDispositif, idIntervention, dateAffectation);//guère la modification de l'état du dispositif
     Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
     
     this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);

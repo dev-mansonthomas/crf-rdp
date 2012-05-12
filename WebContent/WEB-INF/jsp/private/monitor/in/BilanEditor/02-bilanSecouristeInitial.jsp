@@ -23,7 +23,7 @@
       </fieldset>
 
       <fieldset id="BilanAntecedentsFielset">
-        <legend>Antécédents et Traitements Suivis</legend>
+        <legend>Antécédents</legend>
 
         <textarea id="bilan_bilan_antecedents"
                 name="bilan_bilan_antecedents"
@@ -32,6 +32,15 @@
               onBlur="miBilanCs.updateStringField(this.id, 'bilan_antecedents')"></textarea>
       </fieldset>
 
+      <fieldset id="BilanTraitementsFielset">
+        <legend>Traitements</legend>
+
+        <textarea id="bilan_bilan_traitements"
+                name="bilan_bilan_traitements"
+               class="bilanTextArea"
+             onFocus="crfIrpUtils.fieldEdit(this.id)"
+              onBlur="miBilanCs.updateStringField(this.id, 'bilan_traitements')"></textarea>
+      </fieldset>
 
     <table id="BilanSecouristeInitialTable">
       <thead>

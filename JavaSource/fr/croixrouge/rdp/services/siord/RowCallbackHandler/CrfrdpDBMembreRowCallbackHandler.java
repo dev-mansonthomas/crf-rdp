@@ -143,19 +143,20 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
     String telephone = membre.getTelephone();
     if(telephone != null && (!(telephone.startsWith("06") || telephone.startsWith("07")) || !telephone.matches("[0-9 ]*")))
     {
-      telephone = "";
+      telephone = null;
       status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(),8,"'"+membre.getTelephone()+"' n'est pas un portable" ));
     }
     equipier.setMobile  (telephone);
     String email = membre.getEmail();
     if(email != null && !emailValidator.isValid(email))
     {
-      email = "";
+      email = null;
       status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(),9,"'"+membre.getEmail()+"' n'est pas valide" ));
     }
     equipier.setEmail(email);
     
-    
+    equipier.setIdSiord(membre.getId());
+    equipier.setDateLastSynchroSiord(new Date());
     
     
     equipier.setDelegation(new Delegation(idDelegation));
@@ -214,18 +215,18 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
     
     List<EquipierRole> roles = new ArrayList<EquipierRole>(rolesSiord.size());
     
-    boolean chauffeurEnEval = false;
-    boolean ciEnEval        = false;
+    boolean evalChauffeur = false;
+    boolean evalCI        = false;
     
     for (int siordRole : rolesSiord)
     {
       if(siordRole == 34)
       {
-        ciEnEval = true;
+        evalCI = true;
       }
       else if(siordRole == 35)
       {
-        chauffeurEnEval = true;
+        evalChauffeur = true;
       }
     }
     
@@ -235,37 +236,37 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
       switch (siordRole)
       {
         case 61:
-          roles.add(new EquipierRole(1,false));
+          roles.add(new EquipierRole(1,false,false));
           break;
         case 62:
-          roles.add(new EquipierRole(2,false));
+          roles.add(new EquipierRole(2,false,false));
           break;
         case 60:
-          roles.add(new EquipierRole(3,false));
+          roles.add(new EquipierRole(3,false,false));
           break;
         case  2:
-          roles.add(new EquipierRole(4,false));
+          roles.add(new EquipierRole(4,false,false));
           break;
         case 45:
-          roles.add(new EquipierRole(5,ciEnEval));
+          roles.add(new EquipierRole(5,false,evalCI));
           break;
         case 54:
-          roles.add(new EquipierRole(6,ciEnEval));
+          roles.add(new EquipierRole(6,false,evalCI));
           break;
         case  4:
-          roles.add(new EquipierRole(7,chauffeurEnEval));
+          roles.add(new EquipierRole(7,false,evalChauffeur));
           break;
         case  5:
-          roles.add(new EquipierRole(8,false));
+          roles.add(new EquipierRole(8,false,false));
           break;
         case  3:
-          roles.add(new EquipierRole(9,false));
+          roles.add(new EquipierRole(9,false,false));
           break;
         case 53:
-          roles.add(new EquipierRole(10,false));
+          roles.add(new EquipierRole(10,false,false));
           break;
         case 33:
-          roles.add(new EquipierRole(11,false));
+          roles.add(new EquipierRole(11,false,false));
           break;
 
         default:

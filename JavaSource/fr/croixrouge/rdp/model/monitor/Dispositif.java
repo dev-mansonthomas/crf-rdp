@@ -20,6 +20,10 @@ public class Dispositif implements Serializable
   
   private int             idDispositif;
   private int             idTypeDispositif;
+  private int             idDelegation;
+  private int             idEtatDispositif;
+  private int             displayState;
+  
   private float           o2B1Volume;
   private float           o2B1Pression;
   private float           o2B2Volume;
@@ -37,26 +41,31 @@ public class Dispositif implements Serializable
   private boolean         creationTerminee;
   private boolean         actif;
   private boolean         dsaComplet;
+  private boolean         dsaAdaptateurPediatrique;
 
   private Date            dhDebut;
   private Date            dhFin;
-
+  private Date            dsaDatePeremptionAdulte1;
+  private Date            dsaDatePeremptionAdulte2;
+  private Date            dsaDatePeremptionEnfant;
+  
+  
   private String          indicatifVehicule;
   private String          dispositifComment;
+  private String          dispositifCommentEtat;
   private String          dsaType;
   private String          observation;
   private String          dhDebutStr;
   private String          dhFinStr;
-  private int             idDelegation;
   private String          autreDelegation;
   private String          contactRadio;
   private String          contactTel1;
   private String          contactTel2;
   private String          contactAlphapage;
   private String          identiteMedecin;
-  private int             idEtatDispositif;
+
   
-  private int             displayState;
+
   
   private Position currentPosition ;
   private Position previousPosition;
@@ -486,5 +495,45 @@ public class Dispositif implements Serializable
   public void setInterventions(List<InterventionTicket> interventions)
   {
     this.interventions = interventions;
+  }
+  public boolean isDsaAdaptateurPediatrique()
+  {
+    return dsaAdaptateurPediatrique;
+  }
+  public void setDsaAdaptateurPediatrique(boolean dsaAdaptateurPediatrique)
+  {
+    this.dsaAdaptateurPediatrique = dsaAdaptateurPediatrique;
+  }
+  public Date getDsaDatePeremptionAdulte1()
+  {
+    return dsaDatePeremptionAdulte1;
+  }
+  public void setDsaDatePeremptionAdulte1(Date dsaDatePeremptionAdulte1)
+  {
+    this.dsaDatePeremptionAdulte1 = dsaDatePeremptionAdulte1;
+  }
+  public Date getDsaDatePeremptionAdulte2()
+  {
+    return dsaDatePeremptionAdulte2;
+  }
+  public void setDsaDatePeremptionAdulte2(Date dsaDatePeremptionAdulte2)
+  {
+    this.dsaDatePeremptionAdulte2 = dsaDatePeremptionAdulte2;
+  }
+  public Date getDsaDatePeremptionEnfant()
+  {
+    return dsaDatePeremptionEnfant;
+  }
+  public void setDsaDatePeremptionEnfant(Date dsaDatePeremptionEnfant)
+  {
+    this.dsaDatePeremptionEnfant = dsaDatePeremptionEnfant;
+  }
+  public String getDispositifCommentEtat()
+  {
+    return dispositifCommentEtat;
+  }
+  public void setDispositifCommentEtat(String dispositifCommentEtat)
+  {
+    this.dispositifCommentEtat = dispositifCommentEtat;
   }
 }

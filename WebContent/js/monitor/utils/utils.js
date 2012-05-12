@@ -425,7 +425,7 @@ CrfIrpUtils.prototype.checkMandatoryField=function(fieldId, displayError)
 };
 /* ===================== Date Function ============================== */
 
-CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler, format)
+CrfIrpUtils.prototype.setupCalendar=function(inputId, renderId, highlightId, changeHandler, format)
 {
 	if(format == null || format == '')
     format = 'd/m/Y H:i';
@@ -440,11 +440,13 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler, format)
             listeners      : {
             	'focus':function(event)
             	{
-            	  crfIrpUtils.fieldEdit(event.id+'_div');	
+            	  crfIrpUtils.fieldEdit(highlightId);	
             	},
-            	'change':changeHandler,
+            	'change':function(event){
+            	    changeHandler(event);
+            	  },
               'blur':function(){
-                crfIrpUtils.focusHandling(inputId);
+                //crfIrpUtils.focusHandling(inputId);
                },
               'keyup':function(obj, event){
                // alert(event.keyCode());
@@ -453,7 +455,7 @@ CrfIrpUtils.prototype.setupCalendar=function(inputId, changeHandler, format)
             }
         });
  
-  myDateSelector.render(inputId+'_div');  
+  myDateSelector.render(renderId);  
 };
 
 CrfIrpUtils.prototype.getFullDate=function(dateObject)
@@ -550,7 +552,7 @@ CrfIrpUtils.prototype.checkTimeFormat=function(fieldValue)
   return !/[0-9]{2,2}:[0-9]{2,2}/.test(fieldValue)
 };
 /**
- * Compare les temps timeStr1 et timeStr2
+ * Compare les temps timeStr1 et timeStr2 au format HH:mm
  * retourne true si timeStr1 est supérieur (après) a timeStr2
  * false sinon
  * */
@@ -566,6 +568,22 @@ CrfIrpUtils.prototype.compareTime=function(timeStr1,timeStr2)
   return timeComparable1>timeComparable2;
 };
 
+/**
+ * Compare les temps dateStr1 et dateStr2 au format DD/MM/YYYY
+ * retourne true si dateStr1 est supérieur (après) a dateStr2
+ * false sinon
+ * */
+CrfIrpUtils.prototype.compareDate=function(dateStr1,dateStr2)
+{
+  var dateArray1 = dateStr1.split(':');
+  var dateComparable1 = dateArray1[2]+(dateArray1[1]+1)+dateArray1[0];
+  
+  var dateArray2 = dateStr2.split(':');
+  var dateComparable2 = dateArray2[2]+(dateArray2[1]+1)+dateArray2[0];
+  
+  
+  return dateComparable1>dateComparable2;
+};
 /* ===================== Padding Function ============================== */
 CrfIrpUtils.prototype.padLeft=function(myString, wantedLength, paddingChar)
 {
@@ -644,5 +662,33 @@ CrfIrpUtils.prototype.pleaseConfirm=function(confirmMsg, YesMsg, NoMsg)
   
   return confirm(confirmMsg);
 };
+
+/* ******************************** Format check *************************************** */
+
+CrfIrpUtils.prototype.checkZipCode=function(fieldValue)
+{
+  /*vide est une valeur correct*/
+  return fieldValue=="" || /[0-9]{5,5}/.test(fieldValue);
+};
+
+CrfIrpUtils.prototype.checkZipCodeAndSave=function(method, fieldId, fieldName)
+{
+  
+  if(CrfIrpUtils.prototype.checkZipCode($(fieldId).value))
+  {
+    method(fieldId, fieldName);
+  } 
+  else 
+  { 
+    CrfIrpUtils.prototype.checkZipCodeError(fieldId);
+  }
+};
+CrfIrpUtils.prototype.checkZipCodeError=function(fieldId)
+{
+  crfIrpUtils.error(fieldId, 'Le code postal est incorrect, il doit être constitué de 5 chiffres (ex:75004 ou 02271)');
+};
+
+
+
 /* ******************************** End Of Object *************************************** */
 var  crfIrpUtils       = new CrfIrpUtils       ();

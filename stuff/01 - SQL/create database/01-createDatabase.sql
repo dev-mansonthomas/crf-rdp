@@ -138,30 +138,33 @@ CREATE TABLE `dispositif` (
   `O2_B5_volume`                          int(10)       unsigned    NOT NULL,
   `O2_B5_pression`                        float                     NOT NULL,
   `dispositif_comment`                    varchar(255)              NOT NULL,
+  `dispositif_comment_etat`               varchar(255)                  NULL,
   `dispositif_back_3_girl`                boolean                   NOT NULL,
   `dispositif_not_enough_O2`              boolean                   NOT NULL,
   `dispositif_set_available_with_warning` boolean                   NOT NULL,  
   `dsa_type`                              varchar(3)                NOT NULL,
   `dsa_complet`                           boolean                   NOT NULL,
-  `dsa_date_adulte_1`                     varchar(10),
-  `dsa_date_adulte_2`                     varchar(10),
-  `dsa_date_enfant`                       varchar(10),
+  `dsa_date_adulte_1`                     datetime,
+  `dsa_date_adulte_2`                     datetime,
+  `dsa_date_enfant`                       datetime,
+  `dsa_adapteur_pediatrique`              boolean,
   `observation`                           text                      NOT NULL,
-  `DH_debut` datetime NOT NULL,
-  `DH_fin` datetime NOT NULL,
-  `id_delegation_responsable` int(10) unsigned NOT NULL,
-  `autre_delegation` varchar(45) NOT NULL,
-  `contact_radio` varchar(16) NOT NULL,
-  `contact_tel1` varchar(16) NOT NULL,
-  `contact_tel2` varchar(16) NOT NULL,
-  `contact_alphapage` varchar(16) NOT NULL,
-  `identite_medecin` varchar(45) NOT NULL,
-  `id_etat_dispositif` int(10) NOT NULL,
+  `DH_debut`                              datetime NOT NULL,
+  `DH_fin`                                datetime NOT NULL,
+  `id_delegation_responsable`             int(10) unsigned NOT NULL,
+  `autre_delegation`                      varchar(45) NOT NULL,
+  `contact_radio`                         varchar(16) NOT NULL,
+  `contact_tel1`                          varchar(16) NOT NULL,
+  `contact_tel2`                          varchar(16) NOT NULL,
+  `contact_alphapage`                     varchar(16) NOT NULL,
+  `identite_medecin`                      varchar(45) NOT NULL,
+  `id_etat_dispositif`                    int(10) NOT NULL,
   
-  `id_current_intervention` int(10) unsigned NULL DEFAULT 0,
+  `id_current_intervention`               int(10) unsigned NULL DEFAULT 0,
   
-  `display_state` int(3) unsigned NOT NULL,
+  `display_state`                         int(3) unsigned NOT NULL,
   
+
 
   `current_addresse_rue`         varchar(60) NULL,
   `current_addresse_code_postal` varchar(5 ) NULL,
@@ -302,6 +305,7 @@ CREATE TABLE `equipier_roles` (
   `id_equipier`      int(10) unsigned NOT NULL,
   `id_role_equipier` int(10) unsigned NOT NULL,
   `en_evaluation`    boolean          NOT NULL,
+  `evaluateur`       boolean          NOT NULL,
   PRIMARY KEY (`id_equipier`,`id_role_equipier`),
   KEY `FK_equipier_roles-equipier`      (`id_equipier`        ),
   KEY `FK_equipier_roles-equipier_role` (`id_role_equipier`   ),
@@ -412,6 +416,7 @@ CREATE TABLE `intervention` (
   `bilan_circonstances`                                 text NULL,
   `bilan_detresses`                                     text NULL,
   `bilan_antecedents`                                   text NULL,
+  `bilan_traitements`                                   text NULL,
   `bilan_commentaires`                                  text NULL,
   `bilan_evaluation_ci`                                 text NULL,
 -- conscience
@@ -421,6 +426,12 @@ CREATE TABLE `intervention` (
   `cs_pc_secondaire`                                    boolean NULL,
   `cs_agitation`                                        boolean NULL,
   `cs_convulsions`                                      boolean NULL,
+  
+  `cs_glasgow_total`                                    tinyint NULL,
+  `cs_glasgow_ouverture_yeux`                           tinyint NULL,
+  `cs_glasgow_reponse_verbale`                          tinyint NULL,
+  `cs_glasgow_reponse_motrice`                          tinyint NULL,
+  
 -- ventilation
   `ventil_absence`                                      boolean NULL,
   `ventil_chiffre`                                      int(10) unsigned NULL,
@@ -519,6 +530,7 @@ CREATE TABLE `intervention` (
   `evac_aggravation_arrive_a_destination`               boolean NULL,
   `evac_aggravation_ventilation`                        int(10) unsigned NULL,
   `evac_aggravation_circulation`                        int(10) unsigned NULL,
+  `evac_aggravation_saturation_o2`                      int(10) unsigned NULL,
   `evac_aggravation_douleur`                            int(10) unsigned NULL,
   `evac_aggravation_contact_regulation`                 datetime  NULL,
   `evac_aggravation_nature`                             varchar(100) NULL,
@@ -631,15 +643,26 @@ ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfrdp`.`sms_log`;
 CREATE TABLE `sms_log` (
-  `id_sms_log`    INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_sms_type`   INTEGER UNSIGNED NOT NULL,
-  `id_dispositif` INTEGER UNSIGNED NOT NULL,
-  `id_equipier`   INTEGER UNSIGNED NOT NULL,
-  `api`           varchar(12  )    NOT NULL,
-  `sender`        varchar(12  )    NOT NULL,
-  `to`            varchar(12  )    NOT NULL,
-  `message`       varchar(2048)    NOT NULL,
-  `evt_date`      timestamp        NOT NULL,
+  `id_sms_log`      INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_sms_type`     INTEGER UNSIGNED NOT NULL,
+  `id_dispositif`   INTEGER UNSIGNED NOT NULL,
+  `id_equipier`     INTEGER UNSIGNED NOT NULL,
+  `api`             varchar(12  )    NOT NULL,
+  `sender`          varchar(12  )    NOT NULL,
+  `to`              varchar(12  )    NOT NULL,
+  `message`         varchar(2048)    NOT NULL,
+  `evt_date`        timestamp        NOT NULL,
+  
+  `raw_answer`      VARCHAR(2048)        NULL,
+  `status_code`     VARCHAR(6)           NULL, 
+  `status_message`  VARCHAR(255)         NULL,
+  `call_id`         VARCHAR(36)          NULL, 
+  `nbr_sms_sent`    INTEGER UNSIGNED     NULL,
+
+  
+  
+  
+  
   PRIMARY KEY (`id_sms_log`),
   KEY        `FK_sms_log-sms_type`   (`id_sms_type`  ),
   KEY        `FK_sms_log-equipier`   (`id_equipier`  ),
@@ -649,6 +672,21 @@ CREATE TABLE `sms_log` (
   CONSTRAINT `FK_sms_log-dispositif` FOREIGN KEY `FK_sms_log-dispositif` (`id_dispositif`) REFERENCES `dispositif` (`id_dispositif` )
 ) 
 ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+
+DROP TABLE IF EXISTS `crfrdp`.`sms_template`;
+CREATE  TABLE `crfrdp`.`sms_template` (
+  `id_sms_template`     INT           UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `id_regulation`       INT           UNSIGNED NOT NULL ,
+  `template_date`       TIMESTAMP              NOT NULL ,
+  `enabled`             TINYINT (1)            NOT NULL DEFAULT 1 ,
+  `message`             VARCHAR (200)          NOT NULL ,
+  PRIMARY KEY (`id_sms_template`) 
+) 
+ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+
+
 
 -- ----------------------------
 -- TABLES pour import SIORD

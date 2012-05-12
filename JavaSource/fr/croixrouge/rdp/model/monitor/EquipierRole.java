@@ -8,18 +8,20 @@ public class EquipierRole extends CrfDto  implements ListItemInterface
  
   private int     id;
   private String  label;
-  private boolean enEvaluation=false;
-  private boolean evaluable  =false;
+  private boolean enEvaluation=false;//est ce que la personne est en évaluation pour ce role
+  private boolean evaluateur  =false;//est ce que la personne est évaluateur pour ce role
+  private boolean evaluable   =false;//est ce que le role est évaluable 
   
   public EquipierRole()
   {
     
   }
   
-  public EquipierRole(int id, boolean enEvaluation)
+  public EquipierRole(int id, boolean enEvaluation, boolean evaluateur)
   {
     this.id           = id;
     this.enEvaluation = enEvaluation;
+    this.evaluateur   = evaluateur;
   }
   
   public int getId()
@@ -53,6 +55,16 @@ public class EquipierRole extends CrfDto  implements ListItemInterface
   public void setEvaluable(boolean evaluable)
   {
     this.evaluable = evaluable;
+  }
+
+  public boolean isEvaluateur()
+  {
+    return evaluateur;
+  }
+
+  public void setEvaluateur(boolean evaluateur)
+  {
+    this.evaluateur = evaluateur;
   }
   
    

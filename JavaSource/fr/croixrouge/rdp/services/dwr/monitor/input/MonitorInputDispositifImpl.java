@@ -149,7 +149,16 @@ public class MonitorInputDispositifImpl extends DWRUtils
     int nbOfIntervention = this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif);
     
     if(nbOfIntervention == 0)
+    {
+      if(logger.isInfoEnabled())
+      {
+        logger.info("Dispositif id='"+idDispositif+"' has never been affected any intervention ==> OK to delete");
+      }
+      
+      this.equipierService.deleteEquipiersInfoForDispositifToBeDeleted(idDispositif);
       this.dispositifService.deleteDispositif(idDispositif);
+    }
+      
     
     return nbOfIntervention;
     

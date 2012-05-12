@@ -168,12 +168,6 @@ function initLayout()
                         }
                     }
                     ,{
-                        id        : 'center-circulation1-panel',
-                        contentEl : 'center-circulation1',
-                        title     : 'Circulation - Google Maps',
-                        closable  : false,
-                        autoScroll: true
-                    },{
                         id        : 'center-circulation2-panel',
                         contentEl : 'center-circulation2',
                         title     : 'Circulation Sytadin',
@@ -189,9 +183,8 @@ function initLayout()
     var map = Ext.getCmp('center-carte-paris-panel');
     map.goTo(48.85436, 2.348156);
     
-    $('crfrdp-googlemap-paris-trafic-iframe').src="http://maps.google.fr/?ie=UTF8&ll=48.863473,2.348156&spn=0.056464,0.227795&z=13&layer=t";
+    //Google Maps ne peu plus être intégré sous forme d'iFrame
     $('crfrdp-sytadin-paris-trafic-iframe'  ).src="http://www.sytadin.fr/opencms/sites/sytadin/sys/raster_fs.jsp.html_430821966.html";
-//TODO : améliorer la vue google maps circulation    
     
     
    }, 3000);

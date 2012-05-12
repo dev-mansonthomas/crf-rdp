@@ -10,6 +10,9 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 		var subGrid   = this.subGrid  ;
 		var subGridId = this.subGridId;
 		
+		var searchMobile = this.mobile;
+		var equipierDesc = this.equipierDesc;
+		
 		if(this.mainGrid)
 		{
 		  PageBus.subscribe("list.loaded",  this, this.dataInitComplete , null, null);  
@@ -23,7 +26,7 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
                  args          : []              ,
                  proxyConfig   : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
                  filterCallBack: function()
-                 {
+                 {//TODO : gérer le tri sur les colonnes
                     var objectFilter = new Array();
                     
                     Ext.ux.rs.addFilterFromExtField(objectFilter,gridId+'Toolbar-idEquipier', 'idEquipier', '='   ,'');
@@ -194,8 +197,9 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 		Ext.apply(this, Ext.apply(this.initialConfig, config));
 		 
 		// call parent
-		Ext.ux.Home.SMS.SMSGrid.superclass.initComponent.apply(this, arguments);
+		Ext.ux.Home.SMS.SMSGrid.superclass.initComponent.apply(this, arguments);		
 	},
+	//Déclenché lorsqu'on séléctionne un équipier depuis la combo autocomplete de recherche. N'est utilisé que sur une maingrid
 	setChoosenEquipierForSearch:function(record)
 	{  
 		var equipierSearch = 'EquipierSearch';
@@ -212,10 +216,13 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 	eraseSearchCriteria:function()
 	{
 		var gridId = this.id;
-		Ext.getCmp(gridId+'EquipierSearch'				  ).setValue('');
-		Ext.getCmp(gridId+'Toolbar-idEquipier'			).setValue('');
-		Ext.getCmp(gridId+'Toolbar-SelectedEquipier').setValue('');
-		Ext.getCmp(gridId+'Toolbar-mobile'				  ).setValue('');
+		if(this.mainGrid)
+		{
+		  Ext.getCmp(gridId+'EquipierSearch'          ).setValue('');
+	    Ext.getCmp(gridId+'Toolbar-idEquipier'      ).setValue('');
+	    Ext.getCmp(gridId+'Toolbar-SelectedEquipier').setValue('');
+	    Ext.getCmp(gridId+'Toolbar-mobile'          ).setValue('');  
+		}
 		Ext.getCmp(gridId+'Toolbar-date'	    	    ).reset	  (  );
 		Ext.getCmp(gridId+'Toolbar-allSMS'	    		).reset	  (  );
 	},
@@ -230,13 +237,39 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 	},
   handleRowDoubleClick:function(theGrid, rowIndex, e)
   {
-    
+    var rowData = theGrid.store.getAt(rowIndex).data;
+    try
+    {
+      var composingPanel = new Ext.ux.Home.SMS.SMSComposingPanel({mobile:this.getMobile(rowData), equipierDesc:rowData.equipierDesc});
+      composingPanel.initGrid();
+    }
+    catch(e)
+    {
+      console.log("SMS Composing Panel, error while initialiazing", e);
+    }
   },
 	handleRowClick:function(theGrid, rowIndex, e)
 	{
 	  var rowData = theGrid.store.getAt(rowIndex).data;
     
-    var mobile = null;
+    var mobile  = this.getMobile(rowData);
+    var allSMS = Ext.getCmp(theGrid.id+'Toolbar-allSMS').getValue();
+    
+    this.preInitGridSearch(theGrid.subGridId, mobile, allSMS, rowData.equipierDesc);
+    
+    Ext.getCmp(theGrid.subGridId).expand(true);
+    Ext.getCmp(theGrid.subGridId).rechercher();
+	},
+	/** Pré initialise les champs de recherche (utilisé sur le rowClick (sur la maingrid ciblant la subgrid) et sur l'initialisaiton de la fenetre de composition des SMSs (sur la maingrid, ciblant la mainGrid)*/
+	preInitGridSearch:function(gridId, mobile, allSMS, equipierDesc)
+	{
+    Ext.getCmp(gridId+'Toolbar-mobile-hidden').setValue(mobile);
+    Ext.getCmp(gridId+'Toolbar-allSMS'       ).setValue(allSMS);
+    Ext.getCmp(gridId).setTitle(equipierDesc +" - "+mobile);	  
+	},
+	getMobile:function(rowData)
+	{
+	  var mobile = null;
     
     if(rowData.smsType == 4)
     {
@@ -247,13 +280,8 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
       mobile = rowData.recipient;
     }
     
-    Ext.getCmp(theGrid.subGridId+'Toolbar-mobile-hidden').setValue(mobile);
-    Ext.getCmp(theGrid.subGridId+'Toolbar-allSMS'       ).setValue(Ext.getCmp(theGrid.id+'Toolbar-allSMS'       ).getValue());
+    return mobile;
     
-    Ext.getCmp(theGrid.subGridId).setTitle(rowData.equipierDesc +" - "+mobile);
-    
-    Ext.getCmp(theGrid.subGridId).expand(true);
-    Ext.getCmp(theGrid.subGridId).rechercher();
 	},
 	initToolBar:function()
 	{
@@ -453,22 +481,12 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 
     var mainGrid = [].concat(searchEquipierToolbar).concat(commonToolbar);
     var  subGrid = [].concat(commonToolbar);
- 
+
     
-    Ext.ux.Home.SMSManagerUI.toolbars     = {
- 		 mainGridToolbar :mainGrid,
- 		  subGridToolbar :subGrid 
-    };	  
-	  
-	  
-    
-    
- 	crfIrpUtils.resetToolbar(gridId+'Toolbar', this.subGrid ? Ext.ux.Home.SMSManagerUI.toolbars.subGridToolbar : Ext.ux.Home.SMSManagerUI.toolbars.mainGridToolbar);  
-   
+    crfIrpUtils.resetToolbar(gridId+'Toolbar', this.subGrid ? subGrid : mainGrid);  
 	  
   }
-
-
+	
 });
 
 

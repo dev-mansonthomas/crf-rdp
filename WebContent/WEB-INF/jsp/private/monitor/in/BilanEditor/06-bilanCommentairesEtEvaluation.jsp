@@ -36,11 +36,12 @@
            <select  id="bilan_motif_annulation"
                   name="bilan_motif_annulation"><option value=" "> </option></select><br/><br/>
 
-      Commentaire sur l'annulation : <br/>
+      Commentaires sur l'annulation : <br/>
                   <textarea   id="bilan_annulation_commentaires"
                             name="bilan_annulation_commentaires"
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
                           onBlur="miBilanCs.updateStringField(this.id, 'annulation_commentaires')"
+                           style="width: 100%; height: 75%;"
                     ></textarea>
     </div>
 </div>

@@ -1,3 +1,4 @@
+<!-- Sur le serveur linux, ajouter ceci dans la balise context pour spécifier le chemin du war:  docBase="/home/special/crfrdp/war/crf-rdp-v0.4.6-2010-10-07.war" --> 
 <Context path="crf-rdp" docBase="crf-rdp" debug="0">
 
   <Resource name="jdbc/crfrdpDS"

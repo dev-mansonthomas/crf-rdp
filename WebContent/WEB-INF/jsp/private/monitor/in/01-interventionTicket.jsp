@@ -179,7 +179,7 @@ Age Approximatif :
                        maxlength="5"
                            value=""
                          onFocus="crfIrpUtils.fieldEdit(this.id)"
-                          onBlur="miInterventionCs.updateAddress(this.id, 'code_postal')"
+                          onBlur="crfIrpUtils.checkZipCodeAndSave(miInterventionCs.updateAddress, this.id, 'code_postal');"
                     />
                   Ville :
                     <input style="width:61.7%;"

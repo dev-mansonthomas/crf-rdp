@@ -21,7 +21,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         PageBus.subscribe("listLieu.loaded"     ,  this, this.initHospitalList           , null, null);
         PageBus.subscribe("listLieu.loaded"     ,  this, this.initMotifAnnulationList    , null, null);
         
-        crfIrpUtils.setupCalendar('bilanDateHeureBase', 
+        crfIrpUtils.setupCalendar('bilanDateHeureBase', 'bilanDateHeureBase'+'_div','bilanDateHeureBase'+'_div',
           function(event)
           {
             Ext.get('bilanDateHeureBase_input').dom.setValue(Ext.get(event.id).getValue());
@@ -119,6 +119,12 @@ Ext.ux.MonitorInput.BilanEditor = function() {
                 ongletToOpen  : ongletToOpen
           }
         };
+        
+        var centerRegion = Ext.getCmp('monitorInputCenterRegion');
+        var currentPanel = centerRegion.getActiveTab();
+        if(currentPanel.id != 'monitorInputBilanPanel')
+          centerRegion.activate('monitorInputBilanPanel');
+        
         MonitorInputBilan.getIntervention(idIntervention, callMetaData);
         
       },
@@ -265,7 +271,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         
         
         
-        Ext.get("bilan_date_naissance"                           ).dom.setValue(intervention.dateNaissance);
+        Ext.get("bilan_date_naissance"                           ).dom.setValue(crfIrpUtils.getDate(intervention.dateNaissance));
           
         Ext.get("bilan_gestes_garrot_heure_pose"                 ).dom.setValue(crfIrpUtils.getTime(intervention.gestesGarrotHeurePose            ));
         Ext.get("bilan_evac_aggravation_contact_regulation"      ).dom.setValue(crfIrpUtils.getTime(intervention.evacAggravationContactRegulation ));
@@ -298,7 +304,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         Ext.get("bilan_gestes_autres"                            ).dom.setValue(intervention.gestesAutres                     ); 
         Ext.get("bilan_medecin_civil_sur_place"                  ).dom.setValue(intervention.medecinCivilSurPlace             ); 
         Ext.get("bilan_evac_laisse_sur_place_decedee_a_dispo_de" ).dom.setValue(intervention.evacLaisseSurPlaceDecedeeADispoDe); 
-        Ext.get("BilanHelper_evac_num_inter_banlieu"             ).update(intervention.evacNumInterBanlieu              );  
+        Ext.get("BilanHelper_evac_num_inter_banlieu"             ).dom.setValue(intervention.evacNumInterBanlieu              );  
         Ext.get("bilan_evac_aggravation_nature"                  ).dom.setValue(intervention.evacAggravationNature            ); 
         Ext.get("bilan_evac_par_autre"                           ).dom.setValue(intervention.evacParAutre                     ); 
       
@@ -319,7 +325,9 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         
         Ext.get("bilan_bilan_circonstances"                      ).dom.setValue(intervention.bilanCirconstances               ); 
         Ext.get("bilan_bilan_detresses"                          ).dom.setValue(intervention.bilanDetresses                   ); 
-        Ext.get("bilan_bilan_antecedents"                        ).dom.setValue(intervention.bilanAntecedents                 ); 
+        Ext.get("bilan_bilan_antecedents"                        ).dom.setValue(intervention.bilanAntecedents                 );
+        Ext.get("bilan_bilan_traitements"                        ).dom.setValue(intervention.bilanTraitements                 );
+        
         Ext.get("bilan_bilan_commentaires"                       ).dom.setValue(intervention.bilanCommentaires                ); 
         Ext.get("bilan_bilan_evaluation_ci"                      ).dom.setValue(intervention.bilanEvaluationCi                ); 
                                                                                                                               
@@ -378,24 +386,34 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         Ext.get("bilan_evac_laisse_sur_place_decedee"            ).dom.checked=intervention.evacLaisseSurPlaceDecedee        ;
         Ext.get("bilan_evac_refus_de_transport"                  ).dom.checked=intervention.evacRefusDeTransport             ;
         Ext.get("bilan_evac_decharche"                           ).dom.checked=intervention.evacDecharche                    ;
+        Ext.get("bilan_evac_sans_suite"                          ).dom.checked=intervention.evacSansSuite                    ;
         Ext.get("bilan_evac_aggravation_"+intervention.evacAggravation).dom.checked=true;
         Ext.get("bilan_evac_aggravation_pendant_transport"       ).dom.checked=intervention.evacAggravationPendantTransport  ;
         Ext.get("bilan_evac_aggravation_arrive_a_destination"    ).dom.checked=intervention.evacAggravationArriveADestination;
         
-        var centerRegion = Ext.getCmp('monitorInputCenterRegion');
-        var currentPanel = centerRegion.getActiveTab();
 
-        if(currentPanel.id != 'monitorInputBilanPanel')
-          centerRegion.activate('monitorInputBilanPanel');
+
         
-        Ext.getCmp('monitorInputBilanEditorCenterPanel').expand(true);
-        Ext.getCmp('monitorInputBilanHelperEastPanel'  ).expand(true);
           
         var ongletToOpen = callMetatData.ongletToOpen;
         if(ongletToOpen == "BilanSecouristInitial")
           Ext.getCmp('monitorInputBilanEditorCenterPanelBilanSecouristeInitial').expand();
         else
           Ext.getCmp('monitorInputBilanEditorCenterPanelIdentite').expand();
+        
+        try
+        {
+          Ext.getCmp('monitorInputBilanEditorCenterPanel').expand(true);
+          Ext.getCmp('monitorInputBilanHelperEastPanel'  ).expand(true);
+          
+          
+          window.focus();  
+        }
+        catch(e)
+        {
+          console.log("Error on exand", e);
+        }
+
       },
       resetBilanForm:function()
       {
@@ -587,7 +605,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
                                               }); 
           
       },
- 
+
       /************************Gestion*de*l'adresse*****************************************/
       
       updateAddress:function(fieldId, fieldName)
@@ -600,17 +618,32 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         codePostal.value=codePostal.value.strip();
         ville     .value=ville     .value.strip();
       
-        this.updateStringField(fieldId, fieldName);
         
-        if( rue       .value != '' && rue       .oldValue != rue       .value &&
-            codePostal.value != '' && codePostal.oldValue != codePostal.value &&
-            ville     .value != '' && ville     .oldValue != ville     .value   )
+        if(fieldId == 'bilan_evac_autre_dest_code_postal' && !crfIrpUtils.checkZipCode(codePostal))
+        {
+          crfIrpUtils.checkZipCodeError(fieldId);
+        }
+        
+        miBilanCs.updateStringField(fieldId, fieldName);
+        
+        if( ( rue       .value != '' && 
+            codePostal.value != '' &&
+            ville     .value != ''
+          ) 
+          &&
+          (
+              rue       .oldValue != rue       .value ||
+              codePostal.oldValue != codePostal.value ||
+              ville     .oldValue != ville     .value   
+          )
+        )
+      
         {// valeur non vide et non différente de la précédente valeur
           googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
                                                               codePostal.value +', '+
                                                               ville     .value,
-                                                              this.updateAddressReturn,
-                                                              this.updateAddressErrorReturn);
+                                                              miBilanCs.updateAddressReturn,
+                                                              miBilanCs.updateAddressErrorReturn);
         }
       },
       updateAddressReturn:function(place)
@@ -635,6 +668,8 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       },     
       setDayDelta:function(idField, idPreviousField)
       {
+        this.clearDeltaStr(idField);
+        
         if( idPreviousField == null || $(idPreviousField).value ==''|| $(idField).value=='')
           return;
           
@@ -645,6 +680,10 @@ Ext.ux.MonitorInput.BilanEditor = function() {
       setDayDeltaStr:function(fieldId)
       {
         $(fieldId+'_j1').innerHTML='+1j';
+      },
+      clearDeltaStr:function(fieldId)
+      {
+        $(fieldId+'_j1').innerHTML='';
       },
       /************************Méthode D'update******************************/
       updateStringField:function(fieldId, fieldName, objectIdForGraphicalEffect){
@@ -701,7 +740,6 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           
           
           fieldValue = baseDateStrValue+' '+fieldValue;
-          alert(fieldValue);
           MonitorInputBilan.updateDateField(
                                               $('bilan_id_intervention').value,
                                               fieldName,
@@ -735,7 +773,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         else
           crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
       },
-      updateBooleanField:function(fieldId, fieldName, objectIdForGraphicalEffect){
+      updateBooleanField:function(fieldId, fieldName, objectIdForGraphicalEffect, fieldValue){
 
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
@@ -745,11 +783,13 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         
         if($(fieldId).type=="checkbox")
           fieldValue = $(fieldId).checked;
+        else if($(fieldId).type=="radio")
+          fieldValue = fieldValue;
         else
           fieldValue = $(fieldId).value;
           
           
-        if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
+        if(fieldValue!=='' && fieldValue != $(fieldId).oldValue)
         {
           MonitorInputBilan.updateBooleanField(
                                               $('bilan_id_intervention').value,
@@ -785,9 +825,12 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
       },
       updateFloatField:function(fieldId, fieldName, objectIdForGraphicalEffect){
+        
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
 
+        Ext.getDom(fieldId).value= Ext.getDom(fieldId).value.replace(",",".");
+        
         crfIrpUtils.checkField (fieldId);
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         fieldValue = $(fieldId).value;

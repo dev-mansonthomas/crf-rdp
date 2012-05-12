@@ -81,7 +81,7 @@
                    id="bilan_homme_victime_false"
                  name="bilan_homme_victime"
               onFocus="crfIrpUtils.fieldEdit(this.id)"
-             onChange="miBilanCs.updateBooleanField(this.id, 'homme_victime', 'BilanVictimeSexe')"
+             onChange="miBilanCs.updateBooleanField(this.id, 'homme_victime', 'BilanVictimeSexe', false)"
                 value="false"/>
            Femme.&nbsp;&nbsp;&nbsp;
 
@@ -89,7 +89,7 @@
                    id="bilan_homme_victime_true"
                  name="bilan_homme_victime"
               onFocus="crfIrpUtils.fieldEdit(this.id)"
-             onChange="miBilanCs.updateBooleanField(this.id, 'homme_victime', 'BilanVictimeSexe')"
+             onChange="miBilanCs.updateBooleanField(this.id, 'homme_victime', 'BilanVictimeSexe', true)"
                 value="true"/>
            Homme.
 
@@ -151,7 +151,7 @@
                        value=""
                    maxlength="20"
                      onFocus="crfIrpUtils.fieldEdit(this.id)"
-                      onBlur="miBilanCs.updateStringField(this.id, 'code_postal_victime')"/>
+                      onBlur="crfIrpUtils.checkZipCodeAndSave(miBilanCs.updateStringField, this.id, 'code_postal_victime');"/>
             </td>
           </tr>
 

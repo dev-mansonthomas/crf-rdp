@@ -183,7 +183,7 @@ CHARSET "ISO-8859-1";
 
 
 
-/*Pour la recherche d'équipier*/
+/*Pour la recherche d'ï¿½quipier*/
 .search-item {
     font:normal 11px tahoma, arial, helvetica, sans-serif;
     padding:3px 10px 3px 10px;
@@ -216,4 +216,12 @@ CHARSET "ISO-8859-1";
 {
   background-image: url("../../img/famfamfam/user_delete.png") !important;
   background-repeat:no-repeat;
+}
+
+#WhyNotFound
+{
+	 font-weight: normal;
+	 font-size: 9px;
+	 margin-left:30px;
+	 color:blue;
 }

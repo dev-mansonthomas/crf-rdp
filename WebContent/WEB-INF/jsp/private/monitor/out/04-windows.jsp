@@ -12,6 +12,30 @@
     <div class="x-tab" id="choose-hopital-window-content-list"  title="Hopitaux">
     </div>
     <div class="x-tab" id="choose-hopital-window-content-input" title="Autre Destination"/>
+    
+<fieldset class="fieldset">
+  <legend>Sans évacuation</legend>
+
+<input type="button" 
+           id="dispositifEvacLaisseSurPlace"   
+         name="dispositifEvacLaisseSurPlace" 
+        value="Laissé sur Place (NON décédé)" 
+      onClick="moDispositifCs.laisseSurPlaceButton(false)"
+        style="padding:4px;margin:5px 30px 5px 30px;"/>
+        
+<input type="button" 
+           id="dispositifEvacLaisseSurPlace"   
+         name="dispositifEvacLaisseSurPlace" 
+        value="Laissé sur Place Décédé" 
+      onClick="moDispositifCs.laisseSurPlaceButton(true)"
+        style="padding:4px;margin:5px 30px 5px 30px;"/>
+        
+        
+  <br/><br/>      
+  <label>Note : pour un Sans Suite, éditer l'intervention et annuler l'intervention avec le motif Sans Suite.</label>
+
+</fieldset>    
+    
 <fieldset class="fieldset">
 <legend class="legend">Evacuation vers une destination qui n'est pas un Hopital référencé</legend>
 
@@ -65,11 +89,40 @@ Ville
            id="dispositifEvacAutreAddresseButton"   
          name="dispositifEvacAutreAddresseButton" 
         value="Evacuation vers une destination qui n'est pas un Hopital référencé" 
-      onClick="moDispositifCs.chooseEvacDestinationButton()">
+      onClick="moDispositifCs.chooseEvacDestinationButton()"
+        style="padding:4px;margin:5px 0px 5px 30px;"/>
 </fieldset>
     </div>    
   </div>
 </div>
+
+
+<div id="confirm-laisse-sur-place-window" style="display:none;">
+  <div class="x-window-header">Confirmation du Laissé Sur Place (non Décédé)</div>
+  <div id="confirm-laisse-sur-place-window-content" class="x-hide-display" style="background-color:#FFFFFF;padding:15px;height:100%;">
+  
+  <input type="hidden" id="confirm-laisse-sur-place-window-decedee" name="confirm-laisse-sur-place-window-decedee" value=""/>
+  <div id="confirm-laisse-sur-place-window-content-lsp">
+  
+    
+	  <input type="checkbox"
+	           id="confirm-laisse-sur-place-window-decharche"
+	         name="confirm-laisse-sur-place-window-decharche"/> <!--      onChange="miBilanCs.updateBooleanField(this.id, 'evac_decharche','bilanEvacDechargeP') -->
+	             
+	  <span>        Décharge de responsabilité</span>
+	    
+   </div>
+   <div id="confirm-laisse-sur-place-window-content-dcd">
+     Laissé à disposition de : 
+  <input type="text"
+           id="confirm-laisse-sur-place-window-decedee_a_dispo_de"
+         name="confirm-laisse-sur-place-window-decedee_a_dispo_de"
+    maxlength="80" style="width:450px;"/>
+   </div>
+  </div>
+</div>
+
+
 
 <div id="GoogleMapsDirection" style="display:none;">
   

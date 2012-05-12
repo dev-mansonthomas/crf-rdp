@@ -253,6 +253,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `bilan_circonstances`                     ,\n"+
     "  `bilan_detresses`                         ,\n"+
     "  `bilan_antecedents`                       ,\n"+
+    "  `bilan_traitements`                       ,\n"+
     "  `bilan_commentaires`                      ,\n"+
     "  `bilan_evaluation_ci`                     ,\n"+
     "  `cs_coma`                                 ,\n"+
@@ -261,6 +262,10 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `cs_pc_secondaire`                        ,\n"+
     "  `cs_agitation`                            ,\n"+
     "  `cs_convulsions`                          ,\n"+
+    "  `cs_glasgow_total`                        ,\n"+
+    "  `cs_glasgow_ouverture_yeux`               ,\n"+
+    "  `cs_glasgow_reponse_verbale`              ,\n"+
+    "  `cs_glasgow_reponse_motrice`              ,\n"+
     "  `ventil_absence`                          ,\n"+
     "  `ventil_chiffre`                          ,\n"+
     "  `ventil_commentaire`                      ,\n"+
@@ -346,6 +351,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `evac_aggravation_contact_regulation`     ,\n"+
     "  `evac_aggravation_nature`                 ,\n"+
     "  `evac_par`                                ,\n"+
+    "  `evac_aggravation_saturation_o2`          ,\n"+   
     "  `evac_par_autre`                           \n"+
     "FROM intervention                            \n";
   
@@ -370,9 +376,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
 
   private final static String queryForCreateEmptyIntervention = 
     "INSERT INTO `intervention`\n"+
-    "  (`id_dispositif`, `id_origine`, `id_motif`, `id_motif_annulation`, `id_regulation`, `DH_saisie`, `num_inter`)\n"+
+    "  (`id_dispositif`, `id_origine`, `id_motif`, `id_motif_annulation`, `id_regulation`, `DH_saisie`, `DH_reception`, `num_inter`)\n"+
     "VALUES\n"+
-    "  ( 0, 0, 0, 0, ?, ?, 0)\n";
+    "  ( 0, 0, 0, 0, ?, ?,?, 0)\n";
 
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public Intervention createEmptyIntervention(int idRegulation) throws Exception
@@ -381,9 +387,10 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     intervention.setIdRegulation(idRegulation);
     intervention.setDhReception (new Date()  );
+    intervention.setDhSaisie    ( intervention.getDhReception() );
 
-    Object [] os    = new Object[]{ intervention.getIdRegulation(), intervention.getDhReception()};
-    int    [] types = new int   []{ Types.INTEGER                 , Types.TIMESTAMP              };
+    Object [] os    = new Object[]{ intervention.getIdRegulation(), intervention.getDhReception(), intervention.getDhSaisie   ()};
+    int    [] types = new int   []{ Types.INTEGER                 , Types.TIMESTAMP              , Types.TIMESTAMP              };
     
     jdbcTemplate.update(queryForCreateEmptyIntervention, os, types);
 
@@ -519,13 +526,13 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   `DH_arrivee_hopital`                                  datetime NULL,
      * */
     
-    idEtatDateFieldMapping.put(3, "DH_depart");
-    idEtatDateFieldMapping.put(4, "DH_sur_place");
-    idEtatDateFieldMapping.put(5, "DH_bilan_primaire");
-    idEtatDateFieldMapping.put(6, "DH_bilan_secondaire");
-    idEtatDateFieldMapping.put(7, "DH_quitte_les_lieux");
-    idEtatDateFieldMapping.put(8, "DH_arrivee_hopital");
-    idEtatDateFieldMapping.put(9, "DH_fin_intervention");
+    idEtatDateFieldMapping.put(3 , "DH_depart");
+    idEtatDateFieldMapping.put(4 , "DH_sur_place");
+    idEtatDateFieldMapping.put(5 , "DH_bilan_primaire");
+    idEtatDateFieldMapping.put(6 , "DH_bilan_secondaire");
+    idEtatDateFieldMapping.put(7 , "DH_quitte_les_lieux");
+    idEtatDateFieldMapping.put(8 , "DH_arrivee_hopital");
+    idEtatDateFieldMapping.put(9 , "DH_fin_intervention");
   }
   private final static String queryForActionOnIntervention = 
     "UPDATE intervention        \n" +
@@ -740,6 +747,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "evac_laisse_sur_place_decedee"       ,
     "evac_refus_de_transport"             ,
     "evac_decharche"                      ,
+    "evac_sans_suite"                     ,
     "evac_aggravation"                    ,
     "evac_aggravation_pendant_transport"  ,
     "evac_aggravation_arrive_a_destination",
@@ -926,6 +934,11 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
   }
 
   public static String[]intField = {  
+    "cs_glasgow_total"              ,
+    "cs_glasgow_ouverture_yeux"     ,
+    "cs_glasgow_reponse_verbale"    ,
+    "cs_glasgow_reponse_motrice"    ,
+    "evac_aggravation_saturation_o2",
     "ventil_saturation_o2"          ,
     "gestes_inhalation_o2_litre_min",
     "circul_tension_ref_basse"      ,
@@ -964,7 +977,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     intFieldMatching.put("id_regulation"                 , "id_regulation"                  );       
     intFieldMatching.put("id_origine"                    , "id_origine"                     );       
     intFieldMatching.put("id_motif"                      , "id_motif"                       );
-    intFieldMatching.put("id_etat"                       , "id_etat"                       );
+    intFieldMatching.put("id_etat"                       , "id_etat"                        );
     intFieldMatching.put("id_motif_annulation"           , "id_motif_annulation"            );
     intFieldMatching.put("id_ref_num_inter"              , "id_ref_num_inter"               );       
     intFieldMatching.put("ventil_chiffre"                , "ventil_chiffre"                 );       
@@ -975,6 +988,12 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     intFieldMatching.put("evac_aggravation_circulation"  , "evac_aggravation_circulation"   );       
     intFieldMatching.put("evac_aggravation_douleur"      , "evac_aggravation_douleur"       );
     intFieldMatching.put("age_approx_victime"            , "age_approx_victime"             );
+    
+    intFieldMatching.put("cs_glasgow_total"              , "cs_glasgow_total"               );
+    intFieldMatching.put("cs_glasgow_ouverture_yeux"     , "cs_glasgow_ouverture_yeux"      );
+    intFieldMatching.put("cs_glasgow_reponse_verbale"    , "cs_glasgow_reponse_verbale"     );
+    intFieldMatching.put("cs_glasgow_reponse_motrice"    , "cs_glasgow_reponse_motrice"     );
+    intFieldMatching.put("evac_aggravation_saturation_o2", "evac_aggravation_saturation_o2" );
     
     
   }
@@ -1004,6 +1023,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "bilan_circonstances"                     ,
     "bilan_detresses"                         ,
     "bilan_antecedents"                       ,
+    "bilan_traitements"                       ,
     "bilan_commentaires"                      ,
     "bilan_evaluation_ci"                     ,
     "cs_pci_duree"                            ,
@@ -1050,6 +1070,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     stringFieldMatching.put("bilan_circonstances"                     ,"bilan_circonstances"                     );
     stringFieldMatching.put("bilan_detresses"                         ,"bilan_detresses"                         );
     stringFieldMatching.put("bilan_antecedents"                       ,"bilan_antecedents"                       );
+    stringFieldMatching.put("bilan_traitements"                       ,"bilan_traitements"                        );
     stringFieldMatching.put("bilan_commentaires"                      ,"bilan_commentaires"                      );
     stringFieldMatching.put("bilan_evaluation_ci"                     ,"bilan_evaluation_ci"                     );
     

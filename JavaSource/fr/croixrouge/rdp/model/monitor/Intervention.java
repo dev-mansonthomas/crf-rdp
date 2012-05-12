@@ -38,8 +38,13 @@ public class Intervention implements Serializable
   private int     evacHopitalDestination             ;
   private int     evacAggravationVentilation         ;
   private int     evacAggravationCirculation         ;
+  private int     evacAggravationSaturationO2        ;
   private int     evacAggravationDouleur             ;
   private int     evacPar                            ;
+  private int     glasgowTotal                       ;
+  private int     glasgowOuvertureYeux               ;
+  private int     glasgowReponseVerbale              ;
+  private int     glasgowReponseMotrice              ;
 
   private float   circulTensionBasse                 ;
   private float   circulTensionHaute                 ;
@@ -95,6 +100,7 @@ public class Intervention implements Serializable
   private String  bilanCirconstances                 ;
   private String  bilanDetresses                     ;
   private String  bilanAntecedents                   ;
+  private String  bilanTraitements                   ;
   private String  bilanCommentaires                  ;
   private String  bilanEvaluationCi                  ;
   private String  evacAutreDestinationLabel          ;
@@ -1549,5 +1555,65 @@ public class Intervention implements Serializable
   public void setAnnulationCommentaires(String annulationCommentaires)
   {
     this.annulationCommentaires = annulationCommentaires;
+  }
+
+  public int getEvacAggravationSaturationO2()
+  {
+    return evacAggravationSaturationO2;
+  }
+
+  public void setEvacAggravationSaturationO2(int evacAggravationSaturationO2)
+  {
+    this.evacAggravationSaturationO2 = evacAggravationSaturationO2;
+  }
+
+  public int getGlasgowTotal()
+  {
+    return glasgowTotal;
+  }
+
+  public void setGlasgowTotal(int glasgowTotal)
+  {
+    this.glasgowTotal = glasgowTotal;
+  }
+
+  public int getGlasgowOuvertureYeux()
+  {
+    return glasgowOuvertureYeux;
+  }
+
+  public void setGlasgowOuvertureYeux(int glasgowOuvertureYeux)
+  {
+    this.glasgowOuvertureYeux = glasgowOuvertureYeux;
+  }
+
+  public int getGlasgowReponseVerbale()
+  {
+    return glasgowReponseVerbale;
+  }
+
+  public void setGlasgowReponseVerbale(int glasgowReponseVerbale)
+  {
+    this.glasgowReponseVerbale = glasgowReponseVerbale;
+  }
+
+  public int getGlasgowReponseMotrice()
+  {
+    return glasgowReponseMotrice;
+  }
+
+  public void setGlasgowReponseMotrice(int glasgowReponseMotrice)
+  {
+    this.glasgowReponseMotrice = glasgowReponseMotrice;
+  }
+
+  public String getBilanTraitements()
+  {
+    return bilanTraitements;
+  }
+
+  public void setBilanTraitements(String bilanTraitements)
+  {
+    this.bilanTraitements = bilanTraitements;
   }
 }

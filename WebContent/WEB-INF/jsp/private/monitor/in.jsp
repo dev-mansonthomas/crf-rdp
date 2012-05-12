@@ -66,7 +66,7 @@
   <script type="text/javascript">
     var contextPath="../..";
     var iconPath = '../img/famfamfam/';
-    Ext.BLANK_IMAGE_URL = contextPath+'/js/ext-3.1.1/resources/images/default/s.gif';
+    Ext.BLANK_IMAGE_URL = contextPath+'/js/ext-3.4.0/resources/images/default/s.gif';
 
     var idInterventionToOpen = ${idInterventionToOpen==null?0:idInterventionToOpen};
     <%//pour ne pas réouvrir l'inter la prochaine fois

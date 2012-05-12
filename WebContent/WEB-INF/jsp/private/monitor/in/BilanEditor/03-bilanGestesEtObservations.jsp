@@ -209,22 +209,22 @@ Inhalation O<sub>2</sub>
         onBlur="miBilanCs.updateIntegerField(this.id, 'gestes_inhalation_o2_litre_min')"/> l<sub>/min</sub>
       </td>
       <td colspan="2" style="text-align:center;">
-Glycémie <input style="width:30px;"
+Glycémie <input style="width:50px;"
           type="text"
             id="bilan_gestes_glycemie_gramme_litre"
           name="bilan_gestes_glycemie_gramme_litre"
          value=""
-     maxlength="2"
+     maxlength="5"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="miBilanCs.updateFloatField(this.id, 'gestes_glycemie_gramme_litre')"/> g<sub>/litre</sub>
       </td>
       <td colspan="2" style="text-align:center;">
-Température <input style="width:30px;"
+Température <input style="width:50px;"
           type="text"
             id="bilan_gestes_temperature"
           name="bilan_gestes_temperature"
          value=""
-     maxlength="2"
+     maxlength="5"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="miBilanCs.updateFloatField(this.id, 'gestes_temperature')"/> &deg;C
       </td>

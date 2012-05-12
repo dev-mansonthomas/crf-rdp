@@ -1,4 +1,4 @@
-Ext.BLANK_IMAGE_URL = "./js/ext-3.1.1/resources/images/default/s.gif";
+Ext.BLANK_IMAGE_URL = "./js/ext-3.4.0/resources/images/default/s.gif";
 
 Ext.namespace('Ext.ux.crf', 'Ext.ux.crf.Login');
 

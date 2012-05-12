@@ -10,7 +10,7 @@ MonitorInputInterventionCs.prototype.initialize=function()
   
   PageBus.subscribe("monitorInput.intervention.ticket.endOfEditionEvent",  this, this.reloadInterventionTicketLists, null, null);
   
-  crfIrpUtils.setupCalendar("interventionTicketDHReception", function(event){
+  crfIrpUtils.setupCalendar("interventionTicketDHReception", "interventionTicketDHReception_div","interventionTicketDHReception_div",function(event){
   	   miInterventionCs.updateInterventionDateField(event.id, 'DH_reception')
   	});
     
@@ -154,7 +154,7 @@ MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
         },
         collapsible : false,
         animCollapse: false,
-        height      : 400,
+        height      : 800,
         iconCls     : 'icon-grid',
         renderTo    : 'InterventionListEncoursEdition',
         listeners   : {
@@ -180,7 +180,7 @@ MonitorInputInterventionCs.prototype.gridRowDoubleClickHandler=function(grid, ro
 MonitorInputInterventionCs.prototype.reloadInterventionTicketLists=function(data)
 {
   Ext.getCmp('InterventionListEncoursEditionGrid'    ).getStore().reload();
-  Ext.getCmp('InterventionListNonAffecteeEditionGrid').getStore().reload();
+  //Ext.getCmp('InterventionListNonAffecteeEditionGrid').getStore().reload();
 }
 
 MonitorInputInterventionCs.prototype.addIntervention=function()
@@ -322,6 +322,7 @@ MonitorInputInterventionCs.prototype.resetInterventionForm=function()
 
 MonitorInputInterventionCs.prototype.editInterventionTicket=function(idIntervention)
 {
+  window.focus();
   this.resetInterventionForm();
   MonitorInputIntervention.getInterventionTicket(idIntervention, this.editInterventionTicketReturn);
 };
@@ -455,17 +456,25 @@ MonitorInputInterventionCs.prototype.updateAddress=function(fieldId, fieldName)
   codePostal.value=codePostal.value.strip();
   ville     .value=ville     .value.strip();
 
-  this.updateInterventionStringField(fieldId, fieldName);
+  miInterventionCs.updateInterventionStringField(fieldId, fieldName);
   
-  if( rue       .value != '' && rue       .oldValue != rue       .value &&
-      codePostal.value != '' && codePostal.oldValue != codePostal.value &&
-      ville     .value != '' && ville     .oldValue != ville     .value   )
+  if( ( rue       .value != '' && 
+        codePostal.value != '' &&
+        ville     .value != ''
+      ) 
+      &&
+      (
+          rue       .oldValue != rue       .value ||
+          codePostal.oldValue != codePostal.value ||
+          ville     .oldValue != ville     .value   
+      )
+    )
   {// valeur non vide et non différente de la précédente valeur
     googleMapAdressResolver.findCoordinatesForAddress(  rue       .value +', '+
                                                         codePostal.value +', '+
                                                         ville     .value,
-                                                        this.updateAddressReturn,
-                                                        this.updateAddressErrorReturn);
+                                                        miInterventionCs.updateAddressReturn,
+                                                        miInterventionCs.updateAddressErrorReturn);
   }
 };
 

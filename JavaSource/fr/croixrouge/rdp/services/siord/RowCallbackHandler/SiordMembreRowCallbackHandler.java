@@ -49,8 +49,8 @@ public class SiordMembreRowCallbackHandler implements RowCallbackHandler
     {
       String msg = "Error while inserting in CRFRDP DB the membre with id='"+membre.getId()+"' (IDSIORD DB)";
       logger.error(msg,e);
-     
-      throw new SQLException(msg,e);
+      //Skip rethrow to continue processing the other rows.
+      //throw new SQLException(msg,e);
     }
     
     

@@ -1,3 +1,5 @@
+-- permet de tester le bon fonctionnement des triggers poser sur les tables du siord
+
 -- executer les requetes sql par pair (modification et check)
 -- date création ne doit etre mise a jour qu'a l'insertion
 -- date modification doit etre mise a jour a chaque modification des tables membres, membres_competences, membres_delegations, membres_infos

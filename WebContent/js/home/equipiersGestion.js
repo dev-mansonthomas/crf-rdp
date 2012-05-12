@@ -66,7 +66,15 @@ Ext.ux.Home.EquipiersGestion = function() {
                     '<table id="edit_role_table">',
                          '<tpl for="options">',
                             '{[(xindex % 3 === 1) ? "<tr>" : ""]}',
-                            '<td><input type="checkbox" id="{parent.htmlId}_{id}" value="{id}" {[parent.readOnly?"disabled":""]}/> {label}  </td>',
+                            '<td><input type="checkbox" id="{parent.htmlId}_{id}" value="{id}" {[parent.readOnly?"disabled":""]} ',
+                            ' onClick="if(!this.checked){Ext.getDom(\'{parent.htmlId}_{id}_eval\').checked=false;Ext.getDom(\'{parent.htmlId}_{id}_evaluateur\').checked=false;}"/>',
+                            '{label} <div id="eval_div_{parent.htmlId}_{id}" class="eval_div">',
+                            '<span class="eval_evalue">Evalué?     <input type="checkbox" id="{parent.htmlId}_{id}_eval"       value="{id}" ',
+                            '{[parent.readOnly?"disabled":""]} onClick="if(this.checked){Ext.getDom(\'{parent.htmlId}_{id}\').checked=true;Ext.getDom(\'{parent.htmlId}_{id}_evaluateur\').checked=false;}"/></span>',
+                            '<span class="eval_evaluateur">Evaluateur? <input type="checkbox" id="{parent.htmlId}_{id}_evaluateur" value="{id}" ',
+                            '{[parent.readOnly?"disabled":""]} onClick="if(this.checked){Ext.getDom(\'{parent.htmlId}_{id}\').checked=true;Ext.getDom(\'{parent.htmlId}_{id}_eval\'      ).checked=false;}"/></span>',
+                            '</div>',
+                            '</td>',
                             '{[(xindex % 3 === 0 || xindex === xcount) ? "</tr>" : ""]}',
                          '</tpl>',
                     '</table>',
@@ -104,6 +112,7 @@ Ext.ux.Home.EquipiersGestion = function() {
           '</tpl>',
         '</table>', 
       '</fieldset>');
+
 
 	// private functions
 
@@ -225,7 +234,7 @@ Ext.ux.Home.EquipiersGestion = function() {
           }
         },
         
-        width      : 600,
+        width      : 650,
         height     : 330,
         stripeRows : true,
         autoScroll : false,
@@ -257,7 +266,7 @@ Ext.ux.Home.EquipiersGestion = function() {
 				title           : 'Détail Equipier',
 				deferredRender  : false,
 				xtype           : 'panel',
-        width           : 670,
+        width           : 1300,
 				collapsible     : true,
 			  html            : defautlHtmlNoUserSelected
 
@@ -589,16 +598,45 @@ Ext.ux.Home.EquipiersGestion = function() {
       
       equipierTemplate.overwrite(Ext.getCmp('EquipierEditorPanel').body, fieldsetData);
       
+      //cache les case a cocher Eval pour les roles non évaluable
+      var rolesEquipier =  Ext.ux.Home.EquipiersGestion.allRoles;
+      var i=0;  
+      for(i=0;i<rolesEquipier.length;i++)
+      {
+        if(rolesEquipier[i].evaluable)
+        {
+          Ext.getDom('eval_div_edit_role_'+rolesEquipier[i].id).style.display='inline';
+        }
+        else
+        {
+          Ext.getDom('eval_div_edit_role_'+rolesEquipier[i].id).style.display='none';
+        }
+      }
+      
       if(this.equipierData.idEquipier!=-1)
       {
         EquipiersGestionService.getEquipierRoles(this.equipierData.idEquipier, 
-        function(listRole){
+        function(listRole)
+        {
+          var i=0;
           for(i=0,count=listRole.length;i<count;i++)
           {
-            Ext.getDom('edit_role_'+listRole[i].id).checked=true;
+            Ext.getDom('edit_role_'+listRole[i].id).checked=true; 
+            
+            if(listRole[i].enEvaluation)
+            {
+              Ext.getDom('edit_role_'+listRole[i].id+'_eval'      ).checked=true;  
+            }
+            
+            if(listRole[i].evaluateur)
+            {
+              Ext.getDom('edit_role_'+listRole[i].id+'_evaluateur').checked=true;  
+            }
           }
         });
       }
+      
+
     },
     displayInterventionList:function()
     {
@@ -677,11 +715,12 @@ Ext.ux.Home.EquipiersGestion = function() {
       for(i=0,counti=rolesDef.length;i<counti;i++)
       {
         if(Ext.getDom('edit_role_'+rolesDef[i].id).checked)
-        {//TODO faire les en evaluation
+        {
           var oneRole = {id:rolesDef[i].id, enEvaluation:false};
           if(rolesDef[i].evaluable)
-          {//TODO, ajouter en evaluation dans le formulaire
-            //oneRole.enEvaluation=Ext.getDom('edit_role_'+rolesDef[i].id+'_eval').checked;
+          {
+            oneRole.enEvaluation=Ext.getDom('edit_role_'+rolesDef[i].id+'_eval'      ).checked;
+            oneRole.evaluateur  =Ext.getDom('edit_role_'+rolesDef[i].id+'_evaluateur').checked;
           }
           roles.push(oneRole);
         }
@@ -709,9 +748,10 @@ Ext.ux.Home.EquipiersGestion = function() {
       }
     },
     checkEquipierForm : function() {
-      
+      Ext.getDom('edit_numNivol').value= Ext.getDom('edit_numNivol').value.toUpperCase();
       var error = false;
       var msg = ['Certaines données saisies sont incorrectes :'];
+      
       if (Ext.getDom('edit_nom').value == '')
       {
         msg.push('<br/>- Nom');
@@ -742,6 +782,7 @@ Ext.ux.Home.EquipiersGestion = function() {
         msg.push('<br/>- Mobile');
         error = true;
       }
+      
       if (error)
         Ext.MessageBox.alert('Erreur Saisie', msg.join(''));
         

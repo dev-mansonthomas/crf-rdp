@@ -318,13 +318,14 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   "SELECT er.id_equipier     ,           \n"+
   "       er.id_role_equipier,           \n"+
   "       er.en_evaluation   ,           \n"+
+  "       er.evaluateur      ,           \n"+
   "       e.label_role                   \n"+
   "FROM   equipier_roles er  ,           \n"+
   "       equipier_role  e               \n"+
   "WHERE  er.id_role_equipier = e.id_role\n"+
   "AND    er.id_equipier      = ?        \n";
   
-  public List<EquipierRole> getEquipierRoles(int idEquipier)
+  public List<EquipierRole> getEquipierRoles(int idEquipier) throws Exception
   {
     Object [] os    = {idEquipier};
     int    [] types = {Types.INTEGER};
@@ -482,8 +483,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   
   private final static String queryForCreateEquipier =
     "INSERT INTO equipier         \n" +
-    "(nom, prenom,indicatif, nivol, equipier_is_male, email, mobile, enabled, id_delegation)  \n" +
-    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)  \n";
+    "(nom, prenom,indicatif, nivol, equipier_is_male, email, mobile, enabled, id_delegation, id_siord, date_last_synchro_siord)  \n" +
+    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  \n";
   
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public int                 createEquipier            (Equipier equipier) throws Exception
@@ -498,7 +499,9 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
         "".equals(equipier.getEmail     ())?null:equipier.getEmail (), 
         "".equals(equipier.getMobile    ())?null:equipier.getMobile(), 
         equipier.isEnabled    (), 
-        equipier.getDelegation().getIdDelegation()
+        equipier.getDelegation().getIdDelegation(),
+        equipier.getIdSiord(),
+        equipier.getDateLastSynchroSiord()
         };
     int    [] types = new int   []{ 
         Types.VARCHAR                 , 
@@ -509,7 +512,9 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
         Types.VARCHAR                 , 
         Types.VARCHAR                 , 
         Types.BOOLEAN                 , 
-        Types.VARCHAR
+        Types.VARCHAR                 ,
+        Types.INTEGER                 ,
+        Types.TIMESTAMP
         };
     
     jdbcTemplate.update(queryForCreateEquipier, os, types);
@@ -581,10 +586,10 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     "WHERE       id_equipier = ?  \n" ;
   
   private final static String queryForInsertRolesForEquipier=
-    "INSERT INTO equipier_roles                      \n" +
-    "  (id_equipier, id_role_equipier, en_evaluation)\n" +
-    "VALUES                                          \n" +
-    "  (?          , ?               , ?            )\n" ;
+    "INSERT INTO equipier_roles                                   \n" +
+    "  (id_equipier, id_role_equipier, en_evaluation, evaluateur) \n" +
+    "VALUES                                                       \n" +
+    "  (?          , ?               , ?            , ?         ) \n" ;
   
   public void updateEquipierRoles(Equipier equipier, boolean creation) throws Exception
   {
@@ -609,8 +614,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     {
       for (EquipierRole equipierRole : roles)
       {
-        os    = new Object[]{equipier.getIdEquipier(), equipierRole.getId(), equipierRole.isEnEvaluation() };
-        types = new int   []{Types.INTEGER           , Types.INTEGER       , Types.BOOLEAN                };
+        os    = new Object[]{equipier.getIdEquipier(), equipierRole.getId(), equipierRole.isEnEvaluation(), equipierRole.isEvaluateur() };
+        types = new int   []{Types.INTEGER           , Types.INTEGER       , Types.BOOLEAN                , Types.BOOLEAN               };
         
         nbLigneUpdated+= jdbcTemplate.update(queryForInsertRolesForEquipier, os, types);
       }
@@ -650,6 +655,62 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     }
 
     return equipier;
+  }
+  
+  
+
+  private final static String queryForDeleteEquipiersInfoForDispositifToBeDeleted1 =
+    "DELETE FROM dispositif_equipiers    \n" +
+    "WHERE  id_dispositif           = ?  \n";
+  
+  private final static String queryForDeleteEquipiersInfoForDispositifToBeDeleted2 =
+    "DELETE FROM dispositif_equipiers_log\n" +
+    "WHERE  id_dispositif           = ?  \n";
+
+  
+  private final static String queryForDeleteEquipiersInfoForDispositifToBeDeleted3 =
+    "UPDATE equipier            \n" +
+    "SET    id_dispositif  = 0  \n" +
+    "WHERE  id_dispositif  = ?  \n";
+  
+  public void deleteEquipiersInfoForDispositifToBeDeleted(int idDispositif) throws Exception
+  {
+    try
+    {
+      Object [] os     = new Object[]{idDispositif  };
+      int    [] types  = new int   []{Types.INTEGER };
+      
+      
+      
+      int nbLineUpdated = jdbcTemplate.update(queryForDeleteEquipiersInfoForDispositifToBeDeleted1, os, types);
+      
+      if(logger.isDebugEnabled())
+        logger.debug("deleteEquipiersInfoForDispositifToBeDeleted, --DELETE dispositif_equipiers-- idDispositif='"+idDispositif+"' line updated = "+nbLineUpdated);
+
+      
+      os     = new Object[]{idDispositif  };
+      types  = new int   []{Types.INTEGER };
+      
+      nbLineUpdated = jdbcTemplate.update(queryForDeleteEquipiersInfoForDispositifToBeDeleted2, os, types);
+      
+      if(logger.isDebugEnabled())
+        logger.debug("deleteEquipiersInfoForDispositifToBeDeleted, --DELETE dispositif_equipiers_log-- idDispositif='"+idDispositif+"' line updated = "+nbLineUpdated);
+      
+      os     = new Object[]{idDispositif  };
+      types  = new int   []{Types.INTEGER };
+      
+      nbLineUpdated = jdbcTemplate.update(queryForDeleteEquipiersInfoForDispositifToBeDeleted3, os, types);
+      
+      if(logger.isDebugEnabled())
+        logger.debug("deleteEquipiersInfoForDispositifToBeDeleted, --UPDATE EQUIPER SET    id_dispositif  = 0 -- idDispositif='"+idDispositif+"' line updated = "+nbLineUpdated);
+    }
+    catch(Exception e)
+    {
+      logger.error("Error while deleting infos for dispositif id='"+idDispositif+"' with the following queries : \n"+queryForDeleteEquipiersInfoForDispositifToBeDeleted1+"\n"+queryForDeleteEquipiersInfoForDispositifToBeDeleted2+"\n"+queryForDeleteEquipiersInfoForDispositifToBeDeleted3,e);
+      throw e;
+    }
+    
+    
   }
   
 }

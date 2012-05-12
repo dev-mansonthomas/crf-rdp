@@ -103,3 +103,26 @@ Calendar gregorianCalendar = GregorianCalendar.getInstance();
     
     
     
+    
+    List<String> listString = new ArrayList<String>();
+    
+    listString.add("test1");
+    listString.add("test2");
+    listString.add("test3");
+    listString.add("test4");
+    listString.add("test5");
+    listString.add("test6");
+    
+    
+    String[] arrayString = listString.toArray(new String[3]);
+    for(int i=0;i<arrayString.length;i++)
+    {
+      System.out.println(arrayString[i]);
+    }
+    
+    
+    
+    
+    sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
+    encoder.encode();
+    

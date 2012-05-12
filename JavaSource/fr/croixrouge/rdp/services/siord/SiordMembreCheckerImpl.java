@@ -134,13 +134,13 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
     
     for (String  fakeWord : fakeAccountsSearchedWords)
     {
-      if(nom.indexOf(fakeWord)>0)
+      if(nom.toLowerCase().indexOf(fakeWord)>0)
       {
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 2, ""));
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 6, "le nom contient la chaine '"+fakeWord+"'"));
         return;
       }
-      if(prenom.indexOf(fakeWord)>0)
+      if(prenom.toLowerCase().indexOf(fakeWord)>0)
       {
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 2, ""));
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 6, "le prenom contient la chaine '"+fakeWord+"'"));
@@ -150,7 +150,7 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
     
     for (String  fakeWord : fakeAccountsSearchedWordsEmail)
     {
-      if(email != null && email.indexOf(fakeWord)>0)
+      if(email != null && email.toLowerCase().indexOf(fakeWord)>0)
       {
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 2, ""));
         status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 6, "le email contient la chaine '"+fakeWord+"'"));
@@ -163,9 +163,9 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
   }
   
   private final static String queryForCheckIfEmailExists=
-    "SELECT count(1)            \n"+
-    "FROM   equipier            \n"+
-    "WHERE  email            = ?\n";
+    "SELECT count(1)              \n"+
+    "FROM   equipier              \n"+
+    "WHERE  LOWER(email)=LOWER(?) \n";
   
   private boolean checkIfEmailExists(Membre membre)
   {
@@ -215,7 +215,7 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
   private final static String queryForCheckIfNivolExists=
     "SELECT count(1)            \n"+
     "FROM   equipier            \n"+
-    "WHERE  nivol            = ?\n";
+    "WHERE  LOWER(nivol)= LOWER(?)\n";
   
   private boolean checkIfNivolExists(SiordSynchro siordSynchro ,Membre membre)
   {

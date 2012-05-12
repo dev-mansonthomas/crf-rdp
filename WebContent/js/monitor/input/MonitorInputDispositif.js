@@ -6,27 +6,26 @@ MonitorInputDispositifCs.prototype.initialize=function()
 {
   this.getDispositifTypeDefinition ();
   
-  crfIrpUtils.setupCalendar("DispositifDHDebut", function(event){
-      miDispositifCs.updateDispositifDateField(event.id, 'DH_debut');
+  crfIrpUtils.setupCalendar("DispositifDHDebut","DispositifDHDebut_div","DispositifDHDebut_div", function(event){
+      miDispositifCs.updateDispositifDateTimeField(event.id, 'DH_debut');
    });
    
-  crfIrpUtils.setupCalendar("DispositifDHFin", function(event){
-       miDispositifCs.updateDispositifDateField(event.id, 'DH_fin');
-       //crfIrpUtils.focusHandling('DispositifDHFin');
+  crfIrpUtils.setupCalendar("DispositifDHFin","DispositifDHFin_div","DispositifDHFin_div", function(event){
+       miDispositifCs.updateDispositifDateTimeField(event.id, 'DH_fin');
     });
   
   
-  crfIrpUtils.setupCalendar("DispositifDatePatchAdulte1", function(event){
+  crfIrpUtils.setupCalendar("DispositifDatePatchAdulte1", "DispositifDatePatchAdulte1_div", "DispositifDatePatchAdulte1_th", function(event){
     miDispositifCs.updateDispositifDateField(event.id, 'dsa_date_adulte_1');
     }, 
     'd/m/Y');
   
-  crfIrpUtils.setupCalendar("DispositifDatePatchAdulte2", function(event){
+  crfIrpUtils.setupCalendar("DispositifDatePatchAdulte2", "DispositifDatePatchAdulte2_div","DispositifDatePatchAdulte2_th",  function(event){
     miDispositifCs.updateDispositifDateField(event.id, 'dsa_date_adulte_2');
     }, 
     'd/m/Y');
   
-  crfIrpUtils.setupCalendar("DispositifDatePatchEnfant", function(event){
+  crfIrpUtils.setupCalendar("DispositifDatePatchEnfant", "DispositifDatePatchEnfant_div", "DispositifDatePatchEnfant_th", function(event){
     miDispositifCs.updateDispositifDateField(event.id, 'dsa_date_enfant');
     }, 
     'd/m/Y');
@@ -120,14 +119,14 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         },
         collapsible : false,
         animCollapse: false,
-        height      : 400,
+        height      : 800,
         iconCls     : 'icon-grid',
         renderTo    : 'DispositifListCurrent',
         listeners   :{
           'rowdblclick':miDispositifCs.gridRowDoubleClickHandler
         },
         bbar:new Ext.PagingToolbar({
-          pageSize   : 5,
+          pageSize   : 15,
           store      : dispositifListCurrentStore,
           displayInfo: true,
           displayMsg : 'Dispositifs(s) {0} à {1} de {2}',
@@ -151,8 +150,9 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
                   triggerAction : 'all',
                   emptyText     : 'Selectionner un role...',
                   applyTo       : 'DispositifEquipierSearchRoleInput',
-                  width         : 170,
-                  listWidth     : 170,
+                  lazyInit      : false,
+                  width         : 240,
+                  listWidth     : 240,
                   selectOnFocus : true
               })
 
@@ -196,7 +196,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         store       : delegationSearchDataStore,
         displayField: 'nom',
         loadingText : 'Recherche en cours...',
-        width       : 200,
+        width       : 300,
         listWidth   : 300,
         pageSize    : 10,
         minChars    : 1,
@@ -248,10 +248,14 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
     });
 
     var resultTpl = new Ext.XTemplate(
-        '<tpl for="."><div class="search-item">',
-            '<h3><span>{numNivol}</span>{[this.getSexImg(values)]} {prenom} {nom}</h3>',//{delegation.idDelegation}
-            '{[this.getDelegation(values)]}',
-        '</div></tpl>',
+        '<tpl for=".">',
+          //'<tpl if="id != -2">',
+            '<div class="search-item">',
+               '<h3><span>{numNivol}</span>{[this.getSexImg(values)]} {prenom} {nom}</h3>',//{delegation.idDelegation}
+               '{[this.getDelegation(values)]}',
+            '</div>',
+          //'</tpl>', 
+        '</tpl>',
         {
           getDelegation:function(values)
           {
@@ -269,14 +273,20 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         store       : equipierSearchDataStore,
         displayField: 'numNivol',
         loadingText : 'Recherche en cours...',
-        width       : 300,
-        listWidth   : 300,
+        width       : 570,
+        listWidth   : 570,
         pageSize    : 10,
         minChars    : 1,
         hideTrigger : true,
         tpl         : resultTpl,
         itemSelector: 'div.search-item',
         applyTo     : 'DispositifEquipierSearchInput',
+        listeners   : {
+          // delete the previous query in the beforequery event or set
+          // combo.lastQuery = null (this will reload the store the next time it expands)
+          beforequery: function(qe){
+              delete qe.combo.lastQuery;
+        }},
         onSelect    : MonitorInputDispositifCs.prototype.addEquipierConfirm
     });
   /* FIN Combo Box de recherche d'équipier*/
@@ -364,8 +374,8 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             {id:'DELG_nivol'       , header: "Nivol"      , width: 70 , sortable: true , dataIndex: 'numNivol'                                                                        },
             {id:'DELG_nomprenom'   , header: "Nom Prénom" , width: 290, sortable: true , dataIndex: 'nom'                       , renderer:miDispositifCs.DELGNomPrenomCellRenderer   },
             {id:'DELG_mobile'      , header: "Mobile"     , width: 80 , sortable: true , dataIndex: 'mobile'                                                                          },
-            {id:'DELG_role'        , header: "Role"       , width: 100, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
-            {id:'DELG_evalutation' , header: "En Eval?"   , width: 50 , sortable: true , dataIndex: 'enEvaluationDansDispositif',
+            {id:'DELG_role'        , header: "Role"       , width: 150, sortable: true , dataIndex: 'idRoleDansDispositif'      , renderer:miDispositifCs.DELGRoleCellRenderer        },
+            {id:'DELG_evalutation' , header: "En Eval?"   , width: 140, sortable: true , dataIndex: 'enEvaluationDansDispositif',
               xtype: 'booleancolumn',
            trueText: 'Oui',
           falseText: 'Non'
@@ -376,7 +386,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
         collapsible : false,
         animCollapse: false,
         height      : 200,
-        width       : 700,
+        width       : 840,
         iconCls     : 'icon-grid',
         renderTo    : 'DispositifEquipierList',
         tbar        : [{
@@ -398,6 +408,25 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             disabled: true
         }]
     });
+  
+  
+  
+  Ext.get('WhyNotFound').on('click', function(){
+    Ext.MessageBox.alert('Pourquoi je ne trouve pas l\'équipier que je cherche?', 
+        ['Un équipier peut en pas apparaitre dans les résultats de votre recherche pour les raisons suivantes :<br/>',
+         '<ul>* L\'équipier est déjà affecté sur un autre dispositif (ou un ancien qui n\'a pas été fermé)<li>',
+         '<li>* L\'équipier est en cours d\'évaluation CI ou Chauffeur (et ne peut donc pas être mis en tant que CI ou Chauffeur, seule un titulaire ou un évaluateur peut etre CI ou Chauffeur)</li>',
+         '<li>* L\'équipier n\'a pas encore été importé depuis le SIORD</li>',
+         '<li>* Vous cherchez sur le nom et le prénom en meme temps. Ce n\'est pour l\'instant pas supporté. Cherchez par NIVOL à la place</li>',
+         '</ul>'
+  ].join('')
+        
+    
+    );
+});
+
+  
+  
 };
 
 MonitorInputDispositifCs.prototype.evaluationButtonHandler=function(button, event)
@@ -424,7 +453,7 @@ MonitorInputDispositifCs.prototype.gridRowDoubleClickHandler=function(grid, rowI
 MonitorInputDispositifCs.prototype.reloadDispositifLists=function(data)
 {
   Ext.getCmp('DispositifListCurrentGrid'       ).getStore().reload();
-  Ext.getCmp('DispositifListEncoursEditionGrid').getStore().reload();
+  //Ext.getCmp('DispositifListEncoursEditionGrid').getStore().reload();
 }
 
 MonitorInputDispositifCs.prototype.DELGNomPrenomCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
@@ -434,9 +463,29 @@ MonitorInputDispositifCs.prototype.DELGNomPrenomCellRenderer=function(value, met
 
 MonitorInputDispositifCs.prototype.DELGRoleCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
+  var image = '';
+  var alt   = '';
   
-  //TODO pour le CI 'award_star_gold_1.png'
-  return crfIrpUtils.getLabelFor('RolesEquipier', value );
+  if(value > 0 && value <= 6)
+  {
+    image = "award_star_gold_1.png";
+    alt   = "Chef d'inter";
+  }
+  
+  if(value >= 7 && value <= 8)
+  {
+    image = "car.png";
+    alt   = "Chauffeur";
+  }
+  
+  var imageHtml = '';
+  
+  if(image != '')
+  {
+    imageHtml = '<img src="'+contextPath+'/img/monitorInput/'+image+'" alt="'+alt+'"/> ';
+  }
+  
+  return imageHtml + crfIrpUtils.getLabelFor('RolesEquipier', value );
 };
 
 MonitorInputDispositifCs.prototype.DELGSuppressionCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
@@ -472,6 +521,20 @@ MonitorInputDispositifCs.prototype.typeCellRenderer=function(value, metadata, re
 
 };
 
+MonitorInputDispositifCs.prototype.resetErrorAndWarningDisplay=function()
+{
+  //supprime tout les éléments du tableaux, une recherche est faite dans le store dans cette méthode pour déterminer si une erreur bloquant est encore présente.
+  if(Ext.getCmp('FormValidationWindow')!=null)
+  {
+    Ext.getCmp('FormValidationWindow').getStore().removeAll();  
+  }
+  
+  
+//Clean old validation
+  Ext.get('DispositifIdentification').dom.style.backgroundColor='#FFFFFF';
+  $('DispositifVolumeTotal'   ).style.backgroundColor='#FFFFFF';
+}
+
 MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
 {
   if(this.formValidationWindow == null)
@@ -489,9 +552,9 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
   var hasErrorOrWarning = false;
   var messageList       = [];
   var typeDispositif    = Ext.get('DispositifType').dom.value;
+
   
-  //Clean old validation
-  Ext.get('DispositifIdentification').dom.style.backgroundColor='#FFFFFF';
+  MonitorInputDispositifCs.prototype.resetErrorAndWarningDisplay();
   
   if(typeDispositif == 0)
   {
@@ -525,7 +588,50 @@ MonitorInputDispositifCs.prototype.endOfEditionEvent=function()
     hasErrorOrWarning=true;  
   }
   
+  var currentDateStr = crfIrpUtils.getDate(new Date());
   
+  if(Ext.getCmp('DispositifDatePatchAdulte1').getValue() == undefined || Ext.getCmp('DispositifDatePatchAdulte1').getValue() =='')
+  {
+    messageList.push(['La date du patch Adulte 1 n\'est pas renseingé',2]);
+    hasErrorOrWarning=true;  
+  }
+  else
+  {
+    if(crfIrpUtils.compareDate(currentDateStr,crfIrpUtils.getDate(Ext.getCmp('DispositifDatePatchAdulte1').getValue())))
+    {
+      messageList.push(['Les Patchs Adultes 1 sont périmés',2]);
+      hasErrorOrWarning=true;  
+    }
+  }
+  
+  if(Ext.getCmp('DispositifDatePatchAdulte2').getValue() == undefined || Ext.getCmp('DispositifDatePatchAdulte2').getValue() =='')
+  {
+    messageList.push(['La date du patch Adulte 2 n\'est pas renseingé',2]);
+    hasErrorOrWarning=true;  
+  }
+  else
+  {
+    if(crfIrpUtils.compareDate(currentDateStr, crfIrpUtils.getDate(Ext.getCmp('DispositifDatePatchAdulte2').getValue())))
+    {
+      messageList.push(['Les Patchs Adultes 2 sont périmés',2]);
+      hasErrorOrWarning=true;  
+    }
+  }
+  
+  if((Ext.getCmp('DispositifDatePatchEnfant').getValue() == undefined || Ext.getCmp('DispositifDatePatchEnfant').getValue() =='') && Ext.getDom('DispositifAdaptateurPediatriqueOui').checked!=true)
+  {
+    messageList.push(['La date du patch Enfant 1 n\'est pas renseingé et l\'adapteur pédiatrique n\'est pas coché. Veuillez renseigner l\'un ou l\'autre',2]);
+    hasErrorOrWarning=true;  
+  }
+  else
+  {
+    if(!(Ext.getCmp('DispositifDatePatchEnfant').getValue() == undefined || Ext.getCmp('DispositifDatePatchEnfant').getValue() =='') && crfIrpUtils.compareDate(currentDateStr, crfIrpUtils.getDate(Ext.getCmp('DispositifDatePatchEnfant').getValue())))
+    {
+      messageList.push(['Les Patchs Enfants sont périmés',2]);
+      hasErrorOrWarning=true;  
+    }  
+  }
+
   
   if(Ext.get('dispositifCurrentAddressRue').dom.value =='')
   {
@@ -653,9 +759,18 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 {
 
-
+  MonitorInputDispositifCs.prototype.resetErrorAndWarningDisplay();
+  
   for(i=0,count=this.fieldList.length;i<count;i++)
     dwr.util.setValue(this.fieldList[i], '');
+  
+  
+  Ext.getDom('DispositifDefibrilateurTypeAUCUN'  ).checked=true;
+  Ext.getDom('DispositifAdaptateurPediatriqueOui').checked=false;
+  Ext.getDom('DispositifAdaptateurPediatriqueNon').checked=false;
+  Ext.getDom('DispositifDefibrilateurCompletOui' ).checked=false;
+  Ext.getDom('DispositifDefibrilateurCompletNon' ).checked=false;
+  
 
   Ext.get('DispositifVolumeTotal'   ).update('');
   Ext.get('DispositifAutonomieTotal').update('');
@@ -699,6 +814,11 @@ MonitorInputDispositifCs.prototype.fieldList = [
     'DispositifDefibrilateurTypeDEA',
     'DispositifDefibrilateurCompletOui',
     'DispositifDefibrilateurCompletNon',
+    'DispositifAdaptateurPediatriqueOui',
+    'DispositifAdaptateurPediatriqueNon',
+    'DispositifDatePatchAdulte1',
+    'DispositifDatePatchAdulte2',
+    'DispositifDatePatchEnfant',
     'horaire_dispo_value',
     'horaire_parti_value',
     'horaire_surPlace_value',
@@ -741,8 +861,7 @@ MonitorInputDispositifCs.prototype.addEquipierConfirm=function(record)
     if(btn == 'yes')
     {
       miDispositifCs.addEquipier(this);//this == record
-      Ext.getCmp('DispositifEquipierSearch').setValue('');
-      Ext.getCmp('DispositifEquipierSearch').getStore().reload();//Si on refait une recherche avec le meme critere, Ext ne rappel pas le serveur alors que l'équipier n'est plus séléctionnable (puisque ajouté)
+      Ext.getCmp('DispositifEquipierSearch').clearValue();
     }
   },
   record
@@ -941,6 +1060,14 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('DispositifDHDebut'             , crfIrpUtils.getFullDate(dispositif.dhDebut));
   dwr.util.setValue('DispositifDHFin'               , crfIrpUtils.getFullDate(dispositif.dhFin  ));
   
+  dwr.util.setValue('DispositifDatePatchAdulte1'    , crfIrpUtils.getDate(dispositif.dsaDatePeremptionAdulte1));
+  dwr.util.setValue('DispositifDatePatchAdulte2'    , crfIrpUtils.getDate(dispositif.dsaDatePeremptionAdulte2  ));
+  dwr.util.setValue('DispositifDatePatchEnfant'     , crfIrpUtils.getDate(dispositif.dsaDatePeremptionEnfant));
+  
+  
+  
+  
+  
   dwr.util.setValue('DispositifB1V', dispositif.o2B1Volume     );
   dwr.util.setValue('DispositifB2V', dispositif.o2B2Volume     );
   dwr.util.setValue('DispositifB3V', dispositif.o2B3Volume     );
@@ -953,7 +1080,14 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('DispositifB5P', dispositif.o2B5Pression   );
   
   dwr.util.setValue('DispositifDefibrilateurType'   , dispositif.dsaType    );
+  $('dsa_td_value').value = dwr.util.getValue('DispositifDefibrilateurType');
+  
   dwr.util.setValue('DispositifDefibrilateurComplet', dispositif.dsaComplet?'true':'false' );
+  $('dsa_complet_td_value').value = dwr.util.getValue('DispositifDefibrilateurComplet');
+
+  dwr.util.setValue('DispositifAdaptateurPediatrique', dispositif.dsaAdaptateurPediatrique?'true':'false' );
+  $('dsa_adaptateur_pedia_td_value').value = dwr.util.getValue('DispositifAdaptateurPediatrique');
+  
   
   dwr.util.setValue('horaire_dispo_value'     , crfIrpUtils.getTime(dispositif.dhDispo          ));    
   dwr.util.setValue('horaire_parti_value'     , crfIrpUtils.getTime(dispositif.dhDepart         ));    
@@ -1005,6 +1139,8 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
     var listRangeOfEquipier={totalCount:dispositif.equipierList.length, data:dispositif.equipierList};
     this.updateListEquipierReturn(listRangeOfEquipier);
   }
+  
+  MonitorInputDispositifCs.prototype.dsaUpdateDisplay();
     
 };
 
@@ -1107,6 +1243,34 @@ MonitorInputDispositifCs.prototype.removeEquipierFromDispositif=function(button,
 };
 
 
+MonitorInputDispositifCs.prototype.dsaUpdateDisplay=function()
+{
+  if($('dsa_td_value').value == 'NO')
+  {
+    $('DispositifDefibrilateurCompletOui'  ).disabled=true;
+    $('DispositifDefibrilateurCompletNon'  ).disabled=true;
+    $('DispositifAdaptateurPediatriqueOui' ).disabled=true;
+    $('DispositifAdaptateurPediatriqueNon' ).disabled=true;
+    
+    Ext.getCmp('DispositifDatePatchAdulte1').disable();
+    Ext.getCmp('DispositifDatePatchAdulte2').disable();
+    Ext.getCmp('DispositifDatePatchEnfant' ).disable();
+  }
+  else
+  {
+    $('DispositifDefibrilateurCompletOui'  ).disabled=false;
+    $('DispositifDefibrilateurCompletNon'  ).disabled=false;
+    $('DispositifAdaptateurPediatriqueOui' ).disabled=false;
+    $('DispositifAdaptateurPediatriqueNon' ).disabled=false;
+    
+    Ext.getCmp('DispositifDatePatchAdulte1').enable();
+    Ext.getCmp('DispositifDatePatchAdulte2').enable();
+    Ext.getCmp('DispositifDatePatchEnfant' ).enable();
+  }
+  
+  
+};
+
 MonitorInputDispositifCs.prototype.updateDispositifRadioField=function(fieldId)
 {
   if(fieldId == 'dsa_td')
@@ -1116,21 +1280,51 @@ MonitorInputDispositifCs.prototype.updateDispositifRadioField=function(fieldId)
     {
       dwr.util.setValue('DispositifDefibrilateurComplet', 'false');
       $('dsa_complet_td_value').value = 'false';
-      $('DispositifDefibrilateurCompletOui').disabled=true;
-      $('DispositifDefibrilateurCompletNon').disabled=true;
+      
       this.updateDispositifBooleanField('dsa_complet_td_value', 'dsa_complet', 'dsa_complet_td');
+
+      $('dsa_adaptateur_pedia_td_value').value = 'false';
+      dwr.util.setValue('DispositifAdaptateurPediatrique', 'false');
+
+      this.updateDispositifBooleanField('dsa_adaptateur_pedia_td_value', 'dsa_adapteur_pediatrique', 'dsa_adaptateur_pedia_td');
+      
+      Ext.getCmp('DispositifDatePatchAdulte1').setValue('');
+      Ext.getCmp('DispositifDatePatchAdulte2').setValue('');
+      Ext.getCmp('DispositifDatePatchEnfant' ).setValue('');
+      
+      $('DispositifDatePatchAdulte1').value="null";
+      $('DispositifDatePatchAdulte2').value="null";
+      $('DispositifDatePatchEnfant' ).value="null";
+      
+      miDispositifCs.updateDispositifDateField('DispositifDatePatchAdulte1', 'dsa_date_adulte_1');
+      miDispositifCs.updateDispositifDateField('DispositifDatePatchAdulte2', 'dsa_date_adulte_2');
+      miDispositifCs.updateDispositifDateField('DispositifDatePatchEnfant' , 'dsa_date_enfant'  );
     }
     else
     {
-      $('DispositifDefibrilateurCompletOui').disabled=false;
-      $('DispositifDefibrilateurCompletNon').disabled=false;    
+      $('DispositifDefibrilateurCompletOui' ).disabled=false;
+      $('DispositifDefibrilateurCompletNon' ).disabled=false;
+      $('DispositifAdaptateurPediatriqueOui').disabled=false;
+      $('DispositifAdaptateurPediatriqueNon').disabled=false;
+      
+      Ext.getCmp('DispositifDatePatchAdulte1').enable();
+      Ext.getCmp('DispositifDatePatchAdulte2').enable();
+      Ext.getCmp('DispositifDatePatchEnfant' ).enable();
+      
     }
+    MonitorInputDispositifCs.prototype.dsaUpdateDisplay();
+    
     this.updateDispositifStringField('dsa_td_value', 'dsa_type', 'dsa_td');
   }
-  else
+  else if(fieldId == 'dsa_complet_td')
   {
     $('dsa_complet_td_value').value = dwr.util.getValue('DispositifDefibrilateurComplet');
     this.updateDispositifBooleanField('dsa_complet_td_value', 'dsa_complet', 'dsa_td_value');
+  }
+  else if(fieldId == 'dsa_adaptateur_pedia_td')
+  {
+    $('dsa_adaptateur_pedia_td_value').value = dwr.util.getValue('DispositifAdaptateurPediatrique');
+    this.updateDispositifBooleanField('dsa_adaptateur_pedia_td_value', 'dsa_adapteur_pediatrique', 'dsa_adaptateur_pedia_td');
   }
 };
 
@@ -1148,6 +1342,13 @@ MonitorInputDispositifCs.prototype.updateAddress=function(fieldId, fieldName, cu
   rue       .value=rue       .value.strip();
   codePostal.value=codePostal.value.strip();
   ville     .value=ville     .value.strip();
+  
+  if(fieldId == 'dispositif'+which+'AddressCodePostal' && !crfIrpUtils.checkZipCode(codePostal.value))
+  {
+
+    crfIrpUtils.checkZipCodeError(fieldId);
+  }
+  
 
   this.updateDispositifStringField(fieldId, fieldName);
   
@@ -1251,27 +1452,45 @@ MonitorInputDispositifCs.prototype.updateDispositifIntField=function(fieldId, fi
     crfIrpUtils.defaultBackgroundColorForField(fieldId);
   crfIrpUtils.focusHandling(fieldId);
 };
-
-MonitorInputDispositifCs.prototype.updateDispositifDateField=function(fieldId, fieldName)
+//passer la valeur "null" en tant que string permet de remettre a zéro la valeur dans la base de données (chaine vide n'étant pas sauvegarder pour éviter du traffic inutile)
+MonitorInputDispositifCs.prototype.updateDispositifDateTimeField=function(fieldId, fieldName, isDate)//3eme parametre ne sera pas rempli pour les datetime
 {
-  crfIrpUtils.checkField (fieldId);
-  crfIrpUtils.fieldSaving(fieldId);
+  crfIrpUtils.checkField (fieldId+"_div");
+  crfIrpUtils.fieldSaving(fieldId+"_div");
   
   var fieldValue = $(fieldId).value;
   if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
   {
+    var value = null;
+    
+    if(fieldValue !='null')
+    {
+      value = isDate?
+                crfIrpUtils.parseDate    (fieldValue):
+                crfIrpUtils.parseDateTime(fieldValue); 
+    }
+    else
+    {
+      $(fieldId).value='';
+    }
+    
     MonitorInputDispositif.updateDispositifDateField(
                                               $('dispositif_id_field').value, 
                                               fieldName, 
-                                              crfIrpUtils.parseDateTime(fieldValue), 
+                                              value, 
                                               function()
                                               {
-                                                crfIrpUtils.defaultBackgroundColorForField(fieldId);
+                                                crfIrpUtils.defaultBackgroundColorForField(fieldId+"_div");
                                               });
   }
   else
-    crfIrpUtils.defaultBackgroundColorForField(fieldId);
-  //crfIrpUtils.focusHandling(fieldId);
+    crfIrpUtils.defaultBackgroundColorForField(fieldId+"_div");
+};
+
+
+MonitorInputDispositifCs.prototype.updateDispositifDateField=function(fieldId, fieldName)
+{
+  MonitorInputDispositifCs.prototype.updateDispositifDateTimeField(fieldId, fieldName, true);  
 };
 
 

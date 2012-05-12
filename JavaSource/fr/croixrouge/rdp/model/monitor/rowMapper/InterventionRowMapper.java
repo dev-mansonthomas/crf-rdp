@@ -38,12 +38,22 @@ public class InterventionRowMapper extends RowMapperHelper implements RowMapper<
     intervention.setEvacAggravationCirculation         (rs.getInt      ("evac_aggravation_circulation"            ));
     intervention.setEvacAggravationDouleur             (rs.getInt      ("evac_aggravation_douleur"                ));
     intervention.setEvacPar                            (rs.getInt      ("evac_par"                                ));
+    intervention.setEvacAggravationSaturationO2        (rs.getInt      ("evac_aggravation_saturation_o2"          )); 
+    
+    
+    intervention.setGlasgowTotal                       (rs.getInt      ("cs_glasgow_total"                        ));
+    intervention.setGlasgowOuvertureYeux               (rs.getInt      ("cs_glasgow_ouverture_yeux"               ));
+    intervention.setGlasgowReponseVerbale              (rs.getInt      ("cs_glasgow_reponse_verbale"              ));
+    intervention.setGlasgowReponseMotrice              (rs.getInt      ("cs_glasgow_reponse_motrice"              ));
+    
 
     intervention.setCirculTensionBasse                 (rs.getFloat    ("circul_tension_basse"                    ));
     intervention.setCirculTensionHaute                 (rs.getFloat    ("circul_tension_haute"                    ));
     intervention.setGestesGlycemieGrammeLitre          (rs.getFloat    ("gestes_glycemie_gramme_litre"            ));
     intervention.setGestesTemperature                  (rs.getFloat    ("gestes_temperature"                      ));
 
+    
+    
     Position position = intervention.getPosition();
     position.setGoogleCoordsLat                        (rs.getFloat    ("google_coords_lat"                       ));
     position.setGoogleCoordsLong                       (rs.getFloat    ("google_coords_long"                      ));
@@ -70,12 +80,12 @@ public class InterventionRowMapper extends RowMapperHelper implements RowMapper<
     intervention.setDhFinIntervention                  (rs.getTimestamp("DH_fin_intervention"                     ));
     intervention.setDhAppelRenfortMedical              (rs.getTimestamp("DH_appel_renfort_medical"                ));
     intervention.setDhArriveeRenfortMedical            (rs.getTimestamp("DH_arrivee_renfort_medical"              ));
-    intervention.setDateNaissance                      (rs.getDate     ("date_naissance"                          ));
     intervention.setGestesGarrotHeurePose              (rs.getTimestamp("gestes_garrot_heure_pose"                ));
     intervention.setEvacAggravationContactRegulation   (rs.getTimestamp("evac_aggravation_contact_regulation"     ));
+    intervention.setDateNaissance                      (rs.getDate     ("date_naissance"                          ));
     intervention.setAnnulationCommentaires             (rs.getString   ("annulation_commentaires"                 ));
     intervention.setComplementMotif                    (rs.getString   ("complement_motif"                        ));
-    intervention.setInterventionBusinessId                           (rs.getString   ("num_inter"                               ));
+    intervention.setInterventionBusinessId             (rs.getString   ("num_inter"                               ));
     intervention.setRefNumInter                        (rs.getString   ("ref_num_inter"                           ));
     intervention.setNomVictime                         (rs.getString   ("nom_victime"                             ));
     intervention.setNomJfVictime                       (rs.getString   ("nom_jf_victime"                          ));
@@ -107,6 +117,7 @@ public class InterventionRowMapper extends RowMapperHelper implements RowMapper<
     intervention.setBilanCirconstances                 (rs.getString   ("bilan_circonstances"                     ));
     intervention.setBilanDetresses                     (rs.getString   ("bilan_detresses"                         ));
     intervention.setBilanAntecedents                   (rs.getString   ("bilan_antecedents"                       ));
+    intervention.setBilanTraitements                   (rs.getString   ("bilan_traitements"                       ));
     intervention.setBilanCommentaires                  (rs.getString   ("bilan_commentaires"                      ));
     intervention.setBilanEvaluationCi                  (rs.getString   ("bilan_evaluation_ci"                     ));
     intervention.setEvacAutreDestinationLabel          (rs.getString   ("evac_autre_dest_label"                   ));

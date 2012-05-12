@@ -10,8 +10,8 @@ var STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
 var STATUS_INTER_TERMINEE             = 9 ; //Intervention Terminée
 var STATUS_VACATION_TERMINEE          = 10; //Vacation Terminée
 
-
-
+//depuis la mise a jour Ext 3.4, l'onglet des bilans ne s'ouvre pas directement, il faut cliquer deux fois sur le bouton ==> Fix crade, on le fait à la place de l'utilisateur deux fois
+var firstTimeBilanEditorIsOpen=true;
 
 var DispositifRecord = Ext.data.Record.create(
                          {name: 'idDispositif'                                  , mapping: 'idDispositif'                                  },
@@ -388,7 +388,7 @@ MonitorOutputDispositifCs.prototype.initListLieuWindow=function()
  * */
 MonitorOutputDispositifCs.prototype.initChooseHopitalWindow=function()
 {
-  var win = new Ext.Window({
+  var chooseHopitalWindow = new Ext.Window({
       id          : 'choose-hopital-windowCmp',
       applyTo     : 'choose-hopital-window',
       layout      : 'fit'             ,
@@ -410,7 +410,34 @@ MonitorOutputDispositifCs.prototype.initChooseHopitalWindow=function()
       })
     });
           
-  MonitorOutputDispositifCs.prototype.chooseHopitalWindow = win;
+  MonitorOutputDispositifCs.prototype.chooseHopitalWindow = chooseHopitalWindow;
+  
+  
+  
+  var confirmLaisseSurPlaceWindow = new Ext.Window({
+    id          : 'confirm-laisse-sur-place-windowCmp',
+    applyTo     : 'confirm-laisse-sur-place-window',
+    contentEl   : 'confirm-laisse-sur-place-window-content',
+    layout      : 'fit'             ,
+    width       : 500               ,
+    height      : 200               ,
+    closeAction : 'hide'            ,
+    plain       : true              ,
+    buttons     : [{
+      text: 'Annuler',
+      handler: function(button, event){
+          Ext.getCmp('confirm-laisse-sur-place-windowCmp').hide();
+      }
+    },
+    {
+      text: 'Valider',
+      handler: function(button, event){
+        moDispositifCs.laisseSurPlaceAction();
+      }
+    }]
+  });
+        
+  MonitorOutputDispositifCs.prototype.confirmLaisseSurPlaceWindow = confirmLaisseSurPlaceWindow;
 };
 
 /**
@@ -819,8 +846,22 @@ MonitorOutputDispositifCs.prototype.editDispositif  =function(idDispositif)
 MonitorOutputDispositifCs.prototype.editIntervention=function(idIntervention, onglet)
 {
   this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
-  this.monitorInputWindow.miBilanCs.editBilan(idIntervention, onglet);
+  if(firstTimeBilanEditorIsOpen)
+  {
+    this.monitorInputWindow.miBilanCs.editBilan(idIntervention, onglet);
+    var monitorInputWindow = this.monitorInputWindow;
+    setTimeout(function(){monitorInputWindow.miBilanCs.editBilan(idIntervention, onglet);monitorInputWindow=null;}, 300);
+    
+    firstTimeBilanEditorIsOpen = false;
+  }
+  else
+  {
+    this.monitorInputWindow.miBilanCs.editBilan(idIntervention, onglet);
+  }
+  
 };
+
+
 
 /**
  * Clone une intervention (cas de n victime a prendre en charge sur site)
@@ -1119,6 +1160,46 @@ MonitorOutputDispositifCs.prototype.chooseEvacDestination=function(idLieu, label
   MonitorOutputDispositifCs.prototype.chooseHopitalWindow.hide('DispositifActionButton_'+idDispositif);
 };
 
+
+
+MonitorOutputDispositifCs.prototype.laisseSurPlaceButton=function(victimeDecede)
+{
+  var title =  "Confirmation du Laissé Sur Place "+(victimeDecede?"(victime décédé)":"(victime non décédé)");
+  
+  MonitorOutputDispositifCs.prototype.confirmLaisseSurPlaceWindow.setTitle(title);
+  
+  $('confirm-laisse-sur-place-window-decharche'         ).checked=false;
+  $('confirm-laisse-sur-place-window-decedee_a_dispo_de').value  ="";
+  $('confirm-laisse-sur-place-window-decedee'           ).value  =victimeDecede;
+  
+  if(victimeDecede)
+  {
+    $('confirm-laisse-sur-place-window-content-dcd').style.display = "block";
+    $('confirm-laisse-sur-place-window-content-lsp').style.display = "none";  
+  }
+  else
+  {
+    $('confirm-laisse-sur-place-window-content-lsp').style.display = "block";
+    $('confirm-laisse-sur-place-window-content-dcd').style.display = "none";
+  }
+  
+  MonitorOutputDispositifCs.prototype.confirmLaisseSurPlaceWindow.show(Ext.get('dispositifEvacLaisseSurPlace'));
+};
+
+MonitorOutputDispositifCs.prototype.laisseSurPlaceAction=function()
+{ 
+  var idDispositif   = $('choose-hopital-window-current-dispositif'           ).value  ;      
+  var decharge       = $('confirm-laisse-sur-place-window-decharche'          ).checked;
+  var dcdADispoDe    = $('confirm-laisse-sur-place-window-decedee_a_dispo_de' ).value  ;
+  var decede         = $('confirm-laisse-sur-place-window-decedee'            ).value  ;
+
+  MonitorOutputDispositif.laisseSurPlace(idDispositif, decede, decharge, dcdADispoDe, MonitorOutputDispositifCs.prototype.actionReturn);
+  
+  MonitorOutputDispositifCs.prototype.chooseHopitalWindow        .hide('DispositifActionButton_'+idDispositif);
+  MonitorOutputDispositifCs.prototype.confirmLaisseSurPlaceWindow.hide('dispositifEvacLaisseSurPlace');
+};
+
+
 MonitorOutputDispositifCs.prototype.showDispositif  =function(recordId, googleCoordsLat, googleCoordsLong)
 {
   var dispositifRecord  = Ext.getCmp('DispositifListGrid').getStore().getById(recordId);
@@ -1202,7 +1283,7 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
 
 
 
-MonitorOutputDispositifCs.prototype.updateAddress=function()
+MonitorOutputDispositifCs.prototype.updateAddress=function(fieldId)
 {
   var rue       =$('dispositifEvacAddressRue'       );
   var codePostal=$('dispositifEvacAddressCodePostal');
@@ -1211,6 +1292,12 @@ MonitorOutputDispositifCs.prototype.updateAddress=function()
   rue       .value=rue       .value.strip();
   codePostal.value=codePostal.value.strip();
   ville     .value=ville     .value.strip();
+  
+  if(fieldId == 'dispositifEvacAddressCodePostal' && !crfIrpUtils.checkZipCode(codePostal))
+  {
+    crfIrpUtils.checkZipCodeError(fieldId);
+  }
+  
   
   if( rue       .value != '' && rue       .oldValue != rue       .value &&
       codePostal.value != '' && codePostal.oldValue != codePostal.value &&

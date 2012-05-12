@@ -41,11 +41,11 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   }
   var origine     = crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine);
   var motif       = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  );
-  var dhSaisie    = crfIrpUtils.getFullDate(intervention.dhSaisie);
+  var dhReception    = crfIrpUtils.getFullDate(intervention.dhReception);
 
   dwr.util.setValue('interventionTicket_origine_'         +intervention.idIntervention, origine );
   dwr.util.setValue('interventionTicket_motif_'           +intervention.idIntervention, motif   );
-  dwr.util.setValue('interventionTicket_dhReception_'     +intervention.idIntervention, dhSaisie);
+  dwr.util.setValue('interventionTicket_dhReception_'     +intervention.idIntervention, dhReception);
   
   dwr.util.setValue('interventionTicket_rue_'             +intervention.idIntervention, intervention.position.rue             );
   dwr.util.setValue('interventionTicket_codePostal_'      +intervention.idIntervention, intervention.position.codePostal      );
@@ -74,7 +74,7 @@ MonitorOutputInterventionCs.prototype.updateInterventionToAffect=function(interv
   
   
   var category = 'lieu_cat_'+8;
-  var title    = 'N°'+intervention.idIntervention+' - '+dhSaisie+' - '+origine+' - '+motif;
+  var title    = 'N°'+intervention.idIntervention+' - '+dhReception+' - '+origine+' - '+motif;
   var html     = title + '<br/>'+
                  intervention.rue+', '+intervention.codePostal+", "+intervention.ville;
 
@@ -102,8 +102,8 @@ MonitorOutputInterventionCs.prototype.addInterventionPanel=function(intervention
 {
   var origine   = crfIrpUtils.getLabelFor('OriginesIntervention', intervention.idOrigine);
   var motif     = crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  );
-  var shortDate = crfIrpUtils.getTime    (intervention.dhSaisie);
-  var fullDate  = crfIrpUtils.getFullDate(intervention.dhSaisie);
+  var shortDate = crfIrpUtils.getTime    (intervention.dhReception);
+  var fullDate  = crfIrpUtils.getFullDate(intervention.dhReception);
 /*  
   var iconMenu= new Ext.menu.Menu({
       id: 'panel_iconMenu_interventionTicket_'+intervention.idIntervention
@@ -256,6 +256,14 @@ MonitorOutputInterventionCs.prototype.afterUnAffectInterUpdate=function(interven
   moDispositifCs.updateDispositif(dispositif);
 };
 
+MonitorOutputInterventionCs.prototype.editTicketIntervention=function(idIntervention)
+{
+  this.monitorInputWindow = monitorOutputCs.getMonitorInputRef();
+  
+  this.monitorInputWindow.miInterventionCs.editInterventionTicket(idIntervention);
+  
+};
+
 MonitorOutputInterventionCs.prototype.interventionTemplates = Array();
 MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template(['<input type="hidden" id="interventionTicket_regulation_id_#{id}"    name="interventionTicket_regulation_id_#{id}" value="#{idRegulation}"/>',
 '<input type="hidden" id="interventionTicket_googleCoordsLat_#{id}"  name="interventionTicket_googleCoordsLat_#{id}"/>',
@@ -287,9 +295,8 @@ MonitorOutputInterventionCs.prototype.interventionTemplates[1] = new Template(['
 '  </tr>',
 '  <tr>',
 '    <td colspan="2">',
-'<img src="',contextPath,'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="moInterventionCs.showInterventionOnGlobalMap(#{id})"/>',
-'<img src="',contextPath,'/img/famfamfam/information.png" id="interventionTicket_details_#{id}"/>',
-'<img src="',contextPath,'/img/famfamfam/comment.png"     id="interventionTicket_contact_#{id}"/>',
+'<img src="',contextPath,'/img/famfamfam/map_magnify.png" id="interventionTicket_googleMap_#{id}" onClick="moInterventionCs.showInterventionOnGlobalMap(#{id})" style="cursor:default !important;"/>',
+'<img src="',contextPath,'/img/famfamfam/page_edit.png"   id="interventionTicket_details_#{id}"   onClick="moInterventionCs.editTicketIntervention     (#{id})" style="cursor:default !important;"/>',
 '    </td>',
 '  </tr>',
 '</table>'].join(''));

@@ -118,6 +118,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
    * 
    * 
    * */
+  
   public String action(int idRegulation, int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -258,6 +259,8 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
        * update ajax met a jour l'inter, le dispositif et appel cette méthode. 
        * 
        * currentPosition et previousPosition sont déja correct
+       * 
+       * Dans le cas ou la victime est laissé sur place, l'inter se termine et la gestion de l'état se fait a la fin de cette méthode
        */
       
       if(logger.isDebugEnabled())
@@ -284,8 +287,9 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       if(logger.isDebugEnabled())
         logger.debug("DONE    : 'Dispositif arrive a l'hopital' on intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
-    else if(idEtatDispositif == DispositifService.STATUS_ARRIVE_HOSPITAL)
-    {//Arrivé Hospital => Inter terminée
+    /*
+    else if(idEtatDispositif == DispositifService.STATUS_ARRIVE_HOSPITAL )
+    {//Arrivé Hospital => Inter terminée, ou laissé sur place décédé ou non, l'inter se termine a ce moment la
       if(logger.isDebugEnabled())
         logger.debug("Action is 'Intervention Terminée' on intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
 
@@ -297,7 +301,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       if(logger.isDebugEnabled())
         logger.debug("DONE    : 'Intervention Terminée' on intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
     }
-    
+   */
     if(logger.isDebugEnabled())
       logger.debug("\"Action Button\" pushed DONE : for intervention="+interventionsIds+", dispositif="+idDispositif+", regulation="+idRegulation);
     
@@ -390,6 +394,28 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     
     if(logger.isDebugEnabled())
       logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositifCible+", regulation="+idRegulation);
+  }
+  
+  
+  public void laisseSurPlace(int idRegulation, int idDispositif, boolean decede, boolean decharge, String dcdADispoDe) throws Exception
+  {
+    Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
+    
+    for (InterventionTicket intervention : dispositif.getInterventions())
+    {
+      
+      if(decede)
+      {
+        this.interventionService.updateInterventionBooleanField(intervention.getIdIntervention(), "evac_laisse_sur_place_decedee"           , true);
+        this.interventionService.updateInterventionStringField (intervention.getIdIntervention(), "evac_laisse_sur_place_decedee_a_dispo_de", dcdADispoDe);
+      }
+      else
+      {
+        
+        this.interventionService.updateInterventionBooleanField(intervention.getIdIntervention(), "evac_laisse_sur_place" , true);
+        this.interventionService.updateInterventionBooleanField(intervention.getIdIntervention(), "evac_decharche"        , decharge);
+      } 
+    }
   }
   
   

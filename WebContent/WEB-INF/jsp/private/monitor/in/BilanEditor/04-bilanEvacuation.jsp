@@ -31,7 +31,7 @@
       onFocus="crfIrpUtils.fieldEdit(this.id)"
      onChange="miBilanCs.updateBooleanField(this.id, 'evac_decharche','bilanEvacDechargeP')"/>
              
-          Décharge responsabilité
+          Décharge de responsabilité
           
         </td>
       </tr>
@@ -54,6 +54,18 @@
         style="width:400px;"
      onChange="miBilanCs.updateStringField(this.id, 'evac_laisse_sur_place_decedee_a_dispo_de')"/>
 
+        </td>
+      </tr>
+      
+      <tr>
+        <td colspan="4" id="bilanEvacSansSuite">
+             <input type="checkbox"
+           id="bilan_evac_sans_suite"
+         name="bilan_evac_sans_suite"
+      onFocus="crfIrpUtils.fieldEdit(this.id)"
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_sans_suite','bilanEvacSansSuite')"/>
+             
+          Sans Suite
         </td>
       </tr>
 

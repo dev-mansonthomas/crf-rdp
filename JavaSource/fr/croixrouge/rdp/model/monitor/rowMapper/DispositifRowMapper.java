@@ -28,6 +28,12 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Di
     
     dispositif.setDhDebut                   (rs.getTimestamp("DH_debut"                    ));
     dispositif.setDhFin                     (rs.getTimestamp("DH_fin"                      ));
+    
+    dispositif.setDsaDatePeremptionAdulte1  (rs.getTimestamp("dsa_date_adulte_1"           ));
+    dispositif.setDsaDatePeremptionAdulte2  (rs.getTimestamp("dsa_date_adulte_2"           ));
+    dispositif.setDsaDatePeremptionEnfant   (rs.getTimestamp("dsa_date_enfant"             ));    
+    
+    
     dispositif.setDhReception               (rs.getTimestamp("DH_reception"                ));
     dispositif.setDhDepart                  (rs.getTimestamp("DH_depart"                   ));
     dispositif.setDhSurPlace                (rs.getTimestamp("DH_sur_place"                ));
@@ -38,16 +44,22 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Di
     dispositif.setDhDispo                   (rs.getTimestamp("DH_dispo"                    ));
     dispositif.setDhASaBase                 (rs.getTimestamp("DH_a_sa_base"                ));
     dispositif.setDhAppelRenfortMedical     (rs.getTimestamp("DH_appel_renfort_medical"    ));
-    dispositif.setDhArriveeRenfortMedical   (rs.getTimestamp("DH_arrivee_renfort_medical"  )); 
+    dispositif.setDhArriveeRenfortMedical   (rs.getTimestamp("DH_arrivee_renfort_medical"  ));
+    
+    dispositif.setDsaDatePeremptionAdulte1  (rs.getDate("dsa_date_adulte_1"   ));
+    dispositif.setDsaDatePeremptionAdulte2  (rs.getDate("dsa_date_adulte_2"   ));
+    dispositif.setDsaDatePeremptionEnfant   (rs.getDate("dsa_date_enfant"     ));
     
     
     dispositif.setDispositifComment         (rs.getString("dispositif_comment" ));
+    dispositif.setDispositifCommentEtat     (rs.getString("dispositif_comment_etat"));
+    
     dispositif.setIndicatifVehicule         (rs.getString("indicatif_vehicule" ));
     dispositif.setDsaType                   (rs.getString("dsa_type"           ));
     dispositif.setObservation               (rs.getString("observation"        ));
     dispositif.setContactRadio              (rs.getString("contact_radio"      ));
     dispositif.setContactTel1               (rs.getString("contact_tel1"       ));
-    dispositif.setContactTel2               (rs.getString("contact_tel1"       ));
+    dispositif.setContactTel2               (rs.getString("contact_tel2"       ));
     dispositif.setContactAlphapage          (rs.getString("contact_alphapage"  ));
     dispositif.setIdentiteMedecin           (rs.getString("identite_medecin"   ));
     dispositif.setAutreDelegation           (rs.getString("autre_delegation"   ));
@@ -74,7 +86,9 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Di
     dispositif.setIdTypeDispositif          (rs.getInt    ("id_type_dispositif"       ));
     dispositif.setIdEtatDispositif          (rs.getInt    ("id_etat_dispositif"       ));
 
-    dispositif.setDsaComplet                        (rs.getBoolean("dsa_complet"                          ));    
+    dispositif.setDsaComplet                        (rs.getBoolean("dsa_complet"                          ));   
+    dispositif.setDsaAdaptateurPediatrique          (rs.getBoolean("dsa_adapteur_pediatrique"             ));   
+    
     dispositif.setDispositifBackWith3Girls          (rs.getBoolean("dispositif_back_3_girl"               ));
     dispositif.setDispositifNotEnoughO2             (rs.getBoolean("dispositif_not_enough_O2"             ));
     dispositif.setDispositifSetAvailableWithWarning (rs.getBoolean("dispositif_set_available_with_warning"));

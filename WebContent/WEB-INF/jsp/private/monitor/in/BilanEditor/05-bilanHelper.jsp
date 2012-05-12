@@ -214,7 +214,7 @@
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_appel_renfort_medical', 'bilanDateHeureBase', 'bilan_DH_bilan_primaire')"/><!-- je considère qu'on demande les renforts médicaux qu'après le primaire -->
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_appel_renfort_medical', 'bilanDateHeureBase', 'bilan_DH_bilan_primaire')"/><!-- je considère qu'on demande les renforts médicaux qu'après le primaire -->
             <span id="bilan_DH_appel_renfort_medical_j1" class="dateJplus1"></span>
           </td>
         </tr>
@@ -228,7 +228,7 @@
                    value=""
                maxlength="5"
                  onFocus="crfIrpUtils.fieldEdit(this.id)"
-                  onBlur="miBilanCs.updateDateField(this.id, 'DH_arrivee_renfort_medical', 'bilanDateHeureBase', 'bilan_DH_appel_renfort_medical')"/>
+                  onBlur="miBilanCs.updateTimeField(this.id, 'DH_arrivee_renfort_medical', 'bilanDateHeureBase', 'bilan_DH_appel_renfort_medical')"/>
             <span id="bilan_DH_arrivee_renfort_medical_j1" class="dateJplus1"></span>
           </td>
         </tr>

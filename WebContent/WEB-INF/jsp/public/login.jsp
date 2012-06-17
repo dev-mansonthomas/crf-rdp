@@ -44,7 +44,7 @@ userName='<%=request.getParameter("j_username") %>';
 %>
 
     <div id="footer">
-       Copyright © 2010 - Croix Rouge Française
+       Copyright © 2012 - Croix Rouge Française
     </div>
     <jwr:script src="/jsBundle/extJs.js"/>
     <jwr:script src="/jsBundle/login.js"/> 

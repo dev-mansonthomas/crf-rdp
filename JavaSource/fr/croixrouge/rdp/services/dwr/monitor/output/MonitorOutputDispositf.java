@@ -62,28 +62,36 @@ public class MonitorOutputDispositf  extends DWRUtils
     }
     catch(Exception e)
     {
-      logger.error("error on actionOnDispositif",e);
+      logger.error("error on actionOnDispositif("+idDispositif+")",e);
       return "var actionReturnStatus={status:-1,message:'"+e.getMessage().replaceAll("'", "\\'")+"'};";
     }
   }
   
   public void addInterventionToDispositif(int idIntervention, int idDispositif) throws Exception
   {
-    HttpSession session         = this.validateSession();
-    Regulation  regulation      = (Regulation)session.getAttribute("regulation");
-    int regulationId            = regulation.getRegulationId();
-    int currentUserEquipierId           = this.getCurrentUserEquipierId();
-    
-    this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserEquipierId, regulationId, idIntervention, idDispositif, new Date());
+    try
+    {
+      HttpSession session         = this.validateSession();
+      Regulation  regulation      = (Regulation)session.getAttribute("regulation");
+      int regulationId            = regulation.getRegulationId();
+      int currentUserEquipierId           = this.getCurrentUserEquipierId();
+      
+      this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserEquipierId, regulationId, idIntervention, idDispositif, new Date());
 
 
-    //Met a jour tous les navigateurs avec le nouvel état du dispositif
-    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif, false);
-    
-    ScriptBuffer scriptBuffer = new ScriptBuffer();
-    scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif, idIntervention);
-    
-    this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);
+      //Met a jour tous les navigateurs avec le nouvel état du dispositif
+      Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif, false);
+      
+      ScriptBuffer scriptBuffer = new ScriptBuffer();
+      scriptBuffer = scriptBuffer.appendCall("moDispositifCs.updateDispositifAndRemoveAffectedIntervention", dispositif, idIntervention);
+      
+      this.updateRegulationUser(scriptBuffer, DWRUtils.outPageName);   
+    }
+    catch(Exception e)
+    {
+      logger.error("error on addInterventionToDispositif("+idIntervention+","+idDispositif+")",e);
+      throw e;
+    }
   }
   
   

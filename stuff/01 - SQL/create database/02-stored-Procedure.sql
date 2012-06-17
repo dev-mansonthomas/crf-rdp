@@ -102,6 +102,17 @@ update siord_membres
 set nivol = UCASE(REPLACE(nivol, ' ', ''))
 where id_synchro_siord = v_id_synchro_siord;
 
+
+update siord_membres 
+set prenom = substring(prenom from 3) 
+where prenom like 'as %';
+
+update siord_membres 
+set prenom = substring(prenom from 3) 
+where prenom like ' - %'; 
+
+
+
 update siord_membres
 set nom = concat(ucase(substring(nom, 1,1)),substring(lower(nom), 2))
 where id_synchro_siord = v_id_synchro_siord;

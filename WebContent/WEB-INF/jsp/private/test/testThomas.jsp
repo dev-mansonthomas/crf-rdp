@@ -19,18 +19,24 @@
         <fieldset>
           <legend>Liste Des Equipiers Du Dispositif</legend>
 <!-- The box wrap markup embedded instead of using Element.boxWrap() -->
-<div style="width:600px;">
+<div style="width:850px;">
     <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
     <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
-        <h3 style="margin-bottom:5px;">Chercher un équipier</h3>
-        <input type="text" size="40" name="search" id="search" />
+        <h3 style="margin-bottom:5px;">Ajouter un équipier au Dispositif</h3>
+        <table style="width:100%">
+          <tr>
+            <td style="width:250px;"><input type="text" size="10" name="DispositifEquipierSearchRoleInput" id="DispositifEquipierSearchRoleInput"  /></td>
+            <td><input type="text" size="40" name="DispositifEquipierSearchInput"     id="DispositifEquipierSearchInput"      /></td>
+          </tr>
+        </table>
         <div style="padding-top:4px;">
-            Recherche par Nivol ou Nom.
+            Recherche par Nivol ou Nom, sélectionnez un Role avant d'effectuer une recherche <span id="WhyNotFound">Pourquoi l'équiper que je cherche n'apparait pas dans les résultats?</span>
         </div>
 
     </div></div></div>
     <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
 </div>
+       
 </fieldset>
 
 <!-- JS -->

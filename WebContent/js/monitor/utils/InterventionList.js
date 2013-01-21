@@ -411,8 +411,7 @@ Ext.ux.Utils.InterventionList = function() {
         
         this.interventionListWindow.show();
         var interventionListStore = Ext.getCmp('InterventionListGrid').getStore();
-        if(interventionListStore.getCount()==0)
-          interventionListStore.load();
+        interventionListStore.load();
       }
   };
 }();

@@ -736,8 +736,9 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
     //ATTENTION, visiblement, les coordonnées google sont fournies dans l'ordre (Longitude,Latitude) alors qu'ils sont utilisé partout ailleurs dans l'ordre (Latitude,Longitude)
     $('LieuEditor-gps').value=coordinates[1]+','+coordinates[0];
     if(consoleEnabled)
+    {
       console.log("coordinates for intervention id='"+$('LieuEditor-id').value+"' are : '"+coordinates[1]+"', '"+coordinates[0]+"'");
-  
+    }
     
     LieuEditorService.updateGoogleCoordinates(coordinates[1], coordinates[0], $('LieuEditor-id').value, lieuEditor.updateAddressSaveReturn);
   
@@ -750,7 +751,9 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
   updateAddressErrorReturn:function(response)
   {
     if(consoleEnabled)
+    {
       console.log("Google Maps error",response);
+    }
     
     var icon = response.Status.code=='GoogleMapsUnavailable'?'disconnect':'exclamation';
     $('googleAdressCheckStatus').src=contextPath+"/img/famfamfam/"+icon+".png";

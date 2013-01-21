@@ -215,12 +215,13 @@ Ext.ux.Home.EquipiersGestion = function() {
             {id:'numNivolCol'         , header: 'Nivol'      , width: 90 ,sortable: true, dataIndex: 'numNivol'}
         ]),
         viewConfig: {
-            forceFit:false
+            forceFit:true,
+            autoFill:true
         },
         
         tbar:[{
             text   :'Ajouter un équipier',
-            tooltip:'Ajouter un équipier',
+            tooltip:'Ajouter un équipier', 
             iconCls:'addButton',
             handler:function(){
                 Ext.ux.Home.EquipiersGestion.equipierData = null;
@@ -233,9 +234,8 @@ Ext.ux.Home.EquipiersGestion = function() {
               Ext.ux.Home.EquipiersGestion.initEquipierForm();
           }
         },
-        
-        width      : 650,
-        height     : 330,
+        autoExpandColumn: 'delegationCol',
+        height     : 400,
         stripeRows : true,
         autoScroll : false,
         iconCls    : 'icon-grid',
@@ -274,7 +274,7 @@ Ext.ux.Home.EquipiersGestion = function() {
 
 			var equipierPanel = {
 				id          : 'EquipierPanel',
-				title       : 'Gestion des d\'Equipiers',
+				title       : 'Gestion des Equipiers',
 				closable    : false,
 				autoScroll  : true,
         listeners   : {activate:function(){
@@ -510,7 +510,7 @@ Ext.ux.Home.EquipiersGestion = function() {
                 {
                   htmlId    : 'edit_mobile',
                   label     : 'Mobile',
-                  value     : this.equipierData.mobile,
+                  value     : crfIrpUtils.formatMobilePhone(this.equipierData.mobile),
                   type      : 'textInput',
                   readOnly  : false,
                   mandatory : false,
@@ -647,21 +647,51 @@ Ext.ux.Home.EquipiersGestion = function() {
       );
     },
     confirmCreateEquipier : function() {
+      
+      this.confirmCreateOrUpdateEquipier('création',Ext.ux.Home.EquipiersGestion.createEquipier);
+    
+    },
+    confirmCreateOrUpdateEquipier : function(creationOrModificationText, modifyFunction) {
       var error = Ext.ux.Home.EquipiersGestion.checkEquipierForm();
       if (!error)
-        Ext.MessageBox.confirm( 'Confirmation création equipier',
-                                'Confirmez-vous la création de cet équipier',
-                                function(btn)
-                                {
-                                  if (btn=='yes')
-                                    Ext.ux.Home.EquipiersGestion.createEquipier();
-                                  else
-                                    Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-                                },
-                                true);
+      {
+        
+        var idEquipier = Ext.getDom('edit_idEquipier').value;
+        
+        EquipiersGestionService.getEquipierByNivol(Ext.getDom('edit_numNivol').value, function(equipier)
+        {
+      
+          if(equipier.idEquipier == -1 || equipier.idEquipier == idEquipier)
+          {
+            Ext.MessageBox.confirm( 'Confirmation '+creationOrModificationText+' equipier',
+                'Confirmez-vous la '+creationOrModificationText+' de cet équipier',
+                function(btn)
+                {
+                  if (btn=='yes')
+                    modifyFunction();
+                  else
+                    Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
+                },
+                true); 
+          }
+          else
+          {
+            Ext.MessageBox.alert('Le Nivol Saisie existe déjà !',
+                'Le Nivol que vous venez de saisir existe déjà et appartient à <ul>'+
+                 '<li> id:         <b>'+equipier.idEquipier     +'</b></li>'+
+                 '<li> nom:        <b>'+equipier.nom            +'</b></li>'+
+                 '<li> prenom:     <b>'+equipier.prenom         +'</b></li>'+
+                 '<li> email:      <b>'+equipier.email          +'</b></li>'+
+                 '<li> mobile:     <b>'+crfIrpUtils.formatMobilePhone(equipier.mobile)+'</b></li>'+
+                 '<li> homme:      <b>'+equipier.homme          +'</b></li>'+
+                 '<li> delegation: <b>'+equipier.delegation.nom +'</b></li></ul>'); 
+          }
+        });
+      }
+        
     },
     createEquipier : function() {
-      var equipier = this.buildEquipierFromForm();
+      var equipier = EquipiersGestion.buildEquipierFromForm();
         EquipiersGestionService.createEquipier(equipier,
           {
             callback: function(dataFromBrowser)
@@ -673,18 +703,8 @@ Ext.ux.Home.EquipiersGestion = function() {
           });
     },
     confirmModifyEquipier : function() {
-      var error = Ext.ux.Home.EquipiersGestion.checkEquipierForm();
-      if (!error)
-        Ext.MessageBox.confirm( 'Confirmation modification equipier',
-                                'Confirmez-vous la modification de cet équipier',
-                                function(btn)
-                                {
-                                  if (btn=='yes')
-                                    Ext.ux.Home.EquipiersGestion.modifyEquipier();
-                                  else
-                                    Ext.ux.Home.EquipiersGestion.initEquipierForm(false);
-                                },
-                                true);
+      
+      this.confirmCreateOrUpdateEquipier('modification',Ext.ux.Home.EquipiersGestion.modifyEquipier);
     },
     buildEquipierFromForm:function()
     {
@@ -733,7 +753,7 @@ Ext.ux.Home.EquipiersGestion = function() {
     
     modifyEquipier : function() {
     {
-      var equipier = this.buildEquipierFromForm();
+      var equipier = EquipiersGestion.buildEquipierFromForm();
         EquipiersGestionService.modifyEquipier(equipier,
           {
             callback: function()
@@ -750,43 +770,75 @@ Ext.ux.Home.EquipiersGestion = function() {
     checkEquipierForm : function() {
       Ext.getDom('edit_numNivol').value= Ext.getDom('edit_numNivol').value.toUpperCase();
       var error = false;
-      var msg = ['Certaines données saisies sont incorrectes :'];
+      var msg = [];
       
-      if (Ext.getDom('edit_nom').value == '')
+      var trimFunction = function(value)
       {
-        msg.push('<br/>- Nom');
-        error = true;
-      }
-      if (Ext.getDom('edit_prenom').value == '')
+        return value.trim(value);
+      };
+      
+      
+      var nomPrenomRx = /^[\w\-\s'àáâãäåçèéêëìíîïðòóôõöùúûüýÿ]+$/i;
+      var nomPrenomFormat = "Lettre accentuées, espace, appostrophe et - sont autorisés.";
+      
+      msg.push(this.checkField('edit_nom'   , 'Nom'   , nomPrenomRx, nomPrenomFormat, true, trimFunction));
+      msg.push(this.checkField('edit_prenom', 'Prenom', nomPrenomRx, nomPrenomFormat, true, trimFunction));
+      
+      var nivolRx = /^[1-9][0-9]{2,7}[A-Z]$/;
+      var nivolFormat = "Un chiffre différent de 0, puis de 2 à 7 chiffres, puis une lettre en majuscule"
+        
+      msg.push(this.checkField('edit_numNivol', 'Nivol', nivolRx, nivolFormat, true, trimFunction));      
+      
+      msg.push(this.checkField('edit_homme'   , 'Sexe' , null   , null       , true, trimFunction));
+      
+      
+      var emailRx =/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      msg.push(this.checkField('edit_email'   , 'Email'  , emailRx   , "Une adresse email quoi...  user@domain.tld et en minuscule."       , true, trimFunction));
+
+      var mobileRx = /^(06|07)[0-9]{8}$/;
+      
+      msg.push(this.checkField('edit_mobile'  , 'Mobile' , mobileRx   , "numéro de 10 chiffres commencant par 06 ou 07 (pas de code pays, numéro francais only)"       , false,
+          function(mobile)
+          {
+             return mobile.replace(/\s/g, '');
+          }));
+      
+      var i = 0;
+      for(i=0;i<msg.length;i++)
       {
-        msg.push('<br/>- Prénom');
-        error = true;
-      }
-      if (Ext.getDom('edit_numNivol').value == '')
-      {
-        msg.push('<br/>- Numéro Nivol');
-        error = true;
-      }
-      if (Ext.getDom('edit_homme').value == '')
-      {
-        msg.push('<br/>- Sexe');
-        error = true;
-      }
-      if (Ext.getDom('edit_email').value == '')
-      {
-        msg.push('<br/>- Email');
-        error = true;
-      }
-      if (Ext.getDom('edit_mobile').value == '')
-      {
-        msg.push('<br/>- Mobile');
-        error = true;
+        if(msg[i].length > 0)
+        {
+          error = true;
+          break;
+        }
       }
       
       if (error)
-        Ext.MessageBox.alert('Erreur Saisie', msg.join(''));
+        Ext.MessageBox.alert('Certaines données saisies sont incorrectes', "<ul>"+ msg.join('')+"</ul>");
         
       return error;
+    },
+    checkField:function(fieldId, fieldLabel, regexp, fieldFormat, checkMandatory, preProcessingFunction)
+    {
+      var field = Ext.getDom(fieldId);
+      var value = field.value;
+      
+      if(preProcessingFunction!=null && preProcessingFunction instanceof Object)
+      {
+        value = preProcessingFunction(value);
+      }
+      
+      if(checkMandatory && value =='')
+      {
+        return "<li>le champ '"+fieldLabel+"'est obligatoire</li>";
+      }
+      
+      if(regexp != null && !regexp.test(value))
+      {
+        return "<li>le champ '"+fieldLabel+"' ne respecte pas le format '"+fieldFormat+"'</li>";  
+      }
+      
+      return '';
     },
     editUser:function()
     {

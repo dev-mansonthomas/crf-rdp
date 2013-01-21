@@ -4,19 +4,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.SMS;
 import fr.croixrouge.rdp.model.monitor.SMSTemplate;
+import fr.croixrouge.rdp.model.monitor.User;
 import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
+import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
+import fr.croixrouge.rdp.services.authentification.SecurityPrincipal;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
+import fr.croixrouge.rdp.services.mobile.MobileService;
 import fr.croixrouge.rdp.services.mobile.SMSLogService;
 import fr.croixrouge.rdp.services.mobile.SMSTemplateService;
+import fr.croixrouge.utilities.web.security.SecurityFilter;
 
 public class SMSManager  extends DWRUtils
 {
@@ -24,16 +31,19 @@ public class SMSManager  extends DWRUtils
   private         SMSLogService       smsLogService       = null;
   private         EquipierService     equipierService     = null;
   private         SMSTemplateService  smsTemplateService  = null;
+  private         MobileService       mobileService       = null;
   
   private final static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
   
-  public SMSManager(SMSLogService      smsLogService,
-                    SMSTemplateService smsTemplateService,
-                    EquipierService    equipierService)
+  public SMSManager(SMSLogService      smsLogService      ,
+                    SMSTemplateService smsTemplateService ,
+                    EquipierService    equipierService    ,
+                    MobileService      mobileService      )
   {
     this.smsLogService      = smsLogService     ;
     this.smsTemplateService = smsTemplateService;
     this.equipierService    = equipierService   ;
+    this.mobileService      = mobileService     ;
   }
   
   public ListRange<SMSTemplate> getSMSTemplates(GridSearchFilterAndSortObject gsfaso) throws Exception
@@ -158,10 +168,32 @@ public class SMSManager  extends DWRUtils
       }
     }
     
+    String  sortColumn    = "";
+    boolean sortAscending = false;
+    
+    SortObject[] sortObjects = gsfaso.getSorts();
+    
+    if(sortObjects!= null && sortObjects.length>0 && sortObjects[0] != null)
+    {
+      SortObject so = sortObjects[0];
+      
+      sortColumn    = so.getName    ();
+      sortAscending = so.isAscending();
+      
+      
+    }
+    else
+    {
+      sortColumn    = "evt_date";
+      sortAscending = false;
+    }
+    
+
+    
     
     try
     {  
-      return this.smsLogService.searchSMSForSMSManager(idEquipier, mobile, searchDate, allSMS, gsfaso.getStart(), gsfaso.getLimit());
+      return this.smsLogService.searchSMSForSMSManager(idEquipier, mobile, searchDate, allSMS, sortColumn, sortAscending, gsfaso.getStart(), gsfaso.getLimit());
     }
     catch (Exception e)
     {
@@ -196,6 +228,49 @@ public class SMSManager  extends DWRUtils
   }
   
   
+  public Equipier getEquipierDetails(int equipierId) throws Exception
+  {
+    this.validateSession();
+    try
+    { 
+      return this.equipierService.getEquipier(equipierId);
+    }
+    catch (Exception e)
+    {
+      logger.error("Erreur lors de la récupération de l'Equipiers "+equipierId, e);
+      throw e;
+    }
+  }
   
-  
+  public void sendSMS(String[] recipients, String message) throws Exception
+  {
+    HttpSession session = this.validateSession();
+    User        user    = new User();
+    try
+    {
+      SecurityPrincipal principal = (SecurityPrincipal) session.getAttribute(SecurityFilter.PRINCIPAL);
+      
+      
+      user      = principal.getUser();
+      
+      SMS[] smss = new SMS[recipients.length];
+      int i = 0;
+      for (String recipient : recipients)
+      {
+        smss[i++] = new SMS(SMS.TYPE_SENT_SMS_VIA_SMS_MANAGER, 0, user.getIdUser(), recipient, message);
+      }
+      
+      this.mobileService.sendSMS(smss);
+    }
+    catch(Exception e)
+    {
+      String recipientList = "";
+      for (String recipient : recipients)
+      {
+        recipientList+=recipient+", ";
+      }
+      logger.error("Erreur lors de l'envoi du SMS aux destinataires ("+recipientList+"), utilisateur: "+user.getIdUser()+" : "+message, e);
+      throw e;
+    }
+  }
 }

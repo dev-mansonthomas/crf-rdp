@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -94,8 +95,38 @@ public class SMSLogServiceImpl implements SMSLogService
     "AND sl.`evt_date` BETWEEN ? AND ? \n";
 
   
-  public ListRange<SMS> searchSMSForSMSManager(int idEquipier, String mobile, Date searchDate, boolean allSMS, int start, int limit) throws Exception
+  
+  private HashMap<String, String> sortMapForSearchSMSForSMSManager = new HashMap<String, String>();
   {
+    sortMapForSearchSMSForSMSManager.put("idSMS"         , "id_sms_log"   );
+    sortMapForSearchSMSForSMSManager.put("smsType"       , "id_sms_type"  );
+    sortMapForSearchSMSForSMSManager.put("equipierDesc"  , "id_equipier"  );
+    sortMapForSearchSMSForSMSManager.put("idDispositif"  , "id_dispositif");
+    sortMapForSearchSMSForSMSManager.put("api"           , "api"          );
+    sortMapForSearchSMSForSMSManager.put("from"          , "sender"       );
+    sortMapForSearchSMSForSMSManager.put("recipient"     , "`to`"         );
+    sortMapForSearchSMSForSMSManager.put("message"       , "message"      );
+    sortMapForSearchSMSForSMSManager.put("eventDate"     , "evt_date"     );
+    sortMapForSearchSMSForSMSManager.put("evt_date"      , "evt_date"     );
+  }
+  
+  public ListRange<SMS> searchSMSForSMSManager(int idEquipier, String mobile, Date searchDate, boolean allSMS, String sortColumn, boolean sortAscending, int start, int limit) throws Exception
+  {
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("searching SMS : idEquipier='"+idEquipier+"', mobile='"+mobile+"', searchDate='"+searchDate+"', allSMS='"+allSMS+"', sortColumn='"+sortColumn+"', sortAscending='"+sortAscending+"', start='"+start+"', limit='"+limit+"'");
+    }
+    
+    String orderByField = sortMapForSearchSMSForSMSManager.get(sortColumn);
+    
+    if(orderByField == null)
+      throw new Exception("Invalid sort column '"+sortColumn+"'");
+   
+    String orderBy = "\nORDER BY ";
+    orderBy+=orderByField;
+    orderBy+=" "+(sortAscending?" ASC":" DESC");
+    
+    
 
     ArrayList<Object > osA    = new ArrayList<Object> ();
     ArrayList<Integer> typesA = new ArrayList<Integer>();
@@ -177,7 +208,7 @@ public class SMSLogServiceImpl implements SMSLogService
         currentWhereClause, os, types);
     
     
-    String query = selectForSearchSMSForSMSManager +currentWhereClause+ "LIMIT "+start+", "+limit;
+    String query = selectForSearchSMSForSMSManager +currentWhereClause+ orderBy+ "\nLIMIT "+start+", "+limit;
     
     
     if(logger.isDebugEnabled())

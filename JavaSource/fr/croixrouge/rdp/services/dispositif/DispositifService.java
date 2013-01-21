@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
+import fr.croixrouge.rdp.model.monitor.DispositifSummaryInformation;
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
 import fr.croixrouge.rdp.model.monitor.DispositifTypeDefinition;
 import fr.croixrouge.rdp.model.monitor.Position;
@@ -37,6 +38,10 @@ public interface DispositifService
   public Map<String, List<DispositifTypeDefinition>> getDispositifTypeDefinition() throws Exception;
 
   public int  getIdTypeDispositif                     (int idRegulation, int idDispositif) throws Exception;
+  public int  getIdVehiculeOfDispositif               (int idDispositif                  ) throws Exception;
+  
+  public DispositifSummaryInformation  getDispositifSummaryInformation(int idDispositif) throws Exception;
+  
   public void updateGoogleCoordinates                 (float latitude  , float  longitude, int      idDispositif, boolean current) throws Exception;
   public void updateDispositifIntegerField            (int idDispositif, String fieldName, int      fieldValue  ) throws Exception;
   public void updateDispositifFloatField              (int idDispositif, String fieldName, float    fieldValue  ) throws Exception;
@@ -58,7 +63,7 @@ public interface DispositifService
   public void updateActifValueOfDispositif            (int idDispositif, boolean actif                                        ) throws Exception;
   public void deleteDispositif                        (int idDispositif                                                       ) throws Exception;
   public int  numberOfInterventionAffectedToDispositif(int idDispositif                                                       ) throws Exception;
-  public int  getCurrentInterventionId                (int idDispositif                                                       ) throws Exception;
+
   
   
   public ListRange<DispositifTicket>  getRecentDispositif                     (int idRegulation  , int index, int limit                               ) throws Exception;

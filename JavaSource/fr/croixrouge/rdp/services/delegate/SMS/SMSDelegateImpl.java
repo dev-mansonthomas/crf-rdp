@@ -42,11 +42,6 @@ public class SMSDelegateImpl implements SMSDelegate
     
     this.smsLogService.logRecievedSMS(sms);
     
-    //TODO notify the clientside/reverseAjax
+    //TODO notify the clientside/reverseAjax IRP-259
   }
-  
-  
-  
-  
-  
 }

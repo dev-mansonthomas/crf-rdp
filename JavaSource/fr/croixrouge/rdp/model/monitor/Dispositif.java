@@ -23,6 +23,7 @@ public class Dispositif implements Serializable
   private int             idDelegation;
   private int             idEtatDispositif;
   private int             displayState;
+  private int             idVehicule;
   
   private float           o2B1Volume;
   private float           o2B1Pression;
@@ -535,5 +536,13 @@ public class Dispositif implements Serializable
   public void setDispositifCommentEtat(String dispositifCommentEtat)
   {
     this.dispositifCommentEtat = dispositifCommentEtat;
+  }
+  public int getIdVehicule()
+  {
+    return idVehicule;
+  }
+  public void setIdVehicule(int idVehicule)
+  {
+    this.idVehicule = idVehicule;
   }
 }

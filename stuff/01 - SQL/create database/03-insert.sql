@@ -1,5 +1,13 @@
 ﻿use crfrdp;
 
+INSERT INTO `crfrdp`.`vehicule_type` (`label`) VALUES ('VPSP');
+INSERT INTO `crfrdp`.`vehicule_type` (`label`) VALUES ('VL');
+INSERT INTO `crfrdp`.`vehicule_type` (`label`) VALUES ('Bateau');
+INSERT INTO `crfrdp`.`vehicule_type` (`label`) VALUES ('N/A');
+UPDATE `vehicule_type` SET `id_vehicule_type` = 0 WHERE `id_vehicule_type` = 4;
+ALTER TABLE `vehicule_type` AUTO_INCREMENT = 4;
+
+
 -- type de lieux
 INSERT INTO `lieu_type` (`id_type_lieu`,`num_ordre`,`label_type_lieu`,`icon_class_lieu`, `icon_lieu`,`icon_gmap_init`) VALUES
  (1,1,'Hopital'                        ,'hopitalIcon'         ,'gmap/hopital.png'          ,'icon=new GIcon();\r\nicon.image=contextPath+\"/img/gmap/hopital.png\";\r\nicon.shadow=contextPath+\"/img/gmap/hopital-s.png\";\r\nicon.iconSize=new GSize(24.0, 24.0);\r\nicon.shadowSize=new GSize(37.0, 24.0);\r\nicon.iconAnchor=new GPoint(12.0, 12.0);\r\nicon.infoWindowAnchor=new GPoint(12.0, 12.0);'),
@@ -415,6 +423,14 @@ AND   departement not like '93%'
 AND   departement not like '94%'
 AND   id_delegation >0;
 
+INSERT INTO `crfrdp`.`vehicule` (`id_vehicule`, `id_vehicule_type`, `indicatif`, `id_delegation`, `id_dispositif`, `last_know_coordinate_lat`, `last_know_coordinate_long`, `mobile_450_id`, `mobile_150_id`, `marque`, `modele`, `immatriculation`, `carburant`, `date_mise_en_service`, `date_dernier_controle_tech`, `parking_rue`, `parking_code_postal`, `parking_ville`) VALUES ('1', '1', '042', '42', '0', '0', '0', 'None', 'None', 'Citroen', 'Jumber', 'N/A', 'Diesel', '2012-07-01', '2012-07-01', 'N/A', 'N/A', 'N/A');
+INSERT INTO `crfrdp`.`vehicule` (`id_vehicule`, `id_vehicule_type`, `indicatif`, `id_delegation`, `id_dispositif`, `last_know_coordinate_lat`, `last_know_coordinate_long`, `mobile_450_id`, `mobile_150_id`, `marque`, `modele`, `immatriculation`, `carburant`, `date_mise_en_service`, `date_dernier_controle_tech`, `parking_rue`, `parking_code_postal`, `parking_ville`) VALUES ('2', '1', '052', '41', '0', '0', '0', 'None', 'None', 'Citroen', 'Jumber', 'N/A', 'Diesel', '2012-07-01', '2012-07-01', 'N/A', 'N/A', 'N/A');
+INSERT INTO `crfrdp`.`vehicule` (`id_vehicule`, `id_vehicule_type`, `indicatif`, `id_delegation`, `id_dispositif`, `last_know_coordinate_lat`, `last_know_coordinate_long`, `mobile_450_id`, `mobile_150_id`, `marque`, `modele`, `immatriculation`, `carburant`, `date_mise_en_service`, `date_dernier_controle_tech`, `parking_rue`, `parking_code_postal`, `parking_ville`) VALUES ('3', '1', '192', '47', '0', '0', '0', 'None', 'None', 'Citroen', 'Jumber', 'N/A', 'Diesel', '2012-07-01', '2012-07-01', 'N/A', 'N/A', 'N/A');
+INSERT INTO `crfrdp`.`vehicule` (`id_vehicule`, `id_vehicule_type`, `indicatif`, `id_delegation`, `id_dispositif`, `last_know_coordinate_lat`, `last_know_coordinate_long`, `mobile_450_id`, `mobile_150_id`, `marque`, `modele`, `immatriculation`, `carburant`, `date_mise_en_service`, `date_dernier_controle_tech`, `parking_rue`, `parking_code_postal`, `parking_ville`) VALUES ('4', '1', '162', '44', '0', '0', '0', 'None', 'None', 'Citroen', 'Jumber', 'N/A', 'Diesel', '2012-07-01', '2012-07-01', 'N/A', 'N/A', 'N/A');
+INSERT INTO `crfrdp`.`vehicule` (`id_vehicule`, `id_vehicule_type`, `indicatif`, `id_delegation`, `id_dispositif`, `last_know_coordinate_lat`, `last_know_coordinate_long`, `mobile_450_id`, `mobile_150_id`, `marque`, `modele`, `immatriculation`, `carburant`, `date_mise_en_service`, `date_dernier_controle_tech`, `parking_rue`, `parking_code_postal`, `parking_ville`) VALUES ('0', '0', '000', '0' , '0', '0', '0', 'None', 'None', 'N/A'    , 'N/A'   , 'N/A', 'N/A'   , '1970-01-01', '1970-01-01', 'N/A', 'N/A', 'N/A');
+
+UPDATE `vehicule` SET `id_vehicule` = 0 WHERE `id_vehicule` = 5;
+ALTER TABLE `vehicule` AUTO_INCREMENT = 5;
 
 
 insert into dispositif_etat (label_etat)
@@ -434,13 +450,13 @@ values
 update dispositif_etat set id_etat = 0  where id_etat = 11;
 ALTER TABLE dispositif_etat AUTO_INCREMENT = 11;
 
-insert into dispositif_type (label_type, nombre_equipier_max, id_role_leader, code_type)
+insert into dispositif_type (id_vehicule_type, label_type, nombre_equipier_max, id_role_leader, code_type)
 values
-('ALPHA'            ,5,5,'SAMU'),
-('BSPP'             ,5,6,'BSPP'),
-('Poste de Secours' ,0,4,'POSE'),
-('Point d''Alerte'  ,0,9,'POAL'),
-('N/A'              ,0,0,'----');
+(1, 'ALPHA'            ,5,5,'SAMU'),
+(1, 'BSPP'             ,5,6,'BSPP'),
+(0, 'Poste de Secours' ,0,4,'POSE'),
+(0, 'Point d''Alerte'  ,0,9,'POAL'),
+(0, 'N/A'              ,0,0,'----');
 
 update dispositif_type set id_type = 0 where id_type = 5;
 ALTER TABLE dispositif_type AUTO_INCREMENT = 5;
@@ -506,7 +522,7 @@ ALTER TABLE `regulation` AUTO_INCREMENT = 1;
 
 insert into `dispositif`
 (
-  `id_type_dispositif` ,   `id_regulation` ,  `indicatif_vehicule` ,  `O2_B1_volume` ,
+  `id_type_dispositif`,  `id_vehicule`, `id_regulation` ,  `indicatif_vehicule` ,  `O2_B1_volume` ,
   `O2_B1_pression` ,  `O2_B2_volume`  , `O2_B2_pression`,  `O2_B3_volume`  ,  `O2_B3_pression` ,
   `O2_B4_volume`   ,  `O2_B4_pression`, `O2_B5_volume`  ,  `O2_B5_pression`, `dispositif_comment` ,
   `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`,
@@ -515,7 +531,7 @@ insert into `dispositif`
   `identite_medecin` ,  `id_etat_dispositif`, `id_current_intervention`, `display_state`
 )
 VALUES
-(	0, 0, 'N/A', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 
+(	0, 0, 0, 'N/A', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, '', 
 	false, false, false, 'N/A', 0, '',
 	MAKEDATE(1970,1), MAKEDATE(1970,2), 1, 'N/A',
 	'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 0, 0, 0
@@ -620,7 +636,8 @@ values
 ('0.4.5','2010-09-30'   ,'No production release','Gestion des SMS sur affecation à un alpha, envoie de SMS a un équipage, logging des echanges SMS'),
 ('0.4.6','2010-10-07'   ,'No production release','Bug fix release + focus à la fenêtre de saisie lorsqu\'on doit saisir qqch dedans'),
 ('0.5'  ,'2012-01-04'   ,'No production release','Bug fix + Envoie SMS équipage Alpha sur affectation + Synchro SIORD + SMS Manager + Traffic Sytadin new version + Gestion Laissé sur place'),
-('0.5.1','2012-04-27'   ,'No production release','Bug fix + Prise en compte de retours des test')
+('0.5.1','2012-04-27'   ,'No production release','Bug fix + Prise en compte de retours des test'),
+('0.5.2','2012-09-15'   ,'No production release','Bug fix + avancement gestionnaire de SMS, gestion du vehicule, controle de saisie sur les équipiers')
 ;
 
 insert into application_version_changelog(`id_application_version`, `id_jira`, `description`)
@@ -713,7 +730,31 @@ values
 (11,"IRP-157","Monitor: Inter a affecter => permettre d'éditer le ticket directement."),
 (11,"IRP-155","Forcé input en majuscule"),
 (11,"IRP-116","bouton annuler une intervention"),
-(11,"IRP-101","Saisie dispositif : ajouter champ pour la validité des patch");
+(11,"IRP-101","Saisie dispositif : ajouter champ pour la validité des patch"),
+
+(12, "IRP-257", "IRP-166  Changement de vehicule, desaffecter le précédent véhicule"                                                                                                                                           ),
+(12, "IRP-256", "IRP-166  Fin de vacation : desaffecter le vehicule au dispositif"                                                                                                                                             ),
+(12, "IRP-255", "IRP-166  Affichage des vehicules du type correct en fonction du dispositif. (ajouter dans la définition du dispositif le type de véhicule)"                                                                   ),
+(12, "IRP-254", "IRP-166  Une position de véhicule doit être associé avec le dispositif et l'intervention (si le vehicule est associé a un disposit et a une intervention) + info si victime a bord en fonction du status"     ),
+(12, "IRP-253", "IRP-166  Vehicule : lien croisé : vehicule=> dispositif, dispositif => vehicule pour ne pas pouvoir attribuer un véhicule a 2 dispositif"                                                                     ),
+(12, "IRP-250", "javascript : console.log, faire un check pour voir si la console est active dans tout le code."                                                                                                               ),
+(12, "IRP-249", "Edition d'un dispositif : Dispositif 1 en cours d'édition avec liste des inter traites ouverte, ouverture d'un autre dispositif alors, la liste des inter ouvertes n'est pas fermée"                          ),
+(12, "IRP-248", "Edition d'un dispositif : la liste des interventions traitées, n'est pas recharché quand on change de dispositif"                                                                                             ),
+(12, "IRP-247", "Edition d'un dispositif : voir l'interventio en cours ne gère pas le multi - intervention"                                                                                                                  ),
+(12, "IRP-246", "Edition d'un dispositif : fin de vacation ne gère pas le multi - intervention"                                                                                                                                ),
+(12, "IRP-245", "IRP-169  Voir pour avoir un numéro pour recevoir des sms, avec tentative d'identifier le téléphone emettant le SMS."                                                                                          ),
+(12, "IRP-241", "IRP-169  Avec completion auto, sélection de plusieurs personne."                                                                                                                                              ),
+(12, "IRP-240", "IRP-169  Faire une page dédiée pour l'envoie de sms afin de gérer les crises."                                                                                                                                ),
+(12, "IRP-238", "SMSManager : gérer les tris sur les SMSGrids"                                                                                                                                                                 ),
+(12, "IRP-237", "mauvaise collation pour intervention_etat"                                                                                                                                                                    ),
+(12, "IRP-236", "CSS : -moz-border-radius a remplacer par border-radius"                                                                                                                                                       ),
+(12, "IRP-234", "Bilan : Mise a jour des Checkbox : décocher la checkbox n'est pas sauvegardé"                                                                                                                                 ),
+(12, "IRP-233", "Pb affichage lors de l'ajout des équipiers"                                                                                                                                                                   ),
+(12, "IRP-223", "Script d'import des données du siord"                                                                                                                                                                         ),
+(12, "IRP-218", "Fin de vacation le dispositif ne disparait pas"                                                                                                                                                               ),
+(12, "IRP-195", "Disparition dispositif"                                                                                                                                                                                       ),
+(12, "IRP-187", "Renforcer les controles de gestions sur l'ajouter/modification d'un équipier"                                                                                                                                 ) 
+;
 
 
 

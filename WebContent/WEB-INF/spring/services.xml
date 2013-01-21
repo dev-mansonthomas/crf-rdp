@@ -13,6 +13,7 @@
     
     <bean id="UtilitiesService"            class="fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl"                     autowire="constructor" /> 
     
+    <bean id="EvaluationService"            class="fr.croixrouge.rdp.services.evaluation.EvaluationServiceImpl"                  autowire="constructor" /> 
     
     
     <bean id="SMSManager"                  class="fr.croixrouge.rdp.services.dwr.homepage.SMSManager"                            autowire="constructor" />
@@ -27,6 +28,8 @@
       <property name="equipierService"     ref="equipierService"    /><!-- Injection faite par setter pour résoudre une dépendence cyclique entre les services dispositif et equipier -->
       <property name="interventionService" ref="interventionService"/><!-- Injection faite par setter pour résoudre une dépendence cyclique entre les services dispositif et intervention -->
     </bean>
+    
+    <bean id="vehiculeService"             class="fr.croixrouge.rdp.services.vehicule.VehiculeServiceImpl"                       autowire="constructor" />
     
     <bean id="equipierService"             class="fr.croixrouge.rdp.services.equipier.EquipierServiceImpl"                       autowire="constructor" />
     <bean id="listService"                 class="fr.croixrouge.rdp.services.list.ListServiceImpl"                               autowire="constructor" />

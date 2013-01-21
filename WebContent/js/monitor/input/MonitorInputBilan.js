@@ -411,7 +411,10 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         }
         catch(e)
         {
-          console.log("Error on exand", e);
+          if(consoleEnabled)
+          {
+            console.log("Error on exand", e);
+          }
         }
 
       },
@@ -782,14 +785,17 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         
         if($(fieldId).type=="checkbox")
+        {
           fieldValue = $(fieldId).checked;
+        }
         else if($(fieldId).type=="radio")
           fieldValue = fieldValue;
         else
           fieldValue = $(fieldId).value;
-          
-          
-        if(fieldValue!=='' && fieldValue != $(fieldId).oldValue)
+        
+        //pour les checkbox, onFocus n'est pas déclenché quand on décoche la checkbox, du coup, oldValue n'est pas mise a jour.
+        //de toute facon, pour une checkbox, si la valeur change, il faut la sauvegarder
+        if($(fieldId).type=="checkbox" || fieldValue!=='' && fieldValue != $(fieldId).oldValue)
         {
           MonitorInputBilan.updateBooleanField(
                                               $('bilan_id_intervention').value,

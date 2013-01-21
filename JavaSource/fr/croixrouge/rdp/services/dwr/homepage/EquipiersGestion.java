@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.EquipierRole;
@@ -49,6 +51,29 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
     
+  }
+  
+  public Equipier getEquipierByNivol(String nivol) throws Exception
+  {
+    this.validateSession();
+    
+    try
+    {
+      return this.equipierService.getEquipierByNivol(nivol);  
+    }
+    catch(EmptyResultDataAccessException erdae)
+    {
+      
+      //Si on ne trouve rien, c'est ok, on retourne un equipier avec l'id -1
+      Equipier e = new Equipier();
+      e.setIdEquipier(-1);
+      return e;
+    }
+    catch(Exception e)
+    {
+      logger.error("Erreur lors de la récupération de l'équipier dont le nivol est '"+nivol+"'", e);
+      throw e;
+    }
   }
   
   public List<EquipierRole>getEquipierRoles(int idEquipier) throws Exception
@@ -104,6 +129,11 @@ public class EquipiersGestion extends DWRUtils
     try
     {
       this.equipierService.modifyEquipier(equipier);
+    }
+    catch(DuplicateKeyException dke)
+    {
+      logger.error("Erreur lors de la modification de l'équipier "+equipier,dke);
+      throw new Exception("un des champs identifiant de l'équipier (nivol, mobile, mail) existe déjà chez un autre équipier. "+dke.getMessage());
     }
     catch (Exception e)
     {

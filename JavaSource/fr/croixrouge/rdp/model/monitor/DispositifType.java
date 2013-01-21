@@ -11,6 +11,7 @@ public class DispositifType implements Serializable, ListItemInterface
   private String            label;
   private int               nombreEquipierMax = 0;
   private int               idRoleLeader      = 0;
+  private int               idVehiculeType    = 0;
   
 
   public int getId()
@@ -51,5 +52,15 @@ public class DispositifType implements Serializable, ListItemInterface
   public void setIdRoleLeader(int idRoleLeaderDispositif)
   {
     this.idRoleLeader = idRoleLeaderDispositif;
+  }
+
+  public int getIdVehiculeType()
+  {
+    return idVehiculeType;
+  }
+
+  public void setIdVehiculeType(int idTypeVehicule)
+  {
+    this.idVehiculeType = idTypeVehicule;
   }
 }

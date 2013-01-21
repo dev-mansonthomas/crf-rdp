@@ -1,3 +1,13 @@
+<div id="EvaluationWindowSetRoleEvaluateur" class="x-tab-panel-body" style="display:none;">
+
+  Role évalué : <select id="EvaluationWindowSetRoleEvaluateur">
+                  <option id="0" value="">Choisir un role</option>
+                </select>
+
+
+</div>
+
+
 
 <!-- Dispositif Editor -->
     <div id="DispositifPanel">
@@ -18,13 +28,21 @@
           <legend>Identification</legend>
           <table>
             <tr>
-              <td style="width:250px;">Type      :<br/> <select            id="DispositifType"       name="DispositifType"                onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_type_dispositif');miDispositifCs.setRoles(this.value);"   style="width:95%;"><option value=" "> </option></select></td>
+              <td style="width:250px;">Type      :<br/> <select            id="DispositifType"       name="DispositifType"                onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="miDispositifCs.updateDispositifIntField(this.id, 'id_type_dispositif');miDispositifCs.setRoles(this.value);miDispositifCs.getVehiculeList(this.value, $('dispositif_id_field').value, 0);"   style="width:95%;"><option value=" "> </option></select></td>
               <td style="width:270px;">Indicatif :<br/> <input type="text" id="DispositifIndicatif"  name="DispositifIndicatif"  value="" onFocus="crfIrpUtils.fieldEdit(this.id)" onChange="this.value=this.value.toUpperCase();miDispositifCs.updateDispositifStringField(this.id, 'indicatif_vehicule')" style="width:95%;"/></td>
               <td>
-                Delegation :<br/>
+                Delegation responsable du dispositif :<br/>
                 <input type="text"    id="DispositifDelegation"           name="DispositifDelegation" style="width:95%;"/>
                 <input type="hidden"  id="DispositifDelegation_id"        name="DispositifDelegation_id"/>
                 <input type="hidden"  id="DispositifDelegation_autreNom"  name="DispositifDelegation_autreNom"/>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                Vehicule :<br/> 
+                <select id="DispositifVehicule" name="DispositifVehicule" 
+                  onFocus="crfIrpUtils.fieldEdit(this.id)" 
+                  onChange="miDispositifCs.updateVehiculeAssociation(this.value);"   style="width:95%;"><option value="0">Veuillez choisir un type de dispositif !</option></select>
               </td>
             </tr>
           </table>

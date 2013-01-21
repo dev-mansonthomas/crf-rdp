@@ -28,7 +28,10 @@ Ext.onReady(function()
       }
       catch(e)
       {
-        console.log('erreur chargement interface edition lieu',e);
+        if(consoleEnabled)
+        {
+          console.log('erreur chargement interface edition lieu',e);
+        }
       }
     }
     , null, null);
@@ -44,7 +47,10 @@ Ext.onReady(function()
     }
     catch(e)
     {
-    	console.log('erreur chargement interface SMS Manager',e);
+      if(consoleEnabled)
+      {
+        console.log('erreur chargement interface SMS Manager',e);
+      }
     }
 
   crfIrpUtils.getAllList();

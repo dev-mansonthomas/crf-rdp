@@ -16,8 +16,8 @@ catch(e)
 
 function ParseDateException(method, input, expectedFormat, extraInformation) 
 {
-  this.input = input;
-  this.expectedFormat= expectedFormat;
+  this.input            = input;
+  this.expectedFormat   = expectedFormat;
   this.extraInformation = extraInformation;
   
   this.message = "JSError - "+method+" - Bad dateTime format input : '"+this.input+"', expected format : '"+this.expectedFormat+"'" +(extraInformation == null ? "": extraInformation);
@@ -125,8 +125,9 @@ CrfIrpUtils.prototype.focusHandling=function(currentFieldId)
     nextFieldId = nextFocus;
   
   if(consoleEnabled)
+  {
     console.log("nextFocus="+nextFieldId);
-
+  }
   $(nextFieldId).focus();
 };
 
@@ -144,7 +145,27 @@ CrfIrpUtils.prototype.formatInterventionBusinessId=function(interventionBusiness
   return businessId;
 };
 
-
+CrfIrpUtils.prototype.formatMobilePhone=function(mobile)
+{
+  if(mobile.length != 10)
+    return mobile;
+  
+  var formattedMobile = "";
+  for(var i=0; i<mobile.length;i++)
+  {
+    if((i+1)%2)
+    {
+      formattedMobile +=" "+mobile[i];
+    }
+    else
+    {
+      formattedMobile += mobile[i];
+    }
+    
+  }
+  
+  return formattedMobile;
+};
 
 /* ===================== List Handling ============================== */
 
@@ -192,7 +213,7 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
       for(var i=0, countgetAllListReturn=tmpList.length; i<countgetAllListReturn; i++)
       {
         CrfIrpUtils.prototype.typeDispositif[tmpList[i].id]=tmpList[i];
-        newList[tmpList[i].id]={id:tmpList[i].id, label:'['+(tmpList[i].nombreEquipierMax==0?'∞':tmpList[i].nombreEquipierMax)+'] - '+tmpList[i].label};
+        newList[tmpList[i].id]={id:tmpList[i].id, label:'['+(tmpList[i].nombreEquipierMax==0?'∞':tmpList[i].nombreEquipierMax)+'] - '+tmpList[i].label, idVehiculeType:tmpList[i].idVehiculeType};
       }
     }
     else  if(listList[z]=='RolesEquipier')
@@ -328,6 +349,8 @@ CrfIrpUtils.prototype.resetToolbar=function(toolbarId, buttons)
  * Met la couleur de fond, a la couleur signifiant 'champ en cours d'édition'
  * Met la couleur de fond du précédent champ de saisie à la couleur de fond par défaut.
  * Pointe le champ fieldId comme dernier champ en cours de saisie.
+ * 
+ * NOTE: n'est pas déclencher quand on décoche une case a coché (onFocus n'est pas déclenché)
  */
 CrfIrpUtils.prototype.fieldEdit=function(fieldId)
 {
@@ -575,10 +598,10 @@ CrfIrpUtils.prototype.compareTime=function(timeStr1,timeStr2)
  * */
 CrfIrpUtils.prototype.compareDate=function(dateStr1,dateStr2)
 {
-  var dateArray1 = dateStr1.split(':');
+  var dateArray1 = dateStr1.split('/');
   var dateComparable1 = dateArray1[2]+(dateArray1[1]+1)+dateArray1[0];
   
-  var dateArray2 = dateStr2.split(':');
+  var dateArray2 = dateStr2.split('/');
   var dateComparable2 = dateArray2[2]+(dateArray2[1]+1)+dateArray2[0];
   
   

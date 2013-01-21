@@ -44,7 +44,7 @@ public class SynchroEquipierSIORD
 
     
     try
-    { //TODO changer startNewSiordSynchro pour virer l'idSynchroSiord forcé.
+    { 
       this.siordService.importDataFromSiordDatabase(siordSynchro);
     }
     catch(Exception e)

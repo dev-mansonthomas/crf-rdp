@@ -1,6 +1,5 @@
 package fr.croixrouge.rdp.services.dwr.monitor.input;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,17 +9,21 @@ import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
+import fr.croixrouge.rdp.model.monitor.DispositifSummaryInformation;
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
 import fr.croixrouge.rdp.model.monitor.DispositifTypeDefinition;
 import fr.croixrouge.rdp.model.monitor.Equipier;
+import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Regulation;
-import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
+import fr.croixrouge.rdp.model.monitor.Vehicule;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
+import fr.croixrouge.rdp.services.intervention.InterventionService;
+import fr.croixrouge.rdp.services.vehicule.VehiculeService;
 
 public class MonitorInputDispositifImpl extends DWRUtils
 {
@@ -29,17 +32,22 @@ public class MonitorInputDispositifImpl extends DWRUtils
   private DispositifInterventionDelegate  dispositifInterventionDelegate  = null;
   private EquipierService                 equipierService                 = null;
   private MonitorInputImpl                monitorInputImpl                = null;
- 
+  private InterventionService             interventionService             = null;
+  private VehiculeService                 vehiculeService                 = null;
 
-  public MonitorInputDispositifImpl(DispositifService               dispositifService, 
-                                    EquipierService                 equipierService  ,
-                                    MonitorInputImpl                monitorInputImpl , 
-                                    DispositifInterventionDelegate  dispositifInterventionDelegate)
+  public MonitorInputDispositifImpl(DispositifService               dispositifService               , 
+                                    EquipierService                 equipierService                 ,
+                                    MonitorInputImpl                monitorInputImpl                , 
+                                    DispositifInterventionDelegate  dispositifInterventionDelegate  ,
+                                    InterventionService             interventionService             ,
+                                    VehiculeService                 vehiculeService                 )
   {
-    this.monitorInputImpl               = monitorInputImpl ;
-    this.dispositifService              = dispositifService;
-    this.equipierService                = equipierService  ;
+    this.monitorInputImpl               = monitorInputImpl              ;
+    this.dispositifService              = dispositifService             ;
+    this.equipierService                = equipierService               ;
     this.dispositifInterventionDelegate = dispositifInterventionDelegate;
+    this.interventionService            = interventionService           ;             
+    this.vehiculeService                = vehiculeService               ;                 
 
     
     if(logger.isDebugEnabled())
@@ -50,42 +58,36 @@ public class MonitorInputDispositifImpl extends DWRUtils
   {
     return this.dispositifService.getDispositifTypeDefinition();
   }
-
   
-  public ListRange<Equipier> searchEquipier(GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
+  public List<Vehicule> getVehicules(int vehiculeType, int idDispositif) throws Exception
+  {
+    this.validateSession();
+    return this.vehiculeService.getVehiculeList(vehiculeType, true, idDispositif);
+  }
+
+
+  public void updateVehiculeAssociation(int idDispositif, int idVehicule) throws Exception
+  {
+    this.validateSession();
+    DispositifSummaryInformation dsi = this.dispositifService.getDispositifSummaryInformation(idDispositif);
+    int currentVehiculeId = dsi.getIdVehicule();
+    this.vehiculeService.affectVehiculeToDispositif(currentVehiculeId, 0);
+    this.updateDispositifIntegerField(idDispositif, "id_vehicule", idVehicule);
+    this.vehiculeService.affectVehiculeToDispositif(idVehicule, idDispositif);
+  }
+
+  /**
+   * 
+   * searchType : 0 : Recherche d'équipier sans restriction
+   *              1 : Recherche d'équipier pour un dispositif (ne doit pas être déjà affecté a un dispositif et on fitre sur un role, pas en évaluation sur le role selectionné) 
+   * */
+  public ListRange<Equipier> searchEquipier(int searchType, GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
   {
     this.validateSession();
     
-    FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("idRole");
-    
-    if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-      return new ListRange<Equipier>(0, new ArrayList<Equipier>());
-    
-    int idRole = 0;
     try
     {
-      idRole = Integer.parseInt(filterObject.getValue());  
-    }
-    catch(NumberFormatException e)
-    {
-      return new ListRange<Equipier>(0, new ArrayList<Equipier>());
-    }
-    
-    String searchString = null;
-    filterObject = gridSearchFilterAndSortObject.getFilterObject("search");
-    if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-      return new ListRange<Equipier>(0, new ArrayList<Equipier>());
-    
-    searchString = filterObject.getValue();
-    
-    try
-    {
-      return this.equipierService.searchEquipierWithRole(
-          idRole, 
-          searchString+"%",
-          gridSearchFilterAndSortObject.getStart(),
-          gridSearchFilterAndSortObject.getLimit()
-          );      
+      return this.equipierService.searchEquipierWithRole(searchType, gridSearchFilterAndSortObject);      
     }
     catch(Exception e)
     {
@@ -96,6 +98,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public Dispositif createEmptyDispositif() throws Exception
   {
+    this.validateSession();
     Regulation regulation = this.monitorInputImpl.getRegulation();
     return dispositifService.createEmptyDispositif(regulation); 
   }
@@ -119,25 +122,33 @@ public class MonitorInputDispositifImpl extends DWRUtils
    * */
   public int endOfVacation(int idDispositif) throws Exception 
   {
-    int currentInterventionId = this.dispositifService.getCurrentInterventionId(idDispositif);
+    this.validateSession();
+    int numberOfInterventionAffectedToDispositif = this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif);
     
-    if(currentInterventionId == 0)
+    if(numberOfInterventionAffectedToDispositif == 0)
     {
       this.dispositifService.updateActifValueOfDispositif(idDispositif, false);
       this.dispositifService.updateEtatDispositif        (idDispositif, DispositifService.STATUS_VACATION_TERMINEE);
-    }
       
-    List<Equipier> equipiers = this.equipierService.getEquipiersForDispositif(idDispositif);
-   
-    for (Equipier equipier : equipiers)
-    {
-      this.dispositifService.unaffectEquipierToDispositif(idDispositif            , equipier.getIdEquipier());
-      this.equipierService  .setDispositifToEquipier     (equipier.getIdEquipier(), 0                       );
+      int idVehicule = this.dispositifService.getIdVehiculeOfDispositif(idDispositif) ;
+      
+      this.vehiculeService.unAffectVehiculeToDispositif(idVehicule);
+      
+      List<Equipier> equipiers = this.equipierService.getEquipiersForDispositif(idDispositif);
+      
+      for (Equipier equipier : equipiers)
+      {
+        this.dispositifService.unaffectEquipierToDispositif(idDispositif            , equipier.getIdEquipier());
+        this.equipierService  .setDispositifToEquipier     (equipier.getIdEquipier(), 0                       );
+      }
+      
+      this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.reload()"), outPageName); 
     }
     
     
 
-    return currentInterventionId;
+    return numberOfInterventionAffectedToDispositif;
+
   }
 
   /**
@@ -146,6 +157,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
    * */
   public int deleteDispositif(int idDispositif) throws Exception
   {
+    this.validateSession();
     int nbOfIntervention = this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif);
     
     if(nbOfIntervention == 0)
@@ -166,8 +178,19 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public int numberOfInterventionAffected(int idDispositif) throws Exception
   {
+    this.validateSession();
     return this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif); 
   }
+  
+  
+  public List<InterventionTicket> getInterventionTicketFromDispositif(int idDispositif) throws Exception
+  {
+    this.validateSession();
+    return interventionService.getInterventionsTicketFromDispositif(idDispositif);
+  }
+  
+ 
+  
   
   
   public Dispositif getDispositif(int idDispositif)throws Exception
@@ -232,11 +255,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
     }
     catch(Exception e)
     {
-      logger.error("", e);
-    }
-    catch(Throwable ee)
-    {
-      logger.error("", ee);
+      logger.error("erreur lors de updateDispositifEtat sur idDispositif='"+idDispositif+"' newEtatDispositif='"+newEtatDispositif+"'", e);
     }
     
   }

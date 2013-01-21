@@ -1,0 +1,14 @@
+.smsManagerCancelButton
+{
+  background-image:url(../../img/famfamfam/email_delete.png) !important;
+}
+
+.smsManagerSendButton
+{
+  background-image:url(../../img/famfamfam/email_go.png) !important;
+}
+
+.smsManagerNewSMSButton
+{
+  background-image:url(../../img/famfamfam/email_add.png) !important;
+}

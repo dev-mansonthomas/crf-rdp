@@ -224,7 +224,10 @@ MonitorOutputDispositifCs.prototype.initializeDispositifDragAndDropZone=function
   }
   catch(e)
   {
-    console.log(e);
+    if(consoleEnabled)
+    {
+      console.log("initializeDispositifDragAndDropZone : "+e);
+    }
   }
   
   dispositifGrid.dropZone = new Ext.dd.DropZone(dispositifGrid.getView().scroller, {
@@ -354,6 +357,15 @@ MonitorOutputDispositifCs.prototype.updateDispositifAfterReaffectation=function(
  * END - Drag & Drop handling
  **/
 
+/**
+ * 
+ * Permet de recharger la liste des dispositifs (sur une suppression par exemple) 
+ * 
+ * ************/
+MonitorOutputDispositifCs.prototype.reload  =function()
+{
+  Ext.getCmp('DispositifListGrid').getStore().reload();
+};
 
 /**
  * initalise la fenetre permettant de voir les lieux par catégorie
@@ -1032,12 +1044,22 @@ MonitorOutputDispositifCs.prototype.action=function(buttonId)
     else if(currentState > STATUS_INTER_TERMINEE)
     {
       if(consoleEnabled)
+      {
         console.log("currentState='"+currentState+"' => bizarre");
+      }
     }
     else if(interventions.length == 0)
     {
       moDispositifCs.displayChooseEtatWindow(idDispositif, interventions, currentState,'Veuillez choisir un nouvel état pour le dispositif:');
     }
+    
+    /**
+     * Sur deux clic rapide (et un peu de temps de traitement coté serveur, le dispositif peut disparaitre)
+     * pour éviter ca on disable le bouton. Il sera réactivé lorsque le serveur enverra le dispositif a jour
+     * */
+    
+    $(buttonId).disabled=true;
+    
   }
 };
 
@@ -1069,7 +1091,9 @@ MonitorOutputDispositifCs.prototype.actionReturn     =function(data, metaData)
   catch(e)
   {
     if(consoleEnabled)
+    {
       console.log("erreur lors du parse de la réponse a la méthode action data=¤"+data+"¤",e);
+    }
   }
 
   if(actionReturnStatus != null)//initialisé dans le eval.
@@ -1091,7 +1115,9 @@ MonitorOutputDispositifCs.prototype.actionReturn     =function(data, metaData)
   else
   {
     if(consoleEnabled)
-      console.log("Status is null : data=¤"+data+"¤");
+    {
+      console.log("Status is null : data=¤"+data+"¤"); 
+    }
   }
   
 };
@@ -1210,6 +1236,7 @@ MonitorOutputDispositifCs.prototype.showDispositif  =function(recordId, googleCo
   map.focusMarker('lieu_cat_'+9, dispositifRecord.data.idDispositif);
   
 };
+
 
 
 MonitorOutputDispositifCs.prototype.etatDispositifCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)

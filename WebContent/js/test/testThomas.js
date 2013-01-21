@@ -8,65 +8,18 @@
 function init()
 {
 
-  /* Combo Box de recherche d'équipier*/ 
-  var equipierSearchDataStore = new Ext.data.Store({
-      proxy: new Ext.ux.rs.data.DwrProxy({
-             call           : MonitorInputDispositif.searchEquipier,
-             args           : [],
-             proxyConfig    : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
-             filterCallBack : function()
-             {
-                return [new Ext.ux.rs.data.FilterObject('idRole',7,'='),
-                        new Ext.ux.rs.data.FilterObject('search','M%','=')]
-             }
-        }),
-        reader: new Ext.ux.rs.data.JsonReader({
-                 root: 'data',
-        totalProperty: 'totalCount',
-                   id: 'idEquipier',
-               fields:
-                   [
-                       {name: 'idEquipier'                , type: 'int'     },
-                       {name: 'homme'                     , type: 'boolean' },
-                       {name: 'numNivol'                  , type: 'string'  },
-                       {name: 'nom'                       , type: 'string'  },
-                       {name: 'prenom'                    , type: 'string'  },
-                       {name: 'mobile'                    , type: 'string'  },
-                       {name: 'email'                     , type: 'string'  },
-                       {name: 'delegation.idDelegation'   , type: 'int'     },
-                       {name: 'idRoleDansDispositif'      , type: 'int'     },
-                       {name: 'enEvaluationDansDispositif', type: 'boolean' }
-                   ]
-               })
-    });
+      var searchEquipierComboBox = new Ext.ux.crfrdp.EquipierSearchCombo({
+      id          : 'DispositifEquipierSearch', 
+      searchType  : 1,/*dispositifEquipierSearch*/
+      applyTo     : 'DispositifEquipierSearchInput',
+      onSelect    : function(record)
+      {
+        alert('Etes vous sur de vouloir ajouter l\'équipier : <br/><br/>"<b>'+record.data.nom+' '+record.data.prenom+'</b>" <br/> N°"<b>'+record.data.numNivol+'</b>"<br/> délégation de "<b>'+crfIrpUtils.getLabelFor('Delegations', record.data['delegation.idDelegation'])+'</b>" <br/><br/>au dispositif ?');
 
-    // Custom rendering Template
-    var resultTpl = new Ext.XTemplate(
-        '<tpl for="."><div class="search-item">',
-            '<h3><span>{numNivol}</span> {prenom} {nom}</h3>',//{delegation.idDelegation}
-            '{idRoleDansDispositif} - {enEvaluationDansDispositif}',
-        '</div></tpl>'
-    );
-    
-    var searchEquipierComboBox = new Ext.form.ComboBox({
-        id          : 'DispositifEquipierSearch', 
-        store       : equipierSearchDataStore,
-        displayField: 'numNivol',
-        typeAhead   : false,
-        loadingText : 'Searching...',
-        width       : 570,
-        pageSize    : 10,
-        hideTrigger : true,
-        tpl         : resultTpl,
-        itemSelector: 'div.search-item',
-        applyTo     : 'search',
-        onSelect    : function(record){
-            alert(record.data.numNivol);
-        }
-    }); // override default onSelect to do redirect
-  /* FIN Combo Box de recherche d'équipier*/
+      }
+  });
   
-  
+  crfIrpUtils.getAllList();
   
   
 }

@@ -3,11 +3,20 @@ CREATE DATABASE `crfrdp` DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 use crfrdp;
 
+-- ----------------------------
+-- TABLES pour les Types
+-- ----------------------------
 
+DROP TABLE IF EXISTS `crfrdp`.`vehicule_type`;
+CREATE TABLE `vehicule_type` (
+  `id_vehicule_type` int     (10 ) unsigned  NOT NULL auto_increment, 
+  `label`            varchar (45 )           NOT NULL,
+  PRIMARY KEY  (`id_vehicule_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_etat`;
 CREATE TABLE `dispositif_etat` (
-  `id_etat`     int    (10) NOT NULL auto_increment,
+  `id_etat`     int    (10) unsigned NOT NULL auto_increment,
   `label_etat`  varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -15,11 +24,15 @@ CREATE TABLE `dispositif_etat` (
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_type`;
 CREATE TABLE `dispositif_type` (
   `id_type`             int     (10) unsigned NOT NULL auto_increment,
+  `id_vehicule_type`    int     (10) unsigned NOT NULL,
   `label_type`          varchar (45) NOT NULL,
   `nombre_equipier_max` int     (10) unsigned default 0,
   `id_role_leader`      int     (10) unsigned default 0,
   `code_type`           varchar (4 ) NOT NULL,
-  PRIMARY KEY  (`id_type`)
+  PRIMARY KEY  (`id_type`),
+  KEY        `FK_dispositif_type_vehicule_type`       (`id_vehicule_type`),
+  CONSTRAINT `FK_dispositif_type_vehicule_type`       FOREIGN KEY (`id_vehicule_type`       ) REFERENCES `vehicule_type`   (`id_vehicule_type`      )
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfrdp`.`equipier_role`;
@@ -32,13 +45,15 @@ CREATE TABLE `equipier_role` (
 
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_type_definition`;
 CREATE TABLE `dispositif_type_definition` (
-  `id_dispositif_type` int(10) unsigned NOT NULL,
-  `id_role` int(10) unsigned NOT NULL,
-  `nombre_min` int(10) unsigned NOT NULL,
-  `nombre_max` int(10) unsigned NOT NULL,
+  `id_dispositif_type`  int(10) unsigned NOT NULL,
+  `id_role`             int(10) unsigned NOT NULL,
+  `nombre_min`          int(10) unsigned NOT NULL,
+  `nombre_max`          int(10) unsigned NOT NULL,
   PRIMARY KEY  (`id_dispositif_type`,`id_role`),
-  CONSTRAINT `FK_dtd_dt` FOREIGN KEY (`id_dispositif_type`) REFERENCES `dispositif_type`(`id_type`),
-  CONSTRAINT `FK_dtd_er` FOREIGN KEY (`id_role`           ) REFERENCES `equipier_role`  (`id_role`)
+  KEY        `FK_dtd_dt`              (`id_dispositif_type`),
+  KEY        `FK_dtd_er`              (`id_role`),
+  CONSTRAINT `FK_dtd_dt` FOREIGN KEY  (`id_dispositif_type`) REFERENCES `dispositif_type`(`id_type`),
+  CONSTRAINT `FK_dtd_er` FOREIGN KEY  (`id_role`           ) REFERENCES `equipier_role`  (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
@@ -49,6 +64,10 @@ CREATE TABLE `user_role` (
   `code_role`   varchar(45)          NOT NULL,
   PRIMARY KEY  (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- TABLES pour Lieux
+-- ----------------------------
 
 DROP TABLE IF EXISTS `crfrdp`.`lieu_type`;
 CREATE TABLE `crfrdp`.`lieu_type`
@@ -71,7 +90,7 @@ CREATE TABLE `lieu` (
   `icon`                        VARCHAR(20)   NULL,
   `icon_gmap_init`              VARCHAR(500)  NULL,
   `nom`                         varchar(100)  NOT NULL,
-  `addresse`                    varchar(100)   NOT NULL,
+  `addresse`                    varchar(100)  NOT NULL,
   `code_postal`                 varchar(5 )   NOT NULL,
   `ville`                       varchar(100)  NOT NULL,
   `google_coords_lat`           float  (10,6) NOT NULL,
@@ -82,10 +101,13 @@ CREATE TABLE `lieu` (
   `info_complementaire`         varchar(1000) NULL,
   `actif`                       boolean NULL default false,
   PRIMARY KEY (`id_lieu`),
+  KEY        `FK_lieu_type_lieu`             (`id_type_lieu`),
   CONSTRAINT `FK_lieu_type_lieu` FOREIGN KEY (`id_type_lieu`) REFERENCES `lieu_type`(`id_type_lieu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
-
+-- ----------------------------
+-- TABLES pour Delegation
+-- ----------------------------
 
 DROP TABLE IF EXISTS `crfrdp`.`delegation`;
 CREATE TABLE `delegation` (
@@ -101,26 +123,36 @@ CREATE TABLE `delegation` (
   `sort_order`    int     (10 ) unsigned  NOT NULL default 0,
   PRIMARY KEY  (`id_delegation`),
   UNIQUE KEY `id_siord_UNIQUE` (`id_siord`),
+  KEY        `FK_delegation_lieu`             (`id_lieu`),
   CONSTRAINT `FK_delegation_lieu` FOREIGN KEY (`id_lieu`) REFERENCES `lieu`(`id_lieu`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
+-- ----------------------------
+-- TABLES pour Regulation
+-- ----------------------------
+
+
 DROP TABLE IF EXISTS `crfrdp`.`regulation`;
 CREATE TABLE `regulation` (
-`id_regulation` int(10) unsigned NOT NULL auto_increment,
-`start_date` datetime NOT NULL,
-`expected_end_date` datetime NOT NULL,
-`open` boolean NOT NULL,
-`id_regulateur` int(10) unsigned NOT NULL,
-`label` varchar(45) NOT NULL,
-`comment` varchar(45) NULL,
+`id_regulation`       int     (10) unsigned NOT NULL auto_increment,
+`start_date`          datetime              NOT NULL,
+`expected_end_date`   datetime              NOT NULL,
+`open`                boolean               NOT NULL,
+`id_regulateur`       int     (10) unsigned NOT NULL,
+`label`               varchar (45)          NOT NULL,
+`comment`             varchar (45)              NULL,
  PRIMARY KEY  (`id_regulation`),
  KEY `FK_regulation_regulateur` (`id_regulateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
+-- ----------------------------
+-- TABLES pour Dispositif 
+-- ----------------------------
 
 DROP TABLE IF EXISTS `crfrdp`.`dispositif`;
 CREATE TABLE `dispositif` (
   `id_dispositif`                         int(10)       unsigned    NOT NULL auto_increment,
+  `id_vehicule`                           int(10 )      unsigned    NOT NULL,
   `id_type_dispositif`                    int(10)       unsigned        NULL DEFAULT 0,
   `id_regulation`                         int(10)       unsigned    NOT NULL,
   `creation_terminee`                     boolean                   NOT NULL default false,
@@ -158,7 +190,7 @@ CREATE TABLE `dispositif` (
   `contact_tel2`                          varchar(16) NOT NULL,
   `contact_alphapage`                     varchar(16) NOT NULL,
   `identite_medecin`                      varchar(45) NOT NULL,
-  `id_etat_dispositif`                    int(10) NOT NULL,
+  `id_etat_dispositif`                    int(10) unsigned  NOT NULL,
   
   `id_current_intervention`               int(10) unsigned NULL DEFAULT 0,
   
@@ -192,16 +224,19 @@ CREATE TABLE `dispositif` (
   `DH_arrivee_renfort_medical`   datetime NULL,
 
   PRIMARY KEY  (`id_dispositif`),
-  KEY        `FK_dispositif_type`             (`id_type_dispositif`),
-  KEY        `FK_dispositif_etat`             (`id_etat_dispositif`),
-  KEY        `FK_dispositif_regulation`       (`id_regulation`   ),
-  KEY        `FK_dispositif_delegation`       (`id_delegation_responsable`),
+  KEY        `FK_dispositif_type`                   (`id_type_dispositif`       ),
+  KEY        `FK_dispositif_etat`                   (`id_etat_dispositif`       ),
+  KEY        `FK_dispositif_regulation`             (`id_regulation`            ),
+  KEY        `FK_dispositif_delegation`             (`id_delegation_responsable`),
   CONSTRAINT `FK_dispositif_type`       FOREIGN KEY (`id_type_dispositif`       ) REFERENCES `dispositif_type`   (`id_type`      ),
   CONSTRAINT `FK_dispositif_etat`       FOREIGN KEY (`id_etat_dispositif`       ) REFERENCES `dispositif_etat`   (`id_etat`      ),
   CONSTRAINT `FK_dispositif_regulation` FOREIGN KEY (`id_regulation`            ) REFERENCES `regulation`        (`id_regulation`),
   CONSTRAINT `FK_dispositif_delegation` FOREIGN KEY (`id_delegation_responsable`) REFERENCES `delegation`        (`id_delegation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
+-- ----------------------------
+-- TABLES pour Equipier & Users
+-- ----------------------------
 
 DROP TABLE IF EXISTS `crfrdp`.`equipier`;
 CREATE TABLE `equipier` (
@@ -262,8 +297,6 @@ CREATE TABLE `user_roles` (
   CONSTRAINT `FK_user_roles_user_role` FOREIGN KEY (`id_role`) REFERENCES `user_role` (`id_role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
-
-  
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_equipiers`;
 CREATE TABLE `dispositif_equipiers` (
   `id_dispositif`    int(10) unsigned NOT NULL,
@@ -314,6 +347,10 @@ CREATE TABLE `equipier_roles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
+-- ----------------------------
+-- TABLES pour Interventions
+-- ----------------------------
+
 DROP TABLE IF EXISTS `crfrdp`.`intervention_origine`;
 CREATE TABLE `crfrdp`.`intervention_origine`
 (
@@ -346,7 +383,7 @@ CREATE TABLE `intervention_etat` (
   `id_etat` int(10) NOT NULL auto_increment,
   `label_etat` varchar(45) NOT NULL,
   PRIMARY KEY  (`id_etat`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 DROP TABLE IF EXISTS `crfrdp`.`intervention_id`;
 CREATE TABLE `intervention_id` (
@@ -582,21 +619,180 @@ CREATE TABLE `bilan_evolutif` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
-
-
 DROP TABLE IF EXISTS `crfrdp`.`dispositif_interventions`;
 CREATE TABLE `dispositif_interventions` (
   `id_dispositif`      int(10)       unsigned    NOT NULL,
   `id_intervention`    int(10)       unsigned    NOT NULL,
   PRIMARY KEY  (`id_dispositif`, `id_intervention`),
-  KEY      `FK_dispositif_interventions_dispositif`     (`id_dispositif`),
-  KEY      `FK_dispositif_interventions_intervention`   (`id_intervention`),
+  KEY        `FK_dispositif_interventions_dispositif`               (`id_dispositif`  ),
+  KEY        `FK_dispositif_interventions_intervention`             (`id_intervention`),
   CONSTRAINT `FK_dispositif_interventions_dispositif`   FOREIGN KEY (`id_dispositif`  ) REFERENCES `dispositif`   (`id_dispositif`  ),
   CONSTRAINT `FK_dispositif_interventions_intervention` FOREIGN KEY (`id_intervention`) REFERENCES `intervention` (`id_intervention`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
+-- ----------------------------
+-- TABLES pour Evaluation
+-- ----------------------------
 
+
+DROP TABLE IF EXISTS `crfrdp`.`evaluation_critere_definition`;
+CREATE TABLE `evaluation_critere_definition` (
+  `id_evaluation_critere_definition`  int(10) unsigned NOT NULL auto_increment,
+  `id_role_evalue`                    int(10) unsigned NOT NULL,
+  `num_ordre`                         int(10) unsigned NOT NULL,
+  `label_critere`                     int(10) unsigned NOT NULL,
+  `description_critere`               int(10) unsigned NOT NULL,
+  `critere_note_max`                  int(10) unsigned     NULL,
+  PRIMARY KEY  (`id_evaluation_critere_definition`),
+  KEY `FK_bevaluation_critere_definition-equipier_role`                     (`id_role_evalue`),
+  CONSTRAINT `FK_bevaluation_critere_definition-equipier_role` FOREIGN KEY  (`id_role_evalue`) REFERENCES `equipier_role` (`id_role`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+
+
+DROP TABLE IF EXISTS `crfrdp`.`evaluation_session`;
+CREATE TABLE `evaluation` (
+  `id_evaluation_session`       int(10) unsigned NOT NULL auto_increment,
+  `id_dispositif`               int(10) unsigned NOT NULL,
+  `id_role_evalue`              int(10) unsigned NOT NULL,
+  `id_equipier_evalue`          int(10) unsigned NOT NULL,
+  `id_equipier_evaluateur`      int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_evaluation_session`),
+  KEY `FK_evaluation_session-dispositif`                              (`id_dispositif`          ),
+  KEY `FK_evaluation_session-equipier_role`                           (`id_role_evalue`         ),
+  KEY `FK_evaluation_session-equipier_evalue`                         (`id_equipier_evalue`     ),
+--  CONSTRAINT `FK_evaluation_session-dispositif`           FOREIGN KEY (`id_dispositif`          ) REFERENCES `dispositif  `   (`id_dispositif`  ),
+  CONSTRAINT `FK_evaluation_session-equipier_role`        FOREIGN KEY (`id_role_evalue`         ) REFERENCES `equipier_role`  (`id_role`        ),
+  CONSTRAINT `FK_evaluation_session-equipier_evalue`      FOREIGN KEY (`id_equipier_evalue`     ) REFERENCES `equipier`       (`id_equipier`    ),
+  CONSTRAINT `FK_evaluation_session-equipier_evaluateur`  FOREIGN KEY (`id_equipier_evaluateur` ) REFERENCES `equipier`       (`id_equipier`    )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+-- ne passe pas... pkoi ??
+-- ALTER TABLE `crfrdp`.`evaluation` ADD  CONSTRAINT `FK_evaluation-dispositif`           FOREIGN KEY (`id_dispositif`          ) REFERENCES `dispositif  `   (`id_dispositif`  );
+
+
+
+
+DROP TABLE IF EXISTS `crfrdp`.`evaluation`;
+CREATE TABLE `evaluation` (
+  `id_evaluation`               int(10) unsigned NOT NULL auto_increment,
+  `id_evaluation_session`       int(10) unsigned NOT NULL,
+  `id_intervention`             int(10) unsigned NOT NULL,
+  `evaluation_validee`          boolean          NOT NULL DEFAULT false,
+  `evaluation_commentaire`      text                 NULL,
+  PRIMARY KEY  (`id_evaluation`),
+  KEY `FK_evaluation-evaluation_session`                      (`id_evaluation_session`  ),
+  KEY `FK_evaluation-intervention`                            (`id_intervention`        )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+-- ALTER TABLE `evaluation` ADD CONSTRAINT `FK_evaluation-intervention`         FOREIGN KEY (`id_intervention`        ) REFERENCES `intervention`       (`id_intervention`);
+
+-- ne passe pas... pkoi ??
+-- ALTER TABLE `evaluation` ADD CONSTRAINT `FK_evaluation-evaluation_session`   FOREIGN KEY (`id_evaluation_session`  ) REFERENCES `evaluation_session` (`id_evaluation_session`);
+
+
+
+DROP TABLE IF EXISTS `crfrdp`.`evaluation_notation`;
+CREATE TABLE `evaluation_notation` (
+  `id_evaluation_notation`      int(10) unsigned NOT NULL auto_increment,
+  `id_evaluation`               int(10) unsigned NOT NULL,
+  `id_evaluation_critere`       int(10) unsigned NOT NULL,
+  `commentaire`                 text             NOT NULL,
+  `note_critere`                int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`id_evaluation_notation`),
+  KEY `FK_evaluation_notation-evaluation`                                         (`id_evaluation`        ),
+  KEY `FK_evaluation_notation-evaluation_critere_definition`                      (`id_evaluation_critere`),
+  CONSTRAINT `FK_evaluation_notation-evaluation`                    FOREIGN KEY   (`id_evaluation`        ) REFERENCES `evaluation`                     (`id_evaluation`),
+  CONSTRAINT `FK_evaluation_notation-evaluation_critere_definition` FOREIGN KEY   (`id_evaluation_critere`) REFERENCES `evaluation_critere_definition`  (`id_evaluation_critere_definition`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+
+-- ----------------------------
+-- TABLES pour Vehicules 
+-- ----------------------------
+
+
+
+DROP TABLE IF EXISTS `crfrdp`.`vehicule`;
+
+CREATE TABLE `vehicule` (
+  `id_vehicule`                   int     (10 ) unsigned  NOT NULL auto_increment,
+  `id_vehicule_type`              int     (10 ) unsigned  NOT NULL, 
+  `indicatif`                     varchar (45 )           NOT NULL,
+  `id_delegation`                 int     (10)  unsigned  NOT NULL,
+  `id_dispositif`                 int     (10)  unsigned  NOT NULL COMMENT "Si le vehicule est affecté a un dispositif, l'id de celui ci est mis dans ce champs pour éviter une double affectation du véhicule",
+  `last_know_coordinate_lat`      float   (10,6)              NULL,
+  `last_know_coordinate_long`     float   (10,6)              NULL,
+  `mobile_450_id`                 varchar (10 )               NULL,
+  `mobile_150_id`                 varchar (10 )               NULL,
+  `marque`                        varchar (50)            NOT NULL,
+  `modele`                        varchar (50)            NOT NULL,
+  `immatriculation`               varchar (50)            NOT NULL,
+  `carburant`                     varchar (50)            NOT NULL,
+  `date_mise_en_service`          date                    NOT NULL,
+  `date_dernier_controle_tech`    date                    NOT NULL,
+  `parking_rue`                   varchar (50)            NOT NULL,
+  `parking_code_postal`           varchar (50)            NOT NULL,
+  `parking_ville`                 varchar (50)            NOT NULL,
+  `parking_coordinate_lat`        float   (10,6)              NULL,
+  `parking_coordinate_long`       float   (10,6)              NULL,
+  `parking_instructions`          text                        NULL,
+  PRIMARY KEY  (`id_vehicule`),
+  KEY        `FK_vehicule_delegation`                (`id_delegation`),
+  KEY        `FK_vehicule_vehicule-type`             (`id_vehicule_type`),
+  CONSTRAINT `FK_vehicule_delegation`    FOREIGN KEY (`id_delegation`   ) REFERENCES `delegation`        (`id_delegation`),
+  CONSTRAINT `FK_vehicule_vehicule-type` FOREIGN KEY (`id_vehicule_type`) REFERENCES `vehicule_type`     (`id_vehicule_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+-- Ajout de cette clé étrangère ici pour casser un cycle entre dispositif et vehicule.
+
+  ALTER TABLE dispositif ADD KEY        `FK_dispositif_vehicule`         (`id_vehicule`);
+  ALTER TABLE dispositif ADD CONSTRAINT `FK_dispositif_vehicule`   FOREIGN KEY (`id_vehicule`              ) REFERENCES `vehicule`          (`id_vehicule`  );
+
+
+
+DROP TABLE IF EXISTS `crfrdp`.`vehicule_position_log`;
+CREATE TABLE `vehicule_position_log` (
+  `id_vehicule_position_log`      int     (10 ) unsigned  NOT NULL auto_increment,
+  `id_vehicule`                   int     (10 ) unsigned  NOT NULL,
+  `coordinate_lat`                float   (10,6)              NULL,
+  `coordinate_long`               float   (10,6)              NULL,
+  `coordinates_origine`           int     (10)  unsigned  NOT NULL COMMENT "2:Soit les coordonnées des radios, 1:soit les coordonnées google à la saisie des adresses",
+  `id_dispositif`                 int     (10)  unsigned  NOT NULL,
+  `id_etat_dispositif`            int     (10)  unsigned  NOT NULL COMMENT "Permet de savoir si le véhicule à les gyrot, une victime a bord etc...",
+  PRIMARY KEY  (`id_vehicule_position_log`), 
+  KEY        `FK_vehicule_position_log_vehicule`                    (`id_vehicule`        ),
+  KEY        `FK_vehicule_position_log_dispositif`                  (`id_dispositif`      ),
+  KEY        `FK_vehicule_position_log_dispositif_etat`             (`id_etat_dispositif` ),
+  CONSTRAINT `FK_vehicule_position_log_dispositif_etat` FOREIGN KEY (`id_etat_dispositif` ) REFERENCES `dispositif_etat`  (`id_etat`        ),
+  CONSTRAINT `FK_vehicule_position_log_vehicule`        FOREIGN KEY (`id_vehicule`        ) REFERENCES `vehicule`         (`id_vehicule`    ),
+  CONSTRAINT `FK_vehicule_position_log_dispositif`      FOREIGN KEY (`id_dispositif`      ) REFERENCES `dispositif`       (`id_dispositif`  )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+DROP TABLE IF EXISTS `crfrdp`.`vehicule_position_log_inter`;
+CREATE TABLE `vehicule_position_log_inter` (
+  `id_vehicule_position_log_inter`    int     (10 ) unsigned  NOT NULL auto_increment,
+  `id_vehicule_position_log`          int     (10 ) unsigned  NOT NULL,
+  `id_intervention`                   int     (10)  unsigned  NOT NULL,
+  PRIMARY KEY  (`id_vehicule_position_log_inter`),
+  KEY        `FK_vehicule_position_log_inter_intervention`                         (`id_intervention`         ),
+  KEY        `FK_vehicule_position_log_inter_vehicule_position_log`                (`id_vehicule_position_log`),
+  CONSTRAINT `FK_vehicule_position_log_inter_intervention`             FOREIGN KEY (`id_intervention`         ) REFERENCES `intervention`           (`id_intervention`          ),
+  CONSTRAINT `FK_vehicule_position_log_inter_vehicule_position_log`    FOREIGN KEY (`id_vehicule_position_log`) REFERENCES `vehicule_position_log`  (`id_vehicule_position_log` )
+) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+
+
+-- ----------------------------
+-- TABLES pour Release Applications
+-- ----------------------------
 
 DROP TABLE IF EXISTS `crfrdp`.`credits`;
 CREATE TABLE `crfrdp`.`credits` (
@@ -632,6 +828,11 @@ CREATE TABLE `crfrdp`.`application_version_changelog` (
     REFERENCES `application_version` (`id`)
 )
 ENGINE = InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- TABLES pour SMS
+-- ----------------------------
+
 
 DROP TABLE IF EXISTS `crfrdp`.`sms_type`;
 CREATE TABLE `sms_type` (

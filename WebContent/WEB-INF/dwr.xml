@@ -127,6 +127,13 @@
         <param name="beanName" value="monitorCommons"/>
     </create>    
     
+    <create
+         creator="spring"
+           scope="application"
+      javascript="EvaluationService">
+        <param name="beanName" value="evaluationDwrService"/>
+    </create>    
+    
     
   </allow>
 </dwr>

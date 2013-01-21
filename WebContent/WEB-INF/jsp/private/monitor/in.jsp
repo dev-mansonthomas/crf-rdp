@@ -59,9 +59,7 @@
     <p></p>
   </div>
 
-  <!-- google map -->
-  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${googleMapsKey}" type="text/javascript"> </script>
-
+  
   <jwr:script src="/jsBundle/extJs.js"/>
   <script type="text/javascript">
     var contextPath="../..";
@@ -80,5 +78,9 @@
   <script type="text/javascript">
     Ext.onReady(init);
   </script>
+  
+  <!-- google map -->
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${googleMapsKey}" type="text/javascript"> </script>
+  
 </body>
 </html>

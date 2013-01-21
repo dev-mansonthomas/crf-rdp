@@ -202,6 +202,10 @@ function initLayout()
         
     
 /****************DISPOSITIF*EDITOR*************************/
+  
+  var currentInterListWindow      = null;
+  var currentInterListWindowStore = null;
+  
   var dispositifEditorToolbar = new Ext.Toolbar({	id     : 'DispositifPanelTopToolbar', 
 	  												hidden : true,
 	  												items  :[{
@@ -233,16 +237,148 @@ function initLayout()
 	  											    },
 	  											    '-',
 	  											    {
-	  											        text   : 'Voir Intervention en Cours',
+	  											        text   : 'Voir les interventions en cours',
 	  											        handler: function()
 	  											        {
+                                    var currentInterId = $('dispositif_id_field').value;
                                     
-                                    //TODO afficher la liste des interventions en cours si plus d'une intervention, sinon afficher l'intervention.
-	  											          var currentInterventionId = $('dispositifCurrentInterId').value;
-	  											          if(currentInterventionId == 0 || currentInterventionId == '')
-                                    	Ext.Msg.alert('Aucune Intervention', 'Le dispositif n\'a actuellement pas d\'intervention affectée');  											        	
-	  											          else
-  	  											    	    miBilanCs.editBilan(currentInterventionId);
+                                    MonitorInputDispositif.getInterventionTicketFromDispositif(currentInterId, function(interventions){
+                                      
+                                      if(interventions == null || interventions.length == 0)
+                                      {
+                                        Ext.Msg.alert('Aucune Intervention', 'Le dispositif n\'a actuellement pas d\'intervention affectée');  
+                                      }
+                                      else
+                                      {
+                                        
+                                        if(interventions.length==1)
+                                        {
+                                          miBilanCs.editBilan(interventions[0].idIntervention); 
+                                          return;
+                                        }
+                                        
+                                        var data = [];
+                                        var i = 0;
+                                        for(i=0;i<interventions.length;i++)
+                                        {
+                                          data[i]=[
+                                              interventions[i].idIntervention            ,
+                                              interventions[i].idDispositif              ,
+                                              interventions[i].idRegulation              ,
+                                              interventions[i].idOrigine                 ,
+                                              interventions[i].idMotif                   ,
+                                              interventions[i].idEtat                    ,
+                                              interventions[i].ageApproxVictime          ,
+                                              interventions[i].interventionBusinessId    ,
+                                              interventions[i].dhSaisie                  ,
+                                              interventions[i].dhReception               ,
+                                              interventions[i].victimeHomme              ,
+                                              interventions[i].nomVictime                ,
+                                              interventions[i].prenomVictime             ,
+                                              interventions[i].nomContactSurPlace        ,
+                                              interventions[i].coordonneesContactSurPlace,
+                                              interventions[i].batiment                  ,
+                                              interventions[i].etage                     ,
+                                              interventions[i].porte                     ,
+                                              interventions[i].complementAdresse         ,
+                                              interventions[i].complementMotif
+                                          ];
+                                        }
+                                        
+                                        
+                                        
+                                        if(currentInterListWindow == null)
+                                        {
+                                          currentInterListWindowStore = new Ext.data.ArrayStore({
+                                              fields: [
+                                                  {name: 'idIntervention'                , type: 'int'      },
+                                                  {name: 'idDispositif'                  , type: 'int'      },
+                                                  {name: 'idRegulation'                  , type: 'int'      },
+                                                  {name: 'idOrigine'                     , type: 'int'      },
+                                                  {name: 'idMotif'                       , type: 'int'      },
+                                                  {name: 'idEtat'                        , type: 'int'      },
+                                                  {name: 'ageApproxVictime'              , type: 'int'      },
+                                                  {name: 'interventionBusinessId'        , type: 'string'   },
+                                                  {name: 'dhSaisie'                      , type: 'date'     },
+                                                  {name: 'dhReception'                   , type: 'date'     },
+                                                  {name: 'victimeHomme'                  , type: 'boolean'  },
+                                                  {name: 'nomVictime'                    , type: 'string'   },
+                                                  {name: 'prenomVictime'                 , type: 'string'   },
+                                                  {name: 'nomContactSurPlace'            , type: 'string'   },
+                                                  {name: 'coordonneesContactSurPlace'    , type: 'string'   },
+                                                  {name: 'batiment'                      , type: 'string'   },
+                                                  {name: 'etage'                         , type: 'string'   },
+                                                  {name: 'porte'                         , type: 'string'   },
+                                                  {name: 'complementAdresse'             , type: 'string'   },
+                                                  {name: 'complementMotif'               , type: 'string'   }
+                                              ]
+                                          });
+                                          
+                                          
+                                          
+                                          currentInterListWindow = new Ext.Window({
+                                            id          : 'currentInterListWindow',
+                                            layout      : 'fit' ,
+                                            width       : 500   ,
+                                            height      : 300   ,
+                                            closeAction : 'hide',
+
+                                            items: new Ext.grid.GridPanel({
+                                              store         : currentInterListWindowStore,
+                                              listeners     : { 
+                                                rowdblclick : function(theGrid, rowIndex, e )
+                                                {
+                                                  var rowData = theGrid.store.getAt(rowIndex).data;
+                                                  miBilanCs.editBilan(rowData.idIntervention);
+                                                  Ext.getCmp('currentInterListWindow').hide();
+                                                }
+                                              },
+                                              columns: [
+                                                  {
+                                                      id       : 'interventionBusinessId',
+                                                      header   : 'Inter', 
+                                                      width    : 160, 
+                                                      sortable : true, 
+                                                      dataIndex: 'interventionBusinessId'
+                                                  },
+                                                  {
+                                                      header   : 'Nom', 
+                                                      width    : 75, 
+                                                      sortable : true, 
+                                                      dataIndex: 'nomVictime'
+                                                  },
+                                                  {
+                                                      header   : 'Prenom', 
+                                                      width    : 75, 
+                                                      sortable : true, 
+                                                      dataIndex: 'prenomVictime'
+                                                  }
+                                              ],
+                                              stripeRows: true,
+                                              autoExpandColumn: 'interventionBusinessId',
+                                              height: 350,
+                                              width: 600,
+                                              title: 'Liste des interventions'
+                                          }),
+                                            buttons: [{
+                                                text: 'Close',
+                                                handler: function()
+                                                {
+                                                  Ext.getCmp('currentInterListWindow').hide();
+                                                }
+                                            }]
+                                        });
+                                          
+                                        }
+                                        
+                                        currentInterListWindowStore.loadData(data);
+                                        currentInterListWindow.show(this);
+                                      }
+                                      
+                                      
+                                    });
+                                    
+  	  											    	    
 	  											        },
 	  											        iconCls: 'editInterButton'
 	  											    },
@@ -392,7 +528,7 @@ function init()
     /* init de la liste des interventions*/
   PageBus.subscribe("list.loaded"     ,  this,
     function(){
-      InterventionList = Ext.ux.Utils.InterventionList
+      InterventionList = Ext.ux.Utils.InterventionList;
       InterventionList.init();    
     }
     , null, null);

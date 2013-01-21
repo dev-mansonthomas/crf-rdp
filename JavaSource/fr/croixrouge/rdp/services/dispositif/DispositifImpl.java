@@ -17,17 +17,21 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
+import fr.croixrouge.rdp.model.monitor.DispositifSummaryInformation;
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
 import fr.croixrouge.rdp.model.monitor.DispositifTypeDefinition;
+import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.Position;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifRowMapper;
+import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifSummaryInformationRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifTicketRowMapper;
 import fr.croixrouge.rdp.model.monitor.rowMapper.DispositifTypeDefinitionRowMapper;
 import fr.croixrouge.rdp.services.JDBCHelper;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import fr.croixrouge.rdp.services.vehicule.VehiculeService;
 
 public class DispositifImpl extends JDBCHelper implements DispositifService
 {
@@ -35,14 +39,17 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private JdbcTemplate        jdbcTemplate        = null;
   private EquipierService     equipierService     = null;
   private InterventionService interventionService = null;
+  private VehiculeService     vehiculeService     = null;
 
  
   
-  public DispositifImpl(JdbcTemplate  jdbcTemplate)
+  public DispositifImpl(JdbcTemplate        jdbcTemplate,
+                        VehiculeService     vehiculeService)
   {
     
     
     this.jdbcTemplate        = jdbcTemplate       ;
+    this.vehiculeService     = vehiculeService;
     
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -425,6 +432,27 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       
       if(logger.isDebugEnabled())
         logger.debug("updateDispositifPosition, dispositif with id="+idDispositif+" current position has been updated with position : "+currentPosition.toString()+" (nbLineUpdated="+nbLineUpdated+")");
+      
+      
+      DispositifSummaryInformation dispositifSummaryInformation= this.getDispositifSummaryInformation(idDispositif);
+      
+      List<InterventionTicket> interventions = this.interventionService.getInterventionsTicketFromDispositif(idDispositif);
+      
+      int[] interventionsId = new int[interventions.size()];
+      int i = 0;
+      
+      for (InterventionTicket interventionTicket : interventions)
+      {
+        interventionsId[i] = interventionTicket.getIdIntervention();
+        i++;
+      }
+      
+      dispositifSummaryInformation.setIdInterventions(interventionsId);
+      dispositifSummaryInformation.setCoordinateLat(currentPosition.getGoogleCoordsLat ());
+      dispositifSummaryInformation.setCoordinateLat(currentPosition.getGoogleCoordsLong());
+      
+      this.vehiculeService.storeVehiculePosition(dispositifSummaryInformation, VehiculeService.GPS_ORIGINE_GOOGLE);
+      
     }
     else if(logger.isDebugEnabled())
       logger.debug("updateDispositifPosition, skipping current Position Update");
@@ -448,12 +476,44 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
   }
   
+  private final static String queryForGetDispositifSummaryInformation =
+      "SELECT   id_dispositif, id_vehicule, id_etat_dispositif \n" +
+      "FROM     dispositif          \n" +
+      "WHERE    id_dispositif = ?   \n";
   
+  
+  public DispositifSummaryInformation getDispositifSummaryInformation(int idDispositif) throws Exception
+  {
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("getting Dispositif Summary Information for dispositif id='"+idDispositif+"' \n"+queryForGetDispositifSummaryInformation);
+    }
+      
+    
+    return this.jdbcTemplate.queryForObject(queryForGetDispositifSummaryInformation, 
+        new Object[]{new Integer(idDispositif)},
+        new int   []{Types.INTEGER},
+        new DispositifSummaryInformationRowMapper());
+  }
+  
+  
+  private final static String queryForGetIdVehiculeOfDispositif=
+      "SELECT  `id_vehicule`    \n" +
+      "FROM    dispositif       \n" +
+      "WHERE   id_dispositif=?  \n" ;
+    
+  public int getIdVehiculeOfDispositif(int idDispositif) throws Exception
+  {
+    return this.jdbcTemplate.queryForInt(queryForGetIdVehiculeOfDispositif, 
+        new Object[]{idDispositif },
+        new int   []{Types.INTEGER});
+  }
+
   private final static String queryForGetIdTypeDispositif=
-    "SELECT  `id_type_dispositif`\n" +
-    "FROM    dispositif d\n"    +
-    "WHERE   id_dispositif=?\n" +
-    "AND     id_regulation=?\n";
+    "SELECT  `id_type_dispositif` \n"+
+    "FROM    dispositif           \n"+
+    "WHERE   id_dispositif=?      \n"+
+    "AND     id_regulation=?      \n";
   
   public int getIdTypeDispositif(int idRegulation, int idDispositif) throws Exception
   {
@@ -464,7 +524,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   
   private final static String dispositifSelectQuery = 
-    "SELECT d.`id_dispositif`    , `id_type_dispositif`, `indicatif_vehicule`,                                                                                      \n"+
+    "SELECT d.`id_dispositif`    , `id_vehicule`       , `id_type_dispositif`, `indicatif_vehicule`,                                                                \n"+
     "        `O2_B1_volume`      , `O2_B1_pression`    , `O2_B2_volume`      ,                                                                                      \n"+
     "        `O2_B2_pression`    , `O2_B3_volume`      , `O2_B3_pression`    ,                                                                                      \n"+
     "        `O2_B4_volume`      , `O2_B4_pression`    , `O2_B5_volume`      , `O2_B5_pression`,                                                                    \n"+
@@ -557,19 +617,19 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private final static String whereForRecentDispositif = 
     "WHERE    id_regulation     = ?    \n";
   
-  private final static String whereForRecentDispositifTimeSearch =
-    "AND TIMESTAMPDIFF(HOUR, DH_DEBUT, CURRENT_TIMESTAMP) < 48 \n";
-  
+ // private final static String whereForRecentDispositifTimeSearch =
+  //  "ORDER BY DH_DEBUT DESC \n";
+  //  "AND TIMESTAMPDIFF(HOUR, DH_DEBUT, CURRENT_TIMESTAMP) < 48 \n";
   
   private final static String queryForRecentDispositif = dispositifTicketSelectQuery + 
-  whereForRecentDispositif + whereForRecentDispositifTimeSearch +
-  "ORDER BY indicatif_vehicule ASC   \n";
+  whereForRecentDispositif + 
+  "ORDER BY DH_DEBUT DESC , indicatif_vehicule ASC   \n";
   
   
   private final static String queryForGetRecentDispositifCount =
     "SELECT   count(1)                \n"+
     "FROM     dispositif              \n"+
-    whereForRecentDispositif + whereForRecentDispositifTimeSearch;
+    whereForRecentDispositif ;
   
 
   public ListRange<DispositifTicket> getRecentDispositif(int idRegulation, int index, int limit) throws Exception
@@ -618,16 +678,16 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   private final static String queryForCreateEmptyDispositif = 
     "INSERT INTO `dispositif`\n"+
-    "  ( `id_type_dispositif`         , `id_regulation`         , `indicatif_vehicule`, `O2_B1_volume`            ,\n"                     +
+    "  ( `id_type_dispositif`         , `id_vehicule`           , `id_regulation`     , `indicatif_vehicule`      , `O2_B1_volume`     ,\n"+
     "    `O2_B1_pression`             , `O2_B2_volume`          , `O2_B2_pression`    , `O2_B3_volume`            , `O2_B3_pression`   ,\n"+
-    "    `O2_B4_volume`               , `O2_B4_pression`        , `O2_B5_volume`      , `O2_B5_pression`          ,\n"                     +
+    "    `O2_B4_volume`               , `O2_B4_pression`        , `O2_B5_volume`      , `O2_B5_pression`          ,                     \n"+
     "    `dispositif_comment`         , `dispositif_back_3_girl`, `dispositif_not_enough_O2`, `dispositif_set_available_with_warning`  ,\n"+    
     "    `dsa_type`                   , `dsa_complet`           , `observation`       , `DH_debut`                , `DH_fin`           ,\n"+
     "    `id_delegation_responsable`  , `autre_delegation`      , `contact_radio`     , `contact_tel1`            , `contact_tel2`     ,\n"+
     "    `contact_alphapage`          , `identite_medecin`      , `id_etat_dispositif`, `id_current_intervention` , `display_state`    ,\n"+
     "    `creation_terminee`\n"+
     "  )\n"+
-    "VALUES (0, ?, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,'', false, false, false, 'N/A', 0, '', ?, ?, 0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', "+STATUS_INDISPO+", 0, 0, false)\n";
+    "VALUES (0, 0, ?, '', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,'', false, false, false, 'N/A', 0, '', ?, ?, 0, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', "+STATUS_INDISPO+", 0, 0, false)\n";
   
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public Dispositif createEmptyDispositif(Regulation regulation) throws Exception
@@ -712,6 +772,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "FROM   dispositif        \n"+
     "WHERE  id_dispositif = ? "; 
 
+  @Deprecated
   public int getCurrentInterventionId (int idDispositif) throws Exception
   {
     int currentInterventionId = this.jdbcTemplate.queryForInt( queryGetCurrentInterventionId, 
@@ -958,6 +1019,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
 
   public static String[]intField = {"id_dispositif"            , 
+                                    "id_vehicule"              ,
                                     "id_type_dispositif"       , 
                                     "id_regulation"            , 
                                     "O2_B1_volume"             , 
@@ -970,6 +1032,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   private static Hashtable<String, String> intFieldMatching = new Hashtable<String, String>(intField.length);
   {
     intFieldMatching.put("id_dispositif"            , "id_dispositif"             );
+    intFieldMatching.put("id_vehicule"              , "id_vehicule"               );
     intFieldMatching.put("id_type_dispositif"       , "id_type_dispositif"        );
     intFieldMatching.put("id_regulation"            , "id_regulation"             );
     intFieldMatching.put("O2_B1_volume"             , "O2_B1_volume"              );

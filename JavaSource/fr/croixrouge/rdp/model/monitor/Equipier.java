@@ -1,11 +1,14 @@
 package fr.croixrouge.rdp.model.monitor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class Equipier extends CrfDto
 {
   private static final long serialVersionUID = -569522743428603329L;
+  
+  
  
   private int       idEquipier            ;
   private int       idDispositif          ;
@@ -37,6 +40,10 @@ public class Equipier extends CrfDto
   
   public String toString()
   {
+    
+    SimpleDateFormat  sdf         = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+    
     return 
     "idEquipier                :"+idEquipier                 +"\n"+
     "idDispositif              :"+idDispositif               +"\n"+
@@ -45,16 +52,18 @@ public class Equipier extends CrfDto
     "numNivol                  :"+numNivol                   +"\n"+
     "nom                       :"+nom                        +"\n"+
     "prenom                    :"+prenom                     +"\n"+
-    "indicatif                 :"+indicatif                     +"\n"+
+    "indicatif                 :"+indicatif                  +"\n"+
     "mobile                    :"+mobile                     +"\n"+
     "email                     :"+email                      +"\n"+
     "delegation                :"+delegation                 +"\n"+
     "autreDelegation           :"+autreDelegation            +"\n"+
     "idRoleDansDispositif      :"+idRoleDansDispositif       +"\n"+
     "enEvaluationDansDispositif:"+enEvaluationDansDispositif +"\n"+
-    "idRoleEnEval              :"+idRoleEnEval               +"\n";
-    
-    //TODO ajouter le reste des champs
+    "idRoleEnEval              :"+idRoleEnEval               +"\n"+
+    "dateCreation              :"+sdf.format(dateCreation)    +"\n"+
+    "dateModification          :"+sdf.format(dateModification)+"\n"+
+    "idSiord                   :"+idSiord                     +"\n"+
+    "dateLastSynchroSiord      :"+sdf.format(dateLastSynchroSiord)+"\n";
   }
   
   

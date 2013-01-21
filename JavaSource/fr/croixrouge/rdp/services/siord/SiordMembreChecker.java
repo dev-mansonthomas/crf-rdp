@@ -8,5 +8,6 @@ import fr.croixrouge.rdp.model.siord.SiordSynchro;
 
 public interface SiordMembreChecker
 {
+  public final static String NIVOL_REGEXP = "[0-9]{3,9}[A-Z]";
   public List<MembreImportStatus> checkMembre(SiordSynchro siordSynchro , Membre membre) throws Exception;
 }

@@ -59,7 +59,7 @@ public abstract class MobileService
       myMessage = SMS_SUBJECT_ONE_MESSAGE+myMessage;
       
       sms.setMessage    (myMessage);
-      /*NOTE : on log le SMS avec le numéro d'origine, si on ca pose un problème pour retrouver les SMS dans le log manager avec le 33 devant le numéro**/
+      /*NOTE : on log le SMS avec le numéro d'origine, si non ca pose un problème pour retrouver les SMS dans le log manager avec le 33 devant le numéro**/
       smsLogService.logSentSMS(sms);
 
       sms.setRecipient  (myTo     );
@@ -80,11 +80,14 @@ public abstract class MobileService
         
 
         sms.setMessage    (oneMessage);
+        
         /*NOTE : on log le SMS avec le numéro d'origine, si on ca pose un problème pour retrouver les SMS dans le log manager avec le 33 devant le numéro**/
         smsLogService.logSentSMS(sms);
-        
+        String originalRecipient = sms.getRecipient  ();
         sms.setRecipient  (myTo      );
         this.rawSendSMS   (myTo, oneMessage);
+        //restore le reciepient original pour la prochaine itération( pour pouvoir logger le message sans le 33...)
+        sms.setRecipient  (originalRecipient);
       }
     }
   }

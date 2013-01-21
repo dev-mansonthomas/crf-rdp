@@ -10,7 +10,7 @@ public class AddScript implements Runnable
   private Logger        logger       = null;
   
 
-  public AddScript(ScriptBuffer scriptBuffer, Class clazz)
+  public AddScript(ScriptBuffer scriptBuffer, Class<?> clazz)
   {
     this.scriptBuffer = scriptBuffer;
     this.logger       = Logger.getLogger(clazz);

@@ -111,6 +111,18 @@ update siord_membres
 set prenom = substring(prenom from 3) 
 where prenom like ' - %'; 
 
+update siord_membres 
+set prenom = substring(prenom from locate(')', prenom)+2) 
+where prenom like 'Y%)%';
+
+update siord_membres 
+set prenom = substring(prenom from 1 for locate('(', prenom)-2)   
+where prenom like')%';
+
+update siord_membres 
+set nom = substring(nom from 1 for locate('(', nom)-2)   
+where nom like')%';
+
 
 
 update siord_membres

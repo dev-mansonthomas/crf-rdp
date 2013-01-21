@@ -126,3 +126,7 @@ Calendar gregorianCalendar = GregorianCalendar.getInstance();
     sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
     encoder.encode();
     
+    
+    
+    String test = "";
+    test.getBytes("UTF-8").toString()

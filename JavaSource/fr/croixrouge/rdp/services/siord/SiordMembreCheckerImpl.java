@@ -39,8 +39,8 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
       status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 3, ""));
       return status;
     }
-    //TODO externaliser la chaine
-    if(!membre.getNivol().matches("[0-9]{3,9}[A-Z]"))
+
+    if(!membre.getNivol().matches(SiordMembreChecker.NIVOL_REGEXP))
     {
       status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 2, ""));
       status.add(new MembreImportStatus(siordSynchro.getIdSynchroSiord(), 7, "NIVOL="+membre.getNivol()));

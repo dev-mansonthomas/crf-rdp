@@ -17,11 +17,15 @@
     <bean id="monitorInputBilan"              class="fr.croixrouge.rdp.services.dwr.monitor.input.MonitorInputBilanImpl"            autowire="constructor" />
     <bean id="monitorInputSMS"                class="fr.croixrouge.rdp.services.dwr.monitor.input.MonitorInputSMS"                  autowire="constructor" />
     
+    
+    
     <bean id="monitorCommons"                 class="fr.croixrouge.rdp.services.dwr.monitor.commons.MonitorCommonsImpl"             autowire="constructor" />
     <bean id="homepage"                       class="fr.croixrouge.rdp.services.dwr.homepage.Homepage"                              autowire="constructor" />
     <bean id="equipiersGestion"               class="fr.croixrouge.rdp.services.dwr.homepage.EquipiersGestion"                      autowire="constructor" />
     <bean id="creditsAndChangeLogDwrService"  class="fr.croixrouge.rdp.services.dwr.monitor.commons.CreditsAndChangeLogDwrService"  autowire="constructor" />
     <bean id="lieuEditorDwrService"           class="fr.croixrouge.rdp.services.dwr.homepage.LieuEditor"                            autowire="constructor" />
+    <bean id="evaluationDwrService"           class="fr.croixrouge.rdp.services.dwr.monitor.commons.EvaluationDWRService"           autowire="constructor" />
+    
     <bean id="InterventionListService"        class="fr.croixrouge.rdp.services.dwr.monitor.commons.InterventionListService"        autowire="constructor" />
     
     

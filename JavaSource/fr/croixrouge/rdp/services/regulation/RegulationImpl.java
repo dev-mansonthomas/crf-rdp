@@ -52,8 +52,8 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     "AND    r.open          = ?               \n" +
     "ORDER BY r.expected_end_date DESC        \n";
   
-  @SuppressWarnings("unchecked")
-  public List getRegulations(boolean open)
+
+  public List<Regulation> getRegulations(boolean open)
   {
     if(logger.isDebugEnabled())
       logger.debug("Getting regulations with state open="+open);

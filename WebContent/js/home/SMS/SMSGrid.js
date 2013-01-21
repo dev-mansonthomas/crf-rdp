@@ -26,7 +26,7 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
                  args          : []              ,
                  proxyConfig   : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
                  filterCallBack: function()
-                 {//TODO : gérer le tri sur les colonnes
+                 {
                     var objectFilter = new Array();
                     
                     Ext.ux.rs.addFilterFromExtField(objectFilter,gridId+'Toolbar-idEquipier', 'idEquipier', '='   ,'');
@@ -116,7 +116,7 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 		                 {
 		                    xtype     : 'gridcolumn',
 		                    header    : 'Equipier',
-		                    sortable  : true,
+		                    sortable  : false,
 		                    resizable : true,
 		                    dataIndex : 'equipierDesc',
 		                    width     : 70
@@ -177,9 +177,21 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
 		                    {
 		                       xtype  : 'button',
 		                       text   : 'Nouveau SMS',
-		                       iconCls: 'smsManagerNewButton',
-		                       handler: function(){
-		                    	   Ext.getCmp(gridId).editNewSMS();
+		                       iconCls: 'smsManagerNewSMSButton',
+		                       handler: function()
+		                       {
+		                         try
+		                         {
+		                           var composingPanel = new Ext.ux.Home.SMS.SMSComposingPanel({equipierId:0, mobile:'', equipierDesc:''});
+		                           composingPanel.initGrid();
+		                         }
+		                         catch(e)
+		                         {
+		                           if(consoleEnabled)
+		                           {
+		                             console.log("SMS Composing Panel, error while initialiazing - "+ e);
+		                           }
+		                         }
 		                       }
 		                    }
 		                 ]
@@ -240,12 +252,15 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
     var rowData = theGrid.store.getAt(rowIndex).data;
     try
     {
-      var composingPanel = new Ext.ux.Home.SMS.SMSComposingPanel({mobile:this.getMobile(rowData), equipierDesc:rowData.equipierDesc});
+      var composingPanel = new Ext.ux.Home.SMS.SMSComposingPanel({equipierId:rowData.equipierId, mobile:this.getMobile(rowData), equipierDesc:rowData.equipierDesc});
       composingPanel.initGrid();
     }
     catch(e)
     {
-      console.log("SMS Composing Panel, error while initialiazing", e);
+      if(consoleEnabled)
+      {
+        console.log("SMS Composing Panel, error while initialiazing - "+ e);
+      }
     }
   },
 	handleRowClick:function(theGrid, rowIndex, e)
@@ -435,12 +450,12 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
        },
        {
            id            : gridId+'Toolbar-allSMS',
-           xtype         : 'combo',
-           width		 : 55	 ,
+           xtype         : 'combo' ,
+           width	       : 55      ,
            typeAhead     : false	 ,
            editable	     : false	 ,
            triggerAction : 'all'	 ,
-           lazyRender    : true	 ,
+           lazyRender    : true    ,
            mode          : 'local',
            store         : new Ext.data.ArrayStore({
                id    : 0,
@@ -452,7 +467,7 @@ Ext.ux.Home.SMS.SMSGrid = Ext.extend(Ext.grid.GridPanel,{
            }),
            valueField    : gridId+'Toolbar-allSMS-value',
            displayField  : 'displayText',
-           value		    : 0
+           value		     : 0
        }, 
        {
           xtype  : 'tbfill'

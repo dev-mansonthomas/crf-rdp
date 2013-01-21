@@ -28,10 +28,7 @@ public class MonitorCommonsImpl  extends DWRUtils implements MonitorCommonsServi
       logger.debug("constructor called");
   }
   
-  
-
-  @SuppressWarnings("rawtypes")
-  public Hashtable<String, List> getAllList() throws Exception
+  public Hashtable<String, List<?>> getAllList() throws Exception
   {
     this.validateSession();
     

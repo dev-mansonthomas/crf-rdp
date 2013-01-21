@@ -29,10 +29,7 @@
 <jsp:include page="./out/04-windows.jsp"/>
 
 <!-- Include JS -->
-  <!-- google map -->
-  <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapsKey}" type="text/javascript"> </script>
-
-  <jwr:script src="/jsBundle/extJs.js"/>
+ <jwr:script src="/jsBundle/extJs.js"/>
   <script type="text/javascript">
     var contextPath="../..";
     var iconPath = '../img/famfamfam/';
@@ -44,5 +41,10 @@
   <script type="text/javascript">
     Ext.onReady(init);
   </script>  
+  
+   <!-- google map -->
+  <script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=${googleMapsKey}" type="text/javascript"> </script>
+
+  
 </body>
 </html>

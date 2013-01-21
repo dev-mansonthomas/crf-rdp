@@ -10,7 +10,7 @@ public class RegulationFilter implements ScriptSessionFilter
   private Logger  logger       = null;
   
 
-  public RegulationFilter(int     regulationId, Class clazz)
+  public RegulationFilter(int     regulationId, Class<?> clazz)
   {
     this.regulationId = regulationId;
     this.logger       = Logger.getLogger(clazz);

@@ -15,6 +15,7 @@ Ext.ux.Home.SMSManagerUI = Ext.extend(Ext.Panel, {
 	  /***************************GRID**************************************************/    
  
 	  var subGridId='SMSSubGrid';
+	  
 	  this.mainGrid = {
 			  xtype :'CRFSMSGrid',
 			  id    :'SMSMainGrid',
@@ -43,7 +44,7 @@ Ext.ux.Home.SMSManagerUI = Ext.extend(Ext.Panel, {
 			  collapsible   : true,
 			  collapsed     : true,
 			  collapseFirst : true,
-        listeners : { 
+        listeners     : { 
           rowdblclick : function(theGrid, rowIndex, e )
           {
             theGrid.handleRowDoubleClick(theGrid, rowIndex, e );
@@ -64,6 +65,11 @@ Ext.ux.Home.SMSManagerUI = Ext.extend(Ext.Panel, {
   {
 	  Ext.getCmp('SMSMainGrid').initToolBar();
 	  Ext.getCmp('SMSSubGrid' ).initToolBar();
+  },
+  reloadGrids:function()
+  {
+    Ext.getCmp('SMSMainGrid').getStore().reload();
+    Ext.getCmp('SMSSubGrid' ).getStore().reload();
   }
   
 });

@@ -81,6 +81,8 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Di
     
     
     dispositif.setIdDispositif              (rs.getInt    ("id_dispositif"            ));
+    dispositif.setIdVehicule                (rs.getInt    ("id_vehicule"              ));
+    
     dispositif.setIdDelegation              (rs.getInt    ("id_delegation_responsable"));
     
     dispositif.setIdTypeDispositif          (rs.getInt    ("id_type_dispositif"       ));

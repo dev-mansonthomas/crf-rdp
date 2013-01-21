@@ -1,5 +1,3 @@
-//DispositifWindow endOfEditionEvent
-
 var MonitorInputDispositifCs = Class.create();
 
 MonitorInputDispositifCs.prototype.initialize=function()
@@ -63,12 +61,261 @@ MonitorInputDispositifCs.prototype.initialize=function()
   UtilsFocusList['DispositifB3P'  ] = 'DispositifB4V'                   ;   
   UtilsFocusList['DispositifB4P'  ] = 'DispositifB5V'                   ;   
   UtilsFocusList['DispositifB5P'  ] = 'DispositifDefibrilateurTypeAUCUN';   */
+  
+  
+
 
   /*event handling*/
-  PageBus.subscribe("list.loaded",  this, this.initDispositif     , null, null);
-  PageBus.subscribe("list.loaded",  this, this.initDispositifGrids, null, null);
+  PageBus.subscribe("list.loaded",  this, this.initDispositif            , null, null);
+  PageBus.subscribe("list.loaded",  this, this.initDispositifGrids       , null, null);
+  PageBus.subscribe("list.loaded",  this, this.initChooseEvalPersonWindow, null, null);
   
   PageBus.subscribe("monitor.input.dispositif.updateThatChangeLists",  this, this.reloadDispositifLists     , null, null);
+};
+
+
+MonitorInputDispositifCs.prototype.initChooseEvalPersonWindow=function()
+{
+  
+  try
+  {
+    
+    
+    var roleEvalueCombo = {
+        xtype        : 'combo',
+        fieldLabel   : 'Rôle évalué',
+        anchor       : '100%',
+        id           : 'EvaluationWindowSetRoleEvaluer',
+        typeAhead    : true,
+        mode         : 'local',
+        editable     : false,
+        triggerAction: 'all',
+        valueField   : 'id',
+        displayField : 'label',
+        store        : new Ext.data.ArrayStore({
+            id      : 0,
+            fields  : ['id', 'label'],
+            data    : [[0,'Loading...']],
+            idIndex : 0
+        })
+    };
+    
+    
+    var roleEvalueSuivantFunctionButtonHandler = function(button, event)
+    {
+      
+      EvaluationService.getIdEquipierEvaluableForRole(Ext.get   ('dispositif_id_field'           ).getValue(),
+                                                      Ext.getCmp('EvaluationWindowSetRoleEvaluer').getValue(),
+
+        function(listEquipier)
+        {
+          var listEquipierCombo = [];
+          var i     = 0;
+          
+          for(i=0;i<listEquipier.length;i++)
+          {
+            listEquipierCombo[i] = [listEquipier[i].idEquipier, listEquipier[i].numNivol+' - '+listEquipier[i].prenom+' '+listEquipier[i].nom];
+          }
+          
+          var comboStore = Ext.getCmp('EvaluationWindowSetEquipierEnEval').getStore();
+          
+          comboStore.removeAll();
+          comboStore.loadData(listEquipierCombo);
+          
+          Ext.getCmp('choose-eval-personl-window-contentCmp-LearnerTab').enable();
+          
+          var tab = Ext.getCmp('choose-eval-personl-window-contentCmp');
+          tab.setActiveTab('choose-eval-personl-window-contentCmp-LearnerTab');            
+        }
+      );   
+    };
+    
+    
+    var chooseRoleEvalueTab ={
+        id          : 'choose-eval-personl-window-contentCmp-RoleTab',
+        title       : "Role de l'évaluation",
+        closable    : false,
+        xtype       : 'form',
+        items       : [ roleEvalueCombo ],
+        buttons: [{
+          text: 'Close',
+          handler: function(button, event){
+              Ext.getCmp('choose-eval-person-windowCmp').hide();
+          }
+        },
+        {
+          text: 'Suivant',
+          handler : roleEvalueSuivantFunctionButtonHandler
+        }]
+      };
+      
+    
+    
+    
+    var choosePSE2EvalueTab = {
+        id          : 'choose-eval-personl-window-contentCmp-LearnerTab',
+        title       : "Bénévole Evalué",
+        closable    : false,
+        disabled    : true,
+        xtype       : 'form',
+        items       : [{
+                         xtype        : 'combo',
+                         fieldLabel   : 'Equipier Evalué',
+                         anchor       : '100%',
+                         id           : 'EvaluationWindowSetEquipierEnEval',
+                         typeAhead    : true,
+                         mode         : 'local',
+                         editable     : false,
+                         triggerAction: 'all',
+                         valueField   : 'id',
+                         displayField : 'label',
+                         store        : new Ext.data.ArrayStore({
+                             id      : 0,
+                             fields  : ['id', 'label'],
+                             data    : [[0,'Loading...']],
+                             idIndex : 0
+                         })
+                     }],
+         buttons: [{
+           text: 'Close',
+           handler: function(button, event){
+               Ext.getCmp('choose-eval-person-windowCmp').hide();
+           }
+         },
+         {
+           text: 'Suivant',
+           handler : function(button, event)
+           {
+             var evaluationChoosePersonWindow = MonitorInputDispositifCs.prototype.evaluationChoosePersonWindow;
+             var evaluateur = evaluationChoosePersonWindow.currentSelectedEvaluateurEquipier;
+             
+             var equipierEvalueId   = Ext.getCmp('EvaluationWindowSetEquipierEnEval').getValue();
+             var equipierEvalueLabel= Ext.get('EvaluationWindowSetEquipierEnEval'   ).getValue();
+             
+             evaluationChoosePersonWindow.equipierEvalueId = equipierEvalueId;
+             evaluationChoosePersonWindow.roleEvalueId     = Ext.get('EvaluationWindowSetRoleEvaluer').getValue();
+             
+             Ext.getCmp('summaryTabEvaluateur'  ).setValue(evaluateur.nivol+' - '+evaluateur.prenom+' '+evaluateur.nom);
+             Ext.getCmp('summaryTabPersonEvalue').setValue(equipierEvalueLabel);
+             Ext.getCmp('summaryTabRoleEvalue'  ).setValue(Ext.get('EvaluationWindowSetRoleEvaluer').getValue());
+             
+             Ext.getCmp('choose-eval-person-window-contentCmp-SummaryTab').enable();
+             
+             var tab = Ext.getCmp('choose-eval-personl-window-contentCmp');
+             tab.setActiveTab('choose-eval-person-window-contentCmp-SummaryTab');
+             
+           }
+         }]
+      };
+    
+    
+    var saveEvaluationSessionFunction =  function(button, event)
+    {
+      var evaluationChoosePersonWindow = MonitorInputDispositifCs.prototype.evaluationChoosePersonWindow;
+      var evaluateur = evaluationChoosePersonWindow.currentSelectedEvaluateurEquipier;
+      
+      var idEquipierEvaluateur  = evaluateur.idEquipier;
+      var equipierEvalueId      = Ext.getCmp('EvaluationWindowSetEquipierEnEval').getValue();
+      var idRoleEvalue          = Ext.getCmp('EvaluationWindowSetRoleEvaluer'   ).getValue(); 
+      
+      var evaluationSession = {
+          idDispositif        : $('dispositif_id_field').value,  
+          idRoleEvalue        : idRoleEvalue,            
+          idEquipierEvalue    : equipierEvalueId,       
+          idEquipierEvaluateur: idEquipierEvaluateur
+      };
+      
+      EvaluationService.createEvaluationSession(evaluationSession, function(idEvaluationSession)
+      {
+        
+        
+      });
+      
+    };
+    
+    
+    
+     var finalTab = {
+         id          : 'choose-eval-person-window-contentCmp-SummaryTab',
+         title       : "Role de l'évaluation",
+         closable    : false,
+         disabled    : true,
+         xtype       : 'form',
+         items       : [{fieldLabel: 'Evaluateur'     , id:'summaryTabEvaluateur'  , xtype:'textfield', readOnly:true, width:'100%'},
+                        {fieldLabel: 'Rôle Evalué'    , id:'summaryTabRoleEvalue'  , xtype:'textfield', readOnly:true, width:'100%'},
+                        {fieldLabel: 'Equipier Evalué', id:'summaryTabPersonEvalue', xtype:'textfield', readOnly:true, width:'100%'}],
+         
+         buttons     : [
+         {
+           text: 'Close',
+           handler: function(button, event)
+           {
+               Ext.getCmp('choose-eval-person-windowCmp').hide();
+           }
+         },
+         {
+           text: 'Sauvegarder',
+           handler:saveEvaluationSessionFunction
+         }
+         ]
+       };   
+    
+    
+   
+  var evaluationChoosePersonWindow = new Ext.Window({
+    id          : 'choose-eval-person-windowCmp',
+    title       : 'Mise en place d\'une Evaluation',
+    layout      : 'fit'             ,
+    width       : 500               ,
+    height      : 500               ,
+    x           : 0                 ,
+    y           : 35                ,
+    closeAction : 'hide'            ,
+    plain       : true              ,
+    items       : new Ext.TabPanel({
+      id             : 'choose-eval-personl-window-contentCmp' ,
+      autoTabs       : true,
+      activeTab      : 0                          ,
+      enableTabScroll: true                       ,
+      defaults       : {autoScroll:true}          ,
+      deferredRender : false                      ,
+      border         : false                      ,
+      bodyStyle      :'padding:5px'               ,
+      items          : [chooseRoleEvalueTab, choosePSE2EvalueTab, finalTab]//fin items
+    }) //fin du TabPanel
+  });//fin window
+  
+  MonitorInputDispositifCs.prototype.evaluationChoosePersonWindow  = evaluationChoosePersonWindow ;
+  
+  }
+  catch(e)
+  {
+    console.log(e);
+  }
+  
+};
+
+MonitorInputDispositifCs.prototype.evaluationWindowDisplayListRole=function(idRoles)
+{
+  var roles = [];
+  var i     = 0;
+  
+  for(i=0;i<idRoles.length;i++)
+  {
+    roles[i] = [idRoles[i], crfIrpUtils.getLabelFor('RolesEquipier', idRoles[i])];
+  }
+ 
+  console.log(roles);
+  
+  var comboStore = Ext.getCmp('EvaluationWindowSetRoleEvaluer').getStore();
+  
+  comboStore.removeAll();
+  comboStore.loadData(roles);
+  
+
+  Ext.getCmp('choose-eval-personl-window-contentCmp').activate('choose-eval-personl-window-contentCmp-RoleTab');
+  
+  
 };
 
 
@@ -157,6 +404,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
               })
 
   
+  
 /* *************** recherche délégation ***********************/             
               
   var delegationSearchDataStore = new Ext.data.Store({
@@ -192,103 +440,68 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
     ); 
 
     var searchDelegationComboBox = new Ext.form.ComboBox({
-        id          : 'DelegationSearch', 
-        store       : delegationSearchDataStore,
-        displayField: 'nom',
-        loadingText : 'Recherche en cours...',
-        width       : 300,
-        listWidth   : 300,
-        pageSize    : 10,
-        minChars    : 1,
-        hideTrigger : true,
-        tpl         : resultTplDelegation,
-        itemSelector: 'div.search-item',
-        applyTo     : 'DispositifDelegation',
+        id             : 'DelegationSearch', 
+        store          : delegationSearchDataStore,
+        displayField   : 'nom',
+        loadingText    : 'Recherche en cours...',
+        width          : 300,
+        listWidth      : 300,
+        pageSize       : 10,
+        minChars       : 1,
+        hideTrigger    : true,
+        tpl            : resultTplDelegation,
+        itemSelector   : 'div.search-item',
+        applyTo        : 'DispositifDelegation',
+        filterCallBack : function()
+        {
+         
+           var role   = Ext.getCmp('dispositifRoleList'      ).getValue();
+           var search = Ext.getCmp('DispositifEquipierSearch').getValue();
+           
+           if(role =='')
+             return [];
+           
+           return [new Ext.ux.rs.data.FilterObject('idRole',role  ,'='),
+                   new Ext.ux.rs.data.FilterObject('search',search,'=')]
+        },
         onSelect    : MonitorInputDispositifCs.prototype.selectDelegation
     });            
               
-              
+
  /* Combo Box de recherche d'équipier*/ 
-  var equipierSearchDataStore = new Ext.data.Store({
-      proxy: new Ext.ux.rs.data.DwrProxy({
-             call           : MonitorInputDispositif.searchEquipier,
-             args           : [],
-             proxyConfig    : Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
-             filterCallBack : function()
-             {
-              
-                var role   = Ext.getCmp('dispositifRoleList'      ).getValue();
-                var search = Ext.getCmp('DispositifEquipierSearch').getValue();
-                
-                if(role =='')
-                  return [];
-                
-                return [new Ext.ux.rs.data.FilterObject('idRole',role  ,'='),
-                        new Ext.ux.rs.data.FilterObject('search',search,'=')]
-             }
-        }),
-        reader: new Ext.ux.rs.data.JsonReader({
-                 root: 'data',
-        totalProperty: 'totalCount',
-                   id: 'idEquipier',
-               fields:
-                   [
-                       {name: 'idEquipier'                , type: 'int'     },
-                       {name: 'homme'                     , type: 'boolean' },
-                       {name: 'numNivol'                  , type: 'string'  },
-                       {name: 'nom'                       , type: 'string'  },
-                       {name: 'prenom'                    , type: 'string'  },
-                       {name: 'mobile'                    , type: 'string'  },
-                       {name: 'email'                     , type: 'string'  },
-                       {name: 'delegation.idDelegation'   , type: 'int'     },
-                       {name: 'idRoleDansDispositif'      , type: 'int'     },
-                       {name: 'enEvaluationDansDispositif', type: 'boolean' }
-                   ]
-               })
-    });
-
-    var resultTpl = new Ext.XTemplate(
-        '<tpl for=".">',
-          //'<tpl if="id != -2">',
-            '<div class="search-item">',
-               '<h3><span>{numNivol}</span>{[this.getSexImg(values)]} {prenom} {nom}</h3>',//{delegation.idDelegation}
-               '{[this.getDelegation(values)]}',
-            '</div>',
-          //'</tpl>', 
-        '</tpl>',
-        {
-          getDelegation:function(values)
-          {
-            return crfIrpUtils.getLabelFor("Delegations", values["delegation.idDelegation"]);
-          },
-          getSexImg:function(values)
-          {
-            return '<img src="'+contextPath+'/img/monitorInput/user'+(values.homme?'':'_female')+'.png" alt="'+(values.homme?'Homme':'Femme')+'"/> ';
-          }
-        }
-    ); 
-
-    var searchEquipierComboBox = new Ext.form.ComboBox({
-        id          : 'DispositifEquipierSearch', 
-        store       : equipierSearchDataStore,
-        displayField: 'numNivol',
-        loadingText : 'Recherche en cours...',
-        width       : 570,
-        listWidth   : 570,
-        pageSize    : 10,
-        minChars    : 1,
-        hideTrigger : true,
-        tpl         : resultTpl,
-        itemSelector: 'div.search-item',
-        applyTo     : 'DispositifEquipierSearchInput',
-        listeners   : {
-          // delete the previous query in the beforequery event or set
-          // combo.lastQuery = null (this will reload the store the next time it expands)
-          beforequery: function(qe){
-              delete qe.combo.lastQuery;
-        }},
-        onSelect    : MonitorInputDispositifCs.prototype.addEquipierConfirm
-    });
+    
+    var searchEquipierComboBox = new Ext.ux.crfrdp.EquipierSearchCombo({
+      id          : 'DispositifEquipierSearch', 
+      searchType  : 1,/*dispositifEquipierSearch*/
+      applyTo     : 'DispositifEquipierSearchInput',
+      displayField: 'numNivol',
+      loadingText : 'Recherche en cours...', 
+      width       : 570,
+      listWidth   : 570,
+      pageSize    : 10,
+      minChars    : 1,
+      hideTrigger : true,
+      itemSelector: 'div.search-item',
+      listeners   : {
+        // delete the previous query in the beforequery event or set
+        // combo.lastQuery = null (this will reload the store the next time it expands)
+        beforequery: function(qe){
+            delete qe.combo.lastQuery;
+      }},
+      filterCallBack : function()
+      {
+       
+         var role   = Ext.getCmp('dispositifRoleList'      ).getValue();
+         var search = Ext.getCmp('DispositifEquipierSearch').getValue();
+         
+         if(role =='')
+           return [];
+         
+         return [new Ext.ux.rs.data.FilterObject('idRole',role  ,'='),
+                 new Ext.ux.rs.data.FilterObject('search',search,'=')]
+      },
+      onSelect    : MonitorInputDispositifCs.prototype.addEquipierConfirm
+    });  
   /* FIN Combo Box de recherche d'équipier*/
   
   
@@ -345,32 +558,33 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
     });  
 
     
-  var checkboxSelectionModel = new xg.CheckboxSelectionModel({
-      singleSelect: true,
-      listeners   : {
-          // On selection change, set enabled state of the removeButton
-          // which was placed into the GridPanel using the ref config
-          selectionchange: function(sm) {
-              if (sm.getCount()) 
-              {
-                dispositifEquipierListGrid.evaluationButton.enable();
-                dispositifEquipierListGrid.removeButton    .enable();    
-              } 
-              else 
-              {
-                dispositifEquipierListGrid.evaluationButton.disable();
-                dispositifEquipierListGrid.removeButton    .disable();
-              }
-          }
-      }
-  });
-    
+
+ var checkboxSelectionModel = new xg.CheckboxSelectionModel({
+   singleSelect: true,
+   listeners   : {
+       // On selection change, set enabled state of the removeButton
+       // which was placed into the GridPanel using the ref config
+       selectionchange: function(sm) {
+           if (sm.getCount()) 
+           {
+             dispositifEquipierListGrid.evaluationButton.enable();
+             dispositifEquipierListGrid.removeButton    .enable();    
+           } 
+           else 
+           {
+             dispositifEquipierListGrid.evaluationButton.disable();
+             dispositifEquipierListGrid.removeButton    .disable();
+           }
+       }
+   }
+});
+     
     
   var dispositifEquipierListGrid = new xg.GridPanel({
         id   :'DispositifEquipierListGrid',
         store: dataStoreForEquipierList,
         cm   : new xg.ColumnModel([
-            checkboxSelectionModel,
+             checkboxSelectionModel,
             {id:'DELG_nivol'       , header: "Nivol"      , width: 70 , sortable: true , dataIndex: 'numNivol'                                                                        },
             {id:'DELG_nomprenom'   , header: "Nom Prénom" , width: 290, sortable: true , dataIndex: 'nom'                       , renderer:miDispositifCs.DELGNomPrenomCellRenderer   },
             {id:'DELG_mobile'      , header: "Mobile"     , width: 80 , sortable: true , dataIndex: 'mobile'                                                                          },
@@ -398,7 +612,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             ref     : '../removeButton',
             disabled: true
         },{
-            text    : 'Option d\'évaluation',
+            text    : 'Evaluation : Choisir l\'évaluateur',
             tooltip : 'Cocher un équipier puis cliquer sur ce bouton pour mettre l\'équipier en évaluation',
             iconCls : 'evaluation',
             handler : MonitorInputDispositifCs.prototype.evaluationButtonHandler,
@@ -431,18 +645,58 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
 
 MonitorInputDispositifCs.prototype.evaluationButtonHandler=function(button, event)
 {
+  //réactiver la selection case a cocher, sinon ca va etre galère pour ré-afficher les options d'évaluation
+  // ==> selectionne la personne evaluateur, puis le role qu'elle evalue, puis la personne évaluée, puis on valide => affiche un résumé et sauvegarde
+  // ==> sur ré-affichage, on affiche le resumé, avec un bouton qui permet de modifier
+  var evaluationChoosePersonWindow = MonitorInputDispositifCs.prototype.evaluationChoosePersonWindow;
   var sm     = Ext.getCmp('DispositifEquipierListGrid').getSelectionModel();
   var record = sm.getSelected();
   
-  if(record.data.idRoleDansDispositif != 9)
+  if(record.data.idRoleDansDispositif >= 5 && record.data.idRoleDansDispositif <= 7)
   {
-    Ext.Msg.alert('Sélection invalide','Seul un PSE2 peut etre mise en évaluation pour un role supérieur (Chauffeur, CI).<br/><br/>Ex: Un CI A gère le dispositif. Le PSE2 B est en évaluation pour devenir CI. A est ajouter en tant que CI, B en tant que PSE2, évaluer en tant que CI');
-    sm.clearSelections();
+    var selectedEquipierEvaluateur = {idEquipier: record.data.idEquipier,
+                                      nivol     : record.data.numNivol  ,
+                                      nom       : record.data.nom       ,
+                                      prenom    : record.data.prenom    };
+    
+    Ext.getCmp('choose-eval-personl-window-contentCmp-LearnerTab').disable();
+    Ext.getCmp('choose-eval-person-window-contentCmp-SummaryTab' ).disable();
+    
+    
+    var comboStore = Ext.getCmp('EvaluationWindowSetEquipierEnEval').getStore();
+    comboStore.removeAll();
+    
+    Ext.getCmp('summaryTabEvaluateur'  ).setValue('');
+    Ext.getCmp('summaryTabPersonEvalue').setValue('');
+    Ext.getCmp('summaryTabRoleEvalue'  ).setValue('');
+    
+    
+    evaluationChoosePersonWindow.currentSelectedEvaluateurEquipier = selectedEquipierEvaluateur;
+    EvaluationService.getRolesEvaluateurFromEquipier(record.data.idEquipier, MonitorInputDispositifCs.prototype.displayEvalutionWindowWithRoleEvaluable);    
+  }
+  else
+  {
+     Ext.Msg.alert('Sélection invalide','Seul un Chauffeur ou un CI peut évaluer un PSE2.<br/><br/>Ex: Un CI "A" gère le dispositif. Le PSE2 "B" est en évaluation pour devenir CI. "A" est ajouter en tant que CI, "B" en tant que PSE2, évaluer en tant que CI');
+     sm.clearSelections();
+     evaluationChoosePersonWindow.currentSelectedEvaluateurEquipier = null;
+     return;  
+  }
+};
+
+MonitorInputDispositifCs.prototype.displayEvalutionWindowWithRoleEvaluable=function(idRoles)
+{
+  if(idRoles == null || idRoles.length == 0)
+  {
+    Ext.Msg.alert('Evaluation Impossible', "L'équipier séléctionné n'est pas évaluateur. Si c'est inexact, veuillez éditer l'équipier depuis l'onglet 'Gestion des Equipiers' sur la page d'Accueil.");
     return;
   }
-  //TODO : window qui propose de cocher en evalution et de choisir le role avec deux bouton, sauver et annuler
-  //sur sauvegarde, update en DB et reload de la grid
+  
+  MonitorInputDispositifCs.prototype.evaluationWindowDisplayListRole(idRoles);
+  MonitorInputDispositifCs.prototype.evaluationChoosePersonWindow.show();
 };
+
+
+
 
 MonitorInputDispositifCs.prototype.gridRowDoubleClickHandler=function(grid, rowIndex, columnIndex, e)
 {
@@ -759,6 +1013,21 @@ MonitorInputDispositifCs.prototype.endOfEditionEventReturn=function()
 MonitorInputDispositifCs.prototype.resetDispositifForm=function()
 {
 
+  var interventionListWindow = Ext.getCmp('InterventListWindow');
+  
+  if(interventionListWindow!=null)
+  {
+    interventionListWindow.hide();
+  }
+  
+  
+  var currentInterListWindow = Ext.getCmp('currentInterListWindow');
+  if(currentInterListWindow!=null) 
+  {
+    currentInterListWindow.hide();
+  }
+  
+  
   MonitorInputDispositifCs.prototype.resetErrorAndWarningDisplay();
   
   for(i=0,count=this.fieldList.length;i<count;i++)
@@ -778,6 +1047,17 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   Ext.get('dispositifPreviousGoogleAdressCheckStatus').dom.src=contextPath+"/img/pix.png"
   
   this.updateVolumeAndAutonomie();
+  
+  
+  
+  //Liste des véhicules
+  dwr.util.removeAllOptions('DispositifVehicule');
+  
+  var listVehicule = [{idVehicule:0, description:'Veuillez choisir un type de dispositif !'}];
+  dwr.util.addOptions( 'DispositifVehicule', 
+      listVehicule,
+      'idVehicule',
+      'description');
   
   Ext.getCmp('DispositifEquipierSearch'   ).getStore().removeAll();
   Ext.getCmp('DispositifEquipierListGrid' ).getStore().removeAll();
@@ -865,7 +1145,9 @@ MonitorInputDispositifCs.prototype.addEquipierConfirm=function(record)
     }
   },
   record
-  )
+  );
+  
+  Ext.Msg.getDialog().setPosition(300, 170);
 };
 
 
@@ -886,15 +1168,20 @@ MonitorInputDispositifCs.prototype.initDispositif=function()
 {
   dwr.util.removeAllOptions('DispositifType');
   dwr.util.removeAllOptions('DispositifStatus');
+  
+  var listTypeDispositif = crfIrpUtils.allList['TypesDispositif'];
+  
+  listTypeDispositif[0].label='Veuillez choisir un type de dispositif!';
+  
   dwr.util.addOptions( 'DispositifType', 
-                      crfIrpUtils.allList['TypesDispositif'],
-                      'id',
-                      'label');
+                        listTypeDispositif,
+                        'id',
+                        'label');
   
   dwr.util.addOptions( 'DispositifStatus', 
-                       crfIrpUtils.allList['EtatsDispositif'],
-                       'id',
-                       'label');
+                        crfIrpUtils.allList['EtatsDispositif'],
+                        'id',
+                        'label');
 };
 
 MonitorInputDispositifCs.prototype.createNewEmptyDispositif=function()
@@ -912,6 +1199,11 @@ MonitorInputDispositifCs.prototype.createNewEmptyDispositifReturn=function(dispo
   Ext.get('dispositif_title_indicatif').update('Nouveau Dispositif');
   $('DispositifDHDebut').value=dispositif.dhDebutStr;
   $('DispositifDHFin'  ).value=dispositif.dhFinStr;
+  
+  var iniData = [[0, "Veuillez choisir un type de dispositif !"]];
+  Ext.getCmp('dispositifRoleList').getStore().loadData(iniData);
+
+  
   
   Ext.get('DispositifEdit').slideIn();
   Ext.getCmp('DispositifPanelTopToolbar').setVisible(true);
@@ -976,13 +1268,13 @@ MonitorInputDispositifCs.prototype.deleteDispositifConfirm=function()
 
 MonitorInputDispositifCs.prototype.deleteDispositif=function()
 {
-	MonitorInputDispositif.deleteDispositif($('dispositif_id_field').value, this.deleteDispositifReturn);
+  MonitorInputDispositif.deleteDispositif($('dispositif_id_field').value, this.deleteDispositifReturn);
 };
 
 MonitorInputDispositifCs.prototype.deleteDispositifReturn=function()
 {  
   miDispositifCs.hideDispositif();
-	PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
+  PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
 };
 
 MonitorInputDispositifCs.prototype.hideDispositif=function()
@@ -1015,28 +1307,22 @@ MonitorInputDispositifCs.prototype.endOfVacationConfirm=function()
 
 MonitorInputDispositifCs.prototype.endOfVacation=function()
 {
-	MonitorInputDispositif.endOfVacation($('dispositif_id_field').value, this.endOfVacationReturn);
+  MonitorInputDispositif.endOfVacation($('dispositif_id_field').value, this.endOfVacationReturn);
 };
 
-MonitorInputDispositifCs.prototype.endOfVacationReturn=function(idCurrentIntervention)
+MonitorInputDispositifCs.prototype.endOfVacationReturn=function(numberOfInterventionAffectedToDispositif)
 {
-  if(idCurrentIntervention == 0)
+  if(numberOfInterventionAffectedToDispositif == 0)
   {
     PageBus.publish("monitor.input.dispositif.updateThatChangeLists",null);
   }
   else
   {
-    var title = 'Annulation impossible - intervention affectée';
-    var msg   = 'Une intervention est affectée à ce dispositif, veuillez annuler l\'intervention au préalable.<br/></br>Pour editer l\'intervention afin de l\'annuler, cliquez sur Oui'; 
-    Ext.Msg.confirm(title, msg, function(btn){
-    if(btn == 'yes')
-    {
-      miBilanCs.editBilan(idCurrentIntervention);
-    }
-  });    
-    
+    var title = 'Annulation impossible - intervention(s) affectée(s)';
+    var msg   = 'Au moins une intervention est affectée à ce dispositif, veuillez annuler l\'intervention au préalable.<br/></br>'; 
+    Ext.Msg.alert(title, msg);
   }
-	
+  
 };
 
 
@@ -1051,7 +1337,8 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('dispositifActif'               , dispositif.actif);
   if(dispositif.idTypeDispositif!=0)
   {
-    miDispositifCs.setRoles(dispositif.idTypeDispositif);
+    miDispositifCs.setRoles       (dispositif.idTypeDispositif);
+    miDispositifCs.getVehiculeList(dispositif.idTypeDispositif, dispositif.idDispositif, dispositif.idVehicule);  
   }
   dwr.util.setValue('DispositifDelegation'          , dispositif.idDelegation!=0?crfIrpUtils.getLabelFor('Delegations',dispositif.idDelegation):'N/A');
   dwr.util.setValue('DispositifDelegation_id'       , dispositif.idDelegation);
@@ -1144,6 +1431,56 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
     
 };
 
+
+
+MonitorInputDispositifCs.prototype.getVehiculeList=function(idTypeDispositif, idDispositif, idVehiculeToSet)
+{
+  var typeDispositif = crfIrpUtils.allList['TypesDispositif'][idTypeDispositif];
+  
+  
+  var callMetaData = {
+    callback:MonitorInputDispositifCs.prototype.getVehiculeListReturn,
+    arg:{
+      idVehiculeToSet  : idVehiculeToSet
+    }
+  };
+  
+  
+  MonitorInputDispositif.getVehicules(typeDispositif.idVehiculeType, idDispositif, callMetaData);
+};
+
+MonitorInputDispositifCs.prototype.getVehiculeListReturn=function(listVehicule, callMetaData)
+{
+  if(consoleEnabled)
+  {
+    console.log(listVehicule);
+  }
+  
+  var  listVehicule2 = [];
+  listVehicule2[0]={idVehicule:0,description:""};
+  
+  for(var i=0, counti=listVehicule.length; i<counti; i++)
+  {
+    var vehicule  = listVehicule[i];
+    listVehicule2[i+1]=vehicule;
+    listVehicule2[i+1].description= "["+vehicule.idVehicule+"] "+vehicule.indicatif+" - "+ crfIrpUtils.getLabelFor('Delegations', vehicule.idDelegation) +" - "+ vehicule.marque +" - "+ vehicule.modele +" - "+vehicule.carburant +" - Dernier Controle Technique : "+crfIrpUtils.getDate(vehicule.dateDernierControleTech);
+  }
+  dwr.util.removeAllOptions( 'DispositifVehicule');
+  dwr.util.addOptions( 'DispositifVehicule', 
+      listVehicule2,
+      'idVehicule',
+      'description');
+  
+  dwr.util.setValue('DispositifVehicule', callMetaData.idVehiculeToSet);
+ 
+};
+
+
+MonitorInputDispositifCs.prototype.updateVehiculeAssociation=function(idVehicule)
+{
+  MonitorInputDispositif.updateVehiculeAssociation($('dispositif_id_field').value, idVehicule);
+};
+
 MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
 {
   var roleListCombo = Ext.getCmp('dispositifRoleList');
@@ -1152,7 +1489,7 @@ MonitorInputDispositifCs.prototype.setRoles=function(idTypeDispositif)
   var dispositifTypeDefinition = MonitorInputDispositifCs.prototype.dispositifTypeDefinition[idTypeDispositif];
   
   if(dispositifTypeDefinition == null)
-    throw "Dispositif type definition is not known";
+    return;
   
   var arrayOfRole = Array();
   
@@ -1603,5 +1940,3 @@ MonitorInputDispositifCs.prototype.selectDelegation=function(record)
   }
   Ext.getCmp('DelegationSearch').collapse();
 };
-
-

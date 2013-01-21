@@ -42,8 +42,7 @@ public class TestController extends AbstractController
       logger.error("Illegal access to test page while envCode is not equal to 'DEV' but "+envCode);
       throw new Exception("Illegal access to this page");
     }
-    
-    
+
     
 
     SortedMap<String, Charset> cs = Charset.availableCharsets();
@@ -67,6 +66,7 @@ public class TestController extends AbstractController
     "Mr Manson Thomas 31 ans\n"+
     "135 route de la reine 92100 boulogne\n";
     logger.debug("short message");
+   
     //this.mobileService.sendSMS(new SMS(1,1, 1, "0664664296", shortMessage));
     
     logger.debug("long message");

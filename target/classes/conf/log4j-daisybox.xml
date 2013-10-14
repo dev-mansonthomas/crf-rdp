@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d - %5p - %t (%F:%L) - %m%n" />
+    </layout>
+  </appender>
+  
+  <appender name="FILE"  class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="File" value="/tmp/crf-rdp.log" />
+    <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d %p %c : %m%n" />
+    </layout>
+  </appender>
+
+  <logger name="org.springframework" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+
+  <logger name="net.jawr" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+
+  <logger name="org.directwebremoting" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+
+  <logger name="fr.croixrouge.rdp" additivity="false">
+    <level value="debug" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+
+
+  <logger name="fr.croixrouge.utilities" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </logger>
+  
+  <root>
+    <priority value="error" />
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+</log4j:configuration>

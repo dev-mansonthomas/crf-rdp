@@ -33,7 +33,7 @@
 <!-- Synchro Equipier SIORD Job -->
   <bean id="synchroEquipierSIORDCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
     <property name="jobDetail" ref="synchroEquipierSIORDJob"/>
-    <property name="cronExpression" value="0 54 * * * ?"/><!-- Toutes les heures -->
+    <property name="cronExpression" value="0 03 * * * ?"/><!-- Toutes les heures -->
   </bean>
 
 

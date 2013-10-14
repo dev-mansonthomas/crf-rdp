@@ -171,17 +171,40 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "FROM     intervention     \n"+
     "WHERE    id_regulation = ?\n"+
     "AND      id_etat       = ?\n";
-  public ListRange<InterventionTicket> getInterventionTicketWithStatus(int idRegulation, int status, int index, int limit) throws Exception
+  public ListRange<InterventionTicket> getInterventionTicketWithStatus(int idRegulation, GridSearchFilterAndSortObject gsfaso) throws Exception
   {
+    FilterObject statusFO = gsfaso.getFilterObject("idEtatIntervention");
+    
+    
+    int status = 0;
+    
+    if(statusFO != null)
+    {
+      if("".equals(statusFO.getValue()))
+      {
+        status = 0;
+      }
+      else
+      {
+        status = Integer.parseInt(statusFO.getValue());
+      }
+    }
+    else
+    {
+      status = 0;
+    }
+    
+    
+    
     if(logger.isDebugEnabled())
-      logger.debug("getting internvetion ticket for regulation id='"+idRegulation+"' with status status='"+status+"' from index='"+index+"' with limit='"+limit+"'");
+      logger.debug("getting internvetion ticket for regulation id='"+idRegulation+"' with status status='"+status+"' from start='"+gsfaso.getStart()+"' with limit='"+gsfaso.getLimit()+"'");
 
     int totalCount = this.jdbcTemplate.queryForInt(queryForGetInterventionTicketWithStatusCount,
         new Object[]{idRegulation , status       },
         new int   []{Types.INTEGER, Types.INTEGER});
     
     List<InterventionTicket> list = this.jdbcTemplate.query( queryForGetInterventionTicketWithStatus + "LIMIT    ?,?              \n", 
-        new Object[]{idRegulation , status       , index        , limit        },
+        new Object[]{idRegulation , status       , gsfaso.getStart()        , gsfaso.getLimit()        },
         new int   []{Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER},
         new InterventionTicketRowMapper      ()); 
     
@@ -224,6 +247,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `DH_fin_intervention`                     ,\n"+
     "  `DH_appel_renfort_medical`                ,\n"+
     "  `DH_arrivee_renfort_medical`              ,\n"+
+    "  `DH_annulation`                           ,\n"+
     "  `homme_victime`                           ,\n"+
     "  `nom_victime`                             ,\n"+
     "  `nom_jf_victime`                          ,\n"+
@@ -342,6 +366,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     "  `evac_autre_dest_ville`                   ,\n"+
     "  `evac_autre_dest_google_coords_lat`       ,\n"+
     "  `evac_autre_dest_google_coords_long`      ,\n"+
+    "  `evac_sans_suite`                         ,\n"+
     "  `evac_aggravation`                        ,\n"+
     "  `evac_aggravation_pendant_transport`      ,\n"+
     "  `evac_aggravation_arrive_a_destination`   ,\n"+
@@ -401,6 +426,31 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     return intervention;
   }
+  
+  
+  
+  private final static String queryForCancelIntervention = 
+      "UPDATE intervention        \n" +
+  		"SET DH_annulation = NOW() ,\n" +
+  		"    id_etat       = " +DispositifService.STATUS_INTER_ANNULEE+"\n"+
+      "WHERE  id_intervention = ? \n";
+
+  public void cancelIntervention(int idIntervention) throws Exception
+  {
+
+    Object [] os    = new Object[]{ idIntervention};
+    int    [] types = new int   []{ Types.INTEGER };
+    
+    jdbcTemplate.update(queryForCancelIntervention, os, types);
+
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention cancelled, with id="+idIntervention+"\nquery\n"+queryForCancelIntervention);
+
+  }
+  
+  
+  
   
   
   private final static String queryForAffectInterventionToDispositif =
@@ -808,6 +858,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     booleanFieldMatching.put("evac_laisse_sur_place_decedee"        ,"evac_laisse_sur_place_decedee"        );
     booleanFieldMatching.put("evac_refus_de_transport"              ,"evac_refus_de_transport"              );
     booleanFieldMatching.put("evac_decharche"                       ,"evac_decharche"                       );
+    booleanFieldMatching.put("evac_sans_suite"                      ,"evac_sans_suite"                      );
     booleanFieldMatching.put("evac_aggravation"                     ,"evac_aggravation"                     );
     booleanFieldMatching.put("evac_aggravation_pendant_transport"   ,"evac_aggravation_pendant_transport"   );
     booleanFieldMatching.put("evac_aggravation_arrive_a_destination","evac_aggravation_arrive_a_destination");
@@ -1441,7 +1492,7 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     
     if(logger.isDebugEnabled())
     {
-      logger.debug("queryCount :\n"+queryCount+"\n\nquery :\n"+query);
+      logger.debug("queryCount :\n"+queryCount+"\n\nquery :\n"+query+"\n\nparameters:\n"+gsfaso.toString());
     }
     
     Object [] os    = osAL   .toArray(new Object [osAL.size()]);

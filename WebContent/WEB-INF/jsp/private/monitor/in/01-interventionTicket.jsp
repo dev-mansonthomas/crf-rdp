@@ -256,11 +256,7 @@ Age Approximatif :
 
   </div><!-- FIN InterventionEditor -->
   <div id="InterventionList">
-    <div id="InterventionListEncoursEdition">
-    </div>
-    <div id="InterventionListUnaffected">
-    </div>
-    <div id="InterventionListOthers">
+    <div id="InterventionListGridEl">
     </div>
   </div>
 </div>

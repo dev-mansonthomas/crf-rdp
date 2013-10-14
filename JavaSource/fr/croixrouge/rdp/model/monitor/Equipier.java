@@ -8,7 +8,8 @@ public class Equipier extends CrfDto
 {
   private static final long serialVersionUID = -569522743428603329L;
   
-  
+  public final static int EVAL_EVALUATEUR=1;
+  public final static int EVAL_EVALUE    =2;
  
   private int       idEquipier            ;
   private int       idDispositif          ;
@@ -26,7 +27,7 @@ public class Equipier extends CrfDto
 
   //données récupéré de la table dispositif_equipiers
   private int         idRoleDansDispositif       = 0;
-  private boolean     enEvaluationDansDispositif = false;
+  private int         evaluationDansDispositif   = 0;
   private int         idRoleEnEval               = 0;
   
   private Date        dateCreation = null;
@@ -58,7 +59,7 @@ public class Equipier extends CrfDto
     "delegation                :"+delegation                 +"\n"+
     "autreDelegation           :"+autreDelegation            +"\n"+
     "idRoleDansDispositif      :"+idRoleDansDispositif       +"\n"+
-    "enEvaluationDansDispositif:"+enEvaluationDansDispositif +"\n"+
+    "enEvaluationDansDispositif:"+evaluationDansDispositif   +"\n"+
     "idRoleEnEval              :"+idRoleEnEval               +"\n"+
     "dateCreation              :"+sdf.format(dateCreation)    +"\n"+
     "dateModification          :"+sdf.format(dateModification)+"\n"+
@@ -164,14 +165,7 @@ public class Equipier extends CrfDto
   {
     this.roles = roles;
   }
-  public boolean isEnEvaluationDansDispositif()
-  {
-    return enEvaluationDansDispositif;
-  }
-  public void setEnEvaluationDansDispositif(boolean enEvaluationDansDispositif)
-  {
-    this.enEvaluationDansDispositif = enEvaluationDansDispositif;
-  }
+
   public boolean isEnabled()
   {
     return enabled;
@@ -243,5 +237,17 @@ public class Equipier extends CrfDto
   public void setDateLastSynchroSiord(Date dateLastSynchroSiord)
   {
     this.dateLastSynchroSiord = dateLastSynchroSiord;
+  }
+
+
+  public int getEvaluationDansDispositif()
+  {
+    return evaluationDansDispositif;
+  }
+
+
+  public void setEvaluationDansDispositif(int evaluationDansDispositif)
+  {
+    this.evaluationDansDispositif = evaluationDansDispositif;
   }
 }

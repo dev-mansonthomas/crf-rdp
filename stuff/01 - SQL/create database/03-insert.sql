@@ -592,11 +592,12 @@ values
 ('Transport'),
 ('Arrivé à l''Hopital'),
 ('Terminée'),
-('Annulée'),
+('Vacation Terminée'),
+('Intervention Annulée'),
 ('En cours de création');
 
-update intervention_etat set id_etat = 0 where id_etat = 11;
-ALTER TABLE `intervention_etat` AUTO_INCREMENT = 11;
+update intervention_etat set id_etat = 0 where id_etat = 12;
+ALTER TABLE `intervention_etat` AUTO_INCREMENT = 12;
 
 
 

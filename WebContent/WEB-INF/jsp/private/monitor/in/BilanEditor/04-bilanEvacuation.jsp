@@ -85,14 +85,14 @@
            id="bilan_evac_aggravation_false"
          name="bilanEvacAggravation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation','bilanEvacAggravationP')"
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation','bilanEvacAggravationP', false)"
         value="false"/> <strong>Non</strong>
           
   <input type="radio"
            id="bilan_evac_aggravation_true"
          name="bilanEvacAggravation"
       onFocus="crfIrpUtils.fieldEdit(this.id)"
-     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation','bilanEvacAggravationP')"
+     onChange="miBilanCs.updateBooleanField(this.id, 'evac_aggravation','bilanEvacAggravationP', true)"
         value="true"/> <strong>Oui</strong>        
         
         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -149,15 +149,10 @@
       </tr>
       <tr>
         <td>
-          <strong>Conctact Régulation</strong>
-  <input type="text"
-           id="bilan_evac_aggravation_contact_regulation"
-         name="bilan_evac_aggravation_contact_regulation"
-      onFocus="crfIrpUtils.fieldEdit(this.id)"
-    maxlength="5"
-        style="width:35px;"
-        value="  :  "
-     onChange="miBilanCs.updateDateField(this.id, 'evac_aggravation_contact_regulation')"/>          
+  <div id="bilan_evac_aggravation_contact_regulation_divLabel">Conctact Régulation: </div>
+  <div id="bilan_evac_aggravation_contact_regulation_div"></div>
+
+        
         </td>
         <td colspan="2">
         Nature de l'aggravation :
@@ -235,18 +230,57 @@
       <tr>
         <td>
           Hopital 
-     <select  id="bilan_evac_hopital_destination"
+     <input   id="bilan_evac_hopital_destination"
             name="bilan_evac_hopital_destination"
-         onFocus="crfIrpUtils.fieldEdit(this.id)"
-        onChange="miBilanCs.updateIntegerField(this.id, 'evac_hopital_destination')">
-          <option value="0">&nbsp;</option>
-          </select>
-<br/><br/>
+            type="hidden"
+          />
+          
+     <input   id="bilan_evac_hopital_destination_label"
+            name="bilan_evac_hopital_destination_label"
+            type="input"
+        readonly="readonly"
+           style="width:70%;"
+          /> 
+          
+<!-- The box wrap markup embedded instead of using Element.boxWrap() -->
+<div style="width:570px;">
+    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+        <h3 style="margin-bottom:5px;">Recherche d'un Hopital</h3>
+        <table style="width:100%">
+          <tr>
+            <td><input type="text" name="SearchHopitalInput"     id="SearchHopitalInput"      style="width:100%"/></td>
+          </tr>
+        </table>
+        <div style="padding-top:4px;">
+            Recherche par nom, ville, addresse, code postal.
+        </div>
+
+    </div></div></div>
+    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+</div>    
+
+
+
+ 
+        </td>
+        <td>
+         
+        </td>
+        <td>
+
+        </td>
+      </tr>      
+    </table>               
+          
 ou Autre destination <br/>
 
 
-<span style="width:80px;display:block;float:left;" ext:qtip="Exemple : Clinique privée, Maison de retraite, domicile du patient">Description </span>
-  <input style="width:60%;"
+<table style="width:100%">
+<tr>
+  <td style="width:80px;" ext:qtip="Exemple : Clinique privée, Maison de retraite, domicile du patient">Description</td>
+  <td>
+<input style="width:60%;"
          class="input"
           type="text"
             id="bilan_evac_autre_dest_label"
@@ -254,10 +288,13 @@ ou Autre destination <br/>
          value=""
        onFocus="crfIrpUtils.fieldEdit(this.id)"
       onChange="miBilanCs.updateStringField(this.id, 'evac_autre_dest_label')"
-     maxlength="80"/>
-<br/>
-<span style="width:80px;display:block;float:left;" >Rue </span>
-  <input style="width:60%;"
+     maxlength="80"/>  
+  </td>
+</tr>
+<tr>
+	<td>Rue</td>
+	<td>
+	 <input style="width:60%;"
          class="input"
           type="text"
             id="bilan_evac_autre_dest_rue"
@@ -266,8 +303,11 @@ ou Autre destination <br/>
      maxlength="80"
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="miBilanCs.updateAddress(this.id, 'evac_autre_dest_rue')"/>
-<br/>
-<span style="width:80px;display:block;float:left;" >Code Postal </span>
+	</td>
+</tr>
+<tr>
+  <td>Code Postal</td>
+  <td>
   <input style="width:50px;"
          class="input"
           type="text"
@@ -278,7 +318,12 @@ ou Autre destination <br/>
        onFocus="crfIrpUtils.fieldEdit(this.id)"
         onBlur="miBilanCs.updateAddress(this.id,'evac_autre_dest_code_postal')"
   />
-Ville 
+  </td>
+</tr>
+<tr>
+  <td>Ville</td>
+  <td>
+  
   <input style="width:60.0%;"
          class="input"
           type="text"
@@ -293,16 +338,12 @@ Ville
   <input type="hidden" id="bilan_evac_autre_dest_google_coords_lat"  name="evac_autre_dest_google_coords_lat" />
   <input type="hidden" id="bilan_evac_autre_dest_google_coords_long" name="evac_autre_dest_google_coords_long"/>
 
+  
+  </td>
+</tr>
+</table>
 
-        </td>
-        <td>
-         
-        </td>
-        <td>
-
-        </td>
-      </tr>      
-    </table>    
+   
     
     </div>
     

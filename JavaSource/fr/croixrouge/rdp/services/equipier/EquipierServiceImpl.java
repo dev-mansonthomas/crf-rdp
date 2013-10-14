@@ -99,9 +99,9 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
 
   private final static  String queryForGetEquipiersForDispositif =
     equipierSelectWithDelegation+
-    ", de.id_role_equipier                     ,\n"+
-    "de.en_evaluation                          ,\n"+
-    "de.id_role_en_eval                         \n"+
+    ", de.id_role_equipier                      ,\n"+
+    "de.evaluation                              ,\n"+
+    "de.id_role_eval                          \n"+
     equipierFrom+
     ",      dispositif_equipiers de                  \n"+
     "WHERE  de.id_dispositif     = ?                 \n"+
@@ -135,8 +135,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   private final static String queryForGetEquipierLeaderOfDispositif =
     equipierSelectWithDelegation+
     ",      de.id_role_equipier                     ,\n"+
-    "       de.en_evaluation                        ,\n"+
-    "       de.id_role_en_eval                       \n"+
+    "       de.evaluation                           ,\n"+
+    "       de.id_role_eval                          \n"+
     equipierFrom+
     ",      dispositif_equipiers de           ,      \n" +
     "       dispositif_type      dt           ,      \n" +

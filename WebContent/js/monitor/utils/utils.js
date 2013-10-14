@@ -255,6 +255,21 @@ CrfIrpUtils.prototype.getAllListReturn=function(allList)
 CrfIrpUtils.prototype.getAllLieuReturn=function(allLieu)
 {
   CrfIrpUtils.prototype.allLieu = allLieu;
+ 
+  
+  //génère une liste avec l'id du lieu en clé
+  CrfIrpUtils.prototype.allLieuSortedById = [];
+  var i = 0, j=0;
+  for(i=0; i<9 ; i++)
+  {
+    var oneCategory = allLieu[i];
+    
+    for(j=0, countj=oneCategory.length; j<countj; j++)
+    {
+      CrfIrpUtils.prototype.allLieuSortedById[oneCategory[j].idLieu]=oneCategory[j];
+    }
+  }
+  
   PageBus.publish("listLieu.loaded", allLieu);
 };
 CrfIrpUtils.prototype.getAllTypeLieuReturn=function(allTypeLieu)
@@ -304,6 +319,22 @@ CrfIrpUtils.prototype.getLabelFor=function(listId, id)
   
   return listObject.label;
 };
+
+
+CrfIrpUtils.prototype.getLabelForLieu=function(lieuId)
+{
+  var listObject =  CrfIrpUtils.prototype.allLieuSortedById[lieuId];
+  
+  if(listObject == null)
+  {
+    alert('Lieu id='+lieuId+' inconnu');
+    return '';
+  }
+  
+  return listObject.nom+' - '+listObject.addresse+' '+listObject.codePostal+' '+listObject.ville;
+};
+
+
 CrfIrpUtils.prototype.getListForSimpleStore=function(listId)
 {
   var array = new Array();

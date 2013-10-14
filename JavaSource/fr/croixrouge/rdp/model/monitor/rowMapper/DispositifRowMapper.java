@@ -88,6 +88,9 @@ public class DispositifRowMapper extends RowMapperHelper implements RowMapper<Di
     dispositif.setIdTypeDispositif          (rs.getInt    ("id_type_dispositif"       ));
     dispositif.setIdEtatDispositif          (rs.getInt    ("id_etat_dispositif"       ));
 
+    dispositif.setDisponible                (dispositif.getIdEtatDispositif() == 1);
+    
+    
     dispositif.setDsaComplet                        (rs.getBoolean("dsa_complet"                          ));   
     dispositif.setDsaAdaptateurPediatrique          (rs.getBoolean("dsa_adapteur_pediatrique"             ));   
     

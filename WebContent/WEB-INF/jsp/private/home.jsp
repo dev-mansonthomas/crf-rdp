@@ -78,10 +78,13 @@
   </c:if>
 </div>
 
-<!-- google maps -->
+
+<script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=${googleMapsKey}&sensor=false"></script>
+
+
+<!-- google maps V2 
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=${googleMapsKey}" type="text/javascript"> </script>
-
-
+-->
 <jwr:script src="/jsBundle/extJs.js" />
 <script type="text/javascript">
   var contextPath     = "<%=contextPath%>";

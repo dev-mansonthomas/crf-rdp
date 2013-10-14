@@ -55,8 +55,8 @@ public class EquipierRowMapper extends RowMapperHelper implements RowMapper<Equi
     if(this.fetchRoleInDispositif)
     {// quand on récupère la liste des équipiers du dispositif, on a id_role_en_eval qui represente le role pour lequel l'équipier est en éval 
       //(il pourrait etre candidat a l'évaluation CI et Chaffeur, mais etre en eval dans ce dispositif que pour le chauffeur.)
-      equipier.setIdRoleEnEval              (rs.getInt    ("id_role_en_eval"  ));
-      equipier.setEnEvaluationDansDispositif(rs.getBoolean("en_evaluation"   ));
+      equipier.setIdRoleEnEval              (rs.getInt    ("id_role_eval"    ));
+      equipier.setEvaluationDansDispositif  (rs.getInt    ("evaluation"      ));
       equipier.setIdRoleDansDispositif      (rs.getInt    ("id_role_equipier"));
     }
 

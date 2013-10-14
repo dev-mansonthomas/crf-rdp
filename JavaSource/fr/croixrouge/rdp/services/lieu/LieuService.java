@@ -15,6 +15,8 @@ public interface LieuService
   public Lieu                          getLieu       (int idLieu) throws Exception;
   public void                          deleteLieu    (int idLieu) throws Exception;
   public Hashtable<String, List<Lieu>> getLieuSorted (          ) throws Exception;
+  
+  public ListRange<Lieu>               searchLieux   (String searchString, int idLieuType, int start, int limit) throws Exception;
   public ListRange<Lieu>               getLieux      (GridSearchFilterAndSortObject gsfaso) throws Exception;
   
   public void                          setEnableStatusOnLieu(int idLieu, boolean enabled) throws Exception;

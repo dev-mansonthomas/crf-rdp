@@ -40,7 +40,7 @@ public class MonitorOutputIntervention extends DWRUtils
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
     Date dateAffectation = new Date();
     interventionService.unAffectInterventionToDispositif(idIntervention, dateAffectation);
-    dispositifService  .unAffectInterventionToDispositif(idDispositif  , idIntervention, dateAffectation);
+    dispositifService  .unAffectInterventionToDispositif(idDispositif  , idIntervention );
     Intervention  intervention = interventionService.getIntervention(idIntervention);
     Dispositif    dispositif   = dispositifService  .getDispositif  (currentUserRegulationId, idDispositif);
     

@@ -1,29 +1,1203 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ap:Action xmlns:ap="http://tibco.com/bpm/actionprocessor"
-	xmlns:sso="http://tibco.com/bpm/sso/types">
-	<ap:EventCollectorQuery Id="_jsx_0_bm_XML_ap">
-		<ap:Query>
-			<ap:Correlate>false</ap:Correlate>
-			<ap:Filter>(managedObjectId=&apos;pvm:0a121&apos; AND
-				(messageId=&apos;BX_INSTANCE_PROCESS*&apos; OR
-				messageId=&apos;BX_INSTANCE_SUBPROCESS*&apos; OR
-				messageId=&apos;com.tibco.bx*&apos;)) OR
-				(managedObjectId=&apos;pvm:0a121&apos; AND managedObjectType
-				&lt;&gt; &apos;*Event&apos; AND managedObjectType &lt;&gt;
-				&apos;*Gateway&apos; AND managedObjectType &lt;&gt;
-				&apos;userTask&apos;) OR (messageCategory=&apos;WORK_ITEM&apos; AND
-				parentObjectId=&apos;pvm:0a121&apos;)</ap:Filter>
-			<ap:SortOrder>
-				<ap:SortElement>
-					<ap:Type>ASCENDING</ap:Type>
-					<ap:Attribute>creationTime</ap:Attribute>
-				</ap:SortElement>
-			</ap:SortOrder>
-			<ap:RequireAllAttributes>true</ap:RequireAllAttributes>
-		</ap:Query>
-		<ap:QueryOptions>
-			<ap:StartPosition>0</ap:StartPosition>
-			<ap:NumberOfItems>20</ap:NumberOfItems>
-		</ap:QueryOptions>
-	</ap:EventCollectorQuery>
-</ap:Action>
+<?xml version='1.0' encoding='UTF-8'?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" >
+
+    <soapenv:Body>
+
+        <ns:getAllResourceTemplatesResponse
+            xmlns:ns="http://restemplate.amx.api.admin.amf.tibco.com"
+            xmlns:ax2308="http://exception.core.api.admin.amf.tibco.com/xsd"
+            xmlns:ax2320="http://reference.api.admin.amf.tibco.com/xsd"
+            xmlns:ax2310="http://fixer.core.api.admin.amf.tibco.com/xsd"
+            xmlns:ax2313="http://types.core.api.admin.amf.tibco.com/xsd"
+            xmlns:ax2315="http://restemplate.amx.api.admin.amf.tibco.com/xsd"
+            xmlns:ax2317="http://permission.common.amx.api.admin.amf.tibco.com/xsd" >
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2356
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.wm.threadpool
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.167Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/threadpool}ThreadPoolConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+ThreadPool
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2359
+                </ax2313:id>
+
+                <ax2313:name>
+SCHibernateSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.183Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2361
+                </ax2313:id>
+
+                <ax2313:name>
+DataSource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+N2 XA DataSource
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:46.877Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/jdbc}JdbcDataSource
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Jdbc
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2364
+                </ax2313:id>
+
+                <ax2313:name>
+DEHibernateSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.221Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2367
+                </ax2313:id>
+
+                <ax2313:name>
+DACHibernateSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.237Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2369
+                </ax2313:id>
+
+                <ax2313:name>
+WPEmailChannelSMTPSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.259Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/smtp}SmtpConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Smtp
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2372
+                </ax2313:id>
+
+                <ax2313:name>
+WPHibernateSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.277Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2375
+                </ax2313:id>
+
+                <ax2313:name>
+BRMHibernateSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.296Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2377
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.ec.threadpool
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.313Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/threadpool}ThreadPoolConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+ThreadPool
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2380
+                </ax2313:id>
+
+                <ax2313:name>
+ECHibernateSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.330Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2383
+                </ax2313:id>
+
+                <ax2313:name>
+N2PEProxySessionFactoryJNDI
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.355Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2385
+                </ax2313:id>
+
+                <ax2313:name>
+DataSourceDirect
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+N2 DataSource
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:49.048Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/jdbc}JdbcDataSource
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Jdbc
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2583
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.userapp.jndiConnConf
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Userapp JNDI for JMS connection
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:47.195Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/jms}JNDIConnection
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+JNDI Connection Configuration
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2267
+                </ax2313:id>
+
+                <ax2313:name>
+tibco.admin.http.connector.internal
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+An http connector used by TIBCO Administrator to serve up certain files that runtime hosts and nodes need to access. Used for internal communications in the product. Do not delete this.
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:49:23.679Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/httpconnector}HttpConnectorConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+HttpConnector
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2352
+                </ax2313:id>
+
+                <ax2313:name>
+OpenspaceHibernateSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.102Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/hibernate}HibernateSessionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Hibernate
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2354
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.pm.threadpool
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Imported from DAA 'com.tibco.amxbpm.fullnode' (version: '1.4.0.001')
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:36.149Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/threadpool}ThreadPoolConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+ThreadPool
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2590
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.userapp.jmsConnFactoryConf
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Userapp inbound JMS connection
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:47.439Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/jms}JMSConnectionFactoryConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+JMS Connection Factory Configuration
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2593
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.userapp.jms.request.conf
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Userapp request JMS destination
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:47.628Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/jms}JMSDestinationConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+JMS Destination Configuration
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2600
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.userapp.jmsConnFactory
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+Userapp response JMS connection
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:47.806Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/jms}JMSConnectionFactory
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+JMS Connection Factory
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2602
+                </ax2313:id>
+
+                <ax2313:name>
+KeystoreCspRT
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+This is SSL Client Keystore RT
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:47.930Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/cred/keystore}KeystoreConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+KeystoreCredentialProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2604
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.keystore.provider
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+AMX BPM WSS Auth Keystore Provider
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:47.999Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/cred/keystore}KeystoreConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+KeystoreCredentialProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2606
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.truststore.provider
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+AMX BPM WSS Auth Truststore Provider
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:48.091Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/cred/keystore}KeystoreConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+KeystoreCredentialProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2608
+                </ax2313:id>
+
+                <ax2313:name>
+ldap-truststore
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+AMX BPM LDAP Truststore Provider
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:48.158Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/cred/keystore}KeystoreConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+KeystoreCredentialProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2611
+                </ax2313:id>
+
+                <ax2313:name>
+SslClientRT
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+This is SSL Client RT
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:48.278Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/sslclient}SSLClientConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+SSLClientProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2614
+                </ax2313:id>
+
+                <ax2313:name>
+SslServerRT
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+This is SSL Server RT
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:48.400Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/sslserver}SSLServerConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+SSLServerProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2616
+                </ax2313:id>
+
+                <ax2313:name>
+httpConnector
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+AMX BPM HTTP Connector
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:48.506Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/httpconnector}HttpConnectorConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+HttpConnector
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2619
+                </ax2313:id>
+
+                <ax2313:name>
+LdapAspRT_IdentityRT
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description xsi:nil="true" />
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:48.621Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/identity/subject}SubjectConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+SubjectIdentityProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2621
+                </ax2313:id>
+
+                <ax2313:name>
+LdapAspRT
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+This is System LdapAsp RT
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:48.834Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/auth/ldap}LDAPConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+LdapAuthenticationProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2631
+                </ax2313:id>
+
+                <ax2313:name>
+DELDAP1ConnSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+This is the system LDAP
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:49.221Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/ldap}LdapConnection
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+LdapQuery
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2637
+                </ax2313:id>
+
+                <ax2313:name>
+EASYASConnSharedResource
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+This is the easyAS example LDAP
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:49.365Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/ldap}LdapConnection
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+LdapQuery
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2641
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.mutual.id.provider
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+AMX BPM WSS Mutual Identity Provider
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:49.516Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/identity/mip}MIPConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+MutualIdentityProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2644
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.wss.auth
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+AMX BPM WSS Auth Provider
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:49.706Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/trinity/models/auth/wss}WSSConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+WssAuthenticationProvider
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+2646
+                </ax2313:id>
+
+                <ax2313:name>
+amx.bpm.userapp.threadpool
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description>
+AMX BPM User App Thread Pool
+                </ax2320:description>
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2012-12-06T14:50:49.810Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/threadpool}ThreadPoolConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+ThreadPool
+                </ax2315:typeDisplayName>
+            </ns:return>
+
+            <ns:return
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:type="ax2315:ResourceTemplateSummaryDesc" >
+
+                <ax2313:id>
+9022
+                </ax2313:id>
+
+                <ax2313:name>
+RFF-GenerateADID
+                </ax2313:name>
+
+                <ax2320:contact xsi:nil="true" />
+
+                <ax2320:description xsi:nil="true" />
+
+                <ax2320:modifiedBy>
+root
+                </ax2320:modifiedBy>
+
+                <ax2320:modifiedDate>
+2013-02-06T14:53:39.558Z
+                </ax2320:modifiedDate>
+
+                <ax2315:type>
+{http://xsd.tns.tibco.com/amf/models/sharedresource/httpclient}HttpClientConfiguration
+                </ax2315:type>
+
+                <ax2315:typeDisplayName>
+Httpclient
+                </ax2315:typeDisplayName>
+            </ns:return>
+        </ns:getAllResourceTemplatesResponse>
+    </soapenv:Body>
+
+</soapenv:Envelope>

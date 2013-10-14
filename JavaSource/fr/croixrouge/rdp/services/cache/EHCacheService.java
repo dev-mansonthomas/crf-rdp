@@ -142,4 +142,23 @@ public class EHCacheService implements CacheService
       throw new Exception(e);
     } 
   }
+  
+  
+  /**
+   * Remove an object from the cache
+   */
+  public void remove(String name) throws Exception
+  {
+    try
+    {
+      cache.remove(name);
+    }
+    catch(Exception e)
+    {
+      logger.error("error while removing object with name :'"+name+"'", e);
+      throw e;
+    }
+    
+  }
+  
 }

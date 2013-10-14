@@ -1,5 +1,8 @@
 + Gerer l'auto désaffectation du dispositif après X heure d'inactivité d'un dispositif.
-  
+
+
++ Créé un application pour afficher une évaluation pour pouvoir la réutiliser sur la fiche de l'équipier
+
 
 TODO :      
 
@@ -171,7 +174,9 @@ DONE :
   - Ajout de la possiblité de mettre plus d'une victime dans un dispositif : PAPS, transport exceptionnel de N victime. Via une table d'association
   - Ext 3.1.1
   - Spring 3.0.1 + dependencies 
-
+ - Affiché les icoe student teacher
+  
+  -  Création de l'évaluation session, activation du status évalué pour le PSE2
 
 station service : 
 

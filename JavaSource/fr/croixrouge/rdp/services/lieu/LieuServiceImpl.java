@@ -29,6 +29,8 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
   
   private JdbcTemplate jdbcTemplate;
   private CacheService cacheService;
+  
+  
   public LieuServiceImpl(JdbcTemplate jdbcTemplate, CacheService cacheService)
   {
     this.jdbcTemplate = jdbcTemplate;
@@ -37,6 +39,54 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
+  
+  
+  private final static String queryForSearchLieuWhere =
+      "WHERE  id_type_lieu     = ?                    \n"+
+      "AND                                            \n"+
+      "(                                              \n"+
+      "       nom          LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
+      " OR    addresse     LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
+      " OR    ville        LIKE CONVERT(_utf8 ? USING utf8) COLLATE utf8_general_ci \n" +
+      " OR    code_postal  LIKE ?                        \n"+
+      ")\n";
+  
+  /***
+   * Cherche sur nom/prénom/nivol/mobile
+   */
+  public ListRange<Lieu> searchLieux(String searchString, int idLieuType, int start, int limit) throws Exception
+  {
+
+    Object [] os    =  new Object[]{idLieuType   , searchString , searchString , searchString , searchString };
+    int    [] types =  new int   []{Types.INTEGER, Types.CHAR   , Types.CHAR   , Types.CHAR   , Types.CHAR   };
+
+
+    int totalCount = this.jdbcTemplate.queryForInt(
+        "SELECT COUNT(1) \n" +
+        "FROM   lieu l\n"
+        +queryForSearchLieuWhere, os, types);
+
+
+    String query = selectForGetLieux+"\n"+
+    queryForSearchLieuWhere +"\n"+
+    "LIMIT "+start+", "+limit;
+
+    if(logger.isDebugEnabled())
+      logger.debug("searching for lieu : searchString='"+searchString+"', idLieuType='"+idLieuType+"', start='"+start+"', limit='"+limit+"' (totalCount='"+totalCount+"') with SQL query : \n"+query);
+
+    List<Lieu> equipierList = jdbcTemplate.query( query ,
+                                                      os    ,
+                                                      types ,
+                                                      new LieuRowMapper());
+
+
+    return new ListRange<Lieu>(totalCount, equipierList);
+  }
+
+  
+  
+  
+  
   
   
   private final static String selectForGetLieuType = 
@@ -268,6 +318,8 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
         new Object[]{enabled      , idLieu       },
         new int   []{Types.BOOLEAN, Types.INTEGER});
     
+    this.cacheService.remove("LieuSorted");
+    
     if(logger.isDebugEnabled())
       logger.debug("set enable='"+enabled+"' to lieu id='"+idLieu+"' (nbRowUpdated='"+nbRowUpdated+"'");
   }
@@ -285,6 +337,8 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     int nbRowUpdated = this.jdbcTemplate.update(queryForDeleteLieu , 
         new Object[]{idLieu       },
         new int   []{Types.INTEGER});
+    
+    this.cacheService.remove("LieuSorted");
     
     if(logger.isDebugEnabled())
       logger.debug("delete lieu id='"+idLieu+"' (nbRowUpdated='"+nbRowUpdated+"'");

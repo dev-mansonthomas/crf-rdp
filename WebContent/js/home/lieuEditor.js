@@ -231,7 +231,14 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                         data      : crfIrpUtils.getListForSimpleStore('allTypeLieuOrdered'),
                         idIndex   : 0,
                         idProperty: 'idTypeLieu'
-                    })
+                    }),
+                    fireKey   : function(e) {
+                      if(e.getKey()==e.ENTER){
+                        lieuEditor.rechercher();
+                      }
+                    }
+                    
+                    
                   },
                   {
                      xtype     : 'tbseparator'
@@ -244,7 +251,12 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                   {
                      id        :'LieuGridToolbar-nom',
                      xtype     : 'textfield',
-                     fieldLabel: 'Label'
+                     fieldLabel: 'Label',
+                     fireKey   : function(e) {
+                       if(e.getKey()==e.ENTER){
+                         lieuEditor.rechercher();
+                       }
+                     }
                   },
                   {
                      xtype     : 'tbseparator'
@@ -257,7 +269,12 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
                   {
                      id        :'LieuGridToolbar-codePostal',
                      xtype     : 'textfield',
-                     fieldLabel: 'Label'
+                     fieldLabel: 'Label',
+                     fireKey   : function(e) {
+                       if(e.getKey()==e.ENTER){
+                         lieuEditor.rechercher();
+                       }
+                     }
                   },
                   {
                      xtype  : 'tbfill'
@@ -695,17 +712,37 @@ Ext.ux.Home.LieuEditorUi = Ext.extend(Ext.Panel, {
     
     this.gmapWindow.show  ();
     this.gmapWindow.center();
-    var map = Ext.getCmp('lieu-editor-gmap-panel');
-    map.goTo(gpsArray[0], gpsArray[1]);
-    map.addMarker(gpsArray[0], 
-                  gpsArray[1], 
-                  null, 
-                  'lieu_cat_'+$('LieuEditor-idTypeLieu').value, 
-                  true,
-                  $('LieuEditor-nom').value, 
-                  $('LieuEditor-codePostal').value+' '+$('LieuEditor-address').value, 
-                  $('LieuEditor-id').value);
     
+    
+    try
+    {
+      var map = Ext.getCmp('lieu-editor-gmap-panel');
+      
+      console.log(gpsArray[0]+","+gpsArray[1]);
+    
+      window.setTimeout(function(){map.goTo(gpsArray[0], gpsArray[1]);}, 5000);
+      
+/*      
+      map.addMarker(gpsArray[0], 
+                    gpsArray[1], 
+                    null, 
+                    'lieu_cat_'+$('LieuEditor-idTypeLieu').value, 
+                    true,
+                    $('LieuEditor-nom').value, 
+                    $('LieuEditor-codePostal').value+' '+$('LieuEditor-address').value, 
+                    $('LieuEditor-id').value);*/
+    }
+    catch(e)
+    {
+      if(consoleEnabled == true)
+      {
+        console.log(e);  
+      } 
+      else
+      {
+        alert(e);
+      }
+    }
    },
    updateAddress:function(fieldId, fieldName)
    {
@@ -880,6 +917,7 @@ Ext.ux.Home.LieuEditorUi.toolbars     = {
        handler: function()
        {
         lieuEditor.closeLieu();
+        lieuEditor.rechercher();
        }
        
     },
@@ -893,6 +931,7 @@ Ext.ux.Home.LieuEditorUi.toolbars     = {
        handler: function()
        {
         lieuEditor.deleteLieu();
+        lieuEditor.rechercher();
        }
        
     }

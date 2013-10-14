@@ -149,7 +149,7 @@ public class PerMachinePropertyPlaceholderConfigurer extends PropertyPlaceholder
         catch (Exception e)
         {
           if (log.isErrorEnabled())
-            log.error("Unable to load properties", e);
+            log.error("Unable to load properties from file "+this.propertyFileName, e);
         }
       }
     }

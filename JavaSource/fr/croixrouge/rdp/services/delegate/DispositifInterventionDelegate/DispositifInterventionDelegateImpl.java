@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.DispositifTicket;
@@ -118,7 +120,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
    * 
    * 
    * */
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public String action(int idRegulation, int idDispositif) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -308,7 +310,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     return "var actionReturnStatus={status:0}";
   }
 
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void affectInterventionToDispositif(int idEquipierCurrentUser, int idRegulation, int idIntervention, int idDispositif, Date actionDate) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -360,7 +362,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       for (Equipier equipier : equipiers)
       {
         int idRoleDansDispositif = equipier.getIdRoleDansDispositif();
-        if( equipier.isEnEvaluationDansDispositif() || 
+        if( equipier.getEvaluationDansDispositif() == Equipier.EVAL_EVALUE || 
             idRoleDansDispositif == CI_ALPHA_ROLE   || 
             idRoleDansDispositif == CI_CS_ROLE      || 
             idRoleDansDispositif == CHAUFFEUR_ROLE
@@ -382,13 +384,13 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositif+", regulation="+idRegulation);
   }
   
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void reAffectInterventionToDispositif(int idRegulation, int idIntervention, int idDispositifOrigine, int idDispositifCible, Date actionDate) throws Exception
   {
     if(logger.isDebugEnabled())
       logger.debug("Action is 'RéAffectation Intervention' on intervention="+idIntervention+", dispositifOrigine="+idDispositifOrigine+", dispositifCible="+idDispositifCible+", regulation="+idRegulation);
 
-    this.dispositifService  .unAffectInterventionToDispositif (idDispositifOrigine , idIntervention   , actionDate);
+    this.dispositifService  .unAffectInterventionToDispositif (idDispositifOrigine , idIntervention               );
     this.dispositifService  .affectInterventionToDispositif   (idDispositifCible   , idIntervention   , actionDate);
     this.interventionService.reAffectInterventionToDispositif (idIntervention      , idDispositifCible, actionDate);//méthode spécifique afin de ne pas re généré un idMétier
     
@@ -396,7 +398,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       logger.debug("DONE    : 'Affectation Intervention au dispositif' on intervention="+idIntervention+", dispositif="+idDispositifCible+", regulation="+idRegulation);
   }
   
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void laisseSurPlace(int idRegulation, int idDispositif, boolean decede, boolean decharge, String dcdADispoDe) throws Exception
   {
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
@@ -424,6 +426,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
    * Met a jour la previous position du dispositif avec sa current Position
    * Met a jour la current position avec l'adresse destination
    * */
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void chooseEvacDestination(int idRegulation, int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception
   {
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
@@ -434,6 +437,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     this.dispositifService.updateDispositifPosition(idDispositif, position, dispositif.getCurrentPosition());
   }
   
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public String endOfIntervention(int idRegulation, int idDispositif) throws Exception
   {
     Date actionDate = new Date();                                      //8=arrivé hopital => 8+1=9 : inter terminée
@@ -451,6 +455,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     return "var actionReturnStatus={status:0};";
   }
   
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void changeDispositifStatus(int idRegulation, int idDispositif, int newEtatDispositif) throws Exception
   {
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
@@ -465,7 +470,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
         outPageName);
   }
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void updateDispositifTiming(int idRegulation, int idDispositif, String fieldName, Date fieldValue) throws Exception
   {
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, idDispositif);
@@ -478,7 +483,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
         this.interventionService.updateInterventionDateField(intervention.getIdIntervention(), fieldName, fieldValue);
     }
   }
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void cloneIntervention(int idRegulation, DataForCloneIntervention dataForCloneIntervention) throws Exception
   {
     int idClonedIntervention = this.interventionService.cloneIntervention(dataForCloneIntervention);
@@ -495,7 +500,7 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
         outPageName);
   }
   
-  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void handlePrimaireAndSecondaireOnIntervention(int idDispositif, int idIntervention, boolean isPrimaire) throws Exception
   {
     int idNextEtat = isPrimaire?DispositifService.STATUS_PRIMAIRE:DispositifService.STATUS_SECONDAIRE;
@@ -532,6 +537,21 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     
     this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
         outPageName);
+  }
+  
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
+  public void cancelIntervention(int regulationId, int idDispositif, int idIntervention, int idMotifAnnulation) throws Exception
+  {
+    if(logger.isDebugEnabled())
+      logger.debug("cancelling intervention id='"+idIntervention+"' of dispositif id='"+idDispositif+"' with motif id='"+idMotifAnnulation+"'");
+    
+    this.interventionService.cancelIntervention(idIntervention);
+    this.dispositifService  .unAffectInterventionToDispositif (idDispositif, idIntervention);//guère la modification de l'état du dispositif
+    
+    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
+    
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
+    
   }
   
   private String generateDataForSMS(String title, String value)

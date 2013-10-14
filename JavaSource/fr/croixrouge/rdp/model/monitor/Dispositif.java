@@ -43,6 +43,7 @@ public class Dispositif implements Serializable
   private boolean         actif;
   private boolean         dsaComplet;
   private boolean         dsaAdaptateurPediatrique;
+  private boolean         disponible;
 
   private Date            dhDebut;
   private Date            dhFin;
@@ -544,5 +545,13 @@ public class Dispositif implements Serializable
   public void setIdVehicule(int idVehicule)
   {
     this.idVehicule = idVehicule;
+  }
+  public boolean isDisponible()
+  {
+    return disponible;
+  }
+  public void setDisponible(boolean disponible)
+  {
+    this.disponible = disponible;
   }
 }

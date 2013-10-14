@@ -80,6 +80,7 @@ public class InterventionRowMapper extends RowMapperHelper implements RowMapper<
     intervention.setDhFinIntervention                  (rs.getTimestamp("DH_fin_intervention"                     ));
     intervention.setDhAppelRenfortMedical              (rs.getTimestamp("DH_appel_renfort_medical"                ));
     intervention.setDhArriveeRenfortMedical            (rs.getTimestamp("DH_arrivee_renfort_medical"              ));
+    intervention.setDhAnnulation                       (rs.getTimestamp("DH_annulation"                           ));
     intervention.setGestesGarrotHeurePose              (rs.getTimestamp("gestes_garrot_heure_pose"                ));
     intervention.setEvacAggravationContactRegulation   (rs.getTimestamp("evac_aggravation_contact_regulation"     ));
     intervention.setDateNaissance                      (rs.getDate     ("date_naissance"                          ));
@@ -177,6 +178,7 @@ public class InterventionRowMapper extends RowMapperHelper implements RowMapper<
     intervention.setEvacLaisseSurPlace                 (rs.getBoolean  ("evac_laisse_sur_place"                   ));
     intervention.setEvacLaisseSurPlaceDecedee          (rs.getBoolean  ("evac_laisse_sur_place_decedee"           ));
     intervention.setEvacRefusDeTransport               (rs.getBoolean  ("evac_refus_de_transport"                 ));
+    intervention.setEvacSansSuite                      (rs.getBoolean  ("evac_sans_suite"                         ));
     intervention.setEvacDecharche                      (rs.getBoolean  ("evac_decharche"                          ));
     intervention.setEvacAggravation                    (rs.getBoolean  ("evac_aggravation"                        ));
     intervention.setEvacAggravationPendantTransport    (rs.getBoolean  ("evac_aggravation_pendant_transport"      ));

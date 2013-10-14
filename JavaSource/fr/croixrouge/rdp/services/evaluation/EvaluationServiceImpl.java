@@ -30,22 +30,79 @@ public class EvaluationServiceImpl extends JDBCHelper implements EvaluationServi
   
   
   private final static String queryForCreateEvaluationSession =
-      "INSERT INTO `intervention`\n"+
-      "  (`id_dispositif`, `id_origine`, `id_motif`, `id_motif_annulation`, `id_regulation`, `DH_saisie`, `DH_reception`, `num_inter`)\n"+
-      "VALUES\n"+
-      "  ( 0, 0, 0, 0, ?, ?,?, 0)\n";
+    "INSERT INTO `evaluation_session`                                                                     \n"+
+    "  (`id_dispositif`, `id_role_evalue`, `id_equipier_evaluateur`, `id_equipier_evalue`, `date_start`)  \n"+
+    "values                                                                                               \n"+
+    "  (?,?,?,?, now())                                                                                   \n";
+
        
+  private final static String queryForUpdateEquipierEvalueRole = 
+      "UPDATE equipier_roles            \n" +
+      "SET    en_evaluation     = true  \n" +
+      "WHERE  id_equipier       = ?     \n" +
+      "AND    id_role_equipier  = ?     \n";
+  
+  private final static String queryForUpdateEquipierEvaluationRoleDansDispositif = 
+      "UPDATE dispositif_equipiers \n"+       
+      "SET   evaluation     = ?,   \n"+       
+      "      id_role_eval   = ?    \n"+       
+      "WHERE id_dispositif  = ?    \n"+       
+      "AND   id_equipier    = ?    \n";       
+
+  
+ 
   
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
   public int createEvaluationSession(EvaluationSession evaluationSession) throws Exception
   {
-    //TODO : si l'évalué n'a pas encore ce role évalué, alors il faut mettre le role en évaluation.
     
+    int nbLigneUpdated = 0;
+ 
+    Object [] os    = null; 
+    int    [] types = null;
     
-    Object [] os    = new Object[]{ evaluationSession.getIdDispositif() , evaluationSession.getIdRoleEvalue() , evaluationSession.getIdEquipierEvaluateur(), evaluationSession.getIdEquipierEvalue()};
-    int    [] types = new int   []{ Types.INTEGER, Types.INTEGER, Types.INTEGER       , Types.INTEGER         };
+    // update du role évaluateur dans le dispositif
+    os    = new Object[]{ Equipier.EVAL_EVALUATEUR, evaluationSession.getIdRoleEvalue() , evaluationSession.getIdDispositif() , evaluationSession.getIdEquipierEvaluateur()};
+    types = new int   []{ Types.INTEGER, Types.INTEGER, Types.INTEGER       , Types.INTEGER         };
     
-    jdbcTemplate.update(queryForCreateEvaluationSession, os, types);
+    nbLigneUpdated = jdbcTemplate.update(queryForUpdateEquipierEvaluationRoleDansDispositif, os, types);
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("createEvaluationSession - Update Role Evaluateur nbLigneUpdated='"+nbLigneUpdated+"' "+queryForUpdateEquipierEvaluationRoleDansDispositif);
+    }
+    
+    //update du role evalué dans le dispositif
+    os    = new Object[]{ Equipier.EVAL_EVALUE    , evaluationSession.getIdRoleEvalue() , evaluationSession.getIdDispositif() , evaluationSession.getIdEquipierEvalue()};
+    types = new int   []{ Types.INTEGER, Types.INTEGER, Types.INTEGER       , Types.INTEGER         };
+    
+    nbLigneUpdated = jdbcTemplate.update(queryForUpdateEquipierEvaluationRoleDansDispositif, os, types);
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("createEvaluationSession - Update Role Evalué nbLigneUpdated='"+nbLigneUpdated+"' "+queryForUpdateEquipierEvaluationRoleDansDispositif);
+    }
+    
+    //update du role evallué dans equipier_roles pour le cas de la première evaluation de la personne évaluée
+    os    = new Object[]{ evaluationSession.getIdEquipierEvalue(), evaluationSession.getIdRoleEvalue() };
+    types = new int   []{ Types.INTEGER, Types.INTEGER  };
+    
+    nbLigneUpdated = jdbcTemplate.update(queryForUpdateEquipierEvalueRole, os, types);
+
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("createEvaluationSession - UpdateEquipierRole => passage au statu en éval nbLigneUpdated='"+nbLigneUpdated+"' "+queryForUpdateEquipierEvalueRole);
+    }
+    //Création de l'évaluation session
+    os    = new Object[]{ evaluationSession.getIdDispositif() , evaluationSession.getIdRoleEvalue() , evaluationSession.getIdEquipierEvaluateur(), evaluationSession.getIdEquipierEvalue()};
+    types = new int   []{ Types.INTEGER, Types.INTEGER, Types.INTEGER       , Types.INTEGER         };
+    
+    nbLigneUpdated = jdbcTemplate.update(queryForCreateEvaluationSession, os, types);
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("createEvaluationSession - queryForCreateEvaluationSession nbLigneUpdated='"+nbLigneUpdated+"' "+queryForCreateEvaluationSession);
+    }
 
     int idEvaluationSession = this.getLastInsertedId();
     evaluationSession.setIdEvaluationSession  (idEvaluationSession);
@@ -56,7 +113,47 @@ public class EvaluationServiceImpl extends JDBCHelper implements EvaluationServi
     return idEvaluationSession;
   }
   
+  private final static String queryForTerminerEvaluationSession = 
+      "UPDATE dispositif_equipiers \n"+       
+      "SET   evaluation     = 0,   \n"+       
+      "      id_role_eval   = 0    \n"+       
+      "WHERE id_dispositif  = ?    \n";       
+  
+  public final static String queryForUpdateDateFinEvaluationSession = 
+      "UPDATE crfrdp.evaluation_session\n"+ 
+      "SET    date_end = now()         \n"+
+      "WHERE id_dispositif = ?         \n"+
+      "ORDER BY date_start DESC LIMIT 1\n";
+  
+  public void terminerEvaluationSession(int idDispositif) throws Exception
+  {
+    int nbLigneUpdated = 0;
+    
+    Object [] os    = null; 
+    int    [] types = null;
 
+    //reset statut évaluateur/évalué des équipiers du dispositif
+    os    = new Object[]{ idDispositif};
+    types = new int   []{ Types.INTEGER};
+    
+    nbLigneUpdated =jdbcTemplate.update(queryForTerminerEvaluationSession     , os, types);
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("terminerEvaluationSession - queryForTerminerEvaluationSession nbLigneUpdated='"+nbLigneUpdated+"' "+queryForTerminerEvaluationSession);
+    }
+
+    
+    nbLigneUpdated =jdbcTemplate.update(queryForUpdateDateFinEvaluationSession, os, types);
+    
+    if(logger.isDebugEnabled())
+    {
+      logger.debug("terminerEvaluationSession - queryForUpdateDateFinEvaluationSession nbLigneUpdated='"+nbLigneUpdated+"' "+queryForUpdateDateFinEvaluationSession);
+    }
+
+    
+    
+  }
   
   
   

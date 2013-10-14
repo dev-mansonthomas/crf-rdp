@@ -17,6 +17,7 @@ var DispositifRecord = Ext.data.Record.create(
                          {name: 'idDispositif'                                  , mapping: 'idDispositif'                                  },
                          {name: 'idTypeDispositif'                              , mapping: 'idTypeDispositif'                              },
                          {name: 'idEtatDispositif'                              , mapping: 'idEtatDispositif'                              },
+                         {name: 'disponible'                                    , mapping: 'disponible'                                    },
                          {name: 'idDelegation'                                  , mapping: 'idDelegation'                                  },
                          {name: 'displayState'                                  , mapping: 'displayState'                                  },
                          {name: 'dispositifBackWith3Girls'                      , mapping: 'dispositifBackWith3Girls'                      },
@@ -74,9 +75,10 @@ MonitorOutputDispositifCs.prototype.initialize=function()
   PageBus.subscribe("list.loaded"         ,  this, this.initDispositifGrid		  , null, null);
   PageBus.subscribe("listLieu.loaded"     ,  this, this.initLieuOnMap			      , null, null);
   PageBus.subscribe("listLieu.loaded"     ,  this, this.initDispositifGrid    	, null, null);
-  PageBus.subscribe("listLieu.loaded"     ,  this, this.initChooseHospitalList	, null, null);
+
   
   this.initCloneInterventionWindow();
+  
 };
 
 /**
@@ -92,6 +94,18 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
   
   if(!(this.listLoaded == true &&  this.listLieuLoaded == true))//on attends que les 2 listes soient initialisées
    return;
+  
+  try
+  {
+    this.initChooseHopitalWindow();
+  }
+  catch(e)
+  {
+    if(consoleEnabled)
+    {
+      console.log(e);
+    }
+  }
   
   var xg = Ext.grid;
 
@@ -110,6 +124,7 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
 {name:'idDispositif'                                    , type: 'int'    },
 {name:'idTypeDispositif'                                , type: 'int'    },
 {name:'idEtatDispositif'                                , type: 'int'    },
+{name:'disponible'                                      , type: 'boolean'},
 {name:'idDelegation'                                    , type: 'int'    },
 {name:'displayState'                                    , type: 'int'    },
 {name:'dispositifBackWith3Girls'                        , type: 'boolean'},
@@ -139,10 +154,11 @@ MonitorOutputDispositifCs.prototype.initDispositifGrid=function(eventName, data)
         store: dispositifDataStore,
         cm   : new xg.ColumnModel([
             {id:'indicatifVehiculeDCol'     , header: "Indicatif"       , width: 150, sortable: true, dataIndex: 'indicatifVehicule'},
-            {id:'idTypeDispositifDCol'      , header: "Type"            , width: 150, sortable: true, dataIndex: 'idTypeDispositif'  , renderer:moDispositifCs.typeCellRenderer},
-            {id:'contactRadioDispositifDCol', header: "Selectif Radio"  , width: 150, sortable: true, dataIndex: 'contactRadio'      },
+            {id:'idTypeDispositifDCol'      , header: "Type"            , width: 100, sortable: true, dataIndex: 'idTypeDispositif'  , renderer:moDispositifCs.typeCellRenderer},
+            {id:'CIDCol'                    , header: "CI"              , width: 200, sortable: true, dataIndex: 'indicatifVehicule' , renderer:moDispositifCs.ciCellRenderer},
             {id:'contactTelsDispositifDCol' , header: "Téléphones"      , width: 150, sortable: true, dataIndex: 'contactTel1'       , renderer:moDispositifCs.contactTelsCellRenderer},
-            {id:'idEtatDispositifDCol'      , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'  , renderer:moDispositifCs.etatDispositifCellRenderer}
+            {id:'idEtatDispositifDCol'      , header: "Etat"            , width: 150, sortable: true, dataIndex: 'idEtatDispositif'  , renderer:moDispositifCs.etatDispositifCellRenderer},
+            {id:'disponibleDCol'            , header: "Dispo"           , width:  50, sortable: true, dataIndex: 'disponible'        , renderer:moDispositifCs.etatDispositifCellRenderer}
         ]),
         viewConfig: {
             forceFit      :true,
@@ -404,8 +420,8 @@ MonitorOutputDispositifCs.prototype.initChooseHopitalWindow=function()
       id          : 'choose-hopital-windowCmp',
       applyTo     : 'choose-hopital-window',
       layout      : 'fit'             ,
-      width       : 500               ,
-      height      : 500               ,
+      width       : 700               ,
+      height      : 700               ,
       x           : 0                 ,
       y           : 35                ,
       closeAction : 'hide'            ,
@@ -450,6 +466,27 @@ MonitorOutputDispositifCs.prototype.initChooseHopitalWindow=function()
   });
         
   MonitorOutputDispositifCs.prototype.confirmLaisseSurPlaceWindow = confirmLaisseSurPlaceWindow;
+  
+  var searchLieuxComboBox = new Ext.ux.crfrdp.LieuxSearchCombo({
+    id          : 'SearchHoptial', 
+    searchType  : 1,/*dispositifEquipierSearch*/
+    applyTo     : 'SearchHopitalInput',
+    onSelect    : function(record)
+    {
+      
+      Ext.Msg.confirm("Etes vous sur de vouloir choisir cet Hopital ?",
+          "Etes vous sur de vouloir chosir l'hopital '"+record.data.nom+"' situé à '"+record.data.addresse+" - "+record.data.codePostal+" - "+record.data.ville+"' ?",
+          function(btn){
+            if(btn == 'yes')
+            {
+              MonitorOutputDispositifCs.prototype.chooseEvacDestination(record.data.idLieu, '', '', '', '', record.data.googleCoordsLat, record.data.googleCoordsLong);
+              Ext.getCmp('SearchHoptial').clearValue();
+            }
+          });
+    }
+  });
+  
+  
 };
 
 /**
@@ -482,33 +519,7 @@ MonitorOutputDispositifCs.prototype.initCloneInterventionWindow=function()
   MonitorOutputDispositifCs.prototype.cloneInterventionWindow = win;
 };
 
-MonitorOutputDispositifCs.prototype.initChooseHospitalList=function()
-{
-	this.initChooseHopitalWindow();
-  
-  var allLieu           = CrfIrpUtils.prototype.allLieu;
-  var typeLieu          = crfIrpUtils.getTypeLieu(1);
-  var chooseHopitalHtml = [];
-  if(allLieu === null || allLieu[1]===null)
-  {
-    alert('Hopitaux non trouvé');
-    return;
-  }
-  var hospitalList = allLieu[1];
-  
-  for(var i=0,counti=hospitalList.length;i<counti;i++)
-  {
-	  var lieu = hospitalList[i];
-    //idLieu, label, rue, codePostal, ville, googleCoordsLat,googleCoordsLong
-    var htmlListLieu = ['<div class="ListLieuItem" onclick="moDispositifCs.chooseEvacDestination(',lieu.idLieu,', \'',lieu.nom, '\', \'',lieu.addresse,'\', \'',lieu.codePostal,'\', \'',lieu.ville,'\', ',lieu.googleCoordsLat,', ',lieu.googleCoordsLong,');">',
-    '<span class="ListLieuListName"><img height="16" src="',contextPath,'/img/',typeLieu.iconLieu,'" alt="Icone"/>',lieu.nom,'</span><br/>',
-    '<span class="ListLieuListAddress">',lieu.addresse,', ',lieu.codePostal,', ',lieu.ville,'</span><br/>',
-    '<p class="ListLieuListHtml">',lieu.infoComplementaire,'</p>',
-    '</div>'].join('');
-    chooseHopitalHtml.push(htmlListLieu);
-  }
-  Ext.get('choose-hopital-window-content-list').update(chooseHopitalHtml.join(''));
-};
+
 /**
  * Affiche la liste des catégories sous la map
  * Remplie la fenetre qui permet d'afficher les lieux par catégorie
@@ -1167,6 +1178,8 @@ MonitorOutputDispositifCs.prototype.chooseEvacDestinationButton=function()
 /*
  * Lancé lorsqu'on choisi un hopital
  * Met a jour inter, dispositif, appel coté serveur ActionOnDispsoitif (qui met a jours le status et les clients sur la page out.jsp)
+ * Mettre 0 et adresse pour un hopital non référencé
+ * mettre ID et vide pour un hopital référéncé
  * */
 MonitorOutputDispositifCs.prototype.chooseEvacDestination=function(idLieu, label, rue, codePostal, ville, googleCoordsLat,googleCoordsLong)
 {
@@ -1238,11 +1251,35 @@ MonitorOutputDispositifCs.prototype.showDispositif  =function(recordId, googleCo
 };
 
 
-
 MonitorOutputDispositifCs.prototype.etatDispositifCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
+  var value = record.data.idEtatDispositif;
   if(value != null)
-    return crfIrpUtils.getLabelFor('EtatsDispositif', value);
+  {
+     var label = '&nbsp;';
+     if(metadata.id=="idEtatDispositifDCol")
+     {
+       label = crfIrpUtils.getLabelFor('EtatsDispositif', value);  
+     }
+     var backgroundColor = '';
+     var html = '';
+     
+     if(value == 1)
+     {
+       backgroundColor = 'background-color:#9fffa7;';
+     }
+     else if(value == 0)
+     {
+       backgroundColor = 'background-color:black;color:white;';
+     }
+     else
+     {
+       backgroundColor = 'background-color:#a1ddfc;';
+     }
+     
+     return "<div style='padding:2px;"+backgroundColor+"'>"+label+"</div>";
+  }
+    
   else
     return "";
 };
@@ -1253,6 +1290,14 @@ MonitorOutputDispositifCs.prototype.typeCellRenderer=function(value, metadata, r
   else
     return "";
 };
+
+MonitorOutputDispositifCs.prototype.ciCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
+{
+  var label = record.json.equipierLeader.nom+' '+record.json.equipierLeader.prenom +' - '+crfIrpUtils.formatMobilePhone(record.json.equipierLeader.mobile);  
+  return label;
+  
+};
+
 
 MonitorOutputDispositifCs.prototype.contactTelsCellRenderer=function(value, metadata, record, rowIndex, colIndex, store)
 {
@@ -1273,6 +1318,7 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
     'idDispositif'                : dispositif.idDispositif,
     'idTypeDispositif'            : dispositif.idTypeDispositif,
     'idEtatDispositif'            : dispositif.idEtatDispositif,
+    'disponible'                  : dispositif.disponible,
     'idDelegation'                : dispositif.idDelegation,
     'displayState'                : dispositif.displayState,
     'dispositifBackWith3Girls'    : dispositif.dispositifBackWith3Girls,
@@ -1305,7 +1351,7 @@ MonitorOutputDispositifCs.prototype.updateDispositif = function (dispositif)
     recordIndex = store.indexOfId(record.id);
     store.remove(record);
   }
-  store.insert(recordIndex, newDispositif);  
+  store.addSorted(newDispositif);  
 };
 
 
@@ -1320,7 +1366,7 @@ MonitorOutputDispositifCs.prototype.updateAddress=function(fieldId)
   codePostal.value=codePostal.value.strip();
   ville     .value=ville     .value.strip();
   
-  if(fieldId == 'dispositifEvacAddressCodePostal' && !crfIrpUtils.checkZipCode(codePostal))
+  if(fieldId == 'dispositifEvacAddressCodePostal' && !crfIrpUtils.checkZipCode(codePostal.value))
   {
     crfIrpUtils.checkZipCodeError(fieldId);
   }
@@ -1377,22 +1423,17 @@ MonitorOutputDispositifCs.prototype.buildDispositifRowBody=function(record, rowI
     
   var template = ['<table id="DispositifRowDetail_',  record.data.idDispositif,'" style="width:100%;">',
 '  <tr>',
-'    <td style="height:11px;font-size:14px;">',
-'      <div><span>CI : </span><span>', record.json.equipierLeader.nom+' '+record.json.equipierLeader.prenom ,'</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>Intervention en cours :</span></div>',
+'    <td class="interventionDropZone" id="',dropZoneId,'">',
+detailIntervention,
 '    </td>',
-'    <td rowspan="2" style="width:130px;">',
+'    <td style="width:130px;">',
 '      <input id="DispositifActionButton_',record.data.idDispositif,'|',record.id,'" type="button" ' +
 '            value="',MonitorOutputDispositifCs.prototype.getLabelForActionButton(record.data.idEtatDispositif),
 
 (interventions.length>1?' ('+interventions.length+')':''),
 
-'"   style="width:130px;height:60px;" onClick="moDispositifCs.action(this.id)"/><br/>',
-'      <input type="button" value="Editer Dispositif"    onClick="moDispositifCs.editDispositif(', record.data.idDispositif,')" style="width:130px;height:27px;margin-top:3px;"/>',
-'    </td>',
-'  </tr>',
-'  <tr>',
-'    <td class="interventionDropZone" id="',dropZoneId,'">',
-detailIntervention,
+'"   style="width:130px;height:50px;" onClick="moDispositifCs.action(this.id)"/><br/>',
+'      <input type="button" value="Editer Dispositif"    onClick="moDispositifCs.editDispositif(', record.data.idDispositif,')" style="width:130px;height:16px;margin-top:2px;"/>',
 '    </td>',
 '  </tr>',
 '  <tr>',
@@ -1419,7 +1460,7 @@ detailIntervention,
 '      </table>',
 '    </td>',
 '    <td style="border-top:solid #9D9D9D 1px;">',
-'<input id="DispositifSMSButton_',record.data.idDispositif,'|',record.id,'" type="button" style="width:130px;" onClick="moDispositifCs.sendSMS(this.id)" value="Envoyer un SMS"/>',
+'<input id="DispositifSMSButton_',record.data.idDispositif,'|',record.id,'" type="button" style="width:130px;height:16px;" onClick="moDispositifCs.sendSMS(this.id)" value="Envoyer un SMS"/>',
 '    </td>',
 '  </tr>',
 '</table>'];
@@ -1458,19 +1499,17 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
       etat += '</div>';    
     }
   
+    var businessId = crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId);
+   
     
     var detailIntervention = [
-      '<fieldset class="DispositifInterDetail" id="DispositifInterDetail_',
+      '<div class="DispositifInterDetail" id="DispositifInterDetail_',
       dispositif.idDispositif, 
       '-', 
       intervention.idIntervention,
       '|',
       record.id,
-      '"><legend>',
-      crfIrpUtils.formatInterventionBusinessId(intervention.interventionBusinessId),
-      '</legend><div class="DispositifInterOrigineMotif><span class="DispositifInterNomVictimeOrigine">',
-      crfIrpUtils.getLabelFor('OriginesIntervention',intervention.idOrigine),
-      '</span> - <span class="DispositifInterMotif">',
+      '"><div class="DispositifInterOrigineMotif">',businessId,' - <span class="DispositifInterMotif">',
       crfIrpUtils.getLabelFor('MotifsIntervention'  ,intervention.idMotif),
       '</span></div><div class="DispositifInterVictime"><span class="DispositifInterNomVictime">',
       (intervention.victimeHomme?'Mr ':'Mme '),
@@ -1486,11 +1525,13 @@ MonitorOutputDispositifCs.prototype.buildInterventionInfoForDispositif=function(
       '</span> - <span class="DispositifInterCoordonneesContact">',
       intervention.coordonneesContactSurPlace,
       '</span></div>',
-      '<input type="button" value="Editer"    onClick="moDispositifCs.editIntervention (',intervention.idIntervention,');" style="width:85px;height:24px;"/>',
-      '<input id="DispositifInterDetail_CloneInterButton-', dispositif.idDispositif,'-',intervention.idIntervention,'" type="button" value="Dupliquer" onClick="moDispositifCs.cloneIntervention(',dispositif.idDispositif,',', intervention.idIntervention,');" style="width:85px;height:24px;"/>',
+      '<input type="button" value="Editer"    onClick="moDispositifCs.editIntervention (',intervention.idIntervention,');" style="width:65px;height:16px;margin-right:7px;"/>',
+      '<input id="DispositifInterDetail_CloneInterButton-', dispositif.idDispositif,'-',intervention.idIntervention,'" type="button" value="Dupliquer" onClick="moDispositifCs.cloneIntervention(',dispositif.idDispositif,',', intervention.idIntervention,');" style="width:65px;height:16px;margin-right:7px;"/>',
       etat,
-      '</fieldset>'
+      '</div>'
       ].join('');
+    
+
     html.push(detailIntervention);
   }
 

@@ -10,6 +10,28 @@
   <input id="choose-hopital-window-current-dispositif"   name="choose-hopital-window-current-dispositif"   type="hidden"/>
   <div id="choose-hopital-window-content">
     <div class="x-tab" id="choose-hopital-window-content-list"  title="Hopitaux">
+    
+    
+<!-- The box wrap markup embedded instead of using Element.boxWrap() -->
+<div style="width:850px;">
+    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+        <h3 style="margin-bottom:5px;">Recherche d'un Hopital</h3>
+        <table style="width:100%">
+          <tr>
+            <td><input type="text" name="SearchHopitalInput"     id="SearchHopitalInput"      style="width:100%"/></td>
+          </tr>
+        </table>
+        <div style="padding-top:4px;">
+            Recherche par nom, ville, addresse, code postal.
+        </div>
+
+    </div></div></div>
+    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+</div>    
+    
+    
+    
     </div>
     <div class="x-tab" id="choose-hopital-window-content-input" title="Autre Destination"/>
     

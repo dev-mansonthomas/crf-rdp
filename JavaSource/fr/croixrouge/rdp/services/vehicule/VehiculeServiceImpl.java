@@ -135,8 +135,8 @@ public class VehiculeServiceImpl  extends JDBCHelper  implements VehiculeService
   private final static String queryForStoreVehiculePosition = 
       "INSERT INTO  `vehicule_position_log` \n" +
       "           ( `id_vehicule`  , `coordinate_lat` , `coordinate_long`, `coordinates_origine`, \n" +
-      "             `id_dispositif`, `id_etat_dispositif`) \n" +
-      "VALUES     (?, ?, ?, ?, ?, ?)\n"; 
+      "             `id_dispositif`, `id_etat_dispositif`, `date_log`) \n" +
+      "VALUES     (?, ?, ?, ?, ?, ?, now())\n"; 
   
   
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)

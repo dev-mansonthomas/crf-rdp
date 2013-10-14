@@ -8,13 +8,13 @@
 function init()
 {
 
-      var searchEquipierComboBox = new Ext.ux.crfrdp.EquipierSearchCombo({
-      id          : 'DispositifEquipierSearch', 
+      var searchLieuxComboBox = new Ext.ux.crfrdp.LieuxSearchCombo({
+      id          : 'SearchLieux', 
       searchType  : 1,/*dispositifEquipierSearch*/
-      applyTo     : 'DispositifEquipierSearchInput',
+      applyTo     : 'SearchLieuxInput',
       onSelect    : function(record)
       {
-        alert('Etes vous sur de vouloir ajouter l\'équipier : <br/><br/>"<b>'+record.data.nom+' '+record.data.prenom+'</b>" <br/> N°"<b>'+record.data.numNivol+'</b>"<br/> délégation de "<b>'+crfIrpUtils.getLabelFor('Delegations', record.data['delegation.idDelegation'])+'</b>" <br/><br/>au dispositif ?');
+        alert('Etes vous sur de vouloir choisir le lieu : <br/><br/>"<b>'+record.data.nom+'</b>" <br/> <b>'+record.data.addresse+' - '+record.data.codePostal+' - '+record.data.ville+'</b>" ?');
 
       }
   });

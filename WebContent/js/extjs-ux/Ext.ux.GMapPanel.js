@@ -12,6 +12,7 @@
  */
 
 Ext.namespace('Ext.ux');
+google.maps.visualRefresh = true;
 
 /**
  *
@@ -45,12 +46,16 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
   {
     try
     {
-      this.geocoder           = new GClientGeocoder();
+      this.geocoder           = new google.maps.GClientGeocoder();
       this.googleMapAvailable = true;//si initialement on a pas la connexion a google, et qu'on recheck
     }
     catch(e)
     {
       this.googleMapAvailable = false;
+      if(consoleEnabled == true)
+      {
+        console.log(e);  
+      }
     }
   },
   afterRender : function()
@@ -64,11 +69,11 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     Ext.ux.GMapPanel.superclass.afterRender.call(this);
 
     if (this.gmapType === 'map'){
-      this.gmap = new GMap2(this.body.dom);  
+      this.gmap = new google.maps.Map(this.body.dom);  
       }
 
     if (this.gmapType === 'panorama'){
-      this.gmap = new GStreetviewPanorama(this.body.dom);
+      this.gmap = new google.maps.StreetviewPanorama(this.body.dom);
     }
    	
     	
@@ -86,7 +91,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       {
         if (this.gmapType === 'map')
         {
-          var point = new GLatLng(this.setCenter.lat,this.setCenter.lng);
+          var point = new google.maps.LatLng(this.setCenter.lat,this.setCenter.lng);
           this.gmap.setCenter(point, this.zoomLevel);
         }
         if (typeof this.setCenter.marker === 'object' && typeof point === 'object')
@@ -96,7 +101,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
       }
       if (this.gmapType === 'panorama')
       {
-        this.gmap.setLocationAndPOV(new GLatLng(this.setCenter.lat,this.setCenter.lng), {yaw: this.yaw, pitch: this.pitch, zoom: this.zoom});
+        this.gmap.setLocationAndPOV(new google.maps.LatLng(this.setCenter.lat,this.setCenter.lng), {yaw: this.yaw, pitch: this.pitch, zoom: this.zoom});
       }
     }
     this.onMapReady();
@@ -108,13 +113,15 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     this.addStreetView ();
     this.addTraffic    ();
   },
-  addStreetView:function(){
+  addStreetView:function()
+  {
     
     if(this.streetView == null)
     {
       return;
     }      
-    this.streetViewPanoramaTab= new GStreetviewPanorama(document.getElementById(this.streetView.panoramaId));  
+    this.streetViewPanoramaTab= new google.maps.StreetviewPanorama(document.getElementById(this.streetView.panoramaId));  
+    //TODO: UPDATE
     this.streetViewOverlay    = new GStreetviewOverlay ();
     
     this.streetView.displayed = false;
@@ -249,7 +256,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
     if(!iconCategory)
       iconCategory = category;
       
-    var point  = new GLatLng (latitude,longitude);
+    var point  = new google.maps.LatLng (latitude,longitude);
     var icon   = this.getIcon(iconCategory);
     var marker = new GMarker (point, {icon:icon,title:title});
 
@@ -274,7 +281,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
   {
     if(this.googleMapAvailable!= true)
       return;
-    this.gmap.panTo(new GLatLng(latitude,longitude));
+    this.gmap.panTo(new google.maps.LatLng(latitude,longitude));
   },
   showACategoryOfMarker:function(category)
   {
@@ -661,7 +668,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
 
         if (Ext.isArray(markers)){
             for (var i = 0; i < markers.length; i++) {
-                var mkr_point = new GLatLng(markers[i].lat,markers[i].lng);
+                var mkr_point = new google.maps.LatLng(markers[i].lat,markers[i].lng);
                 this.addMarker(mkr_point,markers[i].marker,false,markers[i].setCenter, markers[i].listeners);
             }
         }
@@ -760,7 +767,7 @@ Ext.ux.GMapPanel = Ext.extend(Ext.Panel, {
               if (accuracy < 7) {
                   Ext.MessageBox.alert('Address Accuracy', 'The address provided has a low accuracy.<br><br>Level '+accuracy+' Accuracy (8 = Exact Match, 1 = Vague Match)');
               }else{
-                  point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
+                  point = new google.maps.LatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
                   if (typeof this.setCenter.marker === 'object' && typeof point === 'object'){
                       this.addMarker(point,this.setCenter.marker,this.setCenter.marker.clear,true, this.setCenter.listeners);
                   }

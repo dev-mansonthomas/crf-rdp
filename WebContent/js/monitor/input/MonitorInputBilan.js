@@ -28,21 +28,95 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           },
           'd/m/Y'
         );
+      
+        try
+        {
+          crfIrpUtils.setupCalendar("bilan_gestes_garrot_heure_pose","bilan_gestes_garrot_heure_pose_div","bilan_gestes_garrot_heure_pose_div", function(event){
+            miBilanCs.updateBilanDateTimeField(event.id, 'gestes_garrot_heure_pose');
+         });  
+        }
+        catch(e)
+        {
+          if(consoleEnabled)
+          {
+            console.log("Error on init bilan_gestes_garrot_heure_pose", e);
+          }          
+        }
+        
+        try
+        {
+          crfIrpUtils.setupCalendar("bilan_evac_aggravation_contact_regulation","bilan_evac_aggravation_contact_regulation_div","bilan_evac_aggravation_contact_regulation_div", function(event){
+            miBilanCs.updateBilanDateTimeField(event.id, 'evac_aggravation_contact_regulation');
+         });  
+        }
+        catch(e)
+        {
+          if(consoleEnabled)
+          {
+            console.log("Error on init bilan_evac_aggravation_contact_regulation", e);
+          }          
+        }
+        
+        
+        
       },
       initHospitalList:function()
       {
-        var allLieu      = CrfIrpUtils.prototype.allLieu;
-        var hospitalList = allLieu[1];
+
+        var searchHoptial = new Ext.ux.crfrdp.LieuxSearchCombo({
+          id          : 'SearchHoptial', 
+          searchType  : 1,/*dispositifEquipierSearch*/
+          applyTo     : 'SearchHopitalInput',
+          width       : 540,
+          listWidth   : 540,
+          onSelect    : function(record)
+          {
+            
+            Ext.Msg.confirm("Etes vous sur de vouloir choisir cet Hopital ?",
+                "Etes vous sur de vouloir chosir l'hopital '"+record.data.nom+"' situé à '"+record.data.addresse+" - "+record.data.codePostal+" - "+record.data.ville+"' ?",
+                function(btn){
+                  if(btn == 'yes')
+                  {
+                    
+                    Ext.get('bilan_evac_hopital_destination'      ).dom.value=record.data.idLieu;
+                    Ext.get('bilan_evac_hopital_destination_label').dom.value=crfIrpUtils.getLabelForLieu(record.data.idLieu);
+                    
+                    miBilanCs.updateIntegerField('bilan_evac_hopital_destination', 'evac_hopital_destination');
+                    
+                    
+                    Ext.getCmp('SearchHoptial').clearValue();
+                  }
+                });
+          }
+        });
         
-        
-        dwr.util.addOptions( 'bilan_evac_hopital_destination', 
-                             hospitalList,
-                             'idLieu',
-                             'nom');
-        dwr.util.addOptions( 'bilan_transport_medicalisee_de', 
-                             hospitalList,
-                             'idLieu',
-                             'nom');
+        var searchMoyenEvac = new Ext.ux.crfrdp.LieuxSearchCombo({
+          id          : 'SearchMoyenEvac', 
+          searchType  : 1,/*dispositifEquipierSearch*/
+          applyTo     : 'SearchMoyenEvacInput',
+          width       : 540,
+          listWidth   : 540,
+          onSelect    : function(record)
+          {
+            
+            Ext.Msg.confirm("Etes vous sur de vouloir choisir cet Hopital ?",
+                "Etes vous sur de vouloir chosir le moyen d'évacutation de '"+record.data.nom+"' situé à '"+record.data.addresse+" - "+record.data.codePostal+" - "+record.data.ville+"' ?",
+                function(btn){
+                  if(btn == 'yes')
+                  {
+                    
+                    Ext.get('bilan_transport_medicalisee_de'      ).dom.value=record.data.idLieu;
+                    Ext.get('bilan_transport_medicalisee_de_label').dom.value=crfIrpUtils.getLabelForLieu(record.data.idLieu);
+                    
+                    miBilanCs.updateIntegerField('bilan_transport_medicalisee_de', 'transport_medicalisee_de');
+                    
+                     
+                    Ext.getCmp('SearchMoyenEvac').clearValue();
+                  }
+                });
+          }
+        });
+
         
       },
       initMotifAnnulationList:function()
@@ -142,6 +216,16 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         Ext.get("BilanHelper_id_motif"                           ).update      (crfIrpUtils.getLabelFor('MotifsIntervention'  , intervention.idMotif  ));
         Ext.get("BilanHelper_id_etat"                            ).update      (crfIrpUtils.getLabelFor('EtatsIntervention'   , intervention.idEtat   ));
         
+        if(intervention.idEtat == 11)//intervention annulée
+        {
+          Ext.get("BilanHelper_id_etat"                          ).addClass   ("InterventionAnnulee");
+        }
+        else
+        {
+          Ext.get("BilanHelper_id_etat"                          ).removeClass("InterventionAnnulee");  
+        }
+          
+        
         if(intervention.idRefNumInter!=0)
           Ext.get("BilanHelper_ref_inter_ori"                    ).update      (intervention.idRefNumInter                    );
         else
@@ -213,8 +297,38 @@ Ext.ux.MonitorInput.BilanEditor = function() {
           Ext.get("bilan_evac_par_"+intervention.evacPar         ).dom.checked=true;
          
         Ext.get("bilan_transport_medicalisee_de"                 ).dom.setValue(intervention.transportMedicaliseeDe           );
+        
+        
+        if( (intervention.transportMedicaliseeAr || intervention.transportMedicaliseeUmh) && intervention.transportMedicaliseeDe != '' && intervention.transportMedicaliseeDe > 0 )
+        {
+          
+          var label = '';
+          
+          if(intervention.transportMedicaliseeAr)
+          {
+            label = crfIrpUtils.getLabelForLieu(intervention.transportMedicaliseeDe);  
+          }
+          else
+          {
+            label = crfIrpUtils.getLabelForLieu(intervention.transportMedicaliseeDe); 
+          }
+          
+          
+          
+          Ext.get("bilan_transport_medicalisee_de_label"           ).dom.setValue(label);  
+        }
+        
+        
         Ext.get("bilan_evac_hopital_destination"                 ).dom.setValue(intervention.evacHopitalDestination           );
-      
+        
+        if( intervention.evacHopitalDestination != '' && intervention.evacHopitalDestination > 0)
+        {
+          Ext.get("bilan_evac_hopital_destination_label" ).dom.setValue(crfIrpUtils.getLabelForLieu(intervention.evacHopitalDestination));  
+        }
+        
+        
+        
+        
         if(intervention.circulTensionBasse != 0)
           Ext.get("bilan_circul_tension_basse"                   ).dom.setValue(intervention.circulTensionBasse               );
         else
@@ -273,8 +387,12 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         
         Ext.get("bilan_date_naissance"                           ).dom.setValue(crfIrpUtils.getDate(intervention.dateNaissance));
           
-        Ext.get("bilan_gestes_garrot_heure_pose"                 ).dom.setValue(crfIrpUtils.getTime(intervention.gestesGarrotHeurePose            ));
-        Ext.get("bilan_evac_aggravation_contact_regulation"      ).dom.setValue(crfIrpUtils.getTime(intervention.evacAggravationContactRegulation ));
+        //Ext.get("bilan_gestes_garrot_heure_pose"                 ).dom.setValue(crfIrpUtils.getTime(intervention.gestesGarrotHeurePose            ));
+        //Ext.get("bilan_evac_aggravation_contact_regulation"      ).dom.setValue(crfIrpUtils.getTime(intervention.evacAggravationContactRegulation ));
+        
+        
+        dwr.util.setValue('bilan_gestes_garrot_heure_pose'             , crfIrpUtils.getFullDate(intervention.gestesGarrotHeurePose));
+        dwr.util.setValue('bilan_evac_aggravation_contact_regulation'  , crfIrpUtils.getFullDate(intervention.evacAggravationContactRegulation));
       
       
       // Ext.get("bilan_complement_motif"                         ).dom.setValue(intervention.complementMotif                  ); 
@@ -387,12 +505,18 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         Ext.get("bilan_evac_refus_de_transport"                  ).dom.checked=intervention.evacRefusDeTransport             ;
         Ext.get("bilan_evac_decharche"                           ).dom.checked=intervention.evacDecharche                    ;
         Ext.get("bilan_evac_sans_suite"                          ).dom.checked=intervention.evacSansSuite                    ;
+        
         Ext.get("bilan_evac_aggravation_"+intervention.evacAggravation).dom.checked=true;
+        
         Ext.get("bilan_evac_aggravation_pendant_transport"       ).dom.checked=intervention.evacAggravationPendantTransport  ;
         Ext.get("bilan_evac_aggravation_arrive_a_destination"    ).dom.checked=intervention.evacAggravationArriveADestination;
         
-
-
+        //Fenetre Annulation
+        Ext.get("bilan_motif_annulation"       ).dom.setValue(intervention.idMotifAnnulation);
+        Ext.get("bilan_annulation_commentaires").dom.setValue(intervention.annulationCommentaires);
+        
+        
+        
         
           
         var ongletToOpen = callMetatData.ongletToOpen;
@@ -605,6 +729,24 @@ Ext.ux.MonitorInput.BilanEditor = function() {
                                               function()
                                               {
                                                 crfIrpUtils.defaultBackgroundColorForField('bilanRenfortMedicaliseeArP');
+                                                
+                                                if(Ext.get('bilan_transport_medicalisee_ar').dom.checked)
+                                                {
+                                                  Ext.getCmp('SearchMoyenEvac').updateSearchType(2);
+                                                  Ext.get('searchARouUMHDiv').show();
+                                                  Ext.get('searchARouUMHDivTitle').update("Recherche d'un Centre de Secours");
+                                                }
+                                                else if(Ext.get('bilan_transport_medicalisee_umh').dom.checked)
+                                                {
+                                                  Ext.getCmp('SearchMoyenEvac').updateSearchType(1);
+                                                  Ext.get('searchARouUMHDiv').show();
+                                                  Ext.get('searchARouUMHDivTitle').update("Recherche d'un Hopital");
+                                                }
+                                                else
+                                                {
+                                                  Ext.getCmp('SearchMoyenEvac').updateSearchType(0);
+                                                  Ext.get('searchARouUMHDiv').hide();
+                                                }
                                               }); 
           
       },
@@ -622,7 +764,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         ville     .value=ville     .value.strip();
       
         
-        if(fieldId == 'bilan_evac_autre_dest_code_postal' && !crfIrpUtils.checkZipCode(codePostal))
+        if(fieldId == 'bilan_evac_autre_dest_code_postal' && !crfIrpUtils.checkZipCode(codePostal.value) && codePostal.value!= '')
         {
           crfIrpUtils.checkZipCodeError(fieldId);
         }
@@ -630,9 +772,9 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         miBilanCs.updateStringField(fieldId, fieldName);
         
         if( ( rue       .value != '' && 
-            codePostal.value != '' &&
-            ville     .value != ''
-          ) 
+              codePostal.value != '' &&
+              ville     .value != ''
+            ) 
           &&
           (
               rue       .oldValue != rue       .value ||
@@ -696,7 +838,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         crfIrpUtils.checkField (fieldId);
         crfIrpUtils.fieldSaving(objectIdForGraphicalEffect);
         fieldValue = $(fieldId).value;
-        if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
+        if(fieldValue != $(fieldId).oldValue)
         {
           MonitorInputBilan.updateStringField(
                                               $('bilan_id_intervention').value,
@@ -710,6 +852,9 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         else
           crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
       },
+      /*
+       * Utilisez pour corriger le timing de l'intervention (départ, arriver sur place etc...
+       * */
       updateTimeField:function(fieldId, fieldName, baseDateCmpId, previousDateFieldId){
 
         crfIrpUtils.checkField (fieldId);
@@ -755,6 +900,42 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         else
           crfIrpUtils.defaultBackgroundColorForField(fieldId);
       },
+
+      //passer la valeur "null" en tant que string permet de remettre a zéro la valeur dans la base de données (chaine vide n'étant pas sauvegarder pour éviter du traffic inutile)
+      //pour date du pose de garot, de contact de la régulation
+      updateBilanDateTimeField:function(fieldId, fieldName, isDate)//3eme parametre ne sera pas rempli pour les datetime
+      {
+        crfIrpUtils.checkField (fieldId+"_div");
+        crfIrpUtils.fieldSaving(fieldId+"_div");
+        
+        var fieldValue = $(fieldId).value;
+        if(fieldValue!='' && fieldValue != $(fieldId).oldValue)
+        {
+          var value = null;
+          
+          if(fieldValue !='null')
+          {
+            value = isDate?
+                      crfIrpUtils.parseDate    (fieldValue):
+                      crfIrpUtils.parseDateTime(fieldValue); 
+          }
+          else
+          {
+            $(fieldId).value='';
+          }
+          
+          MonitorInputBilan.updateDateField(
+                                                    $('bilan_id_intervention').value, 
+                                                    fieldName, 
+                                                    value, 
+                                                    function()
+                                                    {
+                                                      crfIrpUtils.defaultBackgroundColorForField(fieldId+"_div");
+                                                    });
+        }
+        else
+          crfIrpUtils.defaultBackgroundColorForField(fieldId+"_div");
+      },
       updateDateField:function(fieldId, fieldName, objectIdForGraphicalEffect){
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
@@ -776,8 +957,7 @@ Ext.ux.MonitorInput.BilanEditor = function() {
         else
           crfIrpUtils.defaultBackgroundColorForField(objectIdForGraphicalEffect);
       },
-      updateBooleanField:function(fieldId, fieldName, objectIdForGraphicalEffect, fieldValue){
-
+      updateBooleanField:function(fieldId, fieldName, objectIdForGraphicalEffect, fieldValue){        
         if(!objectIdForGraphicalEffect)
           objectIdForGraphicalEffect = fieldId;
 

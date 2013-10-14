@@ -1,6 +1,7 @@
 package fr.croixrouge.rdp.model.monitor;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Intervention implements Serializable
@@ -65,6 +66,7 @@ public class Intervention implements Serializable
   private Date    dateNaissance                      ;
   private Date    gestesGarrotHeurePose              ;
   private Date    evacAggravationContactRegulation   ;
+  private Date    dhAnnulation                       ;
 
   private String  annulationCommentaires             ;
   private String  complementMotif                    ;
@@ -159,6 +161,7 @@ public class Intervention implements Serializable
   private boolean pompierSurPlace                    ;
   private boolean evacLaisseSurPlace                 ;
   private boolean evacLaisseSurPlaceDecedee          ;
+  private boolean evacSansSuite                      ;
   private boolean evacRefusDeTransport               ;
   private boolean evacDecharche                      ;
   private boolean evacAggravation                    ;
@@ -1615,5 +1618,330 @@ public class Intervention implements Serializable
   public void setBilanTraitements(String bilanTraitements)
   {
     this.bilanTraitements = bilanTraitements;
+  }
+
+  public boolean isEvacSansSuite()
+  {
+    return evacSansSuite;
+  }
+
+  public void setEvacSansSuite(boolean evacSansSuite)
+  {
+    this.evacSansSuite = evacSansSuite;
+  }
+
+  public Date getDhAnnulation()
+  {
+    return dhAnnulation;
+  }
+
+  public void setDhAnnulation(Date dhAnnulation)
+  {
+    this.dhAnnulation = dhAnnulation;
+  }
+
+  @Override
+  public String toString()
+  {
+    
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
+    
+    StringBuilder builder = new StringBuilder();
+    builder.append("Intervention [position=");
+    builder.append(position);
+    builder.append(", evacAutreDestinationPosition=");
+    builder.append(evacAutreDestinationPosition);
+    builder.append(", dispositifTicket=");
+    builder.append(dispositifTicket);
+    builder.append(", idIntervention=");
+    builder.append(idIntervention);
+    builder.append(", idDispositif=");
+    builder.append(idDispositif);
+    builder.append(", idRegulation=");
+    builder.append(idRegulation);
+    builder.append(", idOrigine=");
+    builder.append(idOrigine);
+    builder.append(", idMotif=");
+    builder.append(idMotif);
+    builder.append(", idMotifAnnulation=");
+    builder.append(idMotifAnnulation);
+    builder.append(", idEtat=");
+    builder.append(idEtat);
+    builder.append(", idRefNumInter=");
+    builder.append(idRefNumInter);
+    builder.append(", ageApproxVictime=");
+    builder.append(ageApproxVictime);
+    builder.append(", ventilChiffre=");
+    builder.append(ventilChiffre);
+    builder.append(", ventilSaturationO2=");
+    builder.append(ventilSaturationO2);
+    builder.append(", circulPoulsChiffre=");
+    builder.append(circulPoulsChiffre);
+    builder.append(", circulTensionRefBasse=");
+    builder.append(circulTensionRefBasse);
+    builder.append(", circulTensionRefHaute=");
+    builder.append(circulTensionRefHaute);
+    builder.append(", douleur=");
+    builder.append(douleur);
+    builder.append(", gestesDsaNbChocs=");
+    builder.append(gestesDsaNbChocs);
+    builder.append(", gestesInhalationO2LitreMin=");
+    builder.append(gestesInhalationO2LitreMin);
+    builder.append(", transportMedicaliseeDe=");
+    builder.append(transportMedicaliseeDe);
+    builder.append(", evacHopitalDestination=");
+    builder.append(evacHopitalDestination);
+    builder.append(", evacAggravationVentilation=");
+    builder.append(evacAggravationVentilation);
+    builder.append(", evacAggravationCirculation=");
+    builder.append(evacAggravationCirculation);
+    builder.append(", evacAggravationSaturationO2=");
+    builder.append(evacAggravationSaturationO2);
+    builder.append(", evacAggravationDouleur=");
+    builder.append(evacAggravationDouleur);
+    builder.append(", evacPar=");
+    builder.append(evacPar);
+    builder.append(", glasgowTotal=");
+    builder.append(glasgowTotal);
+    builder.append(", glasgowOuvertureYeux=");
+    builder.append(glasgowOuvertureYeux);
+    builder.append(", glasgowReponseVerbale=");
+    builder.append(glasgowReponseVerbale);
+    builder.append(", glasgowReponseMotrice=");
+    builder.append(glasgowReponseMotrice);
+    builder.append(", circulTensionBasse=");
+    builder.append(circulTensionBasse);
+    builder.append(", circulTensionHaute=");
+    builder.append(circulTensionHaute);
+    builder.append(", gestesGlycemieGrammeLitre=");
+    builder.append(gestesGlycemieGrammeLitre);
+    builder.append(", gestesTemperature=");
+    builder.append(gestesTemperature);
+    builder.append(", dhSaisie=");
+    builder.append(dateFormat.format(dhSaisie));
+    builder.append(", dhReception=");
+    builder.append(dateFormat.format(dhReception));
+    builder.append(", dhDepart=");
+    builder.append(dateFormat.format(dhDepart));
+    builder.append(", dhSurPlace=");
+    builder.append(dateFormat.format(dhSurPlace));
+    builder.append(", dhBilanPrimaire=");
+    builder.append(dateFormat.format(dhBilanPrimaire));
+    builder.append(", dhBilanSecondaire=");
+    builder.append(dateFormat.format(dhBilanSecondaire));
+    builder.append(", dhQuitteLesLieux=");
+    builder.append(dateFormat.format(dhQuitteLesLieux));
+    builder.append(", dhArriveeHopital=");
+    builder.append(dateFormat.format(dhArriveeHopital));
+    builder.append(", dhFinIntervention=");
+    builder.append(dateFormat.format(dhFinIntervention));
+    builder.append(", dhAppelRenfortMedical=");
+    builder.append(dateFormat.format(dhAppelRenfortMedical));
+    builder.append(", dhArriveeRenfortMedical=");
+    builder.append(dateFormat.format(dhArriveeRenfortMedical));
+    builder.append(", dateNaissance=");
+    builder.append(dateFormat.format(dateNaissance));
+    builder.append(", gestesGarrotHeurePose=");
+    builder.append(dateFormat.format(gestesGarrotHeurePose));
+    builder.append(", evacAggravationContactRegulation=");
+    builder.append(dateFormat.format(evacAggravationContactRegulation));
+    builder.append(", dhAnnulation=");
+    builder.append(dateFormat.format(dhAnnulation));
+    builder.append(", annulationCommentaires=");
+    builder.append(annulationCommentaires);
+    builder.append(", complementMotif=");
+    builder.append(complementMotif);
+    builder.append(", interventionBusinessId=");
+    builder.append(interventionBusinessId);
+    builder.append(", refNumInter=");
+    builder.append(refNumInter);
+    builder.append(", nomVictime=");
+    builder.append(nomVictime);
+    builder.append(", nomJfVictime=");
+    builder.append(nomJfVictime);
+    builder.append(", prenomVictime=");
+    builder.append(prenomVictime);
+    builder.append(", lieuNaissance=");
+    builder.append(lieuNaissance);
+    builder.append(", adresseVictime=");
+    builder.append(adresseVictime);
+    builder.append(", codePostalVictime=");
+    builder.append(codePostalVictime);
+    builder.append(", villeVictime=");
+    builder.append(villeVictime);
+    builder.append(", paysVictime=");
+    builder.append(paysVictime);
+    builder.append(", personneAPrevenir=");
+    builder.append(personneAPrevenir);
+    builder.append(", telPersonneAPrevenir=");
+    builder.append(telPersonneAPrevenir);
+    builder.append(", effetOuObjetRemis=");
+    builder.append(effetOuObjetRemis);
+    builder.append(", effetOuObjetRemisA=");
+    builder.append(effetOuObjetRemisA);
+    builder.append(", nomContactSurPlace=");
+    builder.append(nomContactSurPlace);
+    builder.append(", coordonneesContact=");
+    builder.append(coordonneesContact);
+    builder.append(", batiment=");
+    builder.append(batiment);
+    builder.append(", etage=");
+    builder.append(etage);
+    builder.append(", porte=");
+    builder.append(porte);
+    builder.append(", complementAdresse=");
+    builder.append(complementAdresse);
+    builder.append(", csPciDuree=");
+    builder.append(csPciDuree);
+    builder.append(", ventilCommentaire=");
+    builder.append(ventilCommentaire);
+    builder.append(", circulPoulsCommentaire=");
+    builder.append(circulPoulsCommentaire);
+    builder.append(", gestesAutres=");
+    builder.append(gestesAutres);
+    builder.append(", medecinCivilSurPlace=");
+    builder.append(medecinCivilSurPlace);
+    builder.append(", evacLaisseSurPlaceDecedeeADispoDe=");
+    builder.append(evacLaisseSurPlaceDecedeeADispoDe);
+    builder.append(", evacNumInterBanlieu=");
+    builder.append(evacNumInterBanlieu);
+    builder.append(", evacAggravationNature=");
+    builder.append(evacAggravationNature);
+    builder.append(", evacParAutre=");
+    builder.append(evacParAutre);
+    builder.append(", bilanCirconstances=");
+    builder.append(bilanCirconstances);
+    builder.append(", bilanDetresses=");
+    builder.append(bilanDetresses);
+    builder.append(", bilanAntecedents=");
+    builder.append(bilanAntecedents);
+    builder.append(", bilanTraitements=");
+    builder.append(bilanTraitements);
+    builder.append(", bilanCommentaires=");
+    builder.append(bilanCommentaires);
+    builder.append(", bilanEvaluationCi=");
+    builder.append(bilanEvaluationCi);
+    builder.append(", evacAutreDestinationLabel=");
+    builder.append(evacAutreDestinationLabel);
+    builder.append(", hommeVictime=");
+    builder.append(hommeVictime);
+    builder.append(", csComa=");
+    builder.append(csComa);
+    builder.append(", csPci=");
+    builder.append(csPci);
+    builder.append(", csPcSecondaire=");
+    builder.append(csPcSecondaire);
+    builder.append(", csAgitation=");
+    builder.append(csAgitation);
+    builder.append(", csConvulsions=");
+    builder.append(csConvulsions);
+    builder.append(", ventilAbsence=");
+    builder.append(ventilAbsence);
+    builder.append(", ventilSuperficielle=");
+    builder.append(ventilSuperficielle);
+    builder.append(", ventilRonflement=");
+    builder.append(ventilRonflement);
+    builder.append(", ventilIrreguliere=");
+    builder.append(ventilIrreguliere);
+    builder.append(", ventilTirage=");
+    builder.append(ventilTirage);
+    builder.append(", ventilPauses=");
+    builder.append(ventilPauses);
+    builder.append(", ventilSueurs=");
+    builder.append(ventilSueurs);
+    builder.append(", ventilSifflement=");
+    builder.append(ventilSifflement);
+    builder.append(", ventilCyanose=");
+    builder.append(ventilCyanose);
+    builder.append(", circulPoulsNonPercu=");
+    builder.append(circulPoulsNonPercu);
+    builder.append(", circulPoulsIrregulier=");
+    builder.append(circulPoulsIrregulier);
+    builder.append(", circulPoulsFaible=");
+    builder.append(circulPoulsFaible);
+    builder.append(", circulConjonctiveDecolorees=");
+    builder.append(circulConjonctiveDecolorees);
+    builder.append(", circulPaleurCutanees=");
+    builder.append(circulPaleurCutanees);
+    builder.append(", circulMarbrure=");
+    builder.append(circulMarbrure);
+    builder.append(", pupilleReactive=");
+    builder.append(pupilleReactive);
+    builder.append(", pupilleNonReactive=");
+    builder.append(pupilleNonReactive);
+    builder.append(", pupilleMyosisGauche=");
+    builder.append(pupilleMyosisGauche);
+    builder.append(", pupilleMyosisDroite=");
+    builder.append(pupilleMyosisDroite);
+    builder.append(", pupilleMydriaseGauche=");
+    builder.append(pupilleMydriaseGauche);
+    builder.append(", pupilleMydriaseDroite=");
+    builder.append(pupilleMydriaseDroite);
+    builder.append(", pupilleAsymetriques=");
+    builder.append(pupilleAsymetriques);
+    builder.append(", gestesLva=");
+    builder.append(gestesLva);
+    builder.append(", gestesMce=");
+    builder.append(gestesMce);
+    builder.append(", gestesAllongee=");
+    builder.append(gestesAllongee);
+    builder.append(", gestesPls=");
+    builder.append(gestesPls);
+    builder.append(", gestesPansement=");
+    builder.append(gestesPansement);
+    builder.append(", gestesRefroidissement=");
+    builder.append(gestesRefroidissement);
+    builder.append(", gestesAspiration=");
+    builder.append(gestesAspiration);
+    builder.append(", gestesDsa=");
+    builder.append(gestesDsa);
+    builder.append(", gestesDemiAssis=");
+    builder.append(gestesDemiAssis);
+    builder.append(", gestesCollierCervical=");
+    builder.append(gestesCollierCervical);
+    builder.append(", gestesPointDeCompression=");
+    builder.append(gestesPointDeCompression);
+    builder.append(", gestesProtectionThermique=");
+    builder.append(gestesProtectionThermique);
+    builder.append(", gestesVa=");
+    builder.append(gestesVa);
+    builder.append(", gestesJambesSurelevees=");
+    builder.append(gestesJambesSurelevees);
+    builder.append(", gestesAttelle=");
+    builder.append(gestesAttelle);
+    builder.append(", gestesGarrot=");
+    builder.append(gestesGarrot);
+    builder.append(", gestesImmobilisationGenerale=");
+    builder.append(gestesImmobilisationGenerale);
+    builder.append(", coordinateurBsppContacte=");
+    builder.append(coordinateurBsppContacte);
+    builder.append(", coordinateurSamuContacte=");
+    builder.append(coordinateurSamuContacte);
+    builder.append(", transportMedicaliseeAr=");
+    builder.append(transportMedicaliseeAr);
+    builder.append(", transportMedicaliseeUmh=");
+    builder.append(transportMedicaliseeUmh);
+    builder.append(", policeSurPlace=");
+    builder.append(policeSurPlace);
+    builder.append(", pompierSurPlace=");
+    builder.append(pompierSurPlace);
+    builder.append(", evacLaisseSurPlace=");
+    builder.append(evacLaisseSurPlace);
+    builder.append(", evacLaisseSurPlaceDecedee=");
+    builder.append(evacLaisseSurPlaceDecedee);
+    builder.append(", evacSansSuite=");
+    builder.append(evacSansSuite);
+    builder.append(", evacRefusDeTransport=");
+    builder.append(evacRefusDeTransport);
+    builder.append(", evacDecharche=");
+    builder.append(evacDecharche);
+    builder.append(", evacAggravation=");
+    builder.append(evacAggravation);
+    builder.append(", evacAggravationPendantTransport=");
+    builder.append(evacAggravationPendantTransport);
+    builder.append(", evacAggravationArriveADestination=");
+    builder.append(evacAggravationArriveADestination);
+    builder.append("]");
+    return builder.toString();
   }
 }

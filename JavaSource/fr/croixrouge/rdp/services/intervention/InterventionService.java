@@ -17,7 +17,7 @@ public interface InterventionService
   public Intervention                   getIntervention                     (int idIntervention                                 ) throws Exception;
   public InterventionTicket             getInterventionTicket               (int idIntervention                                 ) throws Exception;
   public List<InterventionTicket>       getInterventionsTicketFromDispositif(int idDispositif                                   ) throws Exception;
-  public ListRange<InterventionTicket>  getInterventionTicketWithStatus     (int idRegulation, int status, int index, int limit ) throws Exception; 
+  public ListRange<InterventionTicket>  getInterventionTicketWithStatus     (int idRegulation, GridSearchFilterAndSortObject gsfaso ) throws Exception; 
   public List<InterventionTicket>       getAllInterventionTicketWithStatus  (int idRegulation, int status                       ) throws Exception;
   public ListRange<InterventionTicket>  searchInterventions                 (GridSearchFilterAndSortObject gsfaso               ) throws Exception;
   public void                           updateGoogleCoordinates             (float latitude, float longitude, int idIntervention) throws Exception;
@@ -38,5 +38,6 @@ public interface InterventionService
   
   public void chooseEvacDestination           (int idIntervention, int idLieu, String destinationLabel, Position position) throws Exception;
   public int  cloneIntervention               (DataForCloneIntervention dataForCloneIntervention) throws Exception;
+  public void cancelIntervention              (int idIntervention) throws Exception;
   
 }

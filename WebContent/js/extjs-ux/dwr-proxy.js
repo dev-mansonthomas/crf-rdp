@@ -67,7 +67,20 @@ Ext.ux.rs.addFilterFromExtField=function(objectFilter, cmpFieldName, fieldName, 
     
     
     if (value!=null && value!=nullValue)
-      objectFilter.push(new Ext.ux.rs.data.FilterObject(fieldName , value ,comparator));        
+    {
+      objectFilter.push(new Ext.ux.rs.data.FilterObject(fieldName , value ,comparator));
+      if(consoleEnabled)
+      {
+        console.log("Adding FilterObject with values : cmpFieldName='"+cmpFieldName+"', fieldName='"+fieldName+"', value='"+value+"', comparator='"+comparator+"'");
+      }
+    }
+    else
+    {
+      if(consoleEnabled)
+      {
+        console.log("NOT adding FilterObject as value is null ('"+value+"')");
+      }
+    }
   }
   else
   {

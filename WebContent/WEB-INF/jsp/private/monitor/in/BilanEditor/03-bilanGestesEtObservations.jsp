@@ -151,17 +151,10 @@
      onChange="miBilanCs.updateBooleanField(this.id, 'gestes_garrot', 'bilanGesteGarrotP')"/>
    Garrot
 </p>
-<p style="padding-left:15px;">
-  Heure de pose
-  <input style="width:35px;"
-          type="text"
-            id="bilan_gestes_garrot_heure_pose"
-          name="bilan_gestes_garrot_heure_pose"
-         value=""
-     maxlength="5"
-       onFocus="crfIrpUtils.fieldEdit(this.id)"
-        onBlur="miBilanCs.updateDateField(this.id, 'gestes_garrot_heure_pose')"/>
-</p>
+
+  <div id="bilan_gestes_garrot_heure_pose_divLabel">Heure de pose : </div>
+  <div id="bilan_gestes_garrot_heure_pose_div"></div>
+
       </td>
       <td style="valign:top;">
 <p id="bilanGesteRefroidissementP">
@@ -279,12 +272,44 @@ Médicalisé par   &nbsp;&nbsp;<input type="checkbox"
      onChange="miBilanCs.updateBooleanField(this.id, 'transport_medicalisee_umh','bilanRenfortMedicaliseeArP');miBilanCs.medicaliseParCheck(this.id);"/> <span ext:qtip="Unité Médical Hospitalière">UMH</span>
      &nbsp;&nbsp;&nbsp;&nbsp;de
 
-   <select  id="bilan_transport_medicalisee_de"
+   <input  id="bilan_transport_medicalisee_de"
           name="bilan_transport_medicalisee_de"
-       onFocus="crfIrpUtils.fieldEdit(this.id)"
-      onChange="miBilanCs.updateIntegerField(this.id, 'transport_medicalisee_de')">
-        <option value="0">&nbsp;</option>
-        </select>
+          type="hidden"
+       />
+
+   <input   id="bilan_transport_medicalisee_de_label"
+          name="bilan_transport_medicalisee_de_label"
+          type="input"
+      readonly="readonly"
+         style="width:70%;"
+       />
+
+        
+<!-- The box wrap markup embedded instead of using Element.boxWrap() -->
+<div style="width:570px;" id="searchARouUMHDiv">
+    <div class="x-box-tl"><div class="x-box-tr"><div class="x-box-tc"></div></div></div>
+    <div class="x-box-ml"><div class="x-box-mr"><div class="x-box-mc">
+        <h3 style="margin-bottom:5px;" id="searchARouUMHDivTitle">Recherche d'un Hopital/Centre de Secours</h3>
+        <table style="width:100%">
+          <tr>
+            <td><input type="text" name="SearchMoyenEvacInput"     id="SearchMoyenEvacInput"      style="width:90%"/></td>
+          </tr>
+        </table>
+        <div style="padding-top:4px;">
+            Recherche par nom, ville, addresse, code postal.
+        </div>
+
+    </div></div></div>
+    <div class="x-box-bl"><div class="x-box-br"><div class="x-box-bc"></div></div></div>
+</div>    
+                 
+        
+        
+        
+        
+        
+        
+        
          </td>
          <td>
            <p id="bilanRenfortMedecinCivilSurPlaceP">

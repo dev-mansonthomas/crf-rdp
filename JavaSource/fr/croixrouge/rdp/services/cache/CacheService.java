@@ -7,5 +7,6 @@ public interface CacheService
   public Object getObject (String name, boolean silentCacheMiss) throws Exception;
   public void   setObject (String name, Object object          ) throws Exception;
   public void   clearCache(                                    ) throws Exception;
+  public void   remove    (String name                         ) throws Exception;
 
 }

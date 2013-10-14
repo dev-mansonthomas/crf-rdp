@@ -118,57 +118,126 @@ MonitorInputInterventionCs.prototype.fieldList = [
 MonitorInputInterventionCs.prototype.initInterventionListGrids=function()
 {
 
-  var xg = Ext.grid;
+  try
+  {
+    
   
-  var dataStore1 = new Ext.data.Store({
-           proxy: new Ext.ux.rs.data.DwrProxy({
-               call       : MonitorInputIntervention.getInterventionTicketList,
-               args       : [0],
-               proxyConfig: Ext.ux.rs.data.SIMPLE_PAGING
-               }),
-           reader: new  Ext.ux.rs.data.JsonReader({
-                 root: 'data',
-        totalProperty: 'totalCount',
-               fields:
-                   [
-                       {name: 'idIntervention', type: 'int'    },
-                       {name: 'dhReception'   , type: 'date'   },
-                       {name: 'nomVictime'    , type: 'string' },
-                       {name: 'position.ville', type: 'string' }
-                   ]
-               })
-           });
-           
-
-  var grid1 = new xg.GridPanel({
-        id:'InterventionListEncoursEditionGrid',
-        store: dataStore1,
-        cm: new xg.ColumnModel([
-            {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
-            {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
-            {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
-            {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'position.ville'}
-        ]),
-        viewConfig: {
-            forceFit:true
-        },
-        collapsible : false,
-        animCollapse: false,
-        height      : 800,
-        iconCls     : 'icon-grid',
-        renderTo    : 'InterventionListEncoursEdition',
-        listeners   : {
-          'rowdblclick':miInterventionCs.gridRowDoubleClickHandler
-        },
-        bbar        : new Ext.PagingToolbar({
-          pageSize   : 5,
-          store      : dataStore1,
-          displayInfo: true,
-          displayMsg : 'Ticket d\'Intervention(s) {0} à {1} de {2}',
-          emptyMsg   : 'aucun Ticket d\'Intervention en cours d\'édition'
-        })
+    
+    var xg = Ext.grid;
+    
+    var dataStore1 = new Ext.data.Store({
+             proxy: new Ext.ux.rs.data.DwrProxy({
+                 call       : MonitorInputIntervention.getInterventionTicketList,
+                 args       : [],
+                 proxyConfig: Ext.ux.rs.data.PAGING_WITH_SORT_AND_FILTER,
+                 filterCallBack: function()
+                 {
+                    var objectFilter = new Array();
+                    
+                    Ext.ux.rs.addFilterFromExtField(objectFilter,'InterventionListGridToolbar-idEtatIntervention', 'idEtatIntervention', '='   ,'');
+                    return objectFilter;
+                 }
+                 }),
+             reader: new  Ext.ux.rs.data.JsonReader({
+                   root: 'data',
+          totalProperty: 'totalCount',
+                 fields:
+                     [
+                         {name: 'idIntervention', type: 'int'    },
+                         {name: 'dhReception'   , type: 'date'   },
+                         {name: 'nomVictime'    , type: 'string' },
+                         {name: 'position.ville', type: 'string' }
+                     ]
+                 })
+             });
+             
+    var bbar = new Ext.PagingToolbar({
+      id         : 'InterventionListGridToolbar',
+      pageSize   : 10,
+      store      : dataStore1,
+      displayInfo: true,
+      displayMsg : 'Ticket d\'Intervention(s) {0} à {1} de {2}',
+      emptyMsg   : 'aucun Ticket d\'Intervention',
+      viewConfig: {
+        forceFit:true
+    }
     });
-  grid1.getStore().load({params: {start:0, limit:5}});
+    
+    var grid1 = new xg.GridPanel({
+          id:'InterventionListGrid',
+          store: dataStore1,
+          cm: new xg.ColumnModel([
+              {id:'idITUnfinishedCol'         , header: "Id"            , width: 30 , sortable: true, dataIndex: 'idIntervention'},
+              {id:'dhReceptionITUnfinishedCol', header: "Date Récéption", width: 120, sortable: true, renderer: Ext.util.Format.dateRenderer('d/m/Y H:i:s'), dataIndex: 'dhReception'},
+              {id:'nomVictimeITUnfinishedCol' , header: "Nom Victime"   , width: 150, sortable: true, dataIndex: 'nomVictime'},
+              {id:'villeITUnfinishedCol'      , header: "Ville"         , width: 150, sortable: true, dataIndex: 'position.ville'}
+          ]),
+          viewConfig: {
+              forceFit:true
+          },
+          collapsible : false,
+          animCollapse: false,
+          iconCls     : 'icon-grid',
+          listeners   : {
+            'rowdblclick':miInterventionCs.gridRowDoubleClickHandler
+          },
+          bbar:bbar,
+          tbar: {
+            xtype: 'toolbar',
+            items: [
+               {
+                  xtype : 'label',
+                  text  : 'Status',
+                  style :'padding-right:15px;padding-left:5px;'
+               },
+               {
+                 id           : 'InterventionListGridToolbar-idEtatIntervention',
+                 xtype        : 'combo',
+                 fieldLabel   : 'Status',
+                 anchor       : '100%',
+                 mode         : 'local',
+                 typeAhead    : true,
+                 editable     : false,
+                 triggerAction: 'all',
+                 displayField : 'label',
+                 valueField   : 'id',
+                 selectOnFocus: true,
+                 
+                 store        : new Ext.data.ArrayStore({
+                     fields    : ['id', 'label'],
+                     data      : crfIrpUtils.getListForSimpleStore('EtatsIntervention'),
+                     idIndex   : 0,
+                     idProperty: 'idEtatIntervention'
+                 }),
+                 fireKey   : function(e) {
+                   if(e.getKey()==e.ENTER){
+                     Ext.getCmp('InterventionListGridToolbar').moveFirst();
+                   }
+                 }
+               }
+            ]
+         }
+      });
+
+
+    
+    
+    
+    grid1.getStore().load({params: {start:0, limit:5}});
+    Ext.getCmp('InterventionListEastPanel').add(grid1);
+    grid1.syncSize(); 
+  }
+  catch(e)
+  {
+    if(consoleEnabled)
+    {
+      console.log(e);
+    }
+    else
+    {
+      alert(e);
+    }
+  }
   
 };
 

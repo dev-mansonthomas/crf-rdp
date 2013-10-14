@@ -155,6 +155,10 @@ CREATE TABLE `dispositif` (
   `id_vehicule`                           int(10 )      unsigned    NOT NULL,
   `id_type_dispositif`                    int(10)       unsigned        NULL DEFAULT 0,
   `id_regulation`                         int(10)       unsigned    NOT NULL,
+  `id_etat_dispositif`                    int(10)       unsigned    NOT NULL,  
+  `id_current_intervention`               int(10)       unsigned        NULL DEFAULT 0,
+  `display_state`                         int(3 )       unsigned    NOT NULL,
+ 
   `creation_terminee`                     boolean                   NOT NULL default false,
 -- Actif : en activite dans la regulation, inactif : fin de vacation
   `actif`                                 boolean                   NOT NULL default true,
@@ -190,13 +194,6 @@ CREATE TABLE `dispositif` (
   `contact_tel2`                          varchar(16) NOT NULL,
   `contact_alphapage`                     varchar(16) NOT NULL,
   `identite_medecin`                      varchar(45) NOT NULL,
-  `id_etat_dispositif`                    int(10) unsigned  NOT NULL,
-  
-  `id_current_intervention`               int(10) unsigned NULL DEFAULT 0,
-  
-  `display_state`                         int(3) unsigned NOT NULL,
-  
-
 
   `current_addresse_rue`         varchar(60) NULL,
   `current_addresse_code_postal` varchar(5 ) NULL,
@@ -302,8 +299,8 @@ CREATE TABLE `dispositif_equipiers` (
   `id_dispositif`    int(10) unsigned NOT NULL,
   `id_equipier`      int(10) unsigned NOT NULL,
   `id_role_equipier` int(10) unsigned NOT NULL,
-  `en_evaluation`    boolean          NOT NULL,
-  `id_role_en_eval`  int(10) unsigned NOT NULL DEFAULT 0,
+  `evaluation`       int(10) unsigned NOT NULL, -- 0 : pas d'evaluation, 1:Evaluateur, 2: Evalué
+  `id_role_eval`     int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_dispositif`,`id_equipier`),
   KEY `FK_dispositif_equipiers-dispositif`    (`id_dispositif`      ),
   KEY `FK_dispositif_equipiers-equipier`      (`id_equipier`        ),
@@ -311,7 +308,7 @@ CREATE TABLE `dispositif_equipiers` (
   CONSTRAINT `FK_dispositif_equipiers-dispositif`     FOREIGN KEY (`id_dispositif`    ) REFERENCES `dispositif`    (`id_dispositif`),
   CONSTRAINT `FK_dispositif_equipiers-equipier`       FOREIGN KEY (`id_equipier`      ) REFERENCES `equipier`      (`id_equipier`  ),
   CONSTRAINT `FK_dispositif_equipiers-equipier_role`  FOREIGN KEY (`id_role_equipier` ) REFERENCES `equipier_role` (`id_role`      ),
-  CONSTRAINT `FK_dispositif_equipiers-equipier_role2` FOREIGN KEY (`id_role_en_eval`  ) REFERENCES `equipier_role` (`id_role`      )
+  CONSTRAINT `FK_dispositif_equipiers-equipier_role2` FOREIGN KEY (`id_role_eval`     ) REFERENCES `equipier_role` (`id_role`      )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
@@ -419,6 +416,7 @@ CREATE TABLE `intervention` (
   `DH_fin_intervention`                                 datetime NULL,
   `DH_appel_renfort_medical`                            datetime NULL,
   `DH_arrivee_renfort_medical`                          datetime NULL,
+  `DH_annulation`                                       datetime NULL,
   
 
   `homme_victime`                                       boolean NULL,
@@ -561,7 +559,7 @@ CREATE TABLE `intervention` (
 
 
 
-
+  `evac_sans_suite`                                     boolean NULL,
   `evac_aggravation`                                    boolean NULL,
   `evac_aggravation_pendant_transport`                  boolean NULL,
   `evac_aggravation_arrive_a_destination`               boolean NULL,
@@ -653,12 +651,14 @@ CREATE TABLE `evaluation_critere_definition` (
 
 
 DROP TABLE IF EXISTS `crfrdp`.`evaluation_session`;
-CREATE TABLE `evaluation` (
+CREATE TABLE `evaluation_session` (
   `id_evaluation_session`       int(10) unsigned NOT NULL auto_increment,
   `id_dispositif`               int(10) unsigned NOT NULL,
   `id_role_evalue`              int(10) unsigned NOT NULL,
   `id_equipier_evalue`          int(10) unsigned NOT NULL,
   `id_equipier_evaluateur`      int(10) unsigned NOT NULL,
+  `date_start`                  timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_end`                    timestamp            NULL,
   PRIMARY KEY  (`id_evaluation_session`),
   KEY `FK_evaluation_session-dispositif`                              (`id_dispositif`          ),
   KEY `FK_evaluation_session-equipier_role`                           (`id_role_evalue`         ),
@@ -681,6 +681,7 @@ CREATE TABLE `evaluation` (
   `id_evaluation`               int(10) unsigned NOT NULL auto_increment,
   `id_evaluation_session`       int(10) unsigned NOT NULL,
   `id_intervention`             int(10) unsigned NOT NULL,
+  `date_evaluation`             timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `evaluation_validee`          boolean          NOT NULL DEFAULT false,
   `evaluation_commentaire`      text                 NULL,
   PRIMARY KEY  (`id_evaluation`),
@@ -761,10 +762,11 @@ DROP TABLE IF EXISTS `crfrdp`.`vehicule_position_log`;
 CREATE TABLE `vehicule_position_log` (
   `id_vehicule_position_log`      int     (10 ) unsigned  NOT NULL auto_increment,
   `id_vehicule`                   int     (10 ) unsigned  NOT NULL,
+  `date_log`                      timestamp               NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `coordinate_lat`                float   (10,6)              NULL,
   `coordinate_long`               float   (10,6)              NULL,
   `coordinates_origine`           int     (10)  unsigned  NOT NULL COMMENT "2:Soit les coordonnées des radios, 1:soit les coordonnées google à la saisie des adresses",
-  `id_dispositif`                 int     (10)  unsigned  NOT NULL,
+  `id_dispositif`                 int     (10)  unsigned  NOT NULL COMMENT "0 si pas associé a un dispositif",
   `id_etat_dispositif`            int     (10)  unsigned  NOT NULL COMMENT "Permet de savoir si le véhicule à les gyrot, une victime a bord etc...",
   PRIMARY KEY  (`id_vehicule_position_log`), 
   KEY        `FK_vehicule_position_log_vehicule`                    (`id_vehicule`        ),
@@ -776,6 +778,7 @@ CREATE TABLE `vehicule_position_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1  COLLATE=latin1_general_ci;
 
 
+--  permet de retracer la position d'un véhicule sur la durée d'une intervention
 DROP TABLE IF EXISTS `crfrdp`.`vehicule_position_log_inter`;
 CREATE TABLE `vehicule_position_log_inter` (
   `id_vehicule_position_log_inter`    int     (10 ) unsigned  NOT NULL auto_increment,
@@ -852,7 +855,7 @@ CREATE TABLE `sms_log` (
   `sender`          varchar(12  )    NOT NULL,
   `to`              varchar(12  )    NOT NULL,
   `message`         varchar(2048)    NOT NULL,
-  `evt_date`        timestamp        NOT NULL,
+  `evt_date`        timestamp        NOT NULL DEFAULT CURRENT_TIMESTAMP,
   
   `raw_answer`      VARCHAR(2048)        NULL,
   `status_code`     VARCHAR(6)           NULL, 
@@ -879,7 +882,7 @@ DROP TABLE IF EXISTS `crfrdp`.`sms_template`;
 CREATE  TABLE `crfrdp`.`sms_template` (
   `id_sms_template`     INT           UNSIGNED NOT NULL AUTO_INCREMENT ,
   `id_regulation`       INT           UNSIGNED NOT NULL ,
-  `template_date`       TIMESTAMP              NOT NULL ,
+  `template_date`       TIMESTAMP              NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `enabled`             TINYINT (1)            NOT NULL DEFAULT 1 ,
   `message`             VARCHAR (200)          NOT NULL ,
   PRIMARY KEY (`id_sms_template`) 

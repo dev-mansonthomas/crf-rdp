@@ -211,25 +211,35 @@ MonitorInputDispositifCs.prototype.initChooseEvalPersonWindow=function()
     
     var saveEvaluationSessionFunction =  function(button, event)
     {
-      var evaluationChoosePersonWindow = MonitorInputDispositifCs.prototype.evaluationChoosePersonWindow;
-      var evaluateur = evaluationChoosePersonWindow.currentSelectedEvaluateurEquipier;
       
-      var idEquipierEvaluateur  = evaluateur.idEquipier;
-      var equipierEvalueId      = Ext.getCmp('EvaluationWindowSetEquipierEnEval').getValue();
-      var idRoleEvalue          = Ext.getCmp('EvaluationWindowSetRoleEvaluer'   ).getValue(); 
-      
-      var evaluationSession = {
-          idDispositif        : $('dispositif_id_field').value,  
-          idRoleEvalue        : idRoleEvalue,            
-          idEquipierEvalue    : equipierEvalueId,       
-          idEquipierEvaluateur: idEquipierEvaluateur
-      };
-      
-      EvaluationService.createEvaluationSession(evaluationSession, function(idEvaluationSession)
+      try
       {
+        var evaluationChoosePersonWindow = MonitorInputDispositifCs.prototype.evaluationChoosePersonWindow;
+        var evaluateur = evaluationChoosePersonWindow.currentSelectedEvaluateurEquipier;
         
+        var idEquipierEvaluateur  = evaluateur.idEquipier;
+        var equipierEvalueId      = Ext.getCmp('EvaluationWindowSetEquipierEnEval').getValue();
+        var idRoleEvalue          = Ext.getCmp('EvaluationWindowSetRoleEvaluer'   ).getValue(); 
         
-      });
+        var evaluationSession = {
+            idDispositif        : $('dispositif_id_field').value,  
+            idRoleEvalue        : idRoleEvalue,            
+            idEquipierEvalue    : equipierEvalueId,       
+            idEquipierEvaluateur: idEquipierEvaluateur
+        };
+        
+        EvaluationService.createEvaluationSession(evaluationSession, function(idEvaluationSession)
+        {
+          //refresh la liste des équipiers pour afficher les icones
+          MonitorInputDispositif.getEquipiersFromDispositif($('dispositif_id_field').value, miDispositifCs.updateListEquipierReturn);
+          Ext.Msg.alert('Session d\'Evaluation crée avec succès','La session d\évaluation a été créee avec succès.');
+        });
+      }
+      catch(e)
+      {
+        console.log(e);
+      }
+
       
     };
     
@@ -416,7 +426,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
              {
                 var search = Ext.getCmp('DelegationSearch').getValue();
                 
-                return [new Ext.ux.rs.data.FilterObject('search',search,'=')]
+                return [new Ext.ux.rs.data.FilterObject('search',search,'=')];
              }
         }),
         reader: new Ext.ux.rs.data.JsonReader({
@@ -562,7 +572,7 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
  var checkboxSelectionModel = new xg.CheckboxSelectionModel({
    singleSelect: true,
    listeners   : {
-       // On selection change, set enabled state of the removeButton
+       // On selection change, set enabled state of the 
        // which was placed into the GridPanel using the ref config
        selectionchange: function(sm) {
            if (sm.getCount()) 
@@ -620,7 +630,16 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
             // Place a reference in the GridPanel
             ref     : '../evaluationButton',
             disabled: true
-        }]
+        },{
+          text    : 'Terminer la session d\'évaluation',
+          tooltip : "Enlève l'état 'en évaluation' des équipiers evaluateur/evalué, mais ne supprime pas les évaluations entrées jusqu'ici.",
+          iconCls : 'terminerEvaluation',
+          handler : MonitorInputDispositifCs.prototype.terminerEvaluationButtonHandler,
+
+          // Place a reference in the GridPanel
+          ref     : '../terminerEvaluationButton',
+          disabled: true 
+      }]
     });
   
   
@@ -639,9 +658,25 @@ MonitorInputDispositifCs.prototype.initDispositifGrids=function()
     );
 });
 
+};
+
+
+
+MonitorInputDispositifCs.prototype.terminerEvaluationButtonHandler=function(button, event)
+{
   
+  Ext.Msg.confirm("Etes vous sur de vouloir terminer la session l'évaluation",
+      'Etes vous sur de vouloir terminer la session d\'évaluation en cours? Ceci ne supprimera pas les évaluations entrées jusqu\'ici',
+      function(btn){
+        if(btn == 'yes')
+        {
+          EvaluationService.terminerEvaluation(Ext.get('dispositif_id_field').getValue(), MonitorInputDispositifCs.prototype.updateListEquipierReturn);
+          Ext.getCmp('DispositifEquipierSearch').clearValue();
+        }
+      });
   
 };
+
 
 MonitorInputDispositifCs.prototype.evaluationButtonHandler=function(button, event)
 {
@@ -738,6 +773,34 @@ MonitorInputDispositifCs.prototype.DELGRoleCellRenderer=function(value, metadata
   {
     imageHtml = '<img src="'+contextPath+'/img/monitorInput/'+image+'" alt="'+alt+'"/> ';
   }
+  
+  
+  
+  if(record.json.evaluationDansDispositif == 1 || record.json.evaluationDansDispositif == 2)
+  {
+    
+    
+    var roleLabel = crfIrpUtils.getLabelFor('RolesEquipier', record.json.idRoleEnEval);
+    
+    if(record.json.evaluationDansDispositif == 1)
+    {  
+      image = 'teacher-32x32.png';
+      alt = "Evaluateur("+roleLabel+")";
+    }
+    else
+    {
+      image = 'student-32x32.png';
+      alt = "Evalué ("+roleLabel+")";
+    }
+    
+   
+    
+    
+    imageHtml += '<img src="'+contextPath+'/img/monitorInput/'+image+'" alt="'+alt+'" style="width:16px;height:16px;"/> ';
+  }
+
+  
+  
   
   return imageHtml + crfIrpUtils.getLabelFor('RolesEquipier', value );
 };
@@ -1033,6 +1096,7 @@ MonitorInputDispositifCs.prototype.resetDispositifForm=function()
   for(i=0,count=this.fieldList.length;i<count;i++)
     dwr.util.setValue(this.fieldList[i], '');
   
+  Ext.get('dispositif_vacation_terminee_span').update('');
   
   Ext.getDom('DispositifDefibrilateurTypeAUCUN'  ).checked=true;
   Ext.getDom('DispositifAdaptateurPediatriqueOui').checked=false;
@@ -1335,11 +1399,23 @@ MonitorInputDispositifCs.prototype.initDispositifForm=function(dispositif)
   dwr.util.setValue('DispositifIndicatif'           , dispositif.indicatifVehicule);
   dwr.util.setValue('DispositifType'                , dispositif.idTypeDispositif);
   dwr.util.setValue('dispositifActif'               , dispositif.actif);
+  
+  if(dispositif.idEtatDispositif == 10 || !dispositif.actif)//10 : Vacation Terminée
+  {
+    Ext.get('dispositif_vacation_terminee_span').update("VACATION TERMINEE - Ce Dispositif n'est plus actif");  
+  }
+  else
+  {
+    Ext.get('dispositif_vacation_terminee_span').update('');
+  }
+  
+  
   if(dispositif.idTypeDispositif!=0)
   {
     miDispositifCs.setRoles       (dispositif.idTypeDispositif);
     miDispositifCs.getVehiculeList(dispositif.idTypeDispositif, dispositif.idDispositif, dispositif.idVehicule);  
   }
+  
   dwr.util.setValue('DispositifDelegation'          , dispositif.idDelegation!=0?crfIrpUtils.getLabelFor('Delegations',dispositif.idDelegation):'N/A');
   dwr.util.setValue('DispositifDelegation_id'       , dispositif.idDelegation);
   dwr.util.setValue('DispositifDelegation_autreNom' , dispositif.autreDelegation);

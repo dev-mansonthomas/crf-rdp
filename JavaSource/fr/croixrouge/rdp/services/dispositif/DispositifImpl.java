@@ -69,16 +69,40 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     return this.getLastInsertedId(jdbcTemplate, "dispositif");
   }
   
+  
+  
+  private final static String queryForCancelIntervention = 
+      "UPDATE dispositif               \n" +
+      "SET id_current_intervention = 0,\n" +
+      "    id_etat_dispositif      = 0 \n" +
+      "WHERE  id_dispositif        = ? \n";
+
+  public void cancelIntervention(int idDispositif) throws Exception
+  {
+
+    Object [] os    = new Object[]{ idDispositif};
+    int    [] types = new int   []{ Types.INTEGER };
+    
+    jdbcTemplate.update(queryForCancelIntervention, os, types);
+
+    
+    if(logger.isDebugEnabled())
+      logger.debug("Intervention cancelled on dispositif with id="+idDispositif+"\n query:\n"+queryForCancelIntervention);
+
+  }
+  
+  
+  
 
   private final static String queryForAffectEquipierToDispositif = 
     "INSERT INTO `dispositif_equipiers` (  \n"+  
     "  `id_dispositif`    ,                \n"+  
     "  `id_equipier`      ,                \n"+  
     "  `id_role_equipier` ,                \n"+  
-    "  `en_evaluation`                     \n"+  
+    "  `evaluation`                        \n"+  
     ")                                     \n"+  
     "VALUES                                \n"+  
-    "(?, ?, ?, false)                      \n";  
+    "(?, ?, ?, 0)                          \n";  
 
 
   private final static String queryForAffectEquipierToDispositif2 = 
@@ -191,6 +215,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "VALUES                               \n" +
     "( ?, ?)\n" ;
   
+
   public void attachInterventionToDispositif(int idDispositif, int idIntervention) throws Exception
   {
     if(logger.isDebugEnabled())
@@ -233,13 +258,13 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
       "FROM   dispositif_interventions        \n" +
       "WHERE  id_dispositif   = ?             \n";
   
-  public void unAffectInterventionToDispositif(int idDispositif, int idIntervention, Date dateAffectation) throws Exception
+  public void unAffectInterventionToDispositif(int idDispositif, int idIntervention) throws Exception
   {
     
     int numberOfIntervention = this.jdbcTemplate.queryForInt(queryForUnAffectInterventionToDispositif3, new Object[]{idDispositif}, new int[]{Types.INTEGER});
     
     if(logger.isDebugEnabled())
-      logger.debug("Dispositif with id='"+idDispositif+"' has "+numberOfIntervention+" intervention currently affected and "+idIntervention+" is being unaffected");
+      logger.debug("Dispositif with id='"+idDispositif+"' has "+numberOfIntervention+" intervention currently affected and intervention with id='"+idIntervention+"' is being unaffected");
 
     int nbLineUpdated = this.jdbcTemplate.update( queryForUnAffectInterventionToDispositif2, 
         new Object[]{idDispositif   , idIntervention}, 
@@ -249,7 +274,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has its intervention unaffected (line updated = '"+nbLineUpdated+"')");
     
-   
+   //Avant suppression, il ne restait qu'une inter, maintenant, il n'en reste plus, on passe le dispostif a indispo.
     if(numberOfIntervention==1)
     {
       if(logger.isDebugEnabled())
@@ -560,8 +585,8 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
 
       for (Dispositif dispositif : dispositifs)
       {
-      dispositif.setEquipierLeader(this.equipierService    .getEquipierLeaderOfDispositif       (dispositif.getIdDispositif()));
-      dispositif.setInterventions (this.interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
+        dispositif.setEquipierLeader(this.equipierService    .getEquipierLeaderOfDispositif       (dispositif.getIdDispositif()));
+        dispositif.setInterventions (this.interventionService.getInterventionsTicketFromDispositif(dispositif.getIdDispositif()));
       }
       
       return new ListRange<Dispositif>(dispositifs.size(), dispositifs);
@@ -754,9 +779,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   }
 
   private final static String queryForNumberOfIntervention = 
-    "SELECT count(1)          \n"+
-    "FROM   intervention      \n"+
-    "WHERE  id_dispositif = ? ";  
+    "SELECT count(1)                 \n"+
+    "FROM   dispositif_interventions \n"+
+    "WHERE  id_dispositif = ?        \n";  
   
   public int numberOfInterventionAffectedToDispositif(int idDispositif) throws Exception
   {
@@ -767,20 +792,6 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     return numberOfIntervention;
   }
   
-  private final static String queryGetCurrentInterventionId = 
-    "SELECT id_current_intervention   \n"+
-    "FROM   dispositif        \n"+
-    "WHERE  id_dispositif = ? "; 
-
-  @Deprecated
-  public int getCurrentInterventionId (int idDispositif) throws Exception
-  {
-    int currentInterventionId = this.jdbcTemplate.queryForInt( queryGetCurrentInterventionId, 
-        new Object[]{idDispositif}, 
-        new int[]{Types.INTEGER});
-    
-    return currentInterventionId;
-  }
   
   
   private final static String queryDeleteDispositif = 
@@ -831,6 +842,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     "SET    previous_google_coords_lat  = ?, \n"+
     "       previous_google_coords_long = ?  \n"+
     "WHERE  id_dispositif      = ?          \n";
+  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception
   {
     int nbLineUpdated = this.jdbcTemplate.update( current?queryForUpdateGoogleCoordinates_current:queryForUpdateGoogleCoordinates_previous, 

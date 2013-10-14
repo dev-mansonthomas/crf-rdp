@@ -8,6 +8,7 @@ import org.directwebremoting.ScriptBuffer;
 
 import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
+import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
@@ -63,11 +64,11 @@ public class MonitorInputInterventionImpl  extends DWRUtils
     this.interventionService.updateGoogleCoordinates(latitude, longitude, idIntervention);
   }
   
-
-  public ListRange<InterventionTicket> getInterventionTicketList(int status, int index, int limit)throws Exception
+//int status, int index, int limit
+  public ListRange<InterventionTicket> getInterventionTicketList(GridSearchFilterAndSortObject gsfaso)throws Exception
   {
     int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
-    return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, status, index, limit);
+    return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, gsfaso);
   }
   
   

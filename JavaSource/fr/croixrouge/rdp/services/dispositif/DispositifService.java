@@ -25,6 +25,10 @@ public interface DispositifService
   public final static int STATUS_ARRIVE_HOSPITAL            = 8 ; //Arrivé hopital
   public final static int STATUS_INTER_TERMINEE             = 9 ; //Intervention Terminée
   public final static int STATUS_VACATION_TERMINEE          = 10; //Vacation Terminée
+  public final static int STATUS_INTER_ANNULEE              = 11; //Inter annulée, seulement pour la table intervention
+  
+  
+  public void cancelIntervention(int idDispositif) throws Exception;
   
   
   public ListRange<Dispositif>  getAllDispositif        (int regulationId                                                       ) throws Exception;
@@ -55,7 +59,7 @@ public interface DispositifService
   public void unaffectEquipierToDispositif            (int idDispositif, int idEquipier                     ) throws Exception;
   
   public void affectInterventionToDispositif          (int idDispositif, int idIntervention      , Date dateAffectation     ) throws Exception;
-  public void unAffectInterventionToDispositif        (int idDispositif, int idIntervention      , Date dateAffectation     ) throws Exception;
+  public void unAffectInterventionToDispositif        (int idDispositif, int idIntervention                                 ) throws Exception;
   public void attachInterventionToDispositif          (int idDispositif, int idIntervention                                 ) throws Exception;
   public void actionOnDispositif                      (int idDispositif, int newIdEtat           , Date actionDate          ) throws Exception;
   public void updateDispositifPosition                (int idDispositif, Position currentPosition, Position previousPosition) throws Exception;

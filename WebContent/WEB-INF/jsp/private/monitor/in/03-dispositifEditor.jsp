@@ -21,7 +21,7 @@
   <input type="hidden" id="dispositif_isCreation_field" name="dispositif_isCreation_field" value=""/>
 
         <div id="dispositif_title">
-          <span id="dispositif_title_indicatif">Nouveau Dispositif</span> <span id="dispositif_id_span"></span>
+          <span id="dispositif_title_indicatif">Nouveau Dispositif</span> <span id="dispositif_id_span"></span><span id="dispositif_vacation_terminee_span"></span>
         </div>
 
         <fieldset  id="DispositifIdentification">

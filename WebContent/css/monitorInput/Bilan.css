@@ -1,5 +1,12 @@
 @CHARSET "ISO-8859-1";
 
+
+.InterventionAnnulee
+{
+	font-weight: bold; 
+  background-color:#e90126; 
+}
+
 #BilanIdentiteFielset, #BilanIdentite2Fielset
 {
   margin: 5px 3px 2px 3px;

@@ -75,28 +75,9 @@ function initLayout()
     xtype       : 'panel',
     width       : 800,
     collapsible : true,
-    layout      : 'accordion',
     layoutConfig: {
         animate:true
-    },
-    items:[{
-            title    :'Liste des Tickets d\'Interventions en cours de saisie',
-            contentEl:'InterventionListEncoursEdition',
-            border   :false,
-            iconCls  :'settings'
-          },
-          {
-            title    : 'Liste des Tickets d\'Interventions Non Affectées',
-            contentEl: 'InterventionListUnaffected',
-            border   : false,
-            iconCls  : 'settings'
-          },
-          {
-            title    : 'Autres ',
-            contentEl: 'InterventionListOthers',
-            border   : false,
-            iconCls  : 'settings'
-          }]
+    }
   };
   
   

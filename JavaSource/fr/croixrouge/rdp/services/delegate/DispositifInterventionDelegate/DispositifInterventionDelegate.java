@@ -18,4 +18,6 @@ public interface DispositifInterventionDelegate
   public void     changeDispositifStatus                    (int idRegulation, int idDispositif  , int newEtatDispositif            ) throws Exception;
   public void     cloneIntervention                         (int idRegulation, DataForCloneIntervention dataForCloneIntervention    ) throws Exception;
   public void     handlePrimaireAndSecondaireOnIntervention (int idDispositif, int idIntervention, boolean isPrimaire               ) throws Exception;
+  
+  public void    cancelIntervention                         (int regulationId, int idDispositif, int idIntervention, int idMotifAnnulation) throws Exception;
 }

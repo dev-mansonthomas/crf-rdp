@@ -36,8 +36,14 @@
 }
 .x-grid3-col-indicatifVehiculeDCol
 {
-  font-size:30px;
+  font-size:22px;
+  font-weight:bold;
 }
+.x-grid3-col-idEtatDispositifDCol, .x-grid3-col-disponibleDCol
+{
+	padding:0px;
+}
+
 .alphaRow, .bsppRow
 {
   margin-bottom:3px;
@@ -45,22 +51,21 @@
 
 .alphaRow
 {
-  background-color:#F1F2FE;
+
 }
 
 .alphaRow .x-grid3-col-indicatifVehiculeDCol
 {
-  color:#060A7D ;
+  color:blue ;
 }
 
 .bsppRow
 {
-  background-color:#FFECEC;
 
 }
 .bsppRow .x-grid3-col-indicatifVehiculeDCol
 {
-  color:#620000 ;
+  color:red ;
 }
 
 

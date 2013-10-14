@@ -239,6 +239,13 @@ public class MonitorInputDispositifImpl extends DWRUtils
     return new ListRange<Equipier>(listEquipier.size(), listEquipier);
   }
   
+  public ListRange<Equipier> getEquipiersFromDispositif(int idDispositif) throws Exception
+  {
+    this.validateSession();
+    List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
+    return new ListRange<Equipier>(listEquipier.size(), listEquipier);
+  }
+  
   public boolean updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception
   {
     this.validateSession();

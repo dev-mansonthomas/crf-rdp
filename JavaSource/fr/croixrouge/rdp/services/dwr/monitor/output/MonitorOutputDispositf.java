@@ -100,8 +100,6 @@ public class MonitorOutputDispositf  extends DWRUtils
     int currentUserRegulationId = this.validateSessionAndGetRegulationId();
     
     this.dispositifInterventionDelegate.reAffectInterventionToDispositif(currentUserRegulationId, idIntervention , idDispositifOrigine, idDispositifCible, new Date());
-  
-
 
     //Met a jour tous les navigateurs avec le nouvel état du dispositif
     Dispositif dispositifOrigine = this.dispositifService.getDispositif(currentUserRegulationId, idDispositifOrigine, false);

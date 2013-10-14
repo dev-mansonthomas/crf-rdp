@@ -1,10 +1,19 @@
 CHARSET "ISO-8859-1";
 
 
+
   
 #DispositifHoraire tr td
 {
  text-align:center;  
+}
+
+#dispositif_vacation_terminee_span
+{
+  margin-left:30px;
+  border:none;
+  background-color:#fff343;
+  font-weight:bold;
 }
 
 #dispositif_title
@@ -127,11 +136,11 @@ CHARSET "ISO-8859-1";
 .userList thead th
 {
   background-color:#E4E4E4;
-  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
-	font-size: 12px;
+  font-family: Geneva, Vera, Arial, Helvetica, sans-serif;
+  font-size: 12px;
   font-variant:small-caps;
-	font-weight:bold;
-	color:#100D55;
+  font-weight:bold;
+  color:#100D55;
   text-align: center;
 }
 
@@ -141,8 +150,8 @@ CHARSET "ISO-8859-1";
 
 .userList_tbody tr td
 {
-  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
-	font-size: 11px;
+  font-family: Geneva, Vera, Arial, Helvetica, sans-serif;
+  font-size: 11px;
   color:#0A072E;
   text-align: center;
 }
@@ -161,15 +170,15 @@ CHARSET "ISO-8859-1";
   text-align:center;
   font-size: 12px;
   font-variant:small-caps;
-	font-weight:bold;
-  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+  font-weight:bold;
+  font-family: Geneva, Vera, Arial, Helvetica, sans-serif;
 }
 
 .userList tfoot td
 {
   text-align:center;
   font-size: 11px;
-  font-family: Geneva, Vera, Arial,	Helvetica, sans-serif;
+  font-family: Geneva, Vera, Arial, Helvetica, sans-serif;
 }
 
 #DispositifDHDebut_divLabel, #DispositifDHFin_divLabel
@@ -212,6 +221,15 @@ CHARSET "ISO-8859-1";
   background-image: url("../../img/famfamfam/book_edit.png") !important;
   background-repeat:no-repeat;
 }
+
+
+.terminerEvaluation
+{
+  background-image: url("../../img/famfamfam/book_delete.png") !important;
+  background-repeat:no-repeat;
+}
+
+
 .removeEquipier
 {
   background-image: url("../../img/famfamfam/user_delete.png") !important;
@@ -220,8 +238,8 @@ CHARSET "ISO-8859-1";
 
 #WhyNotFound
 {
-	 font-weight: normal;
-	 font-size: 9px;
-	 margin-left:30px;
-	 color:blue;
+   font-weight: normal;
+   font-size: 9px;
+   margin-left:30px;
+   color:blue;
 }

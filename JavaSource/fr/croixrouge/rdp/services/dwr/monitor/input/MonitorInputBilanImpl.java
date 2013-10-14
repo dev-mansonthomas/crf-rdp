@@ -6,25 +6,23 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.directwebremoting.ScriptBuffer;
 
-import fr.croixrouge.rdp.model.monitor.Dispositif;
 import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
-import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.dispositif.DispositifService;
+import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
 
 public class MonitorInputBilanImpl  extends DWRUtils
 {
   private static Log logger           = LogFactory.getLog(MonitorInputBilanImpl.class);
-  private InterventionService interventionService = null;
-  private DispositifService   dispositifService   = null;
+  private InterventionService            interventionService = null;
+  private DispositifInterventionDelegate dispositifInterventionDelegate = null;
   
-  public MonitorInputBilanImpl(InterventionService interventionService,
-                               DispositifService   dispositifService)
+  public MonitorInputBilanImpl(InterventionService            interventionService,
+                               DispositifInterventionDelegate dispositifInterventionDelegate )
   {
-    this.interventionService = interventionService;
-    this.dispositifService   = dispositifService;
+    this.interventionService            = interventionService;
+    this.dispositifInterventionDelegate = dispositifInterventionDelegate;
     
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
@@ -64,22 +62,13 @@ public class MonitorInputBilanImpl  extends DWRUtils
     
   }
   
-  //TODO voir pour mettre ce code dans le delegate
+
   public void       cancelIntervention(int idIntervention, int idDispositif, int idMotifAnnulation) throws Exception
   {
-    if(logger.isDebugEnabled())
-      logger.debug("cancelling intervention "+idIntervention+" of dispositif "+idDispositif+" with motif "+idMotifAnnulation);
     
-    int regulationId = this.validateSessionAndGetRegulationId();
-    Date dateAffectation = new Date();
-    this.interventionService.unAffectInterventionToDispositif (idIntervention, dateAffectation);
-    this.interventionService.updateEtatIntervention           (idIntervention, 10);//inter annulée
-    this.interventionService.updateInterventionIntegerField   (idIntervention, "id_motif_annulation", idMotifAnnulation);// set le motif annulation (commentaires sauvegarder normalement)
-    this.dispositifService  .updateDispositifSetIntervention  (idDispositif  , 0 );//désaffecte l'intervention au dispositif
-    this.dispositifService  .unAffectInterventionToDispositif (idDispositif, idIntervention, dateAffectation);//guère la modification de l'état du dispositif
-    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
+    int regulationId = this.validateSessionAndGetRegulationId();    
+    this.dispositifInterventionDelegate.cancelIntervention(regulationId, idDispositif, idIntervention, idMotifAnnulation);    
     
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
   }
   
   
@@ -105,16 +94,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
     this.validateSession();
     this.interventionService.updateGoogleCoordinates(latitude, longitude, idIntervention);
   }
-  
 
-  public ListRange<InterventionTicket> getInterventionTicketList(int status, int index, int limit)throws Exception
-  {
-    this.validateSession();
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
-    return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, status, index, limit);
-  }
-  
-  
   
   /* Update methods*/
   public void updateIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception

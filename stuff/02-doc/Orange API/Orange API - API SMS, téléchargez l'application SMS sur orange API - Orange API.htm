@@ -1,0 +1,6118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0050)http://api.orange.com/fr/api/sms-api/documentation -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-fr" lang="fr-fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <!--<base href="http://api.orange.com/">--><base href=".">
+  
+  <meta name="robots" content="index, follow">
+  <meta name="keywords" content="Orange, API, Instant API">
+  <meta name="title" content="API SMS, téléchargez l&#39;application SMS sur orange API - Orange API">
+  <meta name="author" content="demo">
+  <meta name="description" content="découvrez l&#39;API SMS d&#39;Orange, une API qui vous permet d&#39;envoyer et de recevoir des SMS au sein de votre application web ou mobile. Utilisez widget editor pour créer vos widgets et les intégrer sur votre blog, iGoogle, Facebook.">
+  <meta name="generator" content="Joomla! 1.5 - Open Source Content Management">
+  <title>Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API</title>
+  <title>API SMS, téléchargez l'application SMS sur orange API - Orange API</title>
+  <link href="http://api.orange.com/templates/orange/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/* FLEXIcontent base CSS */
+
+div#flexicontent {
+}
+
+div#flexicontent .clear {
+	border: 0;
+	clear: both;
+	float: none;
+	font-size: 1px;
+	height: 0;
+	line-height: 1px;
+	margin: 0;
+	padding: 0;
+	visibility: hidden;
+}
+
+div#flexicontent .floattext:after { /* ie fix in conditional comments (html source) */
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+}
+
+div#flexicontent .floattext {
+	display: block;
+	margin: 0 0 0.5em; /* safari */
+}
+
+/**
+ * @section buttons
+ *
+ * print, pdf, ...
+ */
+div#flexicontent .buttons {
+	float: right;
+}
+
+div#flexicontent .buttons img {
+	border: none;
+}
+
+div#flexicontent .buttons a {
+	height: 16px;
+	line-height: 16px;
+	padding: 0 0 0 5px;
+}
+
+/**
+ * @section headlines
+ *
+ */
+div#flexicontent h2 {
+}
+
+div#flexicontent h2 img {
+	border: none;
+}
+
+h2.flexicontent {
+	margin: 0 0 0.5em;
+}
+
+/** 
+ * @pagination css trick to center the div without having a fixed width
+ * see http://www.cssplay.co.uk/menus/centered.html
+ */
+div.pagination {
+	float: left;
+	left: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+div.pagination div.tab,
+div.pagination div.page-block {
+	position: relative;
+	right: 50%;
+}
+
+div.pageslinks {
+	clear: both;
+	float: left;
+	overflow: hidden;
+	width: 100%;
+}
+
+div#flexicontent .pagescounter {
+	text-align: center;
+}
+
+/**
+ * @section Categoryview
+ *
+ */
+div#flexicontent .catimg {
+	float: left;
+	margin: 0 0.5em 0.5em 0;
+	position: relative;
+}
+
+div#flexicontent .catimg p {
+	font-size: 0.9em;
+	line-height: 180%;
+	margin: 0 0 0.5em 0;
+}
+
+div#flexicontent .catdescription {
+	margin: 0 0 0.5em 0;
+}
+
+div#flexicontent .subcategories {
+	border-bottom: 2px solid #dddddd;
+	/* font-size: 1.2em; font-weight: bold; */
+	margin: 0.8em 0;
+	padding: 0.5em 0.3em;
+}
+
+/**
+ * @section FLEXIcontent Item
+ *
+ */
+div#flexicontent .taglist {
+	margin: 5px 0 10px;
+	padding: 0 5px;
+}
+
+/**
+ * @section FLEXIcontent Table
+ *
+ */
+div#flexicontent table.flexitable {
+	border: 1px solid #e5e5e5;
+	border-collapse: collapse;
+	clear: both;
+	font-size: 1em;
+	margin: 1em 1px;
+	width: 99%;
+}
+
+div#flexicontent table.flexitable th {
+	background-color: #efefef;
+	border-bottom: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
+	color: #000000;
+	font-weight: bold;
+	padding: 0.4em;
+	text-align: left;
+}
+
+div#flexicontent table.flexitable th.table-titles {
+	background-color: inherit;
+	font-weight: normal;
+}
+
+div#flexicontent table.flexitable th img {
+	border: none;
+	margin: 0 0 5px 5px;
+	vertical-align: middle;
+}
+
+div#flexicontent table.flexitable td {
+	border-bottom: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
+	padding: 0.4em;
+	vertical-align: top;
+}
+
+div#flexicontent table.flexitable tr.sectiontableentry2 td {
+	background: #f4f4f4;
+}
+
+div#flexicontent table.flexitable tr:hover td, 
+div#flexicontent table.flexitable tr:hover th {
+	background: #f8f8f8;
+}
+
+/**
+ * @section flexicontent Table Filter Form
+ *
+ */
+div.subcategorieslist {
+	margin: 0 0 1em 0;
+}
+
+div#fc_alpha {
+	margin: 0 0 1em 0;
+}
+
+div#flexicontent #fc_filter {
+	border: solid 1px #dddddd;
+	margin: 0 0 1em 0;
+	padding: 0.5em;
+}
+
+div#flexicontent .fc_fleft {
+	float: left;
+}
+
+div#flexicontent .fc_fright {
+	float: right;
+}
+
+div#flexicontent .fc_fright .filter {
+	margin-left: 10px;
+}
+
+/** Item submission Form **/
+ 
+div.flexi_edit .flexi_buttons {
+	float: right;
+}
+div.flexi_edit .flexi_label {
+	width: 9em;
+	display: block;
+	float: left;
+	vertical-align: middle;
+}
+div.flexi_edit .flexi_label.invalid {
+	font-weight: bold;
+}
+div.flexi_edit .flexi_formblock {
+	clear: both;
+}
+
+div.flexi_edit fieldset {
+	border: 1px solid #dddddd;
+	margin-bottom: 1em;
+}
+
+div.flexi_edit form input,
+div.flexi_edit form button,
+div.flexi_edit form select,
+div.flexi_edit form textarea {
+	background-color: #ffffff;
+	border: 1px solid #dddddd;
+	cursor: pointer;
+	margin: 0 0 0.5em 0;
+	padding: 0.2em;
+}
+
+div.flexi_edit form input.invalid,
+div.flexi_edit form select.invalid {
+	border: 1px dotted #ff0000;
+}
+
+div.flexi_box_left,
+div.flexi_box_right {
+	float: left;
+	width: 48%;
+}
+
+div.flexi_box_right {
+	float: right;
+}
+
+/* Access */
+fieldset.flexiaccess legend {
+	background: url(http://64.19.142.10/api.orange.com/administrator/components/com_flexicontent/assets/images/toggle_blue.png) no-repeat 98% 50%;
+	padding-right: 22px;
+	line-height: 18px;
+	cursor: pointer;
+}
+
+
+/** Tags **/
+
+div#tags {
+	margin: 3px;
+}
+
+.flexi_tagbox {
+	display: block;
+	max-height: 170px;
+  	overflow: auto;
+/*   	border: 1px dashed silver; */
+  	background: #fff;	
+}
+
+.flexi_tagbox ul {
+	margin: 3px;
+	padding: 0px;
+}
+.flexi_tagbox ul li {
+	width: 130px;
+	min-height: 20px;
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: top;
+	margin: 2px;
+	zoom: 1;
+	*display: inline;
+	_height: 20px;
+}
+
+.flexi_tagbox ul li div {
+	padding-top: 3px;
+}
+.flexi_tagbox input {
+	width: 20px;
+	display: block;
+	float: left;
+	margin-top: -4px;
+}
+
+
+/** rating bar **/
+div#flexicontent .qf_ratingbarcontainer {
+	border: 1px solid #999999;
+	display: block;
+	height: 10px;
+	margin: 2px 2px;
+	width: 60px;
+}
+
+div#flexicontent .qf_ratingbar {
+	background-color: #c0c0c0;
+	display: block;
+	height: 10px;
+}
+
+/* state toggler */
+.qf_statetoggler{
+	list-style: none;
+	padding: 0;
+	width: 10px;
+}
+
+.options {
+	position: absolute;
+}
+
+.statetoggler li ul li {
+	background-color: #ffffff;
+	border: #dddddd 1px solid;
+	color: #000000;
+	list-style: none;
+	padding: 2px;
+}
+
+
+/* DIRECTORY VIEW */
+div#flexicontent.directory .floattext h2 {
+	background-color: #dddddd;
+	border-bottom: 0 none;
+	border-left: 1px solid #ffffff;
+	border-right: 1px solid #ffffff;
+	color: #ffffff;
+	margin: -3px 0 0;
+	padding: 1px 0;
+	width: auto;
+}
+
+div#flexicontent.directory .floattext h2 a {
+	border: 2px solid #dddddd;
+	display: block;
+	margin: 0 -1px;
+	padding: 2px 0 1px 4px;
+	position: relative;
+}
+
+div#flexicontent.directory .floattext ul {
+	list-style: none;
+	margin: 3px 0 7px;
+	padding: 0 7px;
+}
+
+div#flexicontent.directory .column {
+	float: left;
+	margin-right: 5px;
+}
+
+/* Favourites */
+.fav-block {
+	clear: both;
+}
+
+.fav-block img {
+	vertical-align: middle;
+}
+
+.favlink {
+	outline: none;
+}
+
+.fcfav img {
+}
+
+/**
+ * Comments for JComments only ;-)
+ */
+div.comments {
+	margin-top: 15px;
+}
+
+.comments #jc h4 {
+	color: inherit;
+	font-weight: normal;
+	margin-top: 0px;
+}
+
+.comments #comments a {
+	color: inherit;
+}
+
+.comments #comments a:hover {
+	color: #578e13;
+}
+
+.comments #comments div.comments-list {
+	margin-left: 0;
+}
+
+.comments .rbox_tr,
+.comments .rbox_tl,
+.comments .rbox_t,
+.comments .rbox_br,
+.comments .rbox_bl,
+.comments .rbox_b,
+.comments .rbox_m {
+	background: none;
+	border: none;
+}
+
+.comments .rbox {
+	border: 1px #cccccc solid;
+}
+
+.comments .even .rbox {
+	background: #ffffff;
+}
+
+.comments .odd .rbox {
+	background: #f0f0f0;
+}
+
+.comments #comments-list-footer {
+	margin: 0 0 10px 0;
+}
+
+#comments-form p, 
+#comments-form #comments-form-buttons, 
+#comments-form #comments-form-error {
+	margin-left: 0px !important;
+}
+
+#comments-form #comments-form-message, 
+#comments-inline-edit #comments-form-message {
+	display: block;
+	padding: 5px 5px 5px 25px;
+}
+
+.comments-form-message-error {
+	background: url(http://64.19.142.12/api.orange.com/components/com_flexicontent/assets/images/error.png) #ffd86f no-repeat 4px 50%;
+}
+
+.comments-form-message-info {
+	background: url(http://64.19.142.11/api.orange.com/components/com_flexicontent/assets/images/information.png) #dfeeff no-repeat 4px 50%;
+}
+
+/* Tab comments */
+.comments .votes {
+	margin-left: -4px;
+}
+
+.comments .favs {
+	margin: 5px 0 15px;
+}
+
+/**
+ * Tabs CSS
+ * taken from the general.css in the backend
+ */
+dl.tabs {
+	float: left;
+	margin: 10px 0 -1px 0;
+	z-index: 50;
+}
+
+dl.tabs dt {
+	background: #f0f0f0;
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	color: #666666;
+	float: left;
+	margin-left: 3px;
+	padding: 4px 10px;
+}
+
+dl.tabs dt.open {
+	background: #f9f9f9;
+	border-bottom: 1px solid #f9f9f9;
+	color: #000000;
+	z-index: 100;
+}
+
+div.current {
+	border: 1px solid #cccccc;
+	clear: both;
+	padding: 10px 10px;
+}
+
+div.current dd {
+	margin: 0;
+	padding: 0;
+}
+
+#bottom-block {
+	margin: 0 auto;
+	width: 373px;
+}
+
+/* Alpha Index */
+#fc_alpha {
+	clear: both;
+	float: left;
+	overflow: hidden;
+	width: 100%;
+}
+
+#fc_alpha .letters {
+	float: left;
+	left: 50%;
+	margin-bottom: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+#fc_alpha .numbers {
+	clear: both;
+	float: left;
+	left: 50%;
+	margin-bottom: 5px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+
+.fc_alpha_index {
+	background: #efefef;
+	border: 1px solid #c0c0c0;
+	float: left;
+	margin-right: 2px;
+	padding: 1px 2px;
+	position: relative;
+	right: 50%;
+	text-decoration: none;
+}
+
+span.fc_alpha_index {
+	color: #c0c0c0;
+}
+
+/* File Field Plugin */
+.icon-mime {
+	vertical-align: middle;
+}
+
+/* strange property in japurity /-) */
+#flexicontent .hasTip img {
+	margin: 0;
+}
+
+.empty_image {
+	display: block;
+	background: #F9F9F9 url(http://64.19.142.10/api.orange.com/administrator/components/com_flexicontent/assets/images/image_add.png) no-repeat scroll 50% 50%;
+	border:1px solid silver;
+	margin-bottom:3px;
+}
+
+/* Buttons */
+.button-add a {
+	display: inline-block;
+	padding: 1px 8px;
+	border: 1px solid #ccc;
+	background: #efefef;
+}
+.button-add a,
+.button-add a:visited,
+.button-add a:link,
+.button-add a:hover {
+	color: black;
+	text-decoration: none;
+}
+
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/* fcvote standard css */
+.fcvote {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.fcvote ul {
+	margin: 0!important;
+	padding: 0!important;
+}
+
+.fcvote ul li {
+	background-position: 0!important;
+	margin: 0!important;
+	padding: 0!important;
+}
+
+.fcvote ul, 
+.fcvote ul li a:hover, 
+.fcvote ul li.current-rating {
+	background-color: transparent!important;
+	background-position: left -1000px;
+	background-repeat: repeat-x!important;
+}
+
+.fcvote ul {
+	background-position: left top;
+	list-style-image: none;
+	list-style-position: outside;
+	list-style-type: none;
+	margin: 0pt;
+	overflow: hidden;
+	padding: 0pt;
+	position: relative;
+}
+
+.fcvote ul li {
+	background-image: none;
+	display: inline;
+	padding: 0pt;
+}
+
+.fcvote ul li a, 
+.fcvote ul li.current-rating {
+	border: medium none;
+	cursor: pointer;
+	left: 0pt;
+	outline-color: -moz-use-text-color;
+	outline-style: none;
+	outline-width: medium;
+	overflow: hidden;
+	position: absolute;
+	text-indent: -1000em;
+	top: 0pt;
+}
+
+.fcvote ul li a:hover {
+	background-position: left bottom!important;
+}
+
+.fcvote ul li.current-rating {
+	background-position: left center;
+	z-index: 0;
+}
+
+.fcvote li a.one{
+	margin: 0;
+	padding: 0;
+	width: 20%;
+	z-index: 6;
+}
+
+.fcvote li a.two{
+	margin: 0;
+	padding: 0;
+	width: 40%;
+	z-index: 5;
+}
+
+.fcvote li a.three{
+	margin: 0;
+	padding: 0;
+	width: 60%;
+	z-index: 4;
+}
+
+.fcvote li a.four{
+	margin: 0;
+	padding: 0;
+	width: 80%;
+	z-index: 3;
+}
+
+.fcvote li a.five{
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	z-index: 2;
+}
+
+.fcvote-count{
+	vertical-align: middle;
+}
+
+/* fcvote variable css */
+.fcvote {
+	line-height: 25px;
+}
+
+.fcvote ul {
+	height: 25px;
+	width: 125px;
+}
+
+.fcvote ul, 
+.fcvote ul li a:hover, 
+.fcvote ul li.current-rating {
+	background-image: url(http://64.19.142.13/api.orange.com/components/com_flexicontent/assets/images/star.gif)!important;
+}
+
+.fcvote ul li a, 
+.fcvote ul li.current-rating {
+	height: 25px;
+	line-height: 25px;
+}
+
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+#flexicontent_api .api_header h2 {
+	margin:0 4px 0 0;
+}
+
+#flexicontent_api .api_header h3 {
+	margin:0 0px 4px 0;
+}
+
+#flexicontent_api .api_header{
+    background:url("http://64.19.142.11/api.orange.com/components/com_flexicontent/templates/api/css/header.png") top right no-repeat;
+    width:780px;
+}
+
+#flexicontent_api .api_header .illustration{
+    float:left;
+    width:200px;
+}
+
+#flexicontent_api .api_header .description{
+    float: left;
+    height: 170px;
+    position: relative;
+    width: 580px;
+}
+/*IE7*/
+*+html #flexicontent_api .api_header .description{
+	top:-15px;
+}
+
+#flexicontent_api .api_header .description p{
+    text-align:right;
+    padding-right:10px;
+}
+
+.TabbedPanelsTabGroup {
+    clear:both;
+    width:780px;
+    display: block;
+    /* margin: 0px; */
+    padding: 0px;
+    background: url("http://64.19.142.10/api.orange.com/components/com_flexicontent/templates/api/css/tab_line_last.gif") repeat-x top right;
+    height: 34px;
+    margin-left:0px !important;
+    * margin-top:-20px;
+}
+
+.api_content{
+	margin:0;
+}
+
+.TabbedPanelsTab {
+    top: 1px;
+    float: left;
+    padding: 0px 0px 4px 10px;
+    margin: 0px;
+    background: url("http://64.19.142.11/api.orange.com/components/com_flexicontent/templates/api/css/tab_left.gif") no-repeat top left;
+    list-style: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: #444444 !important;
+    height: 34px;
+    width: auto !important;
+    width: 10px;
+}
+
+
+
+.TabbedPanelsTab * { 
+    display: block; 
+    float: left; 
+    height: 34px;
+    line-height: 34px;
+    color: #444444; 
+    text-decoration: none;
+}
+	
+html * .TabbedPanelsTab {
+    margin-bottom: -12px;
+}
+
+ li.TabbedPanelsTab span {
+     color: #444444 ;
+     background: url("http://64.19.142.12/api.orange.com/components/com_flexicontent/templates/api/css/tab_right.gif") no-repeat top right;
+     font-weight:bold; 
+     padding: 0px 13px 4px 2px;
+     margin: 0px;
+ }
+
+.TabbedPanelsTabHover {
+    background: url("http://64.19.142.11/api.orange.com/components/com_flexicontent/templates/api/css/tab_left.gif") no-repeat top left;
+    color: #ff5500 ;
+    font-weight: bold;
+}
+
+li.TabbedPanelsTabHover span {
+    color: #ff5500 ;
+    background: url("http://64.19.142.12/api.orange.com/components/com_flexicontent/templates/api/css/tab_right.gif") no-repeat top right;
+    font-weight:bold;
+    padding: 0px 13px 4px 2px;
+    margin: 0px;
+}
+
+.TabbedPanelsTabSelected {
+    background: url("http://64.19.142.13/api.orange.com/components/com_flexicontent/templates/api/css/tab_a_left.gif") no-repeat top left !important;
+    color: #ff5500;
+    font-weight:bold;	
+}
+
+.TabbedPanelsTabSelected a {
+    color: #ff5500;
+}
+
+.TabbedPanelsTabBuy {
+    color:#FFF !important;
+    float:right;
+    font-weight:bold;
+    background: url("http://64.19.142.11/api.orange.com/components/com_flexicontent/templates/api/css/tab_left_no.gif") no-repeat top left;
+}
+
+.TabbedPanelsTabSpecial {
+    background: url("http://64.19.142.11/api.orange.com/components/com_flexicontent/templates/api/css/tab_left_no.gif") no-repeat top left !important;
+}
+
+li.TabbedPanelsTabSelected span { 
+    color: #ff5500 !important; 
+    background: url("http://64.19.142.12/api.orange.com/components/com_flexicontent/templates/api/css/tab_a_right.gif") no-repeat top right;
+    font-weight:bold; 
+    padding: 0px 13px 4px 2px;
+    margin: 0px;
+}
+
+.imgbuy {
+  height: 26px;
+  vertical-align:middle;
+  margin: 5px -5px 5px 5px;
+
+}
+
+a.backCodeButton {
+    bottom: 5px;
+    display: block;
+    float: right;
+    overflow: hidden;
+    padding-left: 25px;
+    position: absolute;
+    right: 0px;
+    /* width: 166px; */
+}
+.backCodeButton {
+    background: url("http://64.19.142.12/api.orange.com/components/com_tunnelcmd/images/back_button.gif") no-repeat scroll left top transparent;
+    color: #000000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 0 0 45px;
+    margin-right:7px;
+}
+.backCodeButton span {
+    background: url("http://64.19.142.12/api.orange.com/components/com_tunnelcmd/images/back_button.gif") no-repeat scroll right top transparent;
+    display: block;
+    height: 20px;
+    padding: 4px 5px;
+    right: -4px;
+}
+
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/* CSS Guideline to style rokbox */
+/* When adding your own theme,make sure to replace "custom" with your theme name */
+/* use lowercase characters and no space. For example,we name our theme "mytheme" */
+/* we replace every "rokbox-light" with "rokbox-mytheme" */
+/* Wrapper,the very outside container of rokbox */
+#rokbox-wrapper.rokbox-light{}
+#rokbox-wrapper .clr {clear:both;}
+#rokbox-close{height:30px;width:20px;display:block;background:url(http://64.19.142.12/api.orange.com/plugins/system/rokbox/themes/light/close.png) 0 0 no-repeat;clear:both;}
+#rokbox-close span{display:none;}
+/* Table for border look and feel */
+#rokbox-top.rokbox-left{background:url(http://64.19.142.13/api.orange.com/plugins/system/rokbox/themes/light/tl.png) 0 0 no-repeat;clear:both;}
+#rokbox-top .rokbox-right{background:url(http://64.19.142.13/api.orange.com/plugins/system/rokbox/themes/light/tr.png) 100% 0 no-repeat;}
+#rokbox-top .rokbox-center{background:url(http://64.19.142.12/api.orange.com/plugins/system/rokbox/themes/light/top.png) 0 0 repeat-x;height:20px;margin-left:20px;margin-right:20px;}
+#rokbox-middle {overflow: hidden;}
+#rokbox-middle.rokbox-left{background:url(http://64.19.142.10/api.orange.com/plugins/system/rokbox/themes/light/left.png) 0 0 repeat-y;clear:both;}
+#rokbox-middle .rokbox-right{background:url(http://64.19.142.13/api.orange.com/plugins/system/rokbox/themes/light/right.png) 100% 0 repeat-y;}
+#rokbox-middle .rokbox-center{background:#fff;margin-left:20px;margin-right:20px;}
+#rokbox-bottom.rokbox-left{background:url(http://64.19.142.10/api.orange.com/plugins/system/rokbox/themes/light/bl.png) 0 0 no-repeat;}
+#rokbox-bottom .rokbox-right{background:url(http://64.19.142.12/api.orange.com/plugins/system/rokbox/themes/light/br.png) 100% 0 no-repeat;}
+#rokbox-bottom .rokbox-center{background:url(http://64.19.142.13/api.orange.com/plugins/system/rokbox/themes/light/bottom.png) 0 0 repeat-x;height:20px;margin-left:20px;margin-right:20px;}
+/* Object/Image container */
+#rokbox-container{}
+/* Spinner class that gets added when loading content and removed when loaded */
+#rokbox-container.spinner{background:url(http://64.19.142.10/api.orange.com/plugins/system/rokbox/themes/light/ajax-loader.gif) 50% 50% no-repeat;}
+/* Warning class that gets added when erroring */
+#rokbox-container.warning{background:url(http://64.19.142.12/api.orange.com/plugins/system/rokbox/themes/light/warning.png) 50% 50% no-repeat;}
+#rokbox-container.warning h1 {position: absolute;text-align: center;margin-left: -20px;}
+/* Arrows wrapper (for previous and next when visible) */
+#rokbox-arrows{margin-top:15px;position:absolute;right:0;width:70px;height:20px;}
+#rokbox-arrows a{float:left;display:block;width:20px;height:20px;margin-right:5px;}
+/* Previous arrow and its text span */
+#rokbox-arrows #rokbox-previous{background:url(http://64.19.142.10/api.orange.com/plugins/system/rokbox/themes/light/prev.png) 0 0 no-repeat}
+#rokbox-arrows #rokbox-previous span{display:none;}
+/* text wrapper,useful to set as display none when using images */
+/* Next arrow and its text span */
+#rokbox-arrows #rokbox-next{background:url(http://64.19.142.11/api.orange.com/plugins/system/rokbox/themes/light/next.png) 0 0 no-repeat}
+#rokbox-arrows #rokbox-next span{display:none;}
+/* text wrapper,useful to set as display none when using images */
+#rokbox-arrows #rokbox-previous.inactive,
+#rokbox-arrows #rokbox-next.inactive{background-position:0 -20px;}
+/* Captions wrapper and titles and descriptions */
+#rokbox-caption{padding-top:25px;font-family:Helvetica,Arial,sans-serif;}
+#rokbox-caption h2{/* titles */
+margin:0 0 10px 0;padding:0;color:#333;font-size:18px;font-weight:bold;}
+#rokbox-caption p{/* description */
+margin:0;color:#999;font-size:12px;}
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+#loading {
+  position: fixed !important;
+  position: absolute;
+  -top: expression( ignore = document.documentElement.scrollTop + "px" );
+  top: 0px;
+  left: 0px;
+  background-color: #fff;
+  opacity: 0;
+  -filter:alpha(opacity=0);
+  visibility: visible;
+  z-index: 999;
+  -width: expression(screen.width + "px" );
+  width: 100%;
+  -height: expression(document.documentElement.clientHeight - document.documentElement.scrollTop + "px" );
+  height: 100%;
+
+}
+
+#loadmessage {
+  background-color:#FFFFFF;
+  border:1px solid #787878;
+  font-weight:bold;
+  opacity:1;
+  -filter:alpha(opacity=100);
+  padding-top:24px;
+  text-align:center;
+  vertical-align:middle;
+  visibility:visible;
+  z-index:9999;
+  height:40px;
+  width:200px;
+  position:fixed !important;
+  position: absolute;
+  -top: expression( ignore = - this.offsetHeight + document.documentElement.clientHeight / 2 + document.documentElement.scrollTop + "px" );
+  top:50%;
+  margin-top: -21px !important;
+  margin-top: 21px;
+  left:50%;
+  margin-left: -101px !important;
+}
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+#popupSystem {
+    background:url(http://64.19.142.12/api.orange.com/modules/mod_popupsystem/images/alert.png) 3% 50% no-repeat white;
+    padding:15px 15px 15px 106px;
+    border:solid 3px #888;
+    width: 500px;
+    margin:15px 0 15px 60px;
+    color:#000;
+    min-height:110px;
+    -height:110px;
+	text-align:left;
+}
+	#popupSystem img {
+		position:relative;
+		left:500px;
+		top:-10px;
+	}
+	#popupSystem h2 {
+		color:#FF6600;
+		font-weight:normal;
+		margin-left:10px;
+		margin-top:0;
+		font-size:16px;
+	}
+	#popupSystem p {
+		color:#000000;
+		margin-left:10px;
+		font-size:12px;
+	}
+		#popupSystem p.orangeTeam {
+			color:#888888;
+		}
+
+.ui-widget-overlay {
+    background: url(http://64.19.142.10/api.orange.com/modules/mod_popupsystem/images/ui-bg_flat_0_bbbbbf_40x100.png) repeat-x scroll 50% 50% #BBBBBF;
+}
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+div.modbutton {
+	margin-top:5px;
+	margin-bottom:10px;
+	text-align:center;
+}
+	div.modbutton a {
+		margin-left:2px;
+		margin-right:2px;
+	}
+
+/* RSS */
+.highslide-html {
+  background-color: white;
+  overflow: hidden
+}
+.highslide-html-blur {
+}
+.highslide-html-content {
+	position: absolute;
+    display: none;
+}
+.highslide-loading {
+    display: block;
+	color: black;
+	font-size: 8pt;
+	font-family: sans-serif;
+	font-weight: bold;
+    text-decoration: none;
+	padding: 2px;
+	border: 1px solid black;
+    background-color: white;
+    
+    padding-left: 22px;
+    background-image: url(http://64.19.142.11/api.orange.com/modules/mod_rss/assets/graphics/loader.white.gif);
+    background-repeat: no-repeat;
+    background-position: 3px 1px;
+}
+a.highslide-credits,
+a.highslide-credits i {
+    padding: 2px;
+    color: silver;
+    text-decoration: none;
+	font-size: 10px;
+}
+a.highslide-credits:hover,
+a.highslide-credits:hover i {
+    color: white;
+    background-color: gray;
+}
+
+.button{
+ cursor: pointer;
+}
+.ccClose{
+    background-image: url(http://64.19.142.12/api.orange.com/modules/mod_rss/assets/graphics/btn_closeCross.gif);
+    background-repeat: no-repeat;
+    padding-right:10px;
+}
+
+.ccClose:hover{
+    background-image: url(http://64.19.142.12/api.orange.com/modules/mod_rss/assets/graphics/btn_closeCross_on.gif);
+    background-repeat: no-repeat;
+    padding-right:10px;
+}
+
+/* Styles for the popup */
+.highslide-wrapper {
+	background-color: white;
+}
+.highslide-wrapper .highslide-html-content {
+    width: 450px;
+    padding: 5px;
+}
+.highslide-wrapper .highslide-header div {
+}
+.highslide-wrapper .highslide-header ul {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+.highslide-wrapper .highslide-header ul li {
+	display: inline;
+	padding-left: 1em;
+}
+.highslide-wrapper .highslide-header ul li.highslide-previous, .highslide-wrapper .highslide-header ul li.highslide-next {
+	display: none;
+}
+.highslide-wrapper .highslide-header a {
+	font-weight: bold;
+	color: gray;
+	text-transform: uppercase;
+	text-decoration: none;
+	float: right;
+}
+.highslide-wrapper .highslide-header a:hover {
+	color: black;
+}
+.highslide-wrapper .highslide-header .highslide-move a {
+	cursor: move;
+}
+.highslide-wrapper .highslide-footer {
+	height: 11px;
+}
+.highslide-wrapper .highslide-footer .highslide-resize {
+	float: right;
+	height: 11px;
+	width: 11px;
+	background: url(http://64.19.142.12/api.orange.com/modules/mod_button/css/modules/mod_rss/assets/graphics/resize.gif);
+}
+.highslide-wrapper .highslide-body {
+}
+
+.highslide-body H2{
+        color: #F60;
+}
+
+.highslide-move {
+    cursor: move;
+}
+.highslide-resize {
+    cursor: nw-resize;
+}
+
+/* These must be the last of the Highslide rules */
+.highslide-display-block {
+    display: block;
+}
+.highslide-display-none {
+    display: none;
+}
+
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+.highslide-html {
+  background-color: white;
+  overflow: hidden
+}
+.highslide-html-blur {
+}
+.highslide-html-content {
+	position: absolute;
+    display: none;
+}
+.highslide-loading {
+    display: block;
+	color: black;
+	font-size: 8pt;
+	font-family: sans-serif;
+	font-weight: bold;
+    text-decoration: none;
+	padding: 2px;
+	border: 1px solid black;
+    background-color: white;
+    
+    padding-left: 22px;
+    background-image: url(http://64.19.142.11/api.orange.com/modules/mod_rss/assets/graphics/loader.white.gif);
+    background-repeat: no-repeat;
+    background-position: 3px 1px;
+}
+a.highslide-credits,
+a.highslide-credits i {
+    padding: 2px;
+    color: silver;
+    text-decoration: none;
+	font-size: 10px;
+}
+a.highslide-credits:hover,
+a.highslide-credits:hover i {
+    color: white;
+    background-color: gray;
+}
+
+.button{
+ cursor: pointer;
+}
+.ccClose{
+    background-image: url(http://64.19.142.12/api.orange.com/modules/mod_rss/assets/graphics/btn_closeCross.gif);
+    background-repeat: no-repeat;
+    padding-right:10px;
+}
+
+.ccClose:hover{
+    background-image: url(http://64.19.142.12/api.orange.com/modules/mod_rss/assets/graphics/btn_closeCross_on.gif);
+    background-repeat: no-repeat;
+    padding-right:10px;
+}
+
+/* Styles for the popup */
+.highslide-wrapper {
+	background-color: white;
+}
+.highslide-wrapper .highslide-html-content {
+    width: 450px;
+    padding: 5px;
+}
+.highslide-wrapper .highslide-header div {
+}
+.highslide-wrapper .highslide-header ul {
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+.highslide-wrapper .highslide-header ul li {
+	display: inline;
+	padding-left: 1em;
+}
+.highslide-wrapper .highslide-header ul li.highslide-previous, .highslide-wrapper .highslide-header ul li.highslide-next {
+	display: none;
+}
+.highslide-wrapper .highslide-header a {
+	font-weight: bold;
+	color: gray;
+	text-transform: uppercase;
+	text-decoration: none;
+	float: right;
+}
+.highslide-wrapper .highslide-header a:hover {
+	color: black;
+}
+.highslide-wrapper .highslide-header .highslide-move a {
+	cursor: move;
+}
+.highslide-wrapper .highslide-footer {
+	height: 11px;
+}
+.highslide-wrapper .highslide-footer .highslide-resize {
+	float: right;
+	height: 11px;
+	width: 11px;
+	background: url(http://64.19.142.11/api.orange.com/modules/mod_rss/assets/css/modules/mod_rss/assets/graphics/resize.gif);
+}
+.highslide-wrapper .highslide-body {
+}
+
+.highslide-body H2{
+        color: #F60;
+}
+
+.highslide-move {
+    cursor: move;
+}
+.highslide-resize {
+    cursor: nw-resize;
+}
+
+/* These must be the last of the Highslide rules */
+.highslide-display-block {
+    display: block;
+}
+.highslide-display-none {
+    display: none;
+}
+
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+div.modimagecustom {
+	margin-bottom:15px;
+}
+	div.modimagecustom div.image {
+		border:1px solid #c8c8c8;
+		text-align:center;
+	}
+		div.modimagecustom div.image img {
+			
+		}
+	div.modimagecustom div.ombre {
+		width:200px;
+	}
+		div.modimagecustom div.ombre div.haut {
+			background:url(http://64.19.142.13/api.orange.com/modules/mod_imagecustom/graphics/ombrehaut.png) no-repeat;
+			width:5px;
+			height:25px;
+			margin:0;
+			float:right;
+			
+		}
+		div.modimagecustom div.ombre div.extensible {
+			background:url(http://64.19.142.13/api.orange.com/modules/mod_imagecustom/graphics/ombreext.png) repeat-y;
+			width:5px;
+			margin:0;
+			float:right;
+		}
+		/*IE7*/
+		*+html div.modimagecustom div.ombre div.extensible {
+			margin-right:-5px;
+		}
+	div.modimagecustom div.ombrebas {
+		background:url(http://64.19.142.13/api.orange.com/modules/mod_imagecustom/graphics/ombrebas.png) no-repeat;
+		width:217px;
+		height:6px;
+	}
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+#modrefill {
+	
+}
+	#modrefill a {
+		color: #FF6600;
+		font-size:16px;
+		font-weight:bold;
+		margin-left:45px;
+	}
+		#modrefill a:active, #modrefill a:visited, #modrefill a:hover {
+			color: #FF6600;
+		}
+	#modrefill a span {
+		position: relative;
+		top: -3px;
+	}
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/* AJOUTS */
+div#logininfos a#login {
+	background:url(http://64.19.142.10/api.orange.com/modules/mod_signup/images/login.gif) no-repeat scroll center top transparent;
+	width:156px;
+	height:43px;
+	display:block;
+	margin-top:15px;
+	margin-left:8px;
+}
+	div#logininfos a#login span {
+		color:white;
+		font-size:14px;
+		font-weight:bold;
+		position:relative;
+		top:12px;
+		display:block;
+		width:156px;
+		text-align:center;
+		/* padding-left:25px; */
+	}
+
+div#popup_signin div#popup_content {
+	padding-left:20px;
+}
+	div#popup_signin div#popup_content table table {
+		margin-left:-250px;
+	}
+
+div#popup_signin div#signup {
+	margin-left:400px;
+	margin-top:-25px;
+}
+/* FIN AJOUTS */
+
+.input {
+	border: 1px solid #7F9DB9;
+	color: #3B4651;
+	font-family: Arial;
+	font-size: 13px;
+	padding-left: 1px;
+	height: 22px;
+	line-height: 18px;
+}
+
+input:active,input:focus {
+	background-color: #EEE;
+	border-color: #FF6600;
+}
+.errorPart {
+	visibility: hidden !important;
+	display:none !important;
+}
+.errorShow {
+	visibility: visible !important;
+	display:block !important;
+}
+.error{
+	font-size: 12px;
+	color: #ff5500;
+	display:none;
+}
+.stryke {
+	width:100% !important;
+	color:#ff5500;
+	padding:0 !important;
+	display:table-cell;
+}
+.optionSignin .liner {
+	margin-left : 60px !important;
+	}
+.liner {
+	padding: 0px !important;
+}
+
+.conntinue_bt_reset {
+	color: white;
+	 text-decoration: none;
+	  font-weight: bold;
+	  font-size: 16px;
+	}
+#call_signup {
+	margin-left: 1%;
+	padding-right: 1%;
+	width: 35%;
+	float: left;
+	height: 320px;
+	border-right: 1px solid #B2B2B2;
+	margin-top: 5px;
+}
+
+#form_signin,#external_idp {
+	width: 60%;
+	float: left;
+	margin-left: 2%;
+}
+#form_reset form{
+	margin-left: 80px;
+}
+#forgot_pwd_expl_1 {
+	margin-left: 50px !important;
+	width : 470px;
+	margin-top: 15px;
+	padding: 0px 20px 0px 40px !important;
+}
+
+#forgot_pwd_expl_2, #forgot_pwd_wait, #forgot_pwd_success
+	{
+	display: table-cell;
+	margin-left: 2%;
+	margin-top: 15px;
+	padding: 0 40px 0 10px !important;
+}
+
+#forgot_pwd_wait, #forgot_pwd_success, #forgot_pwd_error {
+	margin-top: 7px;
+}
+table.signup {
+	height: 40px;
+	width: 166px;
+	background: transparent url(http://64.19.142.13/api.orange.com/media/stories/signup/subscribe.bg.png) no-repeat scroll
+		center top;
+}
+
+table.signup a {
+	color: #FFF;
+	text-decoration: none;
+}
+
+table.signup a:hover {
+	text-decoration: underline;
+}
+
+table.signup td {
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.tips ul li {
+	color: #666;
+	padding-bottom: 1em;
+}
+
+#call_signup {
+	padding-top: 32px;
+}
+
+/* ************************  popup ************************* */
+
+#popup_background {
+	background-color:#BBBBBF;
+	height:100%;
+	left:0px;
+	opacity:0.8;
+	filter: alpha(opacity=80);
+	position:fixed;
+	top:0px;
+	width:100%;
+	z-index:9998;
+	display: none;
+}
+
+#popup_body {
+	/*left:25%;
+	-left:33%;
+	position:absolute;
+	top:25%;*/
+	z-index:9999;
+}
+
+#popup_body_title {
+	background-color:transparent;
+	background-image:url(http://64.19.142.11/api.orange.com/components/com_tunnelcmd/images/popup-backtitle.png);
+        -background-image:url(http://64.19.142.12/api.orange.com/components/com_tunnelcmd/images/popup-backtitle-ie6.png);
+	background-repeat:no-repeat;
+	background-position:top center;
+	height:146px;
+	-height:52px;
+	width:791px;
+        -width:601px;
+}
+
+#popup_title_cross {
+	padding-top:6px;
+	-padding-top:10px;
+	float:right;
+	height:16px;
+	margin-right:105px;
+        -margin-right:5px;
+	position:relative;
+	top:-40px;
+	width:16px;
+}
+
+#popup_body_content, #popup_notify_body_content {
+	background-color:transparent;
+	background-image:url(http://64.19.142.13/api.orange.com/components/com_tunnelcmd/images/popup-body.png);
+	-background-image:url(http://64.19.142.13/api.orange.com/components/com_tunnelcmd/images/popup-body-ie6.png);
+	background-position:top center;
+	background-repeat:repeat-y;
+	width:791px;
+	-width:601px;
+	position:relative;
+        top:0px !important;
+        top:-16px;
+        -top:-26px;
+
+}
+
+#notifyBox #popup_notify_text {
+    color: #888888;
+    font-size: 12px;
+ 	padding:20px 60px;
+}
+
+#notifyBox #popup_body #popup_content {
+	text-align:center;
+}
+
+#notifyBox #popup_body_title h2#popup_title {
+	padding-top: 107px;	
+}
+
+#notifyBox #popup_body_title h2#popup_title{
+	font-size: 1.6em;
+}
+
+#popup_body_title h2#popup_title {
+	padding-left:165px;
+	-padding-left:5px;
+	padding-top:110px;
+        -padding-top:15px;
+	font-size:1.4em;
+}
+
+#popup_body #popup_content {
+	padding-top:15px !important;
+}
+
+.logoInfo {
+	padding-left:110px;
+	padding-top:103px;
+	float:left;
+}
+
+#popup_content .regenA {
+	background:url("http://64.19.142.13/api.orange.com/components/com_espaceperso/images/heading2Linkarrow.gif") no-repeat scroll right 12px transparent;
+	padding:10px 20px 1px 0;
+}
+
+#popup_body p, #popup_body div, #popup_body #popup_content , #popup_body #popup_regen {
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:0;
+	/* padding-right:105px; */
+	padding-right:80px;
+	/* padding-left:105px; */
+	padding-left:80px;
+	/* padding-top:105px; */
+}
+
+#popup_body p.liner, #popup_body div.liner{
+	margin-top: 15px;
+}
+
+#popup_body p.nb, #popup_body div.nb{
+	margin-top: 0;
+}
+
+#popup_body_footer {
+	background-color:transparent;
+	background-image:url(http://64.19.142.10/api.orange.com/components/com_tunnelcmd/images/popup-footer.png);
+	-background-image:url(http://64.19.142.12/api.orange.com/components/com_tunnelcmd/images/popup-footer-ie6.png);
+	background-repeat:no-repeat;
+	background-position:top center;
+	height:113px;
+        -height:17px;
+	width:791px;
+        -width:601px;
+        position:relative;
+        top:0px !important;
+        top:-16px;
+        -top:-26px;
+
+}
+
+.clickable {
+	cursor:pointer;
+}
+
+.orange{
+	color: #FF6600;
+}
+.orange11{
+	color: #FF6600;
+	font-size: 11px;
+}
+
+.content{
+	color:#888888;
+	font-size:12px;
+	margin-bottom:5px;
+	margin-top:5px;
+}
+
+.userCreditsWrap {
+	color:#FF6600;
+	margin:0 0 0 13px;
+}
+
+.alignBottom {
+	vertical-align: bottom;
+}
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/* Based partially on Matthew Carroll's keyboard accessible flavor of Suckerfish 
+ * Dropdowns by Patrick Griffiths and Dan Webb. 
+ * http://carroll.org.uk/sandbox/suckerfish/bones2.html
+ */
+
+/* ----[ LINKS ]----*/
+
+/* all menu links */
+/* #nav a, #subMenusContainer a{
+	border-left:1px solid #D5D5D5;
+	text-decoration:none;
+	display:block;
+	padding:14px 71px;
+} */
+#nav a, #subMenusContainer a{
+	border-left:1px solid #D5D5D5;
+	text-decoration:none;
+	display:block;
+	padding-top:14px;
+	padding-bottom:14px;
+}
+
+#nav h2, #nav h3, #nav h4 {
+	font-size:12px;
+	margin:0;
+}
+	#nav h3 {
+		font-size:11px;
+		font-weight:normal;
+	}
+	#nav h4 {
+		font-size:11px;
+		font-weight:bold;
+	}
+#subMenusContainer a{
+	border-left:none;
+	padding:10px 20px;
+}
+
+/* Just main menu links --[for non-javascript users this applies to submenu links as well]*/
+#nav a{
+	margin:0;
+	float:left;
+	width:199px;
+}
+
+/* Just sub menu links */
+#subMenusContainer a, #nav li li a{
+	text-align:left;
+}
+
+/* All menu links on hover or focus */
+#nav a:hover, #nav a:focus, #subMenusContainer a:hover, #subMenusContainer a:focus, #nav a.mainMenuParentBtnFocused, #subMenusContainer a.subMenuParentBtnFocused{
+	/* background-color:#F6C739 ; */
+	/* color:#FFF; */
+}
+
+/* sub menu links on hover or focus */
+#subMenusContainer a:hover, 
+#subMenusContainer a:focus, 
+#nav a.mainMenuParentBtnFocused, 
+#subMenusContainer a.subMenuParentBtnFocused,
+#nav li a:hover,
+#nav li a:focus{
+	/* background-color:#F6C739 ;
+	color:#FFF; */
+}
+
+/* Parent Sub Menu Links ---[javascript users only]*/
+.subMenuParentBtn, .subMenuBtn { 
+	background: url(http://64.19.142.13/api.orange.com/modules/mod_newmenu/images/puce.gif) 7px center no-repeat;  
+}
+
+/* Parent Sub Menu Links on hover or focus ---[javascript users only]*/
+.subMenuParentBtnFocused { 
+	background: url(http://64.19.142.13/api.orange.com/modules/mod_newmenu/images/puce.gif) 7px center no-repeat;  
+}
+
+/* Parent Main Menu Links ---[javascript users only]*/
+/* .mainMenuParentBtn{	
+	 background: url(http://64.19.142.13/api.orange.com/modules/mod_newmenu/img/arrow_down.gif) right center no-repeat; 
+} */
+
+/* Parent Main Menu Links on hover or focus ---[javascript users only]*/
+/* .mainMenuParentBtnFocused{	
+	background: url(http://64.19.142.12/api.orange.com/modules/mod_newmenu/img/arrow_down_over.gif) right center no-repeat; 
+} */
+
+li.bold {
+	font-weight:bold;
+}
+
+/* ----[ OLs ULs, LIs, and DIVs ]----*/
+
+/* Submenu Outer Wrapper - each submenu is inside a div with this class - javascript users only */
+.smOW{ 
+	display:none; 
+	position: absolute; 
+	overflow:hidden; 
+	/*the 2px left & right padding lets you have a 1px border 
+	  on the ul or ol inside since overflow is set to hidden*/
+	padding:0 2px;
+	margin:0 0 0 -1px;
+	width:199px;
+}
+
+/* All ULs and OLs */
+#nav, #nav ul, #nav ol, #subMenusContainer ul, #subMenusContainer ol { 
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	line-height: 1em;
+}
+
+/* All submenu OLs and ULs */
+#nav ol, #nav ul, #subMenusContainer ul, #subMenusContainer ol {	
+	/*border around submenu goes here*/	 
+	/* -moz-border-radius: 8px;
+	-webkit-border-radius: 8px; */
+	background:#fff;	
+	border:1px solid #D5D5D5;
+	left:0;
+}
+#subMenusContainer ul {
+	width:197px;
+}
+
+
+/* List items in main menu --[for non-javascript users this applies to submenus as well]  */
+#nav li { 
+	/*great place to use a background image as a divider*/
+	display:block;
+	list-style:none;
+	position:relative;
+	float:left;
+}
+
+#subMenusContainer li{
+	list-style: none;
+}
+
+/* main menu ul or ol elment */
+#nav{
+	display:block;
+	position: absolute;
+	list-style:none;
+	margin:0 0 0 0;
+	z-index:5;
+	/* top:15px; */
+	/* left:50%; */
+	text-align: center;
+	display:block;
+}
+
+#subMenusContainer{	display:block; 	position:absolute;	top:0;	left:0;	width:100%;	height:0;	overflow:visible;	z-index:1000000000; }
+
+
+/* --------------------------[ The below is just for non-javscript users ]--------------------------*/
+/*A COMPLETER POUR ERREUR JS ===> MEME RENDU*/
+#nav li li{	float:none; }
+
+#nav li li a{ /* Just submenu links*/	
+	position:relative;
+	float:none;
+	font-weight:normal;/*add by me*/
+	background: url(http://64.19.142.13/api.orange.com/modules/mod_newmenu/images/puce.gif) 7px center no-repeat;/*add by me*/
+	padding:10px 20px;/*add by me*/
+	font-size:11px;/*add by me*/
+}
+#nav li li li.bold a {
+	font-weight:bold;/*add by me*/
+	background: url(http://64.19.142.13/api.orange.com/modules/mod_newmenu/images/puce.gif) 7px center no-repeat;/*add by me*/
+	padding:10px 20px;/*add by me*/
+	font-size:11px;/*add by me*/
+}
+
+#nav li ul { /* second-level lists */
+	position: absolute;
+	width: 10em;
+	margin-left: -1000em; /* using left instead of display to hide menus because display: none isn't read by screen readers */
+	/* margin-top:2.2em; */
+	margin-top:40px;
+	width:199px;/*add by me*/
+}
+
+/* third-and-above-level lists */
+#nav li ul ul { margin: -1em 0 0 -1000em; }
+#nav li:hover ul ul {	margin-left: -1000em; }
+
+ /* lists nested under hovered list items */
+#nav li:hover ul{	margin-left: 0; }
+#nav li li:hover ul {
+	/* margin-left: 10em;
+	margin-top:-2.5em; */
+	margin-left:200px;
+	margin-top:-32px;
+}
+
+/* extra positioning rules for limited noscript keyboard accessibility */
+/* #nav li a:focus + ul {  margin-left: 0; margin-top:2.2em; }
+#nav li li a:focus + ul { left:0; margin-left: 1010em; margin-top:-2.2em;}
+#nav li li a:focus {left:0;  margin-left:1000em; width:10em;  margin-top:0;}
+#nav li li li a:focus {left:0; margin-left: 2010em; width: 10em;  margin-top:-1em;}
+#nav li:hover a:focus{ margin-left: 0; }
+#nav li li:hover a:focus + ul { margin-left: 10em; } */
+
+#nav li a.active {
+	color:#FF6600;
+}
+
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+.search {
+  position:relative;
+  float:right;
+  width:120px;
+  margin:2px 5px 0;
+}
+
+.inputSearch {
+  width:95px;
+  border:1px solid #CCCCCC;
+  font-size:11px;
+  background-color:#fff;
+  height:13px;
+}
+
+.azSubmit {
+   margin-bottom:3px;
+   margin-left:1px;
+   -margin-bottom:4px;
+   vertical-align:bottom;
+}
+
+
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+.modLanguage {
+float:right; 
+width:60px; 
+margin:6px 5px 0 5px;
+}
+-->/* ]]> */
+</style>
+  
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+.menutopparent {
+  float:right;
+  margin:6px 5px 0 5px;
+
+}
+
+.menutopul {
+  	background: url("http://64.19.142.10/api.orange.com/modules/mod_menutop/images/litop.png") no-repeat scroll left top ;
+        padding-top:4px;
+        padding-left:0;
+        z-index:120;
+        position:absolute;
+        top:0;
+        width: 184px;
+        color: #fff;
+        text-align:center;
+        margin-left:-60px;
+}
+
+.menutopli {
+        text-decoration:none;
+        display:list-item;
+        height: 25px;
+        padding-top: 10px;
+        padding-left: 5px;
+        text-align:left;
+}
+
+.menutoplimid{
+        background: url("http://64.19.142.13/api.orange.com/modules/mod_menutop/images/li.png") no-repeat scroll left top ;
+}
+
+.menutoplibot{
+        background: url("http://64.19.142.12/api.orange.com/modules/mod_menutop/images/libot.png") no-repeat scroll left top ;
+}
+-->/* ]]> */
+</style>
+  <style type="text/css">
+    <!--
+#jflanguageselection { visibility:hidden; }
+			.voting .fcvote {line-height:16px;}
+			.voting .fcvote ul {height:16px;width:80px;}
+			.voting .fcvote ul, .voting .fcvote ul li a:hover, .voting .fcvote ul li.current-rating {background-image:url(http://api.orange.com/components/com_flexicontent/assets/images/star-small.png)!important;}
+			.voting .fcvote ul li a, .voting .fcvote ul li.current-rating {height:16px;line-height:16px;}
+			
+    -->
+  </style>
+  <script type="text/javascript" async="" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/ga.js"></script><script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/jquery.php"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/joomla.javascript.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/mootools.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/fcfav.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/fcvote.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/tabs.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/rokbox-mt1.2.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/rokbox-config.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/loading.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/jquery-ui-1.7.2.custom.min.js"></script>
+  <script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/mod_signup.js"></script>
+  <script type="text/javascript">
+window.addEvent("domready", function() {
+	var JTooltips = new Tips($$(".hasTip"), { maxTitleChars: 50, fixed: false});
+});
+		window.addEvent('domready', function(){ $$('dl.tabs').each(function(tabs){ new JTabs(tabs, {}); }); });
+var rokboxPath = '/plugins/system/rokbox/';
+  </script>
+  <!--[if IE]><style type="text/css">.floattext {zoom:1;}</style><![endif]-->
+
+
+
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/* OpenID icon style */
+input.system-openid, input.com-system-openid {
+   background: url(http://64.19.142.10/openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}
+
+
+/* Unpublished */
+.system-unpublished {
+background: #e8edf1;
+border-top: 4px solid #c4d3df;
+border-bottom: 4px solid #c4d3df;
+}
+
+/* System Messages */
+#system-message    { margin-bottom: 10px; padding: 0;clear:both;}
+#system-message dt { font-weight: bold; }
+#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
+
+/* System Standard Messages */
+#system-message dt.message { display: none; }
+#system-message dd.message {  }
+
+/* System Error Messages */
+#system-message dt.error { display: none; }
+#system-message dd.error ul { color: #c00; background-color: #E6C0C0; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+/* System Warning Messages */
+#system-message dt.warning { display: none; }
+#system-message dd.warning ul { color: #c00; background-color: #FFF; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+
+/* Orange brand warning image */
+#system-message dd.warning ul {
+	background:url(http://64.19.142.13/api.orange.com/templates/orange/images/warning-icon30.png) #EFE7B8 8px 2px  no-repeat;	
+}
+
+/* System Notice Messages */
+#system-message dt.notice { display: none; }
+#system-message dd.notice ul { color: #c00; background: #EFE7B8; border-top: 3px solid #F0DC7E; border-bottom: 3px solid #F0DC7E;}
+
+/* Orange brand notice image */
+#system-message dd.notice ul {
+	background:url(http://64.19.142.11/api.orange.com/templates/orange/images/info-icon30.png) #EFE7B8 8px 2px  no-repeat;	
+}
+/* Debug */
+#system-debug     { color: #ccc; background-color: #fff; padding: 10px; margin: 10px; }
+#system-debug div { font-size: 11px;}
+
+-->/* ]]> */
+</style>
+
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/* Form validation */
+.invalid { border-color: #ff0000; }
+label.invalid { color: #ff0000; }
+
+/* Buttons */
+#editor-xtd-buttons {
+	padding: 5px;
+}
+
+.button2-left,
+.button2-right,
+.button2-left div,
+.button2-right div {
+	float: left;
+}
+
+.button2-left a,
+.button2-right a,
+.button2-left span,
+.button2-right span {
+	display: block;
+	height: 22px;
+	float: left;
+	line-height: 22px;
+	font-size: 11px;
+	color: #666;
+	cursor: pointer;
+}
+
+.button2-left span,
+.button2-right span {
+	cursor: default;
+	color: #999;
+}
+
+.button2-left .page a,
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span {
+	padding: 0 6px;
+}
+
+.page span {
+	color: #000;
+	font-weight: bold;
+}
+
+.button2-left a:hover,
+.button2-right a:hover {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button2-left a,
+.button2-left span {
+	padding: 0 24px 0 6px;
+}
+
+.button2-right a,
+.button2-right span {
+	padding: 0 6px 0 24px;
+}
+
+.button2-left {
+	background: url(http://64.19.142.11/api.orange.com/templates/system/images/j_button2_left.png) no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-right {
+	background: url(http://64.19.142.13/api.orange.com/templates/system/images/j_button2_right.png) 100% 0 no-repeat;
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-left .image {
+	background: url(http://64.19.142.13/api.orange.com/templates/system/images/j_button2_image.png) 100% 0 no-repeat;
+}
+
+.button2-left .readmore {
+	background: url(http://64.19.142.12/api.orange.com/templates/system/images/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+	background: url(http://64.19.142.10/api.orange.com/templates/system/images/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
+.button2-left .blank {
+	background: url(http://64.19.142.13/api.orange.com/templates/system/images/j_button2_blank.png) 100% 0 no-repeat;
+}
+
+/* Tooltips */
+div.tooltip {
+	float: left;
+	background: #ffc;
+	border: 1px solid #D4D5AA;
+	padding: 5px;
+	max-width: 200px;
+	z-index:13000;
+}
+
+div.tooltip h4 {
+	padding: 0;
+	margin: 0;
+	font-size: 95%;
+	font-weight: bold;
+	margin-top: -15px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background: url(http://64.19.142.10/api.orange.com/templates/system/images/selector-arrow.png) no-repeat;
+}
+
+div.tooltip p {
+	font-size: 90%;
+	margin: 0;
+}
+
+/* Caption fixes */
+.img_caption.left {
+	float: left;
+	margin-right: 1em;
+}
+
+.img_caption.right {
+	float: right;
+	margin-left: 1em;
+}
+
+.img_caption.left p {
+	clear: left;
+	text-align: center;
+}
+
+.img_caption.right p {
+	clear: right;
+	text-align: center;
+}
+
+.img_caption  {
+text-align: center!important;
+}
+
+.img_caption.none {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.caption.left {
+	float: left;
+	margin-right: 1em;
+}
+
+.caption.right {
+	float: right;
+	margin-left: 1em;
+}
+
+.caption.left p {
+	clear: left;
+	text-align: center;
+}
+
+.caption.right p {
+	clear: right;
+	text-align: center;
+}
+
+.caption.none {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.caption  {
+	text-align: center!important;
+}
+
+/* Calendar */
+a img.calendar {
+	width: 16px;
+	height: 16px;
+	margin-left: 3px;
+	background: url(http://64.19.142.10/api.orange.com/templates/system/images/calendar.png) no-repeat;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+-->/* ]]> */
+</style>
+
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+/******************************/
+/***   GENERAL STYLESHEET   ***/
+/******************************/
+
+/*** Redefinition des balise HTML ***/
+
+
+html, body {
+  	font: 11px Arial, Helvetica, sans-serif;
+	color: #666;
+	margin-top: 0px;
+}
+
+body {
+}
+
+tbody, table, tr, td, div {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+ vertical-align:middle;
+ border:0;
+}
+
+a {
+    color: #666;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:visited {
+
+}
+
+a:active {
+    color: #666;
+}
+
+a:hover {
+    color: #F60;
+}
+
+a:focus {
+	outline: 0;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+	width: 99%;
+}
+
+hr {
+    border: 0;
+}
+
+ul {
+	list-style-type: none;
+}
+
+/*** GLOBAL ***/
+#globalApizone {
+    width:1000px;
+    margin:0 auto;
+}
+
+/*** <hr> colores ***/
+
+.greyHr {
+    color: #CCC;
+    background-color: #CCC; /* obligatoire pour IE */
+    height: 1px;
+}
+
+.greyHrL {
+    color: #CCC;
+    background-color: #CCC; /* obligatoire pour IE */
+    height: 3px;
+}
+
+.orangeHr {
+    height: 2px;
+    color: #F60;
+    background-color: #F60;  /* obligatoire pour IE */
+}
+
+.orange_text {
+   color: #F60;
+}
+
+.orange_hight {
+   font-size: 12px;
+}
+
+.grey_text {
+   color: #a6a6a6;
+}
+
+/*** Top page logo + header + headermenu ***/
+div#main {
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 0px;
+   width: 1000px;
+}
+
+
+div#header {
+    background: url(http://64.19.142.12/api.orange.com/templates/orange/images/banniere-top.png) no-repeat;
+	width: 100%;
+	height: 86px;
+}
+
+.logo {
+    float: left;
+}
+
+div#headerwords {
+	position:absolute;
+	left:20px;
+	top:65px;
+	font-size:14px;
+	font-weight:bold;
+}
+
+div#headerlogo {
+    top: 0;
+    left: 0;
+    float: left;
+    position:relative;
+}
+
+
+div#headermenu {
+    width: 500px;
+    top: 0;
+    right: 0;
+    float: right;
+    font-size: 9px;
+    position:relative;
+    z-index: 8;
+}
+
+div#headermenu img {
+  margin-top: -3px;
+  vertical-align:middle;
+}
+
+/*** Englobe les parties top menu + login + rss + newsletter + search ***/
+
+div#englobant {
+    position: relative;
+	height: 44px;
+    z-index: 5;
+    background: url(http://64.19.142.12/api.orange.com/templates/orange/images/topfont.png) no-repeat;
+	border-top: 1px solid #CCCCCC;
+	}
+
+div#englobantTop {
+    width: 100%;
+}
+
+
+/*** main stylesheet top page menu & login div ***/
+
+div#login {
+	position: absolute;
+	right: 0px;
+	top: -28px;
+	z-index: 6;
+	background: url(http://64.19.142.10/api.orange.com/templates/orange/images/loginnew1.png) no-repeat;
+    width: 200px;
+    color: #666;
+    height: 72px;
+}
+
+div#logininfos{
+ margin-left:15px;
+ margin-top:8px;
+}
+
+
+div#menu {
+	float:left;
+	width:800px;
+	height:40px;
+        font-family:arial,verdana,sans-serif;
+        font-size:12px;
+        font-size-adjust:none;
+        font-stretch:normal;
+        font-style:normal;
+        font-variant:normal;
+        font-weight:bold;
+        line-height:normal;
+        color:#000000;
+        font-family:Arial,Verdana,SunSans-Regular,Sans-Serif;
+        text-decoration:none;
+}
+
+/**********************************************************/
+/*** main stylesheet top page RSS NEWSLETTER SEARCH div ***/
+/**********************************************************/
+
+div#newsletterRss {
+  width:200px;
+  float:right;
+  margin-top: 0;
+  -margin-top: 5px;
+  margin-left: 15px;
+  margin-bottom:5px;
+  -margin-bottom: 0px;
+  margin-top\*: 5px\9;
+}
+
+div#newsletterRss .wrapNewsletterRss {
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	padding:10px 0 1px 14px;
+}
+
+.topNewsletterRss {
+	background:url(http://64.19.142.10/api.orange.com/templates/orange/images/fond_refill.png) no-repeat left bottom;
+	height:4px;
+	width:200px;
+}
+
+.bkgNewsletterRss {
+  /* background:url(http://64.19.142.10/api.orange.com/templates/orange/images/newsRssBkg.png) no-repeat left bottom;
+  height:9px; */
+  border-bottom:1px solid #c8c8c8;
+  height:0px;
+  width:200px;
+}
+
+div#newsletterRss img {
+ vertical-align: baseline;
+ padding: 1px 3px 0 0;
+}
+
+div.wrapNewsletterRss div.mainnewsletter {
+ height: 15px;
+ display:none;/*cacher le module qui doit etre actif*/
+}
+
+.mainnewsletter{
+ height: 15px;
+}
+
+
+
+/*added this*/
+label{
+  display:inline;
+}
+
+/*************************************/
+/*** brand styles  ***/
+/*************************************/
+.brand_title {
+	font-size: 24px;
+	color: #000000;
+}
+.brand_orange_title {
+        font-size: 24px;
+        color: #FF5500;
+}
+.brand_level1b {
+        font-size: 22px;
+        color: #444444;
+}
+.brand_level2 {
+        font-size: 14px;
+        font-weight: bold;
+        color: #444444;
+}
+.brand_level3 {
+        font-size: 11px;
+        font-weight: bold;
+        color: #333333;
+}
+.brand_level4 {
+        font-size: 10px;
+        font-weight: bold;
+        color: #333333;
+}
+.brand_copy11 {
+        font-size: 11px;
+        line-height: 13px;
+        color: #444444;
+}
+.brand_copy11_max {
+        font-size: 11px;
+        line-height: 15px;
+        color: #444444;
+}
+.brand_copy12 {
+        font-size: 12px;
+        line-height: 14px;
+        color: #444444;
+}
+.brand_copy12_max {
+        font-size: 12px;
+        line-height: 18px;
+        color: #444444;
+}
+.brand_highlighted {
+        color: #FF5500;
+        font-weight: bold;
+}
+.brand_notes_level3 {
+        font-size: 10px;
+        color: #000000;
+}
+.brand_notes {
+        font-size: 10px;
+        color: #666666;
+}
+
+.devhq > boxgr{
+	margin-top:59px;
+}
+
+/*************************************/
+/*** main stylesheet content page  ***/
+/*************************************/
+div#breadcrumb {
+	width:700px;
+	background-color:#fff;
+	color:#666;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:12px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:normal;
+    margin-top:10px;
+}
+
+.pathway {
+   text-decoration:underline;
+}
+
+div#right {
+    float:right;
+    width:200px;
+    min-height:350px;
+    background-color:#fff;
+}
+/* IE7 */
+*+html div#right {
+	margin-top:23px;
+}
+
+div#content {
+    margin-top: 5px;
+	float:left;
+	width:780px;/*772px*/
+	min-height: 350px;
+	background-color:#fff;
+}
+
+div#contentMax {
+        margin-top: 5px;
+	margin-top/*\**/:35px\9;
+	float:left;
+	width:1000px;
+	min-height: 350px;
+	background-color:#fff;
+	}
+
+div#contentFooter {
+    font-family:Arial,Helvetica,sans-serif;
+    margin-top: 0px;
+    margin-bottom: 0px;
+	float:left;
+	width:770px;
+	background-color:#fff;
+	text-align: center;
+	vertical-align: top;
+	}
+
+div#bottomfooter {
+	float:left;
+	clear:both;
+	margin-top:0px;
+	width:100%;
+}
+/* IE7 */
+*+html div#bottomfooter {
+	padding-bottom:30px;
+}
+
+div#footer {
+	clear:both;
+	width:1000px;
+	height:20px;
+	background-color:#fff;
+        text-align:center;
+        padding-top:25px;
+        z-index:8;
+	}
+
+
+/************************************/
+/*      shape stylesheet	    */
+/************************************/
+
+/*** Menu */
+/* tabMenu */
+	.tabMenu{
+		background-color:white;
+		background-repeat:repeat-x;
+		background-position:bottom;
+		height:4.3em;
+	}
+	/* .tabMenu .tmUL{ */
+
+	 .tmUL .mainlevel-nav{
+		margin:0px;
+		padding:0px;
+		list-style-type:none;
+		position:relative;
+		height:1%;			/* IE6 fix */
+	}
+
+	.tabMenu .tmLI{
+		float:left;
+
+		position:static;
+		overflow:visible;
+	}
+
+
+	.tabMenu .tmLI.selected .active_menu-nav{
+		background-color:white;
+		padding-bottom:9px;
+	}
+	.tabMenu .tmLI.selected .tmA{
+		border-left:none;
+		/*
+		border-bottom:1px solid #ddd;*/
+		color:#FF5500;
+	}
+
+	.tabMenu .tmA{
+		font-size:1.2em;
+		font-weight:bold;
+		display:block;
+		padding:1.2em 2em 6px 7px;
+		border-left:1px solid #d4d4d4;
+		border-right:1px solid #d4d4d4;
+		margin-left:-1px;
+	}
+
+/*	---------------		*/
+
+
+/** login box css **/
+span#mod_login_greetingdes {
+font-family:Arial,Helvetica,sans-serif;
+font-size:11px;
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:bold;
+line-height:normal;
+text-align: center;
+
+}
+
+table.mod_logindes {
+color:#AAA;
+font-family:Arial,Helvetica,sans-serif;
+font-size:11px;
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:bold;
+line-height:normal;
+}
+
+input#mod_login_usernamedes, input#mod_login_passworddes{
+     border:1px solid #CCCCCC;
+     color:#666666;
+     height:16px;
+     width:127px;
+}
+
+
+/** rss css **/
+#rss a{
+  color: #000;
+  border: none;
+  display: inline;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#rss span:hover{
+    color:#FF6600;
+    display:inline;
+    font-size:12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/** newsletter css **/
+#newsletter a, #newsletter img {
+  color: #000;
+  display:inline;
+  font-size:12px;
+  text-decoration:none;
+  cursor: pointer;
+}
+
+#newsletter a, #newsletter img {
+   color: #000;
+   text-decoration:none;
+   cursor: pointer;
+}
+
+
+
+/** content css **/
+div#ccontent {
+        position:relative ;
+	width:770px;
+	background-color:#fff;
+	}
+
+div#cheader {
+    margin-top: 5px;
+    background-color:#EEE;
+    border:1px solid #CCC;
+    width: 100%;
+    height:25px !important;
+    height:20px;
+    padding: 0 !important;
+    font-size:11px;
+}
+
+div#cheader div {
+  margin-left: 10px;
+}
+
+div#cheader img {
+  margin-right: 5px;
+}
+
+div#cheader a {
+  color: #F60;
+  font-weight:bold;
+}
+
+div#cheader a:hover {
+  cursor: pointer;
+}
+
+.cheaderL {
+  margin: 6px !important;
+  position:relative;
+  float:left;
+}
+
+.cheaderR {
+  margin: 6px !important;
+  position:relative;
+  float:right;
+
+}
+
+div#cheaderbis {
+        background-color:#D0D0D0;
+        border:1px solid #CCCCCC;
+        font-size:12px;
+        font-weight:bold;
+        height:380px !important;
+        height: 390px;
+        padding-left:34px;
+        position:absolute;
+        width:736px !important;
+        width: 736px;
+        z-index:6;
+
+}
+
+div#cheaderbisclose {
+        position:relative ;
+	float: right;
+	background: transparent url("http://64.19.142.10/api.orange.com/templates/orange/images/fold2a.gif") right top no-repeat;
+  left: 1px;
+  bottom: 1px;
+  padding: 22px 2px 2px 2px;
+  z-index: 7;
+}
+
+div#cheaderbis .homeBtn {
+margin: -77px 0pt 0pt 574px;
+z-index: 7;
+position: relative
+}
+
+#pageflip {
+	position: relative;
+}
+#pageflip img {
+	width: 25px; height: 25px;
+	z-index: 6;
+    float: left;
+	position: absolute;
+	right: 0; top: 0;
+	-ms-interpolation-mode: bicubic;
+}
+#pageflip .msg_block {
+	width: 25px; height: 25px;
+	position: absolute;
+	z-index: 4;
+	right: 0; top: 0;
+	background: url("http://64.19.142.10/api.orange.com/templates/orange/images/back.png") no-repeat right top;
+	background-color: #000;
+	text-indent: -9999px;
+}
+
+
+div#cheader p font a{
+        color: #fff;
+}
+
+div#cheader p font a:hover{
+        color: #f60;
+}
+
+div#ctop {
+        position:relative ;
+	width:772px;
+	height:358px;
+
+}
+
+div#topleft {
+        float: left;
+        position:relative ;
+	width:386px;
+        height:355px;
+
+}
+
+div#topright {
+        float: left;
+        position:relative ;
+	width:386px;
+        height:355px;
+}
+
+
+div#ccenter {
+        margin-top: 12px;
+        position:relative ;
+	width:100%;
+    height: 134px;
+	background-image:url('http://64.19.142.11/api.orange.com/templates/orange/images/content.png');
+        background-repeat:no-repeat;
+        border:1px solid #FFFFFF;
+    font-size:12px;
+    font-weight:bold;
+}
+
+div#ccenter a{
+        color: #fff;
+}
+
+div#ccenter a:hover{
+        color: #333;
+}
+
+div#centerleft {
+    position: relative;
+    float: left;
+    margin-top: 101px;
+    margin-left: 208px !important;
+    margin-left: 104px;
+    width: 142px;
+}
+
+div#centerright {
+    position: relative;
+    float: left;
+    margin-top: 101px;
+    margin-left: 244px !important;
+    margin-left: 238px;
+    width: 142px;
+}
+
+div#cbottom {
+        margin-top: 12px;
+        position:relative;
+	width:772px;
+	height:180px;
+}
+
+div#bottomleft {
+        float: left;
+        position:relative ;
+	width:385px;
+	min-height:170px;
+}
+
+div#bottomright {
+        float: left;
+        position:relative ;
+	width:772px;
+	min-height:170px;
+}
+
+div#submit {
+        height:22px;
+        width: 142px;
+        background-image:url('http://64.19.142.13/api.orange.com/templates/orange/images/button.png');
+	background-repeat:no-repeat;
+	padding-left:7px;
+	vertical-align: middle;
+	text-align: center;
+	padding-top:2px;
+}
+
+div#submit a {
+   color:#FFF;
+}
+
+div#submit a:hover {
+   color:#333;
+}
+
+/** news, offers, success  css **/
+div#gk_npro-newspro2, div#gk_npro-newspro1, div#gk_npro-newspro3 {
+        margin-bottom: 15px;
+        width:200px;
+        height:180px;
+
+}
+
+div#gk_npro-newspro1 {
+  background-image:url('http://64.19.142.10/api.orange.com/templates/orange/images/offer.gif');
+  background-repeat:no-repeat;
+  margin-top:10px;
+}
+
+div#gk_npro-newspro2 {
+  background-image:url('http://64.19.142.11/api.orange.com/templates/orange/images/news.gif');
+  background-repeat:no-repeat;
+  padding-top:30px;
+  padding-bottom:50px;
+}
+
+div#gk_npro-newspro2 .gk_npro_full .gk_npro_full_scroll1 {
+ height: 205px;
+}
+
+div#gk_npro-newspro3 {
+  background-image:url('http://64.19.142.13/api.orange.com/templates/orange/images/square.png');
+  background-repeat:no-repeat;
+  padding-top:30px;
+}
+
+div#discover {
+        margin: 12px 0px 5px 5px;
+        border:1px solid #CCCCCC;
+        height: 150px;
+        width: 200px;
+        background-image:url('http://64.19.142.10/api.orange.com/templates/orange/images/helpcommunity.png');
+        background-repeat:no-repeat;
+}
+
+.floatRight {
+	float: right;
+}
+
+a.orange_link {
+    color: #F60;
+    text-decoration: none;
+}
+
+a.orange_link:hover {
+    color: #F60;
+    text-decoration: underline;
+}
+
+/***** Footer API Orange *********/
+#footerapiorange {
+	display: block;
+	height: 80px;
+	text-align: left;
+	color: #AAAAAA;
+}
+
+#footerapiorange a {
+	color: #AAAAAA !important;
+        text-decoration:underline;
+}
+
+
+.footerapiorange_h3 {
+	float: left;
+	margin-top: 0px;
+        text-align: left;
+        width: 100px;
+	margin-bottom: 0px;
+	font-size:14px;
+	font-weight:bold;
+}
+
+#footerapiorange h3 {
+	float: left;
+	margin-top: 0px;
+        text-align: left;
+        width: 100px;
+	margin-bottom: 0px;
+}
+
+#footerapiorange span {
+	float: left;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#footerapiorange_h2 {
+        text-align: left;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+#footerapiorange_h3_3 {
+        margin-left: 0px;
+}
+
+#footerapiorange_h3_4 {
+        margin-left: 25px;
+}
+
+#footerapiorange_h3_2{
+	margin-left: 25px;
+}
+
+#footerapiorange_firstleft {
+        margin-left: 0px;
+}
+
+.flashdevhq {
+  left:30px;
+  position:absolute;
+  top:20px;
+}
+
+.flashentrhq {
+  right:20px;
+  position:absolute;
+  top:20px;
+}
+
+
+/** common rss newsletter **/
+.newsletterRssLnk {
+  cursor:pointer;
+    color:#666;
+}
+
+.newsletterRssLnk:hover{
+    color:#FF6600 !important;
+    cursor: pointer;
+}
+
+.displaynone{
+  display:none;
+}
+
+.ghide{
+  display:none;
+  position:absolute;
+}
+
+#linkbottom{
+ display:block;
+ color: #AAA;
+ text-align:left;
+}
+#linkbottom a {
+color:#AAAAAA !important;
+text-decoration:underline;
+}
+
+.loadvalidation {
+  background-color:#FFFFFF;
+  border:1px solid #787878;
+  text-align:left;
+  vertical-align:middle;
+  visibility:visible;
+  width:772px;
+  position:relative;
+  float:left;
+  padding:10px;
+}
+
+.articlevalidation {
+  width: 772px;
+  height: 400px;
+  overflow:auto
+}
+
+.submitbutton {
+   cursor: pointer;
+   border: 0;
+}
+
+.informationimg {
+ float:left;
+ padding-right: 10px;
+}
+
+.informationtitle{
+ font-weight: bold;
+}
+
+/*** NEW CSS FROM buongiorno ***/
+/** container */
+
+div.boxgr,div.boxgradiant, div.boxwh, div.boxhome{
+	margin-top: 5px;
+        margin-bottom: 10px;
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	width: 750px;
+	font-size: 12px;
+	padding: 5px 10px;
+}
+
+div.boxwh {
+	border: none;
+}
+
+#businesscentre > div.boxgr, #businesscentre > div.boxwh, #businesscentre > div.boxgradiant{
+        padding: 10px; !important
+}
+
+div.boxhome {
+	margin-bottom: 0px;
+}
+div.boxgradiant {
+	background: url('http://64.19.142.11/api.orange.com/images/stories/business_centre/custom-solution-gradient.gif') repeat-x bottom left ;
+}
+
+/** hp container */
+.hp_new_community {
+	background: url('http://64.19.142.13/api.orange.com/images/stories/business_centre/hp_communaute_b.jpg') no-repeat top left;
+	width: 770px;
+	height: 168px;
+	padding-bottom: 10px;
+	position: relative;
+}
+
+.hp_new_community .left {
+	left: 0px;
+	width: 391px;
+	height: 166px;
+	top: 0px;
+	display: block;
+	position: absolute;
+}
+
+.hp_new_community .right {
+	left: 391px;
+	width: 379px;
+	height: 166px;
+	top: 0px;
+	display: block;
+	position: absolute;
+}
+
+.hp_new_community .right .top {
+	left: 0px;
+	width: 379px;
+	height: 90px;
+	top: 0px;
+	display: block;
+	position: absolute;
+	padding: 5px 15px;
+}
+
+.hp_new_community .right .bottom {
+	left: 0px;
+	width: 379px;
+	height: 76px;
+	top: 90px;
+	display: block;
+	position: absolute;
+}
+
+div.lboxgr{
+	background-color: #FFF;
+ 	border: none;
+}
+
+p.rowdown, p.rowdown2 {
+	background: url('http://64.19.142.12/api.orange.com/images/stories/business_centre/bullet-active.gif') no-repeat 0px 5px !important;
+}
+p.rowdown {
+	padding-left: 14px;
+	padding-right: 40px;
+	font-size: 16px;
+	line-height: 24px;
+	font-weight: bold;
+}
+p.rowdown2 {
+	padding-left: 14px;
+	margin: 0 0 0 14px
+}
+p.rowdown a {
+	color: #ff6600;
+}
+
+#businesscentre > div.boxgr > div.text{
+        margin-left: 285px;
+}
+
+.floatleft{
+        float:left;
+}
+
+#businesscentre > div.boxgr > div.text > p {
+        margin:8px 0; !important
+        padding:0px;
+}
+
+#businesscentre > div.boxgr > div.text > p.toptextbc {
+        margin-top: 0px; !important
+}
+
+#businesscentre > div.boxgr > div.text > p.bottomtextbc {
+        margin-bottom: 0; !important
+}
+
+p.textlinkbc > a {
+     display:block;
+}
+
+p.textlinkbc > a:hover {
+     display:block;
+     background:url("http://64.19.142.11/api.orange.com/images/stories/business_centre/arrow.gif") bottom right no-repeat;
+}
+
+/* trucage B! */
+
+#businesscentre > div.boxgr > span.brand_level3, #businesscentre > div.boxgr > div.text > p.brand_copy12_max{
+        color:#666666; !important
+}
+
+#businesscentre > div.boxgr > div.text > p.brand_level2{
+        color:#FF5500; !important
+}
+
+/* fin trucage B! */
+
+#businesscentre > div.boxgr > div.text > ul{
+        list-style-image:url("http://64.19.142.12/api.orange.com/images/stories/business_centre/bullet-active.gif");
+        margin:-8px 0 0px 14px;
+        padding:0 0 0 14px;
+        line-height: 18px;
+}
+
+#businesscentre > div.boxgr > div.text > li{
+
+}
+
+
+
+#businesscentre > div.sous-titre-bc {
+        padding:8px 10px;
+}
+
+div.boutonsbc {
+        margin: 5px auto;
+        text-align:center;
+        clear:both;
+}
+
+
+
+
+
+/*###################### new */
+
+div.boxgr > div.textcontact , div.boxgradiant > div.textcontact {
+	margin-top: 14px;
+}
+div.boxgradiant > table.partlinks td {
+	background: url('http://64.19.142.11/api.orange.com/images/stories/business_centre/logo-bg.gif') no-repeat 35px 10px;
+	width: 183px;
+	height: 73px;
+	line-height: 55px;
+	text-align: center;
+	vertical-align: middle;
+}
+p.lookvid {
+	margin: 0;
+	text-align: right;
+}
+p.lookvid > a {
+	color: #ff6600;
+	font-weight: bold;
+	font-size: 14px;
+}
+div.businesscentrehp p.lookvid {
+	margin: 0;
+	text-align: right;
+}
+div.businesscentrehp p.lookvid > a {
+	color: #ff6600;
+	font-weight: bold;
+	font-size: 14px;
+}
+.boxwh p.choixwidget {
+	background: url('http://64.19.142.12/api.orange.com/images/stories/business_centre/bullet-square.gif') no-repeat 10px 6px;
+	margin: 0;
+	padding-left: 20px;
+}
+#linksListWE a {
+	margin: 0 25px;
+}
+
+
+/** common style */
+.orang{
+	color: #ff6600;
+}
+.b{
+	font-weight: bold;
+}
+.clear {
+	clear:both;
+	height: 0px;
+	overflow: hidden;
+}
+
+/* use case */
+div#casesList > div.item{
+	background: url('http://64.19.142.12/api.orange.com/images/stories/business_centre/faq-milieu-off.gif') no-repeat 0px 0px;
+	width: 710px;
+
+}
+div#casesList > div.item:first-child, div#casesList > div.itemfirst {
+	background: url('http://64.19.142.13/api.orange.com/images/stories/business_centre/faq-haut-off.gif') no-repeat 0px 0px;
+}
+div#casesList > div.item:last-child, div#casesList > div.itemlast {
+	background: url('http://64.19.142.12/api.orange.com/images/stories/business_centre/faq-bas-off.gif') no-repeat 0px 0px;
+}
+div#casesList > div.item.active {
+	background: url('http://64.19.142.10/api.orange.com/images/stories/business_centre/faq-milieu-on.gif') no-repeat 0px 0px;
+}
+div#casesList > div.item.active:first-child, div#casesList > div.itemfirst.active {
+	background: url('http://64.19.142.10/api.orange.com/images/stories/business_centre/faq-haut-on.gif') no-repeat 0px 0px;
+}
+/*
+div#casesList > div.item.active:last-child, div#casesList > div.itemlast.active {
+	background: url('http://64.19.142.10/api.orange.com/images/stories/business_centre/faq-bas-on.gif') no-repeat 0px 0px;
+}*/
+div#casesList > div.item > div.title {
+	background: url('http://64.19.142.12/api.orange.com/images/stories/business_centre/bullet-square.gif') no-repeat 10px 13px;
+	height: 28px;
+	line-height: 28px;
+	padding-left: 20px;
+	font-weight: bold;
+	cursor: pointer;
+}
+div#casesList > div.item > div.details {
+	margin-bottom: -1px;
+	margin-right: 1px;
+	border-right: 1px solid #E6E6E6;
+	border-left: 1px solid #E6E6E6;
+	padding: 5px 5px 5px 20px;
+}
+div#casesList > div.itemlast > div.details{
+	border-bottom: 1px solid #E6E6E6;
+}
+
+div.margintopcustom {
+	margin-top:32px;
+	-margin-top: 50px;
+	margin-top/*\**/: 55px\9;
+}
+div.margintopwd {
+	margin-top:39px;
+	-margin-top: 57px;
+	margin-top/*\**/: 62px\9;
+}
+
+.Style1 {
+	color:#FF6600;
+	font-weight:bold;
+}
+.Style2 {
+	color: #666666;
+}
+
+
+
+/*** Pages easy solutions ***/
+#before_frame h1, #before_frame h2{
+    margin:0;
+}
+
+.easySolution{
+    padding:25px;
+    width:740px;
+    font-size:10pt;
+    color:#323232;
+}
+
+.easySolutionfr{
+    background:#fff url("http://64.19.142.13/api.orange.com/images/stories/business_centre/background-fr.png") no-repeat;
+}
+
+.easySolutionen{
+    background:#fff url("http://64.19.142.11/api.orange.com/images/stories/business_centre/background-en.png") no-repeat;
+}
+
+.easySolution h1{
+    font-family:helvetica, arial;
+    color:#ff6600;
+    font-size:30pt;
+    margin-top:5px;
+    margin-bottom:10px;
+    font-weight:normal;
+}
+
+.easySolution .title_desc{
+    font-family:helvetica, arial;
+    font-size:14pt;
+    margin:10px 0 0 0;
+}
+
+.easySolution h2{
+    color:#ff6600;
+    margin-top:45px;
+    background:url("http://64.19.142.11/api.orange.com/images/stories/business_centre/separator.png") left bottom no-repeat;
+    padding-bottom:5px;
+    margin-bottom:10px;
+}
+
+.easySolution .questce{
+    width:680px;
+}
+
+.easySolution .moreInfos{
+    float:left;
+    width:370px;
+}
+
+.easySolution ul, .easySolution li{
+    padding:0;
+    margin:0;
+    list-style-type:none;
+}
+
+.easySolution #howto li{
+    padding:15px 0 20px 45px;
+}
+
+.easySolution #howto li.first{
+    background:url("http://64.19.142.10/api.orange.com/images/stories/business_centre/puce1.png") left center no-repeat;
+}
+.easySolution #howto li.second{
+    background:url("http://64.19.142.13/api.orange.com/images/stories/business_centre/puce2.png") left center no-repeat;
+}
+.easySolution #howto li.third{
+    background:url("http://64.19.142.12/api.orange.com/images/stories/business_centre/puce3.png") left center no-repeat;
+}
+
+.easySolution #preview{
+    float:left;
+    width:330px;
+    height:350px;
+    margin-top:45px;
+    position:relative;
+}
+
+.easySolution #stickerappelsfr, .easySolution #stickersmsfr, .easySolution #stickersmsen,.easySolution #stickerappelsen {
+    width:118px;
+    height:96px;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    text-indent:-1000px;
+    position:absolute;
+    bottom:-45px;
+    left:-45px;
+}
+
+.easySolution #stickersmsfr {
+    background:url("http://64.19.142.12/api.orange.com/images/stories/business_centre/sticker-sms-fr.png") no-repeat;
+}
+.easySolution #stickerappelsfr {
+    background:url("http://64.19.142.11/api.orange.com/images/stories/business_centre/sticker-appels-fr.png") no-repeat;
+}
+.easySolution #stickersmsen {
+    background:url("http://64.19.142.11/api.orange.com/images/stories/business_centre/sticker-sms-en.png") no-repeat;
+}
+.easySolution #stickerappelsen {
+    background:url("http://64.19.142.13/api.orange.com/images/stories/business_centre/sticker-appels-en.png") no-repeat;
+}
+
+
+.easySolution #easyList{
+    clear:left;
+}
+
+.easySolution .tarifs, .easySolution .iPhone{
+    line-height:16pt;
+    margin-top:5px;
+    width:320px;
+}
+
+.easySolution .iPhone{
+    width:500px;
+    margin-bottom:20px;
+    *margin-bottom:10px;
+}
+
+.easySolution #easyList{
+    position:relative;
+    left:-25px;
+    width:790px;
+    height:300px;
+}
+
+.easySolution #easyList li{
+    float:left;
+    width:208px;
+    height:103px;
+    background:url("http://64.19.142.10/api.orange.com/images/stories/business_centre/itemListeLienBg.png") no-repeat;
+    padding:20px;
+    margin-right:15px;
+}
+
+.easySolution #easyList li.last{
+    margin-right:0;
+}
+
+.easySolution #easyList li.firstoftwo{
+    margin-left:125px;
+}
+
+.easySolution #easyList h3{
+    padding-left:20px;
+    background:url("http://64.19.142.11/api.orange.com/images/stories/business_centre/arrow.gif") left 5px no-repeat;
+    margin-top:5px;
+}
+
+.easySolution #easyList .current a{
+    color:#ff6600;
+}
+
+
+.easySolution div.gk_npro_mainwrap{
+    background:none;
+    height:450px;
+}
+
+.easySolution div.gk_npro_full_scroll1{
+    height:350px;
+}
+
+.easySolution div.gk_npro_full_tablewrap{
+    height:355px;
+}
+
+.easySolution img.gk_npro_image, .easySolution img.gk_npro_image_static{
+    width:325px;
+}
+#info_tarif {
+         float:left;
+         width: 100%;
+         margin-top:50px;
+         padding-bottom:10px;
+         background : url('http://64.19.142.12/api.orange.com/images/stories/easySolutions/bordure_easy.gif') bottom center repeat-x;
+}
+#part_dialog {
+         float:left;
+         /*position:absolute;*/
+         margin-left:520px;
+         margin-top:-80px;
+         width:241px;
+}
+#encart_promo_easy, #encart_promo_easy_en{
+         background : url('http://64.19.142.13/api.orange.com/images/stories/easySolutions/bouton-achat-express_fr.png') left top no-repeat;
+	 display:block;
+         width: 247px;
+         height: 56px;
+         padding:20px 0 10px 20px;
+	 overflow:hidden;
+	 text-indent:-500px;
+}
+
+#encart_promo_easy_en{
+    background : url('http://64.19.142.10/api.orange.com/images/stories/easySolutions/bouton-achat-express_en.png') left top no-repeat;
+}
+
+#link-tarif{
+	margin-left:60%;
+}
+/* IE7 */
+*+html #link-tarif{
+	margin-top:10px;
+}
+
+#link-tarif span, #link-tarif span:hover {
+        color: #F60;
+        font-weight:bold;
+}
+#bt_buy_easy {
+        margin-top:10px;
+        margin-left:-5px;
+        background : url('http://64.19.142.13/api.orange.com/images/stories/easySolutions/button_buy_easy.gif') top center no-repeat;
+        width: 163px;
+        height: 28px;
+        text-align:center;
+        padding-top:5px;
+}
+#bt_buy_easy a, #bt_buy_easy a:hover, #bt_buy_easy a:visited {
+        color: #F60;
+        font-weight:bold;
+}
+/** Modifications iframe **/
+div#easy-call-me, div#easy-question, div#easy-birthday {
+	padding-left:14px;
+	margin-top:5px;
+}
+div#encart_easy {
+	width:220px;
+	float:right;
+	margin-right:20px;
+}
+/* IE 7 */
+*+html div#encart_easy {
+	margin-top: -50px;
+}
+	div#encart_easy a#tarifs_easy {
+		font-size:11px;
+		color: #333333;
+		margin:0 4px 2px;
+		text-decoration:none;
+		display:block;
+		background: url('http://64.19.142.11/api.orange.com/images/stories/business_centre/arrow.gif') no-repeat scroll 200px 1px transparent;
+	}
+		div#encart_easy a#tarifs_easy:hover {
+			color:#FF6600;
+		}
+	div#fond_buy_easy {
+		height:51px;
+		width:220px;
+		background:url('http://64.19.142.11/api.orange.com/images/stories/easySolutions/fond2_buy_easy.gif');
+	}
+		div#fond_buy_easy a#bouton_buy_easy {
+			width:115px;
+			height:32px;
+			display:block;
+			text-decoration:none;
+			background: url('http://64.19.142.12/api.orange.com/images/stories/easySolutions/bouton_buy_easy.gif');
+			position:relative;
+			left:37px;
+			top:11px;
+		}
+			div#fond_buy_easy a#bouton_buy_easy span {
+				font-family:Arial;
+				font-size:11px;
+				color:white;
+				font-weight:bold;
+				position:relative;
+				left:17px;
+				top:8px;
+			}
+/** Popups easy solutions **/
+#tarif_info_popup{
+    width:675px;
+padding:0;
+overflow:hidden;
+}
+
+#tarif_info_popup .easy-tarifs{
+    background:url(http://64.19.142.10/api.orange.com/images/stories/easySolutions/popup-background.png) repeat-y;
+}
+
+#tarif_info_popup .title-area{
+    background:url(http://64.19.142.11/api.orange.com/images/stories/easySolutions/header.png) no-repeat;
+    height:202px;
+    padding:5px 20px;
+}
+
+#tarif_info_popup .en .title-area{
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/header-en.png) no-repeat;
+}
+
+#tarif_info_popup h1{
+    color:#ff6600;
+    font-weight:normal;
+    font-size:30pt;
+    margin-top:5px;
+    margin-bottom:10px;
+    font-family:helvetica,arial;
+}
+
+#tarif_info_popup .title_desc{
+    font-size:13pt;
+    margin:10px 0 0;
+    font-family:helvetica,arial;
+}
+
+#tarif_info_popup .title-area .top-area{
+    width:437px;
+    height:5px;
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/header-top.png) no-repeat;
+    margin-left:5px;
+    margin-top:10px;
+}
+
+#tarif_info_popup .title-area .bottom-area{
+    width:437px;
+    height:4px;
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/header-bottom.png) no-repeat;
+    margin-left:5px;
+}
+
+#tarif_info_popup .title-area ul{
+    width:437px;
+    margin:0;
+    margin-left:5px;
+    background:url(http://64.19.142.11/api.orange.com/images/stories/easySolutions/header-bg.png) repeat-y;
+    padding:0;
+}
+
+#tarif_info_popup .title-area ul li{
+    padding:10px 0 10px 38px;
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/popup-arrow.png) 16px 14px no-repeat;
+    font-weight:bold;
+    font-size:11pt;
+}
+
+#tarif_info_popup .tarifs{
+    border:solid 1px #ffa364;
+    margin-left:25px;
+    width:615px;
+    position:relative;
+    padding-bottom:10px;
+}
+
+#tarif_info_popup .tarifs .corner-tl{
+    width:8px;
+    height:8px;
+    background:url(http://64.19.142.11/api.orange.com/images/stories/easySolutions/corner-tl.png) no-repeat;
+    position:absolute;
+    top:-2px;
+    left:-2px;
+}
+
+#tarif_info_popup .tarifs .corner-bl{
+    width:8px;
+    height:8px;
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/corner-bl.png) no-repeat;
+    position:absolute;
+    bottom:-2px;
+    left:-2px;
+    z-index:2;
+}
+
+#tarif_info_popup .tarifs .corner-br{
+    width:8px;
+    height:8px;
+    background:url(http://64.19.142.11/api.orange.com/images/stories/easySolutions/corner-br.png) no-repeat;
+    position:absolute;
+    bottom:-2px;
+    right:-2px;
+}
+
+#tarif_info_popup .tarifs .corner-tr{
+    width:8px;
+    height:8px;
+    background:url(http://64.19.142.13/api.orange.com/images/stories/easySolutions/corner-tr.png) no-repeat;
+    position:absolute;
+    top:-2px;
+    right:-2px;
+}
+
+#tarif_info_popup .tarifs h2, #tarif_info_popup .packs h2{
+    color:#f60;
+    background:#fff;
+    padding:0 5px;
+    position:absolute;
+    top:-7pt;
+    left:33px;
+    font-weight:bold;
+    font-size:12pt;
+    margin:0;
+}
+
+#tarif_info_popup .tarifs p{
+    margin-left:35px;
+margin-top:20px;
+    font-size:12pt;
+}
+
+#tarif_info_popup .tarifs h3{
+    margin:0;
+    margin-left:85px;
+    float:left;
+    color:#f60;
+    font-size:20pt;
+    font-weight:bold;
+    text-align:center;
+    width:350px;
+}
+
+#tarif_info_popup .tarifs h3 span{
+    color:#000;
+    display:block;
+    font-size:11pt;
+    font-weight:normal;
+}
+
+#tarif_info_popup .tarifs p.detail{
+    text-align:right;
+    padding-right:20px;
+    font-size:8pt;
+}
+
+#tarif_info_popup .tarifs #sticker{
+    height:78px;
+    width:80px;
+    margin:0;
+    overflow:hidden;
+    padding:0;
+    position:absolute;
+    top:55px;
+    left:-15px;
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/sticker-fr.png) no-repeat;
+    text-indent:-1000px;
+    z-index:3;
+}
+
+#tarif_info_popup .en .tarifs #sticker{
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/sticker-en.png) no-repeat;
+}
+
+#tarif_info_popup .packs{
+    border-top:solid 1px #ffa364;
+    margin:45px 0 0 25px;
+    width:615px;
+    position:relative;
+    padding-bottom:10px;
+}
+
+#tarif_info_popup .packs p{
+    margin-top:30px;
+}
+
+#tarif_info_popup .packs ul{
+    padding:0;
+    margin:0;
+    width:615px;
+    height:160px;
+}
+
+#tarif_info_popup .packs li{
+    padding:0;
+    margin-right:7px;
+    float:left;
+}
+
+#tarif_info_popup .packs li.last{
+    margin:0;
+}
+
+#tarif_info_popup .packs p.detail{
+    font-size:10px;
+    margin-top:5px;
+}
+
+#tarif_info_popup p.conditions{
+    width:615px;
+    text-align:right;
+    margin-left:25px;
+    font-size:11px;
+    margin-bottom:20px;
+}
+
+#tarif_info_popup .bottom{
+    background:url(http://64.19.142.12/api.orange.com/images/stories/easySolutions/popup-bottom.png) no-repeat;
+    height:5px;
+margin-left:2px;
+margin-bottom:1px;
+}
+
+div.popup_tarif_easy{
+border:0;
+}
+
+#tarif_info_popup #tarifs-question .tarifs h3{
+margin-left:80px;
+font-size:18pt;
+}
+
+#tarif_info_popup #tarifs-question .tarifs p span{
+color:#f60;
+}
+
+#tarif_info_popup p.conditions a{
+    color:#f60;
+}
+
+#tarif_info_popup .tarifs table{
+width:550px;
+border:0;
+border-collapse:collapse;
+margin: 15px auto 10px;
+font-size:10px;
+color:#555;
+}
+
+#tarif_info_popup th{
+  background:#FFEEE2;
+  text-align:left;
+padding:5px;
+}
+
+#tarif_info_popup th, #tarif_info_popup tr, #tarif_info_popup td{
+border:0;
+}
+
+#tarif_info_popup th strong{
+  color:#f60;
+padding:5px 0;
+}
+
+#tarif_info_popup tr{
+background:#fff;
+}
+
+#tarif_info_popup tr td{
+background:#f5f5f5;
+}
+
+#tarif_info_popup td{
+padding:0 5px;
+}
+
+#tarif_info_popup tr.espagne td{
+background:#f0f0f0;
+}
+
+#tarif_info_popup tr.pays td{
+  color:#f60;
+font-weight:bold;
+padding-top:7px;
+}
+
+#tarif_info_popup tr.finpays td{
+padding-bottom:7px;
+}
+
+#tarif_info_popup tr.separator, #tarif_info_popup tr.separator td{
+background:#fff;
+height:3px;
+padding:0;
+line-height:3px;
+}
+
+
+#tarif_info_popup tr.pays span{
+color:#555;
+font-weight:normal;
+}
+
+.buttonheading{
+display:none;
+}
+
+/*** jQuery UI Urgence Prod - Menu accordion ***/
+.accordion .ui-widget{
+font-family:Arial, Helvetica, sans-serif;
+}
+.accordion .ui-accordion .ui-accordion-header{
+margin-top:0;
+}
+	.accordion .ui-accordion .ui-accordion-header a{
+	padding:0;
+	}
+.accordion .ui-accordion .ui-accordion-content{
+padding:0;
+}
+.accordion .ui-accordion  .ui-widget-content{
+border-style:none;
+}
+.accordion .ui-accordion  .ui-widget-content, .accordion .ui-accordion  .ui-widget-content a{
+color:#666666;
+}
+	.accordion .ui-accordion  .ui-widget-content a:hover{
+	color:#FF6600;
+	}
+.accordion .ui-state-default .ui-icon {
+background-image:none;
+}
+.accordion .ui-icon-triangle-1-e{
+background-position:0;
+}
+.accordion .ui-icon{
+background-image:none;
+width:0;
+height:0;
+}
+.accordion .ui-state-default, .accordion .ui-widget-content .ui-state-default, .accordion .ui-widget-header .ui-state-default{
+border-style:none;
+}
+.accordion .ui-state-active a, .accordion .ui-state-active a:link, .accordion .ui-state-active a:visited{
+color:#666666;
+}
+.accordion .ui-state-hover a, .accordion .ui-state-hover a:hover{
+color:#FF6600;
+}
+.accordion .ui-state-active, .accordion .ui-widget-content .ui-state-active, .accordion .ui-widget-header .ui-state-active{
+border-style:none;
+}
+
+/*** FAQ ***/
+#faq > div.boxgr, #faq > div.boxwh, #faq > div.boxgradiant{
+        padding: 10px; !important
+}
+#faq > div.boxgr > span.brand_level3, #faq > div.boxgr > div.text > p.brand_copy12_max{
+        color:#666666; !important
+}
+#faq > div.sous-titre-bc {
+        padding:8px 10px;
+}
+
+/* Gallery */
+#globalApizone{
+    position:relative;
+}
+
+#phocagallery-module{
+    position:absolute;
+    left:15px;
+    top:280px;
+    width:170px;
+    height:530px
+}
+
+#phocagallery{
+    background:url("http://64.19.142.13/api.orange.com/components/com_developerhq/images/devhqtitlebg.png") no-repeat;
+    padding:20px 5px 5px 195px;
+    min-height:500px;
+}
+
+#phocagallery form{
+    min-height:475px;
+}
+
+#phocagallery .phocagallery-box-file:hover{
+    border-color:#f50;
+}
+
+#phocagallery .pginline{
+    display:none;
+}
+
+#phocagallery .pagination strong span{
+    color:#f50;
+}
+
+#phocagallery .pagination a, #phocagallery .pagination span{
+    margin:0 2px;
+}
+
+#phocagallery .phocaname{
+    color:#666;
+}
+
+#phocagallery-module .dtree img{
+   /* display:none;*/
+}
+
+#phocagallery-module .dtree .dTreeNode a:hover{
+    text-decoration:none;
+    color:#f50;
+}
+
+#phocagallery-module .dtree .dTreeNode{
+    background:url("http://64.19.142.10/api.orange.com/components/com_developerhq/images/puce_orange.png") top left no-repeat;
+    margin:2px 0;
+    font-weight:bold;
+    padding-left:15px;
+}
+
+#phocagallery-module .dtree .clip{
+    padding-left:15px;
+}
+
+#phocagallery-module .dtree a.nodeSel{
+    background:none;
+    color:#f50;
+}
+
+.phocatitle h2{
+    height:40px;
+    margin:10px 0;
+}
+
+#phocagallery h3{
+    background: url("http://64.19.142.10/api.orange.com/components/com_developerhq/images/heading2Linkarrow.gif") left center no-repeat;
+    font-size:16px;
+    padding:0 0 0 15px;
+    margin:0;
+    color:#fff;
+    position:absolute;
+    left:15px;
+    top:240px;
+}
+
+/* Evenements */
+#flexicontent_event{
+    width:780px;
+}
+
+#flexicontent_event .image{
+    width:320px;
+    float:left;
+    margin-right:10px;
+    border:none;
+}
+
+#flexicontent_event .description{
+    width:440px;
+    float:left;
+}
+
+#flexicontent_event .phocagallery{
+    width:780px;
+    height:160px;/*100px*/
+}
+
+#flexicontent_event .phocagallery .detail{
+    display:none;
+}
+
+#flexicontent_event .phocagallery .phocagallery-box-file{
+    height:100px;
+}
+
+#flexicontent_event .miniFiche, #flexicontent_event .miniFiche img{
+    float:left;
+}
+
+/* NEW FOOTER */
+div#newfooter {
+	background:url(http://64.19.142.11/api.orange.com/templates/orange/images/back_footer.gif) left center repeat-x transparent;
+	border:1px solid #E8E8E8;
+	float:left;
+	height:162px;
+	margin-bottom:30px;
+	width:100%;
+}
+	div#newfooter ul {
+		float:left;
+		text-align:left;
+		width:100px;/*pour le moment*/
+		padding:0;
+		margin-left:35px;
+		margin-right:30px;
+	}
+	/* IE7 */
+	*+html div#newfooter ul{
+		margin-top:10px;
+	}
+	div#newfooter ul li {
+		
+	}
+	div#newfooter ul li a {
+		color:#646464;
+	}
+		div#newfooter ul li a:hover {
+			color:#FF6600;
+		}
+	div#newfooter ul li h3 {
+		margin:0;
+		font-size:11px;
+	}
+
+/* NEW CARROUSEL HOME */
+div#gk_npro-carrouselHome {
+	background:url(http://64.19.142.12/api.orange.com/templates/orange/images/carrouselHome_back.png) no-repeat scroll 1px 1px transparent;
+	height:213px;
+}
+	div#gk_npro-carrouselHome div.gk_npro_prev, div#gk_npro-carrouselHome div.gk_npro_next {
+		display:none;
+	}
+	div#gk_npro-carrouselHome div.gk_npro_full_interface {
+		position:relative;
+		float:right;
+		right:15px;
+		top:-195px;
+	}
+	div#gk_npro-carrouselHome img.gk_npro_image_static {
+		width:auto;
+	}
+	div#gk_npro-carrouselHome div.gk_npro_full_scroll1 {
+		height:205px;
+	}
+
+/* NEW BUTTONS HOME */
+div#mode_paiement {
+	margin-top:5px;
+	float:left;
+}
+
+div#hp_developpeur {
+	margin-top:5px;
+	float:right;
+	position:relative;
+	right:30px;
+	background:url(http://64.19.142.12/api.orange.com/templates/orange/images/fond_bouton.png) left center repeat-x transparent;
+	width:170px;
+	height:25px;
+	border:1px solid #c8c8c8;
+}
+	div#hp_developpeur a {
+		/* width:157px;
+		height:25px; */
+		margin-left:7px;
+		padding-left:17px;
+		position:relative;
+		top:7px;
+		background:url(http://64.19.142.11/api.orange.com/templates/orange/images/flecheb.gif) no-repeat;
+		font-weight:bold;
+	}
+
+/* Custom CallMe */
+div#right_ccallme {
+	margin-bottom:15px;
+}
+
+/* EASY BUTTON */
+a.easyButton {
+	background:url(http://64.19.142.11/api.orange.com/templates/orange/images/back_footer.gif) repeat-x scroll left center transparent;
+	width:250px;
+	height:68px;
+	border:1px solid #CCCCCC;
+	display:block;
+	font-family:Arial,Helvetica;
+	font-size:13px;
+	text-decoration:none;
+	margin-bottom:5px;
+	margin-top:5px;
+}
+	a.easyButton:hover, a.easyButton:hover span.normal {
+		color:#FF6600;
+		text-decoration:none;
+	}
+	a.easyButton span {
+		display:block;
+		padding-left:20px;
+		padding-right:20px;
+	}
+	a.easyButton span.orange {
+		font-size:16px;
+		color:#FF6600;
+		font-weight:bold;
+		padding-top:8px;
+	}
+	a.easyButton span.normal {
+		font-size:14px;
+		color:#000000;
+		padding-bottom:8px;
+	}
+
+/* SYSTEM-MESSAGE */
+#system-message {
+	display:none;
+}
+#system-message h2, #system-message p {
+	font-size:10px;
+}
+-->/* ]]> */
+</style>
+
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+.pgplugin1 {border:1px solid #e8e8e8 ; background: #cccccc ;}
+.pgplugin1:hover, .pgplugin0.hover {border:1px solid #ff6600 ; background: #f5f5f5 ;}
+.pgplugin2 {border:1px solid #e8e8e8 ; background: #000000 ;}
+.pgplugin2:hover, .pgplugin0.hover {border:1px solid #ff6600 ; background: #f5f5f5 ;}
+.pgplugin3 {border:1px solid #e8e8e8 ; background: #cccccc ;}
+.pgplugin3:hover, .pgplugin0.hover {border:1px solid #ff6600 ; background: #f5f5f5 ;}
+.pgplugin4 {border:1px solid #e8e8e8 ; background: #cccccc ;}
+.pgplugin4:hover, .pgplugin0.hover {border:1px solid #ff6600 ; background: #f5f5f5 ;}
+-->/* ]]> */
+</style>
+
+<!-- Moteur Internet Explorer 7 -->
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+
+<!--[if lte IE 6]>
+<link href="/templates/orange/css/ieonly.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/highslide-with-html.js"></script>
+<script type="text/javascript">AC_FL_RunContent = 0;</script>
+<script src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/AC_RunActiveContent.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-13025794-1']);
+	_gaq.push(['_setDomainName', 'api.orange.com']);
+	_gaq.push(['_trackPageview']);
+	_gaq.push(['_trackEvent']);
+	_gaq.push(['_setVar','connecte']);
+</script>
+<script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/document_iterator.js"></script><script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/find_proxy.js"></script><script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/get_html_text.js"></script><script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/global_constants.js"></script><script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/name_injection_builder.js"></script><script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/number_injection_builder.js"></script><script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/string_finder.js"></script><script src="chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/change_sink.js"></script><meta name="document_iterator.js"><meta name="find_proxy.js"><meta name="get_html_text.js"><meta name="global_constants.js"><meta name="name_injection_builder.js"><meta name="number_injection_builder.js"><meta name="string_finder.js"><meta name="change_sink.js"><style charset="utf-8" type="text/css" id="">SPAN.skype_pnh_container SPAN.skype_pnh_mark{  display:none !important;}@media screen{SPAN.skype_pnh_print_container{  display:none !important;}SPAN.skype_pnh_container, SPAN.skype_pnh_container *{background-attachment: scroll !important;background-color: transparent !important;background-image: none !important;background-position: 0px 0px ! important;background-repeat: no-repeat !important;border: 0px none !important;border-color: #000000 !important;border-style: none !important;border-width: 0 !important;border-left: 0 none #000000 !important;border-top: 0 none #000000 !important;border-right: 0 none #000000 !important;border-bottom: 0 none #000000 !important;border-left-color: #000000 !important;border-left-style: none !important;border-left-width: 0 !important;border-top-color: #000000 !important;border-top-style: none !important;border-top-width: 0 !important;border-right-color: #000000 !important;border-right-style: none !important;border-right-width: 0 !important;border-bottom-color: #000000 !important;border-bottom-style: none !important;border-bottom-width: 0 !important;border-collapse: separate !important;bottom: auto !important;clear: none !important;clip: auto !important;cursor: pointer !important;direction: ltr !important;display: inline !important;float: none !important;font-style: normal !important;left: auto !important;letter-spacing: 0 !important;list-style-image: none !important;list-style-position: outside !important;list-style-type: disc !important;overflow: hidden !important;overflow-x: hidden !important;overflow-y: hidden !important;padding: 0px 0px 0px 0px !important;padding-left: 0px !important;padding-top: 0px !important;padding-right: 0px !important;padding-bottom: 0px !important;page-break-after: auto !important;page-break-before: auto !important;page-break-inside: auto !important;position: static !important;right: auto !important;table-layout: auto !important;text-align: left !important;text-decoration: none !important;text-indent: 0px !important;text-transform: none !important;top: auto !important;voice-family: inherit !important;white-space: nowrap !important;word-spacing: normal !important;z-index: 0 !important;  color: #49535A !important;  font-family: Tahoma, Arial, Helvetica, sans-serif !important;  font-size: 11px !important;  font-weight: bold !important;  height: 14px !important;  line-height: 14px !important;  margin-left: 0px !important;  margin-top: 0px !important;  margin-right: 0px !important;  margin-bottom: 0px !important;  vertical-align: baseline !important;  width: auto !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_active_fax SPAN.skype_pnh_right_span, SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_inactive_fax SPAN.skype_pnh_right_span{  background-position: -92px 0px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_inactive_free SPAN.skype_pnh_dropart_flag_span{  background-position: 0px 1px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_inactive_free SPAN.skype_pnh_textarea_span{  background-position: -90px 0px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_inactive_free SPAN.skype_pnh_text_span{  visibility: hidden !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_active_free SPAN.skype_pnh_dropart_flag_span{  background-position: 0px 1px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_active_free SPAN.skype_pnh_textarea_span{  background-position: -160px 0px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_active_free SPAN.skype_pnh_text_span{  background-position: -160px 0px !important;  color: #FFFFFF !important;}SPAN.skype_pnh_container SPAN.skype_pnh_left_span{  background-position: 0px 0px !important;  width: 6px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_dropart_span{  background-position: -11px 0px !important;  width: 27px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_dropart_wo_arrow_span{  background-position: -130px 0px !important;  width: 18px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_dropart_flag_span{  background-position: 1px 1px !important;  width: 18px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_textarea_span{  background-position: -125px 0px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_text_span{  padding-left: 5px !important;  background-position: -125px 0px !important;}SPAN.skype_pnh_container SPAN.skype_pnh_right_span{  background-position: -62px 0px !important;  width: 15px !important;}}@media print{SPAN.skype_pnh_print_container{}SPAN.skype_pnh_container{    display:none !important;}}@media screen{SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_inactive_common *{  background-image:url('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/numbers_common_inactive_icon_set.gif') !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_active_common *{  background-image:url('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/numbers_common_active_icon_set.gif') !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_inactive_fax *{  background-image:url('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/numbers_common_inactive_icon_set.gif') !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_active_fax *{  background-image:url('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/numbers_common_active_icon_set.gif') !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_inactive_free *{  background-image:url('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/numbers_free_icon_set.gif') !important;}SPAN.skype_pnh_container SPAN.skype_pnh_highlighting_active_free *{  background-image:url('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/numbers_free_icon_set.gif') !important;}SPAN.skype_pnh_container SPAN.skype_pnh_dropart_flag_span{  background-image: url('chrome-extension://lifbcibllhkdhoafpjfnlhfpfgnpldfl/flags.gif') !important;}}</style></head>
+<body>
+<div id="globalApizone">
+
+<!-- Bandeau -->
+<div id="header">
+     <div class="logo">
+<h1 class="ghide">Orange API</h1>
+<a href="http://api.orange.com/" title="Aller à la page d&#39;accueil"><img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/logo.png" alt="Orange API" border="0"></a></div>
+	 	 <div id="headerwords">solutions de communication pour vos applications métiers ou pour vos services web et mobile</div>
+	      <div id="headermenu"><div class="search"><form name="searchForm" id="searchForm" method="post" action="http://api.orange.com/fr/recherche?searchword=">	<input type="hidden" name="option" value="com_azsearch">
+        <input type="hidden" name="Itemid" value="104">
+        <input type="hidden" name="areas" value="all">
+        <input type="text" class="inputSearch" alt="rechercher" value="" style="background:#fff url(modules/mod_azsearch/images/search_fr.gif) no-repeat scroll 0 0;" onblur="if(this.value==&#39;&#39;) this.style.backgroundImage=&#39;url(modules/mod_azsearch/images/search_fr.gif)&#39;;" onfocus="this.style.backgroundImage=&#39;&#39;;" id="mod_search_searchword" name="searchword">
+        <input type="image" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/heading2Linkarrow.gif" class="button azSubmit" value="rechercher" onclick="document.forms[&#39;searchForm&#39;].action=document.forms[&#39;searchForm&#39;].action+&#39;&#39;+document.forms[&#39;searchForm&#39;].searchword.value;" title="rechercher" alt="recherche items">
+
+</form>
+</div><div lang="en" class="modLanguage"><a title="english" href="http://api.orange.com/en/api/sms-api/documentation"><img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/fleche.png" alt="">english</a></div><div class="menutopparent"><img alt="" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/fleche(1).png"><a target="blank_" title="orange.com (nouvelle fenêtre)" href="http://www.orange.com/">orange.com</a></div><div class="menutopparent"><img alt="" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/fleche(1).png"><a target="blank_" title="advanced API (nouvelle fenêtre)" href="http://www.orangepartner.com/site/frfr/access_orange_apis/advanced_apis/p_advanced_apis.jsp">advanced API</a></div></div>
+</div>
+
+<!-- barre de menu -->
+<div id="englobant">
+     <div id="englobantTop">
+       <div id="menu"><ul id="nav">
+								<li><h2><a href="http://api.orange.com/fr/api-business">entreprises</a></h2>
+				<ul>
+															<li><h3><a href="http://api.orange.com/fr/api-business/easy-solutions">nos solutions prêtes à l'emploi</a></h3>
+							<ul>
+															<li class="bold"><h4><a href="http://api.orange.com/fr/api-business/easy-solutions/easy-call-me">easy call me</a></h4></li>
+															<li class="bold"><h4><a href="http://api.orange.com/fr/api-business/easy-solutions/easy-question">easy question</a></h4></li>
+															<li class="bold"><h4><a href="http://api.orange.com/fr/api-business/easy-solutions/easy-birthday">easy birthday</a></h4></li>
+															<li class="bold"><h4><a href="http://api.orange.com/fr/api-business/easy-solutions/easy-campagne">easy campagne SMS</a></h4></li>
+															<li class="bold"><h4><a href="http://api.orange.com/fr/api-business/easy-solutions/easy-vote">easy vote SMS</a></h4></li>
+														</ul>
+						</li>
+																				<li><h3><a href="http://api.orange.com/fr/api-business/custom-solutions">nos solutions personnalisées</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api-business/personal">Personal &amp; Social</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api-business/consulting-solutions">conseil en API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api-business/cas-dusage">cas d'usages</a></h3></li>
+													</ul>
+			</li>
+										<li><h2><a class="active" href="http://api.orange.com/fr/all-api">développeurs</a></h2>
+				<ul>
+															<li><h3><a href="http://api.orange.com/fr/api/sms-api">SMS API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/click-to-call-api">click-to-call API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/personal/authentication-api">personal Authentication API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/location-api">location API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/interactive-voice-api">interactive voice API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/personal/rich-profile-api">personal Rich Profile API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/mms-api">MMS API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/webphone-api">webphone API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/personal/contacts-api">personal Contacts API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/email-api">email API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/personal/calendar-api">personal Calendar API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/get-history-api">get history API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/personal/content-api">personal Content API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/personal/favourites-api">personal Favourites API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/get-pricing-api">get pricing API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/hide-request-api">hide request API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/personal/messages-api">personal Messages API</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api/stockage-api">stockage API</a></h3></li>
+													</ul>
+			</li>
+										<li><h2><a href="http://api.orange.com/fr/api-community">communauté</a></h2>
+				<ul>
+															<li><h3><a href="http://blog.api.orange.com/">blog</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/index.php?option=com_newscommunauty&controller=ncevents&lang=fr">évènements</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/photovideo">photos &amp; vidéos</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/index.php?option=com_newscommunauty&controller=ncdocs&lang=fr">documentation</a></h3></li>
+																				<li><h3><a href="http://www.facebook.com/orangeapi">facebook</a></h3></li>
+																				<li><h3><a href="http://twitter.com/orangeapi">twitter</a></h3></li>
+													</ul>
+			</li>
+										<li><h2><a href="http://api.orange.com/fr/support-api">aide</a></h2>
+				<ul>
+															<li><h3><a href="http://feedback.api.orange.com/">forum</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/wiki/index.php">tutoriels</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/faq-api">FAQ</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/contact">contactez-nous</a></h3></li>
+																				<li><h3><a href="http://api.orange.com/fr/api-business/outils">outils</a></h3></li>
+													</ul>
+			</li>
+			</ul></div>
+       <div id="login"><div id="logininfos">
+
+		<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/puce.gif" alt="">&nbsp;<strong style="font-size:12px">bonjour Thomas Manson, </strong><br>
+		<div class="userCreditsWrap">
+		<span class="alignBottom">
+			crédits:&nbsp;<span class="userCredits alignBottom">5870</span>		</span>
+		<a href="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API.htm" onclick="refreshCredits(&#39;rafraîchissement de vos crédits&#39;,&#39;vos crédits ont bien été mis à jour&#39;,&#39;une erreur est survenue lors de la mise à jour de vos crédits&#39;);return false;">
+			&nbsp;
+			<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/refresh.png" alt="rafraîchir mon compte crédits" title="rafraîchir mon compte crédits">
+		</a>
+	</div>
+		<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/puce.gif" alt="">&nbsp;<a title="mon espace personnel" href="http://api.orange.com/fr/mon-espace-personnel">mon espace personnel</a><br>
+	<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/puce.gif" alt="">&nbsp;<a title="déconnexion" href="javascript:signout();">déconnexion</a>
+	</div>
+
+
+
+
+<div class="ghide" id="signinBox">
+  <div id="popup_background" class="hidden"></div>
+  <div id="popup_signin" class="hidden">
+    <div id="popup_body">
+      <div id="popup_body_title">
+	<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/info-icon.png" class="logoInfo">
+	<h2 id="popup_title" class="orange ui-title-icon">connexion Orange API</h2>
+	<img id="popup_title_cross" class="clickable" onclick="javascript:closeSignin();" alt="" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/popup-cross.gif">
+      </div>
+      <div id="popup_body_content">
+	<div id="popup_content" class="content">
+	  <form method="post" id="signin" name="signin" enctype="application/x-www-form-urlencoded" action="https://authent.idby.orange.com/apizone/rubics/v2/services/apizone/accounts/public/signin?servicedata=apizone%2Cfr_FR">
+	  <input id="task" name="task" value="login" type="hidden">
+	    <table border="0" cellpadding="0" cellspacing="2" width="730">
+	      <tbody>
+		<tr>
+		  <td align="left" height="28">
+		    <p class="content">
+		      <strong>
+			<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/identifiez-vous_helveticaneue_45_light_16.png" alt="identifiez-vous">
+		      </strong>
+			  </p><div id="signup">
+				<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/oarrow.gif" style="margin-left: 4px; margin-bottom: -2px;" border="0" height="12" width="12">&nbsp;
+				<a class="orange" title="créez un nouveau compte" href="javascript:void(0);" onclick="signup();return false;">
+					créez un nouveau compte				</a>
+			  </div>
+		    <p></p>
+		  </td>
+		</tr>
+		<tr>
+		  <td align="center">
+		    <table border="0" cellpadding="0" cellspacing="2">
+		      <tbody>
+			<tr>
+			  <td align="right" valign="middle">adresse email :</td>
+			  <td valign="middle">
+			    <input value="" size="28" id="login" name="login" class="input" tabindex="1" maxlength="120" type="text">
+			  </td>
+			</tr>
+			<tr>
+			  <td align="right" valign="middle">mot de passe :</td>
+			  <td id="passlog2_label" valign="middle">
+			    <input size="28" id="password" name="password" class="input" tabindex="2" maxlength="20" type="password">
+			  </td>
+			</tr>
+			<tr>
+			  <td colspan="2" align="center" height="0" id="error" valign="top" style="display: table-cell; visibility: visible; ">
+			    <p class="stryke liner">
+			      <span class="errorPart" id="missinglogin">Merci de préciser votre adresse email</span>
+			      <span class="errorPart" id="badlogin">L'adresse mail saisie n'est pas valide</span>
+			      <span class="errorPart" id="missingpassword">Indiquez votre mot de passe</span>
+			      <span class="errorPart" id="missingall">Merci de préciser votre email et votre mot de passe</span>
+			      <span class="errorPart" id="limitationpassword">Votre mot de passe doit contenir de 6 à 20 caractères</span>
+			      <span class="errorPart" id="badpassword">Le mot de passe n'est pas valide</span>
+			      <span class="errorPart" id="accountunknown">L'adresse email ou le mot de passe est invalide</span>
+			      <span class="errorPart" id="accountpending">Vous n'avez pas encore confirmé votre inscription</span>
+			      <span class="errorPart" id="accountblocked">Votre compte est bloqué</span>
+			      <span class="errorPart" id="internalerror">L'identification a échoué, veuillez nous excuser.</span>
+			    </p>
+			    			  </td>
+			</tr>
+			<tr class="optionSignin">
+			  <td align="left" height="30" valign="top" width="220">
+			    <p class="liner">
+			      <input id="rememberme" name="rememberme" tabindex="3" type="checkbox">se souvenir de moi			    </p>
+			  </td>
+			  <td align="right" valign="middle">
+			    <div id="valid_button" style="display: block; visibility: visible;" class="liner">
+			      <input src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/validate_fr.png" style="cursor: pointer;" onclick="validate_form_signin();return false;" value="valider" tabindex="4" alt="valider" border="0" height="25" type="image">
+			    </div>
+			    <div id="wait_message" style="display: none; visibility: hidden;padding-left:20px;padding-right:0px">
+			      <span style="display:inline">veuillez patienter...&nbsp;&nbsp;</span>
+			      <span><img alt="veuillez patienter" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/lightbox-ico-loading.gif" align="absmiddle" height="32" width="32"></span>
+			    </div>
+			  </td>
+			</tr>
+			<tr height="20" class="optionSignin">
+			  <td align="left" colspan="2">
+			    <p class="liner">
+			      <img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/oarrow.gif" style="margin-left: 4px; margin-bottom: -2px;" border="0" height="12" width="12">&nbsp;
+			      <a href="javascript:void(0)" class="orange" onclick="resetPassword();return false;">mot de passe oublié ?</a>
+			    </p>
+			  </td>
+
+			</tr>
+		      </tbody>
+		    </table>
+		  </td>
+		</tr>
+	      </tbody>
+	    </table>
+	  </form>
+	</div>
+      </div>
+      <div id="popup_body_footer"></div>
+    </div>
+  </div>
+</div>
+
+
+<div id="notifyBox" class="ghide">
+  <div id="popup_background" class="ghide"></div>
+  <div id="popup_notify" class="ghide">
+	<div id="popup_body">
+		<div id="popup_body_title">
+			<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/info-icon.png" class="logoInfo">
+			<h2 id="popup_title" class="orange ui-title-icon"><span id="popup_notify_title">&nbsp;</span></h2>
+			<img id="popup_title_cross" class="clickable" onclick="javascript:closeNotify();" alt="" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/popup-cross.gif">
+		</div>
+		<div id="popup_notify_body_content">
+			<div id="popup_content" class="content">
+			    	<span id="popup_notify_text">&nbsp;</span>
+			</div>
+		</div>
+		<div id="popup_body_footer"></div>
+	</div>
+  </div>
+</div>
+</div>
+     </div>
+     <div id="englobantBottom">
+       <div id="search"></div>
+       <div id="newsletterRss">
+			<div class="topNewsletterRss"></div>
+			<div class="wrapNewsletterRss">
+				<div id="modrefill">
+	<a title="acheter" href="http://api.orange.com/fr/recharger-votre-compte">
+		<img alt="" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/panier.gif">
+		<span>acheter</span>
+	</a>
+</div>
+
+			</div>
+			<div class="bkgNewsletterRss"></div>
+       </div>
+     </div>
+</div>
+
+<!-- breadcrumbs -->
+<div id="breadcrumb">
+     <span class="breadcrumbs"><a class="pathway" href="http://api.orange.com/">accueil</a> &gt; <a class="pathway" href="http://api.orange.com/fr/all-api">développeurs</a> &gt; SMS API</span>
+</div>
+<!-- application messages -->
+<div>
+  
+</div>
+<!-- contenu -->
+      <div id="content">
+
+	 		
+			<script type="text/javascript" language="javascript">
+			<!--
+			var sfolder = '';
+			var fcvote_text=Array(
+				'Votre navigateur ne fonctionne pas avec Ajax',
+				'chargement',
+				'Merci pour votre vote',
+				'Vous devez vous identifier pour ajouter cet élément à vos favoris.',
+				'Vous avez déjà voté pour cet élément',
+				'votes',
+				'vote'
+				);
+			-->
+			</script>
+<div id="flexicontent_api" class="devhq">
+  <div class="api_header">
+  	<h1 class="ghide">SMS API</h1>
+    <h2>
+      <img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/SMSAPI_helveticaneue_35_thin_28.png" alt="SMS API">
+    </h2>
+    <h3>
+      <img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/envoyezetrecevezdesSMSpartoutdanslemonde_helvetica_45_light_12.png" alt="envoyez et recevez des SMS partout dans le monde">
+    </h3>
+	    <div class="illustration">
+      <img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/icon_smsapi-2.gif" alt="SMS API">    </div>
+    <div class="description">
+      <p class="print">
+	<a href="http://api.orange.com/fr/api/sms-api/imprimer">
+	  <img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/print.jpg" width="15" height="17">
+	  imprimer cette page        </a>
+      </p>
+      <div>
+	
+<!-- FN_REPLACE -->
+<style type="text/css">
+/* <![CDATA[ */<!-- 
+
+.onglet {width:770px;}
+
+/*------- texte --------*/
+.onglet p, .onglet li {font-size:11px;}
+
+.onglet iframe {
+width:100%
+}
+
+.onglet .apitest {
+	display:none;
+}
+
+.onglet hr {
+	border: 1px solid;
+}
+
+.onglet .color01 {color:#FF6600;}
+.onglet .color02 {color:#333;}
+.onglet .color03 {color:#999999;}
+.onglet .color04 {color:#006600;}
+.onglet .color05 {color:#000000;}
+.onglet .color06 {color:#3300FF;}
+.onglet .NB {color:#999999;}
+
+.onglet a {
+	text-decoration:underline;
+	color:#666666;
+	cursor: pointer;
+	font: 12px Helvetica,Arial,sans-serif;
+}
+.onglet a:hover {
+	color:#ff6600;
+}
+
+.onglet .titre01 {
+	font-size:20px;
+	font-weight:normal;
+	color:#999;
+	margin:10px 0;
+}
+.onglet .titre02 {
+	font-size:18px;
+	font-weight:normal;
+	color:#fff;
+	background:#000;
+	padding:5px 6px 7px 6px;
+	margin:10px 0;
+}
+.onglet .titre02 span {color:#ff6600;}
+.onglet .titre03 {font-size:16px;font-weight:bold;color:#ff6600;margin-left:10px;padding-top:10px;}
+.onglet .titre04 {clear:both;font-size:11px;font-weight:bold;color:#ff6600;margin-left:10px;}
+/*-----------------------------------*/
+
+/*------- tableau01 --------*/
+.marmi {font-family:Arial,Helvetica,sans-serif;color:#FF6600;}
+.onglet .tabType01 {border:1px solid #999;font-size:12px;}
+.onglet .tabType01 td {border-left:1px solid #999;border-bottom:1px solid #999;vertical-align:top;}
+.onglet .tabType01 table td.firstSide {border-left:0;}
+.onglet .tabType01 table td.lastBottom {border-bottom:0;}
+
+.onglet .tabType01 .param *{font-family:"Courier New", Courier, monospace;color:#FF6600;}
+.onglet .tabType01 td div {padding:2px 0 2px 6px;}
+.onglet .tabType01 td div.code {width:510px;margin:5px 5px 15px 5px;}
+.onglet .tabType01 .firstCol {
+	width:125px;
+	font-weight:bold;
+}
+.onglet .tabType01 .bkg01 {background:#f3f3f3;}
+.onglet .tabType01 .bkg02 {background:#fff;}
+
+.onglet .tabType01 thead.TabHeader th{
+	padding:3px 0 3px 6px;
+	color:#fff;
+	background:#FF6600;
+	font-size:12px;
+	font-weight:normal;
+	text-align:left;
+	border-left:1px solid #999;
+	border-bottom:1px solid #999;
+	text-align:center;
+}
+/*-----------------------------------*/
+
+/*--------------------------------
+divisionTab = tableau 
+qui sert de nouvelle séparation
+----------------------------------*/
+.onglet .tabType01 table.divisionTab {border:0;}
+/*-----------------------------------*/
+
+/*--------------------------------
+SeparateTab = nouveau tableau 
+dans une cellule ("décollé" des bords)
+----------------------------------*/
+.onglet .tabType01 .SeparateTabContainer {padding:2px 0 5px 6px;}
+.onglet .tabType01 .SeparateTabContainer table.SeparateTab {border:1px solid #999;}
+.onglet .tabType01 table.SeparateTab td {padding:3px 0 3px 6px; vertical-align:middle;}
+.onglet .tabType01 .SeparateTab tbody {background-color:#f3f3f3;}
+.onglet .tabType01 .SeparateTab thead {color:#FF6600;background-color:#FFFFFF;}
+.onglet .tabType01 .SeparateTab thead th {
+	border-left:1px solid #999;
+	border-bottom:1px solid #999;
+	text-align:center;
+}
+
+
+/*-----------------------------------*/
+
+
+/*------- tableau02 --------*/
+/*------- tableau utilisé en début de page  --------*/
+.tabType02 thead th {border:3px solid #999;text-align:center;}
+.tabType02 .param {font-family:"Courier New", Courier, monospace;color:#FF6600;}
+.tabType02 .firstCol {width:145px;}
+.tabType02 td div {padding:2px 0 2px 6px;}
+/*-----------------------------------*/
+
+/*------- listes à puces --------*/
+.onglet li {font-size:11px;list-style-type:none;}
+/*-- Puces carrés oranges --*/
+.list01 {margin-left:15px;}
+.list01 li {padding:5px 0 5px 22px; background:url('http://64.19.142.11/api.orange.com/images/developerhq/FicProd/img/puce-1.gif') no-repeat 0px 10px;}
+
+/*-- Listes numérotées --*/
+.list02 {/*margin-left:48px;*/}
+.list02 li {padding:5px 0 5px 15px;}
+.list02 li span {/*padding-left:15px;*/color:#ff6600;}
+
+
+/*-- Listes numérotées puis listes a puce carre dedans--*/
+.list02 li .list01 li {padding-left:22px;}
+ul li ul.list02 {margin-left:0px;}
+
+
+
+/*-- Listes fleche bas --*/
+.list03 {margin-left:15px;}
+ul.list03  {padding:0;}
+.list03 li {padding:5px 0 5px 22px; background:url('http://64.19.142.11/api.orange.com/images/developerhq/FicProd/img/puce-2.gif') no-repeat 0px 10px;}
+
+
+/*-- Puces carrés oranges aux endroits indique aves sous listes sans puce --*/
+.list04 {margin-left:48px;}
+ul.list04 {padding:0;}
+.list04 .puce {padding:5px 0 5px 22px; background:url('http://64.19.142.11/api.orange.com/images/developerhq/FicProd/img/puce-1.gif') no-repeat 0px 10px;}
+.list04 ul li {margin-left:22px;}
+.list04 ul.list01 {margin-left:0px;}
+
+/*-------------------------------*/
+
+
+/*-----------------------------------*/
+.onglet .header {}
+
+.onglet .header .blocTitre {
+	display:block;
+	margin-bottom:2px;
+}
+.onglet .header .titre01 {
+	float:left;
+	position:relative;
+	display:inline;
+	width:500px;
+}
+
+/*
+.onglet .header .pdfLink {
+	float:right;
+	position:relative;
+	display:inline;
+	font-size:11px;
+	color:#666666;
+	width:270px;
+	text-align:right;
+}
+*/
+.onglet .header .pdfLink {
+	float:right;
+	position:relative;
+	display:inline;
+	width:270px;
+	text-align:right;
+}
+/*
+.onglet .header .pdfLink:hover {
+	color:#ff6600 !important;
+}
+*/
+
+.onglet .header .blocResume {
+	clear:both;
+	overflow:hidden;
+}
+.onglet .header .blocResume .tabType02 {float:left;position:relative;display:inline;}
+.onglet .header .blocResume .resume {
+	float:left;
+	position:relative;
+	display:inline;
+	width:500px;
+}
+.onglet .header .blocResume .visu {float:right;position:relative;display:inline;padding-bottom:10px;}
+.onglet .header .blocDescription {clear:both;}
+
+.onglet .content {}
+.onglet .content .half {width:350px;}
+
+.onglet .header .blocIntro,
+.onglet .content .blocIntro {
+	clear:both;
+	overflow:hidden;
+}
+.onglet .header .blocIntro .half {
+	float:left;
+	position:relative;
+	display:inline;
+	width:500px;
+}
+.onglet .content .blocIntro .half {float:left;position:relative;display:inline;padding-bottom:10px;}
+.onglet .content .blocIntro .visu {float:right;position:relative;display:inline;padding-bottom:10px;}
+
+
+.onglet .header .blocIntro .visu {float:left;position:relative;display:inline;padding-bottom:10px;}
+/*-----------------------------------*/
+
+
+/*--------------------------------
+code = exemple de code HTML
+----------------------------------*/
+
+.onglet .code {
+		background:#f3f3f3;
+		border:black 1px solid;
+		width:520px;
+		padding: 10px;
+		margin-top:10px;
+		font-size:12px;
+		font-weight:normal;
+		text-align:left;
+}	
+.onglet .code ul {
+		list-style:none;
+		list-style-image:none;
+		list-style-type:none;
+		margin:0;
+		padding:0;
+		list-style-position:inside;
+		font-family:"Courier New", Courier, monospace;
+}	
+.onglet .code ul li {margin-left:0px;}
+.onglet .code ul li ul li {margin-left:30px;}
+
+.onglet .code p {
+	font-family:"Courier New", Courier, monospace;
+}
+/*-----------------------------------*/
+
+/*--------------------------------
+note = encart orange
+----------------------------------*/
+
+.onglet .note {
+		background:#FF6600;
+		color:#FFFFFF;
+		border:none;
+		width:520px;
+		padding: 10px;
+		margin-top:10px;
+		font-size:12px;
+		font-weight:normal;
+		text-align:left;
+}	
+
+.onglet .note a {
+		color:#3300FF;
+}	
+
+
+/*-----------------------------------*/
+
+
+/*--------------------------------
+Tableau de tarifs
+----------------------------------*/
+.onglet .tabTypeTarifs {
+	margin: 0 auto;
+	font-size:11px;
+}
+
+.onglet .tabTypeTarifs thead th {
+	background-color:#666666;
+	color:#FFFFFF;
+	line-height:30px;
+	text-align:left;
+	padding-left:3px;
+	font-weight:bold;
+}
+
+.onglet .tabTypeTarifs thead {
+	border-bottom:5px solid #FFFFFF; 
+}
+
+.onglet .tabTypeTarifs tbody {
+	border-bottom:5px solid #f3f3f3;
+}
+
+.onglet .tabTypeTarifs tbody td {
+	line-height:25px;
+	padding:3px 3px;
+}
+
+.onglet .tabTypeTarifs .bkg01 {background:#f3f3f3;}
+.onglet .tabTypeTarifs .bkg02 {background:#fff;}
+
+.onglet .tabTypeTarifs .TarifsBig {
+	font-size:19px;
+	font-weight:bold;
+}
+
+.onglet .tabTypeTarifs .TarifsMiddle {
+	font-size:15px;
+	font-weight:bold;
+}
+
+
+.onglet .tabTypeTarifs .TarifsBordD {
+	border-right:1px black solid;
+}
+
+
+/*-- Tableau de tarifs de type 2  --*/
+.onglet .tabTypeTarifs2 {
+	margin: 0 auto;	
+	font-size:11px;
+	background:#FFFFFF;
+}
+
+.onglet .tabTypeTarifs2 th {
+	border:1px solid #999;
+	color:#FF6600;
+	font-weight:bold;
+	padding:3px 3px;
+	vertical-align:middle;
+	text-align:center;
+}
+
+.onglet .tabTypeTarifs2 td {
+	border:1px solid #999;
+	font-weight:bold;
+	padding:3px;
+	vertical-align:middle;
+	text-align:left;
+}
+
+.onglet .tabTypeTarifs2 .Tarifs {
+	background-color:#f3f3f3;
+	text-align:center;
+}
+
+.onglet .tabTypeTarifs2 .mobile {
+	color:#999999;
+}
+
+
+
+/*-- Tableau de tarifs de type 3  --*/
+/*-- meme principe dque type 2 sans le gras  --*/
+
+.onglet .tabTypeTarifs3 {
+	margin: 10px auto 0 auto;	
+	font-size:11px;
+	background:#FFFFFF;
+}
+
+.onglet .tabTypeTarifs3 th {
+	border:1px solid #999;
+	color:#FF6600;
+	font-weight:bold;
+	padding:3px 3px;
+	vertical-align:middle;
+	text-align:center;
+}
+
+.onglet .tabTypeTarifs3 td {
+	border:1px solid #999;
+	font-weight:normal;
+	padding:3px;
+	vertical-align:middle;
+}
+
+.onglet .tabTypeTarifs3 .Tarifs {
+	background-color:#f3f3f3;
+	text-align:center;
+}
+
+.tabTypeTarifs3 .list04 {margin-left:0px;}
+
+/*-----------------------------------*/
+-->/* ]]> */
+</style>
+<script src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/ficheproduit.js" type="text/javascript"></script>
+<ul class="list03">
+<strong> </strong>
+<li><strong>faites vos campagnes de promotion par SMS,</strong></li>
+<li><strong>confirmez vos rendez-vous clients par SMS, </strong><strong>utilisez nos SMS surtaxés comme moyen de paiement,</strong></li>
+<li><strong>utilisez&nbsp;<span style="color: #666666;" class="orange_text">l'offre </span><a title="l&#39;offre Easy" href="http://api.orange.com/fr/api-business/easy" class="orange_text">Easy</a> qui <span style="color: #666666;">utilise</span> l'API SMS, vous découvrirez <a title="Easy prêtes à l&#39;emploi et faciles d&#39;utilisation" href="http://api.orange.com/fr/api-business/easy"><span class="orange_text">des solutions prêtes à l'emploi et faciles d'utilisation</span></a>. </strong></li>
+</ul>
+<ul class="list03">
+</ul>
+<a href="http://api.orange.com/index.php?option=com_developerhq&api=10&cat=1&controller=discover&do=2&task=viewapi&lang=fr" class="color01"> </a>      </div>
+      <p>
+	<a class="backCodeButton" href="http://api.orange.com/fr/all-api"><span>retour&nbsp;à&nbsp;l'espace&nbsp;développeurs</span></a>
+      </p>
+    </div>
+  </div>
+  <div class="api_content">
+    <ul class="TabbedPanelsTabGroup">
+      <li class="TabbedPanelsTab">
+      <span>
+	<a href="http://api.orange.com/fr/api/sms-api/description">description</a>
+      </span>
+      </li>
+            <li class="TabbedPanelsTab TabbedPanelsTabSelected">
+      <span>
+	<a href="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API.htm">documentation</a>
+      </span>
+      </li>
+      <li class="TabbedPanelsTab TabbedPanelsTabSpecial">
+      <span>
+	<a href="http://api.orange.com/fr/api/sms-api/tarifs">tarifs</a>
+      </span>
+      </li>
+      <li class="TabbedPanelsTab TabbedPanelsTabBuy">
+	<span>
+	  	  <a href="http://api.orange.com/fr/mon-espace-personnel/mes-api/configurer-mes-api?api=343&cat=79">
+	  	<img alt="activer" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/activer.gif" class="imgbuy">
+        </a>
+      </span>
+      </li>
+    </ul>
+    <div>
+            <div id="voiceMailDocumentation" class="onglet">
+<div class="header">
+<div class="blocTitre">
+<h2 class="titre01">documentation de l'API</h2>
+<div align="right"><a target="_blank" href="http://api.orange.com/images/docs/productfiles/smsapi_fr.pdf" class="pdfLink"><img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/pdf3.jpg" alt="pdf3" height="22" width="22">télécharger la fiche produit</a></div>
+</div>
+<div class="blocResume">
+<div class="resume">
+<p><strong>L'API SMS est un service web d'envoi et de réception de SMS.<br>Sachez toutefois que votre identifiant (API Access Key) devra toujours être passé en paramètre dans l’URL de votre requête.</strong></p>
+<p>Les requêtes utilisent indifféremment les méthodes GET ou POST en mode HTTP ou HTPPS.<br>Le service web expose une interface dans un style REST-RPC.</p>
+</div>
+<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/sms2.jpg" class="visu" border="0">
+<div class="description"></div>
+</div>
+</div>
+<div class="content">
+<h3 class="titre02"><span>1 .</span> méthode</h3>
+<!-- //////////////////// --><!-- Nouvelle sous-partie --><!-- //////////////////// -->
+<h4 class="titre03">a.sendSMS</h4>
+<!-- 1 /// intro -->
+<div class="blocIntro">
+<div class="half">
+<p><strong>La méthode sendSMS vous permet d'envoyer un SMS dans le monde entier à partir d'une simple requête HTTP.</strong></p>
+<p>Tutoriel utilisant la méthode sendSMS :</p>
+<ul>
+<li>- <a target="_blank" href="http://api.orange.com/wiki/index.php/Orange_API_tutoriels">les tutoriels des API d'Orange</a></li>
+</ul>
+</div>
+<a target="_blank" href="http://api.orange.com/images/developerhq/FicProd/img/SMS/Pop_Open_Windows/French/sendsms.gif"><img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/sendsms.gif" alt="sendSMS" style="float: right;" class="visu" border="0"></a></div>
+<!-- 2 /// requ&ecirc;te -->
+<h5 class="titre04">requête</h5>
+<div class="code">
+<p><strong><span style="color: #333333;">http://run.orangeapi.com</span>/sms/sendSMS.xml?</strong><strong class="color01">id</strong>=<span class="color03">[votre API Access Key]</span>&amp;<strong class="color01">from</strong>=<span class="color03">[numéro court d'émission]</span>&amp;<strong class="color01">to</strong>=<span class="color03">[numéro de téléphone]</span>&amp;<strong class="color01">content</strong>=<span class="color03">[votre message à envoyer]</span>&amp;<strong class="color01">long_text</strong>=<span class="color03">[activer ou non le SMS long]</span>&amp;<strong class="color01">max_sms</strong>=<span class="color03">[nombre maximum de "parties" d'un SMS long]</span>&amp;<strong class="color01">ack</strong>=<span class="color03">[activer ou non l'accusé de réception]&amp;<strong class="color01">content_encoding</strong>=<span class="color03">[type d’encodage à utiliser]</span></span></p>
+</div>
+<p class="NB"><a href="http://api.orange.com/#SMSAPiTabRequete1" class="LienDepliant">Détails des paramètres disponible ici &gt;</a></p>
+<div id="SMSAPiTabRequete1" class="Depliant" style="display: none; ">
+<table class="tabType01" border="0" cellpadding="0" cellspacing="0" width="540">
+<thead class="TabHeader"> 
+<tr>
+<th class="firstCol">Paramètre de la requête</th><th>Description</th>
+</tr>
+</thead> 
+<tbody>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>id</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> obligatoire</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>API Access Key est votre identifiant personnel lors de l'usage d'une API. L'API Access Key est disponible dans la rubrique <a href="http://api.orange.com/index.php?option=com_espaceperso&view=default&lt;=fr&lang=fr" title="mon compte">mon espace personnel</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>from</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> obligatoire</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>Numéro d'émission du SMS. Vous devez utiliser le bon numéro dans le paramètre "from" suivant votre destination.<br>Par default cette valeur est fixée à 38100.</p>
+</div>
+<div class="SeparateTabContainer">
+<table class="SeparateTab" border="0" cellpadding="0" cellspacing="0" width="392">
+<thead> 
+<tr>
+<th>
+<p>numéro court</p>
+</th> <th>
+<p>couverture</p>
+</th> <th>
+<p>fonctionnalités</p>
+</th>
+</tr>
+</thead> 
+<tbody>
+<tr>
+<td style="background-color: #ffffff;" class="bkg02">20345</td>
+<td>Orange France</td>
+<td style="background-color: #ffffff;">émission et réception de SMS</td>
+</tr>
+<tr>
+<td style="background-color: #ffffff;" class="bkg02">38100</td>
+<td>France multi opérateurs</td>
+<td style="background-color: #ffffff;">émission de SMS</td>
+</tr>
+<tr>
+<td style="background-color: #ffffff;" class="bkg02">967482</td>
+<td>Orange UK</td>
+<td style="background-color: #ffffff;">émission et réception de SMS</td>
+</tr>
+<tr>
+<td style="background-color: #ffffff;" class="bkg02">447797805210</td>
+<td>International (<a href="http://api.orange.com/images/docs/smscoverage_fr.pdf">destinations</a>)</td>
+<td style="background-color: #ffffff;">émission et réception de SMS</td>
+</tr>
+<tr>
+<td style="background-color: #ffffff;" class="bkg02">world</td>
+<td>International (<a href="http://api.orange.com/images/docs/smscoverage_fr.pdf">destinations</a>)</td>
+<td style="background-color: #ffffff;">émission de SMS<br><br> - le numéro d’émission qui apparait sur le téléphone mobile du récepteur est un numéro court local (différent pour chaque pays)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>to</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> obligatoire</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom">
+<div>
+<p>Numéro du mobile de destination au format international.<br>ex. : 3312345678 (France) ou 441234567890 (Royaume-Uni)</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>content</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> optionnel</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom">
+<div>
+<p>Contenu du SMS, limité à 160 caractères</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>long_text</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> boolean</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> optionnel</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom">
+<div>
+<p>Permet d'activer ou non la fonctionnalité "SMS long".<br><br><strong>Valeurs :</strong><br>- "false" : seuls les messages de moins de 160 caractères peuvent être envoyés.<br>- "true" : le message sera découpé en plusieurs SMS de 134 caractères chacuns qui seront ensuite concaténés (regroupés) sur le téléphone mobile de destination.</p>
+<p><strong>Valeur par défaut :</strong> "false"<strong>&nbsp;</strong></p>
+<p>Veuillez noter qu'un SMS long est limité à 34170 caractères, soit 255 SMS à concaténer.<strong><br></strong></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>max_sms</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> integer</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> optionnel</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom">
+<div>
+<p>Permet de définir le nombre maximum de "parties" (SMS à concaténer) pouvant constituer un "SMS long".</p>
+<p><strong>Valeurs :</strong> entier strictement supérieur à 1.</p>
+<p>Dans le cas où cette limite serait dépassée, le SMS ne sera pas envoyé.</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>ack</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> boolean</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> optionnel</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom">
+<div>
+<p>Permet d’activer ou non l’accusé de réception.<br><br><strong>Valeurs :</strong> "true" (activé) ou "false" (désactivé)<br><strong>Valeur par default :</strong> "false"<br><br>Une fois le SMS envoyé avec ce paramètre à "true", utilisez l'API get history pour récupérer les informations suivantes&nbsp;:<br>- Le code de statut du SMS &lt;ack_status_code&gt;<br>- Le message associé &lt;ack_status_msg&gt;&nbsp;: <br><br><i>200 - Message delivered to handset<br>201 - Waiting for notification<br>400 - Error delivering the message<br>500 - Internal error </i><br><br>- La date et l’heure de réception du SMS &lt;ack_date&gt;</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>content_encoding</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div><strong>champ :</strong> optionnel</div>
+</td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom">
+<div>
+<p>Ce paramètre permet de spécifier l’encodage du contenu à utiliser lors de la requête à l’API sendSMS. <br><br><strong>Valeurs :</strong><br> "gsm7" <i>(valeur par défaut du paramètre)</i><br> Encodage des caractères au format GSM 7-bit.<br> Cet encodage (par défaut de la norme GSM) est aussi celui utilisé par défaut par notre API SMS. <br><br> "ucs2"<br> Encodage des caractères au format UCS-2.<br> Cet encodage permet l’utilisation de nombreux alphabets tels que l’Arabe, le Japonais et bien d’autres alphabets, mais aussi les caractères chinois. <br><br> <strong>Valeur par default :</strong> "gsm7" <br><br><br><i>Notes concernant l’utilisation de l’UCS-2 :</i><br>- la valeur du paramètre « content » doit être encodée en UTF-8.<br>- la valeur du paramètre « content » ne doit pas excéder 60 caractères.<br>- la fonctionnalité « SMS long » ne fonctionne pas avec cet encodage.<br>- le paramètre « from » doit être défini à « world » pour le monde entier ou « 38100 » pour la France uniquement.<br>- l’utilisation de la méthode POST doit être privilégiée au GET (l’encodage de l’URL dépendant du client HTTP).<br>- Il est nécessaire de spécifier l’encodage UTF-8 dans le header de la requête en POST : Content-Type: text/html; charset=UTF-8</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- 3 /// r&eacute;ponse -->
+<h5 class="titre04">Réponse</h5>
+<p>A chaque appel d'API, des informations relatives à l'appel vous sont envoyés au format XML</p>
+<div class="code">
+<ul>
+<li>&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</li>
+<li>&lt;response&gt;</li>
+<li> 
+<ul>
+<li>&lt;status&gt;</li>
+<li> 
+<ul>
+<li><strong><span class="color01">&lt;status_code&gt;</span><span class="color03">200</span><span class="color01">&lt;/status_code&gt;</span></strong></li>
+<li><strong><span class="color01">&lt;status_msg&gt;</span><span class="color03">&lt;![CDATA[OK]]&gt;</span><span class="color01">&lt;/status_msg&gt;</span></strong></li>
+</ul>
+</li>
+<li>&lt;/status&gt;</li>
+<li>&lt;call_info&gt;</li>
+<li> 
+<ul>
+<li><strong><span class="color01">&lt;call_id&gt;</span><span class="color03">3DhG5wUla1nVtWArwKm2</span><span class="color01">&lt;/call_id&gt;</span></strong></li>
+</ul>
+</li>
+<li>&lt;/call_info&gt;</li>
+<li>&lt;data&gt;</li>
+</ul>
+<ul>
+<li> 
+<ul>
+<li><strong><span class="color01">&lt;nbr_sms_sent&gt;<span class="color03">3</span></span><span class="color01">&lt;/</span></strong><strong class="color01">nbr_sms_sent</strong><strong><span class="color01">&gt;</span></strong></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>&lt;/data&gt;</li>
+</ul>
+</li>
+<li>&lt;/response&gt;</li>
+</ul>
+</div>
+<p class="NB"><a href="http://api.orange.com/#SMSAPiTabRequete2" class="LienDepliant">Détails des paramètres disponible ici &gt;</a></p>
+<div id="SMSAPiTabRequete2" class="Depliant" style="display: none; ">
+<table class="tabType01" border="0" cellpadding="0" cellspacing="0" width="540">
+<thead class="TabHeader"> 
+<tr>
+<th class="firstCol">Paramètre de la réponse</th><th>Description</th>
+</tr>
+</thead> 
+<tbody>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>&lt;status_code&gt;</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> integer</div>
+</td>
+<td width="50%">
+<div></div>
+<br></td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>code de statut de la réponse<br>voir tableau ci-dessous</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>&lt;status_msg&gt;</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div>
+<div><strong>type :</strong> string</div>
+</div>
+</td>
+<td width="50%">
+<div></div>
+<br></td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>message de statut de la réponse</p>
+</div>
+<div class="SeparateTabContainer">
+<table class="SeparateTab" border="0" cellpadding="0" cellspacing="0" width="392">
+<thead> 
+<tr>
+<th width="100">
+<p class="color01">code</p>
+</th><th width="290">
+<p class="color01">message</p>
+</th>
+</tr>
+</thead> 
+<tbody>
+<tr>
+<td class="bkg02">200</td>
+<td class="bkg01">ok<br>(ok)</td>
+</tr>
+<tr>
+<td class="bkg02">400</td>
+<td class="bkg01">id is missing<br>(API Access Key est manquante)</td>
+</tr>
+<tr>
+<td class="bkg02">401</td>
+<td>unauthorised id <br>(API Access Key non valid)</td>
+</tr>
+<tr>
+<td class="bkg02">402</td>
+<td>insufficient credit<br>(crédit insuffisant)</td>
+</tr>
+<tr>
+<td class="bkg02">430</td>
+<td>content is missing<br>(contenu manquant)</td>
+</tr>
+<tr>
+<td class="bkg02">431</td>
+<td>from parameter is invalid<br>(le paramètre from est manquant)</td>
+</tr>
+<tr>
+<td class="bkg02">433</td>
+<td>wrong phone number format<br>(mauvais formatage du numero)</td>
+</tr>
+<tr>
+<td class="bkg02">440</td>
+<td>content too long<br>(le contenu dépasse 160 caractères lorsque "long_text=false")</td>
+</tr>
+<tr>
+<td class="bkg02">441</td>
+<td>unauthorised destination<br>(destination non autorisée)</td>
+</tr>
+<tr>
+<td class="bkg02">442</td>
+<td>unauthorised source for this destination<br>(parametre from non valide pour cette destination)</td>
+</tr>
+<tr>
+<td class="bkg02">447</td>
+<td>unreacheable destination<br>(destination non accessible)</td>
+</tr>
+<tr>
+<td class="bkg02">448</td>
+<td>Unauthorized source<br>(paramètre "from" invalide)</td>
+</tr>
+<tr>
+<td class="bkg02">449</td>
+<td>Limit max_sms reached<br>(la limite "max_sms" à été dépassée)</td>
+</tr>
+<tr>
+<td class="bkg02">500</td>
+<td>internal error<br>(erreur interne)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>&lt;call_id&gt;</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide">
+<div><strong>type :</strong> string</div>
+</td>
+</tr>
+<tr>
+<td class="lastBottom firstSide">
+<div>
+<p>Identifiant unique d'appel d'API</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>&lt;nbr_sms_sent&gt;</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide">
+<div><strong>type :</strong> integer</div>
+</td>
+</tr>
+<tr>
+<td class="lastBottom firstSide">
+<div>
+<p>Nombre de SMS envoyés suite à la requête à l'API.</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<br><br><!-- //////////////////// --><!-- Nouvelle sous-partie --><!-- //////////////////// -->
+<h4 class="titre03">b. receiveSMS <span class="color05">recevez par mail ou par URL un SMS sur votre application</span></h4>
+<!-- 1 /// intro -->
+<div class="blocIntro">
+<div class="half">
+<p><strong>La méthode receiveSMS permet à votre application de recevoir un SMS envoyé depuis un mobile dans le <a target="_blank" href="http://api.orange.com/images/docs/orange_api_zon_de_couverture_mo.pdf">monde entier</a>.</strong></p>
+<p>Tutoriels utilisant la méthode receiveSMS :</p>
+<ul>
+<li>- <a target="_blank" href="http://api.orange.com/wiki/index.php/Orange_API_tutoriels">les tutoriels des API d'Orange</a></li>
+</ul>
+</div>
+<a target="_blank" href="http://api.orange.com/images/developerhq/FicProd/img/SMS/Pop_Open_Windows/French/receivesms.gif"><img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/receivesms.gif" alt="receiveSMS" style="float: right;" class="visu" border="0"></a></div>
+<div class="blocDescription"><strong>Vous devez tout d'abord configurer la réception de SMS dans la rubrique <a href="http://api.orange.com/index.php?option=com_espaceperso&view=default&lt;=fr&lang=fr">mon espace peronnel</a> :</strong><br> 
+<ul class="list01">
+<li>Définir vos mots-clés* (jusqu'à 5), qui nous permettent de rediriger les SMS vers votre application</li>
+<li>Votre méthode de réception : par email, ou sur une URL (script), ou les deux</li>
+</ul>
+<p class="color03">*Les mots-clés des API SMS et MMS sont partagés. Un mot clé rajouté pour l'API SMS fonctionnera aussi avec l'API MMS et inversement.</p>
+<br><br>
+<h5 class="titre04">format du SMS à saisir sur le mobile</h5>
+<p>Le SMS envoyé par le mobile doit être sous la forme :</p>
+<ul class="list01">
+<li>votre mot-clé (exemple: orange)</li>
+<li>un espace ou un saut de ligne</li>
+<li>le contenu du SMS</li>
+</ul>
+<p><strong>Exemple :</strong> «<strong> orange</strong> salut, comment ça va ? »<br>Le SMS ne doit pas dépasser 160 caractères (les caractères suivant seront tronqués)</p>
+<br><br>
+<h5 class="titre04">méthode de réception</h5>
+<p>Nous vous proposons deux méthodes de réception, à paramétrer dans <a href="http://api.orange.com/index.php?option=com_espaceperso&view=default&lt;=fr&lang=fr">mon espace personnel</a></p>
+<p><strong>par email</strong><br>Une fois que vous avez enregistré votre adresse e-mail, la fonction receiveSMS acheminera le SMS directement dans votre boîte de réception sous cette forme :</p>
+<div class="code">
+<p><strong>De</strong>: apache@orange.fr<br><strong>A</strong>: <span class="color03">adresse email</span><br><strong>Date</strong>: mer. 01/07/09 18:34<br><strong>Objet</strong>: Sms from <span class="color03">[numéro de mobile émetteur]</span> to <span class="color03">[numéro court de réception]</span> on 2009-07-01 16:34:09.733?</p>
+<hr>
+<p><span class="color03">[mot clé + contenu du message]</span></p>
+</div>
+<br>
+<p><strong>par URL</strong><br>Une fois que vous avez enregistré l'URL de votre script (exemple: http://www.monsite.com/fichierReception.php), la fonction receiveSMS acheminera le SMS vers cette URL en utilisant une requête HTTP GET avec les paramètres suivants :</p>
+</div>
+<!-- 2 /// requ&ecirc;te -->
+<div class="code">
+<p><strong>http://www.monsite.com/fichierReception.php?</strong><strong class="color01">api</strong>=<span class="color03">[méthode api utilisé]</span>&amp;<strong class="color01">from</strong>=<span class="color03">[numéro de mobile émetteur]</span>&amp;<strong class="color01">to</strong>=<span class="color03">[numéro court de réception]</span>&amp;<strong class="color01">content</strong>=<span class="color03">[contenu du SMS reçu]</span></p>
+</div>
+<p class="NB"><a href="http://api.orange.com/#SMSAPiTabRequete3" class="LienDepliant">Détails des paramètres disponible ici &gt;</a></p>
+<div id="SMSAPiTabRequete3" class="Depliant" style="display: block; ">
+<table class="tabType01" border="0" cellpadding="0" cellspacing="0" width="540">
+<thead class="TabHeader"> 
+<tr>
+<th class="firstCol">Paramètre de la requête</th><th>Description</th>
+</tr>
+</thead> 
+<tbody>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>api</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div></div>
+<br></td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>nom de la méthode de l'API :<strong> receiveSMS</strong></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>from</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div></div>
+<br></td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>Numéro du téléphone mobile émetteur du SMS (si l'émetteur a utilisé l'un des numéros courts suivants 31244, 51244, ou 71244 son numéro sera remplacé par un alias)</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg01">
+<td class="param firstCol">
+<div>to</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div></div>
+<br></td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>Numéro courts proposés par l'API :</p>
+</div>
+<div class="SeparateTabContainer">
+<table class="SeparateTab" border="0" cellpadding="0" cellspacing="0" width="392">
+<thead> 
+<tr>
+<th>
+<p>numéro disponible</p>
+</th><th>
+<p>Couverture</p>
+</th><th>
+<p>Facturation</p>
+</th>
+</tr>
+</thead> 
+<tbody>
+<tr>
+<td class="bkg02">20345</td>
+<td>Orange France</td>
+<td>prix d'un SMS</td>
+</tr>
+<tr>
+<td class="bkg02">31244</td>
+<td>France multi opérateurs</td>
+<td>prix d'un SMS</td>
+</tr>
+<tr>
+<td class="bkg02">967482</td>
+<td>Orange UK</td>
+<td>prix d'un SMS</td>
+</tr>
+<tr>
+<td class="bkg02"><span class="skype_pnh_print_container">+447797805210</span><span class="skype_pnh_container" dir="ltr" tabindex="-1"><span class="skype_pnh_mark"> begin_of_the_skype_highlighting</span>&nbsp;<span class="skype_pnh_highlighting_inactive_common" dir="ltr" skypeaction="skype_dropdown" title="Call this phone number in United Kingdom with Skype: +447797805210"><span class="skype_pnh_left_span" skypeaction="skype_dropdown">&nbsp;&nbsp;</span><span class="skype_pnh_dropart_span" skypeaction="skype_dropdown" title="Skype actions"><span class="skype_pnh_dropart_flag_span" skypeaction="skype_dropdown" style="background-position: -2001px 1px !important; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;&nbsp;</span><span class="skype_pnh_textarea_span"><span class="skype_pnh_text_span">+447797805210</span></span><span class="skype_pnh_right_span">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span>&nbsp;<span class="skype_pnh_mark">end_of_the_skype_highlighting</span></span></td>
+<td>International<br>(tous pays, tous opérateurs)</td>
+<td>prix d'un SMS du pays emetteur</td>
+</tr>
+<tr>
+<td class="bkg02">51244<br><strong>(surtaxé =&gt; réponse obligatoire)</strong></td>
+<td>France multi opérateurs</td>
+<td>prix d'un SMS <strong>+ 0.20€</strong></td>
+</tr>
+<tr>
+<td class="bkg02">71244<br><strong>(surtaxé =&gt; réponse obligatoire)</strong></td>
+<td>France multi opérateurs</td>
+<td>prix d'un SMS <strong>+ 0.50€</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="bkg02">
+<td class="param firstCol">
+<div>content</div>
+</td>
+<td>
+<table class="divisionTab" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody>
+<tr>
+<td class="firstSide" width="50%">
+<div><strong>type :</strong> string</div>
+</td>
+<td width="50%">
+<div></div>
+<br></td>
+</tr>
+<tr>
+<td colspan="2" class="lastBottom firstSide">
+<div>
+<p>Contenu du SMS, limité à 160 caractères (mot clé inclus)</p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Vous devez fournir aux utilisateurs de votre application le numéro court sur lequel envoyer un SMS.<br><br>Une réponse de l'application est obligatoire lors de la réception d'un SMS émis via un numéro SMS+ surtaxé (51244 et 71244). Vous devez 'coder' cette réponse dans votre application (voir tutoriel). Le reversement de crédits aura lieu uniquement si une réponse est fournie à l'utilisateur final.<br><br>Un alias est utilisé pour les numéros SMS+ (31244, 51244 et 71244) pour cacher le numéro de mobile de l'utilisateur final. Cet alias est un identifiant unique de l'utilisateur valable environ deux mois.</p>
+</div>
+<br><br>
+<h5 class="titre04">répondre à un SMS surtaxé</h5>
+<p>Une réponse de l'application est obligatoire lors de la réception d’un SMS émis via un numéro SMS+ surtaxé (51244 et 71244). Vous devez 'coder' cette réponse dans votre application.&nbsp; <strong>Le reversement de crédits aura lieu uniquement si une réponse est fournie à l'utilisateur final.</strong></p>
+<p>Nous avons créé un <a target="_blank" href="http://api.orange.com/wiki/index.php/Comment_recevoir_des_SMS_preminum_aide_de_l'API_SMS">tutoriel</a> qui vous donne un exemple de code pour envoyer automatiquement un SMS MT en réponse au SMS MO de l’utilisateur final.</p>
+<br><br>
+<h3 class="titre02"><span>2 .</span> exemple de code</h3>
+<p class="color01"><strong>envoyer un SMS en quelques lignes de code !</strong></p>
+<ul class="list02">
+<li><span>1.</span> copiez/collez ce code dans un fichier PHP.</li>
+<li><span>2.</span> remplissez les paramètres API Access Key, FROM, TO et CONTENT.</li>
+<li><span>3.</span> chargez le fichier sur votre serveur Web.</li>
+<li><span>4.</span> exécutez votre page.</li>
+</ul>
+<div class="code">
+<p class="color01">&lt;?php</p>
+<p class="color03"><span class="color04">// votre API Access Key</span><br>$access_key = "<strong class="color05">XXXXXXX</strong>";<br><br><span class="color04">// adresse de l'API sendSMS</span><br>$adresse = "<strong class="color05">http://run.orangeapi.com</strong><strong class="color05">/sms/sendSMS.xml</strong>";<br> <span class="color04">// shortcode d'émission : 20345 (Orange France), 38100 (Multi-opérateur France), 967482 (Orange UK), 447797805210 (international) ou world (international)</span><br> $from = "<strong class="color05">38100</strong>";<br><span class="color04">// numéro de téléphone du destinataire (au format international)</span><br>$to = "<strong class="color05">336XXXXXXXX</strong>";<br><span class="color04">// activation du SMS long</span><br>$long_text = "<strong class="color05">true</strong>";<br><span class="color04">// limite du nombre de SMS à concaténer</span><br>$max_sms = "<strong class="color05">3</strong>";<br><span class="color04">// activation de l'accusé de réception</span><br>$ack = "<strong class="color05">true</strong>";<br><span class="color04">// type d'encodage</span><br>$content_encoding = "<strong class="color05">gsm7</strong>";<br><span class="color04">// contenu du SMS</span><br>$content = urlencode("<strong class="color05">votre contenu ici !</strong>");<br><br><span class="color04">// exécution de la requête&gt; envoi du SMS</span><br>$fd = file_get_contents($adresse . "?<strong class="color01">id</strong>=" . $access_key . "&amp;<strong class="color01">from</strong>=" . $<strong class="color01">from</strong> . "&amp;<strong class="color01">to</strong>=" . $to . "&amp;<strong class="color01">content</strong>=" . $content . "&amp;<strong class="color01">long_text</strong>=" . $long_text . "&amp;<strong><span class="color01">max_sms</span></strong>=" . $max_sms . "&amp;<strong class="color01">ack</strong>=" . $ack . "&amp;<strong class="color01">content_encoding</strong>=" . $content_encoding);<br><br><span class="color04">// Affichage de la réponse de l'API</span><br>$xml=simplexml_load_string($fd);<br>echo($xml-&gt;status-&gt;status_code . " - " . $xml-&gt;status-&gt;status_msg);</p>
+<p class="color01">?&gt;</p>
+</div>
+</div>
+</div>          </div>
+  </div>
+</div>
+
+	 
+     </div>
+
+<!-- right menu -->
+      <div id="right">
+<div class="modbutton">
+						<a href="http://www.facebook.com/orangeapi" target="_blank">
+															<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/facebook.gif" alt="facebook">
+												</a>
+								<a href="http://twitter.com/orangeapi" target="_blank">
+															<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/twitter.gif" alt="twitter">
+												</a>
+								<a href="http://www.linkedin.com/" target="_blank">
+															<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/linkedin.gif" alt="linkedin">
+												</a>
+								<a href="http://www.viadeo.com/fr/profile/orange.api" target="_blank">
+															<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/viadeo.gif" alt="viadeo">
+												</a>
+								<a href="javascript:return false;" class="newsletterRssLnk" onclick="return hs.htmlExpand(this, { contentId: &#39;rss-html&#39; } )">
+				<img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/rss.gif" alt="rss">
+			</a>
+			</div>
+	<script type="text/javascript">
+	  hs.graphicsDir = 'http://api.orange.com//modules/mod_rss/assets/graphics/';
+	  hs.outlineType = 'rounded-white';
+	  hs.outlineWhileAnimating = true;
+	</script>
+	<div id="rss-html" class="highslide-html-content">
+				
+	  <div class="highslide-header">
+			  <a href="javascript:return false;" class="newsletterRssLnk" onclick="return hs.close(this)" title="Fermer"><img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/btn_closeCross.gif" alt="Fermer" class="ccClose">Fermer</a>
+	  </div>
+
+	  <div class="highslide-body">
+		<h2>s'abonner au flux RSS.</h2>
+		<p>Profitez des dernières news, offers, commentaires avec le flux rss!</p>
+		<form id="rssFormModule" name="rssFormModule" method="get" action="http://api.orange.com/index.php" target="_blank">
+		  <input id="rssblog" type="checkbox" name="blog" value="1" checked="checked"><label for="rssblog"> blog</label><br>
+		  <input id="rssforum" type="checkbox" name="forum" value="1" checked="checked"><label for="rssforum"> forum</label><br>
+		  <input id="rssnews" type="checkbox" name="news" value="1" checked="checked"><label for="rssnews"> news</label><br>
+		  <input id="rssoffers" type="checkbox" name="offers" value="1" checked="checked"><label for="rssoffers"> offers</label><br>
+		  <input type="hidden" name="option" value="com_rss">
+		  <input type="hidden" name="no_html" value="1"> 
+		  <br>
+		  <input title="s&#39;abonner au flux RSS." class="button" type="image" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/subscribe.gif" value="Valider" onclick="javascript:document.rssFormModule.submit();">
+		</form>
+	  </div>
+	  <br>
+
+	</div>
+
+<div id="right_ccallme">
+	<!-- pour mod_button ? -->
+	<!--<script type="text/javascript">
+		/* jQuery("#right_ccallme").ready(function(){
+			if(jQuery("#sous-titre-bc").length > 0 && jQuery("#right_ccallme").attr('id') == "right_ccallme"){
+				var offsetBox = jQuery(".boxgr:first").offset();
+				var offsetFla = jQuery("#right_ccallme").offset();
+				
+				var decalage = offsetBox.top - offsetFla.top;
+				
+				jQuery("#right_ccallme").css('marginTop', decalage);
+			}
+		}); */
+	</script>-->
+	<div id="ccallme">
+		<div id="buttonC2cId"><img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/bouton.gif" onmouseover="this.style.cursor=&#39;pointer&#39;" onclick="c2cd = true;openPopup(&#39;https://c2cad1.internetpluspro.orange-business.com/c2call-frontend//call/click2call.html?s=9106332cer1290521&amp;c=9106332rkm129052&amp;url=&#39;+window.location, &#39;DIV&#39;);"></div>
+<script type="text/javascript" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/button.html"></script>	</div>
+</div>
+<div class="modimagecustom">
+	<div class="image">
+			<img alt="ils utilisent nos solutions" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/0711-encart-haut-droit-1.png">
+		</div>
+	</div>
+      </div>
+<!-- footer -->
+
+<div id="footer">
+     <div id="contentFooter">
+     	
+     </div>
+     <div id="bottomfooter">
+		<div id="newfooter">
+<ul>
+<li><h3><a href="http://api.orange.com/">api.orange.com</a></h3></li>
+<li>&nbsp;</li>
+<li><a href="http://api.orange.com/fr/conditions-generales">conditions générales d'utilisation du site</a></li>
+<li><a href="http://api.orange.com/fr/mentions-legales">mentions légales</a></li>
+<li><a href="http://api.orange.com/fr/contact">contactez-nous</a></li>
+<li><a href="http://api.orange.com/fr/plan-site">plan du site</a></li>
+<li><a href="http://www.orange.com/" target="_blank">orange.com</a></li>
+</ul>
+<ul>
+<li><h3><a href="http://api.orange.com/fr/api-business">entreprises</a></h3></li>
+<li>&nbsp;</li>
+<li><a href="http://api.orange.com/fr/api-business/easy-solutions">Easy Solutions</a></li>
+<li><a href="http://api.orange.com/fr/api-business/custom-solutions">Custom Solutions</a></li>
+<li><a href="http://api.orange.com/fr/api-business/personal">Personal &amp; Social</a></li>
+<li><a href="http://api.orange.com/fr/api-business/consulting-solutions">conseil en API</a></li>
+<li></li>
+</ul>
+<ul>
+<li><h3><a href="http://api.orange.com/fr/all-api">développeurs</a></h3></li>
+<li>&nbsp;</li>
+<li><a href="http://api.orange.com/fr/api-categorie-mobile">Mobile API</a></li>
+<li><a href="http://api.orange.com/fr/api-categorie-voix">Voice API</a></li>
+<li><a href="http://api.orange.com/fr/api-categorie-internet">Internet API</a></li>
+<li><a href="http://api.orange.com/fr/api-categorie-personal">Personal &amp; Social API</a></li>
+<li><a href="http://api.orange.com/fr/api-categorie-machine-vers-machine">Machine &amp; Machine API</a></li>
+</ul>
+<ul>
+<li><h3><a href="http://api.orange.com/fr/api-community">communauté</a></h3></li>
+<li>&nbsp;</li>
+<li><a href="http://blog.api.orange.com/" target="_blank">blog</a></li>
+<li><a href="http://api.orange.com/index.php?option=com_newscommunauty&controller=ncdocs&lang=fr">événements</a></li>
+<li><a href="http://api.orange.com/index.php?option=com_newscommunauty&controller=ncphotos&lang=fr">photos &amp; vidéos</a></li>
+<li><a href="http://api.orange.com/index.php?option=com_newscommunauty&controller=ncdocs&lang=fr">documentation pdf</a></li>
+<li><a href="http://www.facebook.com/orangeapi" target="_blank">find us on facebook</a></li>
+<li><a href="http://twitter.com/orangeapi" target="_blank">derniers tweets</a></li>
+</ul>
+<ul>
+<li><h3><a href="http://api.orange.com/fr/support-api">aide</a></h3></li>
+<li>&nbsp;</li>
+<li><a href="http://feedback.api.orange.com/" target="_blank">forum</a></li>
+<li><a href="http://api.orange.com/wiki/index.php/Orange_API_tutoriels">tutoriels-wiki</a></li>
+<li><a href="http://api.orange.com/fr/faq-api">FAQ</a></li>
+<li><a href="http://api.orange.com/fr/contact">contactez-nous</a></li>
+<li><a href="http://api.orange.com/fr/api-business/outils">outils</a></li>
+</ul>
+<ul>
+<li><h3><a href="http://api.orange.com/fr/mon-espace-personnel">espace personnel</a></h3></li>
+<li>&nbsp;</li>
+<li><a href="http://api.orange.com/fr/mon-espace-personnel/mes-comptes">mon compte</a></li>
+<li><a href="http://api.orange.com/fr/mon-espace-personnel/mes-api">mes API</a></li>
+<li><a href="http://api.orange.com/fr/mon-espace-personnel/ma-newsletter">ma newsletter</a></li>
+<li><a href="http://api.orange.com/fr/mon-espace-personnel/mes-infos-perso">mes coordonnées</a></li>
+</ul>
+</div>
+	 </div>
+</div>
+
+<!-- modules system -->
+<div class="ghide" id="popupSystem">
+	<img id="popupSystem_close" class="clickable" onclick="javascript:closeNotifySystem();" alt="" src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/cross.gif">
+	<h2 id="popupSystem_title">&nbsp;</h2>
+	<p id="popupSystem_message">&nbsp;</p>
+	<p class="orangeTeam" id="popupSystem_signature">&nbsp;</p>
+</div>
+
+<script type="text/javascript">
+<!--
+	function is_null(data) {
+		return data == null;
+	}
+	
+	function openDialogSystem(elt) {
+		elt.setStyles({
+		position:'fixed',
+		zIndex:99999,
+		top:0,
+		left:'150px'});
+	}
+
+	function popupSystem(title, message, signature) {
+		document.id("popupSystem").removeClass("ghide");
+		document.id("popupSystem_title").set("html", title);
+		document.id("popupSystem_message").set("html", message);
+		document.id("popupSystem_signature").set("html", signature);
+		openDialogSystem(document.id("popupSystem"));
+	}
+
+	function closeNotifySystem() {
+		document.id("popupSystem").addClass("ghide").setStyles({zIndex:0});
+	}
+		
+	if (document.id('system-message')) {
+		var elt = document.id('system-message');
+		if (!is_null(elt)) {
+			// Hide
+			var div = elt.getParent('div');
+			div.addClass("ghide");
+			
+			// Title and Message
+			if (is_null(elt.getElement('h2')))
+			{
+				var title = "Identifiez-vous sur Orange API";
+				var message = elt.getElement('li').get('text');
+			}
+			else
+			{
+				var title = elt.getElement('h2').get('text');
+				var message = elt.getElement('p').get('text');
+			}
+			
+			// Signature
+			var signature = "L'&eacute;quipe des API d'Orange";
+			
+			// Popup
+			popupSystem(title, message, signature);
+		}
+	}
+//-->
+</script>
+
+<!-- modules debug -->
+
+<div id="loading" class="displaynone">&nbsp;</div>
+<div id="loadmessage" class="displaynone">
+     <img src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/3_busy.gif" alt="Chargement en cours...">&nbsp;Chargement en cours...</div>
+
+<script type="text/javascript">
+function isGestUser(){
+	return false;}
+
+</script>
+
+</div>
+<script type="text/javascript">
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+ <script type="text/javascript">document.cookie='pathbkp=http://api.orange.com/fr/api/sms-api/documentation;mardi, 06-sep-2011 11:27:04; path=/';</script><div id="rokbox-overlay" class="rokbox-overlay" style="visibility: hidden; zoom: 1; opacity: 0; display: none; position: absolute; cursor: pointer; background-color: rgb(0, 0, 0); z-index: 65550; top: 0px; left: 0px; width: 100%; height: 4459px; "></div><div id="rokbox-wrapper" class="rokbox-light" style="position: absolute; z-index: 65555; visibility: hidden; zoom: 1; opacity: 0; display: none; top: 2597px; left: 960px; "><div id="rokbox-top" class="rokbox-left"><div class="rokbox-right"><div class="rokbox-center"></div></div></div><div id="rokbox-middle" class="rokbox-left"><div class="rokbox-right"><div class="rokbox-center"><a id="rokbox-close" href="http://api.orange.com/#"><span>[x] close</span></a></div></div></div><div id="rokbox-bottom" class="rokbox-left"><div class="rokbox-right"><div class="rokbox-center"></div></div></div><div class="clr"></div></div><div class="tip-wrap" style="position: absolute; top: 0px; left: 0px; "><div class="tip-top"></div><div class="tip"></div><div class="tip-bottom"></div></div><div style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; position: absolute; left: 0px; top: 0px; width: 100%; z-index: 1001; "><a class="highslide-loading" title="Click to cancel" style="position: absolute; opacity: 0.75; left: -9999px; z-index: 1; ">Loading...</a><table cellspacing="0" style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; visibility: hidden; position: absolute; border-collapse: collapse; "><tbody style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; "><tr style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; height: auto; "><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: 0px 0px; background-repeat: initial initial; "></td><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: 0px -40px; background-repeat: initial initial; "></td><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: -20px 0px; background-repeat: initial initial; "></td></tr><tr style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; height: auto; "><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: 0px -80px; background-repeat: initial initial; "></td><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; position: relative; " class="rounded-white"></td><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: -20px -80px; background-repeat: initial initial; "></td></tr><tr style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; height: auto; "><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: 0px -20px; background-repeat: initial initial; "></td><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: 0px -60px; background-repeat: initial initial; "></td><td style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; line-height: 0; font-size: 0px; background-image: url(http://api.orange.com//modules/mod_rss/assets/graphics/outlines/rounded-white.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; height: 20px; width: 20px; background-position: -20px -20px; background-repeat: initial initial; "></td></tr></tbody></table><img style="padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; position: absolute; left: -9999px; top: -9999px; " src="./Orange API - API SMS, téléchargez l'application SMS sur orange API - Orange API_files/rounded-white.png"></div></body><span id="skype_highlighting_settings" display="none" autoextractnumbers="1"></span><object id="skype_plugin_object" location.href="http://api.orange.com/fr/api/sms-api/documentation" location.hostname="api.orange.com" style="position: absolute; visibility: hidden; left: -100px; top: -100px; " width="0" height="0" type="application/x-vnd.skype.toolbars.npplugin.4.2.0"></object></html>

@@ -37,10 +37,15 @@ function init()
   moDispositifCs    = new MonitorOutputDispositifCs   ();
   moInterventionCs  = new MonitorOutputInterventionCs ();
   monitorOutputCs   = new MonitorOutputCs             ();
-  
+try
+{
   googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
   googleMapAdressResolver.init();
-  
+}
+catch(e)
+{
+	     console.log(e);  
+}
   taskRunner = new Ext.util.TaskRunner();
   
   crfIrpUtils.getAllList();

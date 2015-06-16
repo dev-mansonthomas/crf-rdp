@@ -501,9 +501,16 @@ function init()
   
   miBilanCs               = Ext.ux.MonitorInput.BilanEditor;
   miBilanCs.init();
-  googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
-  googleMapAdressResolver.init();
- 
+  try
+  {
+	  googleMapAdressResolver = Ext.ux.GMapAddressResolver ;
+	  googleMapAdressResolver.init();  
+  }
+  catch(e)
+  {
+	     console.log(e);  
+  }
+  
   miSMSCs = new Ext.ux.monitor.input.SMS();
   
     /* init de la liste des interventions*/

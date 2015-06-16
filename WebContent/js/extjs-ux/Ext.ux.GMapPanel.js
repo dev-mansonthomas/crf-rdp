@@ -12,7 +12,8 @@
  */
 
 Ext.namespace('Ext.ux');
-google.maps.visualRefresh = true;
+
+//google.maps.visualRefresh = true;
 
 /**
  *

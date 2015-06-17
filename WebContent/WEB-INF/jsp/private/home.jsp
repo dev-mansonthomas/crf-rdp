@@ -75,6 +75,7 @@
 
   <c:if test="${environmentCode=='DEV'}">
     <a href="test/testThomas.html">Page de Test Thomas</a>
+    <a href="test/testRest.html">Page de Test Thomas</a>
   </c:if>
 </div>
 

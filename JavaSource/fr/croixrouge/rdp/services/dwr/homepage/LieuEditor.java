@@ -1,5 +1,7 @@
 package fr.croixrouge.rdp.services.dwr.homepage;
 
+import javax.ws.rs.Path;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -9,6 +11,7 @@ import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.lieu.LieuService;
 
+@Path("/hello")
 public class LieuEditor extends DWRUtils
 {
   private static Log          logger              = LogFactory.getLog(LieuEditor.class);

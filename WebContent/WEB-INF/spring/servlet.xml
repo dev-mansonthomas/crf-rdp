@@ -16,6 +16,7 @@
             <prop  key="/private/monitor/in.html"     >MonitorInController</prop>
             <prop  key="/private/monitor/out.html"    >MonitorOutController</prop>
             <prop  key="/private/test/testThomas.html">TestController</prop>
+            <prop  key="/private/test/testRest.html"  >TestRestController</prop>
           </props>
        </property>
   </bean>
@@ -42,6 +43,9 @@
 
   <bean id="TestController" name="TestController"
        class="fr.croixrouge.rdp.controller.TestController" autowire="constructor">
+  </bean>
+    <bean id="TestRestController" name="TestRestController"
+       class="fr.croixrouge.rdp.controller.TestRestController" autowire="constructor">
   </bean>
   
   <!-- View Resolvers -->

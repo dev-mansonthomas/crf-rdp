@@ -15,7 +15,7 @@
     </property>
   </bean>
 <!-- Clock Job -->
-  <bean id="clockJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  <bean id="clockJobCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
     <property name="jobDetail" ref="clockJob"/>
     <property name="cronExpression" value="0,15,30,45 * * * * ?"/><!-- Toutes les 15secondes -->
   </bean>
@@ -31,7 +31,7 @@
   
 
 <!-- Synchro Equipier SIORD Job -->
-  <bean id="synchroEquipierSIORDCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  <bean id="synchroEquipierSIORDCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
     <property name="jobDetail" ref="synchroEquipierSIORDJob"/>
     <property name="cronExpression" value="0 03 * * * ?"/><!-- Toutes les heures -->
   </bean>
@@ -51,7 +51,7 @@
  
  
  <!-- Synchro Activity SIORD Job -->
-  <bean id="synchroActivitySIORDCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+  <bean id="synchroActivitySIORDCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
     <property name="jobDetail" ref="synchroActivitySIORDJob"/>
     <property name="cronExpression" value="0 0 * * * ?"/><!-- Toutes les heures -->
   </bean>

@@ -74,8 +74,9 @@
   <p>N° de Déclaration à la CNIL : ${applicationDeclarationCnil}</p>
 
   <c:if test="${environmentCode=='DEV'}">
-    <a href="test/testThomas.html">Page de Test Thomas</a>
-    <a href="test/testRest.html">Page de Test Thomas</a>
+    <a href="test/testThomas.html">Page de Test Thomas</a>&nbsp;&nbsp;
+    <a href="test/testRest.html">Page de Test REST Thomas</a>&nbsp;&nbsp;
+    <a href="swagger/index.html">swagger</a>
   </c:if>
 </div>
 

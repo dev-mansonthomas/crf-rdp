@@ -2,6 +2,7 @@ package fr.croixrouge.rdp.model.monitor;
 
 import java.io.Serializable;
 
+
 public class Lieu implements Serializable
 {
   private static final long serialVersionUID = -7990736631867351632L;

@@ -1,17 +1,39 @@
 package fr.croixrouge.rdp.services.dwr.homepage;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 
 import fr.croixrouge.rdp.model.monitor.Lieu;
+import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
+import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.lieu.LieuService;
 
-@Path("/hello")
+@Component
+@Path("/lieu")
+@Produces(MediaType.APPLICATION_JSON)
+@Api(value="LieuEditor", description="Allow to do CRUD operation on Lieu")
 public class LieuEditor extends DWRUtils
 {
   private static Log          logger              = LogFactory.getLog(LieuEditor.class);
@@ -25,10 +47,53 @@ public class LieuEditor extends DWRUtils
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
+ 
+  @GET
+  @Path("/search")
+  @ApiOperation(value="Perform a paginated search on lieux")
+  public ListRange<Lieu> getLieux( 	@ApiParam(value="start"     ,required=true , defaultValue="0" ) @QueryParam("start"     ) @DefaultValue("0" ) int start	,
+                                    @ApiParam(value="limit"     ,required=true , defaultValue="10") @QueryParam("limit"     ) @DefaultValue("10") int limit	,
+                                    @ApiParam(value="sortField" ,required=true , defaultValue="id") @QueryParam("sortField" ) @DefaultValue("id") String  sortField,
+                                    @ApiParam(value="sortAsc"   ,required=false) @QueryParam("sortAsc"   ) boolean sortAsc     ,
+                                    @ApiParam(value="nom"       ,required=false) @QueryParam("nom"       ) String nom				   ,  
+                                    @ApiParam(value="codePostal",required=false) @QueryParam("codePostal") String codePostal	 ,
+                                    @ApiParam(value="idTypeLieu",required=false) @QueryParam("idTypeLieu") int    idTypeLieu   ) throws Exception
+  {
+	  GridSearchFilterAndSortObject gsfaso = new GridSearchFilterAndSortObject();
+	  gsfaso.setStart(start);
+	  gsfaso.setLimit(limit);
+	  List<FilterObject> filters = new ArrayList<FilterObject>(3);
+	  
+	  if(nom != null)
+	  {
+	    filters.add(new FilterObject("nom", nom, FilterObject.COMP_LIKE));
+	  }
+	  if(codePostal != null)
+    {
+      filters.add(new FilterObject("codePostal", codePostal, FilterObject.COMP_LIKE));
+    }
+	  
+	  if(idTypeLieu != 0)
+    {
+      filters.add(new FilterObject("idTypeLieu", idTypeLieu+"", FilterObject.COMP_EQUAL));
+    }
+	  
+	  gsfaso.setFilters(filters.toArray(new FilterObject[filters.size()]));
+	  
+	  
+	  if(sortField != null)
+	  {
+	    gsfaso.setSingleSort(new SortObject(sortField, sortAsc));
+	  }
+	  
+	  return this.getLieux(gsfaso);
+  }
   
+  
+  @Deprecated
   public ListRange<Lieu> getLieux(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     
     try
     {  
@@ -36,16 +101,18 @@ public class LieuEditor extends DWRUtils
     }
     catch (Exception e)
     {
-      logger.error("Erreur lors de la récupération de la liste des lieux", e);
+      logger.error("Erreur lors de la récupération de la liste des lieux avec la recherche "+gsfaso, e);
       throw e;
     }
     
   }
 
-  
-  public Lieu getLieu(int idLieu) throws Exception
+  @GET
+  @Path("/{idLieu}")
+  @ApiOperation(value="Get the full details of one lieu object")
+  public Lieu getLieu(@ApiParam(value="idLieu",required=true) @PathParam("idLieu") int idLieu) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {  
       return  this.lieuService.getLieu(idLieu);    
@@ -56,10 +123,12 @@ public class LieuEditor extends DWRUtils
       throw e;
     }
   }
-  
-  public void enableLieu (int idLieu) throws Exception
+  @PUT
+  @Path("/{idLieu}/enable")
+  @ApiOperation(value="enable one lieu")
+  public void enableLieu (@ApiParam(value="idLieu",required=true) @PathParam ("idLieu") int idLieu) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {  
       this.lieuService.setEnableStatusOnLieu(idLieu, true);    
@@ -70,10 +139,12 @@ public class LieuEditor extends DWRUtils
       throw e;
     }
   }
-  
-  public void disableLieu(int idLieu) throws Exception
+  @PUT
+  @Path("/{idLieu}/disable")
+  @ApiOperation(value="disable one lieu")
+  public void disableLieu(@ApiParam(value="idLieu",required=true) @PathParam ("idLieu") int idLieu) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {  
       this.lieuService.setEnableStatusOnLieu(idLieu, true);  
@@ -84,10 +155,12 @@ public class LieuEditor extends DWRUtils
       throw e;
     }
   }
-  
-  public void deleteLieu(int idLieu) throws Exception
+  @DELETE
+  @Path("/{idLieu}")
+  @ApiOperation(value="delete one lieu")
+  public void deleteLieu(@ApiParam(value="idLieu",required=true) @PathParam ("idLieu") int idLieu) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {  
       this.lieuService.deleteLieu(idLieu);  
@@ -101,10 +174,11 @@ public class LieuEditor extends DWRUtils
       throw new Exception(msg + "\n\n" +e.getMessage());
     }
   }
-  
+  @POST
+  @ApiOperation(value="Create an empty lieu and return the lieuId (DB primary key)")
   public int createNewEmptyLieu() throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {  
       return this.lieuService.createNewEmptyLieu();  
@@ -116,10 +190,14 @@ public class LieuEditor extends DWRUtils
     }
   }
   
-  
-  public void updateGoogleCoordinates(float latitude, float longitude, int idLieu) throws Exception
+  @PUT
+  @Path("/{idLieu}/updateGoogleCoordinates")
+  @ApiOperation(value="update google coordinates of one lieu")
+  public void updateGoogleCoordinates(@ApiParam(value="latitude" ,required=true) @QueryParam("latitude" ) float latitude, 
+                                      @ApiParam(value="longitude",required=true) @QueryParam("longitude") float longitude, 
+                                      @ApiParam(value="idLieu"   ,required=true) @PathParam ("idLieu"   ) int   idLieu) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {
       this.lieuService.updateGoogleCoordinates(latitude, longitude, idLieu);
@@ -129,10 +207,14 @@ public class LieuEditor extends DWRUtils
       throw e;
     }
   }
-  
-  public void updateIntegerField(int idLieu, String fieldName, int      fieldValue) throws Exception
+  @PUT
+  @Path("/{idLieu}/updateIntegerField")
+  @ApiOperation(value="update an integer field of one lieu")
+  public void updateIntegerField( @ApiParam(value="idLieu"    ,required=true) @PathParam ("idLieu"    ) int    idLieu, 
+                                  @ApiParam(value="fieldName" ,required=true) @QueryParam("fieldName" ) String fieldName, 
+                                  @ApiParam(value="fieldValue",required=true) @QueryParam("fieldValue") int    fieldValue) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {
       this.lieuService.updateIntegerField(idLieu, fieldName, fieldValue);
@@ -144,9 +226,14 @@ public class LieuEditor extends DWRUtils
     }
     
   }
-  public void updateFloatField  (int idLieu, String fieldName, float    fieldValue) throws Exception
+  @PUT
+  @Path("/{idLieu}/updateFloatField")
+  @ApiOperation(value="update a float field of one lieu")
+  public void updateFloatField( @ApiParam(value="idLieu"    ,required=true) @PathParam ("idLieu"    ) int    idLieu, 
+                                @ApiParam(value="fieldName" ,required=true) @QueryParam("fieldName" ) String fieldName, 
+                                @ApiParam(value="fieldValue",required=true) @QueryParam("fieldValue") float  fieldValue) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {
       this.lieuService.updateFloatField(idLieu, fieldName, fieldValue);
@@ -157,9 +244,15 @@ public class LieuEditor extends DWRUtils
       throw e;
     }
   }
-  public void updateStringField (int idLieu, String fieldName, String   fieldValue) throws Exception
+  
+  @PUT
+  @Path("/{idLieu}/updateStringField")
+  @ApiOperation(value="update a String field of one lieu")
+  public void updateStringField ( @ApiParam(value="idLieu"    ,required=true) @PathParam ("idLieu"    ) int    idLieu, 
+                                  @ApiParam(value="fieldName" ,required=true) @QueryParam("fieldName" ) String fieldName, 
+                                  @ApiParam(value="fieldValue",required=true) @QueryParam("fieldValue") String fieldValue) throws Exception
   {
-    this.validateSession();
+    //this.validateSession();
     try
     {
       this.lieuService.updateStringField(idLieu, fieldName, fieldValue);
@@ -170,6 +263,4 @@ public class LieuEditor extends DWRUtils
       throw e;
     }
   }
-  
-  
 }

@@ -58,6 +58,12 @@ public class GridSearchFilterAndSortObject implements Serializable
     return null;
   }
   
+  public void setSingleSort(SortObject sortObject)
+  {
+    this.sorts = new SortObject[1];
+    this.sorts[0]=sortObject;
+  }
+  
   public int getStart()
   {
     return start;

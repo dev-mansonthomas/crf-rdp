@@ -5,8 +5,7 @@
 	version="3.0">
 
 	<display-name>crf-rdp</display-name>
-	<!-- <context-param> <param-name>contextConfigLocation</param-name> <param-value>/WEB-INF/applicationContext*.xml</param-value> 
-		</context-param> -->
+
 	<filter>
 		<filter-name>Security Filter</filter-name>
 		<filter-class>fr.croixrouge.utilities.web.security.SecurityFilter</filter-class>
@@ -80,6 +79,10 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
 
 	<servlet>
 		<description>Direct Web Remoter Servlet</description>
@@ -172,18 +175,36 @@
 	<servlet>
 		<servlet-name>Jersey REST Service</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-		<!-- Register resources and providers under com.vogella.jersey.first package. -->
+		<!-- Register resources and providers under com.vogella.jersey.first package.  -->
 		<init-param>
-			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>fr.croixrouge.rdp.services.dwr</param-value>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>fr.croixrouge.rdp.services.dwr.JerseyRegisterResource</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
+
+    <servlet>
+        <servlet-name>Jersey2Config</servlet-name>
+        <servlet-class>com.wordnik.swagger.jersey.config.JerseyJaxrsConfig</servlet-class>
+        <init-param>
+            <param-name>api.version</param-name>
+            <param-value>1.1.1</param-value>
+        </init-param>
+        <init-param>
+            <param-name>swagger.api.basepath</param-name>
+            <param-value>http://localhost:8080/crf-rdp/private/rest</param-value>
+        </init-param>        
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
 
 	<servlet-mapping>
 		<servlet-name>Jersey REST Service</servlet-name>
 		<url-pattern>/private/rest/*</url-pattern>
 	</servlet-mapping>
+
+
 
 
 	<!-- Spring MVC -->

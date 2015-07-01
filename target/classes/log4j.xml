@@ -14,17 +14,17 @@
   </logger>
 
   <logger name="net.jawr" additivity="false">
-    <level value="debug" />
+    <level value="warn" />
     <appender-ref ref="STDOUT" />
   </logger>
 
   <logger name="org.directwebremoting" additivity="false">
-    <level value="debug" />
+    <level value="warn" />
     <appender-ref ref="STDOUT" />
   </logger>
 
   <logger name="fr.croixrouge" additivity="false">
-    <level value="debug" />
+    <level value="info" />
     <appender-ref ref="STDOUT" />
   </logger>
 
@@ -58,11 +58,17 @@
     <appender-ref ref="STDOUT" />
   </logger>
   
-  
-
+  <logger name="com.wordnik" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+  </logger>
+  <logger name="org.glassfish.jersey" additivity="false">
+    <level value="info" />
+    <appender-ref ref="STDOUT" />
+  </logger>
 
   <logger name="com.yahoo" additivity="false">
-    <level value="debug" />
+    <level value="warn" />
     <appender-ref ref="STDOUT" />
   </logger>
 

@@ -8,7 +8,22 @@ public class FilterObject implements Serializable
   private String name;
   private String value;
   private String comparator;
+ 
   
+  public static String COMP_LIKE = "LIKE";
+  public static String COMP_EQUAL= "=";
+  
+  
+  public FilterObject()
+  {
+    
+  }
+  public FilterObject(String name, String value, String comparator)
+  {
+    this.name       = name;
+    this.value      = value;
+    this.comparator = comparator;
+  }
   
   public String toString()
   {

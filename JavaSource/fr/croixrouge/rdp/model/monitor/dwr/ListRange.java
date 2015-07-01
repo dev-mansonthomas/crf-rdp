@@ -3,6 +3,7 @@ package fr.croixrouge.rdp.model.monitor.dwr;
 import java.io.Serializable;
 import java.util.List;
 
+
 public class ListRange<T> implements Serializable
 {
   private static final long serialVersionUID = 8384259935841191902L;

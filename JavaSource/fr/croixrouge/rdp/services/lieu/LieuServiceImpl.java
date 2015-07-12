@@ -463,39 +463,7 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
 
   }
   
-  
-  public static String[]floatField = {           
-    "googleCoordsLat",          
-    "googleCoordsLong"                 
-  };
-  private static Hashtable<String, String> floatFieldMatching = new Hashtable<String, String>(floatField.length);
-  {
-    floatFieldMatching.put("googleCoordsLat"                    , "google_coords_lat"                 );
-    floatFieldMatching.put("googleCoordsLong"                   , "google_coords_long"                );
-  }
-  
-  
-  public void updateFloatField    (int idLieu, String fieldName, float    fieldValue  ) throws Exception
-  {
-    String realFieldName = floatFieldMatching.get(fieldName);
-    
-    if(realFieldName == null)
-      throw new Exception("Unknown float field '"+fieldName+"' for lieu update");
 
-    String query = 
-      "UPDATE lieu                 \n"+
-      "SET    "+realFieldName+" = ?\n"+
-      "WHERE  id_lieu           = ?\n";
-    
-    int nbLineUpdated = this.jdbcTemplate.update( query, 
-                                                  new Object[]{fieldValue   , idLieu}, 
-                                                  new int   []{Types.VARCHAR, Types.INTEGER}
-                                                );
-    if(logger.isDebugEnabled())
-      logger.debug("Lieu with id='"+idLieu+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
-
-  }
-  
   
   private final static String queryForUpdateGoogleCoordinates = 
     "UPDATE lieu                   \n"+

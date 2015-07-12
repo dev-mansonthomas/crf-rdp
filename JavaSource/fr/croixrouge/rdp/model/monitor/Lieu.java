@@ -6,6 +6,15 @@ import java.io.Serializable;
 public class Lieu implements Serializable
 {
   private static final long serialVersionUID = -7990736631867351632L;
+
+  public Lieu()
+  {
+
+  }
+  public Lieu(int idLieu)
+  {
+    this.idLieu = idLieu;
+  }
   
   private int     idLieu            ;  
   private int     idTypeLieu        ;

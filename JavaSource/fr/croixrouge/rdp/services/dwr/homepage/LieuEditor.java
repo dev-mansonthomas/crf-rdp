@@ -147,7 +147,7 @@ public class LieuEditor extends DWRUtils
     //this.validateSession();
     try
     {  
-      this.lieuService.setEnableStatusOnLieu(idLieu, true);  
+      this.lieuService.setEnableStatusOnLieu(idLieu, false);
     }
     catch (Exception e)
     {
@@ -176,12 +176,12 @@ public class LieuEditor extends DWRUtils
   }
   @POST
   @ApiOperation(value="Create an empty lieu and return the lieuId (DB primary key)")
-  public int createNewEmptyLieu() throws Exception
+  public Lieu createNewEmptyLieu() throws Exception
   {
     //this.validateSession();
     try
     {  
-      return this.lieuService.createNewEmptyLieu();  
+      return new Lieu(this.lieuService.createNewEmptyLieu());
     }
     catch (Exception e)
     {
@@ -225,24 +225,6 @@ public class LieuEditor extends DWRUtils
       throw e;
     }
     
-  }
-  @PUT
-  @Path("/{idLieu}/updateFloatField")
-  @ApiOperation(value="update a float field of one lieu")
-  public void updateFloatField( @ApiParam(value="idLieu"    ,required=true) @PathParam ("idLieu"    ) int    idLieu, 
-                                @ApiParam(value="fieldName" ,required=true) @QueryParam("fieldName" ) String fieldName, 
-                                @ApiParam(value="fieldValue",required=true) @QueryParam("fieldValue") float  fieldValue) throws Exception
-  {
-    //this.validateSession();
-    try
-    {
-      this.lieuService.updateFloatField(idLieu, fieldName, fieldValue);
-    }
-    catch(Exception e)
-    {
-      logger.error("Error while updating float field on lieu id='"+idLieu+"' fieldName='"+fieldName+"' fieldValue='"+fieldValue+"'",e);
-      throw e;
-    }
   }
   
   @PUT

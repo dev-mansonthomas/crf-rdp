@@ -5,15 +5,17 @@ import java.io.Serializable;
 public class Delegation implements Serializable
 {
   private static final long serialVersionUID = -9036828043202493882L;
+
+  public Delegation()
+  {
+
+  }
   
   private int     idDelegation;
   private String  nom         ;
   private String  departement ;
   
-  public Delegation()
-  {
-    
-  }
+
   
   public Delegation(int idDelegation)
   {

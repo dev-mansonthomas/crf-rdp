@@ -33,7 +33,7 @@ import fr.croixrouge.rdp.services.lieu.LieuService;
 @Component
 @Path("/lieu")
 @Produces(MediaType.APPLICATION_JSON)
-@Api(value="LieuEditor", description="Allow to do CRUD operation on Lieu")
+@Api(value="LieuEditor", description="Allow to do CRUD+Search operation on Lieu")
 public class LieuEditor extends DWRUtils
 {
   private static Log          logger              = LogFactory.getLog(LieuEditor.class);
@@ -85,34 +85,25 @@ public class LieuEditor extends DWRUtils
 	  {
 	    gsfaso.setSingleSort(new SortObject(sortField, sortAsc));
 	  }
-	  
-	  return this.getLieux(gsfaso);
-  }
-  
-  
-  @Deprecated
-  public ListRange<Lieu> getLieux(GridSearchFilterAndSortObject gsfaso) throws Exception
-  {
-    //this.validateSession();
-    
+
     try
-    {  
-      return  this.lieuService.getLieux(gsfaso);    
+    {
+      return  this.lieuService.getLieux(gsfaso);
     }
     catch (Exception e)
     {
       logger.error("Erreur lors de la récupération de la liste des lieux avec la recherche "+gsfaso, e);
       throw e;
     }
-    
   }
+  
 
   @GET
   @Path("/{idLieu}")
   @ApiOperation(value="Get the full details of one lieu object")
   public Lieu getLieu(@ApiParam(value="idLieu",required=true) @PathParam("idLieu") int idLieu) throws Exception
   {
-    //this.validateSession();
+    
     try
     {  
       return  this.lieuService.getLieu(idLieu);    
@@ -128,7 +119,7 @@ public class LieuEditor extends DWRUtils
   @ApiOperation(value="enable one lieu")
   public void enableLieu (@ApiParam(value="idLieu",required=true) @PathParam ("idLieu") int idLieu) throws Exception
   {
-    //this.validateSession();
+    
     try
     {  
       this.lieuService.setEnableStatusOnLieu(idLieu, true);    
@@ -144,7 +135,7 @@ public class LieuEditor extends DWRUtils
   @ApiOperation(value="disable one lieu")
   public void disableLieu(@ApiParam(value="idLieu",required=true) @PathParam ("idLieu") int idLieu) throws Exception
   {
-    //this.validateSession();
+    
     try
     {  
       this.lieuService.setEnableStatusOnLieu(idLieu, false);
@@ -160,7 +151,7 @@ public class LieuEditor extends DWRUtils
   @ApiOperation(value="delete one lieu")
   public void deleteLieu(@ApiParam(value="idLieu",required=true) @PathParam ("idLieu") int idLieu) throws Exception
   {
-    //this.validateSession();
+    
     try
     {  
       this.lieuService.deleteLieu(idLieu);  
@@ -178,7 +169,7 @@ public class LieuEditor extends DWRUtils
   @ApiOperation(value="Create an empty lieu and return the lieuId (DB primary key)")
   public Lieu createNewEmptyLieu() throws Exception
   {
-    //this.validateSession();
+    
     try
     {  
       return new Lieu(this.lieuService.createNewEmptyLieu());
@@ -197,7 +188,7 @@ public class LieuEditor extends DWRUtils
                                       @ApiParam(value="longitude",required=true) @QueryParam("longitude") float longitude, 
                                       @ApiParam(value="idLieu"   ,required=true) @PathParam ("idLieu"   ) int   idLieu) throws Exception
   {
-    //this.validateSession();
+    
     try
     {
       this.lieuService.updateGoogleCoordinates(latitude, longitude, idLieu);
@@ -214,7 +205,7 @@ public class LieuEditor extends DWRUtils
                                   @ApiParam(value="fieldName" ,required=true) @QueryParam("fieldName" ) String fieldName, 
                                   @ApiParam(value="fieldValue",required=true) @QueryParam("fieldValue") int    fieldValue) throws Exception
   {
-    //this.validateSession();
+    
     try
     {
       this.lieuService.updateIntegerField(idLieu, fieldName, fieldValue);
@@ -234,7 +225,7 @@ public class LieuEditor extends DWRUtils
                                   @ApiParam(value="fieldName" ,required=true) @QueryParam("fieldName" ) String fieldName, 
                                   @ApiParam(value="fieldValue",required=true) @QueryParam("fieldValue") String fieldValue) throws Exception
   {
-    //this.validateSession();
+    
     try
     {
       this.lieuService.updateStringField(idLieu, fieldName, fieldValue);

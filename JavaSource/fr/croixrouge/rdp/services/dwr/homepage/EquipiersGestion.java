@@ -1,7 +1,13 @@
 package fr.croixrouge.rdp.services.dwr.homepage;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
+import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -16,6 +22,15 @@ import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.user.UserService;
 import fr.croixrouge.rdp.services.utilities.UtilitiesService;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+
+@Component
+@Path("/equpier")
+@Produces(MediaType.APPLICATION_JSON)
+@Api(value="EquipierEditor", description="Allow to do CRUD+Search operation on Equipier")
 
 public class EquipiersGestion extends DWRUtils
 {
@@ -36,11 +51,80 @@ public class EquipiersGestion extends DWRUtils
     if(logger.isDebugEnabled())
       logger.debug("constructor called");
   }
-  
-  public ListRange<Equipier> getEquipierList(GridSearchFilterAndSortObject gsfaso) throws Exception
+
+
+
+  @GET
+  @Path("/search")
+  @ApiOperation(value="Perform a paginated search on equipiers")
+  public ListRange<Equipier> getEquipierList(  @ApiParam(value="start"     ,required=true , defaultValue="0"  ) @QueryParam("start"     ) @DefaultValue("0" ) int start	,
+                                               @ApiParam(value="limit"     ,required=true , defaultValue="10" ) @QueryParam("limit"     ) @DefaultValue("10") int limit	,
+                                               @ApiParam(value="sortField" ,required=true , defaultValue="nom") @QueryParam("sortField" ) @DefaultValue("id") String  sortField,
+                                               @ApiParam(value="sortAsc"   ,required=false) @QueryParam("sortAsc"   ) boolean sortAsc     ,
+                                               @ApiParam(value="nom"            ,required=false) @QueryParam("nom"       			) String 	nom          	,
+                                               @ApiParam(value="prenom"         ,required=false) @QueryParam("codePostal"			) String 	prenom   			,
+                                               @ApiParam(value="nivol"          ,required=false) @QueryParam("nivol"					) String  nivol					,
+                                               @ApiParam(value="equipierIsMale" ,required=false) @QueryParam("equipierIsMale"	) Boolean equipierIsMale,
+                                               @ApiParam(value="idRoleEquipier" ,required=false) @QueryParam("idRoleEquipier"	) Integer idRoleEquipier,
+                                               @ApiParam(value="email"          ,required=false) @QueryParam("email"					) String  email					,
+                                               @ApiParam(value="mobile"         ,required=false) @QueryParam("mobile"					) String  mobile				,
+                                               @ApiParam(value="enabled"        ,required=false) @QueryParam("enabled"				) Boolean enabled				,
+                                               @ApiParam(value="idDelegation"   ,required=false) @QueryParam("idDelegation"		) Integer idDelegation	 ) throws Exception
   {
-    this.validateSession();
+    GridSearchFilterAndSortObject gsfaso = new GridSearchFilterAndSortObject();
+    gsfaso.setStart(start);
+    gsfaso.setLimit(limit);
+    List<FilterObject> filters = new ArrayList<FilterObject>(9);
+
     
+    if(nom != null)
+    {
+      filters.add(new FilterObject("NOM", nom, FilterObject.COMP_LIKE));
+    }
+    if(prenom != null)
+    {
+      filters.add(new FilterObject("PRENOM", prenom, FilterObject.COMP_LIKE));
+    }
+    if(nivol != null)
+    {
+      filters.add(new FilterObject("nivol", nivol, FilterObject.COMP_LIKE));
+    }
+    if(mobile != null)
+    {
+      filters.add(new FilterObject("MOBILE", mobile, FilterObject.COMP_LIKE));
+    }
+    if(email != null)
+    {
+      filters.add(new FilterObject("EMAIL", email, FilterObject.COMP_LIKE));
+    }
+
+    if(equipierIsMale != null)
+    {
+      filters.add(new FilterObject("EQUIPIER_IS_MALE", equipierIsMale+"", FilterObject.COMP_EQUAL));
+    }
+
+    if(enabled != null)
+    {
+      filters.add(new FilterObject("ENABLED", enabled+"", FilterObject.COMP_EQUAL));
+    }
+
+    if(idRoleEquipier != null)
+    {
+      filters.add(new FilterObject("ID_ROLE_EQUIPIER", idRoleEquipier+"", FilterObject.COMP_EQUAL));
+    }
+    if(idDelegation != null)
+    {
+      filters.add(new FilterObject("ID_DELEGATION", idDelegation+"", FilterObject.COMP_EQUAL));
+    }
+
+    gsfaso.setFilters(filters.toArray(new FilterObject[filters.size()]));
+
+
+    if(sortField != null)
+    {
+      gsfaso.setSingleSort(new SortObject(sortField, sortAsc));
+    }
+
     try
     {  
       return  this.equipierService.getEquipiers(gsfaso);    
@@ -52,33 +136,29 @@ public class EquipiersGestion extends DWRUtils
     }
     
   }
-  
-  public Equipier getEquipierByNivol(String nivol) throws Exception
+
+  @GET
+  @Path("/{idEquipier}")
+  @ApiOperation(value="Get the full details of one Equipier object")
+  public Equipier getEquipier(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")  int idEquipier) throws Exception
   {
-    this.validateSession();
-    
     try
     {
-      return this.equipierService.getEquipierByNivol(nivol);  
-    }
-    catch(EmptyResultDataAccessException erdae)
-    {
-      
-      //Si on ne trouve rien, c'est ok, on retourne un equipier avec l'id -1
-      Equipier e = new Equipier();
-      e.setIdEquipier(-1);
-      return e;
+      return this.equipierService.getEquipier(idEquipier);
     }
     catch(Exception e)
     {
-      logger.error("Erreur lors de la récupération de l'équipier dont le nivol est '"+nivol+"'", e);
+      logger.error("Erreur lors de la récupération de l'équipier dont l'id est '"+idEquipier+"'", e);
       throw e;
     }
   }
-  
-  public List<EquipierRole>getEquipierRoles(int idEquipier) throws Exception
+
+  @GET
+  @Path("/{idEquipier}/roles")
+  @ApiOperation(value="Get the roles of one Equipier object")
+  public List<EquipierRole>getEquipierRoles(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       List<EquipierRole> list = this.equipierService.getEquipierRoles(idEquipier);
@@ -90,10 +170,14 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
   }
-  
-  public int enableEquipier(int idEquipier, boolean enable) throws Exception
+
+  @PUT
+  @Path("/{idEquipier}/enable")
+  @ApiOperation(value="enable or disable one equipier (equipier can't be deleted)")
+  public int enableEquipier(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier,
+                            @ApiParam(value="enable"        ,required=true) @QueryParam ("enable"    )boolean enable) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.equipierService.setEnableDisableEquipier(idEquipier, enable);
@@ -105,12 +189,14 @@ public class EquipiersGestion extends DWRUtils
     }
     return 1;
   }
-  
 
-  
-  public void createEquipier(Equipier equipier) throws Exception
+
+  @POST
+  @Consumes("application/json")
+  @ApiOperation(value="Create a new Equipier")
+  @Path("/create")
+  public void createEquipier(@ApiParam(value="equipier"    ,required=true) @QueryParam ("equipier")Equipier equipier) throws Exception
   {
-    this.validateSession();
     try
     {
       int idEquipier = this.equipierService.createEquipier(equipier);
@@ -122,10 +208,14 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
   }
-  
-  public void modifyEquipier(Equipier equipier) throws Exception
+
+  @PUT
+  @Consumes("application/json")
+  @ApiOperation(value="Update an Equipier")
+  @Path("/update")
+  public void modifyEquipier(@ApiParam(value="equipier"    ,required=true) @QueryParam ("equipier")Equipier equipier) throws Exception
   {
-    this.validateSession();
+
     try
     {
       this.equipierService.modifyEquipier(equipier);
@@ -141,10 +231,16 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
   }
-  
-  public User getEquipierUserFromIdEquipier(int idEquipier) throws Exception
+
+
+
+
+  @GET
+  @Path("/{idEquipier}/user")
+  @ApiOperation(value="Get the User Object of the equipier Id")
+  public User getEquipierUserFromIdEquipier(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       User user = this.userService.getUserFromIdEquipier(idEquipier); 
@@ -156,18 +252,21 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
   }
-  
-  public User changeStatus(int idEquipier, int idUser, boolean active) throws Exception
+
+  @POST
+  @Path("/{idEquipier}/user/{idUser}")
+  @ApiOperation(value="if idUser=0 and active=true, create a new user and activate it. if idUser!=0 update its status")
+  public User changeStatus(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier,
+                           @ApiParam(value="idUser"        ,required=true) @PathParam ("idUser"    )int idUser,
+                           @ApiParam(value="idEquipier"    ,required=true) @QueryParam("idEquipier")boolean active) throws Exception
   {
-    this.validateSession();
-    
     if(idUser == 0 && !active)
       throw new IllegalArgumentException("IdUser=0 => on ne peut pas desactiver un équipier qui n'est pas un utilisateur");
 
     try
     {
       
-      if(idUser == 0)
+      if(idUser == 0 && active == true)
       {
         User user = new User();
         user.setIdEquipier(idEquipier);
@@ -182,8 +281,6 @@ public class EquipiersGestion extends DWRUtils
       }
       
       this.userService.updateUserStatus(idUser, active);
-      
-      
       return this.userService.getUserFromIdEquipier(idEquipier);
     }
     catch (Exception e)
@@ -192,21 +289,25 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
   }
-  
 
-  public User updateRoleForUser(int idUser, int idRole, boolean active) throws Exception
+  @PUT
+  @Path("/user/{idUser}/role/{idRole}")
+  @ApiOperation(value="edit a role attribute for a user")
+  public User updateRoleForUser(@ApiParam(value="idUser"        ,required=true) @PathParam ("idUser"    )int idUser,
+                                @ApiParam(value="idRole"        ,required=true) @PathParam ("idRole"    )int idRole,
+                                @ApiParam(value="active"        ,required=true) @QueryParam("active"    )boolean active) throws Exception
   {
-    this.validateSession();
+    
     
     if(idUser == 0)
       throw new IllegalArgumentException("IdUser=0 can't set a role to a non existing user");
+    if(idRole == 0)
+      throw new IllegalArgumentException("idRole=0 can't set a role with id=0");
+
 
     try
     {
-     
       this.userService.updateUserRole(idUser, idRole, active);
-      
-      
       return this.userService.getUser(idUser);
     }
     catch (Exception e)
@@ -215,11 +316,13 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
   }
-  
-  
-  public User generateNewPassword(int idUser) throws Exception
+
+  @PUT
+  @Path("/user/{idUser}/password")
+  @ApiOperation(value="Get the User Object of one Equipier object")
+  public User generateNewPassword(@ApiParam(value="idUser"        ,required=true) @PathParam ("idUser"    )int idUser) throws Exception
   {
-    this.validateSession();
+    
     
     if(idUser == 0 )
       throw new IllegalArgumentException("IdUser=0 => can't generate new password to non existing user");

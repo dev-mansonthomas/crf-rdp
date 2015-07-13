@@ -1,16 +1,22 @@
 package fr.croixrouge.rdp.model.monitor;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class Equipier extends CrfDto
+public class Equipier extends CrfDto  implements Serializable
 {
   private static final long serialVersionUID = -569522743428603329L;
-  
+
   public final static int EVAL_EVALUATEUR=1;
   public final static int EVAL_EVALUE    =2;
- 
+
+  public Equipier()
+  {
+
+  }
+
   private int       idEquipier            ;
   private int       idDispositif          ;
   private boolean   homme                 ;
@@ -38,7 +44,7 @@ public class Equipier extends CrfDto
   
   private List<EquipierRole> roles;
   
-  
+
   public String toString()
   {
     
@@ -67,7 +73,7 @@ public class Equipier extends CrfDto
     "dateLastSynchroSiord      :"+sdf.format(dateLastSynchroSiord)+"\n";
   }
   
-  
+
   public String getAutreDelegation()
   {
     return autreDelegation;

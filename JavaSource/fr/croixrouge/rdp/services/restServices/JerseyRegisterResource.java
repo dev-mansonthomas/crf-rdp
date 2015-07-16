@@ -1,6 +1,7 @@
 package fr.croixrouge.rdp.services.restServices;
 
 import fr.croixrouge.rdp.services.restServices.homepage.EquipiersGestion;
+import fr.croixrouge.rdp.services.restServices.homepage.Homepage;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import fr.croixrouge.rdp.services.restServices.homepage.LieuEditor;
@@ -12,6 +13,7 @@ public class JerseyRegisterResource extends ResourceConfig
     //CRF-RDP app
     register(LieuEditor.class);
     register(EquipiersGestion.class);
+    register(Homepage.class);
 
     packages(true, "fr.croixrouge.rdp.model.monitor");
     

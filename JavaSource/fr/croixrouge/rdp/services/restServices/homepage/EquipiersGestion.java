@@ -171,7 +171,7 @@ public class EquipiersGestion
   @Path("/{idEquipier}/enable")
   @ApiOperation(value="enable or disable one equipier (equipier can't be deleted)")
   public void enableEquipier(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier,
-                            @ApiParam(value="enable"        ,required=true) @QueryParam("enable"    )boolean enable) throws Exception
+                             @ApiParam(value="enable"        ,required=true) @QueryParam("enable"    )boolean enable) throws Exception
   {
     try
     {

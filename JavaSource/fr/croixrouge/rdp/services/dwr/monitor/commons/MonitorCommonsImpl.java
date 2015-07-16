@@ -1,22 +1,20 @@
 package fr.croixrouge.rdp.services.dwr.monitor.commons;
 
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import fr.croixrouge.rdp.model.monitor.Lieu;
 import fr.croixrouge.rdp.model.monitor.LieuType;
 import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.lieu.LieuService;
 import fr.croixrouge.rdp.services.list.ListService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class MonitorCommonsImpl  extends DWRUtils
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+
+public class MonitorCommonsImpl
 {
   private static Log logger           = LogFactory.getLog(MonitorCommonsImpl.class);
   private ListService         listService         = null;
@@ -35,7 +33,7 @@ public class MonitorCommonsImpl  extends DWRUtils
   
   public ListRange<Lieu> searchLieux(int idLieuType, GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
   {
-    this.validateSession();
+   
 
 
    FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("searchString");
@@ -54,21 +52,21 @@ public class MonitorCommonsImpl  extends DWRUtils
   
   public Hashtable<String, List<?>> getAllList() throws Exception
   {
-    this.validateSession();
+   
     
     return this.listService.getAllList();
   }
   
   public List<LieuType> getLieuType() throws Exception
   {
-    this.validateSession();
+   
     
     return this.lieuService.getLieuType();
   }
   
   public Hashtable<String, List<Lieu>> getAllLieu() throws Exception
   {
-    this.validateSession();
+   
     Hashtable<String, List<Lieu>> lieux =null;
     try
     {

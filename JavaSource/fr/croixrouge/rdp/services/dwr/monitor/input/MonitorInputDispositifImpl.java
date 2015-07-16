@@ -1,31 +1,21 @@
 package fr.croixrouge.rdp.services.dwr.monitor.input;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.directwebremoting.ScriptBuffer;
-
-import fr.croixrouge.rdp.model.monitor.Dispositif;
-import fr.croixrouge.rdp.model.monitor.DispositifSummaryInformation;
-import fr.croixrouge.rdp.model.monitor.DispositifTicket;
-import fr.croixrouge.rdp.model.monitor.DispositifTypeDefinition;
-import fr.croixrouge.rdp.model.monitor.Equipier;
-import fr.croixrouge.rdp.model.monitor.InterventionTicket;
-import fr.croixrouge.rdp.model.monitor.Regulation;
-import fr.croixrouge.rdp.model.monitor.Vehicule;
+import fr.croixrouge.rdp.model.monitor.*;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
 import fr.croixrouge.rdp.services.vehicule.VehiculeService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class MonitorInputDispositifImpl extends DWRUtils
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+public class MonitorInputDispositifImpl
 {
   private static Log                      logger                          = LogFactory.getLog(MonitorInputDispositifImpl.class);
   private DispositifService               dispositifService               = null;
@@ -61,14 +51,14 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public List<Vehicule> getVehicules(int vehiculeType, int idDispositif) throws Exception
   {
-    this.validateSession();
+    
     return this.vehiculeService.getVehiculeList(vehiculeType, true, idDispositif);
   }
 
 
   public void updateVehiculeAssociation(int idDispositif, int idVehicule) throws Exception
   {
-    this.validateSession();
+    
     DispositifSummaryInformation dsi = this.dispositifService.getDispositifSummaryInformation(idDispositif);
     int currentVehiculeId = dsi.getIdVehicule();
     this.vehiculeService.affectVehiculeToDispositif(currentVehiculeId, 0);
@@ -83,7 +73,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
    * */
   public ListRange<Equipier> searchEquipier(int searchType, GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
   {
-    this.validateSession();
+    
     
     try
     {
@@ -98,14 +88,14 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public Dispositif createEmptyDispositif() throws Exception
   {
-    this.validateSession();
+    
     Regulation regulation = this.monitorInputImpl.getRegulation();
     return dispositifService.createEmptyDispositif(regulation); 
   }
  
   public void endOfEditionEvent(int idDispositif, int idEtatDispositif, boolean isCreation) throws Exception
   {
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    int    currentUserRegulationId = 1;//TODO regulationId From Session
     
     if(isCreation)
       this.dispositifService.updateDispositifBooleanField (idDispositif, "creation_terminee", true);
@@ -113,16 +103,16 @@ public class MonitorInputDispositifImpl extends DWRUtils
     this.dispositifService.updateEtatDispositif         (idDispositif, idEtatDispositif);
 
     Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
-
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
-  }
+    //TODO Websocket replace dwr code
+   /* this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
+*/  }
   /**
    * Désactive le dispositif, si pas d'inter en cours.
    * Retournue l'id de l'inter courante. Si >0 désactivation non faite.
    * */
   public int endOfVacation(int idDispositif) throws Exception 
   {
-    this.validateSession();
+    
     int numberOfInterventionAffectedToDispositif = this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif);
     
     if(numberOfInterventionAffectedToDispositif == 0)
@@ -141,8 +131,9 @@ public class MonitorInputDispositifImpl extends DWRUtils
         this.dispositifService.unaffectEquipierToDispositif(idDispositif            , equipier.getIdEquipier());
         this.equipierService  .setDispositifToEquipier     (equipier.getIdEquipier(), 0                       );
       }
-      
-      this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.reload()"), outPageName); 
+
+      //TODO Websocket replace dwr code
+      /*this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.reload()"), outPageName);*/
     }
     
     
@@ -157,7 +148,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
    * */
   public int deleteDispositif(int idDispositif) throws Exception
   {
-    this.validateSession();
+    
     int nbOfIntervention = this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif);
     
     if(nbOfIntervention == 0)
@@ -178,14 +169,14 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public int numberOfInterventionAffected(int idDispositif) throws Exception
   {
-    this.validateSession();
+    
     return this.dispositifService.numberOfInterventionAffectedToDispositif(idDispositif); 
   }
   
   
   public List<InterventionTicket> getInterventionTicketFromDispositif(int idDispositif) throws Exception
   {
-    this.validateSession();
+    
     return interventionService.getInterventionsTicketFromDispositif(idDispositif);
   }
   
@@ -195,7 +186,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public Dispositif getDispositif(int idDispositif)throws Exception
   {
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    int    currentUserRegulationId = 1;//TODO regulationId From Session
     try
     {
       return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);  
@@ -210,13 +201,13 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public ListRange<DispositifTicket> getRecentDispositifList(int index, int limit) throws Exception
   {
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    int    currentUserRegulationId = 1;//TODO regulationId From Session
     return this.dispositifService.getRecentDispositif(currentUserRegulationId, index, limit);
   }
   
   public ListRange<Equipier> addEquipierToDispositif(int idDispositif, int idRoleEquipier, int idEquipier) throws Exception
   {
-    this.validateSession();
+    
     
     this.dispositifService.affectEquipierToDispositif  (idDispositif, idEquipier  , idRoleEquipier);
     this.equipierService  .setDispositifToEquipier(idEquipier  , idDispositif                );
@@ -228,7 +219,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public ListRange<Equipier> removeEquipierFromDispositif(int idDispositif, int idEquipier) throws Exception
   {
-    this.validateSession();
+    
     
     this.dispositifService.unaffectEquipierToDispositif(idDispositif, idEquipier);
     this.equipierService  .setDispositifToEquipier     (idEquipier  , 0);
@@ -241,21 +232,21 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public ListRange<Equipier> getEquipiersFromDispositif(int idDispositif) throws Exception
   {
-    this.validateSession();
+    
     List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
     return new ListRange<Equipier>(listEquipier.size(), listEquipier);
   }
   
   public boolean updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception
   {
-    this.validateSession();
+    
     this.dispositifService.updateGoogleCoordinates(latitude, longitude, idDispositif, current);
     return current;
   }
   
   public void updateDispositifEtat(int idDispositif, int      newEtatDispositif) throws Exception
   {
-    int idRegulation = this.validateSessionAndGetRegulationId();
+    int idRegulation = 1;//TODO regulationId From Session
     try
     {
        this.dispositifInterventionDelegate.changeDispositifStatus(idRegulation, idDispositif, newEtatDispositif);
@@ -279,7 +270,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public void updateDispositifIntegerField(int idDispositif, String fieldName, int      fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.dispositifService.updateDispositifIntegerField(idDispositif, fieldName, fieldValue);
@@ -292,7 +283,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
 
   public void updateDispositifFloatField  (int idDispositif, String fieldName, float    fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.dispositifService.updateDispositifFloatField(idDispositif, fieldName, fieldValue);
@@ -305,7 +296,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public void updateDispositifStringField (int idDispositif, String fieldName, String   fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.dispositifService.updateDispositifStringField(idDispositif, fieldName, fieldValue);
@@ -319,7 +310,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   
   public void updateDispositifDateField   (int idDispositif, String fieldName, Date     fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.dispositifService.updateDispositifDateField(idDispositif, fieldName, fieldValue);
@@ -331,7 +322,7 @@ public class MonitorInputDispositifImpl extends DWRUtils
   }
   public void updateDispositifBooleanField(int idDispositif, String fieldName, boolean  fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.dispositifService.updateDispositifBooleanField(idDispositif, fieldName, fieldValue);

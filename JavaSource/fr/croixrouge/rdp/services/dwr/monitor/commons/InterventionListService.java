@@ -1,15 +1,13 @@
 package fr.croixrouge.rdp.services.dwr.monitor.commons;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class InterventionListService extends DWRUtils
+public class InterventionListService
 {
   private static Log          logger              = LogFactory.getLog(InterventionListService.class);
   private InterventionService interventionService = null;
@@ -22,7 +20,7 @@ public class InterventionListService extends DWRUtils
   
   public ListRange<InterventionTicket> getInterventionList(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    this.validateSession();
+
 
     ListRange<InterventionTicket> interventions = null;
     try

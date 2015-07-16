@@ -1,19 +1,16 @@
 package fr.croixrouge.rdp.services.dwr.monitor.input;
 
-import java.util.Date;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.directwebremoting.ScriptBuffer;
-
 import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class MonitorInputInterventionImpl  extends DWRUtils
+import java.util.Date;
+
+public class MonitorInputInterventionImpl
 {
   private static Log logger           = LogFactory.getLog(MonitorInputInterventionImpl.class);
   private InterventionService interventionService = null;
@@ -26,21 +23,22 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   
   public Intervention createEmptyIntervention() throws Exception
   {
-    Intervention intervention = this.interventionService.createEmptyIntervention(validateSessionAndGetRegulationId());
+    int regulationId=1;//TODO regulationId from session
+    Intervention intervention = this.interventionService.createEmptyIntervention(regulationId);
     return intervention;
   }
   
   
   public void endOfEditionEvent(int idIntervention) throws Exception
   {
-    this.validateSession();
+    
 
     this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 1);
     
     InterventionTicket interventionTicket = this.interventionService.getInterventionTicket(idIntervention);
-    
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.updateInterventionToAffect", interventionTicket), 
-        outPageName);
+    //TODO Websocket replace dwr code
+  /*  this.updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.updateInterventionToAffect", interventionTicket),
+        outPageName);*/
   }
   
   public InterventionTicket getInterventionTicket(int idIntervention) throws Exception
@@ -53,21 +51,22 @@ public class MonitorInputInterventionImpl  extends DWRUtils
     this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 4);
     if(notifyOthers)
     {
-      updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.deleteInterventionToAffect",idIntervention), 
-          outPageName);
+      //TODO Websocket replace dwr code
+     /* updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.deleteInterventionToAffect",idIntervention), 
+          outPageName);*/
     }
   }
   
   public void updateGoogleCoordinates(float latitude, float longitude, int idIntervention) throws Exception
   {
-    this.validateSession();
+    
     this.interventionService.updateGoogleCoordinates(latitude, longitude, idIntervention);
   }
   
 //int status, int index, int limit
   public ListRange<InterventionTicket> getInterventionTicketList(GridSearchFilterAndSortObject gsfaso)throws Exception
   {
-    int    currentUserRegulationId = this.validateSessionAndGetRegulationId();
+    int    currentUserRegulationId = 1;//TODO regulationId from session
     return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, gsfaso);
   }
   
@@ -76,7 +75,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   /* Update methods*/
   public void updateInterventionIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionIntegerField(idIntervention, fieldName, fieldValue);
@@ -88,7 +87,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   }
   public void updateInterventionFloatField  (int idIntervention, String fieldName, float    fieldValue) throws Exception
   {
-    this.validateSession();try
+    try
     {
       this.interventionService.updateInterventionFloatField(idIntervention, fieldName, fieldValue);
     }
@@ -99,7 +98,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   }
   public void updateInterventionStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionStringField(idIntervention, fieldName, fieldValue);
@@ -112,7 +111,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   
   public void updateInterventionDateField   (int idIntervention, String fieldName, Date     fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionDateField(idIntervention, fieldName, fieldValue);
@@ -124,7 +123,7 @@ public class MonitorInputInterventionImpl  extends DWRUtils
   }
   public void updateInterventionBooleanField(int idIntervention, String fieldName, boolean  fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionBooleanField(idIntervention, fieldName, fieldValue);

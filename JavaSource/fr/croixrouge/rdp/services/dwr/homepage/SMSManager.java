@@ -1,14 +1,5 @@
 package fr.croixrouge.rdp.services.dwr.homepage;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.SMS;
 import fr.croixrouge.rdp.model.monitor.SMSTemplate;
@@ -18,14 +9,20 @@ import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import fr.croixrouge.rdp.services.authentification.SecurityPrincipal;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.mobile.MobileService;
 import fr.croixrouge.rdp.services.mobile.SMSLogService;
 import fr.croixrouge.rdp.services.mobile.SMSTemplateService;
 import fr.croixrouge.utilities.web.security.SecurityFilter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class SMSManager  extends DWRUtils
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
+public class SMSManager
 {
   private static  Log                 logger              = LogFactory.getLog(SMSManager.class);
   private         SMSLogService       smsLogService       = null;
@@ -48,7 +45,7 @@ public class SMSManager  extends DWRUtils
   
   public ListRange<SMSTemplate> getSMSTemplates(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    this.validateSession();
+    
     
     FilterObject filterObject = gsfaso.getFilterObject("searchedString");
     
@@ -87,7 +84,7 @@ public class SMSManager  extends DWRUtils
   }
   public void                   insertNewTemplate         (String template) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.smsTemplateService.insertNewTemplate(template);  
@@ -104,7 +101,7 @@ public class SMSManager  extends DWRUtils
   
   public ListRange<SMS> getSMS(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    this.validateSession();
+    
     
     int     idEquipier  = 0;
     String  mobile      = "";
@@ -204,7 +201,7 @@ public class SMSManager  extends DWRUtils
   
   public ListRange<Equipier> searchEquipier(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    this.validateSession();
+    
     try
     {  
       String        searchString = null;
@@ -230,7 +227,7 @@ public class SMSManager  extends DWRUtils
   
   public Equipier getEquipierDetails(int equipierId) throws Exception
   {
-    this.validateSession();
+    
     try
     { 
       return this.equipierService.getEquipier(equipierId);
@@ -244,7 +241,8 @@ public class SMSManager  extends DWRUtils
   
   public void sendSMS(String[] recipients, String message) throws Exception
   {
-    HttpSession session = this.validateSession();
+    //TODO get Session
+    HttpSession session = (HttpSession)new Object();
     User        user    = new User();
     try
     {

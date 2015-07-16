@@ -84,51 +84,6 @@
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
 
-	<servlet>
-		<description>Direct Web Remoter Servlet</description>
-		<display-name>DWR Servlet</display-name>
-		<servlet-name>dwr-invoker</servlet-name>
-		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
-		<!-- Ne fonctionne pas sur tomcat http://directwebremoting.org/jira/browse/DWR-143 
-			<servlet-class>org.directwebremoting.server.tomcat.DwrCometProcessor</servlet-class> -->
-		<init-param>
-			<param-name>scriptCompressed</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<init-param>
-			<param-name>activeReverseAjaxEnabled</param-name>
-			<param-value>true</param-value>
-		</init-param>
-
-
-
-
-
-		<init-param>
-			<param-name>crossDomainSessionSecurity</param-name>
-			<param-value>false</param-value>
-		</init-param>
-
-		<init-param>
-			<param-name>allowScriptTagRemoting</param-name>
-			<param-value>true</param-value>
-		</init-param>
-
-		<!-- Full Streaming Mode en attendant que l'implémentation COMET soit réparé 
-			sur tomcat... -->
-		<init-param>
-			<param-name>maxWaitAfterWrite</param-name>
-			<param-value>-1</param-value>
-		</init-param>
-
-
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-
 
 	<servlet>
 		<servlet-name>crf-rdp-spring-mvc</servlet-name>
@@ -212,11 +167,7 @@
 		<servlet-name>crf-rdp-spring-mvc</servlet-name>
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
-	<!-- DWR -->
-	<servlet-mapping>
-		<servlet-name>dwr-invoker</servlet-name>
-		<url-pattern>/dwr/*</url-pattern>
-	</servlet-mapping>
+
 
 	<!-- Jawr -->
 	<servlet-mapping>

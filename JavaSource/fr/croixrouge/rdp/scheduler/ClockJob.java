@@ -1,17 +1,10 @@
 package fr.croixrouge.rdp.scheduler;
 
-import java.util.Date;
-
-import javax.servlet.ServletContext;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.directwebremoting.Browser;
-import org.directwebremoting.ScriptBuffer;
 import org.springframework.web.context.ServletContextAware;
 
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
-import fr.croixrouge.rdp.services.dwr.reverseAjax.AddScript;
+import javax.servlet.ServletContext;
 
 public class ClockJob implements ServletContextAware
 {
@@ -40,8 +33,12 @@ public class ClockJob implements ServletContextAware
     if(!firstAjaxCallDone)
       return;
 
-    Browser.withPage(DWRUtils.outPageName, 
+
+
+    //TODO broadcast time with websocket
+
+/*    Browser.withPage(DWRUtils.outPageName,
         new AddScript(new ScriptBuffer().appendCall("monitorOutputCs.updateClock", new Date()), 
-                      this.getClass()));
+                      this.getClass()));*/
   }
 }

@@ -1,40 +1,28 @@
 package fr.croixrouge.rdp.services.dwr.homepage;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.stereotype.Component;
-
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
-
 import fr.croixrouge.rdp.model.monitor.Lieu;
 import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.lieu.LieuService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Path("/lieu")
 @Produces(MediaType.APPLICATION_JSON)
 @Api(value="LieuEditor", description="Allow to do CRUD+Search operation on Lieu")
-public class LieuEditor extends DWRUtils
+public class LieuEditor
 {
   private static Log          logger              = LogFactory.getLog(LieuEditor.class);
   

@@ -1,24 +1,21 @@
 package fr.croixrouge.rdp.services.dwr.monitor.input;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import fr.croixrouge.rdp.model.monitor.Delegation;
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.User;
 import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.regulation.RegulationService;
 import fr.croixrouge.rdp.services.user.UserService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class MonitorInputImpl extends DWRUtils
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+
+public class MonitorInputImpl
 {
   private static Log logger           = LogFactory.getLog(MonitorInputImpl.class);
   private RegulationService   regulationService   = null;
@@ -37,7 +34,8 @@ public class MonitorInputImpl extends DWRUtils
   
   public Regulation getRegulation() throws Exception
   {
-    HttpSession session     = this.validateSession();
+    //TODO get Session
+    HttpSession session     = (HttpSession) new Object();
     Regulation  regulation  = (Regulation)session.getAttribute("regulation");
     return regulation;
   }
@@ -54,13 +52,13 @@ public class MonitorInputImpl extends DWRUtils
   
   public List<User> getAvailableCoRegulateur(String numNivol, String nom) throws Exception
   {
-    this.validateSession();
+   
     return this.userService.getCoRegulateurs(numNivol, nom);
   }
   
   public String removeCoRegulateur(int userId, String numNivol) throws Exception
   {
-    this.validateSession();
+   
     this.userService.setRegulationToUser(userId, 0);
     return numNivol;
   }
@@ -77,7 +75,7 @@ public class MonitorInputImpl extends DWRUtils
   
   public ListRange<Delegation> searchDelegation(GridSearchFilterAndSortObject gridSearchFilterAndSortObject) throws Exception
   {
-    this.validateSession();
+   
     
     FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("search");
     

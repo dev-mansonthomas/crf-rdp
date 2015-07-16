@@ -1,18 +1,16 @@
 package fr.croixrouge.rdp.services.dwr.monitor.input;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.croixrouge.rdp.model.monitor.Equipier;
+import fr.croixrouge.rdp.model.monitor.SMS;
+import fr.croixrouge.rdp.services.equipier.EquipierService;
+import fr.croixrouge.rdp.services.mobile.MobileService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import fr.croixrouge.rdp.model.monitor.Equipier;
-import fr.croixrouge.rdp.model.monitor.SMS;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
-import fr.croixrouge.rdp.services.equipier.EquipierService;
-import fr.croixrouge.rdp.services.mobile.MobileService;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MonitorInputSMS extends DWRUtils
+public class MonitorInputSMS
 {
   private static Log        logger            = LogFactory.getLog(MonitorInputSMS.class);
   private EquipierService   equipierService   = null;
@@ -27,14 +25,15 @@ public class MonitorInputSMS extends DWRUtils
   
   public List<Equipier> getEquipiersFromDispositif(int idDispositif) throws Exception
   {
-    this.validateSession();
+    
     
     return this.equipierService.getEquipiersForDispositif(idDispositif);
   }
   
   public void sendSMS(int idDispositif, int[] idEquipiers, String message) throws Exception
   {
-    int currentUserId           = this.getCurrentUserId();
+    //todo get current regulation user Id from session
+    int currentUserId           = 1;
     if(logger.isDebugEnabled())
     {
       StringBuffer sb = new StringBuffer("{");

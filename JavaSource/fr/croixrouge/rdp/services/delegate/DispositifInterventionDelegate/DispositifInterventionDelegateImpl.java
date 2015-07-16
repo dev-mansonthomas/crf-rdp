@@ -1,32 +1,22 @@
 package fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.directwebremoting.ScriptBuffer;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import fr.croixrouge.rdp.model.monitor.Dispositif;
-import fr.croixrouge.rdp.model.monitor.DispositifTicket;
-import fr.croixrouge.rdp.model.monitor.Equipier;
-import fr.croixrouge.rdp.model.monitor.Intervention;
-import fr.croixrouge.rdp.model.monitor.InterventionMotif;
-import fr.croixrouge.rdp.model.monitor.InterventionTicket;
-import fr.croixrouge.rdp.model.monitor.Position;
-import fr.croixrouge.rdp.model.monitor.SMS;
+import fr.croixrouge.rdp.model.monitor.*;
 import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
 import fr.croixrouge.rdp.services.list.ListService;
 import fr.croixrouge.rdp.services.mobile.MobileService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-public class DispositifInterventionDelegateImpl extends DWRUtils implements DispositifInterventionDelegate
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class DispositifInterventionDelegateImpl implements DispositifInterventionDelegate
 {
   private static Log          logger              = LogFactory.getLog(DispositifInterventionDelegateImpl.class);
   
@@ -466,9 +456,10 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     
     if(dispositif.getInterventions().size() != 0)//si une intervention en cours, on met a jours sont état de facon
       this.interventionService.updateEtatInterventions(dispositif.getInterventions(), newEtatDispositif);
-    
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
-        outPageName);
+
+    //TODO Websocket replace dwr code
+/*    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif),
+        outPageName);*/
   }
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void updateDispositifTiming(int idRegulation, int idDispositif, String fieldName, Date fieldValue) throws Exception
@@ -496,16 +487,19 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     this.dispositifService.attachInterventionToDispositif(dataForCloneIntervention.getIdDispositif(), idClonedIntervention);
     
     Dispositif dispositif = this.dispositifService.getDispositif(idRegulation, dataForCloneIntervention.getIdDispositif());
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
-        outPageName);
+    //TODO Websocket replace dwr code
+    /*
+    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif),
+        outPageName);*/
   }
   
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
   public void handlePrimaireAndSecondaireOnIntervention(int idDispositif, int idIntervention, boolean isPrimaire) throws Exception
   {
     int idNextEtat = isPrimaire?DispositifService.STATUS_PRIMAIRE:DispositifService.STATUS_SECONDAIRE;
-    
-    int currentUserRegulationId = this.validateSessionAndGetRegulationId();
+
+    //TODO get RegulationId From Session
+    int currentUserRegulationId = 1;//this.validateSessionAndGetRegulationId();
     if(logger.isDebugEnabled())
       logger.debug((isPrimaire?"Primaire":"Secondaire")+" passed for internvention id='"+idIntervention+"' of dispositif id='"+idDispositif+"'");
     
@@ -534,9 +528,9 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
       //update the dispositif
       dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
     }
-    
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif), 
-        outPageName);
+    //TODO Websocket replace dwr code
+    /*this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif),
+        outPageName);*/
   }
   
   @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
@@ -549,9 +543,9 @@ public class DispositifInterventionDelegateImpl extends DWRUtils implements Disp
     this.dispositifService  .unAffectInterventionToDispositif (idDispositif, idIntervention);//guère la modification de l'état du dispositif
     
     Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
-    
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
-    
+    //TODO Websocket replace dwr code
+   /* this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
+ */
   }
   
   private String generateDataForSMS(String title, String value)

@@ -1,18 +1,15 @@
 package fr.croixrouge.rdp.services.dwr.monitor.input;
 
-import java.util.Date;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.directwebremoting.ScriptBuffer;
-
 import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class MonitorInputBilanImpl  extends DWRUtils
+import java.util.Date;
+
+public class MonitorInputBilanImpl 
 {
   private static Log logger           = LogFactory.getLog(MonitorInputBilanImpl.class);
   private InterventionService            interventionService = null;
@@ -30,26 +27,26 @@ public class MonitorInputBilanImpl  extends DWRUtils
   
   public Intervention createEmptyIntervention() throws Exception
   {
-    this.validateSession();
-    Intervention intervention = this.interventionService.createEmptyIntervention(validateSessionAndGetRegulationId());
+    //TODO regulationId from session
+    int regulationId=1;//validateSessionAndGetRegulationId();
+    Intervention intervention = this.interventionService.createEmptyIntervention(regulationId);
     return intervention;
   }
   
   
   public void endOfEditionEvent(int idIntervention) throws Exception
   {
-    this.validateSession();
 
     this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 1);
     
     InterventionTicket interventionTicket = this.interventionService.getInterventionTicket(idIntervention);
-    
-    this.updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.updateInterventionToAffect",interventionTicket), 
-        outPageName);
+    //TODO Websocket replace dwr code
+    /*this.updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.updateInterventionToAffect",interventionTicket),
+        outPageName);*/
   }
   public Intervention       getIntervention(int idIntervention) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       return this.interventionService.getIntervention(idIntervention);  
@@ -65,8 +62,8 @@ public class MonitorInputBilanImpl  extends DWRUtils
 
   public void       cancelIntervention(int idIntervention, int idDispositif, int idMotifAnnulation) throws Exception
   {
-    
-    int regulationId = this.validateSessionAndGetRegulationId();    
+    //TODO regulation Id from Session
+    int regulationId = 1;//this.validateSessionAndGetRegulationId();
     this.dispositifInterventionDelegate.cancelIntervention(regulationId, idDispositif, idIntervention, idMotifAnnulation);    
     
   }
@@ -74,24 +71,24 @@ public class MonitorInputBilanImpl  extends DWRUtils
   
   public InterventionTicket getInterventionTicket(int idIntervention) throws Exception
   {
-    this.validateSession();
+    
     return this.interventionService.getInterventionTicket(idIntervention);
   }
   
   public void deleteIntervention(int idIntervention, boolean notifyOthers) throws Exception
   {
-    this.validateSession();
     this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 4);
     if(notifyOthers)
     {
-      updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.deleteInterventionToAffect",idIntervention), 
-          outPageName);
+      //TODO Websocket replace dwr code
+      /*updateRegulationUser(new ScriptBuffer().appendCall("moInterventionCs.deleteInterventionToAffect",idIntervention),
+          outPageName);*/
     }
   }
   
   public void updateGoogleCoordinates(float latitude, float longitude, int idIntervention) throws Exception
   {
-    this.validateSession();
+    
     this.interventionService.updateGoogleCoordinates(latitude, longitude, idIntervention);
   }
 
@@ -99,7 +96,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
   /* Update methods*/
   public void updateIntegerField(int idIntervention, String fieldName, int      fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionIntegerField(idIntervention, fieldName, fieldValue);
@@ -112,7 +109,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
   }
   public void updateFloatField  (int idIntervention, String fieldName, float    fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionFloatField(idIntervention, fieldName, fieldValue);
@@ -124,7 +121,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
   }
   public void updateStringField (int idIntervention, String fieldName, String   fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionStringField(idIntervention, fieldName, fieldValue);
@@ -137,7 +134,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
   
   public void updateDateField   (int idIntervention, String fieldName, Date     fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionDateField(idIntervention, fieldName, fieldValue);
@@ -149,7 +146,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
   }
   public void updateBooleanField(int idIntervention, String fieldName, boolean  fieldValue) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionBooleanField(idIntervention, fieldName, fieldValue);
@@ -162,7 +159,7 @@ public class MonitorInputBilanImpl  extends DWRUtils
 
   public void updateDoubleBooleanField(int idIntervention, String fieldName1, boolean  fieldValue1, String fieldName2, boolean  fieldValue2) throws Exception
   {
-    this.validateSession();
+    
     try
     {
       this.interventionService.updateInterventionBooleanField(idIntervention, fieldName1, fieldValue1);

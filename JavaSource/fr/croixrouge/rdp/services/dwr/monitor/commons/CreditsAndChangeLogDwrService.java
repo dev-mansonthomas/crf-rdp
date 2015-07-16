@@ -1,15 +1,14 @@
 package fr.croixrouge.rdp.services.dwr.monitor.commons;
 
-import java.util.List;
-
 import fr.croixrouge.rdp.model.monitor.ApplicationVersion;
 import fr.croixrouge.rdp.model.monitor.ApplicationVersionChangeLog;
 import fr.croixrouge.rdp.model.monitor.Credit;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.creditsAndChangeLog.CreditsAndChangeLogService;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 
-public class CreditsAndChangeLogDwrService extends DWRUtils
+import java.util.List;
+
+public class CreditsAndChangeLogDwrService
 {
   private CreditsAndChangeLogService creditsAndChangeLogService = null;
   public CreditsAndChangeLogDwrService(CreditsAndChangeLogService creditsAndChangeLogService)

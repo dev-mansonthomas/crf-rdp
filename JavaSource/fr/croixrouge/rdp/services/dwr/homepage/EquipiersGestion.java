@@ -1,38 +1,34 @@
 package fr.croixrouge.rdp.services.dwr.homepage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
-import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
-import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
-
 import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.EquipierRole;
 import fr.croixrouge.rdp.model.monitor.User;
+import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
+import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.user.UserService;
 import fr.croixrouge.rdp.services.utilities.UtilitiesService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Path("/equpier")
 @Produces(MediaType.APPLICATION_JSON)
 @Api(value="EquipierEditor", description="Allow to do CRUD+Search operation on Equipier")
 
-public class EquipiersGestion extends DWRUtils
+public class EquipiersGestion
 {
   private static Log          logger              = LogFactory.getLog(EquipiersGestion.class);
   

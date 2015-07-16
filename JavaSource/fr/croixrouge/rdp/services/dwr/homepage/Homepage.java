@@ -1,20 +1,17 @@
 package fr.croixrouge.rdp.services.dwr.homepage;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import fr.croixrouge.rdp.model.monitor.Regulation;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
-import fr.croixrouge.rdp.services.dwr.DWRUtils;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.regulation.RegulationService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class Homepage extends DWRUtils
+import javax.servlet.http.HttpSession;
+import java.util.List;
+
+public class Homepage
 {
   private static Log          logger              = LogFactory.getLog(Homepage.class);
   
@@ -31,7 +28,7 @@ public class Homepage extends DWRUtils
   
   public ListRange<Regulation>getOpenRegulationList() throws Exception
   {
-    this.validateSession();
+    
     List<Regulation> list = this.regulationService.getRegulations(true);
     return  new ListRange<Regulation> (list.size(), list);
   }
@@ -41,7 +38,7 @@ public class Homepage extends DWRUtils
   {
     try
     {
-      this.validateSession();
+      
 
       System.out.println(gridSearchFilterAndSortObject);
 
@@ -60,8 +57,9 @@ public class Homepage extends DWRUtils
   
   public void setRegulation(int regulationId, int idIntervention) throws Exception
   {
-    HttpSession session = this.validateSession();
-    session.setAttribute("regulation"          , this.regulationService.getRegulation(regulationId));
+    //TODO get session
+    HttpSession session = (HttpSession)  new Object();
+    session.setAttribute("regulation", this.regulationService.getRegulation(regulationId));
     session.setAttribute("idInterventionToOpen", idIntervention);
   }
 }

@@ -57,12 +57,12 @@ public class EquipiersGestion extends DWRUtils
   @GET
   @Path("/search")
   @ApiOperation(value="Perform a paginated search on equipiers")
-  public ListRange<Equipier> getEquipierList(  @ApiParam(value="start"     ,required=true , defaultValue="0"  ) @QueryParam("start"     ) @DefaultValue("0" ) int start	,
-                                               @ApiParam(value="limit"     ,required=true , defaultValue="10" ) @QueryParam("limit"     ) @DefaultValue("10") int limit	,
-                                               @ApiParam(value="sortField" ,required=true , defaultValue="nom") @QueryParam("sortField" ) @DefaultValue("id") String  sortField,
+  public ListRange<Equipier> getEquipierList(  @ApiParam(value="start"     ,required=true , defaultValue="0"  ) @QueryParam("start"     ) @DefaultValue("0"  ) int start	,
+                                               @ApiParam(value="limit"     ,required=true , defaultValue="10" ) @QueryParam("limit"     ) @DefaultValue("10" ) int limit	,
+                                               @ApiParam(value="sortField" ,required=true , defaultValue="nom") @QueryParam("sortField" ) @DefaultValue("nom") String  sortField,
                                                @ApiParam(value="sortAsc"   ,required=false) @QueryParam("sortAsc"   ) boolean sortAsc     ,
                                                @ApiParam(value="nom"            ,required=false) @QueryParam("nom"       			) String 	nom          	,
-                                               @ApiParam(value="prenom"         ,required=false) @QueryParam("codePostal"			) String 	prenom   			,
+                                               @ApiParam(value="prenom"         ,required=false) @QueryParam("prenom"			    ) String 	prenom   			,
                                                @ApiParam(value="nivol"          ,required=false) @QueryParam("nivol"					) String  nivol					,
                                                @ApiParam(value="equipierIsMale" ,required=false) @QueryParam("equipierIsMale"	) Boolean equipierIsMale,
                                                @ApiParam(value="idRoleEquipier" ,required=false) @QueryParam("idRoleEquipier"	) Integer idRoleEquipier,
@@ -100,12 +100,12 @@ public class EquipiersGestion extends DWRUtils
 
     if(equipierIsMale != null)
     {
-      filters.add(new FilterObject("EQUIPIER_IS_MALE", equipierIsMale+"", FilterObject.COMP_EQUAL));
+      filters.add(new FilterObject("EQUIPIER_IS_MALE", equipierIsMale?"1":"0", FilterObject.COMP_EQUAL));
     }
 
     if(enabled != null)
     {
-      filters.add(new FilterObject("ENABLED", enabled+"", FilterObject.COMP_EQUAL));
+      filters.add(new FilterObject("ENABLED", enabled?"1":"0", FilterObject.COMP_EQUAL));
     }
 
     if(idRoleEquipier != null)
@@ -174,10 +174,9 @@ public class EquipiersGestion extends DWRUtils
   @PUT
   @Path("/{idEquipier}/enable")
   @ApiOperation(value="enable or disable one equipier (equipier can't be deleted)")
-  public int enableEquipier(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier,
-                            @ApiParam(value="enable"        ,required=true) @QueryParam ("enable"    )boolean enable) throws Exception
+  public void enableEquipier(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier,
+                            @ApiParam(value="enable"        ,required=true) @QueryParam("enable"    )boolean enable) throws Exception
   {
-    
     try
     {
       this.equipierService.setEnableDisableEquipier(idEquipier, enable);
@@ -187,14 +186,13 @@ public class EquipiersGestion extends DWRUtils
       logger.error("Erreur lors de la récupération de la liste des équipiers", e);
       throw e;
     }
-    return 1;
   }
 
-
+/*
   @POST
   @Consumes("application/json")
   @ApiOperation(value="Create a new Equipier")
-  @Path("/create")
+  @Path("/create")*/
   public void createEquipier(@ApiParam(value="equipier"    ,required=true) @QueryParam ("equipier")Equipier equipier) throws Exception
   {
     try
@@ -208,11 +206,11 @@ public class EquipiersGestion extends DWRUtils
       throw e;
     }
   }
-
+/*
   @PUT
   @Consumes("application/json")
   @ApiOperation(value="Update an Equipier")
-  @Path("/update")
+  @Path("/update")*/
   public void modifyEquipier(@ApiParam(value="equipier"    ,required=true) @QueryParam ("equipier")Equipier equipier) throws Exception
   {
 
@@ -256,9 +254,10 @@ public class EquipiersGestion extends DWRUtils
   @POST
   @Path("/{idEquipier}/user/{idUser}")
   @ApiOperation(value="if idUser=0 and active=true, create a new user and activate it. if idUser!=0 update its status")
-  public User changeStatus(@ApiParam(value="idEquipier"    ,required=true) @PathParam ("idEquipier")int idEquipier,
-                           @ApiParam(value="idUser"        ,required=true) @PathParam ("idUser"    )int idUser,
-                           @ApiParam(value="idEquipier"    ,required=true) @QueryParam("idEquipier")boolean active) throws Exception
+  public User changeStatus(@ApiParam(value="idEquipier" ,required=true) @PathParam ("idEquipier")int      idEquipier,
+                           @ApiParam(value="idUser"     ,required=true) @PathParam ("idUser"    )int      idUser,
+                           @ApiParam(value="active"     ,required=true) @QueryParam("active"    )boolean  active
+                          ) throws Exception
   {
     if(idUser == 0 && !active)
       throw new IllegalArgumentException("IdUser=0 => on ne peut pas desactiver un équipier qui n'est pas un utilisateur");

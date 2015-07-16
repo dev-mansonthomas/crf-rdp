@@ -171,8 +171,11 @@ public class UserServiceImpl extends JDBCHelper implements UserService
   public void updateUserRole(int idUser, int idRole, boolean active)
   {
     if(logger.isDebugEnabled())
-      logger.debug("updating idUser="+idUser+" with idRole="+idRole+" active="+active);
-    this.jdbcTemplate.update(active?queryForInsertRoleForUser:queryForDeleteRoleForUser, 
+    {
+      logger.debug("updating idUser=" + idUser + " with idRole=" + idRole + " active=" + active);
+    }
+
+    this.jdbcTemplate.update(active?queryForInsertRoleForUser:queryForDeleteRoleForUser,
         new Object[]{idUser, idRole}, 
         new int   []{Types.INTEGER, Types.INTEGER});
   }

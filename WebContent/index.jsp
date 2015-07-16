@@ -1,8 +1,8 @@
 <%
 	request.getSession().invalidate();
-	try
+  try
   {
-  	response.sendRedirect(request.getContextPath() + "/private/Homepage.html");
+  	response.sendRedirect(request.getContextPath() + "/private/swagger/index.html");
   }
   catch(Exception e)
   {

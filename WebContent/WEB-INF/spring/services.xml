@@ -16,7 +16,7 @@
     <bean id="EvaluationService"            class="fr.croixrouge.rdp.services.evaluation.EvaluationServiceImpl"                  autowire="constructor" /> 
     
     
-    <bean id="SMSManager"                  class="fr.croixrouge.rdp.services.dwr.homepage.SMSManager"                            autowire="constructor" />
+    <bean id="SMSManager"                  class="fr.croixrouge.rdp.services.restServices.homepage.SMSManager"                            autowire="constructor" />
     
     <bean id="SMSLogService"               class="fr.croixrouge.rdp.services.mobile.SMSLogServiceImpl"                           autowire="constructor" />
     <bean id="SMSDelegate"                 class="fr.croixrouge.rdp.services.delegate.SMS.SMSDelegateImpl"                       autowire="constructor" />

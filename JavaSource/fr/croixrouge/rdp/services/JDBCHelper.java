@@ -10,10 +10,10 @@ public abstract class JDBCHelper
   
   protected int getLastInsertedId(JdbcTemplate jdbcTemplate, String tableName)
   {
-    return jdbcTemplate.queryForInt("SELECT last_insert_id() from `" 
+    return jdbcTemplate.queryForObject("SELECT last_insert_id() from `"
         + 
         tableName
-        +"` LIMIT 1", null, null); 
+        +"` LIMIT 1", null, null, Integer.class);
   }
   
   protected abstract int getLastInsertedId();

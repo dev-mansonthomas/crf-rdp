@@ -176,9 +176,9 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
     int    [] types =  new int   []{Types.VARCHAR, Types.VARCHAR};
     
     
-    int totalCount = this.jdbcTemplate.queryForInt(
+    int totalCount = this.jdbcTemplate.queryForObject(
                       "SELECT COUNT(1)+1 \n" +whereForSearchDelegation, 
-                      os, types);
+                      os, types, Integer.class);
     
 
     String query = queryForGetDelegationsByZipCode + "from (\n"+

@@ -233,7 +233,8 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
 
   public int getNbEquipiers(GridSearchFilterAndSortObject gsfaso)
   {
-    return (int)jdbcTemplate.queryForLong(queryForGetNbEquipiers);
+    long count = jdbcTemplate.queryForObject(queryForGetNbEquipiers, Long.class);
+    return (int) count;
   }
 
   private final static String queryForGetEquipiers =
@@ -324,9 +325,9 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
       logger.debug("queryCount :\n"+queryCount+"\n\nquery :\n"+query);
     }
 
-    int nbEquipiers = jdbcTemplate.queryForInt( queryCount,
+    int nbEquipiers = jdbcTemplate.queryForObject( queryCount,
                                                 os        ,
-                                                types     );
+                                                types     , Integer.class);
 
 
 
@@ -459,10 +460,10 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     }
 
 
-    int totalCount = this.jdbcTemplate.queryForInt(
+    int totalCount = this.jdbcTemplate.queryForObject(
         "SELECT COUNT(1) \n" +
-        "FROM   equipier e, delegation d"+  (searchType == 1?", equipier_roles er":"" )+ "\n"
-        +whereClause, os, types);
+            "FROM   equipier e, delegation d" + (searchType == 1 ? ", equipier_roles er" : "") + "\n"
+            + whereClause, os, types, Integer.class);
 
 
     String query = equipierSelectWithDelegation+ (searchType == 1? ", er.id_role_equipier, er.en_evaluation\n":"\n")
@@ -507,10 +508,10 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     int    [] types =  new int   []{Types.CHAR   , Types.CHAR   , Types.CHAR   , Types.CHAR   };
 
 
-    int totalCount = this.jdbcTemplate.queryForInt(
+    int totalCount = this.jdbcTemplate.queryForObject(
         "SELECT COUNT(1) \n" +
-        "FROM   equipier e, delegation d \n"
-        +queryForSearchEquipierWhere, os, types);
+            "FROM   equipier e, delegation d \n"
+            + queryForSearchEquipierWhere, os, types, Integer.class);
 
 
     String query = equipierSelect+"\n"
@@ -629,7 +630,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
   
   public boolean equipierWithThisNivolExists(String nivol) throws Exception
   {
-    return this.jdbcTemplate.queryForInt(queryForEquipierWithThisNivolExists, new Object[]{nivol}, new int[]{Types.VARCHAR}) == 1; 
+    return this.jdbcTemplate.queryForObject(queryForEquipierWithThisNivolExists, new Object[]{nivol}, new int[]{Types.VARCHAR}, Integer.class) == 1;
   }
   
   

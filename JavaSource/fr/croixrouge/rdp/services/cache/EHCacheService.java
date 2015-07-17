@@ -75,7 +75,7 @@ public class EHCacheService implements CacheService
       if(logger.isDebugEnabled())
         logger.debug("Object '"+name+"' found in cache");
 
-      return e.getValue();
+      return e.getObjectValue();
     }
     catch(CacheException e)
     {

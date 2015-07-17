@@ -203,9 +203,9 @@ public class SMSLogServiceImpl implements SMSLogService
       types[i]=typesI[i];
     
   
-    int totalCount = this.jdbcTemplate.queryForInt(
+    int totalCount = this.jdbcTemplate.queryForObject(
         "SELECT COUNT(1) \nFROM   `sms_log` sl, equipier e \n" +
-        currentWhereClause, os, types);
+            currentWhereClause, os, types, Integer.class);
     
     
     String query = selectForSearchSMSForSMSManager +currentWhereClause+ orderBy+ "\nLIMIT "+start+", "+limit;

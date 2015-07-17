@@ -89,9 +89,9 @@ public class SMSTemplateServiceImpl implements SMSTemplateService
       types =  new int   []{ Types.VARCHAR       };
     }
    
-    int totalCount = this.jdbcTemplate.queryForInt(
+    int totalCount = this.jdbcTemplate.queryForObject(
         "SELECT COUNT(1) \nFROM   `sms_template`\n" +
-        currentWhereClause, os, types);
+            currentWhereClause, os, types, Integer.class);
     
     String query = selectForGetSMSTemplate +currentWhereClause+ "LIMIT "+start+", "+limit;
     

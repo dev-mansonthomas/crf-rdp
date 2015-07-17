@@ -335,9 +335,9 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
     "WHERE    id_siord = ? \n";
   public int getDelegationIdFromSiordDelegationId(int idDelegationSiord)
   {
-    return this.crfrdpJdbcTemplate.queryForInt(queryForGetDelegationIdFromSiordDelegationId,
+    return this.crfrdpJdbcTemplate.queryForObject(queryForGetDelegationIdFromSiordDelegationId,
         new Object[]{idDelegationSiord},
-        new int   []{Types.INTEGER});
+        new int   []{Types.INTEGER}, Integer.class);
   }
   
   

@@ -183,7 +183,7 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
       };
     
     
-    int count = this.crfrdpJdbcTemplate.queryForInt(queryForCheckIfEmailExists, objects, types);
+    int count = this.crfrdpJdbcTemplate.queryForObject(queryForCheckIfEmailExists, objects, types, Integer.class);
     return count > 0;
   }
   
@@ -207,7 +207,7 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
       };
     
     
-    int count = this.crfrdpJdbcTemplate.queryForInt(queryForCheckIfMobileExists, objects, types);
+    int count = this.crfrdpJdbcTemplate.queryForObject(queryForCheckIfMobileExists, objects, types, Integer.class);
     return count > 0;
   }
   
@@ -230,7 +230,7 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
       };
     
     
-    int count = this.crfrdpJdbcTemplate.queryForInt(queryForCheckIfNivolExists, objects, types);
+    int count = this.crfrdpJdbcTemplate.queryForObject(queryForCheckIfNivolExists, objects, types, Integer.class);
     return count > 0;
   }
   
@@ -253,7 +253,7 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
       };
     
     
-    int count = this.crfrdpJdbcTemplate.queryForInt(queryForCheckIfDelegationExists, objects, types);
+    int count = this.crfrdpJdbcTemplate.queryForObject(queryForCheckIfDelegationExists, objects, types, Integer.class);
     return count > 0;
   }  
 }

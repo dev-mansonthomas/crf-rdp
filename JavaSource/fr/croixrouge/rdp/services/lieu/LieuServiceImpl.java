@@ -61,10 +61,10 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     int    [] types =  new int   []{Types.INTEGER, Types.CHAR   , Types.CHAR   , Types.CHAR   , Types.CHAR   };
 
 
-    int totalCount = this.jdbcTemplate.queryForInt(
+    int totalCount = this.jdbcTemplate.queryForObject(
         "SELECT COUNT(1) \n" +
-        "FROM   lieu l\n"
-        +queryForSearchLieuWhere, os, types);
+            "FROM   lieu l\n"
+            + queryForSearchLieuWhere, os, types, Integer.class);
 
 
     String query = selectForGetLieux+"\n"+
@@ -250,9 +250,9 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
       logger.debug("queryCount :\n"+queryCount+"\n\nquery :\n"+query);
     }
     
-    int nbEquipiers = jdbcTemplate.queryForInt( queryCount, 
-                                                os        , 
-                                                types     );
+    int nbEquipiers = jdbcTemplate.queryForObject(queryCount,
+        os,
+        types, Integer.class);
     
     
 

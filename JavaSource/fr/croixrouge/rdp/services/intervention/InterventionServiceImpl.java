@@ -199,9 +199,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
     if(logger.isDebugEnabled())
       logger.debug("getting internvetion ticket for regulation id='"+idRegulation+"' with status status='"+status+"' from start='"+gsfaso.getStart()+"' with limit='"+gsfaso.getLimit()+"'");
 
-    int totalCount = this.jdbcTemplate.queryForInt(queryForGetInterventionTicketWithStatusCount,
-        new Object[]{idRegulation , status       },
-        new int   []{Types.INTEGER, Types.INTEGER});
+    int totalCount = this.jdbcTemplate.queryForObject(queryForGetInterventionTicketWithStatusCount,
+        new Object[]{idRegulation, status},
+        new int[]{Types.INTEGER, Types.INTEGER}, Integer.class);
     
     List<InterventionTicket> list = this.jdbcTemplate.query( queryForGetInterventionTicketWithStatus + "LIMIT    ?,?              \n", 
         new Object[]{idRegulation , status       , gsfaso.getStart()        , gsfaso.getLimit()        },
@@ -1503,9 +1503,9 @@ public class InterventionServiceImpl extends JDBCHelper implements InterventionS
       types[i]=typesI[i];
     
     
-    int nbIntervention = jdbcTemplate.queryForInt(  queryCount, 
+    int nbIntervention = jdbcTemplate.queryForObject(  queryCount,
                                                     os        , 
-                                                    types     );
+                                                    types     , Integer.class);
     
     if(logger.isDebugEnabled())
     {

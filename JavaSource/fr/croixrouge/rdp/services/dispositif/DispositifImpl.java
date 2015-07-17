@@ -261,7 +261,7 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   public void unAffectInterventionToDispositif(int idDispositif, int idIntervention) throws Exception
   {
     
-    int numberOfIntervention = this.jdbcTemplate.queryForInt(queryForUnAffectInterventionToDispositif3, new Object[]{idDispositif}, new int[]{Types.INTEGER});
+    int numberOfIntervention = this.jdbcTemplate.queryForObject(queryForUnAffectInterventionToDispositif3, new Object[]{idDispositif}, new int[]{Types.INTEGER}, Integer.class);
     
     if(logger.isDebugEnabled())
       logger.debug("Dispositif with id='"+idDispositif+"' has "+numberOfIntervention+" intervention currently affected and intervention with id='"+idIntervention+"' is being unaffected");
@@ -529,9 +529,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     
   public int getIdVehiculeOfDispositif(int idDispositif) throws Exception
   {
-    return this.jdbcTemplate.queryForInt(queryForGetIdVehiculeOfDispositif, 
-        new Object[]{idDispositif },
-        new int   []{Types.INTEGER});
+    return this.jdbcTemplate.queryForObject(queryForGetIdVehiculeOfDispositif,
+        new Object[]{idDispositif},
+        new int[]{Types.INTEGER}, Integer.class);
   }
 
   private final static String queryForGetIdTypeDispositif=
@@ -542,9 +542,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   public int getIdTypeDispositif(int idRegulation, int idDispositif) throws Exception
   {
-    return this.jdbcTemplate.queryForInt(queryForGetIdTypeDispositif, 
-        new Object[]{idDispositif , idRegulation},
-        new int   []{Types.INTEGER, Types.INTEGER});
+    return this.jdbcTemplate.queryForObject(queryForGetIdTypeDispositif,
+        new Object[]{idDispositif, idRegulation},
+        new int[]{Types.INTEGER, Types.INTEGER}, Integer.class);
   }
   
   
@@ -662,9 +662,10 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
     if(logger.isDebugEnabled())
       logger.debug("getting dispositif for regulation id='"+idRegulation+"' with creationTerminee='true' and actif='true' from index='"+index+"' with limit='"+limit+"'");
     
-    int totalCount = this.jdbcTemplate.queryForInt(queryForGetRecentDispositifCount,
-        new Object[]{idRegulation  },
-        new int   []{Types.INTEGER });
+    int totalCount = this.jdbcTemplate.queryForObject(queryForGetRecentDispositifCount,
+        new Object[]{idRegulation},
+        new int[]{Types.INTEGER}
+        , Integer.class);
     
     String query = queryForRecentDispositif + "LIMIT    ?,?              \n";
 
@@ -785,9 +786,9 @@ public class DispositifImpl extends JDBCHelper implements DispositifService
   
   public int numberOfInterventionAffectedToDispositif(int idDispositif) throws Exception
   {
-    int numberOfIntervention = this.jdbcTemplate.queryForInt( queryForNumberOfIntervention, 
-                                                              new Object[]{idDispositif}, 
-                                                              new int[]{Types.INTEGER});
+    int numberOfIntervention = this.jdbcTemplate.queryForObject(queryForNumberOfIntervention,
+        new Object[]{idDispositif},
+        new int[]{Types.INTEGER}, Integer.class);
     
     return numberOfIntervention;
   }

@@ -8,11 +8,11 @@ import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 
 public interface RegulationService
 {  
-  public List<Regulation> getRegulations        (boolean    open                          );  
-  public void             createRegulation      (Regulation regulation                    );
-  public void             changeRegulationState (int        idRegulation, boolean open    );
-  public Regulation       getRegulation         (int        idRegulation                  );
+  List<Regulation> getRegulations(boolean open);
+  void             createRegulation(Regulation regulation);
+  void             changeRegulationState(int idRegulation, boolean open);
+  Regulation       getRegulation(int idRegulation);
   
-  public ListRange<Delegation>  searchDelegation (String     search     , int start, int limit);
-  public void                   createDelegation (Delegation delegation);
+  ListRange<Delegation>  searchDelegation(String search, int start, int limit);
+  void                   createDelegation(Delegation delegation);
 }

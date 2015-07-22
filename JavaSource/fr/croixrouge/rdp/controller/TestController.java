@@ -1,21 +1,18 @@
 package fr.croixrouge.rdp.controller;
 
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import fr.croixrouge.rdp.services.mobile.MobileService;
+import fr.croixrouge.utilities.web.conf.PerMachinePropertyPlaceholderConfigurer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
-import fr.croixrouge.rdp.model.monitor.SMS;
-import fr.croixrouge.rdp.services.mobile.MobileService;
-import fr.croixrouge.utilities.web.conf.PerMachinePropertyPlaceholderConfigurer;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
 
 public class TestController extends AbstractController
 {
@@ -76,7 +73,7 @@ public class TestController extends AbstractController
     
     
     
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     return new ModelAndView("private/test/testThomas", model);
   }
 

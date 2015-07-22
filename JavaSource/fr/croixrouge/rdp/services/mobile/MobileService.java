@@ -116,7 +116,7 @@ public abstract class MobileService
  
   private String[] splitMessage(String message, int length)
   {
-    ArrayList<String>parts = new ArrayList<String>(4);
+    ArrayList<String>parts = new ArrayList<>(4);
     int numberOf2BytesChar = countCaractersThatUseTwoBytes(message);
     int javaMsgLength      = message.length();
 
@@ -164,11 +164,7 @@ public abstract class MobileService
    * */
   public static boolean validatePhoneNumber(String phone)
   {
-    if(phone == null || phone.trim().length() == 0 || !(phone.startsWith("06") || phone.startsWith("07")))
-    {
-      return false;
-    }
-    return true;
+    return !(phone == null || phone.trim().length() == 0 || !(phone.startsWith("06") || phone.startsWith("07")));
   }
   
 }

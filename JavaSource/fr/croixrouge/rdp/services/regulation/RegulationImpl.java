@@ -196,7 +196,7 @@ public class RegulationImpl extends JDBCHelper implements RegulationService
                                                       , os, types, new DelegationRowMapper());
     
     
-    return new ListRange<Delegation>(totalCount, delegations);
+    return new ListRange<>(totalCount, delegations);
   }
   
 

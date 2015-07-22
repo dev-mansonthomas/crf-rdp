@@ -10,8 +10,11 @@ public class FilterObject implements Serializable
   private String comparator;
  
   
-  public static String COMP_LIKE = "LIKE";
-  public static String COMP_EQUAL= "=";
+  public static String COMP_LIKE       = "LIKE";
+  public static String COMP_EQUAL      = "=";
+  public static String COMP_INFOREQUAL = "<=";
+  public static String COMP_SUPOREQUAL = ">=";
+  public static String COMP_AROUND     = "~";
   
   
   public FilterObject()

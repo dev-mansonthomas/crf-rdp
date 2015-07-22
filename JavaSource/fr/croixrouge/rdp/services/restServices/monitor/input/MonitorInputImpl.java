@@ -80,7 +80,7 @@ public class MonitorInputImpl
     FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("search");
     
     if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-      return new ListRange<Delegation>(0, new ArrayList<Delegation>());
+      return new ListRange<>(0, new ArrayList<Delegation>());
  
     String search = filterObject.getValue();
     

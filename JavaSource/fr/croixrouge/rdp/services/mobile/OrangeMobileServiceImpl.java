@@ -74,7 +74,7 @@ public class OrangeMobileServiceImpl extends MobileService
   @Override
   protected void rawSendSMS(String to, String message)
   {
-    List<NameValuePair> qparams = new ArrayList<NameValuePair>();
+    List<NameValuePair> qparams = new ArrayList<>();
     
     qparams.add(new BasicNameValuePair(this.parameterNameKey    , this.orangeAPIKey ));
     qparams.add(new BasicNameValuePair(this.parameterNameFrom   , this.fromNumber   ));

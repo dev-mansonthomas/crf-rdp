@@ -24,33 +24,33 @@ import fr.croixrouge.rdp.services.dispositif.DispositifService;
 
 public class EquipierServiceImpl extends JDBCHelper implements EquipierService
 {
-  private JdbcTemplate            jdbcTemplate;
-  private static Logger           logger                     = Logger.getLogger(EquipierServiceImpl.class);
-  private HashMap<String, String> sortMapForGetEquipierList  = new HashMap<String, String>();
-  private HashMap<String, String> whereMapForGetEquipierList = new HashMap<String, String>();
+  private JdbcTemplate jdbcTemplate;
+  private static Logger                  logger                     = Logger.getLogger(EquipierServiceImpl.class);
+  private        HashMap<String, String> sortMapForGetEquipierList  = new HashMap<>();
+  private        HashMap<String, String> whereMapForGetEquipierList = new HashMap<>();
 
   public EquipierServiceImpl(JdbcTemplate jdbcTemplate, DispositifService dispositifService)
   {
-    this.jdbcTemplate      = jdbcTemplate;
+    this.jdbcTemplate = jdbcTemplate;
 
-    sortMapForGetEquipierList.put("nom"                       , "nom"             );
-    sortMapForGetEquipierList.put("prenom"                    , "prenom"          );
-    sortMapForGetEquipierList.put("homme"                     , "equipier_is_male");
-    sortMapForGetEquipierList.put("delegation.idDelegation"   , "nom_delegation"  );
-    sortMapForGetEquipierList.put("numNivol"                  , "nivol"           );
+    sortMapForGetEquipierList.put("nom", "nom");
+    sortMapForGetEquipierList.put("prenom", "prenom");
+    sortMapForGetEquipierList.put("homme", "equipier_is_male");
+    sortMapForGetEquipierList.put("delegation.idDelegation", "nom_delegation");
+    sortMapForGetEquipierList.put("numNivol", "nivol");
 
-    whereMapForGetEquipierList.put("NOM"              , "e.nom"              );
-    whereMapForGetEquipierList.put("PRENOM"           , "e.prenom"           );
-    whereMapForGetEquipierList.put("nivol"            , "e.nivol"            );
-    whereMapForGetEquipierList.put("EQUIPIER_IS_MALE" , "e.equipier_is_male" );
-    whereMapForGetEquipierList.put("ID_ROLE_EQUIPIER" , "er.id_role_equipier");
-    whereMapForGetEquipierList.put("EMAIL"            , "e.email"            );
-    whereMapForGetEquipierList.put("MOBILE"           , "e.mobile"           );
-    whereMapForGetEquipierList.put("ENABLED"          , "e.enabled"          );
-    whereMapForGetEquipierList.put("ID_DELEGATION"    , "e.id_delegation"    );
+    whereMapForGetEquipierList.put("NOM", "e.nom");
+    whereMapForGetEquipierList.put("PRENOM", "e.prenom");
+    whereMapForGetEquipierList.put("nivol", "e.nivol");
+    whereMapForGetEquipierList.put("EQUIPIER_IS_MALE", "e.equipier_is_male");
+    whereMapForGetEquipierList.put("ID_ROLE_EQUIPIER", "er.id_role_equipier");
+    whereMapForGetEquipierList.put("EMAIL", "e.email");
+    whereMapForGetEquipierList.put("MOBILE", "e.mobile");
+    whereMapForGetEquipierList.put("ENABLED", "e.enabled");
+    whereMapForGetEquipierList.put("ID_DELEGATION", "e.id_delegation");
 
 
-    if(logger.isDebugEnabled())
+    if (logger.isDebugEnabled())
       logger.debug("constructor called");
   }
 
@@ -243,7 +243,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
 
   public ListRange<Equipier> getEquipiers(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    StringBuffer whereClause   = new StringBuffer();
+    StringBuilder whereClause   = new StringBuilder();
 
     String orderBy = "ORDER BY ";
 
@@ -306,7 +306,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
           whereClause.append( " LIKE ? \n");
 
           String filterValue = currentFilter.getValue();
-          if(filterValue.indexOf("*")>-1)
+          if(filterValue.contains("*"))
             filterValue = filterValue.replaceAll("*", "%");
           else
             filterValue += "%";
@@ -338,7 +338,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
                                                       new EquipierRowMapper(false,true));
 
 
-    return  new ListRange<Equipier>(nbEquipiers, equipierList);
+    return new ListRange<>(nbEquipiers, equipierList);
   }
 
   private final static String queryForGetRoles =
@@ -363,7 +363,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
         new EquipierRolesRowMapper());
 
     if (roleList==null)
-      roleList = new ArrayList<EquipierRole>();
+      roleList = new ArrayList<>();
 
     return roleList;
   }
@@ -392,13 +392,14 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
 
 
   /**
-   * @searchType 1: dispositifEquipierSearch (equipier actif, non affecté), 0: all available Equipier
+   * @param searchType 1: dispositifEquipierSearch (equipier actif, non affecté), 0: all available Equipier
+   * @param gsfaso : objet de recherche
    *
    */
   public ListRange<Equipier> searchEquipierWithRole(int searchType, GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    ArrayList<Object > osAL    = new ArrayList<Object>(10);
-    ArrayList<Integer> typesAL = new ArrayList<Integer>(10);
+    ArrayList<Object > osAL    = new ArrayList<>(10);
+    ArrayList<Integer> typesAL = new ArrayList<>(10);
 
     int start = gsfaso.getStart();
     int limit = gsfaso.getLimit();
@@ -407,7 +408,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
     String searchString = null;
     FilterObject filterObject = gsfaso.getFilterObject("search");
     if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-      return new ListRange<Equipier>(0, new ArrayList<Equipier>());
+      return new ListRange<>(0, new ArrayList<Equipier>());
 
     searchString = filterObject.getValue()+"%";
 
@@ -425,7 +426,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
       filterObject = gsfaso.getFilterObject("idRole");
 
       if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-        return new ListRange<Equipier>(0, new ArrayList<Equipier>());
+        return new ListRange<>(0, new ArrayList<Equipier>());
 
 
       try
@@ -434,7 +435,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
       }
       catch(NumberFormatException e)
       {
-        return new ListRange<Equipier>(0, new ArrayList<Equipier>());
+        return new ListRange<>(0, new ArrayList<Equipier>());
       }
 
       osAL   .add(idRole);
@@ -480,7 +481,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
                                                       new EquipierRowMapper(false, true));
 
 
-    return new ListRange<Equipier>(totalCount, equipierList);
+    return new ListRange<>(totalCount, equipierList);
   }
 
 
@@ -528,7 +529,7 @@ public class EquipierServiceImpl extends JDBCHelper implements EquipierService
                                                       new EquipierRowMapper(false, false));
 
 
-    return new ListRange<Equipier>(totalCount, equipierList);
+    return new ListRange<>(totalCount, equipierList);
   }
 
 

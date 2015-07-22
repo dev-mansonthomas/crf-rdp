@@ -50,7 +50,7 @@ public class LieuEditor
 	  GridSearchFilterAndSortObject gsfaso = new GridSearchFilterAndSortObject();
 	  gsfaso.setStart(start);
 	  gsfaso.setLimit(limit);
-	  List<FilterObject> filters = new ArrayList<FilterObject>(3);
+	  List<FilterObject> filters = new ArrayList<>(3);
 	  
 	  if(nom != null)
 	  {
@@ -183,6 +183,7 @@ public class LieuEditor
     }
     catch(Exception e)
     {
+      logger.error("Error while updating google coordinates on lieu id='"+idLieu+"' latitude='"+latitude+"' longitude='"+longitude+"'",e);
       throw e;
     }
   }

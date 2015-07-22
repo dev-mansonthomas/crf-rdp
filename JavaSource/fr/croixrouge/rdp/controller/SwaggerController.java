@@ -17,8 +17,8 @@ public class SwaggerController extends AbstractController
 {
   private static Log logger           = LogFactory.getLog(SwaggerController.class);
   
-  private PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer = null;;
-  
+  private PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer = null;
+
   public SwaggerController(PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer)
   {
     this.propertyPlaceholderConfigurer = propertyPlaceholderConfigurer; 
@@ -39,7 +39,7 @@ public class SwaggerController extends AbstractController
     
 
     
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     return new ModelAndView("private/swagger/index", model);
   }
 

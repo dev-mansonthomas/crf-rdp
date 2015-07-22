@@ -36,7 +36,7 @@ public class MonitorInputSMS
     int currentUserId           = 1;
     if(logger.isDebugEnabled())
     {
-      StringBuffer sb = new StringBuffer("{");
+      StringBuilder sb = new StringBuilder("{");
       for (int i : idEquipiers)
       {
         sb.append(i);
@@ -47,7 +47,7 @@ public class MonitorInputSMS
     }
     
     List<Equipier>  equipiers = this.equipierService.getEquipiersForDispositif(idDispositif);
-    List<SMS>       smss      = new ArrayList<SMS>(idEquipiers.length);
+    List<SMS>       smss      = new ArrayList<>(idEquipiers.length);
     SMS             template  = new SMS(SMS.TYPE_MESSAGE_EQUIPIERS_DISPOSITIF, idDispositif,currentUserId, "0606060606", message );
     
     

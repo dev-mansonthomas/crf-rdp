@@ -32,7 +32,7 @@ public class Position implements Serializable
   @Override
   public String toString()
   {
-    StringBuffer sb = new StringBuffer("{rue:{" );
+    StringBuilder sb = new StringBuilder("{rue:{" );
     
     sb.append(this.rue               );
     sb.append("},codePostal:{"       );

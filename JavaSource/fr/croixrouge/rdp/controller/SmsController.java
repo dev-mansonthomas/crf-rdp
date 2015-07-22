@@ -29,7 +29,7 @@ public class SmsController extends AbstractController
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
   {
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     
     String api      = request.getParameter("api"    );
     

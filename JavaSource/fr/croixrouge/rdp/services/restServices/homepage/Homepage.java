@@ -4,7 +4,6 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import fr.croixrouge.rdp.model.monitor.Regulation;
-import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.regulation.RegulationService;
@@ -42,7 +41,7 @@ public class Homepage
   public ListRange<Regulation>getOpenRegulationList() throws Exception
   {
     List<Regulation> list = this.regulationService.getRegulations(true);
-    return  new ListRange<Regulation> (list.size(), list);
+    return new ListRange<>(list.size(), list);
   }
 
   @PUT

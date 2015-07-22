@@ -1,5 +1,7 @@
 package fr.croixrouge.rdp.model.monitor;
 
+import fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -1644,7 +1646,7 @@ public class Intervention implements Serializable
   public String toString()
   {
     
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS");
+    SimpleDateFormat dateFormat = new SimpleDateFormat(UtilitiesServiceImpl.dateTimeMSSDF);
     
     StringBuilder builder = new StringBuilder();
     builder.append("Intervention [position=");

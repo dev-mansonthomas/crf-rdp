@@ -23,7 +23,7 @@ public class MonitorInController  extends AbstractController
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
   {
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     
     model.put("applicationVersion", this.propertyPlaceholderConfigurer.getPropertyValue("application.version"));
     model.put("googleMapsKey"     , this.propertyPlaceholderConfigurer.getPropertyValue("google.maps.key"    ));

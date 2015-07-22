@@ -7,20 +7,20 @@ import fr.croixrouge.rdp.model.monitor.Vehicule;
 
 public interface VehiculeService
 {
-  public final static String CARBURANT_DIESEL     = "Diesel"    ;
-  public final static String CARBURANT_ESSENCE    = "Essence"   ;
-  public final static String CARBURANT_ELECTRIQUE = "Electrique";
+  String CARBURANT_DIESEL     = "Diesel"    ;
+  String CARBURANT_ESSENCE    = "Essence"   ;
+  String CARBURANT_ELECTRIQUE = "Electrique";
   
-  public final static int    GPS_ORIGINE_GOOGLE   = 1;
-  public final static int    GPS_ORIGINE_RADIO    = 2;
+  int    GPS_ORIGINE_GOOGLE   = 1;
+  int    GPS_ORIGINE_RADIO    = 2;
   
   
-  public List<Vehicule> getVehiculeList(int vehiculeType, boolean onlyUnAffected, int idDispositif) throws Exception;
+  List<Vehicule> getVehiculeList(int vehiculeType, boolean onlyUnAffected, int idDispositif) throws Exception;
   
-  public void affectVehiculeToDispositif  (int idVehicule, int idDispositif ) throws Exception;
-  public void unAffectVehiculeToDispositif(int idVehicule                   ) throws Exception;
+  void affectVehiculeToDispositif(int idVehicule, int idDispositif) throws Exception;
+  void unAffectVehiculeToDispositif(int idVehicule) throws Exception;
   
-  public void storeVehiculePosition(DispositifSummaryInformation dsi, int coordinateOrigin) throws Exception;
+  void storeVehiculePosition(DispositifSummaryInformation dsi, int coordinateOrigin) throws Exception;
   
   
 }

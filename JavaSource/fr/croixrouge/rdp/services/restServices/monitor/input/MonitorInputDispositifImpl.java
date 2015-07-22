@@ -214,7 +214,7 @@ public class MonitorInputDispositifImpl
     
     List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
     
-    return new ListRange<Equipier>(listEquipier.size(), listEquipier);
+    return new ListRange<>(listEquipier.size(), listEquipier);
   }
   
   public ListRange<Equipier> removeEquipierFromDispositif(int idDispositif, int idEquipier) throws Exception
@@ -227,14 +227,14 @@ public class MonitorInputDispositifImpl
     
     List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
     
-    return new ListRange<Equipier>(listEquipier.size(), listEquipier);
+    return new ListRange<>(listEquipier.size(), listEquipier);
   }
   
   public ListRange<Equipier> getEquipiersFromDispositif(int idDispositif) throws Exception
   {
     
     List<Equipier> listEquipier = this.equipierService.getEquipiersForDispositif(idDispositif);
-    return new ListRange<Equipier>(listEquipier.size(), listEquipier);
+    return new ListRange<>(listEquipier.size(), listEquipier);
   }
   
   public boolean updateGoogleCoordinates(float latitude, float longitude, int idDispositif, boolean current) throws Exception

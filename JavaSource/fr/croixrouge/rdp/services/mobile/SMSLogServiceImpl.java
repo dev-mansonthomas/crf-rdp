@@ -72,107 +72,105 @@ public class SMSLogServiceImpl implements SMSLogService
         new int   []{Types.INTEGER    , Types.INTEGER        , Types.INTEGER      , Types.VARCHAR, Types.VARCHAR, Types.VARCHAR     , Types.VARCHAR   , Types.TIMESTAMP   }
     );
   }
-  
-  private final static String selectForSearchSMSForSMSManager = 
-          "SELECT sl.`id_sms_log`   ,                                           \n"+
-          "       sl.`id_sms_type`  ,                                           \n"+
-          "       sl.`id_dispositif`,                                           \n"+
-          "       sl.`id_equipier`  ,                                           \n"+
-          "       sl.`api`          ,                                           \n"+
-          "       sl.`sender`       ,                                           \n"+
-          "       sl.`to`           ,                                           \n"+
-          "       sl.`message`      ,                                           \n"+
-          "       sl.`evt_date`     ,                                           \n"+
-          "       concat(e.nivol,' - ', e.prenom ,' ', e.nom) as equipier_desc  \n"+
+
+  private final static String selectForSearchSMSForSMSManager =
+      "SELECT sl.`id_sms_log`   ,                                           \n" +
+          "       sl.`id_sms_type`  ,                                           \n" +
+          "       sl.`id_dispositif`,                                           \n" +
+          "       sl.`id_equipier`  ,                                           \n" +
+          "       sl.`api`          ,                                           \n" +
+          "       sl.`sender`       ,                                           \n" +
+          "       sl.`to`           ,                                           \n" +
+          "       sl.`message`      ,                                           \n" +
+          "       sl.`evt_date`     ,                                           \n" +
+          "       concat(e.nivol,' - ', e.prenom ,' ', e.nom) as equipier_desc  \n" +
           "FROM   `sms_log` sl, equipier e                                      \n";
-  
-  private final static String whereClauseForSearchSMSForSMSManager = 
-          "WHERE  sl.id_equipier = e.id_equipier                                \n";
-   
-  
 
-  private final static String whereClauseForDateSeach = 
-    "AND sl.`evt_date` BETWEEN ? AND ? \n";
+  private final static String whereClauseForSearchSMSForSMSManager =
+      "WHERE  sl.id_equipier = e.id_equipier                                \n";
 
-  
-  
-  private HashMap<String, String> sortMapForSearchSMSForSMSManager = new HashMap<String, String>();
+
+  private final static String whereClauseForDateSeach =
+      "AND sl.`evt_date` BETWEEN ? AND ? \n";
+
+
+  private HashMap<String, String> sortMapForSearchSMSForSMSManager = new HashMap<>();
+
   {
-    sortMapForSearchSMSForSMSManager.put("idSMS"         , "id_sms_log"   );
-    sortMapForSearchSMSForSMSManager.put("smsType"       , "id_sms_type"  );
-    sortMapForSearchSMSForSMSManager.put("equipierDesc"  , "id_equipier"  );
-    sortMapForSearchSMSForSMSManager.put("idDispositif"  , "id_dispositif");
-    sortMapForSearchSMSForSMSManager.put("api"           , "api"          );
-    sortMapForSearchSMSForSMSManager.put("from"          , "sender"       );
-    sortMapForSearchSMSForSMSManager.put("recipient"     , "`to`"         );
-    sortMapForSearchSMSForSMSManager.put("message"       , "message"      );
-    sortMapForSearchSMSForSMSManager.put("eventDate"     , "evt_date"     );
-    sortMapForSearchSMSForSMSManager.put("evt_date"      , "evt_date"     );
+    sortMapForSearchSMSForSMSManager.put("idSMS", "id_sms_log");
+    sortMapForSearchSMSForSMSManager.put("smsType", "id_sms_type");
+    sortMapForSearchSMSForSMSManager.put("equipierDesc", "id_equipier");
+    sortMapForSearchSMSForSMSManager.put("idDispositif", "id_dispositif");
+    sortMapForSearchSMSForSMSManager.put("api", "api");
+    sortMapForSearchSMSForSMSManager.put("from", "sender");
+    sortMapForSearchSMSForSMSManager.put("recipient", "`to`");
+    sortMapForSearchSMSForSMSManager.put("message", "message");
+    sortMapForSearchSMSForSMSManager.put("eventDate", "evt_date");
+    sortMapForSearchSMSForSMSManager.put("evt_date", "evt_date");
   }
-  
+
   public ListRange<SMS> searchSMSForSMSManager(int idEquipier, String mobile, Date searchDate, boolean allSMS, String sortColumn, boolean sortAscending, int start, int limit) throws Exception
   {
-    if(logger.isDebugEnabled())
+    if (logger.isDebugEnabled())
     {
-      logger.debug("searching SMS : idEquipier='"+idEquipier+"', mobile='"+mobile+"', searchDate='"+searchDate+"', allSMS='"+allSMS+"', sortColumn='"+sortColumn+"', sortAscending='"+sortAscending+"', start='"+start+"', limit='"+limit+"'");
+      logger.debug("searching SMS : idEquipier='" + idEquipier + "', mobile='" + mobile + "', searchDate='" + searchDate + "', allSMS='" + allSMS + "', sortColumn='" + sortColumn + "', sortAscending='" + sortAscending + "', start='" + start + "', limit='" + limit + "'");
     }
-    
-    String orderByField = sortMapForSearchSMSForSMSManager.get(sortColumn);
-    
-    if(orderByField == null)
-      throw new Exception("Invalid sort column '"+sortColumn+"'");
-   
-    String orderBy = "\nORDER BY ";
-    orderBy+=orderByField;
-    orderBy+=" "+(sortAscending?" ASC":" DESC");
-    
-    
 
-    ArrayList<Object > osA    = new ArrayList<Object> ();
-    ArrayList<Integer> typesA = new ArrayList<Integer>();
-    
-    Object [] os    =  null;
-    int    [] types =  null;
-    
+    String orderByField = sortMapForSearchSMSForSMSManager.get(sortColumn);
+
+    if (orderByField == null)
+      throw new Exception("Invalid sort column '" + sortColumn + "'");
+
+    String orderBy = "\nORDER BY ";
+    orderBy += orderByField;
+    orderBy += " " + (sortAscending ? " ASC" : " DESC");
+
+
+    ArrayList<Object>  osA    = new ArrayList<>();
+    ArrayList<Integer> typesA = new ArrayList<>();
+
+    Object[] os    = null;
+    int[]    types = null;
+
     String currentWhereClause = whereClauseForSearchSMSForSMSManager;
-    
+
     String whereClause = "";
-    
-    if(idEquipier != 0)
+
+    if (idEquipier != 0)
     {
       whereClause += "   sl.`id_equipier` = ? \n";
-      osA   .add(idEquipier);
+      osA.add(idEquipier);
       typesA.add(Types.INTEGER);
     }
-    
-    if(!"".equals(mobile))
+
+    if (!"".equals(mobile))
     {
-      if(osA.size() == 1)
+      if (osA.size() == 1)
       {
         whereClause += "OR";
       }
-      
+
       whereClause += "   sl.`to`          = ? \n";
-      osA   .add(mobile);
+      osA.add(mobile);
       typesA.add(Types.CHAR);
       whereClause += "OR   sl.`sender`      = ? \n";
-      osA   .add(mobile);
+      osA.add(mobile);
       typesA.add(Types.CHAR);
     }
-    
-    if(osA.size()>0)
+
+    if (osA.size() > 0)
     {
-      whereClause = "AND (              \n" +whereClause+ "\n)\n";
+      whereClause = "AND (              \n" + whereClause + "\n)\n";
     }
-    
-    currentWhereClause+=whereClause;
-    
-    if(searchDate != null)
+
+    currentWhereClause += whereClause;
+
+    if (searchDate != null)
     {
-      Calendar calendar =  GregorianCalendar.getInstance();
-      
+      Calendar calendar = GregorianCalendar.getInstance();
+
       calendar.setTime(searchDate);
-      calendar.add    (Calendar.DAY_OF_YEAR, 1);
+      calendar.add(Calendar.DAY_OF_YEAR, 1);
       
       Date searchDatePlusOneDay = calendar.getTime();
       
@@ -220,7 +218,7 @@ public class SMSLogServiceImpl implements SMSLogService
         new SMSRowMapper());
     
     
-    return new ListRange<SMS>(totalCount, smsList);
+    return new ListRange<>(totalCount, smsList);
   }
   
   

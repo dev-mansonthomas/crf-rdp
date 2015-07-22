@@ -23,7 +23,7 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
   
   public List<MembreImportStatus> checkMembre(SiordSynchro siordSynchro , Membre membre) throws Exception
   {
-    List<MembreImportStatus> status = new ArrayList<MembreImportStatus>();
+    List<MembreImportStatus> status = new ArrayList<>();
     
     membre.setNom     (membre.getNom    ().trim());
     membre.setPrenom  (membre.getPrenom ().trim());
@@ -157,9 +157,6 @@ public class SiordMembreCheckerImpl implements SiordMembreChecker
         return;
       }
     }
-
-    return;
-
   }
   
   private final static String queryForCheckIfEmailExists=

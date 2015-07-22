@@ -1,5 +1,7 @@
 package fr.croixrouge.rdp.model.monitor;
 
+import fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,7 +50,7 @@ public class Equipier extends CrfDto  implements Serializable
   public String toString()
   {
     
-    SimpleDateFormat  sdf         = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    SimpleDateFormat  sdf         = new SimpleDateFormat(UtilitiesServiceImpl.dateTimeSDF);
 
     
     return 

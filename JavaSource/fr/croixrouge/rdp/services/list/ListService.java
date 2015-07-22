@@ -17,18 +17,18 @@ import fr.croixrouge.rdp.model.monitor.VehiculeType;
 
 public interface ListService
 {
-  public List<DispositifType              > getTypesDispositif              ();
-  public List<DispositifEtat              > getEtatsDispositif              ();
-  public List<EquipierRole                > getRolesEquipier                ();
-  public List<UserRole                    > getRolesUser                    ();
-  public List<InterventionMotif           > getMotifsIntervention           ();
-  public List<InterventionMotifAnnulation > getMotifsAnnulationIntervention ();
-  public List<InterventionOrigine         > getOriginesIntervention         ();
-  public List<Delegation                  > getDelegations                  ();
-  public List<InterventionEtat            > getEtatsIntervention            ();
-  public List<SMSType                     > getSMSType                      ();
-  public List<VehiculeType                > getVehiculeType                 ();
+  List<DispositifType              > getTypesDispositif();
+  List<DispositifEtat              > getEtatsDispositif();
+  List<EquipierRole                > getRolesEquipier();
+  List<UserRole                    > getRolesUser();
+  List<InterventionMotif           > getMotifsIntervention();
+  List<InterventionMotifAnnulation > getMotifsAnnulationIntervention();
+  List<InterventionOrigine         > getOriginesIntervention();
+  List<Delegation                  > getDelegations();
+  List<InterventionEtat            > getEtatsIntervention();
+  List<SMSType                     > getSMSType();
+  List<VehiculeType                > getVehiculeType();
   
-  public void                       getAllListInit          ();
-  public Hashtable<String, List<?>> getAllList              ();
+  void                       getAllListInit();
+  Hashtable<String, List<?>> getAllList();
 }

@@ -114,7 +114,7 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
     List<EquipierRole>        equipierRoles = null;
     
     //réinitialise pour n'inserer que les warning
-    status        = new ArrayList<MembreImportStatus>();
+    status        = new ArrayList<>();
     try
     {
       equipierRoles = getCompetences(membre, siordSynchro);  
@@ -213,7 +213,7 @@ public class CrfrdpDBMembreRowCallbackHandler implements RowCallbackHandler
     if(rolesSiord == null)
       return null;
     
-    List<EquipierRole> roles = new ArrayList<EquipierRole>(rolesSiord.size());
+    List<EquipierRole> roles = new ArrayList<>(rolesSiord.size());
     
     boolean evalChauffeur = false;
     boolean evalCI        = false;

@@ -24,7 +24,7 @@ public class Regulation extends CrfDto
   @Override
   public String toString()
   {
-    StringBuffer buffer = new StringBuffer("\nRégulation id='");
+    StringBuilder buffer = new StringBuilder("\nRégulation id='");
     
     buffer.append(regulationId);
     buffer.append("'\nstartDate='");

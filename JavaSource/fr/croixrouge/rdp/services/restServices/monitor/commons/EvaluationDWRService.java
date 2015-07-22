@@ -45,7 +45,7 @@ public class EvaluationDWRService
     
     this.evaluationService.terminerEvaluationSession(idDispositif);
     List<Equipier> equpierList = this.equipierService.getEquipiersForDispositif(idDispositif);
-    ListRange<Equipier> equipiers = new ListRange<Equipier>(equpierList.size(), equpierList);
+    ListRange<Equipier> equipiers = new ListRange<>(equpierList.size(), equpierList);
     return equipiers;
   }
   

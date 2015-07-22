@@ -70,7 +70,7 @@ public class EquipiersGestion
     GridSearchFilterAndSortObject gsfaso = new GridSearchFilterAndSortObject();
     gsfaso.setStart(start);
     gsfaso.setLimit(limit);
-    List<FilterObject> filters = new ArrayList<FilterObject>(9);
+    List<FilterObject> filters = new ArrayList<>(9);
 
     
     if(nom != null)
@@ -261,7 +261,7 @@ public class EquipiersGestion
     try
     {
       
-      if(idUser == 0 && active == true)
+      if(idUser == 0 )  // si on est ici, c'est qu'active est a true (cf throw new ... au dessus)
       {
         User user = new User();
         user.setIdEquipier(idEquipier);

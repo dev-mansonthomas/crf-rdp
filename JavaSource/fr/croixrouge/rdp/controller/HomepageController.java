@@ -32,7 +32,7 @@ public class HomepageController extends AbstractController implements Initializi
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
   {    
     List<Regulation> regulations = regulationService.getRegulations(true);
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     model.put("regulations"                 , regulations);
     
     model.put("applicationVersion"          , this.propertyPlaceholderConfigurer.getPropertyValue("application.version"         ));

@@ -100,7 +100,7 @@ public class SMSTemplateServiceImpl implements SMSTemplateService
                                                             types , 
                                                             new SMSTemplateRowMapper());
     
-    return new  ListRange<SMSTemplate>(totalCount, smsTemplateList);
+    return new ListRange<>(totalCount, smsTemplateList);
   }
   
 }

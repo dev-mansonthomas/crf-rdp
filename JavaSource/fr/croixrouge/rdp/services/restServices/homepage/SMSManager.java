@@ -13,6 +13,7 @@ import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.mobile.MobileService;
 import fr.croixrouge.rdp.services.mobile.SMSLogService;
 import fr.croixrouge.rdp.services.mobile.SMSTemplateService;
+import fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl;
 import fr.croixrouge.utilities.web.security.SecurityFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -24,51 +25,50 @@ import java.util.Date;
 
 public class SMSManager
 {
-  private static  Log                 logger              = LogFactory.getLog(SMSManager.class);
-  private         SMSLogService       smsLogService       = null;
-  private         EquipierService     equipierService     = null;
-  private         SMSTemplateService  smsTemplateService  = null;
-  private         MobileService       mobileService       = null;
-  
-  private final static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-  
-  public SMSManager(SMSLogService      smsLogService      ,
-                    SMSTemplateService smsTemplateService ,
-                    EquipierService    equipierService    ,
-                    MobileService      mobileService      )
+  private static Log                logger             = LogFactory.getLog(SMSManager.class);
+  private        SMSLogService      smsLogService      = null;
+  private        EquipierService    equipierService    = null;
+  private        SMSTemplateService smsTemplateService = null;
+  private        MobileService      mobileService      = null;
+
+  private final static SimpleDateFormat sdf = new SimpleDateFormat(UtilitiesServiceImpl.dateSDF);
+
+  public SMSManager(SMSLogService smsLogService,
+                    SMSTemplateService smsTemplateService,
+                    EquipierService equipierService,
+                    MobileService mobileService)
   {
-    this.smsLogService      = smsLogService     ;
+    this.smsLogService = smsLogService;
     this.smsTemplateService = smsTemplateService;
-    this.equipierService    = equipierService   ;
-    this.mobileService      = mobileService     ;
+    this.equipierService = equipierService;
+    this.mobileService = mobileService;
   }
-  
+
   public ListRange<SMSTemplate> getSMSTemplates(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    
-    
+
+
     FilterObject filterObject = gsfaso.getFilterObject("searchedString");
-    
+
     String searchedString = null;
-    
-    if(!(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals("")))
+
+    if (!(filterObject == null || filterObject.getValue() == null || filterObject.getValue().equals("")))
     {
       searchedString = filterObject.getValue();
     }
-    
+
     try
     {
-      return this.smsTemplateService.getSMSTemplate(searchedString, gsfaso.getStart(), gsfaso.getLimit());  
-    }
-    catch(Exception e)
+      return this.smsTemplateService.getSMSTemplate(searchedString, gsfaso.getStart(), gsfaso.getLimit());
+    } catch (Exception e)
     {
-      logger.error("Erreur lors de la récupération des SMSTemplate "+gsfaso, e);
+      logger.error("Erreur lors de la récupération des SMSTemplate " + gsfaso, e);
       throw e;
     }
-    
+
   }
-  
-  public void                   changeTemplateEnableStatus(int idSMSTemplate, boolean enabled     ) throws Exception
+
+  public void changeTemplateEnableStatus(int idSMSTemplate, boolean enabled     ) throws Exception
   {
    
     try
@@ -208,7 +208,7 @@ public class SMSManager
       FilterObject  filterObject = gsfaso.getFilterObject("search");
       
       if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-        return new ListRange<Equipier>(0, new ArrayList<Equipier>());
+        return new ListRange<>(0, new ArrayList<Equipier>());
       
       searchString = filterObject.getValue();
       

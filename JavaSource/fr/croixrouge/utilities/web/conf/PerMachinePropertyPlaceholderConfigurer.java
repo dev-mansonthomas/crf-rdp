@@ -95,9 +95,9 @@ public class PerMachinePropertyPlaceholderConfigurer extends PropertyPlaceholder
       {
         if(this.exportHostList != null && this.exportPath != null)
         {
-          for (int n = 0,count=this.exportHostList.size(); n < count; n++)
+          for (String anExportHostList : this.exportHostList)
           {
-            String host = this.exportHostList.get(n).toLowerCase();
+            String host = anExportHostList.toLowerCase();
 
             if (this.hostname.equals(host))
             {
@@ -107,7 +107,7 @@ public class PerMachinePropertyPlaceholderConfigurer extends PropertyPlaceholder
           }
         }
 
-        if (this.exportedPropertyUsed)
+        if (this.exportedPropertyUsed && this.exportPath != null)
         {
           File exportDir = new File(this.exportPath);
 
@@ -118,7 +118,7 @@ public class PerMachinePropertyPlaceholderConfigurer extends PropertyPlaceholder
           
           File destinationFile = new File(exportPropertyFullPath);
 
-          if (!destinationFile.exists())
+          if (!destinationFile.exists() && inputStream!=null)
           {
             try
             {

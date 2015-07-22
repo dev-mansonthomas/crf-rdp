@@ -165,8 +165,8 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     }
 
     
-    
-    if(idEtatDispositif == DispositifService.STATUS_INDISPO || idEtatDispositif > DispositifService.STATUS_ARRIVE_HOSPITAL)
+    //idEtatDispositif == DispositifService.STATUS_INDISPO ==> testé en premier
+    if(idEtatDispositif > DispositifService.STATUS_ARRIVE_HOSPITAL)
     {
       logger.error("L'état du dispositif ne permet pas d'effectuer cette opération idEtatDispositif="+idEtatDispositif);
       return "var actionReturnStatus={status:3,message:'L\'état du dispositif ne permet pas d'effectuer cette opération idEtatDispositif="+idEtatDispositif+"'};";
@@ -315,7 +315,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
     if(dispositif.getIdTypeDispositif() == DISPOSITIF_TYPE_SAMU)
     {
       Intervention    intervention = this.interventionService.getIntervention          (idIntervention);
-      ArrayList<SMS>  smss         = new ArrayList<SMS>(3);
+      ArrayList<SMS>  smss         = new ArrayList<>(3);
       List<Equipier>  equipiers    = this.equipierService    .getEquipiersForDispositif(idDispositif  );
       
       

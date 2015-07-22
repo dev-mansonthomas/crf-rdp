@@ -8,7 +8,7 @@ import fr.croixrouge.rdp.model.monitor.Credit;
 
 public interface CreditsAndChangeLogService
 {
-  public List<Credit>                       getCredit                     () throws Exception;
-  public List<ApplicationVersion>           getApplicationVersion         () throws Exception;
-  public List<ApplicationVersionChangeLog>  getApplicationVersionChangeLog() throws Exception;
+  List<Credit>                       getCredit() throws Exception;
+  List<ApplicationVersion>           getApplicationVersion() throws Exception;
+  List<ApplicationVersionChangeLog>  getApplicationVersionChangeLog() throws Exception;
 }

@@ -17,8 +17,8 @@ public class TestRestController extends AbstractController
 {
   private static Log logger           = LogFactory.getLog(TestRestController.class);
   
-  private PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer = null;;
-  
+  private PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer = null;
+
   public TestRestController(PerMachinePropertyPlaceholderConfigurer propertyPlaceholderConfigurer)
   {
     this.propertyPlaceholderConfigurer = propertyPlaceholderConfigurer; 
@@ -39,7 +39,7 @@ public class TestRestController extends AbstractController
     
 
     
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     return new ModelAndView("private/test/testRest", model);
   }
 

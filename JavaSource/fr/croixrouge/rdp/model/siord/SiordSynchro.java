@@ -1,37 +1,39 @@
 package fr.croixrouge.rdp.model.siord;
 
+import fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SiordSynchro implements Serializable
 {
-  private static final long serialVersionUID = 633701804197010060L;
-  private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-  
-  private int  idSynchroSiord   ;
-  private int  idSynchroType    ;
-  private Date synchroDateStart ;
-  private Date synchroDateEnd   ;
-  private int  lastImportedId   ;
-  private int  sucessfullImport ;
-  private int  warningImport    ;
-  private int  failedImport     ;
- 
+  private static final long             serialVersionUID = 633701804197010060L;
+  private              SimpleDateFormat sdf              = new SimpleDateFormat(UtilitiesServiceImpl.dateTimeSDF);
+
+  private int  idSynchroSiord;
+  private int  idSynchroType;
+  private Date synchroDateStart;
+  private Date synchroDateEnd;
+  private int  lastImportedId;
+  private int  sucessfullImport;
+  private int  warningImport;
+  private int  failedImport;
+
   private int  previousIdSynchroSiord;
   private Date previousSynchroDateEnd;
   private Date previousSynchroDateStart;
   private int  previousLastImportedId;
-  
+
   @Override
   public String toString()
   {
-    
-    
-    return  
-    "idSynchroSiord          :'"+    idSynchroSiord                         +"'\n"+  
-    "idSynchroType           :'"+    idSynchroType                          +"'\n"+  
-    "synchroDateStart        :'"+    (synchroDateStart         == null ?"":sdf.format(synchroDateStart))           +"'\n"+  
+
+
+    return
+        "idSynchroSiord          :'" + idSynchroSiord + "'\n" +
+            "idSynchroType           :'" + idSynchroType + "'\n" +
+            "synchroDateStart        :'"+    (synchroDateStart         == null ?"":sdf.format(synchroDateStart))           +"'\n"+
     "synchroDateEnd          :'"+    (synchroDateEnd           == null ?"":sdf.format(synchroDateEnd  ))           +"'\n"+  
     "lastImportedId          :'"+    lastImportedId                         +"'\n"+  
     "sucessfullImport        :'"+    sucessfullImport                       +"'\n"+  

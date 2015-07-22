@@ -36,12 +36,14 @@ private static Logger logger        = Logger.getLogger(HeaderFilter.class);
     if(logger.isDebugEnabled())
       logger.info("headers config = "+headersConfig+"");
     
-    if(headersConfig.indexOf( "|" )>-1)
+    if(headersConfig.contains("|"))
     {
-      this.headers = new LinkedHashMap<String,String>(5);
+      this.headers = new LinkedHashMap<>(5);
       String[] headers = headersConfig.split( "|" );
-      for(int i=0,counti=headers.length;i<counti;i++)
-        this.parseHeader(headers[i]);
+      for (String header : headers)
+      {
+        this.parseHeader(header);
+      }
       oneHeader = false;
     }
     else

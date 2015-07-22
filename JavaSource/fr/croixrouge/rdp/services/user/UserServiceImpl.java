@@ -51,11 +51,14 @@ public class UserServiceImpl extends JDBCHelper implements UserService
     User user = null;
     try
     {
-      user = (User)jdbcTemplate.queryForObject(queryForAuthenticate, os, types, new UserRowMapper(true, true)); 
+      user = jdbcTemplate.queryForObject(queryForAuthenticate, os, types, new UserRowMapper(true, true));
     }
     catch(EmptyResultDataAccessException e)
     {
-      
+      if(logger.isInfoEnabled())
+      {
+        logger.info("User '" + username + "' not located in database with the provided password");
+      }
     }
     
     return user;
@@ -196,7 +199,7 @@ public class UserServiceImpl extends JDBCHelper implements UserService
     if(roles != null)
       return roles;
     
-    return new ArrayList<UserRole>();
+    return new ArrayList<>();
 
   }
   

@@ -25,7 +25,7 @@ public class LoginController extends AbstractController
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
   {    
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     
     model.put("applicationVersion"          , this.propertyPlaceholderConfigurer.getPropertyValue("application.version"         ));
     model.put("environment"                 , this.propertyPlaceholderConfigurer.getPropertyValue("application.environment"     ));

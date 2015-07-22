@@ -39,7 +39,7 @@ public class MonitorCommonsImpl
    FilterObject filterObject = gridSearchFilterAndSortObject.getFilterObject("searchString");
     
     if(filterObject == null  || filterObject.getValue() == null || filterObject.getValue().equals(""))
-      return new ListRange<Lieu>(0, new ArrayList<Lieu>());
+      return new ListRange<>(0, new ArrayList<Lieu>());
  
     String searchString = filterObject.getValue();
     

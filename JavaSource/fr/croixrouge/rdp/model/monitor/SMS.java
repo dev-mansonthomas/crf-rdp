@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -12,48 +13,48 @@ import fr.croixrouge.rdp.services.mobile.MobileService;
 public class SMS implements Serializable
 {
   private static final long serialVersionUID = 6576813250487563885L;
-  private static final Log  logger             = LogFactory.getLog(SMS.class);
-  
-  private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-  
-  
+  private static final Log  logger           = LogFactory.getLog(SMS.class);
+
+  private final SimpleDateFormat dateFormat = new SimpleDateFormat(UtilitiesServiceImpl.dateTimeSDF);
+
+
   public static final int TYPE_DETAIL_INTERVENTION          = 1;
   public static final int TYPE_MESSAGE_EQUIPIERS_DISPOSITIF = 2;
   public static final int TYPE_SENT_SMS_VIA_SMS_MANAGER     = 3;
   public static final int TYPE_RECIEVED_SMS_VIA_SMS_MANAGER = 4;
-  
-  public static final String API_RECIEVED_SMS               = "receiveSMS";
-  public static final String API_SEND_SMS                   = "sendSMS";
-  public static final String FROM_REGULATION                = "REGULATION75";
-  
-  private int     idSMS       ;
-  private int     smsType     ;
-  private int     equipierId  ;
-  private String  equipierDesc;
-  private int     idDispositif;
-  private String  api         ;
-  private String  from        ;
-  private String  recipient   ;
-  private String  message     ;
-  private Date    eventDate   ;
-  
-  
+
+  public static final String API_RECIEVED_SMS = "receiveSMS";
+  public static final String API_SEND_SMS     = "sendSMS";
+  public static final String FROM_REGULATION  = "REGULATION75";
+
+  private int    idSMS;
+  private int    smsType;
+  private int    equipierId;
+  private String equipierDesc;
+  private int    idDispositif;
+  private String api;
+  private String from;
+  private String recipient;
+  private String message;
+  private Date   eventDate;
+
+
   /***
    * Used for recieved SMS
-   * @param api
-   * @param from
-   * @param recipient
-   * @param message
+   * @param api type of event (recieveSMS or sendSMS
+   * @param from mobile number who emits the SMS
+   * @param recipient mobile number who recieve the sms
+   * @param message sms message
    */
-  
+
   public SMS(String api, String from, String recipient, String message)
   {
-    
-    if(!SMS.API_RECIEVED_SMS.equals(api))
+
+    if (!SMS.API_RECIEVED_SMS.equals(api))
     {
-      if(logger.isWarnEnabled())
+      if (logger.isWarnEnabled())
       {
-        logger.warn("API code is not the one expected '"+api+"' from '"+from+"' message='"+message+"'");
+        logger.warn("API code is not the one expected '" + api + "' from '" + from + "' message='"+message+"'");
       }
     }
     

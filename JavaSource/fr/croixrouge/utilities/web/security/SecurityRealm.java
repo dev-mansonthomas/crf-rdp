@@ -4,6 +4,6 @@ import java.security.Principal;
 
 public interface SecurityRealm
 {
-  public Principal authenticate(String username    , String password);
-  public boolean   isUserInRole(Principal principal, String rolename);
+  Principal authenticate(String username, String password);
+  boolean   isUserInRole(Principal principal, String rolename);
 }

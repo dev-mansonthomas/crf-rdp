@@ -399,7 +399,7 @@ public class SiordServiceImpl extends JDBCHelper  implements SiordService, Appli
 
     public void execute(int siordSynchroId) 
     {
-      Map<String, Integer> inputs = new HashMap<String, Integer>();
+      Map<String, Integer> inputs = new HashMap<>();
       inputs.put(TYPE_PARAM, siordSynchroId);
       super.execute(inputs);
         

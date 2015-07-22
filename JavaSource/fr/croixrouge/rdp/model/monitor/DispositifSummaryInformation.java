@@ -19,7 +19,7 @@ public class DispositifSummaryInformation implements Serializable
   @Override
   public String toString()
   {
-    StringBuffer sb = new StringBuffer("\n DispositifSummaryInformation idDispositif='");
+    StringBuilder sb = new StringBuilder("\n DispositifSummaryInformation idDispositif='");
     sb.append(idDispositif);
     sb.append("'\nidVehicule='");
     sb.append(idVehicule);
@@ -29,9 +29,9 @@ public class DispositifSummaryInformation implements Serializable
     
     if(idInterventions != null)
     {
-      for(int i=0, counti=idInterventions.length;i<counti;i++)
+      for (int idIntervention : idInterventions)
       {
-        sb.append(idInterventions[i]);
+        sb.append(idIntervention);
         sb.append(",");
       }
     }

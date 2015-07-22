@@ -18,7 +18,7 @@ public class User implements Serializable
   
   public String toString()
   {
-    StringBuffer buffer = new StringBuffer("\nUser id='");
+    StringBuilder buffer = new StringBuilder("\nUser id='");
     buffer.append(this.idUser);
     buffer.append("'\nEnabled='");
     buffer.append(this.enabled);

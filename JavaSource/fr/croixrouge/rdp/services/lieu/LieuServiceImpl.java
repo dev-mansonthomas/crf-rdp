@@ -80,7 +80,7 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
                                                       new LieuRowMapper());
 
 
-    return new ListRange<Lieu>(totalCount, equipierList);
+    return new ListRange<>(totalCount, equipierList);
   }
 
   
@@ -137,211 +137,212 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
         new int   []{Types.INTEGER},
         new LieuRowMapper());
   }
-  
-  
-  private HashMap<String, String> whereMapForGetLieu = new HashMap<String, String>();
+
+
+  private HashMap<String, String> whereMapForGetLieu = new HashMap<>();
+
   {
 
-    whereMapForGetLieu.put("idTypeLieu"       , "id_type_lieu" );
-    whereMapForGetLieu.put("nom"              , "nom"          );
-    whereMapForGetLieu.put("codePostal"       , "code_postal"  );
+    whereMapForGetLieu.put("idTypeLieu", "id_type_lieu");
+    whereMapForGetLieu.put("nom", "nom");
+    whereMapForGetLieu.put("codePostal", "code_postal");
   }
-  
-  private HashMap<String, String> sortMapForGetLieu = new HashMap<String, String>();
+
+  private HashMap<String, String> sortMapForGetLieu = new HashMap<>();
+
   {
-    sortMapForGetLieu.put("idLieu"           , "id_lieu"      );
-    sortMapForGetLieu.put("idTypeLieu"       , "id_type_lieu" );
-    sortMapForGetLieu.put("nom"              , "nom"          );
-    sortMapForGetLieu.put("addresse"         , "addresse"     );
-    sortMapForGetLieu.put("ville"            , "ville"        );
-    sortMapForGetLieu.put("codePostal"       , "code_postal"  );
-    sortMapForGetLieu.put("id"               , "id_lieu"      );
-    sortMapForGetLieu.put("actif"            , "actif"        );
+    sortMapForGetLieu.put("idLieu", "id_lieu");
+    sortMapForGetLieu.put("idTypeLieu", "id_type_lieu");
+    sortMapForGetLieu.put("nom", "nom");
+    sortMapForGetLieu.put("addresse", "addresse");
+    sortMapForGetLieu.put("ville", "ville");
+    sortMapForGetLieu.put("codePostal", "code_postal");
+    sortMapForGetLieu.put("id", "id_lieu");
+    sortMapForGetLieu.put("actif", "actif");
   }
+
   public ListRange<Lieu> getLieux(GridSearchFilterAndSortObject gsfaso) throws Exception
   {
-    String queryForCountLieu  = "SELECT COUNT(1) \nFROM lieu\n";
-    String queryForGetLieu    = selectForGetLieux;
-    Object [] os    = {};
-    int    [] types = {};
- 
-    
-    StringBuffer   whereClause = new StringBuffer();
+    String   queryForCountLieu = "SELECT COUNT(1) \nFROM lieu\n";
+    String   queryForGetLieu   = selectForGetLieux;
+    Object[] os                = {};
+    int[]    types             = {};
+
+
+    StringBuilder whereClause = new StringBuilder();
     FilterObject[] filters     = gsfaso.getFilters();
-    
-    if(filters!= null && filters.length>0)
-    {  
-      os    = new Object[filters.length];
-      types = new int   [filters.length];
-      
+
+    if (filters != null && filters.length > 0)
+    {
+      os = new Object[filters.length];
+      types = new int[filters.length];
+
       for (int i = 0; i < filters.length; i++)
       {
         FilterObject currentFilter = filters[i];
-        
-        if(whereClause.indexOf("WHERE")<0)
+
+        if (whereClause.indexOf("WHERE") < 0)
         {
-          whereClause.append( "WHERE ");
+          whereClause.append("WHERE ");
         }
         else
         {
-          whereClause.append( "AND ");  
+          whereClause.append("AND ");
         }
-        
-        if("=".equals(currentFilter.getComparator()))
-        {          
-          String filterFieldName = whereMapForGetLieu.get(currentFilter.getName());
-          if(filterFieldName == null)
-            throw new Exception("Invalid filter field '"+currentFilter.getName()+"");
-          
-          whereClause.append( filterFieldName);
-          whereClause.append( " = ? \n");
 
-          os   [i] = new Integer(currentFilter.getValue());
+        if ("=".equals(currentFilter.getComparator()))
+        {
+          String filterFieldName = whereMapForGetLieu.get(currentFilter.getName());
+          if (filterFieldName == null)
+            throw new Exception("Invalid filter field '" + currentFilter.getName() + "");
+
+          whereClause.append(filterFieldName);
+          whereClause.append(" = ? \n");
+
+          os[i] = new Integer(currentFilter.getValue());
           types[i] = Types.INTEGER;
         }
         else if ("LIKE".equals(currentFilter.getComparator()))
         {
           String filterFieldName = whereMapForGetLieu.get(currentFilter.getName());
-          if(filterFieldName == null)
-            throw new Exception("Invalid filter field '"+currentFilter.getName()+"");
-          
-          whereClause.append( filterFieldName);
-          
-          whereClause.append( " LIKE ? \n");
-  
+          if (filterFieldName == null)
+            throw new Exception("Invalid filter field '" + currentFilter.getName() + "");
+
+          whereClause.append(filterFieldName);
+
+          whereClause.append(" LIKE ? \n");
+
           String filterValue = currentFilter.getValue();
-          if(filterValue.indexOf("*")>-1)
+          if (filterValue.contains("*"))
             filterValue = filterValue.replaceAll("*", "%");
           else
             filterValue += "%";
-          
-          os   [i] = filterValue;
+
+          os[i] = filterValue;
           types[i] = Types.VARCHAR;
         }
       }
     }
- 
+
     String orderBy = "ORDER BY ";
-    
+
     SortObject[] sortObjects = gsfaso.getSorts();
-    
-    if(sortObjects!= null && sortObjects.length>0 && sortObjects[0] != null)
+
+    if (sortObjects != null && sortObjects.length > 0 && sortObjects[0] != null)
     {
       SortObject so = sortObjects[0];
       String orderByField = sortMapForGetLieu.get(so.getName());
-      
-      if(orderByField == null)
-        throw new Exception("Invalid sort column '"+so.getName()+"'");
-      
-      orderBy+=orderByField;
-      orderBy+=" "+(so.isAscending()?" ASC":" DESC");
+
+      if (orderByField == null)
+        throw new Exception("Invalid sort column '" + so.getName() + "'");
+
+      orderBy += orderByField;
+      orderBy += " " + (so.isAscending() ? " ASC" : " DESC");
     }
     else
     {
-      orderBy+=" id_lieu ASC ";
+      orderBy += " id_lieu ASC ";
     }
 
-    
+
     String queryCount = queryForCountLieu + whereClause;
-    String query      = queryForGetLieu   + whereClause + orderBy + "\nLIMIT "+gsfaso.getStart()+", "+gsfaso.getLimit()+" \n";
-    
-    if(logger.isDebugEnabled())
+    String query      = queryForGetLieu + whereClause + orderBy + "\nLIMIT " + gsfaso.getStart() + ", " + gsfaso.getLimit() + " \n";
+
+    if (logger.isDebugEnabled())
     {
-      logger.debug("queryCount :\n"+queryCount+"\n\nquery :\n"+query);
+      logger.debug("queryCount :\n" + queryCount + "\n\nquery :\n" + query);
     }
-    
+
     int nbEquipiers = jdbcTemplate.queryForObject(queryCount,
         os,
         types, Integer.class);
-    
-    
 
-   
-    List<Lieu> equipierList = jdbcTemplate.query( query , 
-                                                      os    , 
-                                                      types , 
-                                                      new LieuRowMapper());
 
-    
-    return  new ListRange<Lieu>(nbEquipiers, equipierList);
+    List<Lieu> equipierList = jdbcTemplate.query(query,
+        os,
+        types,
+        new LieuRowMapper());
+
+
+    return new ListRange<>(nbEquipiers, equipierList);
   }
-  
+
   @SuppressWarnings("unchecked")
   public Hashtable<String, List<Lieu>> getLieuSorted() throws Exception
   {
-    if(logger.isDebugEnabled())
+    if (logger.isDebugEnabled())
       logger.debug("getLieuSorted - retrieving from cache");
-    
-    Hashtable<String, List<Lieu>> lieuSorted = (Hashtable<String, List<Lieu>>)this.cacheService.getObject("LieuSorted", true);
-    if(lieuSorted != null)
+
+    Hashtable<String, List<Lieu>> lieuSorted = (Hashtable<String, List<Lieu>>) this.cacheService.getObject("LieuSorted", true);
+    if (lieuSorted != null)
       return lieuSorted;
 
-    if(logger.isDebugEnabled())
+    if (logger.isDebugEnabled())
       logger.debug("getLieuSorted - retrieving from cache : Cache MISS");
 
     List<LieuType> typeLieu = this.getLieuType();
 
-    lieuSorted = new Hashtable<String, List<Lieu>>(typeLieu.size());
-    
+    lieuSorted = new Hashtable<>(typeLieu.size());
+
     for (LieuType lieuType : typeLieu)//initialise de cette facon, pour que les catégories vides (intevention/ambulance) soit quand meme initialisé, sinon ca a des effets de bords.
-      lieuSorted.put(lieuType.getIdTypeLieu()+"", new ArrayList<Lieu> ());
-    
+      lieuSorted.put(lieuType.getIdTypeLieu() + "", new ArrayList<Lieu>());
+
     List<Lieu> allLieu = this.getLieux();
-    
+
     for (Lieu lieu : allLieu)
     {
-      List<Lieu> oneList = lieuSorted.get(lieu.getIdTypeLieu()+"");
-      if(oneList != null)
+      List<Lieu> oneList = lieuSorted.get(lieu.getIdTypeLieu() + "");
+      if (oneList != null)
         oneList.add(lieu);
     }
-      
-      
+
+
     this.cacheService.setObject("LieuSorted", lieuSorted);
- 
-    if(logger.isDebugEnabled())
+
+    if (logger.isDebugEnabled())
       logger.debug("getLieuSorted - added to cache");
-     
+
     return lieuSorted;
   }
-  
+
   public static final String queryForSetEnableStatusOnLieu =
-    "UPDATE lieu       \n" +
-    "SET    actif   = ?\n" +
-    "WHERE  id_lieu = ?\n";
-  
+      "UPDATE lieu       \n" +
+          "SET    actif   = ?\n" +
+          "WHERE  id_lieu = ?\n";
+
   public void setEnableStatusOnLieu(int idLieu, boolean enabled) throws Exception
   {
-    if(logger.isDebugEnabled())
-      logger.debug("set enable='"+enabled+"' to lieu id='"+idLieu+"'");
-    
-    int nbRowUpdated = this.jdbcTemplate.update(queryForSetEnableStatusOnLieu , 
-        new Object[]{enabled      , idLieu       },
-        new int   []{Types.BOOLEAN, Types.INTEGER});
-    
+    if (logger.isDebugEnabled())
+      logger.debug("set enable='" + enabled + "' to lieu id='" + idLieu + "'");
+
+    int nbRowUpdated = this.jdbcTemplate.update(queryForSetEnableStatusOnLieu,
+        new Object[]{enabled, idLieu},
+        new int[]{Types.BOOLEAN, Types.INTEGER});
+
     this.cacheService.remove("LieuSorted");
-    
-    if(logger.isDebugEnabled())
-      logger.debug("set enable='"+enabled+"' to lieu id='"+idLieu+"' (nbRowUpdated='"+nbRowUpdated+"'");
+
+    if (logger.isDebugEnabled())
+      logger.debug("set enable='" + enabled + "' to lieu id='" + idLieu + "' (nbRowUpdated='" + nbRowUpdated + "'");
   }
-  
-  
+
+
   public static final String queryForDeleteLieu =
-    "DELETE FROM lieu       \n" +
-    "WHERE  id_lieu = ?\n";
-  
+      "DELETE FROM lieu       \n" +
+          "WHERE  id_lieu = ?\n";
+
   public void deleteLieu(int idLieu) throws Exception
   {
-    if(logger.isDebugEnabled())
-      logger.debug("delete lieu id='"+idLieu+"'");
-    
-    int nbRowUpdated = this.jdbcTemplate.update(queryForDeleteLieu , 
-        new Object[]{idLieu       },
-        new int   []{Types.INTEGER});
-    
+    if (logger.isDebugEnabled())
+      logger.debug("delete lieu id='" + idLieu + "'");
+
+    int nbRowUpdated = this.jdbcTemplate.update(queryForDeleteLieu,
+        new Object[]{idLieu},
+        new int[]{Types.INTEGER});
+
     this.cacheService.remove("LieuSorted");
-    
-    if(logger.isDebugEnabled())
-      logger.debug("delete lieu id='"+idLieu+"' (nbRowUpdated='"+nbRowUpdated+"'");
+
+    if (logger.isDebugEnabled())
+      logger.debug("delete lieu id='" + idLieu + "' (nbRowUpdated='" + nbRowUpdated + "'");
   }
   
   
@@ -354,137 +355,140 @@ public class LieuServiceImpl  extends JDBCHelper implements LieuService
     "FROM      `lieu`           \n" ;
    * 
    * */
-  
-  
-  private final static String queryForCreateNewEmptyLieu = 
-    "INSERT INTO `lieu`\n"+
-    "  ( `id_type_lieu`, `nom`              , `addresse`          , `code_postal`,\n"+
-    "    `ville`       , `google_coords_lat`, `google_coords_long`, `actif`       \n"+
-    "  )\n"+
-    "VALUES (0, '', '', '', '', 0, 0, 0)\n";
-  
-  @Transactional (propagation=Propagation.REQUIRED, rollbackFor=Exception.class)  
+
+
+  private final static String queryForCreateNewEmptyLieu =
+      "INSERT INTO `lieu`\n" +
+          "  ( `id_type_lieu`, `nom`              , `addresse`          , `code_postal`,\n" +
+          "    `ville`       , `google_coords_lat`, `google_coords_long`, `actif`       \n" +
+          "  )\n" +
+          "VALUES (0, '', '', '', '', 0, 0, 0)\n";
+
+  @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
   public int createNewEmptyLieu() throws Exception
   {
-    this.jdbcTemplate.update(queryForCreateNewEmptyLieu, 
-        new Object[]{}, 
-        new int   []{});
+    this.jdbcTemplate.update(queryForCreateNewEmptyLieu,
+        new Object[]{},
+        new int[]{});
 
     int idLieu = this.getLastInsertedId();
-    
-    if(logger.isDebugEnabled())
-      logger.debug("new empty lieu created with id='"+idLieu+"'");
-    
+
+    if (logger.isDebugEnabled())
+      logger.debug("new empty lieu created with id='" + idLieu + "'");
+
     return idLieu;
   }
-  
+
   protected int getLastInsertedId()
   {
     return this.getLastInsertedId(jdbcTemplate, "lieu");
   }
-  
-  
-  public static String[]stringField = { 
-    "icon"              ,   
-    "iconGmapInit"      ,   
-    "nom"               ,   
-    "addresse"          ,   
-    "codePostal"        ,   
-    "ville"             ,   
-    "telephone"         ,
-    "mail"              ,
-    "url"               ,
-    "infoComplementaire",
 
-};
-  private static Hashtable<String, String> stringFieldMatching = new Hashtable<String, String>(stringField.length);
+
+  public static  String[]                  stringField         = {
+      "icon",
+      "iconGmapInit",
+      "nom",
+      "addresse",
+      "codePostal",
+      "ville",
+      "telephone",
+      "mail",
+      "url",
+      "infoComplementaire",
+
+  };
+  private static Hashtable<String, String> stringFieldMatching = new Hashtable<>(stringField.length);
+
+  static
   {
-    stringFieldMatching.put("icon"              , "icon"               );
-    stringFieldMatching.put("iconGmapInit"      , "icon_gmap_init"     );
-    stringFieldMatching.put("nom"               , "nom"                );
-    stringFieldMatching.put("addresse"          , "addresse"           );
-    stringFieldMatching.put("codePostal"        , "code_postal"        );
-    stringFieldMatching.put("ville"             , "ville"              );
-    stringFieldMatching.put("telephone"         , "telephone"          );
-    stringFieldMatching.put("mail"              , "mail"               );
-    stringFieldMatching.put("url"               , "url"                );
+    stringFieldMatching.put("icon", "icon");
+    stringFieldMatching.put("iconGmapInit", "icon_gmap_init");
+    stringFieldMatching.put("nom", "nom");
+    stringFieldMatching.put("addresse", "addresse");
+    stringFieldMatching.put("codePostal", "code_postal");
+    stringFieldMatching.put("ville", "ville");
+    stringFieldMatching.put("telephone", "telephone");
+    stringFieldMatching.put("mail", "mail");
+    stringFieldMatching.put("url", "url");
     stringFieldMatching.put("infoComplementaire", "info_complementaire");
   }
-  
-  public void updateStringField   (int idLieu, String fieldName, String   fieldValue  ) throws Exception
+
+  public void updateStringField(int idLieu, String fieldName, String fieldValue) throws Exception
   {
     String realFieldName = stringFieldMatching.get(fieldName);
-    
-    if(realFieldName == null)
-      throw new Exception("Unknown string field '"+fieldName+"' for lieu update");
 
-    String query = 
-      "UPDATE lieu                  \n"+
-      "SET    "+realFieldName+" = ? \n"+
-      "WHERE  id_lieu   = ?         \n";
-    
-    int nbLineUpdated = this.jdbcTemplate.update( query, 
-                                                  new Object[]{fieldValue   , idLieu}, 
-                                                  new int   []{Types.VARCHAR, Types.INTEGER}
-                                                );
-    if(logger.isDebugEnabled())
-      logger.debug("Lieu with id='"+idLieu+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
+    if (realFieldName == null)
+      throw new Exception("Unknown string field '" + fieldName + "' for lieu update");
+
+    String query =
+        "UPDATE lieu                  \n" +
+            "SET    " + realFieldName + " = ? \n" +
+            "WHERE  id_lieu   = ?         \n";
+
+    int nbLineUpdated = this.jdbcTemplate.update(query,
+        new Object[]{fieldValue, idLieu},
+        new int[]{Types.VARCHAR, Types.INTEGER}
+    );
+    if (logger.isDebugEnabled())
+      logger.debug("Lieu with id='" + idLieu + "' has its field '" + realFieldName + "' updated with value '" + fieldValue + "' (line updated = '" + nbLineUpdated + "')");
 
   }
-  
-  public static String[]intField = {  
-    "idTypeLieu"
+
+  public static  String[]                  intField         = {
+      "idTypeLieu"
   };
-  private static Hashtable<String, String> intFieldMatching = new Hashtable<String, String>(intField.length);
+  private static Hashtable<String, String> intFieldMatching = new Hashtable<>(intField.length);
+
+  static
   {
-    intFieldMatching.put("idTypeLieu"          , "id_type_lieu"           );
-   
+    intFieldMatching.put("idTypeLieu", "id_type_lieu");
+
   }
-  
-  
-  public void updateIntegerField  (int idLieu, String fieldName, int      fieldValue  ) throws Exception
+
+
+  public void updateIntegerField(int idLieu, String fieldName, int fieldValue) throws Exception
   {
     String realFieldName = intFieldMatching.get(fieldName);
-    
-    if(realFieldName == null)
-      throw new Exception("Unknown int field '"+fieldName+"' for lieu update");
 
-    String query = 
-      "UPDATE lieu                 \n"+
-      "SET    "+realFieldName+" = ?\n"+
-      "WHERE  id_lieu           = ?\n";
-    
-    int nbLineUpdated = this.jdbcTemplate.update( query, 
-                                                  new Object[]{fieldValue   , idLieu}, 
-                                                  new int   []{Types.VARCHAR, Types.INTEGER}
-                                                );
-    if(logger.isDebugEnabled())
-      logger.debug("Lieu with id='"+idLieu+"' has its field '"+realFieldName+"' updated with value '"+fieldValue+"' (line updated = '"+nbLineUpdated+"')");
+    if (realFieldName == null)
+      throw new Exception("Unknown int field '" + fieldName + "' for lieu update");
+
+    String query =
+        "UPDATE lieu                 \n" +
+            "SET    " + realFieldName + " = ?\n" +
+            "WHERE  id_lieu           = ?\n";
+
+    int nbLineUpdated = this.jdbcTemplate.update(query,
+        new Object[]{fieldValue, idLieu},
+        new int[]{Types.VARCHAR, Types.INTEGER}
+    );
+    if (logger.isDebugEnabled())
+      logger.debug("Lieu with id='" + idLieu + "' has its field '" + realFieldName + "' updated with value '" + fieldValue + "' (line updated = '" + nbLineUpdated + "')");
 
   }
-  
 
-  
-  private final static String queryForUpdateGoogleCoordinates = 
-    "UPDATE lieu                   \n"+
-    "SET    google_coords_lat  = ?,\n"+
-    "       google_coords_long =?  \n"+
-    "WHERE  id_lieu            = ? \n";
-  
+
+  private final static String queryForUpdateGoogleCoordinates =
+      "UPDATE lieu                   \n" +
+          "SET    google_coords_lat  = ?,\n" +
+          "       google_coords_long =?  \n" +
+          "WHERE  id_lieu            = ? \n";
+
   public void updateGoogleCoordinates(float latitude, float longitude, int idLieu) throws Exception
   {
-    if(logger.isDebugEnabled())
-      logger.debug("Lieu with id='"+idLieu+"' has its coordinates (lat,long) beeing udpdated with values ('"+latitude+"','"+longitude+"')");
+    if (logger.isDebugEnabled())
+      logger.debug("Lieu with id='" + idLieu + "' has its coordinates (lat,long) beeing udpdated with values ('" + latitude + "','" + longitude + "')");
 
-    int nbLineUpdated = this.jdbcTemplate.update( queryForUpdateGoogleCoordinates, 
-        new Object[]{latitude   , longitude  , idLieu}, 
-        new int   []{Types.FLOAT, Types.FLOAT, Types.INTEGER }
-      );
-    
-    if(logger.isDebugEnabled())
-      logger.debug("Lieu with id='"+idLieu+"' has its coordinates (lat,long) udpdated with values ('"+latitude+"','"+longitude+"') (line updated = '"+nbLineUpdated+"')");
-  
+    int nbLineUpdated = this.jdbcTemplate.update(queryForUpdateGoogleCoordinates,
+        new Object[]{latitude, longitude, idLieu},
+        new int[]{Types.FLOAT, Types.FLOAT, Types.INTEGER}
+    );
+
+    if (logger.isDebugEnabled())
+      logger.debug("Lieu with id='" + idLieu + "' has its coordinates (lat,long) udpdated with values ('" + latitude + "','" + longitude + "') (line updated = '" + nbLineUpdated + "')");
+
   }
 
-  
+
 }

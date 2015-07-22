@@ -15,7 +15,7 @@ public class Dispositif implements Serializable
     this.currentPosition  = new Position();
     this.previousPosition = new Position();
     this.equipierLeader   = new Equipier();
-    this.interventions    = new ArrayList<InterventionTicket>();
+    this.interventions    = new ArrayList<>();
   }
   
   private int             idDispositif;

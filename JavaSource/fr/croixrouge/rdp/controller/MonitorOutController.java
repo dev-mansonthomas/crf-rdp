@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -25,12 +26,12 @@ public class MonitorOutController  extends AbstractController
   @Override
   protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
   {
-    SimpleDateFormat  sdf         = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat  sdf2        = new SimpleDateFormat("HH:mm:ss");
+    SimpleDateFormat  sdf         = new SimpleDateFormat(UtilitiesServiceImpl.dateSDF);
+    SimpleDateFormat  sdf2        = new SimpleDateFormat(UtilitiesServiceImpl.hourSDF);
     
     Date              currentDate = new Date();
     
-    Map<String, Object> model = new HashMap<String, Object>();
+    Map<String, Object> model = new HashMap<>();
     
     model.put("applicationVersion", this.propertyPlaceholderConfigurer.getPropertyValue("application.version"));
     model.put("googleMapsKey"     , this.propertyPlaceholderConfigurer.getPropertyValue("google.maps.key"    ));

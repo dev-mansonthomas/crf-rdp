@@ -51,6 +51,7 @@ public class PerMachineLog4JConfigurer
     }
     catch(Exception e)
     {
+      System.err.println("Error while loading file '"+log4jLocation+"'"+e.getMessage());
       throw e;
     }
     
@@ -58,9 +59,9 @@ public class PerMachineLog4JConfigurer
 
     if(this.exportHostList != null && this.exportPath != null)
     {
-      for (int n = 0,count=this.exportHostList.size(); n < count; n++)
+      for (String anExportHostList : this.exportHostList)
       {
-        String host = this.exportHostList.get(n).toLowerCase();
+        String host = anExportHostList.toLowerCase();
 
         if (this.hostname.equals(host))
         {
@@ -71,7 +72,7 @@ public class PerMachineLog4JConfigurer
     }
     
       
-    if (this.exportedPropertyUsed)
+    if(this.exportedPropertyUsed && this.exportPath != null)
     {
       File exportDir = new File(this.exportPath);
       if(!exportDir.exists())
@@ -87,12 +88,14 @@ public class PerMachineLog4JConfigurer
         }
         catch(Exception e)
         {
+          System.err.println("Error while copying '"+log4jFile+"' to '"+destinationFile+"'");
           throw e;
         }
       }
       this.log4jFileUsed = destinationFile.getAbsolutePath();
     }
-    
+
+
     //DOMConfigurator.configure(new URL)
     if(this.refreshInterval == 0)
       Log4jConfigurer.initLogging(log4jFileUsed);

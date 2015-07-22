@@ -89,7 +89,6 @@ public class SynchroEquipierSIORD
     catch(Exception e)
     {
       logger.error("Error while processing new membre in database on synchroSiord Session id="+siordSynchro.getIdSynchroSiord(),e);
-      return;
     }
     
   }

@@ -7,12 +7,12 @@ import fr.croixrouge.rdp.model.monitor.EvaluationSession;
 
 public interface EvaluationService
 {
-  public List<Integer>  getRolesEvaluateurFromEquipier(int idEquipier                ) throws Exception;
-  public List<Equipier> getIdEquipierEvaluableForRole (int idDispositif, int idRole  ) throws Exception;
+  List<Integer>  getRolesEvaluateurFromEquipier(int idEquipier) throws Exception;
+  List<Equipier> getIdEquipierEvaluableForRole(int idDispositif, int idRole) throws Exception;
 
-  public void           terminerEvaluationSession     (int idDispositif              ) throws Exception;
+  void           terminerEvaluationSession(int idDispositif) throws Exception;
   
-  public int            createEvaluationSession       (EvaluationSession evaluationSession)  throws Exception;
+  int            createEvaluationSession(EvaluationSession evaluationSession)  throws Exception;
   
 
 

@@ -90,8 +90,7 @@ public class EHCacheService implements CacheService
    * 
    * @param   name    nom de l'objet a mettre en cache
    *          object  objet a mettre en cache
-   *                  
-   * @return                  Objet de cache demandé
+   *
    * @since   1.0
    *
    */  
@@ -119,7 +118,6 @@ public class EHCacheService implements CacheService
   /**
    * Vide entierement le cache
    * <P>
-   * @return                  Objet de cache demandé
    * @since   1.0
    *
    */  

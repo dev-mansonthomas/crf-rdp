@@ -12,7 +12,7 @@
         <sourceDirectory>JavaSource</sourceDirectory>
         <resources>
             <resource>
-                <directory>web-resources</directory>
+                <directory>resources</directory>
             </resource>
         </resources>
         <plugins>

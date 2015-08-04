@@ -44,7 +44,7 @@
     <properties>
         <org.springframework.version>4.1.6.RELEASE</org.springframework.version>
         <org.apache.httpcomponents.version>4.1.1</org.apache.httpcomponents.version>
-        <com.sun.jersey>2.18</com.sun.jersey>
+        <com.sun.jersey>2.19</com.sun.jersey>
         <com.wordnik.swagger>1.3.12</com.wordnik.swagger>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -73,6 +73,11 @@
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
         </dependency>
 
         <dependency>

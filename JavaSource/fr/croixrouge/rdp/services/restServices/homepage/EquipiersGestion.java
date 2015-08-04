@@ -184,12 +184,11 @@ public class EquipiersGestion
     }
   }
 
-/*
   @POST
   @Consumes("application/json")
   @ApiOperation(value="Create a new Equipier")
-  @Path("/create")*/
-  public void createEquipier(@ApiParam(value="equipier"    ,required=true) @QueryParam ("equipier")Equipier equipier) throws Exception
+  @Path("/create")
+  public void createEquipier(@ApiParam(value="equipier"    ,required=true) Equipier equipier) throws Exception
   {
     try
     {
@@ -202,12 +201,12 @@ public class EquipiersGestion
       throw e;
     }
   }
-/*
+
   @PUT
   @Consumes("application/json")
   @ApiOperation(value="Update an Equipier")
-  @Path("/update")*/
-  public void modifyEquipier(@ApiParam(value="equipier"    ,required=true) @QueryParam ("equipier")Equipier equipier) throws Exception
+  @Path("/update")
+  public void modifyEquipier(@ApiParam(value="equipier"    ,required=true) Equipier equipier) throws Exception
   {
 
     try

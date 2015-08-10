@@ -8,9 +8,9 @@
       <props>
         <prop key="/login.html">LoginController</prop>
         <prop key="/sms.html">SmsController</prop>
-        <prop key="/private/Homepage.html">HomepageController</prop>
-        <prop key="/private/monitor/in.html">MonitorInController</prop>
-        <prop key="/private/monitor/out.html">MonitorOutController</prop>
+        <prop key="/private/home.html">HomepageController</prop>
+          <!--   <prop key="/private/monitor/in.html">MonitorInController</prop>
+             <prop key="/private/monitor/out.html">MonitorOutController</prop> -->
         <prop key="/private/test/testThomas.html">TestController</prop>
         <prop key="/private/test/testRest.html">TestRestController</prop>
         <prop key="/private/swagger/index.html">SwaggerController</prop>
@@ -19,12 +19,14 @@
   </bean>
 
 
-  <!-- Controllers -->
-  <bean id="SmsController"        name="SmsController"        class="fr.croixrouge.rdp.controller.SmsController"        autowire="constructor" />
-  <bean id="LoginController"      name="LoginController"      class="fr.croixrouge.rdp.controller.LoginController"      autowire="constructor" />
-  <bean id="HomepageController"   name="HomepageController"   class="fr.croixrouge.rdp.controller.HomepageController"   autowire="constructor" />
-  <bean id="MonitorInController"  name="MonitorInController"  class="fr.croixrouge.rdp.controller.MonitorInController"  autowire="constructor"/>
-  <bean id="MonitorOutController" name="MonitorOutController" class="fr.croixrouge.rdp.controller.MonitorOutController" autowire="constructor"/>
+    <!-- Controllers -->
+    <bean id="LoginController"      name="LoginController"      class="fr.croixrouge.rdp.controller.LoginController"      autowire="constructor" />
+
+    <bean id="SmsController"        name="SmsController"        class="fr.croixrouge.rdp.controller.SmsController"        autowire="constructor" />
+    <bean id="HomepageController"   name="HomepageController"   class="fr.croixrouge.rdp.controller.HomepageController"   autowire="constructor" />
+    <!--  <bean id="MonitorInController"  name="MonitorInController"  class="fr.croixrouge.rdp.controller.MonitorInController"  autowire="constructor"/>
+      <bean id="MonitorOutController" name="MonitorOutController" class="fr.croixrouge.rdp.controller.MonitorOutController" autowire="constructor"/>
+    -->
   <bean id="TestController"       name="TestController"       class="fr.croixrouge.rdp.controller.TestController"       autowire="constructor"/>
   <bean id="TestRestController"   name="TestRestController"   class="fr.croixrouge.rdp.controller.TestRestController"   autowire="constructor"/>
   <bean id="SwaggerController"    name="SwaggerController"    class="fr.croixrouge.rdp.controller.SwaggerController"    autowire="constructor"/>

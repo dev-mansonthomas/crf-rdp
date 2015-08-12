@@ -7,9 +7,11 @@ import fr.croixrouge.rdp.model.monitor.dwr.DataForCloneIntervention;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 
@@ -18,6 +20,9 @@ public class MonitorOutputDispositf
   private static Log logger           = LogFactory.getLog(MonitorOutputDispositf.class);
   private DispositifService              dispositifService              = null;
   private DispositifInterventionDelegate dispositifInterventionDelegate = null;
+
+  @Inject
+  private HttpSession session;
 
   public MonitorOutputDispositf(DispositifService              dispositifService              , 
                                 DispositifInterventionDelegate dispositifInterventionDelegate )
@@ -31,23 +36,23 @@ public class MonitorOutputDispositf
   
   public ListRange<Dispositif> getAllDispositif() throws Exception
   {
-    int  currentUserRegulationId = 1;//TODO regulationId from session
-    return this.dispositifService.getAllDispositif(currentUserRegulationId);
+    int regulationId = RestUtility.getRegulationId(this.session);
+    return this.dispositifService.getAllDispositif(regulationId);
   }
   
 
   
   public String actionOnDispositif(int idDispositif) throws Exception
   {
-    int currentUserRegulationId = 1;//TODO regulationId from session
+    int regulationId = RestUtility.getRegulationId(this.session);
     String status = null;
     try
     {
       //Determine l'état suivant, met a jour la date de l'action courante.
-      status = this.dispositifInterventionDelegate.action(currentUserRegulationId, idDispositif);
+      status = this.dispositifInterventionDelegate.action(regulationId, idDispositif);
       
       //Met a jour tous les navigateurs avec le nouvel état du dispositif
-      Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
+      Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif, false);
 
       //TODO Websocket replace dwr code
       /*ScriptBuffer scriptBuffer = new ScriptBuffer();
@@ -68,27 +73,8 @@ public class MonitorOutputDispositf
   {
     try
     {
-      //TODO getSession
-      HttpSession session         = (HttpSession)new Object();
-
-      Regulation  regulation      = (Regulation)session.getAttribute("regulation");
-      int regulationId            = regulation.getRegulationId();
-      //TODO get CurrentEquipier Id from Session
-
-/*
-      protected int getCurrentUserEquipierId() throws Exception
-      {
-        HttpSession       session       = this.validateSession();
-        SecurityPrincipal principal     = (SecurityPrincipal)session.getAttribute(SecurityFilter.PRINCIPAL);
-
-        if(principal == null)
-        {
-          throw new SecurityException("Votre Session a expirée, veuillez vous reconnecter (principal is null)");
-        }
-        return principal.getUser().getEquipier().getIdEquipier();
-      }
-*/
-      int currentUserEquipierId   = 1;
+      int regulationId            = RestUtility.getRegulationId(this.session);
+      int currentUserEquipierId   = RestUtility.getUser(this.session).getIdEquipier();
       
       this.dispositifInterventionDelegate.affectInterventionToDispositif(currentUserEquipierId, regulationId, idIntervention, idDispositif, new Date());
 
@@ -114,13 +100,13 @@ public class MonitorOutputDispositf
   
   public void reAffectInterventionToDispositif(int idIntervention,int idDispositifOrigine, int idDispositifCible) throws Exception
   {
-    int currentUserRegulationId = 1;//TODO regulationId from session
+    int regulationId            = RestUtility.getRegulationId(this.session);
     
-    this.dispositifInterventionDelegate.reAffectInterventionToDispositif(currentUserRegulationId, idIntervention , idDispositifOrigine, idDispositifCible, new Date());
+    this.dispositifInterventionDelegate.reAffectInterventionToDispositif(regulationId, idIntervention , idDispositifOrigine, idDispositifCible, new Date());
 
     //Met a jour tous les navigateurs avec le nouvel état du dispositif
-    Dispositif dispositifOrigine = this.dispositifService.getDispositif(currentUserRegulationId, idDispositifOrigine, false);
-    Dispositif dispositifCible   = this.dispositifService.getDispositif(currentUserRegulationId, idDispositifCible  , false);
+    Dispositif dispositifOrigine = this.dispositifService.getDispositif(regulationId, idDispositifOrigine, false);
+    Dispositif dispositifCible   = this.dispositifService.getDispositif(regulationId, idDispositifCible  , false);
 
     //TODO Websocket replace dwr code
     /*ScriptBuffer scriptBuffer = new ScriptBuffer();
@@ -131,14 +117,14 @@ public class MonitorOutputDispositf
   
   public String endOfIntervention(int idDispositif) throws Exception
   {
-    int currentUserRegulationId = 1;//TODO regulationId from session
+    int regulationId = RestUtility.getRegulationId(this.session);
     try
     {
       //Determine l'état suivant, met a jour la date de l'action courante.
-      String status = this.dispositifInterventionDelegate.endOfIntervention(currentUserRegulationId, idDispositif);
+      String status         = this.dispositifInterventionDelegate.endOfIntervention(regulationId, idDispositif);
       
       //Met a jour tous les navigateurs avec le nouvel état du dispositif
-      Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
+      Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif, false);
 
       //TODO Websocket replace dwr code
       /*this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif", dispositif),
@@ -160,8 +146,8 @@ public class MonitorOutputDispositf
    * */
   public String chooseEvacDestination(int idDispositif, int idLieu, String destinationLabel, Position position) throws Exception
   {
-    int currentUserRegulationId = 1;//TODO regulationId from session
-    this.dispositifInterventionDelegate.chooseEvacDestination(currentUserRegulationId, idDispositif, idLieu, destinationLabel, position);
+    int regulationId = RestUtility.getRegulationId(this.session);
+    this.dispositifInterventionDelegate.chooseEvacDestination(regulationId, idDispositif, idLieu, destinationLabel, position);
     return this.actionOnDispositif(idDispositif);
   }
   /**
@@ -174,8 +160,8 @@ public class MonitorOutputDispositf
   
   public String laisseSurPlace(int idDispositif, boolean decede, boolean decharge, String dcdADispoDe) throws Exception
   {
-    int currentUserRegulationId = 1;//TODO regulationId from session
-    this.dispositifInterventionDelegate.laisseSurPlace(currentUserRegulationId, idDispositif, decede, decharge, dcdADispoDe);
+    int regulationId = RestUtility.getRegulationId(this.session);
+    this.dispositifInterventionDelegate.laisseSurPlace(regulationId, idDispositif, decede, decharge, dcdADispoDe);
     return this.endOfIntervention(idDispositif);
   }
 
@@ -183,8 +169,8 @@ public class MonitorOutputDispositf
   
   public void cloneIntervention(DataForCloneIntervention dataForCloneIntervention) throws Exception
   {
-    int currentUserRegulationId = 1;//TODO regulationId from session
-    this.dispositifInterventionDelegate.cloneIntervention(currentUserRegulationId, dataForCloneIntervention);
+    int regulationId = RestUtility.getRegulationId(this.session);
+    this.dispositifInterventionDelegate.cloneIntervention(regulationId, dataForCloneIntervention);
   }
 
   public void primaireOnOneIntervention(int idDispositif, int idIntervention) throws Exception
@@ -199,11 +185,11 @@ public class MonitorOutputDispositf
 
   public void updateEtatDispositif(int idDispositif, int idNewEtat) throws Exception
   {
-    int currentUserRegulationId = 1;//TODO regulationId from session
+    int regulationId = RestUtility.getRegulationId(this.session);
     
-    this.dispositifInterventionDelegate.changeDispositifStatus(currentUserRegulationId, idDispositif, idNewEtat);
+    this.dispositifInterventionDelegate.changeDispositifStatus(regulationId, idDispositif, idNewEtat);
     
-    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);
+    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif);
 
 //TODO Websocket replace dwr code
    /* ScriptBuffer scriptBuffer = new ScriptBuffer();

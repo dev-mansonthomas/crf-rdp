@@ -4,36 +4,41 @@ import fr.croixrouge.rdp.model.monitor.Equipier;
 import fr.croixrouge.rdp.model.monitor.SMS;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.mobile.MobileService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MonitorInputSMS
 {
-  private static Log        logger            = LogFactory.getLog(MonitorInputSMS.class);
-  private EquipierService   equipierService   = null;
-  private MobileService     mobileService     = null;
-  
-  public MonitorInputSMS( EquipierService   equipierService,
-                          MobileService     mobileService  )
+  private static Log             logger          = LogFactory.getLog(MonitorInputSMS.class);
+  private        EquipierService equipierService = null;
+  private        MobileService   mobileService   = null;
+
+  @Inject
+  private HttpSession session;
+
+  public MonitorInputSMS(EquipierService equipierService,
+                         MobileService mobileService)
   {
     this.equipierService = equipierService;
-    this.mobileService   = mobileService  ;
+    this.mobileService = mobileService;
   }
-  
+
   public List<Equipier> getEquipiersFromDispositif(int idDispositif) throws Exception
   {
-    
-    
+
+
     return this.equipierService.getEquipiersForDispositif(idDispositif);
   }
-  
+
   public void sendSMS(int idDispositif, int[] idEquipiers, String message) throws Exception
   {
-    //todo get current regulation user Id from session
-    int currentUserId           = 1;
+    int currentUserId           = RestUtility.getUser(this.session).getIdUser();
     if(logger.isDebugEnabled())
     {
       StringBuilder sb = new StringBuilder("{");

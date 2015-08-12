@@ -13,11 +13,13 @@ import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.mobile.MobileService;
 import fr.croixrouge.rdp.services.mobile.SMSLogService;
 import fr.croixrouge.rdp.services.mobile.SMSTemplateService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
 import fr.croixrouge.rdp.services.utilities.UtilitiesServiceImpl;
 import fr.croixrouge.utilities.web.security.SecurityFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class SMSManager
   private        EquipierService    equipierService    = null;
   private        SMSTemplateService smsTemplateService = null;
   private        MobileService      mobileService      = null;
+
+  @Inject
+  private HttpSession session;
 
   private final static SimpleDateFormat sdf = new SimpleDateFormat(UtilitiesServiceImpl.dateSDF);
 
@@ -241,15 +246,10 @@ public class SMSManager
   
   public void sendSMS(String[] recipients, String message) throws Exception
   {
-    //TODO get Session
-    HttpSession session = (HttpSession)new Object();
     User        user    = new User();
     try
     {
-      SecurityPrincipal principal = (SecurityPrincipal) session.getAttribute(SecurityFilter.PRINCIPAL);
-      
-      
-      user      = principal.getUser();
+      user      =  RestUtility.getUser(session);
       
       SMS[] smss = new SMS[recipients.length];
       int i = 0;

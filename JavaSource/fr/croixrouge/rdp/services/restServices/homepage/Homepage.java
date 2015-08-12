@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -25,7 +26,11 @@ public class Homepage
   private static Log          logger              = LogFactory.getLog(Homepage.class);
   
   private RegulationService                       regulationService             = null;
- 
+
+  public static String REGULATION= "regulation";
+
+  @Inject
+  private HttpSession session;
   
   public Homepage(RegulationService                       regulationService             , 
                   EquipierService                         equipierService               )
@@ -49,8 +54,6 @@ public class Homepage
   @ApiOperation(value="Set the regulation on which the connected user will work")
   public void setRegulation(@ApiParam(value="idRegulation",required=true) @QueryParam("idRegulation")int idRegulation) throws Exception
   {
-    //TODO get session
-    HttpSession session = (HttpSession)  new Object();
-    session.setAttribute("regulation", this.regulationService.getRegulation(idRegulation));
+    session.setAttribute(REGULATION, this.regulationService.getRegulation(idRegulation));
   }
 }

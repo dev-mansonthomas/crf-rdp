@@ -11,41 +11,43 @@ import fr.croixrouge.rdp.services.user.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MonitorInputImpl
 {
-  private static Log logger           = LogFactory.getLog(MonitorInputImpl.class);
-  private RegulationService   regulationService   = null;
-  private UserService         userService         = null;
-    
-  public MonitorInputImpl(RegulationService   regulationService,
-                          UserService         userService      )
+  private static Log               logger            = LogFactory.getLog(MonitorInputImpl.class);
+  private        RegulationService regulationService = null;
+  private        UserService       userService       = null;
+
+  @Inject
+  HttpSession session;
+
+  public MonitorInputImpl(RegulationService regulationService,
+                          UserService userService)
   {
-    this.regulationService = regulationService ;
-    this.userService       = userService       ;
-    
-    if(logger.isDebugEnabled())
+    this.regulationService = regulationService;
+    this.userService = userService;
+
+    if (logger.isDebugEnabled())
       logger.debug("constructor called");
   }
-  
-  
+
+
   public Regulation getRegulation() throws Exception
   {
-    //TODO get Session
-    HttpSession session     = (HttpSession) new Object();
-    Regulation  regulation  = (Regulation)session.getAttribute("regulation");
+    Regulation  regulation = (Regulation) this.session.getAttribute("regulation");
     return regulation;
   }
-  
+
   public List<User> getCoRegulateurs() throws Exception
   {
     Regulation regulation = this.getRegulation();
-    
+
     this.userService.getCoRegulateurs(regulation);
-    
+
     return regulation.getCoRegulateurs();
     
   }

@@ -5,33 +5,41 @@ import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 public class MonitorInputInterventionImpl
 {
-  private static Log logger           = LogFactory.getLog(MonitorInputInterventionImpl.class);
-  private InterventionService interventionService = null;
+  private static Log                 logger              = LogFactory.getLog(MonitorInputInterventionImpl.class);
+  private        InterventionService interventionService = null;
+
+  @Inject
+  private HttpSession session;
+
+
   public MonitorInputInterventionImpl(InterventionService interventionService)
   {
     this.interventionService = interventionService;
-    if(logger.isDebugEnabled())
+    if (logger.isDebugEnabled())
       logger.debug("constructor called");
   }
-  
+
   public Intervention createEmptyIntervention() throws Exception
   {
-    int regulationId=1;//TODO regulationId from session
+    int regulationId = RestUtility.getRegulationId(this.session);
     Intervention intervention = this.interventionService.createEmptyIntervention(regulationId);
     return intervention;
   }
-  
-  
+
+
   public void endOfEditionEvent(int idIntervention) throws Exception
   {
-    
+
 
     this.interventionService.updateInterventionIntegerField(idIntervention, "id_etat", 1);
     
@@ -66,8 +74,8 @@ public class MonitorInputInterventionImpl
 //int status, int index, int limit
   public ListRange<InterventionTicket> getInterventionTicketList(GridSearchFilterAndSortObject gsfaso)throws Exception
   {
-    int    currentUserRegulationId = 1;//TODO regulationId from session
-    return this.interventionService.getInterventionTicketWithStatus(currentUserRegulationId, gsfaso);
+    int regulationId = RestUtility.getRegulationId(this.session);
+    return this.interventionService.getInterventionTicketWithStatus(regulationId, gsfaso);
   }
   
   

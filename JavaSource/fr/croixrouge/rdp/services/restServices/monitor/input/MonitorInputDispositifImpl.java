@@ -7,34 +7,40 @@ import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.Dispos
 import fr.croixrouge.rdp.services.dispositif.DispositifService;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
 import fr.croixrouge.rdp.services.vehicule.VehiculeService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class MonitorInputDispositifImpl
 {
-  private static Log                      logger                          = LogFactory.getLog(MonitorInputDispositifImpl.class);
-  private DispositifService               dispositifService               = null;
-  private DispositifInterventionDelegate  dispositifInterventionDelegate  = null;
-  private EquipierService                 equipierService                 = null;
-  private MonitorInputImpl                monitorInputImpl                = null;
-  private InterventionService             interventionService             = null;
-  private VehiculeService                 vehiculeService                 = null;
+  private static Log                            logger                         = LogFactory.getLog(MonitorInputDispositifImpl.class);
+  private        DispositifService              dispositifService              = null;
+  private        DispositifInterventionDelegate dispositifInterventionDelegate = null;
+  private        EquipierService                equipierService                = null;
+  private        MonitorInputImpl               monitorInputImpl               = null;
+  private        InterventionService            interventionService            = null;
+  private        VehiculeService                vehiculeService                = null;
 
-  public MonitorInputDispositifImpl(DispositifService               dispositifService               , 
-                                    EquipierService                 equipierService                 ,
-                                    MonitorInputImpl                monitorInputImpl                , 
-                                    DispositifInterventionDelegate  dispositifInterventionDelegate  ,
-                                    InterventionService             interventionService             ,
-                                    VehiculeService                 vehiculeService                 )
+  @Inject
+  private HttpSession session;
+
+  public MonitorInputDispositifImpl(DispositifService dispositifService,
+                                    EquipierService equipierService,
+                                    MonitorInputImpl monitorInputImpl,
+                                    DispositifInterventionDelegate dispositifInterventionDelegate,
+                                    InterventionService interventionService,
+                                    VehiculeService vehiculeService)
   {
-    this.monitorInputImpl               = monitorInputImpl              ;
-    this.dispositifService              = dispositifService             ;
-    this.equipierService                = equipierService               ;
+    this.monitorInputImpl = monitorInputImpl;
+    this.dispositifService = dispositifService;
+    this.equipierService = equipierService;
     this.dispositifInterventionDelegate = dispositifInterventionDelegate;
     this.interventionService            = interventionService           ;             
     this.vehiculeService                = vehiculeService               ;                 
@@ -95,14 +101,14 @@ public class MonitorInputDispositifImpl
  
   public void endOfEditionEvent(int idDispositif, int idEtatDispositif, boolean isCreation) throws Exception
   {
-    int    currentUserRegulationId = 1;//TODO regulationId From Session
+    int regulationId = RestUtility.getRegulationId(this.session);
     
     if(isCreation)
       this.dispositifService.updateDispositifBooleanField (idDispositif, "creation_terminee", true);
     
     this.dispositifService.updateEtatDispositif         (idDispositif, idEtatDispositif);
 
-    Dispositif dispositif = this.dispositifService.getDispositif(currentUserRegulationId, idDispositif, false);
+    Dispositif dispositif = this.dispositifService.getDispositif(regulationId, idDispositif, false);
     //TODO Websocket replace dwr code
    /* this.updateRegulationUser(new ScriptBuffer().appendCall("moDispositifCs.updateDispositif",dispositif), DWRUtils.outPageName);
 */  }
@@ -186,10 +192,10 @@ public class MonitorInputDispositifImpl
   
   public Dispositif getDispositif(int idDispositif)throws Exception
   {
-    int    currentUserRegulationId = 1;//TODO regulationId From Session
+    int regulationId = RestUtility.getRegulationId(this.session);
     try
     {
-      return this.dispositifService.getDispositif(currentUserRegulationId, idDispositif);  
+      return this.dispositifService.getDispositif(regulationId, idDispositif);
     }
     catch(Exception e)
     {
@@ -201,8 +207,8 @@ public class MonitorInputDispositifImpl
   
   public ListRange<DispositifTicket> getRecentDispositifList(int index, int limit) throws Exception
   {
-    int    currentUserRegulationId = 1;//TODO regulationId From Session
-    return this.dispositifService.getRecentDispositif(currentUserRegulationId, index, limit);
+    int regulationId = RestUtility.getRegulationId(this.session);
+    return this.dispositifService.getRecentDispositif(regulationId, index, limit);
   }
   
   public ListRange<Equipier> addEquipierToDispositif(int idDispositif, int idRoleEquipier, int idEquipier) throws Exception
@@ -246,10 +252,10 @@ public class MonitorInputDispositifImpl
   
   public void updateDispositifEtat(int idDispositif, int      newEtatDispositif) throws Exception
   {
-    int idRegulation = 1;//TODO regulationId From Session
+    int regulationId = RestUtility.getRegulationId(this.session);
     try
     {
-       this.dispositifInterventionDelegate.changeDispositifStatus(idRegulation, idDispositif, newEtatDispositif);
+       this.dispositifInterventionDelegate.changeDispositifStatus(regulationId, idDispositif, newEtatDispositif);
     }
     catch(Exception e)
     {

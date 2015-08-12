@@ -7,53 +7,60 @@ import fr.croixrouge.rdp.services.equipier.EquipierService;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
 import fr.croixrouge.rdp.services.list.ListService;
 import fr.croixrouge.rdp.services.mobile.MobileService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
+import fr.croixrouge.rdp.services.restServices.homepage.Homepage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class DispositifInterventionDelegateImpl implements DispositifInterventionDelegate
 {
-  private static Log          logger              = LogFactory.getLog(DispositifInterventionDelegateImpl.class);
-  
+  private static Log logger = LogFactory.getLog(DispositifInterventionDelegateImpl.class);
+
   private DispositifService   dispositifService   = null;
   private InterventionService interventionService = null;
   private MobileService       mobileService       = null;
   private EquipierService     equipierService     = null;
   private ListService         listService         = null;
-  
-  private final static int DISPOSITIF_TYPE_SAMU= 1;
-  private final static int CI_ALPHA_ROLE       = 5;
-  private final static int CI_CS_ROLE          = 6;
-  private final static int CHAUFFEUR_ROLE      = 7;
-  
-  private final static int SMS_TYPE_ENVOIE_OI  = 1;
-  
-  
-  public DispositifInterventionDelegateImpl(DispositifService   dispositifService  , 
+
+  private final static int DISPOSITIF_TYPE_SAMU = 1;
+  private final static int CI_ALPHA_ROLE        = 5;
+  private final static int CI_CS_ROLE           = 6;
+  private final static int CHAUFFEUR_ROLE       = 7;
+
+  private final static int SMS_TYPE_ENVOIE_OI = 1;
+
+  @Inject
+  private HttpSession session;
+
+
+  public DispositifInterventionDelegateImpl(DispositifService dispositifService,
                                             InterventionService interventionService,
-                                            MobileService       mobileService      ,
-                                            EquipierService     equipierService    ,
-                                            ListService         listService        
-                                            )
+                                            MobileService mobileService,
+                                            EquipierService equipierService,
+                                            ListService listService
+  )
   {
-    this.dispositifService   = dispositifService  ;
-    this.interventionService = interventionService;
-    this.mobileService       = mobileService      ;
-    this.equipierService     = equipierService    ;
-    this.listService         = listService        ;
-   
-    if(logger.isDebugEnabled())
+    this.dispositifService    = dispositifService   ;
+    this.interventionService  = interventionService ;
+    this.mobileService        = mobileService       ;
+    this.equipierService      = equipierService     ;
+    this.listService          = listService         ;
+
+    if (logger.isDebugEnabled())
       logger.debug("constructor called");
   }
-  
+
   /**
    * Gère l'action sur un dispositif (affectation, départ, arrivé sur place etc..)
-   * 
+   *
    * Retourne true si on doit supprimer l'intervention des interventions a affecter.
    * 
    * La cinématique de changement (d'état et d'adresse) standard est la suivante : 
@@ -498,8 +505,7 @@ public class DispositifInterventionDelegateImpl implements DispositifInterventio
   {
     int idNextEtat = isPrimaire?DispositifService.STATUS_PRIMAIRE:DispositifService.STATUS_SECONDAIRE;
 
-    //TODO get RegulationId From Session
-    int currentUserRegulationId = 1;//this.validateSessionAndGetRegulationId();
+    int currentUserRegulationId = RestUtility.getRegulationId(this.session);
     if(logger.isDebugEnabled())
       logger.debug((isPrimaire?"Primaire":"Secondaire")+" passed for internvention id='"+idIntervention+"' of dispositif id='"+idDispositif+"'");
     

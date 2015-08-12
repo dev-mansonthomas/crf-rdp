@@ -10,16 +10,22 @@ import fr.croixrouge.rdp.model.monitor.dwr.FilterObject;
 import fr.croixrouge.rdp.model.monitor.dwr.GridSearchFilterAndSortObject;
 import fr.croixrouge.rdp.model.monitor.dwr.ListRange;
 import fr.croixrouge.rdp.model.monitor.dwr.SortObject;
+import fr.croixrouge.rdp.services.authentification.SecurityPrincipal;
 import fr.croixrouge.rdp.services.equipier.EquipierService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
 import fr.croixrouge.rdp.services.user.UserService;
 import fr.croixrouge.rdp.services.utilities.UtilitiesService;
+import fr.croixrouge.utilities.web.security.SecurityFilter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,42 +36,51 @@ import java.util.List;
 
 public class EquipiersGestion
 {
-  private static Log          logger              = LogFactory.getLog(EquipiersGestion.class);
-  
-  private EquipierService         equipierService  = null;
-  private UserService             userService      = null;
-  private UtilitiesService        utilitiesService = null;
-  
-  public EquipiersGestion(EquipierService   equipierService ,
-                          UserService       userService     ,
-                          UtilitiesService  utilitiesService)
-  {
-    this.equipierService    = equipierService  ;
-    this.userService        = userService      ;
-    this.utilitiesService   = utilitiesService;
+  private static Log logger = LogFactory.getLog(EquipiersGestion.class);
 
-    if(logger.isDebugEnabled())
+  private EquipierService  equipierService  = null;
+  private UserService      userService      = null;
+  private UtilitiesService utilitiesService = null;
+
+  @Inject
+  private HttpSession session;
+
+  public EquipiersGestion(EquipierService equipierService,
+                          UserService userService,
+                          UtilitiesService utilitiesService)
+  {
+    this.equipierService  = equipierService ;
+    this.userService      = userService     ;
+    this.utilitiesService = utilitiesService;
+
+    if (logger.isDebugEnabled())
       logger.debug("constructor called");
   }
 
-
+  @GET
+  @Path("/connectedUser")
+  @ApiOperation(value = "get the current connected user")
+  public User getConnectedUser() throws Exception
+  {
+    return RestUtility.getUser(this.session);
+  }
 
   @GET
   @Path("/search")
-  @ApiOperation(value="Perform a paginated search on equipiers")
-  public ListRange<Equipier> getEquipierList(  @ApiParam(value="start"     ,required=true , defaultValue="0"  ) @QueryParam("start"     ) @DefaultValue("0"  ) int start	,
-                                               @ApiParam(value="limit"     ,required=true , defaultValue="10" ) @QueryParam("limit"     ) @DefaultValue("10" ) int limit	,
-                                               @ApiParam(value="sortField" ,required=true , defaultValue="nom") @QueryParam("sortField" ) @DefaultValue("nom") String  sortField,
-                                               @ApiParam(value="sortAsc"   ,required=false) @QueryParam("sortAsc"   ) boolean sortAsc     ,
-                                               @ApiParam(value="nom"            ,required=false) @QueryParam("nom"       			) String 	nom          	,
-                                               @ApiParam(value="prenom"         ,required=false) @QueryParam("prenom"			    ) String 	prenom   			,
-                                               @ApiParam(value="nivol"          ,required=false) @QueryParam("nivol"					) String  nivol					,
-                                               @ApiParam(value="equipierIsMale" ,required=false) @QueryParam("equipierIsMale"	) Boolean equipierIsMale,
-                                               @ApiParam(value="idRoleEquipier" ,required=false) @QueryParam("idRoleEquipier"	) Integer idRoleEquipier,
-                                               @ApiParam(value="email"          ,required=false) @QueryParam("email"					) String  email					,
-                                               @ApiParam(value="mobile"         ,required=false) @QueryParam("mobile"					) String  mobile				,
-                                               @ApiParam(value="enabled"        ,required=false) @QueryParam("enabled"				) Boolean enabled				,
-                                               @ApiParam(value="idDelegation"   ,required=false) @QueryParam("idDelegation"		) Integer idDelegation	 ) throws Exception
+  @ApiOperation(value = "Perform a paginated search on equipiers")
+  public ListRange<Equipier> getEquipierList(@ApiParam(value = "start"        ,required = true, defaultValue = "0"  ) @QueryParam("start")     @DefaultValue("0"  ) int start,
+                                             @ApiParam(value = "limit"        ,required = true, defaultValue = "10" ) @QueryParam("limit")     @DefaultValue("10" ) int limit,
+                                             @ApiParam(value = "sortField"    ,required = true, defaultValue = "nom") @QueryParam("sortField") @DefaultValue("nom") String sortField,
+                                             @ApiParam(value = "sortAsc"      ,required = false) @QueryParam("sortAsc") boolean sortAsc,
+                                             @ApiParam(value = "nom"          ,required = false) @QueryParam("nom") String nom,
+                                             @ApiParam(value="prenom"         ,required=false) @QueryParam("prenom"			    ) String 	prenom   			,
+                                             @ApiParam(value="nivol"          ,required=false) @QueryParam("nivol"					) String  nivol					,
+                                             @ApiParam(value="equipierIsMale" ,required=false) @QueryParam("equipierIsMale"	) Boolean equipierIsMale,
+                                             @ApiParam(value="idRoleEquipier" ,required=false) @QueryParam("idRoleEquipier"	) Integer idRoleEquipier,
+                                             @ApiParam(value="email"          ,required=false) @QueryParam("email"					) String  email					,
+                                             @ApiParam(value="mobile"         ,required=false) @QueryParam("mobile"					) String  mobile				,
+                                             @ApiParam(value="enabled"        ,required=false) @QueryParam("enabled"				) Boolean enabled				,
+                                             @ApiParam(value="idDelegation"   ,required=false) @QueryParam("idDelegation"		) Integer idDelegation	 ) throws Exception
   {
     GridSearchFilterAndSortObject gsfaso = new GridSearchFilterAndSortObject();
     gsfaso.setStart(start);
@@ -188,12 +203,11 @@ public class EquipiersGestion
   @Consumes("application/json")
   @ApiOperation(value="Create a new Equipier")
   @Path("/create")
-  public void createEquipier(@ApiParam(value="equipier"    ,required=true) Equipier equipier) throws Exception
+  public int createEquipier(@ApiParam(value="equipier"    ,required=true) Equipier equipier) throws Exception
   {
     try
     {
-      int idEquipier = this.equipierService.createEquipier(equipier);
-      equipier.setIdEquipier(idEquipier);
+      return this.equipierService.createEquipier(equipier);
     }
     catch (Exception e)
     {

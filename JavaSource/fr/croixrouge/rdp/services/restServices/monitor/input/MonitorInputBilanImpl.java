@@ -4,31 +4,36 @@ import fr.croixrouge.rdp.model.monitor.Intervention;
 import fr.croixrouge.rdp.model.monitor.InterventionTicket;
 import fr.croixrouge.rdp.services.delegate.DispositifInterventionDelegate.DispositifInterventionDelegate;
 import fr.croixrouge.rdp.services.intervention.InterventionService;
+import fr.croixrouge.rdp.services.restServices.RestUtility;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 
 public class MonitorInputBilanImpl 
 {
-  private static Log logger           = LogFactory.getLog(MonitorInputBilanImpl.class);
-  private InterventionService            interventionService = null;
-  private DispositifInterventionDelegate dispositifInterventionDelegate = null;
-  
-  public MonitorInputBilanImpl(InterventionService            interventionService,
-                               DispositifInterventionDelegate dispositifInterventionDelegate )
+  private static Log                            logger                         = LogFactory.getLog(MonitorInputBilanImpl.class);
+  private        InterventionService            interventionService            = null;
+  private        DispositifInterventionDelegate dispositifInterventionDelegate = null;
+
+  @Inject
+  private HttpSession session;
+
+  public MonitorInputBilanImpl(InterventionService interventionService,
+                               DispositifInterventionDelegate dispositifInterventionDelegate)
   {
-    this.interventionService            = interventionService;
+    this.interventionService = interventionService;
     this.dispositifInterventionDelegate = dispositifInterventionDelegate;
-    
-    if(logger.isDebugEnabled())
+
+    if (logger.isDebugEnabled())
       logger.debug("constructor called");
   }
-  
+
   public Intervention createEmptyIntervention() throws Exception
   {
-    //TODO regulationId from session
-    int regulationId=1;//validateSessionAndGetRegulationId();
+    int regulationId = RestUtility.getRegulationId(this.session);
     Intervention intervention = this.interventionService.createEmptyIntervention(regulationId);
     return intervention;
   }
@@ -62,8 +67,7 @@ public class MonitorInputBilanImpl
 
   public void       cancelIntervention(int idIntervention, int idDispositif, int idMotifAnnulation) throws Exception
   {
-    //TODO regulation Id from Session
-    int regulationId = 1;//this.validateSessionAndGetRegulationId();
+    int regulationId = RestUtility.getRegulationId(this.session);
     this.dispositifInterventionDelegate.cancelIntervention(regulationId, idDispositif, idIntervention, idMotifAnnulation);    
     
   }
